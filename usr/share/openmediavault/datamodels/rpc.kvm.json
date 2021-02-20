@@ -1,52 +1,351 @@
 [{
 	"type": "rpc",
-	"id": "rpc.kvm.executesearch",
+	"id": "rpc.kvm.setnetwork",
 	"params": {
 		"type": "object",
 		"properties": {
-			"start": {
-				"type": "integer",
-				"required": true
-			},
-			"limit": {
-				"type": [ "integer", "null" ],
-				"required": true
-			},
-			"sortfield": {
-				"type": [ "string", "null" ]
-			},
-			"sortdir": {
-				"type": [ "string", "null" ],
-				"enum": [ "asc", "ASC", "desc", "DESC" ]
-			},
-			"term": {
-				"type": "string"
-			},
-			"type": {
+			"name": {
 				"type": "string",
-				"enum": [ "dpkg", "policy", "search" ]
+				"required": true
+			},
+			"macaddress": {
+				"type": "string",
+				"required": true
+			},
+			"gatewayip": {
+				"type": "string",
+				"required": true
+			},
+			"subnet": {
+				"type": "string",
+				"required": true
+			},
+			"dhcp": {
+				"type": "boolean",
+				"required": true
+			},
+			"startaddress": {
+				"type": "string",
+				"required": false
+			},
+			"endaddress": {
+				"type": "string",
+				"required": false
 			}
 		}
 	}
 },{
 	"type": "rpc",
-	"id": "rpc.kvm.setpackage",
+	"id": "rpc.kvm.setmacvtap",
 	"params": {
 		"type": "object",
 		"properties": {
-			"uuid": {
-				"type": "string",
-				"format": "uuidv4",
-				"required": true
-			},
-			"packagename": {
+			"name": {
 				"type": "string",
 				"required": true
 			},
-			"backports": {
-				"type": "boolean",
+			"nic": {
+				"type": "string",
 				"required": true
 			}
+		}
+	}
+},{
+	"type": "rpc",
+	"id": "rpc.kvm.setpool",
+	"params": {
+		"type": "object",
+		"properties": {
+			"name": {
+				"type": "string",
+				"required": true
+			},
+			"path": {
+				"type": "string",
+				"required": true
+			}
+		}
+	}
+},{
+	"type": "rpc",
+	"id": "rpc.kvm.deletepool",
+	"params": {
+		"type": "object",
+		"properties": {
+			"name": {
+				"type": "string",
+				"required": true
+			}
+		}
+	}
+},{
+	"type": "rpc",
+	"id": "rpc.kvm.setvmxml",
+	"params": {
+		"type": "object",
+		"properties": {
+			"vmname": {
+				"type": "string",
+				"required": true
+			},
+			"vmxml": {
+				"type": "string",
+				"required": true
+			}
+		}
+	}
+},{
+	"type": "rpc",
+	"id": "rpc.kvm.setvm",
+	"params": {
+		"type": "object",
+		"properties": {
+			"vmname": {
+				"type": "string",
+				"required": true
+			},
+			"memoryunit": {
+				"type": "string",
+				"required": true
+			},
+			"memory": {
+				"type": "integer",
+				"required": true
+			},
+			"vcpu": {
+				"type": "integer",
+				"required": true
+			},
+			"os": {
+				"type": "string",
+				"required": true
+			},
+			"volbus": {
+				"type": "string",
+				"required": true
+			},
+			"voldisk": {
+				"type": "string",
+				"required": true
+			},
+			"volformat": {
+				"type": "string"
+			},
+			"voliso": {
+				"type": "string",
+				"required": true
+			},
+			"volname": {
+				"type": "string"
+			},
+			"volpool": {
+				"type": "string"
+			},
+			"volsize": {
+				"type": "integer"
+			},
+			"volunit": {
+				"type": "string"
+			},
+			"macaddress": {
+				"type": "string"
+			},
+			"model": {
+				"type": "string",
+				"required": true
+			},
+			"network": {
+				"type": "string",
+				"required": true
+			}
+		}
+	}
+},{
+	"type": "rpc",
+	"id": "rpc.kvm.adddisk",
+	"params": {
+		"type": "object",
+		"properties": {
+			"vmname": {
+				"type": "string",
+				"required": true
+			},
+			"volbus": {
+				"type": "string",
+				"required": true
+			},
+			"voldisk": {
+				"type": "string",
+				"required": true
+			},
+			"volformat": {
+				"type": "string",
+				"required": true
+			},
+			"volname": {
+				"type": "string",
+				"required": true
+			},
+			"volpool": {
+				"type": "string",
+				"required": true
+			},
+			"volsize": {
+				"type": "integer",
+				"required": true
+			},
+			"volunit": {
+				"type": "string",
+				"required": true
+			}
+		}
+	}
+},{
+	"type": "rpc",
+	"id": "rpc.kvm.addoptical",
+	"params": {
+		"type": "object",
+		"properties": {
+			"vmname": {
+				"type": "string",
+				"required": true
+			},
+			"voliso": {
+				"type": "string",
+				"required": true
+			}
+		}
+	}
+},{
+	"type": "rpc",
+	"id": "rpc.kvm.removedisk",
+	"params": {
+		"type": "object",
+		"properties": {
+			"vmname": {
+				"type": "string",
+				"required": true
+			},
+			"disk": {
+				"type": "string",
+				"required": true
+			}
+		}
+	}
+},{
+	"type": "rpc",
+	"id": "rpc.kvm.resizedisk",
+	"params": {
+		"type": "object",
+		"properties": {
+			"path": {
+				"type": "string",
+				"required": true
+			},
+			"volsize": {
+				"type": "integer",
+				"required": true
+                        },
+			"volsizeunit": {
+				"type": "string",
+				"required": true
+			}
+		}
+	}
+},{
+	"type": "rpc",
+	"id": "rpc.kvm.enumeratevolumes",
+	"params": {
+		"type": "object",
+		"properties": {
+			"optical": {
+				"type": "boolean",
+				"required": true
+                        },
+			"opticalNone": {
+				"type": "boolean",
+				"required": true
+                        }
+		}
+	}
+},{
+	"type": "rpc",
+	"id": "rpc.kvm.enumeratevolumesbyvm",
+	"params": {
+		"type": "object",
+		"properties": {
+			"vmname": {
+				"type": "string",
+				"required": true
+                        },
+			"optical": {
+				"type": "boolean",
+				"required": true
+                        }
+		}
+	}
+},{
+	"type": "rpc",
+	"id": "rpc.kvm.setvolume",
+	"params": {
+		"type": "object",
+		"properties": {
+			"name": {
+				"type": "string",
+				"required": true
+                        },
+			"size": {
+				"type": "integer",
+				"required": true
+                        },
+			"volunit": {
+				"type": "string",
+				"required": true
+                        },
+			"pool": {
+				"type": "string",
+				"required": true
+                        }
+		}
+	}
+},{
+	"type": "rpc",
+	"id": "rpc.kvm.path",
+	"params": {
+		"type": "object",
+		"properties": {
+			"path": {
+				"type": "string",
+				"required": true
+                        }
+		}
+	}
+},{
+	"type": "rpc",
+	"id": "rpc.kvm.vmname",
+	"params": {
+		"type": "object",
+		"properties": {
+			"vmname": {
+				"type": "string",
+				"required": true
+                        }
+		}
+	}
+},{
+	"type": "rpc",
+	"id": "rpc.kvm.snapshot",
+	"params": {
+		"type": "object",
+		"properties": {
+			"vmname": {
+				"type": "string",
+				"required": true
+                        },
+			"snapname": {
+				"type": "string",
+				"required": true
+                        }
 		}
 	}
 },{
@@ -55,19 +354,62 @@
 	"params": {
 		"type": "object",
 		"properties": {
-			"packagename": {
-				"type": "string",
-				"required": true
-			},
 			"command": {
 				"type": "string",
-				"enum": [ "install", "remove", "purge", "hold", "unhold" ],
+				"enum": [ "delete", "start", "stop", "poweron",
+                                          "reboot", "poweroff", "force", "pause",
+                                          "resume", "undefine", "pool_start", "pool_stop",
+                                          "autostart_disable", "autostart_enable"
+                                        ],
 				"required": true
 			},
-			"backports": {
+			"name": {
 				"type": "string",
 				"required": true
 			}
+		}
+	}
+},{
+	"type": "rpc",
+	"id": "rpc.kvm.dovnc",
+	"params": {
+		"type": "object",
+		"properties": {
+			"vmname": {
+				"type": "string",
+				"required": true
+                        },
+			"hostport": {
+				"type": "integer",
+				"required": true
+                        },
+			"vncport": {
+				"type": "integer",
+				"required": true
+                        }
+		}
+	}
+},{
+	"type": "rpc",
+	"id": "rpc.kvm.dochangecpumemory",
+	"params": {
+		"type": "object",
+		"properties": {
+			"vmname": {
+				"type": "string",
+				"required": true
+                        },
+			"memory": {
+				"type": ["string","integer"],
+				"required": true
+                        },
+			"memoryunit": {
+				"type": "string"
+                        },
+			"vcpu": {
+				"type": ["string","integer"],
+				"required": true
+                        }
 		}
 	}
 }]

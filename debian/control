@@ -20,6 +20,6 @@ Depends: dnsmasq-base,
          qemu,
          qemu-system-common,
          qemu-system-data,
-         qemu-system-x86 | qemu-system-arm,
+         qemu-system-x86,
          qemu-utils
 Description: kvm plugin for OpenMediaVault.
