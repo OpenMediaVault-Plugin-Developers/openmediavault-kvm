@@ -1,0 +1,26 @@
+#!/bin/sh
+
+set -e
+
+. /etc/default/openmediavault
+. /usr/share/openmediavault/scripts/helper-functions
+
+case "$1" in
+    configure)
+        # Activate package triggers.
+        dpkg-trigger update-fixperms
+        dpkg-trigger update-locale
+        sed -i 's/#vnc_listen = .*/vnc_listen = "0.0.0.0"/' /etc/libvirt/qemu.conf 
+        systemctl restart libvirtd.service
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+        echo "postinst called with unknown argument" >&2
+        exit 1
+    ;;
+esac
+
+exit 0

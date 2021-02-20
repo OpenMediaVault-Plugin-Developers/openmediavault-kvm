@@ -1,0 +1,25 @@
+Source: openmediavault-kvm
+Section: net
+XB-Plugin-Section: utilities
+Priority: optional
+Maintainer: OpenMediaVault Plugin Developers <plugins@omv-extras.org>
+Build-Depends: debhelper (>= 10)
+Standards-Version: 4.3.0
+Homepage: http://omv-extras.org/
+
+Package: openmediavault-kvm
+Architecture: all
+Depends: dnsmasq-base,
+         libvirt-clients,
+         libvirt-daemon,
+         libvirt-daemon-system,
+         openmediavault (>= 5.5),
+         omvextras-common,
+         php-libvirt-php,
+         php-xml,
+         qemu,
+         qemu-system-common,
+         qemu-system-data,
+         qemu-system-x86 | qemu-system-arm,
+         qemu-utils
+Description: kvm plugin for OpenMediaVault.

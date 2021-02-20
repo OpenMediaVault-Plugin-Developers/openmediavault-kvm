@@ -1,0 +1,73 @@
+[{
+	"type": "rpc",
+	"id": "rpc.kvm.executesearch",
+	"params": {
+		"type": "object",
+		"properties": {
+			"start": {
+				"type": "integer",
+				"required": true
+			},
+			"limit": {
+				"type": [ "integer", "null" ],
+				"required": true
+			},
+			"sortfield": {
+				"type": [ "string", "null" ]
+			},
+			"sortdir": {
+				"type": [ "string", "null" ],
+				"enum": [ "asc", "ASC", "desc", "DESC" ]
+			},
+			"term": {
+				"type": "string"
+			},
+			"type": {
+				"type": "string",
+				"enum": [ "dpkg", "policy", "search" ]
+			}
+		}
+	}
+},{
+	"type": "rpc",
+	"id": "rpc.kvm.setpackage",
+	"params": {
+		"type": "object",
+		"properties": {
+			"uuid": {
+				"type": "string",
+				"format": "uuidv4",
+				"required": true
+			},
+			"packagename": {
+				"type": "string",
+				"required": true
+			},
+			"backports": {
+				"type": "boolean",
+				"required": true
+			}
+		}
+	}
+},{
+	"type": "rpc",
+	"id": "rpc.kvm.docommand",
+	"params": {
+		"type": "object",
+		"properties": {
+			"packagename": {
+				"type": "string",
+				"required": true
+			},
+			"command": {
+				"type": "string",
+				"enum": [ "install", "remove", "purge", "hold", "unhold" ],
+				"required": true
+			},
+			"backports": {
+				"type": "string",
+				"required": true
+			}
+		}
+	}
+}]
