@@ -1086,6 +1086,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                     throw new \OMV\Exception(gettext("Failed to start container."));
                 }
             }
+        } else {
+            throw new \OMV\Exception(gettext("Docker is not installed. Please install from omv-extras Docker tab."));
         }
     }
 
