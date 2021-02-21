@@ -157,7 +157,8 @@ Ext.define("OMV.module.admin.service.kvm.Vm", {
                             service: "Kvm",
                             method: "enumerateVolumes",
                             params: {
-                                "optical": false
+                                "optical": false,
+                                "opticalNone": false
                             }
                         },
                         appendSortParams: false

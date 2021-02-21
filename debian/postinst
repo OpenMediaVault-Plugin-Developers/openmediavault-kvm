@@ -10,6 +10,12 @@ case "$1" in
         # Activate package triggers.
         dpkg-trigger update-fixperms
         dpkg-trigger update-locale
+
+        # add and load macvlan module
+        echo "macvlan" > /etc/modules-load.d/macvlan.conf
+        modprobe macvlan
+
+        # allow qemu connections to network and restart service
         sed -i 's/#vnc_listen = .*/vnc_listen = "0.0.0.0"/' /etc/libvirt/qemu.conf 
         systemctl restart libvirtd.service
     ;;

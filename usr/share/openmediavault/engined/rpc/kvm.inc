@@ -174,7 +174,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $lv->connect("qemu:///system");
         $name = $params['name'];
         $nic = $params['nic'];
-        $xml = "<network><name>$name</name><forward mode='bridge'>$nic</forward></network>";
+        $xml = sprintf('<network><name>%s</name><forward mode="bridge"><interface dev="%s"/></forward></network>', $name, $nic);
         if (!$lv->network_define_xml($xml)) {
             throw new \OMV\Exception( gettext("Unable to create Macvap - ") . $lv->get_last_error());
         }
