@@ -25,6 +25,7 @@ require_once("openmediavault/functions.inc");
 
 class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
 {
+
     public function getName()
     {
         return 'Kvm';
@@ -74,6 +75,13 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('doChangeCpuMemory');
     }
 
+    private function connectQemu()
+    {
+        $lv = new Libvirt();
+        $lv->connect("qemu:///system");
+        return ($lv);
+    }
+
     public function getNetworkList($params, $context)
     {
         // Validate the RPC caller context.
@@ -81,8 +89,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.common.getlist');
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         $nets = $lv->get_networks(VIR_NETWORKS_ALL);
         $objects= [];
         foreach ($nets as $net) {
@@ -117,8 +124,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         $nets = $lv->get_networks(VIR_NETWORKS_ALL);
         $objects= [];
         foreach ($nets as $net) {
@@ -142,8 +148,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.setnetwork');
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         $xml = "<network>";
         $xml .= sprintf("<name>%s</name>", $params['name']);
         $xml .= "<forward mode='nat'/>";
@@ -170,8 +175,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.setmacvtap');
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         $name = $params['name'];
         $nic = $params['nic'];
         $xml = sprintf('<network><name>%s</name><forward mode="bridge"><interface dev="%s"/></forward></network>', $name, $nic);
@@ -187,8 +191,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.docommand');
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         $disable = "";
         switch ($params['command']) {
             case 'delete':
@@ -222,8 +225,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.common.getlist');
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         $pools = $lv->get_storagepools();
         $objects= [];
         foreach ($pools as $pool) {
@@ -250,8 +252,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         $pools = $lv->get_storagepools();
         $objects= [];
         foreach ($pools as $pool) {
@@ -278,8 +279,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $poolname = $params['name'];
         $poolpath = $params['path'];
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         $xml = "<pool type='dir'>";
         $xml .= sprintf("<name>%s</name>", $poolname);
         $xml .= "<target>";
@@ -300,8 +300,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.deletepool');
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         $res = $lv->get_storagepool_res($params['name']);
         if (!$lv->storagepool_delete($res)) {
             throw new \OMV\Exception( gettext("Unable to delete pool - ") . $lv->get_last_error());
@@ -316,8 +315,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.common.getlist');
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         $doms = $lv->get_domains();
         $objects= [];
         foreach ($doms as $name) {
@@ -381,8 +379,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         //$this->validateMethodParams($params, 'rpc.kvm.vmname');
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         $vmxml = "";
         if ($params['vmname']) {
             $vmxml = $lv->domain_get_xml($params['vmname']);
@@ -397,8 +394,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.setvmxml');
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         if ($params['vmname']) {
             $result = $lv->domain_change_xml($params['vmname'], $params['vmxml']);
         } else {
@@ -416,8 +412,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.setvm');
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
 
         $domain_type = "kvm";
         $xml = sprintf("<domain type='%s'>", $domain_type);
@@ -553,8 +548,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.common.getlist');
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         $vols = $lv->get_disk_stats($params['vmname']);
         $objects = [];
         foreach ($vols as $vol) {
@@ -580,8 +574,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.adddisk');
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         // get VM object
         $vm = $lv->get_domain_by_name($params['vmname']);
 
@@ -647,8 +640,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.addoptical');
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         // get VM object
         $vm = $lv->get_domain_by_name($params['vmname']);
         $voliso = $params['voliso'];
@@ -699,8 +691,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.removedisk');
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
         $dev = $params['disk'];
         $path = $domXml->xpath('//disk');
@@ -724,8 +715,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.resizedisk');
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         // resize disk
         switch ($params['volsizeunit']) {
             case 'GiB':  $multi = 1024 * 1024; break;
@@ -748,8 +738,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.common.getlist');
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         $pools = $lv->get_storagepools();
         $objects= [];
         foreach ($pools as $pool) {
@@ -783,8 +772,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.enumeratevolumes');
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         $pools = $lv->get_storagepools();
         $optical = $params["optical"];
         $opticalNone = $params["opticalNone"];
@@ -839,8 +827,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.enumeratevolumesbyvm');
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         $pools = $lv->get_storagepools();
         $optical = $params["optical"];
         $objects= [];
@@ -890,8 +877,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         //$this->validateMethodParams($params, "rpc.kvm.setvolume");
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         $size = $params['size'] . $params['volunit'];
         return ($lv->storagevolume_create($params['pool'], $params['name'], $size, $params['size']));
     }
@@ -903,8 +889,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, "rpc.kvm.deletevolume");
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         if (!$lv->storagevolume_delete($params['path'])) {
             throw new \OMV\Exception( gettext("Unable to delete volume - ") . $params['path']);
         }
@@ -941,8 +926,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.vmname');
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         $dom = $lv->get_domain_object($params['vmname']);
         $snaps = $lv->domain_snapshots_list($dom);
         $objects= [];
@@ -969,8 +953,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.vmname');
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         $dom = $lv->get_domain_object($params['vmname']);
         if (!$lv->domain_snapshot_create($dom)) {
             throw new \OMV\Exception( gettext("Unable to create snapshot - ") . $lv->get_last_error());
@@ -984,8 +967,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.snapshot');
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         if (!$lv->domain_snapshot_delete($params['vmname'], $params['snapname'])) {
             throw new \OMV\Exception( gettext("Unable to delete snapshot - ") . $lv->get_last_error());
         }
@@ -998,8 +980,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         //$this->validateMethodParams($params, 'rpc.kvm.snapshot');
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         if (!$lv->domain_snapshot_revert($params['vmname'], $params['snapname'])) {
             throw new \OMV\Exception( gettext("Unable to revert to snapshot - ") . $lv->get_last_error());
         }
@@ -1012,8 +993,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.docommand');
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         if (substr($params['command'], 0, 5) == "pool_") {
             $pool = $params['name'];
             $res = $lv->get_storagepool_res($pool);
@@ -1098,8 +1078,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.dochangecpumemory');
         // create new libvirt object
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = $this->connectQemu();
         $memory = $params['memory'];
         $memoryunit = $params['memoryunit'];
         $vcpu = $params['vcpu'];
