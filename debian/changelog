@@ -1,3 +1,9 @@
+openmediavault-kvm (5.0.1) UNRELEASED; urgency=medium
+
+  * Change default windows network model to e1000
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sun, 21 Feb 2021 18:08:42 -0600
+
 openmediavault-kvm (5.0) stable; urgency=low
 
   * Initial commits

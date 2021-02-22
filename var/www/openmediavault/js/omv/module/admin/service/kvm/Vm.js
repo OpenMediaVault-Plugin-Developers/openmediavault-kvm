@@ -77,10 +77,13 @@ Ext.define("OMV.module.admin.service.kvm.Vm", {
                 listeners: {
                     scope: me,
                     change: function(field) {
+                        var model = me.findField("model");
                         var volbus = me.findField("volbus");
                         if (field.value == "windows") {
+                            model.setValue("e1000");
                             volbus.setValue("sata");
                         } else {
+                            model.setValue("virtio");
                             volbus.setValue("virtio");
                         }
                     }
