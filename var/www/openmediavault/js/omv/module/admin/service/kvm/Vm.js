@@ -89,6 +89,11 @@ Ext.define("OMV.module.admin.service.kvm.Vm", {
                     }
                 }
             },{
+                xtype: "checkbox",
+                name: "uefi",
+                fieldLabel: _("UEFI"),
+                checked: false
+            },{
                 xtype: "numberfield",
                 name: "vcpu",
                 fieldLabel: _("CPUs"),

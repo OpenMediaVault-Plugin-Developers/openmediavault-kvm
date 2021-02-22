@@ -120,6 +120,10 @@
 				"type": "string",
 				"required": true
 			},
+			"uefi": {
+				"type": "boolean",
+				"required": true
+			},
 			"volbus": {
 				"type": "string",
 				"required": true

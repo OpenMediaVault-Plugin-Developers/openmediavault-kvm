@@ -421,7 +421,12 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $xml .= sprintf("<memory unit='%s'>%d</memory>", $params['memoryunit'], $params['memory']);
         $xml .= sprintf("<vcpu>%d</vcpu>", $params['vcpu']);
         $xml .= "<os>";
-        $xml .= "<type>hvm</type>";
+        if ($params['uefi']) {
+            $xml .= "<type arch='x86_64' machine='q35'>hvm</type>";
+            $xml .= "<loader readonly='yes' type='pflash'>/usr/share/OVMF/OVMF_CODE.fd</loader>";
+        } else {
+            $xml .= "<type machine='pc'>hvm</type>";
+        }
         $xml .= "<boot dev='hd'/>";
         $xml .= "<boot dev='cdrom'/>";
         $xml .= "<boot dev='network'/>";
@@ -481,19 +486,26 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
 
         // add disk to VM
+        if ($params['uefi']) {
+            $cdpre = "sd";
+            $ctrl = "sata";
+        } else {
+            $cdpre = "hd";
+            $ctrl = "ide";
+        }
         switch ($volbus) {
             case "virtio":
                 $dev = "vda";
-                $cd = "hda";
+                $cd = $cdpre . "a";
                 break;
             case "sata":
             case "scsi":
                 $dev = "sda";
-                $cd = "hda";
+                $cd = $cdpre . "a";
                 break;
             case "ide":
                 $dev = "hda";
-                $cd = "hdb";
+                $cd = $cdpre . "b";
                 break;
         }
         if (!$lv->domain_disk_add($newvm, $diskpath, $dev, $volbus, $volformat)) {
@@ -518,7 +530,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
 
             $targetXml = $diskXml->addChild('target');
             $targetXml->addAttribute('dev', $cd);
-            $targetXml->addAttribute('bus', 'ide');
+            $targetXml->addAttribute('bus', $ctrl);
 
             $newXml = $domXml->asXML();
             $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
