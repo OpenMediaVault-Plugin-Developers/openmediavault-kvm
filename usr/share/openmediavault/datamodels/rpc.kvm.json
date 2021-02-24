@@ -297,6 +297,18 @@
 	}
 },{
 	"type": "rpc",
+	"id": "rpc.kvm.name",
+	"params": {
+		"type": "object",
+		"properties": {
+			"name": {
+				"type": "string",
+				"required": true
+                        }
+		}
+	}
+},{
+	"type": "rpc",
 	"id": "rpc.kvm.path",
 	"params": {
 		"type": "object",

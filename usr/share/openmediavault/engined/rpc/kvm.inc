@@ -376,11 +376,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
-        $this->validateMethodParams($params, 'rpc.kvm.path');
+        $this->validateMethodParams($params, 'rpc.kvm.name');
         // create new libvirt object
         $lv = $this->connectQemu();
         $res = $lv->get_storagepool_res($params['name']);
-        if (!$lv->storagepool_delete($res)) {
+        if (!$lv->storagepool_undefine($res)) {
             throw new \OMV\Exception( gettext("Unable to delete pool - ") . $lv->get_last_error());
         }
     }

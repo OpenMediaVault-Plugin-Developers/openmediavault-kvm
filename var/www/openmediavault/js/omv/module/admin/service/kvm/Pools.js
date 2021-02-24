@@ -91,6 +91,7 @@ Ext.define('OMV.module.admin.service.kvm.Pools', {
 
     hidePagingToolbar: false,
     hideEditButton: true,
+    hideDeleteButton: true,
     stateful: true,
     stateId: 'a4bec1a6-6bef-11eb-87f3-731abcfb36e8',
     columns: [{
@@ -187,7 +188,23 @@ Ext.define('OMV.module.admin.service.kvm.Pools', {
         var me = this;
         var items = me.callParent(arguments);
 
-        Ext.Array.insert(items, 3, [{
+        Ext.Array.insert(items, 1, [{
+            xtype: 'button',
+            text: _('Delete'),
+            icon: 'images/delete.png',
+            iconCls: Ext.baseCSSPrefix + 'btn-icon-16x16',
+            handler: Ext.Function.bind(me.onDeleteButton, me, [ me ]),
+            scope: me,
+            disabled : true,
+            selectionConfig : {
+                minSelections : 1,
+                maxSelections : 1,
+                enabledFn: function(c, records) {
+                    var state = records[0].get("state");
+                    return (state !== 'Running');
+                }
+            }
+        },{
             xtype: "button",
             text: _("State"),
             scope: this,
@@ -250,19 +267,20 @@ Ext.define('OMV.module.admin.service.kvm.Pools', {
         }).show();
     },
 
-    doDeletion: function(record) {
+    onDeleteButton: function() {
         var me = this;
+        var record = me.getSelected();
         OMV.Rpc.request({
             scope: me,
-            callback: me.onDeletion,
             rpcData: {
                 service: "Kvm",
                 method: "deletePool",
                 params: {
-                    path: record.get("name")
+                    name: record.get("name")
                 }
             }
         });
+        me.doReload();
     },
 
     onCommandButton: function(cmd) {
@@ -280,7 +298,6 @@ Ext.define('OMV.module.admin.service.kvm.Pools', {
             }
         });
         me.doReload();
-        me.setToolbarButtonDisabled("download", true);
     },
 
     onDownloadIsoButton: function() {
