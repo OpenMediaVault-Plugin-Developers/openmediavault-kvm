@@ -68,18 +68,6 @@
 	}
 },{
 	"type": "rpc",
-	"id": "rpc.kvm.deletepool",
-	"params": {
-		"type": "object",
-		"properties": {
-			"name": {
-				"type": "string",
-				"required": true
-			}
-		}
-	}
-},{
-	"type": "rpc",
 	"id": "rpc.kvm.setvmxml",
 	"params": {
 		"type": "object",

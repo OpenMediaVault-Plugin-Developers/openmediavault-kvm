@@ -367,7 +367,12 @@ Ext.define("OMV.module.admin.service.kvm.Vm", {
                 xtype: "textfield",
                 name: "macaddress",
                 fieldLabel: _("MAC address"),
-                allowBlank: true
+                allowBlank: true,
+                plugins: [{
+                    ptype: "fieldinfo",
+                    text: _("Leave blank for random address.")
+                }]
+
             }]
         }];
     }

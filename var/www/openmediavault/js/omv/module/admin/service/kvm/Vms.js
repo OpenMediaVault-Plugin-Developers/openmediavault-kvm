@@ -241,6 +241,25 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
             }]
         },{
             xtype: "button",
+            text: _("Network"),
+            scope: this,
+            icon: "images/network.png",
+            disabled : true,
+            selectionConfig : {
+                minSelections : 1,
+                maxSelections : 1
+            },
+            menu: [{
+                text: _("Add"),
+                icon: "images/add.png",
+                handler: Ext.Function.bind(me.onNicButton, me, [ "add" ])
+            },{
+                text: _("Remove"),
+                icon: "images/delete.png",
+                handler: Ext.Function.bind(me.onNicButton, me, [ "remove" ])
+            }]
+        },{
+            xtype: "button",
             text: _("Edit"),
             scope: this,
             icon: "images/edit.png",
@@ -656,6 +675,41 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
         } else if (cmd == "remove") {
             Ext.create("OMV.module.admin.service.kvm.RemoveDisk", {
                 title: _("Delete disk ..."),
+                vmname: vmname,
+                rpcGetParams: {
+                    vmname: vmname
+                },
+                listeners: {
+                    scope: me,
+                    submit: function() {
+                        this.doReload();
+                    }
+                }
+            }).show();
+        }
+    },
+
+    onNicButton: function(cmd) {
+        var me = this;
+        var record = me.getSelected();
+        var vmname = record.get("vmname");
+        if (cmd == "add") {
+            Ext.create("OMV.module.admin.service.kvm.AddVmNic", {
+                title: _("Add network adapter ..."),
+                vmname: vmname,
+                rpcGetParams: {
+                    vmname: vmname
+                },
+                listeners: {
+                    scope: me,
+                    submit: function() {
+                        this.doReload();
+                    }
+                }
+            }).show();
+        } else if (cmd == "remove") {
+            Ext.create("OMV.module.admin.service.kvm.RemoveVmNic", {
+                title: _("Remove network adapter ..."),
                 vmname: vmname,
                 rpcGetParams: {
                     vmname: vmname

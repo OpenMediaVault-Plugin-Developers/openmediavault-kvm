@@ -40,6 +40,10 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('setMacvtap');
         $this->registerMethod('networkCommand');
 
+        $this->registerMethod('addVmNic');
+        $this->registerMethod('removeVmNic');
+        $this->registerMethod('enumerateVmNic');
+
         $this->registerMethod('getPoolList');
         $this->registerMethod('enumeratePools');
         $this->registerMethod('getPool');
@@ -218,6 +222,80 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmd->execute($output, $exitStatus);
     }
 
+    public function addVmNic($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // create new libvirt object
+        $lv = $this->connectQemu();
+        // get VM object
+        $vm = $lv->get_domain_by_name($params['vmname']);
+        // add network
+        $mac = $params['macaddress'];
+        if (!$mac) {
+            $mac = $lv->generate_random_mac_addr();
+        }
+        $model = $params['model'];
+        $net = $params['network'];
+        if (!$lv->domain_nic_add($vm, $mac, $net, $model)) {
+            throw new \OMV\Exception( gettext("Unable to add network adapter to VM - ") . $lv->get_last_error());
+        }
+    }
+
+    public function removeVmNic($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // create new libvirt object
+        $lv = $this->connectQemu();
+        $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
+        $path = $domXml->xpath('//interface');
+        $mac = $params['network'];
+        for ($i = 0; $i < sizeof($path); $i++) {
+            if ($domXml->devices->interface[$i]->mac['address'] == $mac) {
+                unset($domXml->devices->interface[$i]);
+                $newXml = $domXml->asXML();
+                $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
+                if (!$lv->domain_change_xml($params['vmname'], $newXml)) {
+                    throw new \OMV\Exception( gettext("Unable to remove network interface from VM - ") . $lv->get_last_error());
+                }
+                break;
+            }
+        }
+    }
+
+    public function enumerateVmNic($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // create new libvirt object
+        $lv = $this->connectQemu();
+        $xml = $lv->domain_get_xml($params['vmname']);
+        $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
+        $path = $domXml->xpath('//interface');
+        for ($i = 0; $i < sizeof($path); $i++) {
+            $nic = $domXml->devices->interface[$i];
+            $type = $nic['type'];
+            $mac = $nic->mac['address'];
+            switch ($type) {
+                case "network":
+                    $net = $nic->source['network'];
+                    $desc= sprintf('%s - %s (%s)', $type, $net, $mac);
+                    break;
+                case "direct":
+                    $dev = $nic->source['dev'];
+                    $mode = $nic->source['mode'];
+                    $desc= sprintf('%s - %s %s (%s)', $type, $dev, $mode, $mac);
+                    break;
+            }
+            $objects[] = [
+                'mac' => $mac,
+                'description' => $desc
+            ];
+        }
+        return ($objects);
+    }
+
     public function getPoolList($params, $context)
     {
         // Validate the RPC caller context.
@@ -298,7 +376,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
-        $this->validateMethodParams($params, 'rpc.kvm.deletepool');
+        $this->validateMethodParams($params, 'rpc.kvm.path');
         // create new libvirt object
         $lv = $this->connectQemu();
         $res = $lv->get_storagepool_res($params['name']);
