@@ -139,7 +139,9 @@ Ext.define('OMV.module.admin.service.kvm.Volumes', {
     ],
 
     hidePagingToolbar: false,
+    hideAddButton: true,
     hideEditButton: true,
+    hideDeleteButton: true,
     stateful: true,
     stateId: 'b02a5fd6-6bff-11eb-8c5b-f3581dedb11b',
     columns: [{
@@ -213,6 +215,33 @@ Ext.define('OMV.module.admin.service.kvm.Volumes', {
         me.callParent(arguments);
     },
 
+   getTopToolbarItems: function() {
+        var me = this;
+        var items = me.callParent(arguments);
+
+        Ext.Array.insert(items, 0, [{
+            xtype: 'button',
+            text: _('Add'),
+            icon: 'images/add.png',
+            iconCls: Ext.baseCSSPrefix + 'btn-icon-16x16',
+            handler: Ext.Function.bind(me.onAddButton, me, [ me ]),
+            scope: me
+        },{
+            xtype: 'button',
+            text: _('Delete'),
+            icon: 'images/delete.png',
+            iconCls: Ext.baseCSSPrefix + 'btn-icon-16x16',
+            handler: Ext.Function.bind(me.onDeleteButton, me, [ me ]),
+            scope: me,
+            disabled : true,
+            selectionConfig : {
+                minSelections : 1,
+                maxSelections : 1
+            }
+        }]);
+        return items;
+    },
+
     onAddButton: function() {
         var me = this;
         Ext.create("OMV.module.admin.service.kvm.Volume", {
@@ -227,11 +256,11 @@ Ext.define('OMV.module.admin.service.kvm.Volumes', {
         }).show();
     },
 
-    doDeletion: function(record) {
+    onDeleteButton: function() {
         var me = this;
+        var record = me.getSelected();
         OMV.Rpc.request({
             scope: me,
-            callback: me.onDeletion,
             rpcData: {
                 service: "Kvm",
                 method: "deleteVolume",
@@ -240,6 +269,7 @@ Ext.define('OMV.module.admin.service.kvm.Volumes', {
                 }
             }
         });
+        me.doReload();
     }
 });
 

@@ -968,8 +968,14 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         //$this->validateMethodParams($params, "rpc.kvm.setvolume");
         // create new libvirt object
         $lv = $this->connectQemu();
-        $size = $params['size'] . $params['volunit'];
-        return ($lv->storagevolume_create($params['pool'], $params['name'], $size, $params['size']));
+        $pool = $params['pool'];
+        $name = $params['name'];
+        $format = $params['format'];
+        $image = $name . '.' . $format;
+        $size = $params['volsize'] . $params['volunit'];
+        if (!$lv->storagevolume_create($pool, $image, $size, $size, $format)) {
+            throw new \OMV\Exception( gettext("Unable to create volume - ") . $params['path']);
+        }
     }
 
     public function deleteVolume($params, $context)
@@ -977,7 +983,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ["role" => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
-        $this->validateMethodParams($params, "rpc.kvm.deletevolume");
+        $this->validateMethodParams($params, "rpc.kvm.path");
         // create new libvirt object
         $lv = $this->connectQemu();
         if (!$lv->storagevolume_delete($params['path'])) {
