@@ -543,6 +543,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
 
         $volbus = $params['volbus'];
+        $voldisk = $params['voldisk'];
         $volformat = $params['volformat'];
         $voliso = $params['voliso'];
         $volname = $params['volname'];
@@ -554,13 +555,16 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
 
         // create new disk (if specified)
-        if ($params['voldisk'] == 'Create new disk') {
+        if ($voldisk == 'Create new disk') {
             $newdisk = $lv->storagevolume_create($volpool, $volname.'.'.$volformat, $volsize.$volunit, $volsize.$volunit, $volformat);  
             if ($newdisk) {
                 $diskpath = libvirt_storagevolume_get_path($newdisk);
             } else {
                 throw new \OMV\Exception( gettext("Unable to create new disk - ") . $lv->get_last_error());
             }
+        } else {
+            $volformat = pathinfo($voldisk, PATHINFO_EXTENSION);
+            $diskpath = $voldisk;
         }
 
         // add disk to VM
@@ -687,7 +691,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $diskpath = libvirt_storagevolume_get_path($newdisk);
         } else {
             $diskpath = $voldisk;
-            $volformat = array_pop(explode('.', $voldisk));
+            $volformat = pathinfo($voldisk, PATHINFO_EXTENSION);
+            $volname = pathinfo($voldisk, PATHINFO_FILENAME);
             if ($volformat != "qcow2") {
                 $volformat = "raw";
             }

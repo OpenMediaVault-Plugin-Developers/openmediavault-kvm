@@ -77,7 +77,8 @@ Ext.define("OMV.module.admin.service.kvm.AddDisk", {
                             service: "Kvm",
                             method: "enumerateVolumes",
                             params: {
-                                "optical": false
+                                "optical": false,
+                                "opticalNone": false
                             }
                         },
                         appendSortParams: false

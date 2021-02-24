@@ -1,3 +1,10 @@
+openmediavault-kvm (5.0.4) stable; urgency=low
+
+  * Fix add disk to vm
+  * Fix using existing disk with new vm
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Wed, 24 Feb 2021 16:48:46 -0600
+
 openmediavault-kvm (5.0.3) stable; urgency=low
 
   * Fix add and delete volumes

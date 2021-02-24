@@ -171,24 +171,19 @@
 				"required": true
 			},
 			"volformat": {
-				"type": "string",
-				"required": true
+				"type": "string"
 			},
 			"volname": {
-				"type": "string",
-				"required": true
+				"type": "string"
 			},
 			"volpool": {
-				"type": "string",
-				"required": true
+				"type": "string"
 			},
 			"volsize": {
-				"type": "integer",
-				"required": true
+				"type": "integer"
 			},
 			"volunit": {
-				"type": "string",
-				"required": true
+				"type": "string"
 			}
 		}
 	}
