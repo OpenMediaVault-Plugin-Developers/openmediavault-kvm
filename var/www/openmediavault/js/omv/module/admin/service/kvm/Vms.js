@@ -218,7 +218,16 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
             },{
                 text: _("Remove"),
                 icon: "images/delete.png",
-                handler: Ext.Function.bind(me.onDiskButton, me, [ "remove" ])
+                handler: Ext.Function.bind(me.onDiskButton, me, [ "remove" ]),
+                disabled : true,
+                selectionConfig : {
+                    minSelections : 1,
+                    maxSelections : 1,
+                    enabledFn: function(c, records) {
+                        var snaps = records[0].get("snaps");
+                        return (snaps == 0);
+                    }
+                }
             }]
         },{
             xtype: "button",
@@ -237,7 +246,16 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
             },{
                 text: _("Remove"),
                 icon: "images/delete.png",
-                handler: Ext.Function.bind(me.onOpticalButton, me, [ "remove" ])
+                handler: Ext.Function.bind(me.onOpticalButton, me, [ "remove" ]),
+                disabled : true,
+                selectionConfig : {
+                    minSelections : 1,
+                    maxSelections : 1,
+                    enabledFn: function(c, records) {
+                        var snaps = records[0].get("snaps");
+                        return (snaps == 0);
+                    }
+                }
             }]
         },{
             xtype: "button",
