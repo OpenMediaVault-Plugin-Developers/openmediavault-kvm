@@ -377,6 +377,6 @@ OMV.WorkspaceManager.registerPanel({
     id: 'networks',
     path: '/service/kvm',
     text: _('Networks'),
-    position: 40,
+    position: 50,
     className: 'OMV.module.admin.service.kvm.Networks'
 });

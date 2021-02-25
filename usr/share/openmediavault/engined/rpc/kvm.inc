@@ -842,6 +842,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // create new libvirt object
         $lv = $this->connectQemu();
         $pools = $lv->get_storagepools();
+        $optical = $params["optical"];
         $objects= [];
         foreach ($pools as $pool) {
             $lv->storagepool_refresh($pool);
@@ -851,15 +852,17 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $keys = array_keys($volumes);
                 for ($i = 0; $i < sizeof($volumes); $i++) {
                     $volume = $volumes[$keys[$i]];
-                    $path = base64_encode($volume['path']);
-                    $objects[] = [
-                        'name' => $keys[$i],
-                        'pool' => $pool,
-                        'capacity' => $volume['capacity'],
-                        'allocation' => $volume['allocation'],
-                        'allocationT' => binary_format($volume['allocation']),
-                        'path' => $volume['path']
-                    ];
+                    $ext = pathinfo($volume['path'], PATHINFO_EXTENSION);
+                    if (((strtolower($ext) != 'iso') && (!$optical)) || ((strtolower($ext) == 'iso') && ($optical))) {
+                        $objects[] = [
+                            'name' => $keys[$i],
+                            'pool' => $pool,
+                            'capacity' => $volume['capacity'],
+                            'allocation' => $volume['allocation'],
+                            'allocationT' => binary_format($volume['allocation']),
+                            'path' => $volume['path']
+                        ];
+                    }
                 }
             }
         }
@@ -904,7 +907,6 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $keys = array_keys($volumes);
                 for ($i = 0; $i < sizeof($volumes); $i++) {
                     $volume = $volumes[$keys[$i]];
-                    $path = base64_encode($volume['path']);
                     $ext = pathinfo($volume['path'], PATHINFO_EXTENSION);
                     $add = false;
                     if (((strtolower($ext) != 'iso') && (!$optical)) || ((strtolower($ext) == 'iso') && ($optical))) {

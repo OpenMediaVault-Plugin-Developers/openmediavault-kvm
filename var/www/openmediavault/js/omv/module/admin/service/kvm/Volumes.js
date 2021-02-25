@@ -207,7 +207,10 @@ Ext.define('OMV.module.admin.service.kvm.Volumes', {
                     type: 'rpc',
                     rpcData: {
                         service: 'Kvm',
-                        method: 'getVolumeList'
+                        method: 'getVolumeList',
+                        params: {
+                            "optical": false
+                        }
                     }
                 }
             })
