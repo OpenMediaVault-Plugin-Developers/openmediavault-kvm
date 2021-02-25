@@ -533,6 +533,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $xml .= "<video>";
         $xml .= "<model type='qxl'/>";
         $xml .= "</video>";
+        $xml .= "<input type='mouse' bus='usb'/>";
+        $xml .= "<input type='keyboard' bus='usb'/>";
+        $xml .= "<input type='mouse' bus='virtio'/>";
+        $xml .= "<input type='keyboard' bus='virtio'/>";
+        $xml .= "<input type='tablet' bus='virtio'/>";
         $xml .= "<memballoon model='virtio'>";
         $xml .= "<stats period='10'/>";
         $xml .= "</memballoon>";
