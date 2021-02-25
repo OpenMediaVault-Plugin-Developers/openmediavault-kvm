@@ -590,7 +590,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             case "sata":
             case "scsi":
                 $dev = "sda";
-                $cd = $cdpre . "a";
+                $cd = $cdpre . "b";
                 break;
             case "ide":
                 $dev = "hda";
@@ -745,11 +745,18 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $lv = $this->connectQemu();
         // get VM object
         $vm = $lv->get_domain_by_name($params['vmname']);
+        $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
         $voliso = $params['voliso'];
         // get next device
+        if (isset($domXml->os->nvram)) {
+            $targetbus = 'sata';
+            $dev = "sd";
+        } else {
+            $targetbus = 'ide';
+            $dev = "hd";
+        }
         $targetdev = "";
         $devs = [];
-        $dev = "hd";
         for ($i = 'a'; $i < 'z'; $i++) {
             $devs[] = $dev . $i;
         }
@@ -762,8 +769,6 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $targetdev = $dev . "a";
         }
         // add optical storage
-        $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
-
         $diskXml = $domXml->devices->addChild('disk');
         $diskXml->addAttribute('type', 'file');
         $diskXml->addAttribute('device', 'cdrom');
@@ -777,7 +782,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
 
         $targetXml = $diskXml->addChild('target');
         $targetXml->addAttribute('dev', $targetdev);
-        $targetXml->addAttribute('bus', 'ide');
+        $targetXml->addAttribute('bus', $targetbus);
 
         $newXml = $domXml->asXML();
         $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
