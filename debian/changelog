@@ -1,3 +1,14 @@
+openmediavault-kvm (5.0.7) stable; urgency=low
+
+  * Add input devices
+  * Add ISOs tab
+  * Remove .iso from Volumes tab
+  * Fix add optical on EFI VMs
+  * Change from pflash to rom to allow snapshots
+  * Disable remove disk and optical when VM has a snapshot
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Thu, 25 Feb 2021 13:14:18 -0600
+
 openmediavault-kvm (5.0.6) stable; urgency=low
 
   * Refresh pool before displaying info
