@@ -307,6 +307,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $pools = $lv->get_storagepools();
         $objects= [];
         foreach ($pools as $pool) {
+            $lv->storagepool_refresh($pool);
             $info = $lv->get_storagepool_info($pool);
             $objects[] = [
                 'name' => $pool,
@@ -334,6 +335,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $pools = $lv->get_storagepools();
         $objects= [];
         foreach ($pools as $pool) {
+            $lv->storagepool_refresh($pool);
             $info = $lv->get_storagepool_info($pool);
             $objects[] = [
                 'name' => $pool,
@@ -837,6 +839,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $pools = $lv->get_storagepools();
         $objects= [];
         foreach ($pools as $pool) {
+            $lv->storagepool_refresh($pool);
             $info = $lv->get_storagepool_info($pool);
             if ($info['volume_count'] > 0) {
                 $volumes = $lv->storagepool_get_volume_information($pool);
@@ -889,6 +892,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
 
         foreach ($pools as $pool) {
+            $lv->storagepool_refresh($pool);
             $info = $lv->get_storagepool_info($pool);
             if ($info['volume_count'] > 0) {
                 $volumes = $lv->storagepool_get_volume_information($pool);
@@ -923,7 +927,6 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodParams($params, 'rpc.kvm.enumeratevolumesbyvm');
         // create new libvirt object
         $lv = $this->connectQemu();
-        $pools = $lv->get_storagepools();
         $optical = $params["optical"];
         $objects= [];
         if ($optical) {

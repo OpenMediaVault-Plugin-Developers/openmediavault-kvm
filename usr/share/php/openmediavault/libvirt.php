@@ -1301,7 +1301,8 @@ class Libvirt {
         return ($ret) ? $ret : $this->_set_last_error();
     }
 
-    function storagepool_refresh($res) {
+    function storagepool_refresh($name) {
+        $res = $this->get_storagepool_res($name);
         $ret = libvirt_storagepool_refresh($res);
         return ($ret) ? $ret : $this->_set_last_error();
     }
