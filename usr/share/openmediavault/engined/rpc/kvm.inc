@@ -503,7 +503,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $xml .= "<os>";
         if ($params['uefi']) {
             $xml .= "<type arch='x86_64' machine='q35'>hvm</type>";
-            $xml .= "<loader readonly='yes' type='pflash'>/usr/share/OVMF/OVMF_CODE.fd</loader>";
+            $xml .= "<loader readonly='yes' type='rom'>/usr/share/OVMF/OVMF_CODE.fd</loader>";
         } else {
             $xml .= "<type machine='pc'>hvm</type>";
         }
