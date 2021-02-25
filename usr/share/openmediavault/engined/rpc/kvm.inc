@@ -428,6 +428,18 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                     $dockerport = 'n/a';
                 }
             }
+            $domXml = new SimpleXMLElement($lv->domain_get_xml($name));
+            $path = $domXml->xpath('//graphics');
+            for ($i = 0; $i < sizeof($path); $i++) {
+                $graphics = $domXml->devices->graphics[$i];
+                if ($graphics['type'] == 'spice') {
+                    $spiceport = $graphics['port'];
+                    break;
+                }
+            }
+            if ($spiceport == -1 || $spiceport == '') {
+                $spiceport = "n/a";
+            }
             $snaplist = $lv->domain_snapshots_list($dom);
             $snaps = 0;
             if ($snaplist) {
@@ -442,6 +454,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 'arch' => $lv->domain_get_arch($dom),
                 'autostart' => $lv->domain_get_autostart($dom),
                 'vncport' => $vncport,
+                'spiceport' => $spiceport,
                 'dockerport' => $dockerport,
                 'dockerurl' => $dockerurl,
                 'snaps' => $snaps
@@ -530,6 +543,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $xml .= "<clock offset='localtime'/>";
         $xml .= "<devices>";
         $xml .= "<graphics type='vnc' port='-1' autoport='yes'/>";
+        $xml .= "<graphics type='spice' port='-1' tlsPort='-1' autoport='yes' listen='0.0.0.0'>";
+        $xml .= "<gl enable='no'/>";
+        $xml .= "</graphics>";
         $xml .= "<video>";
         $xml .= "<model type='qxl'/>";
         $xml .= "</video>";

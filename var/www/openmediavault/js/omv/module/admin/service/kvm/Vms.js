@@ -121,6 +121,12 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
         stateId: 'snaps'
     },{
         xtype: 'textcolumn',
+        text: _('Spice port'),
+        sortable: true,
+        dataIndex: 'spiceport',
+        stateId: 'spiceport'
+    },{
+        xtype: 'textcolumn',
         text: _('VNC port'),
         sortable: true,
         dataIndex: 'vncport',
@@ -168,6 +174,7 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
                         { name: 'arch', type: 'string' },
                         { name: 'disks', type: 'string' },
                         { name: 'vncport', type: 'string' },
+                        { name: 'spiceport', type: 'string' },
                         { name: 'dockerport', type: 'string' },
                         { name: 'dockerurl', type: 'string' },
                         { name: 'autostart', type: 'boolean' },
@@ -393,7 +400,8 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
                     maxSelections : 1,
                     enabledFn: function(c, records) {
                         var state = records[0].get("state");
-                        return (state == 'shutoff');
+                        var snaps = records[0].get("snaps");
+                        return (state == 'shutoff' && snaps == 0);
                     }
                 }
             }]
