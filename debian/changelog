@@ -1,8 +1,8 @@
-openmediavault-kvm (5.0.8) UNRELEASED; urgency=medium
+openmediavault-kvm (5.0.8) stable; urgency=low
 
-  * Start adding locales
+  * Fix Add VM window height
 
- -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Fri, 26 Feb 2021 12:47:53 -0600
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Fri, 26 Feb 2021 14:25:15 -0600
 
 openmediavault-kvm (5.0.7) stable; urgency=low
 
