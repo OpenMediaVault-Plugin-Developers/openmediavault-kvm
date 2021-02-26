@@ -29,6 +29,7 @@ Ext.define("OMV.module.admin.service.kvm.Vm", {
     ],
 
     width: 700,
+    height: 600,
 
     rpcService: "Kvm",
     rpcGetMethod: "getVmXml",
