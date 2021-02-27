@@ -2,137 +2,141 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the openmediavault-kvm package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
+# Translators:
+# Raul Fernandez Garcia <raulfg3@gmail.com>, 2021
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-27 16:24-0600\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2021-02-27 15:05+0000\n"
+"Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>, 2021\n"
+"Language-Team: Spanish (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/es/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Activity"
-msgstr ""
+msgstr "Actividad"
 
 msgid "Add"
-msgstr ""
+msgstr "Añadir"
 
 msgid "Add Macvtap Bridge"
-msgstr ""
+msgstr "Añadir puente Macvtap"
 
 msgid "Add Network"
-msgstr ""
+msgstr "Añadir Red"
 
 msgid "Add VM"
-msgstr ""
+msgstr "Añadir VM"
 
 msgid "Add XML"
-msgstr ""
+msgstr "Añadir XML"
 
 msgid "Add disk ..."
-msgstr ""
+msgstr "Añadir Disco ..."
 
 msgid "Add macvtap bridge"
-msgstr ""
+msgstr "Añadir puente Macvtap"
 
 msgid "Add network"
-msgstr ""
+msgstr "Añadir Red"
 
 msgid "Add network adapter ..."
-msgstr ""
+msgstr "Añadir adaptador de red ..."
 
 msgid "Add optical disk ..."
-msgstr ""
+msgstr "Añadir CD"
 
 msgid "Add pool"
-msgstr ""
+msgstr "Añadir pool"
 
 msgid "Add volume"
-msgstr ""
+msgstr "Añadir Volumen"
 
 msgid "Advanced"
-msgstr ""
+msgstr "Avanzado"
 
 msgid "Allocation"
-msgstr ""
+msgstr "Distribición"
 
 msgid "Arch"
-msgstr ""
+msgstr "Arch"
 
 msgid "AutoStart"
-msgstr ""
+msgstr "AutoArranque"
 
 msgid "Available"
-msgstr ""
+msgstr "Disponible"
 
 msgid "Bus"
-msgstr ""
+msgstr "Bus"
 
 msgid "CPUs"
-msgstr ""
+msgstr "CPUs"
 
 msgid "Capacity"
-msgstr ""
+msgstr "Capacidad"
 
 msgid "Change memory ..."
-msgstr ""
+msgstr "Cambiar Memoria ..."
 
 msgid "Change vCPU quantity ..."
-msgstr ""
+msgstr "Cambiar vCPU ..."
 
 msgid "Console"
-msgstr ""
+msgstr "Consola"
 
 msgid "Create"
-msgstr ""
+msgstr "Crear"
 
 msgid "Create noVNC console"
-msgstr ""
+msgstr "Crear consola noVNC"
 
 msgid "DHCP"
-msgstr ""
+msgstr "DHCP"
 
 msgid "DHCP Range"
-msgstr ""
+msgstr "Rango DHCP"
 
 msgid "DHCP ending address"
-msgstr ""
+msgstr "Dirección final DHCP"
 
 msgid "DHCP starting address"
-msgstr ""
+msgstr "Dirección inicial DHCP"
 
 msgid "Delete"
-msgstr ""
+msgstr "Borrar"
 
 msgid "Delete disk ..."
-msgstr ""
+msgstr "Borrar Disco ..."
 
 msgid "Delete snapshot ..."
-msgstr ""
+msgstr "Borrar Instantánea ..."
 
 msgid "Disable autostart"
-msgstr ""
+msgstr "Deshabilitar AutoArranque"
 
 msgid "Disk"
-msgstr ""
+msgstr "Disco"
 
 msgid "Disk(s)"
-msgstr ""
+msgstr "Disco(s)"
 
 msgid "Docker is not installed. Please install from omv-extras Docker tab."
-msgstr ""
+msgstr "Docker No instalado. Por Favor instálelo desde OMV_Extras."
 
 msgid "Docker port"
-msgstr ""
+msgstr "Puerto Docker"
 
 msgid "Done."
-msgstr ""
+msgstr "Hecho."
 
 msgid "Download"
 msgstr ""
@@ -144,88 +148,88 @@ msgid "Download iso from url"
 msgstr ""
 
 msgid "Download virtio iso"
-msgstr ""
+msgstr "Descargar ISO virtio"
 
 msgid "Download virtio iso ..."
-msgstr ""
+msgstr "Descargar ISO virtio ..."
 
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 msgid "Edit XML"
-msgstr ""
+msgstr "Editar XML"
 
 msgid "Enable autostart"
-msgstr ""
+msgstr "Habilitar AutoArranque"
 
 msgid "Failed to start container."
-msgstr ""
+msgstr "Error al arrancar un container."
 
 msgid "For more info"
 msgstr ""
 
 msgid "Force"
-msgstr ""
+msgstr "Forzar"
 
 msgid "Format"
-msgstr ""
+msgstr "Formatear"
 
 msgid "Forwarding"
-msgstr ""
+msgstr "Seguir"
 
 msgid "G"
-msgstr ""
+msgstr "G"
 
 msgid "Gateway IP"
-msgstr ""
+msgstr "IP del Gateway"
 
 msgid "Gateway IP Address"
-msgstr ""
+msgstr "Dirección IP del Gateway"
 
 msgid "GiB"
-msgstr ""
+msgstr "GiB"
 
 msgid "IP Range"
-msgstr ""
+msgstr "Rango IP"
 
 msgid "ISOs"
-msgstr ""
+msgstr "ISOs"
 
 msgid "KVM"
-msgstr ""
+msgstr "KVM"
 
 msgid "Leave blank for random address."
-msgstr ""
+msgstr "Dejar en blanco para dirección aleatoria."
 
 msgid "Linux"
-msgstr ""
+msgstr "Linux"
 
 msgid "M"
-msgstr ""
+msgstr "M"
 
 msgid "MAC address"
-msgstr ""
+msgstr "Dirección MAC"
 
 msgid "Memory"
-msgstr ""
+msgstr "Memoria"
 
 msgid "MiB"
-msgstr ""
+msgstr "MiB"
 
 msgid "Model"
-msgstr ""
+msgstr "Modelo"
 
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
 msgid "Network"
-msgstr ""
+msgstr "Red"
 
 msgid "Network Name"
-msgstr ""
+msgstr "Nombre de Red"
 
 msgid "Network State"
-msgstr ""
+msgstr "Estado de la Red"
 
 msgid "Network adapter"
 msgstr ""

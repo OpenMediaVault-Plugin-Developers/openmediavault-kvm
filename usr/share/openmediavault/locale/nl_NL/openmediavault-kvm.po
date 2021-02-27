@@ -2,62 +2,66 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the openmediavault-kvm package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
+# Translators:
+# Varkentjes, 2021
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-27 16:24-0600\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2021-02-27 15:05+0000\n"
+"Last-Translator: Varkentjes, 2021\n"
+"Language-Team: Dutch (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/nl/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nl\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Activity"
-msgstr ""
+msgstr "Activiteit"
 
 msgid "Add"
-msgstr ""
+msgstr "Toevoegen"
 
 msgid "Add Macvtap Bridge"
 msgstr ""
 
 msgid "Add Network"
-msgstr ""
+msgstr "Netwerk toevoegen"
 
 msgid "Add VM"
-msgstr ""
+msgstr "VM toevoegen"
 
 msgid "Add XML"
-msgstr ""
+msgstr "XML toevoegen"
 
 msgid "Add disk ..."
-msgstr ""
+msgstr "Harde schijf toevoegen ..."
 
 msgid "Add macvtap bridge"
 msgstr ""
 
 msgid "Add network"
-msgstr ""
+msgstr "Netwerk toevoegen"
 
 msgid "Add network adapter ..."
-msgstr ""
+msgstr "Netwerkadapter toevoegen ..."
 
 msgid "Add optical disk ..."
-msgstr ""
+msgstr "Optische schijf toevoegen ..."
 
 msgid "Add pool"
-msgstr ""
+msgstr "Voeg een Pool toe"
 
 msgid "Add volume"
 msgstr ""
 
 msgid "Advanced"
-msgstr ""
+msgstr "Geavanceerd "
 
 msgid "Allocation"
 msgstr ""
@@ -69,16 +73,16 @@ msgid "AutoStart"
 msgstr ""
 
 msgid "Available"
-msgstr ""
+msgstr "Beschikbaar"
 
 msgid "Bus"
-msgstr ""
+msgstr "Bus"
 
 msgid "CPUs"
-msgstr ""
+msgstr "Processors"
 
 msgid "Capacity"
-msgstr ""
+msgstr "Capaciteit"
 
 msgid "Change memory ..."
 msgstr ""
@@ -87,7 +91,7 @@ msgid "Change vCPU quantity ..."
 msgstr ""
 
 msgid "Console"
-msgstr ""
+msgstr "Console"
 
 msgid "Create"
 msgstr ""
@@ -96,10 +100,10 @@ msgid "Create noVNC console"
 msgstr ""
 
 msgid "DHCP"
-msgstr ""
+msgstr "DHCP"
 
 msgid "DHCP Range"
-msgstr ""
+msgstr "DHCP-bereik"
 
 msgid "DHCP ending address"
 msgstr ""
@@ -108,31 +112,33 @@ msgid "DHCP starting address"
 msgstr ""
 
 msgid "Delete"
-msgstr ""
+msgstr "Verwijderen"
 
 msgid "Delete disk ..."
-msgstr ""
+msgstr "Verwijder harde schijf ..."
 
 msgid "Delete snapshot ..."
-msgstr ""
+msgstr "Verwijder snapshot ..."
 
 msgid "Disable autostart"
 msgstr ""
 
 msgid "Disk"
-msgstr ""
+msgstr "Schijf"
 
 msgid "Disk(s)"
 msgstr ""
 
 msgid "Docker is not installed. Please install from omv-extras Docker tab."
 msgstr ""
+"Docker is niet geïnstalleerd. Installeer vanaf het tabblad omv-extra's "
+"Docker."
 
 msgid "Docker port"
 msgstr ""
 
 msgid "Done."
-msgstr ""
+msgstr "Gereed"
 
 msgid "Download"
 msgstr ""
@@ -150,10 +156,10 @@ msgid "Download virtio iso ..."
 msgstr ""
 
 msgid "Edit"
-msgstr ""
+msgstr "Bewerken"
 
 msgid "Edit XML"
-msgstr ""
+msgstr "XML bewerken"
 
 msgid "Enable autostart"
 msgstr ""
@@ -183,7 +189,7 @@ msgid "Gateway IP Address"
 msgstr ""
 
 msgid "GiB"
-msgstr ""
+msgstr "GiB"
 
 msgid "IP Range"
 msgstr ""
@@ -192,34 +198,34 @@ msgid "ISOs"
 msgstr ""
 
 msgid "KVM"
-msgstr ""
+msgstr "KVM"
 
 msgid "Leave blank for random address."
-msgstr ""
+msgstr "Laat leeg voor willekeurig adres."
 
 msgid "Linux"
-msgstr ""
+msgstr "Linux"
 
 msgid "M"
-msgstr ""
+msgstr "M"
 
 msgid "MAC address"
-msgstr ""
+msgstr "MAC-adres"
 
 msgid "Memory"
-msgstr ""
+msgstr "Geheugen"
 
 msgid "MiB"
-msgstr ""
+msgstr "MiB"
 
 msgid "Model"
-msgstr ""
+msgstr "Model"
 
 msgid "Name"
-msgstr ""
+msgstr "Naam"
 
 msgid "Network"
-msgstr ""
+msgstr "Netwerk"
 
 msgid "Network Name"
 msgstr ""
@@ -231,7 +237,7 @@ msgid "Network adapter"
 msgstr ""
 
 msgid "Networks"
-msgstr ""
+msgstr "Netwerken"
 
 msgid "OS"
 msgstr ""
@@ -240,7 +246,7 @@ msgid "Optical"
 msgstr ""
 
 msgid "Optical Disk"
-msgstr ""
+msgstr "Optische schijf"
 
 msgid "Optical Drive"
 msgstr ""
@@ -249,28 +255,28 @@ msgid "Path"
 msgstr ""
 
 msgid "Pause"
-msgstr ""
+msgstr "Pauzeer"
 
 msgid "Permissions of owner."
 msgstr ""
 
 msgid "Pool"
-msgstr ""
+msgstr "Pool"
 
 msgid "Pools"
-msgstr ""
+msgstr "Pools"
 
 msgid "Reboot"
-msgstr ""
+msgstr "Herstart"
 
 msgid "Remove"
-msgstr ""
+msgstr "Verwijderen"
 
 msgid "Remove network adapter ..."
-msgstr ""
+msgstr "Netwerkadapter verwijderen ..."
 
 msgid "Remove optical disk ..."
-msgstr ""
+msgstr "Optische schijf verwijderen ..."
 
 msgid "Resize"
 msgstr ""
@@ -279,22 +285,22 @@ msgid "Resize disk ..."
 msgstr ""
 
 msgid "Resume"
-msgstr ""
+msgstr "Hervatten"
 
 msgid "Revert"
-msgstr ""
+msgstr "Terugdraaien"
 
 msgid "Revert to snapshot ..."
 msgstr ""
 
 msgid "Select a file ..."
-msgstr ""
+msgstr "Selecteer een bestand ..."
 
 msgid "Select a network ..."
-msgstr ""
+msgstr "Selecteer een netwerk ..."
 
 msgid "Select a network adapter ..."
-msgstr ""
+msgstr "Selecteer een netwerkadapter ... "
 
 msgid "Select a nic ..."
 msgstr ""
@@ -309,19 +315,19 @@ msgid "Select a volume ..."
 msgstr ""
 
 msgid "Settings"
-msgstr ""
+msgstr "Instellingen"
 
 msgid "Size"
-msgstr ""
+msgstr "Grootte"
 
 msgid "Size to add"
 msgstr ""
 
 msgid "Snapshot"
-msgstr ""
+msgstr "Snapshot"
 
 msgid "Snapshots"
-msgstr ""
+msgstr "Snapshots"
 
 msgid "Spice port"
 msgstr ""
