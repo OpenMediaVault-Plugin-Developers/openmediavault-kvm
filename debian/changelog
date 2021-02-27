@@ -1,3 +1,10 @@
+openmediavault-kvm (5.0.9) stable; urgency=low
+
+  * Add download iso by url
+  * Add locales
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sat, 27 Feb 2021 16:28:49 -0600
+
 openmediavault-kvm (5.0.8) stable; urgency=low
 
   * Fix Add VM window height
