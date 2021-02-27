@@ -13,7 +13,7 @@ case "$1" in
 
         # add and load macvlan module
         echo "macvlan" > /etc/modules-load.d/macvlan.conf
-        modprobe macvlan
+        modprobe macvlan || :
 
         # allow qemu connections to network
         qemuConf="/etc/libvirt/qemu.conf"

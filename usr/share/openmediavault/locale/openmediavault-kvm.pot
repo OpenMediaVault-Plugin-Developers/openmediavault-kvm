@@ -1,0 +1,471 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the openmediavault-kvm package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openmediavault-kvm\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-02-27 09:09-0600\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Activity"
+msgstr ""
+
+msgid "Add"
+msgstr ""
+
+msgid "Add Macvtap Bridge"
+msgstr ""
+
+msgid "Add Network"
+msgstr ""
+
+msgid "Add VM"
+msgstr ""
+
+msgid "Add XML"
+msgstr ""
+
+msgid "Add disk ..."
+msgstr ""
+
+msgid "Add macvtap bridge"
+msgstr ""
+
+msgid "Add network"
+msgstr ""
+
+msgid "Add network adapter ..."
+msgstr ""
+
+msgid "Add optical disk ..."
+msgstr ""
+
+msgid "Add pool"
+msgstr ""
+
+msgid "Add volume"
+msgstr ""
+
+msgid "Advanced"
+msgstr ""
+
+msgid "Allocation"
+msgstr ""
+
+msgid "Arch"
+msgstr ""
+
+msgid "AutoStart"
+msgstr ""
+
+msgid "Available"
+msgstr ""
+
+msgid "Bus"
+msgstr ""
+
+msgid "CPUs"
+msgstr ""
+
+msgid "Capacity"
+msgstr ""
+
+msgid "Change memory ..."
+msgstr ""
+
+msgid "Change vCPU quantity ..."
+msgstr ""
+
+msgid "Console"
+msgstr ""
+
+msgid "Create"
+msgstr ""
+
+msgid "Create noVNC console"
+msgstr ""
+
+msgid "DHCP"
+msgstr ""
+
+msgid "DHCP Range"
+msgstr ""
+
+msgid "DHCP ending address"
+msgstr ""
+
+msgid "DHCP starting address"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Delete disk ..."
+msgstr ""
+
+msgid "Delete snapshot ..."
+msgstr ""
+
+msgid "Disable autostart"
+msgstr ""
+
+msgid "Disk"
+msgstr ""
+
+msgid "Disk(s)"
+msgstr ""
+
+msgid "Docker is not installed. Please install from omv-extras Docker tab."
+msgstr ""
+
+msgid "Docker port"
+msgstr ""
+
+msgid "Done."
+msgstr ""
+
+msgid "Download virtio iso"
+msgstr ""
+
+msgid "Download virtio iso ..."
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Edit XML"
+msgstr ""
+
+msgid "Enable autostart"
+msgstr ""
+
+msgid "Failed to start container."
+msgstr ""
+
+msgid "Force"
+msgstr ""
+
+msgid "Format"
+msgstr ""
+
+msgid "Forwarding"
+msgstr ""
+
+msgid "G"
+msgstr ""
+
+msgid "Gateway IP"
+msgstr ""
+
+msgid "Gateway IP Address"
+msgstr ""
+
+msgid "GiB"
+msgstr ""
+
+msgid "IP Range"
+msgstr ""
+
+msgid "ISOs"
+msgstr ""
+
+msgid "KVM"
+msgstr ""
+
+msgid "Leave blank for random address."
+msgstr ""
+
+msgid "Linux"
+msgstr ""
+
+msgid "M"
+msgstr ""
+
+msgid "MAC address"
+msgstr ""
+
+msgid "Memory"
+msgstr ""
+
+msgid "MiB"
+msgstr ""
+
+msgid "Model"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Network"
+msgstr ""
+
+msgid "Network Name"
+msgstr ""
+
+msgid "Network State"
+msgstr ""
+
+msgid "Network adapter"
+msgstr ""
+
+msgid "Networks"
+msgstr ""
+
+msgid "OS"
+msgstr ""
+
+msgid "Optical"
+msgstr ""
+
+msgid "Optical Disk"
+msgstr ""
+
+msgid "Optical Drive"
+msgstr ""
+
+msgid "Path"
+msgstr ""
+
+msgid "Pause"
+msgstr ""
+
+msgid "Permissions of owner."
+msgstr ""
+
+msgid "Pool"
+msgstr ""
+
+msgid "Pools"
+msgstr ""
+
+msgid "Reboot"
+msgstr ""
+
+msgid "Remove"
+msgstr ""
+
+msgid "Remove network adapter ..."
+msgstr ""
+
+msgid "Remove optical disk ..."
+msgstr ""
+
+msgid "Resize"
+msgstr ""
+
+msgid "Resize disk ..."
+msgstr ""
+
+msgid "Resume"
+msgstr ""
+
+msgid "Revert"
+msgstr ""
+
+msgid "Revert to snapshot ..."
+msgstr ""
+
+msgid "Select a file ..."
+msgstr ""
+
+msgid "Select a network ..."
+msgstr ""
+
+msgid "Select a network adapter ..."
+msgstr ""
+
+msgid "Select a nic ..."
+msgstr ""
+
+msgid "Select a pool ..."
+msgstr ""
+
+msgid "Select a snapshot ..."
+msgstr ""
+
+msgid "Select a volume ..."
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Size"
+msgstr ""
+
+msgid "Size to add"
+msgstr ""
+
+msgid "Snapshot"
+msgstr ""
+
+msgid "Snapshots"
+msgstr ""
+
+msgid "Spice port"
+msgstr ""
+
+msgid "Start"
+msgstr ""
+
+msgid "State"
+msgstr ""
+
+msgid "Stop"
+msgstr ""
+
+msgid "Stop noVNC console"
+msgstr ""
+
+msgid "Storage Volume"
+msgstr ""
+
+msgid "Subnet mask"
+msgstr ""
+
+msgid "T"
+msgstr ""
+
+msgid "UEFI"
+msgstr ""
+
+msgid "Unable to - "
+msgstr ""
+
+msgid "Unable to add ISO to VM - "
+msgstr ""
+
+msgid "Unable to add disk to VM - "
+msgstr ""
+
+msgid "Unable to add network adapter to VM - "
+msgstr ""
+
+msgid "Unable to change memory or vCPUs on VM - "
+msgstr ""
+
+msgid "Unable to create Macvap - "
+msgstr ""
+
+msgid "Unable to create domain - "
+msgstr ""
+
+msgid "Unable to create network - "
+msgstr ""
+
+msgid "Unable to create new disk - "
+msgstr ""
+
+msgid "Unable to create pool - "
+msgstr ""
+
+msgid "Unable to create snapshot - "
+msgstr ""
+
+msgid "Unable to create volume - "
+msgstr ""
+
+msgid "Unable to delete network - "
+msgstr ""
+
+msgid "Unable to delete pool - "
+msgstr ""
+
+msgid "Unable to delete snapshot - "
+msgstr ""
+
+msgid "Unable to delete volume - "
+msgstr ""
+
+msgid "Unable to remove disk from VM - "
+msgstr ""
+
+msgid "Unable to remove network interface from VM - "
+msgstr ""
+
+msgid "Unable to resize disk - "
+msgstr ""
+
+msgid "Unable to revert to snapshot - "
+msgstr ""
+
+msgid "Unable to set VM XML - "
+msgstr ""
+
+msgid "Unable to start network - "
+msgstr ""
+
+msgid "Unable to stop network - "
+msgstr ""
+
+msgid "VM Name"
+msgstr ""
+
+msgid "VMs"
+msgstr ""
+
+msgid "VNC port"
+msgstr ""
+
+msgid "Volume"
+msgstr ""
+
+msgid "Volume Count"
+msgstr ""
+
+msgid "Volumes"
+msgstr ""
+
+msgid "Windows"
+msgstr ""
+
+msgid "XML"
+msgstr ""
+
+msgid "e1000"
+msgstr ""
+
+msgid "ide"
+msgstr ""
+
+msgid "n/a"
+msgstr ""
+
+msgid "ne2k_pci"
+msgstr ""
+
+msgid "noVNC Docker URL"
+msgstr ""
+
+msgid "pcnet"
+msgstr ""
+
+msgid "qcow2"
+msgstr ""
+
+msgid "raw"
+msgstr ""
+
+msgid "rtl8139"
+msgstr ""
+
+msgid "sata"
+msgstr ""
+
+msgid "scsi"
+msgstr ""
+
+msgid "vCPU"
+msgstr ""
+
+msgid "virtio"
+msgstr ""

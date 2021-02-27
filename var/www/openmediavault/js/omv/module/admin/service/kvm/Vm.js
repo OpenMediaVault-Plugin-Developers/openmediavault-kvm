@@ -373,7 +373,6 @@ Ext.define("OMV.module.admin.service.kvm.Vm", {
                     ptype: "fieldinfo",
                     text: _("Leave blank for random address.")
                 }]
-
             }]
         }];
     }

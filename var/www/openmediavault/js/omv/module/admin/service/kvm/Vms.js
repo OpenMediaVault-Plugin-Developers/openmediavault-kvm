@@ -48,7 +48,11 @@ Ext.define("OMV.module.admin.service.kvm.VmXml", {
             cls: Ext.baseCSSPrefix + "form-textarea-monospaced",
             name: "vmxml",
             fieldLabel: _("XML"),
-            height: 500
+            height: 500,
+            plugins: [{
+                ptype: "fieldinfo",
+                text: _("For more info") + "  <a href='https://libvirt.org/formatdomain.html' target='_blank'>https://libvirt.org/formatdomain.html</a>"
+            }]
         },{
             xtype: "hidden",
             name: "vmname",
