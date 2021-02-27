@@ -411,4 +411,24 @@
                         }
 		}
 	}
+},{
+	"type": "rpc",
+	"id": "rpc.kvm.downloadiso",
+	"params": {
+		"type": "object",
+		"properties": {
+			"filename": {
+				"type": "string",
+				"required": true
+			},
+			"path": {
+				"type": "string",
+				"required": true
+			},
+			"url": {
+				"type": "string",
+				"required": true
+			}
+		}
+	}
 }]

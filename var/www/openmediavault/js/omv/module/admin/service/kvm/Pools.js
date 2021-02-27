@@ -242,7 +242,19 @@ Ext.define('OMV.module.admin.service.kvm.Pools', {
             text: _('Download virtio iso'),
             icon: 'images/software.png',
             iconCls: Ext.baseCSSPrefix + 'btn-icon-16x16',
-            handler: Ext.Function.bind(me.onDownloadIsoButton, me, [ me ]),
+            handler: Ext.Function.bind(me.onDownloadIsoButton, me, [ "virtio" ]),
+            scope: me,
+            disabled : true,
+            selectionConfig : {
+                minSelections : 1,
+                maxSelections : 1
+            }
+        },{
+            xtype: 'button',
+            text: _('Download iso from URL'),
+            icon: 'images/software.png',
+            iconCls: Ext.baseCSSPrefix + 'btn-icon-16x16',
+            handler: Ext.Function.bind(me.onDownloadIsoButton, me, [ "url" ]),
             scope: me,
             disabled : true,
             selectionConfig : {
@@ -300,16 +312,29 @@ Ext.define('OMV.module.admin.service.kvm.Pools', {
         me.doReload();
     },
 
-    onDownloadIsoButton: function() {
+    onDownloadIsoButton: function(cmd) {
         var me = this;
         var record = me.getSelected();
         var path = record.get("path");
+        var msg = "";
+        var url = "";
+        if (cmd == "virtio") {
+            msg =_("Download virtio iso");
+            url = "https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso";
+            filename = "virtio-win.iso";
+        } else if (cmd == "url") {
+            msg =_("Download iso from url");
+            url = prompt("Enter iso url", "");
+            filename = prompt("Enter filename", url.split('/').pop());
+        }
         var wnd = Ext.create("OMV.window.Execute", {
             title: _("Download virtio iso ..."),
             rpcService: "Kvm",
-            rpcMethod: "downloadVirtioIso",
+            rpcMethod: "downloadIso",
             rpcParams: {
-                "path": path
+                "filename": filename,
+                "path": path,
+                "url": url
             },
             rpcIgnoreErrors: true,
             hideStartButton: true,

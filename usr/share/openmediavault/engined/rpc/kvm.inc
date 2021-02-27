@@ -67,7 +67,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('getVolume');
         $this->registerMethod('setVolume');
         $this->registerMethod('deleteVolume');
-        $this->registerMethod('downloadVirtioIso');
+        $this->registerMethod('downloadIso');
 
         $this->registerMethod('enumerateSnapshots');
         $this->registerMethod('addSnapshot');
@@ -1027,19 +1027,18 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
     }
 
-    public function downloadVirtioIso($params, $context)
+    public function downloadIso($params, $context)
     {
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ["role" => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
-        $this->validateMethodParams($params, "rpc.kvm.path");
+        $this->validateMethodParams($params, "rpc.kvm.downloadiso");
         return $this->execBgProc(function($bgStatusFilename, $bgOutputFilename)
             use ($params) {
-                $isoname = 'virtio-win.iso';
                 $cmdArgs = [];
                 $cmdArgs[] = '/usr/bin/wget';
-                $cmdArgs[] = sprintf('--output-document=%s/%s', $params['path'], $isoname);
-                $cmdArgs[] = 'https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/' . $isoname;
+                $cmdArgs[] = sprintf('--output-document=%s/%s', $params['path'], $params['filename']);
+                $cmdArgs[] = $params['url'];
                 $cmd = new \OMV\System\Process($cmdArgs);
                 $cmd->setRedirect2to1();
                 $cmdLine = $cmd->getCommandLine();
