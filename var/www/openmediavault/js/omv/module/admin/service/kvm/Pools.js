@@ -238,24 +238,23 @@ Ext.define('OMV.module.admin.service.kvm.Pools', {
 
             }]
         },{
-            xtype: 'button',
-            text: _('Download virtio iso'),
-            icon: 'images/software.png',
-            iconCls: Ext.baseCSSPrefix + 'btn-icon-16x16',
-            handler: Ext.Function.bind(me.onDownloadIsoButton, me, [ "virtio" ]),
-            scope: me,
-            disabled : true,
-            selectionConfig : {
-                minSelections : 1,
-                maxSelections : 1
-            }
-        },{
-            xtype: 'button',
-            text: _('Download iso from URL'),
-            icon: 'images/software.png',
-            iconCls: Ext.baseCSSPrefix + 'btn-icon-16x16',
-            handler: Ext.Function.bind(me.onDownloadIsoButton, me, [ "url" ]),
-            scope: me,
+            xtype: "button",
+            text: _("Download"),
+            scope: this,
+            icon: "images/download.png",
+            menu: [{
+                text: _('Download virtio iso'),
+                icon: 'images/download.png',
+                iconCls: Ext.baseCSSPrefix + 'btn-icon-16x16',
+                handler: Ext.Function.bind(me.onDownloadIsoButton, me, [ "virtio" ]),
+                scope: me
+            },{
+                text: _('Download iso from URL'),
+                icon: 'images/download.png',
+                iconCls: Ext.baseCSSPrefix + 'btn-icon-16x16',
+                handler: Ext.Function.bind(me.onDownloadIsoButton, me, [ "url" ]),
+                scope: me,
+            }],
             disabled : true,
             selectionConfig : {
                 minSelections : 1,
