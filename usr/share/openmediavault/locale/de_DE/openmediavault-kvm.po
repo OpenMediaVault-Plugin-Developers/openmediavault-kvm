@@ -3,52 +3,56 @@
 # This file is distributed under the same license as the openmediavault-kvm package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
+# Translators:
+# Ettore Atalan <atalanttore@googlemail.com>, 2021
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-27 16:24-0600\n"
+"POT-Creation-Date: 2021-02-28 09:35-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
-"Language-Team: German (Germany) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/de_DE/)\n"
+"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>, 2021\n"
+"Language-Team: German (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de_DE\n"
+"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Activity"
-msgstr ""
+msgstr "Aktivität"
 
 msgid "Add"
-msgstr ""
+msgstr "Hinzufügen"
 
 msgid "Add Macvtap Bridge"
 msgstr ""
 
 msgid "Add Network"
-msgstr ""
+msgstr "Netzwerk hinzufügen"
 
 msgid "Add VM"
-msgstr ""
+msgstr "VM hinzufügen"
 
 msgid "Add XML"
-msgstr ""
+msgstr "XML hinzufügen"
 
 msgid "Add disk ..."
-msgstr ""
+msgstr "Festplatte hinzufügen ..."
 
 msgid "Add macvtap bridge"
 msgstr ""
 
 msgid "Add network"
-msgstr ""
+msgstr "Netzwerk hinzufügen"
 
 msgid "Add network adapter ..."
-msgstr ""
+msgstr "Netzwerkadapter hinzufügen ..."
 
 msgid "Add optical disk ..."
-msgstr ""
+msgstr "Optische Platte hinzufügen ..."
 
 msgid "Add pool"
 msgstr ""
@@ -57,82 +61,91 @@ msgid "Add volume"
 msgstr ""
 
 msgid "Advanced"
-msgstr ""
+msgstr "Erweitert"
 
 msgid "Allocation"
-msgstr ""
+msgstr "Allokation"
 
 msgid "Arch"
 msgstr ""
 
 msgid "AutoStart"
-msgstr ""
+msgstr "AutoStart"
 
 msgid "Available"
-msgstr ""
+msgstr "Verfügbar"
 
 msgid "Bus"
-msgstr ""
+msgstr "Bus"
 
 msgid "CPUs"
+msgstr "CPUs"
+
+msgid "Call"
 msgstr ""
 
 msgid "Capacity"
-msgstr ""
+msgstr "Kapazität"
 
 msgid "Change memory ..."
-msgstr ""
+msgstr "Speicher ändern ..."
 
 msgid "Change vCPU quantity ..."
 msgstr ""
 
-msgid "Console"
+msgid "Component"
 msgstr ""
+
+msgid "Console"
+msgstr "Konsole"
 
 msgid "Create"
-msgstr ""
+msgstr "Erstellen"
 
 msgid "Create noVNC console"
-msgstr ""
+msgstr "noVNC-Konsole erstellen"
 
 msgid "DHCP"
-msgstr ""
+msgstr "DHCP"
 
 msgid "DHCP Range"
-msgstr ""
+msgstr "DHCP-Bereich"
 
 msgid "DHCP ending address"
-msgstr ""
+msgstr "DHCP-Endadresse"
 
 msgid "DHCP starting address"
+msgstr "DHCP-Anfangsadresse"
+
+msgid "Date & Time"
 msgstr ""
 
 msgid "Delete"
-msgstr ""
+msgstr "Löschen"
 
 msgid "Delete disk ..."
-msgstr ""
+msgstr "Festplatte löschen ..."
 
 msgid "Delete snapshot ..."
-msgstr ""
+msgstr "Schnappschuss löschen ..."
 
 msgid "Disable autostart"
-msgstr ""
+msgstr "Autostart deaktivieren"
 
 msgid "Disk"
-msgstr ""
+msgstr "Festplatte"
 
 msgid "Disk(s)"
-msgstr ""
+msgstr "Festplatte(n)"
 
 msgid "Docker is not installed. Please install from omv-extras Docker tab."
 msgstr ""
 
 msgid "Docker port"
-msgstr ""
+msgstr "Docker-Port"
 
 msgid "Done."
-msgstr ""
+msgstr "Fertig."
 
 msgid "Download"
 msgstr ""
@@ -150,13 +163,13 @@ msgid "Download virtio iso ..."
 msgstr ""
 
 msgid "Edit"
-msgstr ""
+msgstr "Bearbeiten"
 
 msgid "Edit XML"
-msgstr ""
+msgstr "XML bearbeiten"
 
 msgid "Enable autostart"
-msgstr ""
+msgstr "Autostart aktivieren"
 
 msgid "Failed to start container."
 msgstr ""
@@ -165,13 +178,13 @@ msgid "For more info"
 msgstr ""
 
 msgid "Force"
-msgstr ""
+msgstr "Erzwingen"
 
 msgid "Format"
 msgstr ""
 
 msgid "Forwarding"
-msgstr ""
+msgstr "Weiterleitung"
 
 msgid "G"
 msgstr ""
@@ -183,76 +196,79 @@ msgid "Gateway IP Address"
 msgstr ""
 
 msgid "GiB"
-msgstr ""
+msgstr "GiB"
 
 msgid "IP Range"
-msgstr ""
+msgstr "IP-Bereich"
 
 msgid "ISOs"
-msgstr ""
+msgstr "ISOs"
 
 msgid "KVM"
-msgstr ""
+msgstr "KVM"
 
 msgid "Leave blank for random address."
-msgstr ""
+msgstr "Für eine zufällige Adresse leer lassen."
 
 msgid "Linux"
-msgstr ""
+msgstr "Linux"
 
 msgid "M"
 msgstr ""
 
 msgid "MAC address"
-msgstr ""
+msgstr "MAC-Adresse"
 
 msgid "Memory"
+msgstr "Speicher"
+
+msgid "Message"
 msgstr ""
 
 msgid "MiB"
-msgstr ""
+msgstr "MiB"
 
 msgid "Model"
-msgstr ""
+msgstr "Modell"
 
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
 msgid "Network"
-msgstr ""
+msgstr "Netzwerk"
 
 msgid "Network Name"
-msgstr ""
+msgstr "Netzwerkname"
 
 msgid "Network State"
-msgstr ""
+msgstr "Netzwerkstatus"
 
 msgid "Network adapter"
-msgstr ""
+msgstr "Netzwerkadapter"
 
 msgid "Networks"
-msgstr ""
+msgstr "Netzwerke"
 
 msgid "OS"
-msgstr ""
+msgstr "BS"
 
 msgid "Optical"
-msgstr ""
+msgstr "Optisch"
 
 msgid "Optical Disk"
-msgstr ""
+msgstr "Optische Platte"
 
 msgid "Optical Drive"
-msgstr ""
+msgstr "Optisches Laufwerk"
 
 msgid "Path"
-msgstr ""
+msgstr "Pfad"
 
 msgid "Pause"
-msgstr ""
+msgstr "Pause"
 
 msgid "Permissions of owner."
-msgstr ""
+msgstr "Berechtigungen des Eigentümers."
 
 msgid "Pool"
 msgstr ""
@@ -261,40 +277,40 @@ msgid "Pools"
 msgstr ""
 
 msgid "Reboot"
-msgstr ""
+msgstr "Neustart"
 
 msgid "Remove"
-msgstr ""
+msgstr "Entfernen"
 
 msgid "Remove network adapter ..."
-msgstr ""
+msgstr "Netzwerkadapter entfernen ..."
 
 msgid "Remove optical disk ..."
-msgstr ""
+msgstr "Optische Platte entfernen ..."
 
 msgid "Resize"
-msgstr ""
+msgstr "Größe ändern"
 
 msgid "Resize disk ..."
-msgstr ""
+msgstr "Festplattengröße ändern ..."
 
 msgid "Resume"
-msgstr ""
+msgstr "Fortsetzen"
 
 msgid "Revert"
-msgstr ""
+msgstr "Zurückkehren"
 
 msgid "Revert to snapshot ..."
-msgstr ""
+msgstr "Zum Schnappschuss zurückkehren ..."
 
 msgid "Select a file ..."
-msgstr ""
+msgstr "Eine Datei auswählen ..."
 
 msgid "Select a network ..."
-msgstr ""
+msgstr "Ein Netzwerk auswählen ..."
 
 msgid "Select a network adapter ..."
-msgstr ""
+msgstr "Einen Netzwerkadapter auswählen ..."
 
 msgid "Select a nic ..."
 msgstr ""
@@ -303,52 +319,52 @@ msgid "Select a pool ..."
 msgstr ""
 
 msgid "Select a snapshot ..."
-msgstr ""
+msgstr "Einen Schnappschuss auswählen ..."
 
 msgid "Select a volume ..."
 msgstr ""
 
 msgid "Settings"
-msgstr ""
+msgstr "Einstellungen"
 
 msgid "Size"
-msgstr ""
+msgstr "Größe"
 
 msgid "Size to add"
 msgstr ""
 
 msgid "Snapshot"
-msgstr ""
+msgstr "Schnappschuss"
 
 msgid "Snapshots"
-msgstr ""
+msgstr "Schnappschüsse"
 
 msgid "Spice port"
 msgstr ""
 
 msgid "Start"
-msgstr ""
+msgstr "Start"
 
 msgid "State"
-msgstr ""
+msgstr "Status"
 
 msgid "Stop"
-msgstr ""
+msgstr "Stopp"
 
 msgid "Stop noVNC console"
-msgstr ""
+msgstr "noVNC-Konsole stoppen"
 
 msgid "Storage Volume"
 msgstr ""
 
 msgid "Subnet mask"
-msgstr ""
+msgstr "Subnetzmaske"
 
 msgid "T"
 msgstr ""
 
 msgid "UEFI"
-msgstr ""
+msgstr "UEFI"
 
 msgid "Unable to - "
 msgstr ""
@@ -420,13 +436,13 @@ msgid "Unable to stop network - "
 msgstr ""
 
 msgid "VM Name"
-msgstr ""
+msgstr "VM-Name"
 
 msgid "VMs"
-msgstr ""
+msgstr "VMs"
 
 msgid "VNC port"
-msgstr ""
+msgstr "VNC-Port"
 
 msgid "Volume"
 msgstr ""
@@ -438,25 +454,25 @@ msgid "Volumes"
 msgstr ""
 
 msgid "Windows"
-msgstr ""
+msgstr "Windows"
 
 msgid "XML"
-msgstr ""
+msgstr "XML"
 
 msgid "e1000"
-msgstr ""
+msgstr "e1000"
 
 msgid "ide"
 msgstr ""
 
 msgid "n/a"
-msgstr ""
+msgstr "n/v"
 
 msgid "ne2k_pci"
 msgstr ""
 
 msgid "noVNC Docker URL"
-msgstr ""
+msgstr "noVNC-Docker-URL"
 
 msgid "pcnet"
 msgstr ""

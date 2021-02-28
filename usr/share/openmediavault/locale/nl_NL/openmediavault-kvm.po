@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-27 16:24-0600\n"
+"POT-Creation-Date: 2021-02-28 09:35-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Varkentjes, 2021\n"
 "Language-Team: Dutch (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/nl/)\n"
@@ -64,13 +64,13 @@ msgid "Advanced"
 msgstr "Geavanceerd "
 
 msgid "Allocation"
-msgstr ""
+msgstr "Toewijzing"
 
 msgid "Arch"
 msgstr ""
 
 msgid "AutoStart"
-msgstr ""
+msgstr "Automatische start"
 
 msgid "Available"
 msgstr "Beschikbaar"
@@ -81,6 +81,9 @@ msgstr "Bus"
 msgid "CPUs"
 msgstr "Processors"
 
+msgid "Call"
+msgstr ""
+
 msgid "Capacity"
 msgstr "Capaciteit"
 
@@ -88,6 +91,9 @@ msgid "Change memory ..."
 msgstr ""
 
 msgid "Change vCPU quantity ..."
+msgstr ""
+
+msgid "Component"
 msgstr ""
 
 msgid "Console"
@@ -111,6 +117,9 @@ msgstr ""
 msgid "DHCP starting address"
 msgstr ""
 
+msgid "Date & Time"
+msgstr ""
+
 msgid "Delete"
 msgstr "Verwijderen"
 
@@ -121,13 +130,13 @@ msgid "Delete snapshot ..."
 msgstr "Verwijder snapshot ..."
 
 msgid "Disable autostart"
-msgstr ""
+msgstr "Schakel autostart uit"
 
 msgid "Disk"
 msgstr "Schijf"
 
 msgid "Disk(s)"
-msgstr ""
+msgstr "Schijven"
 
 msgid "Docker is not installed. Please install from omv-extras Docker tab."
 msgstr ""
@@ -144,16 +153,16 @@ msgid "Download"
 msgstr ""
 
 msgid "Download iso from URL"
-msgstr ""
+msgstr "ISO-bestand downloaden vanaf URL"
 
 msgid "Download iso from url"
-msgstr ""
+msgstr "ISO-bestand downloaden vanaf URL"
 
 msgid "Download virtio iso"
-msgstr ""
+msgstr "VirtIO ISO-bestand downloaden"
 
 msgid "Download virtio iso ..."
-msgstr ""
+msgstr "VirtIO ISO-bestand downloaden ..."
 
 msgid "Edit"
 msgstr "Bewerken"
@@ -162,40 +171,40 @@ msgid "Edit XML"
 msgstr "XML bewerken"
 
 msgid "Enable autostart"
-msgstr ""
+msgstr "Schakel autostart in"
 
 msgid "Failed to start container."
 msgstr ""
 
 msgid "For more info"
-msgstr ""
+msgstr "Voor meer informatie"
 
 msgid "Force"
-msgstr ""
+msgstr "Forceer"
 
 msgid "Format"
-msgstr ""
+msgstr "Formatteren"
 
 msgid "Forwarding"
 msgstr ""
 
 msgid "G"
-msgstr ""
+msgstr "G"
 
 msgid "Gateway IP"
-msgstr ""
+msgstr "Gateway IP-adres"
 
 msgid "Gateway IP Address"
-msgstr ""
+msgstr "Gateway IP-adres"
 
 msgid "GiB"
 msgstr "GiB"
 
 msgid "IP Range"
-msgstr ""
+msgstr "IP range"
 
 msgid "ISOs"
-msgstr ""
+msgstr "ISO-bestanden"
 
 msgid "KVM"
 msgstr "KVM"
@@ -215,6 +224,9 @@ msgstr "MAC-adres"
 msgid "Memory"
 msgstr "Geheugen"
 
+msgid "Message"
+msgstr ""
+
 msgid "MiB"
 msgstr "MiB"
 
@@ -228,22 +240,22 @@ msgid "Network"
 msgstr "Netwerk"
 
 msgid "Network Name"
-msgstr ""
+msgstr "Netwerknaam"
 
 msgid "Network State"
-msgstr ""
+msgstr "Netwerkstatus"
 
 msgid "Network adapter"
-msgstr ""
+msgstr "Netwerkadapter"
 
 msgid "Networks"
 msgstr "Netwerken"
 
 msgid "OS"
-msgstr ""
+msgstr "besturingssysteem"
 
 msgid "Optical"
-msgstr ""
+msgstr "Optisch"
 
 msgid "Optical Disk"
 msgstr "Optische schijf"
@@ -252,13 +264,13 @@ msgid "Optical Drive"
 msgstr ""
 
 msgid "Path"
-msgstr ""
+msgstr "Pad"
 
 msgid "Pause"
 msgstr "Pauzeer"
 
 msgid "Permissions of owner."
-msgstr ""
+msgstr "Toestemmingen van eigenaar."
 
 msgid "Pool"
 msgstr "Pool"
@@ -279,10 +291,10 @@ msgid "Remove optical disk ..."
 msgstr "Optische schijf verwijderen ..."
 
 msgid "Resize"
-msgstr ""
+msgstr "Formaat wijzigen"
 
 msgid "Resize disk ..."
-msgstr ""
+msgstr "Formaat schijf wijzigen ... "
 
 msgid "Resume"
 msgstr "Hervatten"
@@ -291,7 +303,7 @@ msgid "Revert"
 msgstr "Terugdraaien"
 
 msgid "Revert to snapshot ..."
-msgstr ""
+msgstr "Terugkeren naar snapshot ... "
 
 msgid "Select a file ..."
 msgstr "Selecteer een bestand ..."
@@ -303,13 +315,13 @@ msgid "Select a network adapter ..."
 msgstr "Selecteer een netwerkadapter ... "
 
 msgid "Select a nic ..."
-msgstr ""
+msgstr "Selecteer een netwerkkaart ..."
 
 msgid "Select a pool ..."
-msgstr ""
+msgstr "Selecteer een pool ..."
 
 msgid "Select a snapshot ..."
-msgstr ""
+msgstr "Selecteer een snapshot ..."
 
 msgid "Select a volume ..."
 msgstr ""
@@ -333,13 +345,13 @@ msgid "Spice port"
 msgstr ""
 
 msgid "Start"
-msgstr ""
+msgstr "Start"
 
 msgid "State"
-msgstr ""
+msgstr "Status"
 
 msgid "Stop"
-msgstr ""
+msgstr "Stop"
 
 msgid "Stop noVNC console"
 msgstr ""
@@ -348,13 +360,13 @@ msgid "Storage Volume"
 msgstr ""
 
 msgid "Subnet mask"
-msgstr ""
+msgstr "Subnetmasker"
 
 msgid "T"
-msgstr ""
+msgstr "T"
 
 msgid "UEFI"
-msgstr ""
+msgstr "UEFI"
 
 msgid "Unable to - "
 msgstr ""
@@ -432,7 +444,7 @@ msgid "VMs"
 msgstr ""
 
 msgid "VNC port"
-msgstr ""
+msgstr "VNC-poort"
 
 msgid "Volume"
 msgstr ""
@@ -444,19 +456,19 @@ msgid "Volumes"
 msgstr ""
 
 msgid "Windows"
-msgstr ""
+msgstr "Windows"
 
 msgid "XML"
-msgstr ""
+msgstr "XML"
 
 msgid "e1000"
-msgstr ""
+msgstr "e1000"
 
 msgid "ide"
-msgstr ""
+msgstr "IDE"
 
 msgid "n/a"
-msgstr ""
+msgstr "n.v.t."
 
 msgid "ne2k_pci"
 msgstr ""
@@ -465,25 +477,25 @@ msgid "noVNC Docker URL"
 msgstr ""
 
 msgid "pcnet"
-msgstr ""
+msgstr "PCnet"
 
 msgid "qcow2"
-msgstr ""
+msgstr "qcow2"
 
 msgid "raw"
-msgstr ""
+msgstr "raw"
 
 msgid "rtl8139"
-msgstr ""
+msgstr "RTL8139"
 
 msgid "sata"
-msgstr ""
+msgstr "SATA"
 
 msgid "scsi"
-msgstr ""
+msgstr "SCSI"
 
 msgid "vCPU"
-msgstr ""
+msgstr "vCPU"
 
 msgid "virtio"
-msgstr ""
+msgstr "VirtIO"

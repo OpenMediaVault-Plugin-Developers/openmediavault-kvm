@@ -1,8 +1,9 @@
-openmediavault-kvm (5.0.10) UNRELEASED; urgency=medium
+openmediavault-kvm (5.0.10) stable; urgency=low
 
   * Add libvirt logging and viewer plugin
+  * Update locales
 
- -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sun, 28 Feb 2021 09:17:56 -0600
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sun, 28 Feb 2021 09:34:16 -0600
 
 openmediavault-kvm (5.0.9) stable; urgency=low
 

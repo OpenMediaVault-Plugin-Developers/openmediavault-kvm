@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-27 16:24-0600\n"
+"POT-Creation-Date: 2021-02-28 09:35-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>, 2021\n"
 "Language-Team: Spanish (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/es/)\n"
@@ -81,6 +81,9 @@ msgstr "Bus"
 msgid "CPUs"
 msgstr "CPUs"
 
+msgid "Call"
+msgstr ""
+
 msgid "Capacity"
 msgstr "Capacidad"
 
@@ -89,6 +92,9 @@ msgstr "Cambiar Memoria ..."
 
 msgid "Change vCPU quantity ..."
 msgstr "Cambiar vCPU ..."
+
+msgid "Component"
+msgstr ""
 
 msgid "Console"
 msgstr "Consola"
@@ -110,6 +116,9 @@ msgstr "Dirección final DHCP"
 
 msgid "DHCP starting address"
 msgstr "Dirección inicial DHCP"
+
+msgid "Date & Time"
+msgstr ""
 
 msgid "Delete"
 msgstr "Borrar"
@@ -139,13 +148,13 @@ msgid "Done."
 msgstr "Hecho."
 
 msgid "Download"
-msgstr ""
+msgstr "Descargas"
 
 msgid "Download iso from URL"
-msgstr ""
+msgstr "Descargar ISO de la URL"
 
 msgid "Download iso from url"
-msgstr ""
+msgstr "Descargar ISO de la URL"
 
 msgid "Download virtio iso"
 msgstr "Descargar ISO virtio"
@@ -166,7 +175,7 @@ msgid "Failed to start container."
 msgstr "Error al arrancar un container."
 
 msgid "For more info"
-msgstr ""
+msgstr "Más información."
 
 msgid "Force"
 msgstr "Forzar"
@@ -213,6 +222,9 @@ msgstr "Dirección MAC"
 msgid "Memory"
 msgstr "Memoria"
 
+msgid "Message"
+msgstr ""
+
 msgid "MiB"
 msgstr "MiB"
 
@@ -232,256 +244,256 @@ msgid "Network State"
 msgstr "Estado de la Red"
 
 msgid "Network adapter"
-msgstr ""
+msgstr "Adaptador de Red"
 
 msgid "Networks"
-msgstr ""
+msgstr "Redes"
 
 msgid "OS"
-msgstr ""
+msgstr "OS"
 
 msgid "Optical"
-msgstr ""
+msgstr "Optical"
 
 msgid "Optical Disk"
-msgstr ""
+msgstr "CD"
 
 msgid "Optical Drive"
-msgstr ""
+msgstr "Optical Drive"
 
 msgid "Path"
-msgstr ""
+msgstr "Ruta"
 
 msgid "Pause"
-msgstr ""
+msgstr "Pausa"
 
 msgid "Permissions of owner."
-msgstr ""
+msgstr "Permisos del propietario"
 
 msgid "Pool"
-msgstr ""
+msgstr "Pool"
 
 msgid "Pools"
-msgstr ""
+msgstr "Pools"
 
 msgid "Reboot"
-msgstr ""
+msgstr "Reinicio"
 
 msgid "Remove"
-msgstr ""
+msgstr "Eliminar"
 
 msgid "Remove network adapter ..."
-msgstr ""
+msgstr "Eliminar adaptador de Red ..."
 
 msgid "Remove optical disk ..."
-msgstr ""
+msgstr "Eliminar CD ..."
 
 msgid "Resize"
-msgstr ""
+msgstr "Redimensionar"
 
 msgid "Resize disk ..."
-msgstr ""
+msgstr "Redimensionar Disco ..."
 
 msgid "Resume"
-msgstr ""
+msgstr "Reanudar"
 
 msgid "Revert"
-msgstr ""
+msgstr "Revertir"
 
 msgid "Revert to snapshot ..."
-msgstr ""
+msgstr "Revertir a Instantánea ..."
 
 msgid "Select a file ..."
-msgstr ""
+msgstr "Seleccionar un archivo ..."
 
 msgid "Select a network ..."
-msgstr ""
+msgstr "Seleccionar una Red ..."
 
 msgid "Select a network adapter ..."
-msgstr ""
+msgstr "Seleccionar un adaptador de Red ..."
 
 msgid "Select a nic ..."
-msgstr ""
+msgstr "Seleccionar un NIC ..."
 
 msgid "Select a pool ..."
-msgstr ""
+msgstr "Seleccionar un Pool ..."
 
 msgid "Select a snapshot ..."
-msgstr ""
+msgstr "Seleccionar una Instantánea ..."
 
 msgid "Select a volume ..."
-msgstr ""
+msgstr "Seleccionar un Volumen ..."
 
 msgid "Settings"
-msgstr ""
+msgstr "Opciones"
 
 msgid "Size"
-msgstr ""
+msgstr "Tamaño"
 
 msgid "Size to add"
-msgstr ""
+msgstr "Tamaño a añadir"
 
 msgid "Snapshot"
-msgstr ""
+msgstr "Instantánea"
 
 msgid "Snapshots"
-msgstr ""
+msgstr "Instantáneas "
 
 msgid "Spice port"
-msgstr ""
+msgstr "Spice port"
 
 msgid "Start"
-msgstr ""
+msgstr "Inicio"
 
 msgid "State"
-msgstr ""
+msgstr "Estado"
 
 msgid "Stop"
-msgstr ""
+msgstr "Parar"
 
 msgid "Stop noVNC console"
-msgstr ""
+msgstr "Detener consola noVNC"
 
 msgid "Storage Volume"
-msgstr ""
+msgstr "Volumen de Almacenamiento"
 
 msgid "Subnet mask"
-msgstr ""
+msgstr "Mascara de Red"
 
 msgid "T"
-msgstr ""
+msgstr "T"
 
 msgid "UEFI"
-msgstr ""
+msgstr "UEFI"
 
 msgid "Unable to - "
-msgstr ""
+msgstr "Incapaz de -"
 
 msgid "Unable to add ISO to VM - "
-msgstr ""
+msgstr "Incapaz añadir la ISO a la VM -"
 
 msgid "Unable to add disk to VM - "
-msgstr ""
+msgstr "Incapaz añadir el disco a la VM -"
 
 msgid "Unable to add network adapter to VM - "
-msgstr ""
+msgstr "Incapaz de añadir adaprtador de Red a la VM -"
 
 msgid "Unable to change memory or vCPUs on VM - "
-msgstr ""
+msgstr "Incapaz de cambiar la Memoria o la vCPUs en la VM -"
 
 msgid "Unable to create Macvap - "
-msgstr ""
+msgstr "Incapaz de crear MacVap -"
 
 msgid "Unable to create domain - "
-msgstr ""
+msgstr "Incapaz de crear el dominio -"
 
 msgid "Unable to create network - "
-msgstr ""
+msgstr "Incapaz de crear la Red -"
 
 msgid "Unable to create new disk - "
-msgstr ""
+msgstr "Incapaz de crear el Disco -"
 
 msgid "Unable to create pool - "
-msgstr ""
+msgstr "Incapaz de crear el pool -"
 
 msgid "Unable to create snapshot - "
-msgstr ""
+msgstr "Incapaz de crear una instantánea -"
 
 msgid "Unable to create volume - "
-msgstr ""
+msgstr "Incapaz de crear un volumen -"
 
 msgid "Unable to delete network - "
-msgstr ""
+msgstr "Incapaz de borrar una Red -"
 
 msgid "Unable to delete pool - "
-msgstr ""
+msgstr "Incapaz de borrar un pool -"
 
 msgid "Unable to delete snapshot - "
-msgstr ""
+msgstr "Incapaz de borrar una instantánea -"
 
 msgid "Unable to delete volume - "
-msgstr ""
+msgstr "Incapaz de de borrar un volumen -"
 
 msgid "Unable to remove disk from VM - "
-msgstr ""
+msgstr "Incapaz de eliminar un disco de la VM -"
 
 msgid "Unable to remove network interface from VM - "
-msgstr ""
+msgstr "Incapaz de eliminar un interfaz de Red de la VM -"
 
 msgid "Unable to resize disk - "
-msgstr ""
+msgstr "Incapaz de redimensionar el Disco -"
 
 msgid "Unable to revert to snapshot - "
-msgstr ""
+msgstr "Incapaz de revertir a la instantánea -"
 
 msgid "Unable to set VM XML - "
-msgstr ""
+msgstr "Incapaz de configurar XML en la VM -"
 
 msgid "Unable to start network - "
-msgstr ""
+msgstr "Incapaz de arrancar la Red -"
 
 msgid "Unable to stop network - "
-msgstr ""
+msgstr "Incapaz de detener la Red -"
 
 msgid "VM Name"
-msgstr ""
+msgstr "Nombre de la VM"
 
 msgid "VMs"
-msgstr ""
+msgstr "VMs"
 
 msgid "VNC port"
-msgstr ""
+msgstr "Puerto VNC"
 
 msgid "Volume"
-msgstr ""
+msgstr "Volumen"
 
 msgid "Volume Count"
-msgstr ""
+msgstr "Recuento de Volumen"
 
 msgid "Volumes"
-msgstr ""
+msgstr "Volumenes"
 
 msgid "Windows"
-msgstr ""
+msgstr "Windows"
 
 msgid "XML"
-msgstr ""
+msgstr "XML"
 
 msgid "e1000"
-msgstr ""
+msgstr "e1000"
 
 msgid "ide"
-msgstr ""
+msgstr "ide"
 
 msgid "n/a"
-msgstr ""
+msgstr "n/a"
 
 msgid "ne2k_pci"
-msgstr ""
+msgstr "ne2k_pci"
 
 msgid "noVNC Docker URL"
-msgstr ""
+msgstr "noVNC Docker URL"
 
 msgid "pcnet"
-msgstr ""
+msgstr "pcnet"
 
 msgid "qcow2"
-msgstr ""
+msgstr "qcow2"
 
 msgid "raw"
-msgstr ""
+msgstr "raw"
 
 msgid "rtl8139"
-msgstr ""
+msgstr "rtl8139"
 
 msgid "sata"
-msgstr ""
+msgstr "sata"
 
 msgid "scsi"
-msgstr ""
+msgstr "scsi"
 
 msgid "vCPU"
-msgstr ""
+msgstr "vCPU"
 
 msgid "virtio"
-msgstr ""
+msgstr "virtio"

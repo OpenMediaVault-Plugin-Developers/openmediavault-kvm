@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-27 16:24-0600\n"
+"POT-Creation-Date: 2021-02-28 09:35-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Language-Team: English (United Kingdom) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -77,6 +77,9 @@ msgstr ""
 msgid "CPUs"
 msgstr ""
 
+msgid "Call"
+msgstr ""
+
 msgid "Capacity"
 msgstr ""
 
@@ -84,6 +87,9 @@ msgid "Change memory ..."
 msgstr ""
 
 msgid "Change vCPU quantity ..."
+msgstr ""
+
+msgid "Component"
 msgstr ""
 
 msgid "Console"
@@ -105,6 +111,9 @@ msgid "DHCP ending address"
 msgstr ""
 
 msgid "DHCP starting address"
+msgstr ""
+
+msgid "Date & Time"
 msgstr ""
 
 msgid "Delete"
@@ -207,6 +216,9 @@ msgid "MAC address"
 msgstr ""
 
 msgid "Memory"
+msgstr ""
+
+msgid "Message"
 msgstr ""
 
 msgid "MiB"

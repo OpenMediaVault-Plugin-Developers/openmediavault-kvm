@@ -31,20 +31,17 @@ Ext.define("OMV.module.admin.diagnostic.log.plugin.Kvm", {
         text: _("Date & Time"),
         sortable: true,
         dataIndex: "date",
-        stateId: "date",
-        flex: 1
+        stateId: "date"
     },{
         text: _("Component"),
         sortable: true,
         dataIndex: "component",
-        stateId: "component",
-        flex: 1
+        stateId: "component"
     },{
         text: _("Call"),
         sortable: true,
         dataIndex: "call",
-        stateId: "call",
-        flex: 1
+        stateId: "call"
     },{
         text: _("Message"),
         sortable: true,
