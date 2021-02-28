@@ -81,8 +81,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
 
     private function connectQemu()
     {
-        $lv = new Libvirt();
-        $lv->connect("qemu:///system");
+        $lv = new Libvirt('/var/log/openmediavault-kvm.log');
+        $lv->connect('qemu:///system');
         return ($lv);
     }
 
