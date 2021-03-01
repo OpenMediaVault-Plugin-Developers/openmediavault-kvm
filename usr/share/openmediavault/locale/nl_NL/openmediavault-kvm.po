@@ -348,7 +348,7 @@ msgid "Start"
 msgstr "Start"
 
 msgid "State"
-msgstr "Status"
+msgstr "Toestand"
 
 msgid "Stop"
 msgstr "Stop"
@@ -357,7 +357,7 @@ msgid "Stop noVNC console"
 msgstr ""
 
 msgid "Storage Volume"
-msgstr ""
+msgstr "Opslagvolume"
 
 msgid "Subnet mask"
 msgstr "Subnetmasker"

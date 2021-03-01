@@ -1,3 +1,10 @@
+openmediavault-kvm (5.0.11) UNRELEASED; urgency=medium
+
+  * Remove unneeded input devices
+  * Update locales
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Mon, 01 Mar 2021 07:47:16 -0600
+
 openmediavault-kvm (5.0.10) stable; urgency=low
 
   * Add libvirt logging and viewer plugin
