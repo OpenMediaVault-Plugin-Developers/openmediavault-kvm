@@ -922,7 +922,6 @@ class Libvirt {
         $dom = $this->get_domain_object($domain);
         if (!$dom)
             return false;
-
         $tmp = libvirt_domain_undefine($dom);
         return ($tmp) ? $tmp : $this->_set_last_error();
     }

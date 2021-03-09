@@ -3,13 +3,17 @@
 # This file is distributed under the same license as the openmediavault-kvm package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
+# Translators:
+# Marcelo Esteves <marcelopge@gmail.com>, 2021
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-28 09:35-0600\n"
+"POT-Creation-Date: 2021-03-09 17:22-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
+"Last-Translator: Marcelo Esteves <marcelopge@gmail.com>, 2021\n"
 "Language-Team: Portuguese (Brazil) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,8 +21,11 @@ msgstr ""
 "Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-msgid "Activity"
+msgid " already exists!"
 msgstr ""
+
+msgid "Activity"
+msgstr "Atividade"
 
 msgid "Add"
 msgstr ""
@@ -27,7 +34,7 @@ msgid "Add Macvtap Bridge"
 msgstr ""
 
 msgid "Add Network"
-msgstr ""
+msgstr "Adicionar Rede"
 
 msgid "Add VM"
 msgstr ""
@@ -36,16 +43,16 @@ msgid "Add XML"
 msgstr ""
 
 msgid "Add disk ..."
-msgstr ""
+msgstr "Adicionar disco"
 
 msgid "Add macvtap bridge"
 msgstr ""
 
 msgid "Add network"
-msgstr ""
+msgstr "Adicionar rede"
 
 msgid "Add network adapter ..."
-msgstr ""
+msgstr "Adicionar adaptador de rede"
 
 msgid "Add optical disk ..."
 msgstr ""
@@ -57,12 +64,18 @@ msgid "Add volume"
 msgstr ""
 
 msgid "Advanced"
-msgstr ""
+msgstr "Avançado"
 
 msgid "Allocation"
 msgstr ""
 
 msgid "Arch"
+msgstr ""
+
+msgid "Architecture"
+msgstr ""
+
+msgid "Audio"
 msgstr ""
 
 msgid "AutoStart"
@@ -81,12 +94,18 @@ msgid "Call"
 msgstr ""
 
 msgid "Capacity"
-msgstr ""
+msgstr "Capacidade"
 
 msgid "Change memory ..."
 msgstr ""
 
 msgid "Change vCPU quantity ..."
+msgstr ""
+
+msgid "Check"
+msgstr ""
+
+msgid "Checking volume ..."
 msgstr ""
 
 msgid "Component"
@@ -95,14 +114,26 @@ msgstr ""
 msgid "Console"
 msgstr ""
 
-msgid "Create"
+msgid "Convert"
 msgstr ""
+
+msgid "Convert to "
+msgstr ""
+
+msgid "Convert to qcow2"
+msgstr ""
+
+msgid "Convert to raw"
+msgstr ""
+
+msgid "Create"
+msgstr "Criar"
 
 msgid "Create noVNC console"
 msgstr ""
 
 msgid "DHCP"
-msgstr ""
+msgstr "DHCP"
 
 msgid "DHCP Range"
 msgstr ""
@@ -129,7 +160,7 @@ msgid "Disable autostart"
 msgstr ""
 
 msgid "Disk"
-msgstr ""
+msgstr "Disco"
 
 msgid "Disk(s)"
 msgstr ""
@@ -159,12 +190,15 @@ msgid "Download virtio iso ..."
 msgstr ""
 
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 msgid "Edit XML"
 msgstr ""
 
 msgid "Enable autostart"
+msgstr ""
+
+msgid "Extension"
 msgstr ""
 
 msgid "Failed to start container."
@@ -200,14 +234,17 @@ msgstr ""
 msgid "ISOs"
 msgstr ""
 
-msgid "KVM"
+msgid "Info"
 msgstr ""
+
+msgid "KVM"
+msgstr "KVM"
 
 msgid "Leave blank for random address."
 msgstr ""
 
 msgid "Linux"
-msgstr ""
+msgstr "Linux"
 
 msgid "M"
 msgstr ""
@@ -216,7 +253,7 @@ msgid "MAC address"
 msgstr ""
 
 msgid "Memory"
-msgstr ""
+msgstr "Memória"
 
 msgid "Message"
 msgstr ""
@@ -225,13 +262,13 @@ msgid "MiB"
 msgstr ""
 
 msgid "Model"
-msgstr ""
+msgstr "Modelo"
 
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 msgid "Network"
-msgstr ""
+msgstr "Rede"
 
 msgid "Network Name"
 msgstr ""
@@ -273,7 +310,7 @@ msgid "Pools"
 msgstr ""
 
 msgid "Reboot"
-msgstr ""
+msgstr "Reiniciar"
 
 msgid "Remove"
 msgstr ""
@@ -300,7 +337,7 @@ msgid "Revert to snapshot ..."
 msgstr ""
 
 msgid "Select a file ..."
-msgstr ""
+msgstr "Selecione um arquivo ..."
 
 msgid "Select a network ..."
 msgstr ""
@@ -323,8 +360,11 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-msgid "Size"
+msgid "Showing volume info ..."
 msgstr ""
+
+msgid "Size"
+msgstr "Tamanho"
 
 msgid "Size to add"
 msgstr ""
@@ -339,13 +379,13 @@ msgid "Spice port"
 msgstr ""
 
 msgid "Start"
-msgstr ""
+msgstr "Iniciar"
 
 msgid "State"
 msgstr ""
 
 msgid "Stop"
-msgstr ""
+msgstr "Parar"
 
 msgid "Stop noVNC console"
 msgstr ""
@@ -435,7 +475,7 @@ msgid "VM Name"
 msgstr ""
 
 msgid "VMs"
-msgstr ""
+msgstr "VMs"
 
 msgid "VNC port"
 msgstr ""
@@ -455,7 +495,16 @@ msgstr ""
 msgid "XML"
 msgstr ""
 
+msgid "aarch64"
+msgstr ""
+
+msgid "arm"
+msgstr ""
+
 msgid "e1000"
+msgstr ""
+
+msgid "i386"
 msgstr ""
 
 msgid "ide"
@@ -492,4 +541,7 @@ msgid "vCPU"
 msgstr ""
 
 msgid "virtio"
+msgstr ""
+
+msgid "x86_64"
 msgstr ""

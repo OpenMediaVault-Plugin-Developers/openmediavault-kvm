@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-28 09:35-0600\n"
+"POT-Creation-Date: 2021-03-09 17:22-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: kochin <kochinc@outlook.com>, 2021\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/zh_TW/)\n"
@@ -20,6 +20,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid " already exists!"
+msgstr ""
 
 msgid "Activity"
 msgstr "活動"
@@ -69,6 +72,12 @@ msgstr ""
 msgid "Arch"
 msgstr "硬體架構"
 
+msgid "Architecture"
+msgstr ""
+
+msgid "Audio"
+msgstr ""
+
 msgid "AutoStart"
 msgstr "自動啟動"
 
@@ -93,10 +102,28 @@ msgstr "改變記憶體 ..."
 msgid "Change vCPU quantity ..."
 msgstr "改變 vCPU 數量 ..."
 
+msgid "Check"
+msgstr ""
+
+msgid "Checking volume ..."
+msgstr ""
+
 msgid "Component"
 msgstr ""
 
 msgid "Console"
+msgstr ""
+
+msgid "Convert"
+msgstr ""
+
+msgid "Convert to "
+msgstr ""
+
+msgid "Convert to qcow2"
+msgstr ""
+
+msgid "Convert to raw"
 msgstr ""
 
 msgid "Create"
@@ -171,6 +198,9 @@ msgstr "編輯 XML"
 msgid "Enable autostart"
 msgstr "啟用自動啟動"
 
+msgid "Extension"
+msgstr ""
+
 msgid "Failed to start container."
 msgstr ""
 
@@ -203,6 +233,9 @@ msgstr "IP 範圍"
 
 msgid "ISOs"
 msgstr "ISOs"
+
+msgid "Info"
+msgstr ""
 
 msgid "KVM"
 msgstr "KVM"
@@ -326,6 +359,9 @@ msgstr ""
 
 msgid "Settings"
 msgstr "設定"
+
+msgid "Showing volume info ..."
+msgstr ""
 
 msgid "Size"
 msgstr "大小"
@@ -459,7 +495,16 @@ msgstr ""
 msgid "XML"
 msgstr ""
 
+msgid "aarch64"
+msgstr ""
+
+msgid "arm"
+msgstr ""
+
 msgid "e1000"
+msgstr ""
+
+msgid "i386"
 msgstr ""
 
 msgid "ide"
@@ -497,3 +542,6 @@ msgstr "vCPU"
 
 msgid "virtio"
 msgstr "virtio"
+
+msgid "x86_64"
+msgstr ""

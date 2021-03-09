@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-28 09:35-0600\n"
+"POT-Creation-Date: 2021-03-09 17:22-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>, 2021\n"
 "Language-Team: Spanish (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/es/)\n"
@@ -20,6 +20,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid " already exists!"
+msgstr ""
 
 msgid "Activity"
 msgstr "Actividad"
@@ -69,6 +72,12 @@ msgstr "Distribición"
 msgid "Arch"
 msgstr "Arch"
 
+msgid "Architecture"
+msgstr ""
+
+msgid "Audio"
+msgstr ""
+
 msgid "AutoStart"
 msgstr "AutoArranque"
 
@@ -82,7 +91,7 @@ msgid "CPUs"
 msgstr "CPUs"
 
 msgid "Call"
-msgstr ""
+msgstr "Llamada"
 
 msgid "Capacity"
 msgstr "Capacidad"
@@ -93,11 +102,29 @@ msgstr "Cambiar Memoria ..."
 msgid "Change vCPU quantity ..."
 msgstr "Cambiar vCPU ..."
 
-msgid "Component"
+msgid "Check"
 msgstr ""
+
+msgid "Checking volume ..."
+msgstr ""
+
+msgid "Component"
+msgstr "Componente"
 
 msgid "Console"
 msgstr "Consola"
+
+msgid "Convert"
+msgstr ""
+
+msgid "Convert to "
+msgstr ""
+
+msgid "Convert to qcow2"
+msgstr ""
+
+msgid "Convert to raw"
+msgstr ""
 
 msgid "Create"
 msgstr "Crear"
@@ -118,7 +145,7 @@ msgid "DHCP starting address"
 msgstr "Dirección inicial DHCP"
 
 msgid "Date & Time"
-msgstr ""
+msgstr "Fecha / Hora"
 
 msgid "Delete"
 msgstr "Borrar"
@@ -171,6 +198,9 @@ msgstr "Editar XML"
 msgid "Enable autostart"
 msgstr "Habilitar AutoArranque"
 
+msgid "Extension"
+msgstr ""
+
 msgid "Failed to start container."
 msgstr "Error al arrancar un container."
 
@@ -204,6 +234,9 @@ msgstr "Rango IP"
 msgid "ISOs"
 msgstr "ISOs"
 
+msgid "Info"
+msgstr ""
+
 msgid "KVM"
 msgstr "KVM"
 
@@ -223,7 +256,7 @@ msgid "Memory"
 msgstr "Memoria"
 
 msgid "Message"
-msgstr ""
+msgstr "Mensaje"
 
 msgid "MiB"
 msgstr "MiB"
@@ -326,6 +359,9 @@ msgstr "Seleccionar un Volumen ..."
 
 msgid "Settings"
 msgstr "Opciones"
+
+msgid "Showing volume info ..."
+msgstr ""
 
 msgid "Size"
 msgstr "Tamaño"
@@ -459,8 +495,17 @@ msgstr "Windows"
 msgid "XML"
 msgstr "XML"
 
+msgid "aarch64"
+msgstr ""
+
+msgid "arm"
+msgstr ""
+
 msgid "e1000"
 msgstr "e1000"
+
+msgid "i386"
+msgstr ""
 
 msgid "ide"
 msgstr "ide"
@@ -497,3 +542,6 @@ msgstr "vCPU"
 
 msgid "virtio"
 msgstr "virtio"
+
+msgid "x86_64"
+msgstr ""

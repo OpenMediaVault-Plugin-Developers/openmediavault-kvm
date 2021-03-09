@@ -64,6 +64,32 @@ Ext.define("OMV.module.admin.service.kvm.Vm", {
                 allowBlank: false
             },{
                 xtype: "combo",
+                name: "arch",
+                fieldLabel: _("Architecture"),
+                queryMode: "local",
+                store: [
+                    [ "aarch64", _("aarch64") ],
+                    [ "arm", _("arm") ],
+                    [ "i386", _("i386") ],
+                    [ "x86_64", _("x86_64") ]
+                ],
+                allowBlank: false,
+                editable: false,
+                triggerAction: "all",
+                value: "x86_64",
+                listeners: {
+                    scope: me,
+                    change: function(field) {
+                        var uefi = me.findField("uefi");
+                        if (field.value == "aarch64" || field.value == "arm") {
+                            uefi.setValue(true);
+                        } else if (field.value == "i386") {
+                            uefi.setValue(false);
+                        }
+                    }
+                }
+            },{
+                xtype: "combo",
                 name: "os",
                 fieldLabel: _("OS"),
                 queryMode: "local",
@@ -134,6 +160,11 @@ Ext.define("OMV.module.admin.service.kvm.Vm", {
                     ptype: "fieldinfo",
                     text: _("Permissions of owner.")
                 }]
+            },{
+                xtype: "checkbox",
+                name: "audio",
+                fieldLabel: _("Audio"),
+                checked: false
             }]
         },{
             xtype: "fieldset",

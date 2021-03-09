@@ -92,6 +92,10 @@
 				"type": "string",
 				"required": true
 			},
+			"arch": {
+				"type": "string",
+				"required": true
+			},
 			"memoryunit": {
 				"type": "string",
 				"required": true
@@ -144,6 +148,10 @@
 			},
 			"model": {
 				"type": "string",
+				"required": true
+			},
+			"audio": {
+				"type": "boolean",
 				"required": true
 			},
 			"network": {
@@ -291,6 +299,40 @@
                         },
 			"pool": {
 				"type": "string",
+				"required": true
+                        }
+		}
+	}
+},{
+	"type": "rpc",
+	"id": "rpc.kvm.convertvolume",
+	"params": {
+		"type": "object",
+		"properties": {
+			"path": {
+				"type": "string",
+				"required": true
+                        },
+			"format": {
+				"type": "string",
+				"enum": [ "qcow2", "raw" ],
+				"required": true
+                        }
+		}
+	}
+},{
+	"type": "rpc",
+	"id": "rpc.kvm.volumecommand",
+	"params": {
+		"type": "object",
+		"properties": {
+			"path": {
+				"type": "string",
+				"required": true
+                        },
+			"command": {
+				"type": "string",
+				"enum": [ "check", "info" ],
 				"required": true
                         }
 		}

@@ -158,6 +158,12 @@ Ext.define('OMV.module.admin.service.kvm.Volumes', {
         dataIndex: 'pool',
         stateId: 'pool'
     },{
+        xtype: 'textcolumn',
+        text: _('Extension'),
+        sortable: true,
+        dataIndex: 'ext',
+        stateId: 'ext'
+    },{
         xtype: 'binaryunitcolumn',
         text: _('Capacity'),
         sortable: true,
@@ -197,6 +203,7 @@ Ext.define('OMV.module.admin.service.kvm.Volumes', {
                     fields: [
                         { name: 'name', type: 'string' },
                         { name: 'pool', type: 'string' },
+                        { name: 'ext', type: 'string' },
                         { name: 'capacity', type: 'string' },
                         { name: 'allocation', type: 'string' },
                         { name: 'allocationT', type: 'string' },
@@ -241,6 +248,71 @@ Ext.define('OMV.module.admin.service.kvm.Volumes', {
                 minSelections : 1,
                 maxSelections : 1
             }
+        },{
+            xtype: 'button',
+            text: _('Check'),
+            icon: 'images/aid.png',
+            iconCls: Ext.baseCSSPrefix + 'btn-icon-16x16',
+            handler: Ext.Function.bind(me.onCommandButton, me, [ "check" ]),
+            scope: me,
+            disabled : true,
+            selectionConfig : {
+                minSelections : 1,
+                maxSelections : 1,
+                enabledFn: function(c, records) {
+                    var ext = records[0].get("ext").toLowerCase();
+                    return (ext == 'qcow2');
+                }
+            }
+        },{
+            xtype: 'button',
+            text: _('Info'),
+            icon: 'images/info.png',
+            iconCls: Ext.baseCSSPrefix + 'btn-icon-16x16',
+            handler: Ext.Function.bind(me.onCommandButton, me, [ "info" ]),
+            scope: me,
+            disabled : true,
+            selectionConfig : {
+                minSelections : 1,
+                maxSelections : 1
+            }
+       },{
+            xtype: "button",
+            text: _("Convert"),
+            scope: this,
+            icon: "images/edit.png",
+            disabled : true,
+            selectionConfig : {
+                minSelections : 1,
+                maxSelections : 1
+            },
+            menu: [{
+                text: _("Convert to qcow2"),
+                icon: "images/edit.png",
+                handler: Ext.Function.bind(me.onConvertButton, me, [ "qcow2" ]),
+                disabled : true,
+                selectionConfig : {
+                    minSelections : 1,
+                    maxSelections : 1,
+                    enabledFn: function(c, records) {
+                        var ext = records[0].get("ext").toLowerCase();
+                        return (ext != 'qcow2');
+                    }
+                }
+            },{
+                text: _("Convert to raw"),
+                icon: "images/edit.png",
+                handler: Ext.Function.bind(me.onConvertButton, me, [ "raw" ]),
+                disabled : true,
+                selectionConfig : {
+                    minSelections : 1,
+                    maxSelections : 1,
+                    enabledFn: function(c, records) {
+                        var ext = records[0].get("ext").toLowerCase();
+                        return (ext != 'img');
+                    }
+                }
+            }]
         }]);
         return items;
     },
@@ -273,6 +345,79 @@ Ext.define('OMV.module.admin.service.kvm.Volumes', {
             }
         });
         me.doReload();
+    },
+
+    onConvertButton: function(format) {
+        var me = this;
+        var record = me.getSelected();
+        var path = record.get("path");
+        var wnd = Ext.create("OMV.window.Execute", {
+            title: _("Convert to ") + format + " ...",
+            rpcService: "Kvm",
+            rpcMethod: "convertVolume",
+            rpcParams: {
+                "path": path,
+                "format": format
+            },
+            rpcIgnoreErrors: true,
+            hideStartButton: true,
+            hideStopButton: true,
+            listeners: {
+                scope: me,
+                finish: function(wnd, response) {
+                    wnd.appendValue(_("Done."));
+                    wnd.setButtonDisabled("close", false);
+                },
+                exception: function(wnd, error) {
+                    OMV.MessageBox.error(null, error);
+                    wnd.setButtonDisabled("close", false);
+                },
+                close: function() {
+                    me.doReload();
+                }
+            }
+        });
+        wnd.setButtonDisabled("close", true);
+        wnd.show();
+        wnd.start();
+    },
+
+    onCommandButton: function(cmd) {
+        var me = this;
+        var record = me.getSelected();
+        var path = record.get("path");
+        var msg = "";
+        if (cmd == "check") {
+            msg = _("Checking volume ...");
+        } else if (cmd == "info") {
+            msg = _("Showing volume info ...");
+        }
+        var wnd = Ext.create("OMV.window.Execute", {
+            title: msg,
+            rpcService: "Kvm",
+            rpcMethod: "volumeCommand",
+            rpcParams: {
+                "path": path,
+                "command": cmd
+            },
+            rpcIgnoreErrors: true,
+            hideStartButton: true,
+            hideStopButton: true,
+            listeners: {
+                scope: me,
+                finish: function(wnd, response) {
+                    wnd.appendValue(_("Done."));
+                    wnd.setButtonDisabled("close", false);
+                },
+                exception: function(wnd, error) {
+                    OMV.MessageBox.error(null, error);
+                    wnd.setButtonDisabled("close", false);
+                }
+            }
+        });
+        wnd.setButtonDisabled("close", true);
+        wnd.show();
+        wnd.start();
     }
 });
 

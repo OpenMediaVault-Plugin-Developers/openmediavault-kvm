@@ -67,6 +67,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('getVolume');
         $this->registerMethod('setVolume');
         $this->registerMethod('deleteVolume');
+        $this->registerMethod('convertVolume');
+        $this->registerMethod('volumeCommand');
         $this->registerMethod('downloadIso');
 
         $this->registerMethod('enumerateSnapshots');
@@ -84,6 +86,13 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $lv = new Libvirt('/var/log/openmediavault-kvm.log');
         $lv->connect('qemu:///system');
         return ($lv);
+    }
+
+    private function getArch()
+    {
+        $cmd = new \OMV\System\Process('arch');
+        $cmd->execute($output);
+        return (strtolower($output[0]));
     }
 
     public function getNetworkList($params, $context)
@@ -506,19 +515,67 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodParams($params, 'rpc.kvm.setvm');
         // create new libvirt object
         $lv = $this->connectQemu();
-
-        $domain_type = "kvm";
+        $arch = $params['arch'];
+        $host_arch = $this->getArch();
+        switch ($arch) {
+            case 'aarch64':
+                $apic = false;
+                $fd = '/usr/share/AAVMF/AAVMF_CODE.fd';
+                $ld = 'pflash';
+                $machine = 'virt';
+                if (($host_arch == 'arm64') || ($host_arch == 'armhf')) {
+                    $domain_type = "kvm";
+                    $native_graphics = true;
+                } else {
+                    $domain_type = "qemu";
+                    $native_graphics = false;
+                }
+                break;
+            case 'arm':
+                $apic = false;
+                $fd = '/usr/share/AAVMF/AAVMF_CODE.fd';
+                $machine = 'virt';
+                if (($host_arch == 'arm64') || ($host_arch == 'armhf')) {
+                    $domain_type = "kvm";
+                    $native_graphics = true;
+                } else {
+                    $domain_type = "qemu";
+                    $native_graphics = false;
+                }
+                break;
+            case 'i386':
+                $apic = true;
+                $domain_type = "kvm";
+                $native_graphics = true;
+                $machine = 'pc';
+                if ($host_arch == 'i386') {
+                    $domain_type = "kvm";
+                } else {
+                    $domain_type = "qemu";
+                }
+                break;
+            case 'x86_64':
+                $apic = true;
+                $fd = '/usr/share/OVMF/OVMF_CODE.fd';
+                $ld = 'rom';
+                $native_graphics = true;
+                $machine = 'pc';
+                if (($host_arch == 'amd64') || ($host_arch == 'i386')) {
+                    $domain_type = "kvm";
+                } else {
+                    $domain_type = "qemu";
+                }
+                break;
+        }
         $xml = sprintf("<domain type='%s'>", $domain_type);
         $xml .= sprintf("<name>%s</name>", $params['vmname']);
         $xml .= "<description>created by the openmediavault-kvm plugin</description>";
         $xml .= sprintf("<memory unit='%s'>%d</memory>", $params['memoryunit'], $params['memory']);
         $xml .= sprintf("<vcpu>%d</vcpu>", $params['vcpu']);
         $xml .= "<os>";
+        $xml .= sprintf("<type arch='%s' machine='%s'>hvm</type>", $arch, $machine);
         if ($params['uefi']) {
-            $xml .= "<type arch='x86_64' machine='q35'>hvm</type>";
-            $xml .= "<loader readonly='yes' type='rom'>/usr/share/OVMF/OVMF_CODE.fd</loader>";
-        } else {
-            $xml .= "<type machine='pc'>hvm</type>";
+            $xml .= sprintf("<loader readonly='yes' type='%s'>%s</loader>", $ld, $fd);
         }
         $xml .= "<boot dev='hd'/>";
         $xml .= "<boot dev='cdrom'/>";
@@ -526,7 +583,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $xml .= "</os>";
         $xml .= "<features>";
         $xml .= "<acpi/>";
-        $xml .= "<apic/>";
+        if ($apic) {
+            $xml .= "<apic/>";
+        } else {
+            //$xml .= "<gic version='2'/>";
+        }
         if ($params['os'] == "windows") {
             $xml .= "<hyperv>";
             $xml .= "<relaxed state='on'/>";
@@ -539,17 +600,35 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $xml .= "<cpu mode='host-model' check='partial'>";
             $xml .= "<model fallback='allow'/>";
             $xml .= "</cpu>";
+        } elseif ($arch == 'aarch64' || $arch == 'arm') {
+            $xml .= "<cpu mode='custom' match='exact'>";
+            $xml .= "<model>cortex-a57</model>";
+            $xml .= "</cpu>";
         }
         $xml .= "<clock offset='localtime'/>";
         $xml .= "<devices>";
-        $xml .= "<graphics type='vnc' port='-1' autoport='yes'/>";
-        $xml .= "<graphics type='spice' port='-1' tlsPort='-1' autoport='yes' listen='0.0.0.0'>";
-        $xml .= "<gl enable='no'/>";
-        $xml .= "</graphics>";
-        $xml .= "<video>";
-        $xml .= "<model type='qxl'/>";
-        $xml .= "</video>";
-        $xml .= "<input type='tablet' bus='virtio'/>";
+        if ($native_graphics) {
+            $xml .= "<graphics type='vnc' port='-1' autoport='yes'/>";
+            $xml .= "<graphics type='spice' port='-1' tlsPort='-1' autoport='yes' listen='0.0.0.0'>";
+            $xml .= "<gl enable='no'/>";
+            $xml .= "</graphics>";
+            $xml .= "<video>";
+            $xml .= "<model type='qxl'/>";
+            $xml .= "</video>";
+            $xml .= "<input type='tablet' bus='virtio'/>";
+        } else {
+             $xml .= "<console type='pty'/>";
+             $xml .= "<channel type='unix'>";
+             $xml .= "<source mode='bind'/>";
+             $xml .= "<target type='virtio' name='org.qemu.guest.agent.0'/>";
+             $xml .= "</channel>";
+             $xml .= "<rng model='virtio'>";
+             $xml .= "<backend model='random'>/dev/urandom</backend>";
+             $xml .= "</rng>";
+        }
+        if ($params['audio']) {
+            $xml .= "<sound model='ich9'/>";
+        }
         $xml .= "<memballoon model='virtio'>";
         $xml .= "<stats period='10'/>";
         $xml .= "</memballoon>";
@@ -558,6 +637,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $newvm = $lv->domain_define($xml);
         if (!$newvm) {
             $msg = "Error defining domain: " . $lv->get_last_error();
+            $msg .= PHP_EOL . PHP_EOL . $xml;
             throw new \OMV\Exception( gettext("Unable to create domain - ") . $msg);
         }
 
@@ -760,7 +840,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
         $voliso = $params['voliso'];
         // get next device
-        if (isset($domXml->os->nvram)) {
+        if (isset($domXml->os->loader)) {
             $targetbus = 'sata';
             $dev = "sd";
         } else {
@@ -874,6 +954,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                         $objects[] = [
                             'name' => $keys[$i],
                             'pool' => $pool,
+                            'ext' => pathinfo($volume['path'], PATHINFO_EXTENSION),
                             'capacity' => $volume['capacity'],
                             'allocation' => $volume['allocation'],
                             'allocationT' => binary_format($volume['allocation']),
@@ -1023,6 +1104,61 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
     }
 
+    public function convertVolume($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ["role" => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, "rpc.kvm.convertvolume");
+        $path = $params['path'];
+        $ext = pathinfo($path, PATHINFO_EXTENSION);
+        $format = $params['format'];
+        $newPath = str_replace($ext, $format, $path);
+        if (file_exists($newPath)) {
+            throw new \OMV\Exception($newPath . gettext(" already exists!"));
+        }
+        return $this->execBgProc(function($bgStatusFilename, $bgOutputFilename)
+            use ($params, $format, $path, $newPath) {
+                $cmdArgs = [];
+                $cmdArgs[] = '/usr/bin/qemu-img';
+                $cmdArgs[] = 'convert';
+                $cmdArgs[] = '-O ' . $format;
+                $cmdArgs[] = $path;
+                $cmdArgs[] = $newPath;
+                $cmd = new \OMV\System\Process($cmdArgs);
+                $cmd->setRedirect2to1();
+                $cmdLine = $cmd->getCommandLine();
+                if (0 !== $this->exec($cmdLine, $output, $bgOutputFilename)) {
+                    throw new \OMV\ExecException($cmdLine, $output);
+                }
+                return $output;
+            }
+        );
+    }
+
+    public function volumeCommand($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ["role" => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, "rpc.kvm.volumecommand");
+        return $this->execBgProc(function($bgStatusFilename, $bgOutputFilename)
+            use ($params) {
+                $cmdArgs = [];
+                $cmdArgs[] = '/usr/bin/qemu-img';
+                $cmdArgs[] = $params['command'];
+                $cmdArgs[] = $params['path'];
+                $cmd = new \OMV\System\Process($cmdArgs);
+                $cmd->setRedirect2to1();
+                $cmdLine = $cmd->getCommandLine();
+                if (0 !== $this->exec($cmdLine, $output, $bgOutputFilename)) {
+                    throw new \OMV\ExecException($cmdLine, $output);
+                }
+                return $output;
+            }
+        );
+    }
+
     public function downloadIso($params, $context)
     {
         // Validate the RPC caller context.
@@ -1147,7 +1283,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $result = $lv->domain_destroy($dom);
                 break;
             case 'undefine':
-                $result = $lv->domain_undefine($dom);
+                $cmdLine = sprintf('virsh undefine --nvram %s', $params['name']);
+                $cmd = new \OMV\System\Process($cmdLine);
+                $cmd->execute($output, $result);
                 break;
             case 'pool_start':
                 $result = $lv->storagepool_create($res);

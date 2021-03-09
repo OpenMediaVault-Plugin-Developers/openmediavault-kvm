@@ -1,9 +1,15 @@
-openmediavault-kvm (5.0.11) UNRELEASED; urgency=medium
+openmediavault-kvm (5.0.11) stable; urgency=low
 
   * Remove unneeded input devices
+  * Add convert to qcow2/raw button for volumes
+  * Add volume check button for qcow2
+  * Add volume info button
+  * Add audio option
+  * Start adding ability to provision VMs from other architectures
+  * Improve error messages
   * Update locales
 
- -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Mon, 01 Mar 2021 07:47:16 -0600
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Tue, 09 Mar 2021 17:07:02 -0600
 
 openmediavault-kvm (5.0.10) stable; urgency=low
 

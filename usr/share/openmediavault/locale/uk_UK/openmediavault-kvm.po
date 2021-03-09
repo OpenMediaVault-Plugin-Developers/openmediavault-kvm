@@ -3,13 +3,17 @@
 # This file is distributed under the same license as the openmediavault-kvm package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
+# Translators:
+# dsafsadf <heneral@gmail.com>, 2021
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-28 09:35-0600\n"
+"POT-Creation-Date: 2021-03-09 17:22-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
+"Last-Translator: dsafsadf <heneral@gmail.com>, 2021\n"
 "Language-Team: Ukrainian (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,11 +21,14 @@ msgstr ""
 "Language: uk\n"
 "Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 
+msgid " already exists!"
+msgstr ""
+
 msgid "Activity"
 msgstr ""
 
 msgid "Add"
-msgstr ""
+msgstr "Додати"
 
 msgid "Add Macvtap Bridge"
 msgstr ""
@@ -65,6 +72,12 @@ msgstr ""
 msgid "Arch"
 msgstr ""
 
+msgid "Architecture"
+msgstr ""
+
+msgid "Audio"
+msgstr ""
+
 msgid "AutoStart"
 msgstr ""
 
@@ -89,10 +102,28 @@ msgstr ""
 msgid "Change vCPU quantity ..."
 msgstr ""
 
+msgid "Check"
+msgstr ""
+
+msgid "Checking volume ..."
+msgstr ""
+
 msgid "Component"
 msgstr ""
 
 msgid "Console"
+msgstr ""
+
+msgid "Convert"
+msgstr ""
+
+msgid "Convert to "
+msgstr ""
+
+msgid "Convert to qcow2"
+msgstr ""
+
+msgid "Convert to raw"
 msgstr ""
 
 msgid "Create"
@@ -102,7 +133,7 @@ msgid "Create noVNC console"
 msgstr ""
 
 msgid "DHCP"
-msgstr ""
+msgstr "DHCP"
 
 msgid "DHCP Range"
 msgstr ""
@@ -167,6 +198,9 @@ msgstr ""
 msgid "Enable autostart"
 msgstr ""
 
+msgid "Extension"
+msgstr ""
+
 msgid "Failed to start container."
 msgstr ""
 
@@ -198,6 +232,9 @@ msgid "IP Range"
 msgstr ""
 
 msgid "ISOs"
+msgstr ""
+
+msgid "Info"
 msgstr ""
 
 msgid "KVM"
@@ -321,6 +358,9 @@ msgid "Select a volume ..."
 msgstr ""
 
 msgid "Settings"
+msgstr ""
+
+msgid "Showing volume info ..."
 msgstr ""
 
 msgid "Size"
@@ -455,7 +495,16 @@ msgstr ""
 msgid "XML"
 msgstr ""
 
+msgid "aarch64"
+msgstr ""
+
+msgid "arm"
+msgstr ""
+
 msgid "e1000"
+msgstr ""
+
+msgid "i386"
 msgstr ""
 
 msgid "ide"
@@ -492,4 +541,7 @@ msgid "vCPU"
 msgstr ""
 
 msgid "virtio"
+msgstr ""
+
+msgid "x86_64"
 msgstr ""

@@ -3,13 +3,17 @@
 # This file is distributed under the same license as the openmediavault-kvm package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
+# Translators:
+# Miguel Anxo Bouzada <mbouzada@gmail.com>, 2021
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-28 09:35-0600\n"
+"POT-Creation-Date: 2021-03-09 17:22-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
+"Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>, 2021\n"
 "Language-Team: Galician (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,479 +21,528 @@ msgstr ""
 "Language: gl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid "Activity"
+msgid " already exists!"
 msgstr ""
+
+msgid "Activity"
+msgstr "Actividade"
 
 msgid "Add"
-msgstr ""
+msgstr "Engadir"
 
 msgid "Add Macvtap Bridge"
-msgstr ""
+msgstr "Engadir unha ponte MACVTAP"
 
 msgid "Add Network"
-msgstr ""
+msgstr "Engadir unha rede"
 
 msgid "Add VM"
-msgstr ""
+msgstr "Engadir unha MV"
 
 msgid "Add XML"
-msgstr ""
+msgstr "Engadir XML"
 
 msgid "Add disk ..."
-msgstr ""
+msgstr "Engadir un disco…"
 
 msgid "Add macvtap bridge"
-msgstr ""
+msgstr "Engadir unha ponte MACVTAP"
 
 msgid "Add network"
-msgstr ""
+msgstr "Engadir unha rede"
 
 msgid "Add network adapter ..."
-msgstr ""
+msgstr "Engadir un adaptador de rede…"
 
 msgid "Add optical disk ..."
-msgstr ""
+msgstr "Engadir un disco óptico…"
 
 msgid "Add pool"
-msgstr ""
+msgstr "Engadir un agrupamento"
 
 msgid "Add volume"
-msgstr ""
+msgstr "Engadir un volume"
 
 msgid "Advanced"
-msgstr ""
+msgstr "Avanzado"
 
 msgid "Allocation"
-msgstr ""
+msgstr "Asignación"
 
 msgid "Arch"
+msgstr "Arquivo"
+
+msgid "Architecture"
+msgstr ""
+
+msgid "Audio"
 msgstr ""
 
 msgid "AutoStart"
-msgstr ""
+msgstr "InicioAutom."
 
 msgid "Available"
-msgstr ""
+msgstr "Dispoñíbel"
 
 msgid "Bus"
-msgstr ""
+msgstr "Bus"
 
 msgid "CPUs"
-msgstr ""
+msgstr "CPU"
 
 msgid "Call"
-msgstr ""
+msgstr "Chamar"
 
 msgid "Capacity"
-msgstr ""
+msgstr "Capacidade"
 
 msgid "Change memory ..."
-msgstr ""
+msgstr "Cambiar a memoria…"
 
 msgid "Change vCPU quantity ..."
+msgstr "Cambiar a cantidade de vCPU…"
+
+msgid "Check"
+msgstr ""
+
+msgid "Checking volume ..."
 msgstr ""
 
 msgid "Component"
-msgstr ""
+msgstr "Compoñente"
 
 msgid "Console"
+msgstr "Consola"
+
+msgid "Convert"
+msgstr ""
+
+msgid "Convert to "
+msgstr ""
+
+msgid "Convert to qcow2"
+msgstr ""
+
+msgid "Convert to raw"
 msgstr ""
 
 msgid "Create"
-msgstr ""
+msgstr "Crear"
 
 msgid "Create noVNC console"
-msgstr ""
+msgstr "Crear unha consola nonVNC"
 
 msgid "DHCP"
-msgstr ""
+msgstr "DHCP"
 
 msgid "DHCP Range"
-msgstr ""
+msgstr "Intervalo DHCP"
 
 msgid "DHCP ending address"
-msgstr ""
+msgstr "Enderezo DHCP final"
 
 msgid "DHCP starting address"
-msgstr ""
+msgstr "Enderezo DHCP inicial"
 
 msgid "Date & Time"
-msgstr ""
+msgstr "Data e hora"
 
 msgid "Delete"
-msgstr ""
+msgstr "Eliminar"
 
 msgid "Delete disk ..."
-msgstr ""
+msgstr "Eliminar un disco…"
 
 msgid "Delete snapshot ..."
-msgstr ""
+msgstr "Eliminar a instantánea…"
 
 msgid "Disable autostart"
-msgstr ""
+msgstr "Desactivar o inicio automático"
 
 msgid "Disk"
-msgstr ""
+msgstr "Disco"
 
 msgid "Disk(s)"
-msgstr ""
+msgstr "Disco(s)"
 
 msgid "Docker is not installed. Please install from omv-extras Docker tab."
 msgstr ""
+"Docker non está instalado. Instáleo dende a lapela Docker de omv-extras."
 
 msgid "Docker port"
-msgstr ""
+msgstr "Porto de Docker"
 
 msgid "Done."
-msgstr ""
+msgstr "Feito"
 
 msgid "Download"
-msgstr ""
+msgstr "Descargar"
 
 msgid "Download iso from URL"
-msgstr ""
+msgstr "Descargar a ISO dende URL"
 
 msgid "Download iso from url"
-msgstr ""
+msgstr "Descargar a ISO dende URL"
 
 msgid "Download virtio iso"
-msgstr ""
+msgstr "Descargar a ISO virtio"
 
 msgid "Download virtio iso ..."
-msgstr ""
+msgstr "Descargar a ISO virtio…"
 
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 msgid "Edit XML"
-msgstr ""
+msgstr "Editar XML"
 
 msgid "Enable autostart"
+msgstr "Activar o inicio automático"
+
+msgid "Extension"
 msgstr ""
 
 msgid "Failed to start container."
-msgstr ""
+msgstr "Produciuse un fallo ao iniciar o contedor."
 
 msgid "For more info"
-msgstr ""
+msgstr "Para máis información"
 
 msgid "Force"
-msgstr ""
+msgstr "Forza"
 
 msgid "Format"
-msgstr ""
+msgstr "Formato"
 
 msgid "Forwarding"
-msgstr ""
+msgstr "Reenvío"
 
 msgid "G"
-msgstr ""
+msgstr "G"
 
 msgid "Gateway IP"
-msgstr ""
+msgstr "IP da pasarela"
 
 msgid "Gateway IP Address"
-msgstr ""
+msgstr "Enderezo IP da pasarela"
 
 msgid "GiB"
-msgstr ""
+msgstr "GiB"
 
 msgid "IP Range"
-msgstr ""
+msgstr "Intervalo IP"
 
 msgid "ISOs"
+msgstr "ISO"
+
+msgid "Info"
 msgstr ""
 
 msgid "KVM"
-msgstr ""
+msgstr "KVM"
 
 msgid "Leave blank for random address."
-msgstr ""
+msgstr "Déixeo en branco para un enderezo ao chou."
 
 msgid "Linux"
-msgstr ""
+msgstr "Linux"
 
 msgid "M"
-msgstr ""
+msgstr "M"
 
 msgid "MAC address"
-msgstr ""
+msgstr "Enderezo MAC"
 
 msgid "Memory"
-msgstr ""
+msgstr "Memoria"
 
 msgid "Message"
-msgstr ""
+msgstr "Mensaxe"
 
 msgid "MiB"
-msgstr ""
+msgstr "MiB"
 
 msgid "Model"
-msgstr ""
+msgstr "Modelo"
 
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 msgid "Network"
-msgstr ""
+msgstr "Rede"
 
 msgid "Network Name"
-msgstr ""
+msgstr "Nome da rede"
 
 msgid "Network State"
-msgstr ""
+msgstr "Estado da rede"
 
 msgid "Network adapter"
-msgstr ""
+msgstr "Adaptador de rede"
 
 msgid "Networks"
-msgstr ""
+msgstr "Redes"
 
 msgid "OS"
-msgstr ""
+msgstr "OS"
 
 msgid "Optical"
-msgstr ""
+msgstr "Óptico"
 
 msgid "Optical Disk"
-msgstr ""
+msgstr "Disco óptico"
 
 msgid "Optical Drive"
-msgstr ""
+msgstr "Unidade óptica"
 
 msgid "Path"
-msgstr ""
+msgstr "Ruta"
 
 msgid "Pause"
-msgstr ""
+msgstr "Pausa"
 
 msgid "Permissions of owner."
-msgstr ""
+msgstr "Permisos de propietario."
 
 msgid "Pool"
-msgstr ""
+msgstr "Agrupación"
 
 msgid "Pools"
-msgstr ""
+msgstr "Agrupacións"
 
 msgid "Reboot"
-msgstr ""
+msgstr "Reiniciar"
 
 msgid "Remove"
-msgstr ""
+msgstr "Retirar"
 
 msgid "Remove network adapter ..."
-msgstr ""
+msgstr "Retirar un adaptador de rede…"
 
 msgid "Remove optical disk ..."
-msgstr ""
+msgstr "Retirar un disco óptico…"
 
 msgid "Resize"
-msgstr ""
+msgstr "Redimensionar"
 
 msgid "Resize disk ..."
-msgstr ""
+msgstr "Redimensionar un disco…"
 
 msgid "Resume"
-msgstr ""
+msgstr "Continuar"
 
 msgid "Revert"
-msgstr ""
+msgstr "Reverter"
 
 msgid "Revert to snapshot ..."
-msgstr ""
+msgstr "Reverter á instantánea…"
 
 msgid "Select a file ..."
-msgstr ""
+msgstr "Seleccione un ficheiro…"
 
 msgid "Select a network ..."
-msgstr ""
+msgstr "Seleccione unha rede…"
 
 msgid "Select a network adapter ..."
-msgstr ""
+msgstr "Seleccione un adaptador de rede…"
 
 msgid "Select a nic ..."
-msgstr ""
+msgstr "Seleccione un controlador de rede…"
 
 msgid "Select a pool ..."
-msgstr ""
+msgstr "Seleccione unha agrupación…"
 
 msgid "Select a snapshot ..."
-msgstr ""
+msgstr "Seleccione unha instantánea…"
 
 msgid "Select a volume ..."
-msgstr ""
+msgstr "Seleccione un volume…"
 
 msgid "Settings"
+msgstr "Axustes"
+
+msgid "Showing volume info ..."
 msgstr ""
 
 msgid "Size"
-msgstr ""
+msgstr "Tamaño"
 
 msgid "Size to add"
-msgstr ""
+msgstr "Tamaño para engadir"
 
 msgid "Snapshot"
-msgstr ""
+msgstr "Instantánea"
 
 msgid "Snapshots"
-msgstr ""
+msgstr "Instantáneas"
 
 msgid "Spice port"
-msgstr ""
+msgstr "Porto de Spice"
 
 msgid "Start"
-msgstr ""
+msgstr "Inicio"
 
 msgid "State"
-msgstr ""
+msgstr "Estado"
 
 msgid "Stop"
-msgstr ""
+msgstr "Deter"
 
 msgid "Stop noVNC console"
-msgstr ""
+msgstr "Deter a consola nonVNC"
 
 msgid "Storage Volume"
-msgstr ""
+msgstr "Volume de almacenamento"
 
 msgid "Subnet mask"
-msgstr ""
+msgstr "Máscara de subrede"
 
 msgid "T"
-msgstr ""
+msgstr "T"
 
 msgid "UEFI"
-msgstr ""
+msgstr "UEFI"
 
 msgid "Unable to - "
-msgstr ""
+msgstr "Non é posíbel  - "
 
 msgid "Unable to add ISO to VM - "
-msgstr ""
+msgstr "Non é posíbel engadir a ISO a máquina virtual -"
 
 msgid "Unable to add disk to VM - "
-msgstr ""
+msgstr "Non é posíbel engadir o disco a máquina virtual -"
 
 msgid "Unable to add network adapter to VM - "
-msgstr ""
+msgstr "Non é posíbel engadir o adaptador de rede a máquina virtual -"
 
 msgid "Unable to change memory or vCPUs on VM - "
-msgstr ""
+msgstr "Non é posíbel cambiar a memoria nin as vCPU na máquina virtual -"
 
 msgid "Unable to create Macvap - "
-msgstr ""
+msgstr "Non é posíbel  crear unha MACVTAP - "
 
 msgid "Unable to create domain - "
-msgstr ""
+msgstr "Non é posíbel  crear un dominio - "
 
 msgid "Unable to create network - "
-msgstr ""
+msgstr "Non é posíbel  crear unha rede - "
 
 msgid "Unable to create new disk - "
-msgstr ""
+msgstr "Non é posíbel  crear un novo disco - "
 
 msgid "Unable to create pool - "
-msgstr ""
+msgstr "Non é posíbel  crear unha agrupación - "
 
 msgid "Unable to create snapshot - "
-msgstr ""
+msgstr "Non é posíbel  crear unha instantánea - "
 
 msgid "Unable to create volume - "
-msgstr ""
+msgstr "Non é posíbel  crear un volume - "
 
 msgid "Unable to delete network - "
-msgstr ""
+msgstr "Non é posíbel  eliminar a rede - "
 
 msgid "Unable to delete pool - "
-msgstr ""
+msgstr "Non é posíbel  eliminar a agrupación - "
 
 msgid "Unable to delete snapshot - "
-msgstr ""
+msgstr "Non é posíbel  eliminar a instantánea - "
 
 msgid "Unable to delete volume - "
-msgstr ""
+msgstr "Non é posíbel  eliminar o volume - "
 
 msgid "Unable to remove disk from VM - "
-msgstr ""
+msgstr "Non é posíbel retirar o disco da máquina virtual -"
 
 msgid "Unable to remove network interface from VM - "
-msgstr ""
+msgstr "Non é posíbel retirar a interface de rede da máquina virtual -"
 
 msgid "Unable to resize disk - "
-msgstr ""
+msgstr "Non é posíbel  redimensionar o disco - "
 
 msgid "Unable to revert to snapshot - "
-msgstr ""
+msgstr "Non é posíbel  reverter á instantánea - "
 
 msgid "Unable to set VM XML - "
-msgstr ""
+msgstr "Non é posíbel estabelecer XML da máquina virtual -"
 
 msgid "Unable to start network - "
-msgstr ""
+msgstr "Non é posíbel  iniciar a rede - "
 
 msgid "Unable to stop network - "
-msgstr ""
+msgstr "Non é posíbel  deter a rede - "
 
 msgid "VM Name"
-msgstr ""
+msgstr "Nome da MV"
 
 msgid "VMs"
-msgstr ""
+msgstr "MV"
 
 msgid "VNC port"
-msgstr ""
+msgstr "Porto VNC"
 
 msgid "Volume"
-msgstr ""
+msgstr "Volumen"
 
 msgid "Volume Count"
-msgstr ""
+msgstr "Reconto de volumes"
 
 msgid "Volumes"
-msgstr ""
+msgstr "Volumes"
 
 msgid "Windows"
-msgstr ""
+msgstr "Windows"
 
 msgid "XML"
+msgstr "XML"
+
+msgid "aarch64"
+msgstr ""
+
+msgid "arm"
 msgstr ""
 
 msgid "e1000"
+msgstr "e1000"
+
+msgid "i386"
 msgstr ""
 
 msgid "ide"
-msgstr ""
+msgstr "ide"
 
 msgid "n/a"
-msgstr ""
+msgstr "n/d"
 
 msgid "ne2k_pci"
-msgstr ""
+msgstr "ne2k_pci"
 
 msgid "noVNC Docker URL"
-msgstr ""
+msgstr "URL do Docker nonVNC"
 
 msgid "pcnet"
-msgstr ""
+msgstr "PCNET"
 
 msgid "qcow2"
-msgstr ""
+msgstr "QCOW2"
 
 msgid "raw"
-msgstr ""
+msgstr "en bruto"
 
 msgid "rtl8139"
-msgstr ""
+msgstr "rtl8139"
 
 msgid "sata"
-msgstr ""
+msgstr "SATA"
 
 msgid "scsi"
-msgstr ""
+msgstr "SCSI"
 
 msgid "vCPU"
-msgstr ""
+msgstr "vCPU"
 
 msgid "virtio"
+msgstr "virtio"
+
+msgid "x86_64"
 msgstr ""

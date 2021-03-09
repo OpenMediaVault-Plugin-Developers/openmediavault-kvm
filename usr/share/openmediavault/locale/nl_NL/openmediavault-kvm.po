@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-28 09:35-0600\n"
+"POT-Creation-Date: 2021-03-09 17:22-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Varkentjes, 2021\n"
 "Language-Team: Dutch (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/nl/)\n"
@@ -20,6 +20,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid " already exists!"
+msgstr ""
 
 msgid "Activity"
 msgstr "Activiteit"
@@ -69,6 +72,12 @@ msgstr "Toewijzing"
 msgid "Arch"
 msgstr ""
 
+msgid "Architecture"
+msgstr ""
+
+msgid "Audio"
+msgstr ""
+
 msgid "AutoStart"
 msgstr "Automatische start"
 
@@ -93,11 +102,29 @@ msgstr ""
 msgid "Change vCPU quantity ..."
 msgstr ""
 
+msgid "Check"
+msgstr ""
+
+msgid "Checking volume ..."
+msgstr ""
+
 msgid "Component"
 msgstr ""
 
 msgid "Console"
 msgstr "Console"
+
+msgid "Convert"
+msgstr ""
+
+msgid "Convert to "
+msgstr ""
+
+msgid "Convert to qcow2"
+msgstr ""
+
+msgid "Convert to raw"
+msgstr ""
 
 msgid "Create"
 msgstr ""
@@ -173,6 +200,9 @@ msgstr "XML bewerken"
 msgid "Enable autostart"
 msgstr "Schakel autostart in"
 
+msgid "Extension"
+msgstr ""
+
 msgid "Failed to start container."
 msgstr ""
 
@@ -205,6 +235,9 @@ msgstr "IP range"
 
 msgid "ISOs"
 msgstr "ISO-bestanden"
+
+msgid "Info"
+msgstr ""
 
 msgid "KVM"
 msgstr "KVM"
@@ -328,6 +361,9 @@ msgstr ""
 
 msgid "Settings"
 msgstr "Instellingen"
+
+msgid "Showing volume info ..."
+msgstr ""
 
 msgid "Size"
 msgstr "Grootte"
@@ -461,8 +497,17 @@ msgstr "Windows"
 msgid "XML"
 msgstr "XML"
 
+msgid "aarch64"
+msgstr ""
+
+msgid "arm"
+msgstr ""
+
 msgid "e1000"
 msgstr "e1000"
+
+msgid "i386"
+msgstr ""
 
 msgid "ide"
 msgstr "IDE"
@@ -499,3 +544,6 @@ msgstr "vCPU"
 
 msgid "virtio"
 msgstr "VirtIO"
+
+msgid "x86_64"
+msgstr ""
