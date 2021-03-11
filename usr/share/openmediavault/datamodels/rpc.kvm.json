@@ -159,8 +159,10 @@
 				"required": true
 			},
 			"network": {
-				"type": "string",
-				"required": true
+				"type": "string"
+			},
+			"bridge": {
+				"type": "string"
 			}
 		}
 	}

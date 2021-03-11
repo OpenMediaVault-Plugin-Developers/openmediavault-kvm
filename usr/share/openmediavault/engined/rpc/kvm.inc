@@ -35,6 +35,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
     {
         $this->registerMethod('getNetworkList');
         $this->registerMethod('enumerateNetworks');
+        $this->registerMethod('enumerateBridges');
         $this->registerMethod('getNetworkXml');
         $this->registerMethod('setNetwork');
         $this->registerMethod('setMacvtap');
@@ -144,6 +145,23 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $info = $lv->get_network_information($net);
             $objects[] = [
                 'netname' => $info['name']
+            ];
+        }
+        // Filter the result.
+        return ($objects);
+    }
+
+    public function enumerateBridges($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        $cmdLine = 'ls /sys/class/net | grep ^br';
+        $cmd = new \OMV\System\Process($cmdLine);
+        $cmd->setQuiet(true);
+        $cmd->execute($output, $exitStatus);
+        foreach ($net as $output) {
+            $objects[] = [
+                'bridge' => $net
             ];
         }
         // Filter the result.
@@ -771,9 +789,40 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $model = $params['model'];
         $net = $params['network'];
 
-        if (!$lv->domain_nic_add($newvm, $mac, $net, $model)) {
+        if ($model == "bridge") {
+            $result = $this->addVmBridgeNic($params['vmname'], $mac, $params['bridge']);
+        } else {
+            $result = $lv->domain_nic_add($newvm, $mac, $net, $model);
+        }
+        if (!result) {
             throw new \OMV\Exception( gettext("Unable to add network adapter to VM - ") . $lv->get_last_error());
         }
+    }
+
+    private function addVmBridgeNic($vmname, $mac, $net)
+    {
+        // create new libvirt object
+        $lv = $this->connectQemu();
+
+        // add a new bridge nic XML
+        $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
+
+        $interfaceXml = $domXml->devices->addChild('interface');
+        $interfaceXml->addAttribute('type', 'bridge');
+
+        $sourceXml = $interfaceXml->addChild('source');
+        $sourceXml->addAttribute('bridge', $net);
+
+        $macXml = $interfaceXml->addChild('mac');
+        $macXml->addAttribute('address', $mac);
+
+        $modelXml = $interfaceXml->addChild('model');
+        $modelXml->addAttribute('type', 'virtio');
+
+        $newXml = $domXml->asXML();
+        $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
+
+        return ($lv->domain_change_xml($vmname, $newXml));
     }
 
     public function getVmVolumes($params, $context)
@@ -1250,7 +1299,6 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         for ($i = 0; $i < sizeof($xpath); $i++) {
             $disk = $domXml->devices->disk[$i];
             if ($disk['device'] == "disk") {
-file_put_contents("/tmp/deletedisk.txt",$disk->source['file'].PHP_EOL,FILE_APPEND);
                 unlink($disk->source['file']);
                 unset($domXml->devices->disk[$i]);
             }

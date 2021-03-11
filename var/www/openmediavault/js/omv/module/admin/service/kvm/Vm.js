@@ -46,6 +46,20 @@ Ext.define("OMV.module.admin.service.kvm.Vm", {
             }],
             name: ['volpool','volname','volsizefield','volsize','volunit','volformat'],
             properties: ['show', 'submitValue', '!allowBlank']
+        },{
+            conditions: [{
+                name: 'model',
+                value: 'bridge'
+            }],
+            name: ['bridge'],
+            properties: ['show', 'submitValue', '!allowBlank']
+        },{
+            conditions: [{
+                name: 'model',
+                value: 'bridge'
+            }],
+            name: ['network'],
+            properties: ['!show', '!submitValue', 'allowBlank']
         }]
     }],
 
@@ -358,12 +372,45 @@ Ext.define("OMV.module.admin.service.kvm.Vm", {
                     [ "vmxnet3", "vmxnet3" ],
                     [ "rtl8139", "rtl8139" ],
                     [ "ne2k_pci", "ne2k_pci" ],
-                    [ "pcnet", "pcnet" ]
+                    [ "pcnet", "pcnet" ],
+                    [ "bridge", "bridge" ]
                 ],
                 allowBlank: false,
                 editable: false,
                 triggerAction: "all",
                 value: "virtio"
+            },{
+                xtype: "combo",
+                name: "bridge",
+                fieldLabel: _("Bridge"),
+                emptyText: _("Select a bridge ..."),
+                editable: false,
+                triggerAction: "all",
+                displayField: "bridge",
+                valueField: "bridge",
+                allowNone: true,
+                allowBlank: true,
+                store: Ext.create("OMV.data.Store", {
+                    autoLoad: true,
+                    model: OMV.data.Model.createImplicit({
+                        idProperty: "bridge",
+                        fields: [
+                            { name: "bridge", type: "string" }
+                        ]
+                    }),
+                    proxy: {
+                        type: "rpc",
+                        rpcData: {
+                            service: "Kvm",
+                            method: "enumerateBridges"
+                        },
+                        appendSortParams: false
+                    },
+                    sorters: [{
+                        direction: "ASC",
+                        property: "netname"
+                    }]
+                })
             },{
                 xtype: "combo",
                 name: "network",
