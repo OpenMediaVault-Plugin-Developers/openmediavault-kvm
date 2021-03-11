@@ -365,20 +365,62 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.setpool');
-        $poolname = $params['name'];
-        $poolpath = $params['path'];
+        $host = $params['hostname'];
+        $name = $params['name'];
+        $path = $params['path'];
+        $source = $params['sourcepath'];
+        $type = $params['type'];
+        $zpool = $params['zpoolname'];
         // create new libvirt object
         $lv = $this->connectQemu();
-        $xml = "<pool type='dir'>";
-        $xml .= sprintf("<name>%s</name>", $poolname);
-        $xml .= "<target>";
-        $xml .= sprintf("<path>%s</path>", $poolpath);
-        $xml .= "<permissions>";
-        $xml .= "</permissions>";
-        $xml .= "</target>";
+        $xml = sprintf("<pool type='%s'>", $type);
+        $xml .= sprintf("<name>%s</name>", $name);
+        switch ($type) {
+            case 'dir':
+                mkdir($path, 0755, true);
+                break;
+            case 'fs':
+                mkdir($path, 0755, true);
+                $xml .= "<source>";
+                $xml .= sprintf("<device path='%s'/>", $source);
+                $xml .= "</source>";
+                break;
+            case 'netfs':
+                mkdir($path, 0755, true);
+                $xml .= "<source>";
+                $xml .= sprintf("<host name='%s'/>", $host);
+                $xml .= sprintf("<dir path='%s'/>", $source);
+                $xml .= "<format type='auto'/>";
+                $xml .= "</source>";
+                break;
+            case 'disk':
+                $xml .= "<source>";
+                $xml .= sprintf("<device path='%s'/>", $source);
+                $xml .= "</source>";
+                break;
+            case 'iscsi':
+                $xml .= "<source>";
+                $xml .= sprintf("<host name='%s'/>", $host);
+                $xml .= sprintf("<device path='%s'/>", $source);
+                $xml .= "</source>";
+                break;
+            case 'zfs':
+                $xml .= "<source>";
+                $xml .= sprintf("<name>%s</name>", $zpool);
+                $xml .= sprintf("<device path='%s'/>", $path);
+                $xml .= "</source>";
+                break;
+        }
+        if ($type != 'zfs') {
+            $xml .= "<target>";
+            $xml .= sprintf("<path>%s</path>", $path);
+            $xml .= "</target>";
+        }
         $xml .= "</pool>";
         if (!$lv->storagepool_define_xml($xml)) {
-            throw new \OMV\Exception( gettext("Unable to create pool - ") . $lv->get_last_error());
+            $msg = "Error creating pool: " . $lv->get_last_error();
+            $msg .= PHP_EOL . PHP_EOL . $xml;
+            throw new \OMV\Exception( gettext("Unable to create pool - ") . $msg);
         }
     }
 
@@ -1182,6 +1224,42 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         );
     }
 
+    private function removeOpticalByVm($vmname)
+    {
+        // create new libvirt object
+        $lv = $this->connectQemu();
+        $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
+        $xpath = $domXml->xpath('//disk');
+        for ($i = 0; $i < sizeof($xpath); $i++) {
+            $disk = $domXml->devices->disk[$i];
+            if ($disk['device'] == "cdrom") {
+                unset($domXml->devices->disk[$i]);
+            }
+        }
+        $newXml = $domXml->asXML();
+        $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
+        return ($lv->domain_change_xml($vmname, $newXml));
+    }
+
+    private function deleteDisksByVm($vmname)
+    {
+        // create new libvirt object
+        $lv = $this->connectQemu();
+        $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
+        $xpath = $domXml->xpath('//disk');
+        for ($i = 0; $i < sizeof($xpath); $i++) {
+            $disk = $domXml->devices->disk[$i];
+            if ($disk['device'] == "disk") {
+file_put_contents("/tmp/deletedisk.txt",$disk->source['file'].PHP_EOL,FILE_APPEND);
+                unlink($disk->source['file']);
+                unset($domXml->devices->disk[$i]);
+            }
+        }
+        $newXml = $domXml->asXML();
+        $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
+        return ($lv->domain_change_xml($vmname, $newXml));
+    }
+
     public function enumerateSnapshots($params, $context)
     {
         // Validate the RPC caller context.
@@ -1287,6 +1365,26 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmd = new \OMV\System\Process($cmdLine);
                 $cmd->execute($output, $result);
                 break;
+            case 'undefineplus':
+                $undefine = false;
+                if ($this->removeOpticalByVm($params['name'])) {
+                    $undefine = true;
+                } else {
+                    $undefine = false;
+                    throw new \OMV\Exception( gettext("Unable to remove optical from VM - ") . $lv->get_last_error());
+                }
+                if ($this->deleteDisksByVm($params['name'])) {
+                    $undefine = true;
+                } else {
+                    $undefine = false;
+                    throw new \OMV\Exception( gettext("Unable to delete disk(s) from VM - ") . $lv->get_last_error());
+                }
+                if ($undefine) {
+                    $cmdLine = sprintf('virsh undefine --nvram %s', $params['name']);
+                    $cmd = new \OMV\System\Process($cmdLine);
+                    $cmd->execute($output, $result);
+                }
+                break;
             case 'pool_start':
                 $result = $lv->storagepool_create($res);
                 break;
@@ -1323,7 +1421,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             if ($hostport >= 1024) {
                 // create container
                 $output = [];
-                $cmdLine = sprintf('docker run -d -e REMOTE_HOST=$(hostname) -e REMOTE_PORT=%d -p %d:8081 --name %s dougw/novnc', $params['vncport'], $hostport, $containerName);
+                $cmdLine = sprintf('docker run -d -e REMOTE_HOST=$(hostname -f) -e REMOTE_PORT=%d -p %d:8081 --name %s dougw/novnc', $params['vncport'], $hostport, $containerName);
                 $cmd = new \OMV\System\Process($cmdLine);
                 $cmd->setQuiet(true);
                 $cmd->execute($output, $exitStatus);

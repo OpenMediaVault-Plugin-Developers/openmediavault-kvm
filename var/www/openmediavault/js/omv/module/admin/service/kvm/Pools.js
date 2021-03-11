@@ -42,6 +42,30 @@ Ext.define("OMV.module.admin.service.kvm.Pool", {
     rpcSetMethod: "setPool",
     plugins: [{
         ptype: "configobject"
+    },{
+        ptype: 'linkedfields',
+        correlations: [{
+            conditions: [{
+                name: 'type',
+                value: 'zfs'
+            }],
+            name: ['zpoolname','sourcepath'],
+            properties: ['show', 'submitValue', '!allowBlank']
+        },{
+            conditions: [{
+                name: 'type',
+                value: ['iscsi','netfs']
+            }],
+            name: ['hostname'],
+            properties: ['show', 'submitValue', '!allowBlank']
+        },{
+            conditions: [{
+                name: 'type',
+                value: 'dir'
+            }],
+            name: ['sourcepath'],
+            properties: ['!show', '!submitValue', 'allowBlank']
+        }]
     }],
 
     getFormItems: function() {
@@ -51,6 +75,70 @@ Ext.define("OMV.module.admin.service.kvm.Pool", {
             name: "name",
             fieldLabel: _("Name"),
             allowBlank: false
+        },{
+            xtype: "combo",
+            name: "type",
+            fieldLabel: _("Type"),
+            queryMode: "local",
+            store: [
+                [ "dir", _("Directory") ],
+                [ "fs", _("Filesystem") ],
+                [ "netfs", _("Network Filesystem") ],
+                [ "disk", _("Disk") ],
+                [ "iscsi", _("iSCSI") ],
+                [ "zfs", _("ZFS") ],
+            ],
+            allowBlank: false,
+            editable: false,
+            triggerAction: "all",
+            value: "dir",
+            plugins: [{
+                ptype: "fieldinfo",
+                text: _("For description of each type and how to configure:") + " <a href='https://libvirt.org/storage.html' target='_blank'>https://libvirt.org/storage.html</a>"
+            }],
+            listeners: {
+                scope: me,
+                change: function(field) {
+                    var path = me.findField("path");
+                    if (field.value == "dir") {
+                        path.setFieldLabel(_("Path"));
+                    } else {
+                        path.setFieldLabel(_("Target Path"));
+                    }
+                }
+            }
+        },{
+            xtype: "textfield",
+            name: "hostname",
+            fieldLabel: _("Host name"),
+            allowBlank: false
+        },{
+            xtype: "textfield",
+            name: "zpoolname",
+            fieldLabel: _("zPool name"),
+            allowBlank: false
+        },{
+            xtype: "textfield",
+            name: "sourcepath",
+            fieldLabel: _("Source Path"),
+            allowBlank: false,
+            triggers: {
+                folder: {
+                    cls: Ext.baseCSSPrefix + "form-folder-trigger",
+                    handler: "onTriggerClick"
+                }
+            },
+            onTriggerClick: function() {
+                Ext.create("OmvExtras.window.RootFolderBrowser", {
+                    listeners: {
+                        scope: this,
+                        select: function(wnd, node, path) {
+                            // Set the selected path.
+                            this.setValue(path);
+                        }
+                    }
+                }).show();
+            }
         },{
             xtype: "textfield",
             name: "path",
@@ -86,7 +174,8 @@ Ext.define('OMV.module.admin.service.kvm.Pools', {
         'OMV.data.proxy.Rpc'
     ],
     uses: [
-        "OMV.module.admin.service.kvm.Pool"
+        "OMV.module.admin.service.kvm.Pool",
+        "OMV.module.admin.service.kvm.AdvancedPool"
     ],
 
     hidePagingToolbar: false,

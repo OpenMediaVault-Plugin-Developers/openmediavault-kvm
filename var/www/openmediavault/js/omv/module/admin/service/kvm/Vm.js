@@ -353,11 +353,12 @@ Ext.define("OMV.module.admin.service.kvm.Vm", {
                 fieldLabel: _("Model"),
                 queryMode: "local",
                 store: [
-                    [ "virtio", _("virtio") ],
-                    [ "e1000", _("e1000") ],
-                    [ "rtl8139", _("rtl8139") ],
-                    [ "ne2k_pci", _("ne2k_pci") ],
-                    [ "pcnet", _("pcnet") ]
+                    [ "virtio", "virtio" ],
+                    [ "e1000", "e1000" ],
+                    [ "vmxnet3", "vmxnet3" ],
+                    [ "rtl8139", "rtl8139" ],
+                    [ "ne2k_pci", "ne2k_pci" ],
+                    [ "pcnet", "pcnet" ]
                 ],
                 allowBlank: false,
                 editable: false,

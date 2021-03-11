@@ -63,6 +63,10 @@
 			"path": {
 				"type": "string",
 				"required": true
+			},
+			"type": {
+				"type": "string",
+				"required": true
 			}
 		}
 	}
@@ -399,8 +403,8 @@
 				"type": "string",
 				"enum": [ "delete", "start", "stop", "poweron",
                                           "reboot", "poweroff", "force", "pause",
-                                          "resume", "undefine", "pool_start", "pool_stop",
-                                          "autostart_disable", "autostart_enable"
+                                          "resume", "undefine", "undefineplus", "pool_start",
+                                          "pool_stop", "autostart_disable", "autostart_enable"
                                         ],
 				"required": true
 			},

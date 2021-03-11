@@ -656,7 +656,7 @@ class Libvirt {
     }
 
     function get_nic_models() {
-        return array('default', 'rtl8139', 'e1000', 'pcnet', 'ne2k_pci', 'virtio');
+        return array('default', 'rtl8139', 'e1000', 'vmxnet3', 'pcnet', 'ne2k_pci', 'virtio');
     }
 
     function get_network_res($network) {

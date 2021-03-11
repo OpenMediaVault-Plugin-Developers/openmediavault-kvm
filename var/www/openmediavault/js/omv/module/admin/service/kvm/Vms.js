@@ -408,6 +408,20 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
                         return (state == 'shutoff' && snaps == 0);
                     }
                 }
+            },{
+                text: _("Delete + storage"),
+                icon: "images/delete.png",
+                handler: Ext.Function.bind(me.onCommandButton, me, [ "undefineplus" ]),
+                disabled : true,
+                selectionConfig : {
+                    minSelections : 1,
+                    maxSelections : 1,
+                    enabledFn: function(c, records) {
+                        var state = records[0].get("state");
+                        var snaps = records[0].get("snaps");
+                        return (state == 'shutoff' && snaps == 0);
+                    }
+                }
             }]
         },{
             xtype: "button",
@@ -839,10 +853,17 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
     onCommandButton: function(cmd) {
         var me = this;
         var record = me.getSelected();
+        var vmname = record.get("vmname");
         if (cmd == "stop" || cmd == "force") {
             var url = record.get("dockerurl");
             if (url.indexOf("vnc.html") > 0) {
                 me.onVncButton("stop");
+            }
+        } else if (cmd == "undefineplus") {
+            hostdelete = prompt("confirm VM name to delete", "");
+            if (hostdelete != vmname) {
+                alert(_("Wrong VM name entered! Skipping delete ..."));
+                return;
             }
         }
         OMV.Rpc.request({
@@ -851,7 +872,7 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
                 service: "Kvm",
                 method: "doCommand",
                 params: {
-                    name: record.get("vmname"),
+                    name: vmname,
                     command: cmd
                 }
             }
