@@ -468,6 +468,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $doms = $lv->get_domains();
         $objects= [];
         foreach ($doms as $name) {
+            if (!$lv->domain_get_xml($name)) {
+                continue;
+            }
             $dom = $lv->get_domain_object($name);
             $info = $lv->domain_get_info($dom);
             $diskcnt = $lv->get_disk_count($dom);
@@ -496,6 +499,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 } else {
                     $dockerport = 'n/a';
                 }
+            }
+            if (!$lv->domain_get_xml($name)) {
+                continue;
             }
             $domXml = new SimpleXMLElement($lv->domain_get_xml($name));
             $path = $domXml->xpath('//graphics');
@@ -1415,12 +1421,6 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 break;
             case 'undefineplus':
                 $undefine = false;
-                if ($this->removeOpticalByVm($params['name'])) {
-                    $undefine = true;
-                } else {
-                    $undefine = false;
-                    throw new \OMV\Exception( gettext("Unable to remove optical from VM - ") . $lv->get_last_error());
-                }
                 if ($this->deleteDisksByVm($params['name'])) {
                     $undefine = true;
                 } else {
