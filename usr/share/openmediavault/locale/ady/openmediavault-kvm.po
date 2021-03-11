@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-09 17:22-0600\n"
+"POT-Creation-Date: 2021-03-11 07:53-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Language-Team: Adyghe (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/ady/)\n"
 "MIME-Version: 1.0\n"
@@ -146,10 +146,16 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
+msgid "Delete + storage"
+msgstr ""
+
 msgid "Delete disk ..."
 msgstr ""
 
 msgid "Delete snapshot ..."
+msgstr ""
+
+msgid "Directory"
 msgstr ""
 
 msgid "Disable autostart"
@@ -200,6 +206,12 @@ msgstr ""
 msgid "Failed to start container."
 msgstr ""
 
+msgid "Filesystem"
+msgstr ""
+
+msgid "For description of each type and how to configure:"
+msgstr ""
+
 msgid "For more info"
 msgstr ""
 
@@ -222,6 +234,9 @@ msgid "Gateway IP Address"
 msgstr ""
 
 msgid "GiB"
+msgstr ""
+
+msgid "Host name"
 msgstr ""
 
 msgid "IP Range"
@@ -264,6 +279,9 @@ msgid "Name"
 msgstr ""
 
 msgid "Network"
+msgstr ""
+
+msgid "Network Filesystem"
 msgstr ""
 
 msgid "Network Name"
@@ -371,6 +389,9 @@ msgstr ""
 msgid "Snapshots"
 msgstr ""
 
+msgid "Source Path"
+msgstr ""
+
 msgid "Spice port"
 msgstr ""
 
@@ -393,6 +414,12 @@ msgid "Subnet mask"
 msgstr ""
 
 msgid "T"
+msgstr ""
+
+msgid "Target Path"
+msgstr ""
+
+msgid "Type"
 msgstr ""
 
 msgid "UEFI"
@@ -434,6 +461,9 @@ msgstr ""
 msgid "Unable to create volume - "
 msgstr ""
 
+msgid "Unable to delete disk(s) from VM - "
+msgstr ""
+
 msgid "Unable to delete network - "
 msgstr ""
 
@@ -450,6 +480,9 @@ msgid "Unable to remove disk from VM - "
 msgstr ""
 
 msgid "Unable to remove network interface from VM - "
+msgstr ""
+
+msgid "Unable to remove optical from VM - "
 msgstr ""
 
 msgid "Unable to resize disk - "
@@ -488,7 +521,13 @@ msgstr ""
 msgid "Windows"
 msgstr ""
 
+msgid "Wrong VM name entered! Skipping delete ..."
+msgstr ""
+
 msgid "XML"
+msgstr ""
+
+msgid "ZFS"
 msgstr ""
 
 msgid "aarch64"
@@ -501,6 +540,9 @@ msgid "e1000"
 msgstr ""
 
 msgid "i386"
+msgstr ""
+
+msgid "iSCSI"
 msgstr ""
 
 msgid "ide"
@@ -540,4 +582,7 @@ msgid "virtio"
 msgstr ""
 
 msgid "x86_64"
+msgstr ""
+
+msgid "zPool name"
 msgstr ""

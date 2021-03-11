@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-09 17:22-0600\n"
+"POT-Creation-Date: 2021-03-11 07:53-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>, 2021\n"
 "Language-Team: Galician (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/gl/)\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid " already exists!"
-msgstr ""
+msgstr "xa existe!"
 
 msgid "Activity"
 msgstr "Actividade"
@@ -73,10 +73,10 @@ msgid "Arch"
 msgstr "Arquivo"
 
 msgid "Architecture"
-msgstr ""
+msgstr "Arquitectura"
 
 msgid "Audio"
-msgstr ""
+msgstr "Son"
 
 msgid "AutoStart"
 msgstr "InicioAutom."
@@ -103,10 +103,10 @@ msgid "Change vCPU quantity ..."
 msgstr "Cambiar a cantidade de vCPU…"
 
 msgid "Check"
-msgstr ""
+msgstr "Comprobar"
 
 msgid "Checking volume ..."
-msgstr ""
+msgstr "Comprobando o volume…"
 
 msgid "Component"
 msgstr "Compoñente"
@@ -115,16 +115,16 @@ msgid "Console"
 msgstr "Consola"
 
 msgid "Convert"
-msgstr ""
+msgstr "Converter"
 
 msgid "Convert to "
-msgstr ""
+msgstr "Converter a "
 
 msgid "Convert to qcow2"
-msgstr ""
+msgstr "Converter a qcow2"
 
 msgid "Convert to raw"
-msgstr ""
+msgstr "Converter a en bruto"
 
 msgid "Create"
 msgstr "Crear"
@@ -150,11 +150,17 @@ msgstr "Data e hora"
 msgid "Delete"
 msgstr "Eliminar"
 
+msgid "Delete + storage"
+msgstr ""
+
 msgid "Delete disk ..."
 msgstr "Eliminar un disco…"
 
 msgid "Delete snapshot ..."
 msgstr "Eliminar a instantánea…"
+
+msgid "Directory"
+msgstr ""
 
 msgid "Disable autostart"
 msgstr "Desactivar o inicio automático"
@@ -200,10 +206,16 @@ msgid "Enable autostart"
 msgstr "Activar o inicio automático"
 
 msgid "Extension"
-msgstr ""
+msgstr "Extensión"
 
 msgid "Failed to start container."
 msgstr "Produciuse un fallo ao iniciar o contedor."
+
+msgid "Filesystem"
+msgstr ""
+
+msgid "For description of each type and how to configure:"
+msgstr ""
 
 msgid "For more info"
 msgstr "Para máis información"
@@ -229,6 +241,9 @@ msgstr "Enderezo IP da pasarela"
 msgid "GiB"
 msgstr "GiB"
 
+msgid "Host name"
+msgstr ""
+
 msgid "IP Range"
 msgstr "Intervalo IP"
 
@@ -236,7 +251,7 @@ msgid "ISOs"
 msgstr "ISO"
 
 msgid "Info"
-msgstr ""
+msgstr "Info."
 
 msgid "KVM"
 msgstr "KVM"
@@ -270,6 +285,9 @@ msgstr "Nome"
 
 msgid "Network"
 msgstr "Rede"
+
+msgid "Network Filesystem"
+msgstr ""
 
 msgid "Network Name"
 msgstr "Nome da rede"
@@ -362,7 +380,7 @@ msgid "Settings"
 msgstr "Axustes"
 
 msgid "Showing volume info ..."
-msgstr ""
+msgstr "Amosando a información do volume…"
 
 msgid "Size"
 msgstr "Tamaño"
@@ -375,6 +393,9 @@ msgstr "Instantánea"
 
 msgid "Snapshots"
 msgstr "Instantáneas"
+
+msgid "Source Path"
+msgstr ""
 
 msgid "Spice port"
 msgstr "Porto de Spice"
@@ -399,6 +420,12 @@ msgstr "Máscara de subrede"
 
 msgid "T"
 msgstr "T"
+
+msgid "Target Path"
+msgstr ""
+
+msgid "Type"
+msgstr ""
 
 msgid "UEFI"
 msgstr "UEFI"
@@ -439,6 +466,9 @@ msgstr "Non é posíbel  crear unha instantánea - "
 msgid "Unable to create volume - "
 msgstr "Non é posíbel  crear un volume - "
 
+msgid "Unable to delete disk(s) from VM - "
+msgstr ""
+
 msgid "Unable to delete network - "
 msgstr "Non é posíbel  eliminar a rede - "
 
@@ -456,6 +486,9 @@ msgstr "Non é posíbel retirar o disco da máquina virtual -"
 
 msgid "Unable to remove network interface from VM - "
 msgstr "Non é posíbel retirar a interface de rede da máquina virtual -"
+
+msgid "Unable to remove optical from VM - "
+msgstr ""
 
 msgid "Unable to resize disk - "
 msgstr "Non é posíbel  redimensionar o disco - "
@@ -493,19 +526,28 @@ msgstr "Volumes"
 msgid "Windows"
 msgstr "Windows"
 
+msgid "Wrong VM name entered! Skipping delete ..."
+msgstr ""
+
 msgid "XML"
 msgstr "XML"
 
-msgid "aarch64"
+msgid "ZFS"
 msgstr ""
 
+msgid "aarch64"
+msgstr "aarch64"
+
 msgid "arm"
-msgstr ""
+msgstr "arm"
 
 msgid "e1000"
 msgstr "e1000"
 
 msgid "i386"
+msgstr "i386"
+
+msgid "iSCSI"
 msgstr ""
 
 msgid "ide"
@@ -545,4 +587,7 @@ msgid "virtio"
 msgstr "virtio"
 
 msgid "x86_64"
+msgstr "x86_64"
+
+msgid "zPool name"
 msgstr ""

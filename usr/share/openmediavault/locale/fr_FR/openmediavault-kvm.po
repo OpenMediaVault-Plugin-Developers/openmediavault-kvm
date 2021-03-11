@@ -3,13 +3,17 @@
 # This file is distributed under the same license as the openmediavault-kvm package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
+# Translators:
+# Etienne V, 2021
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-09 17:22-0600\n"
+"POT-Creation-Date: 2021-03-11 07:53-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
+"Last-Translator: Etienne V, 2021\n"
 "Language-Team: French (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,79 +22,79 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 msgid " already exists!"
-msgstr ""
+msgstr "Existe déjà !"
 
 msgid "Activity"
-msgstr ""
+msgstr "Activité"
 
 msgid "Add"
-msgstr ""
+msgstr "Ajouter"
 
 msgid "Add Macvtap Bridge"
 msgstr ""
 
 msgid "Add Network"
-msgstr ""
+msgstr "Ajouter un réseau"
 
 msgid "Add VM"
-msgstr ""
+msgstr "Ajouter une VM"
 
 msgid "Add XML"
 msgstr ""
 
 msgid "Add disk ..."
-msgstr ""
+msgstr "Ajouter un disque ..."
 
 msgid "Add macvtap bridge"
 msgstr ""
 
 msgid "Add network"
-msgstr ""
+msgstr "Ajouter un réseau"
 
 msgid "Add network adapter ..."
-msgstr ""
+msgstr "Ajouter un adaptateur réseau"
 
 msgid "Add optical disk ..."
-msgstr ""
+msgstr "Ajouter un disque optique"
 
 msgid "Add pool"
 msgstr ""
 
 msgid "Add volume"
-msgstr ""
+msgstr "Ajouter un volume"
 
 msgid "Advanced"
-msgstr ""
+msgstr "Avancé"
 
 msgid "Allocation"
-msgstr ""
+msgstr "Allocation"
 
 msgid "Arch"
-msgstr ""
+msgstr "Arch"
 
 msgid "Architecture"
-msgstr ""
+msgstr "Architecture"
 
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 msgid "AutoStart"
 msgstr ""
 
 msgid "Available"
-msgstr ""
+msgstr "Disponible"
 
 msgid "Bus"
-msgstr ""
+msgstr "Bus"
 
 msgid "CPUs"
-msgstr ""
+msgstr "Processeurs"
 
 msgid "Call"
 msgstr ""
 
 msgid "Capacity"
-msgstr ""
+msgstr "Capacité"
 
 msgid "Change memory ..."
 msgstr ""
@@ -99,37 +103,37 @@ msgid "Change vCPU quantity ..."
 msgstr ""
 
 msgid "Check"
-msgstr ""
+msgstr "Vérifier"
 
 msgid "Checking volume ..."
-msgstr ""
+msgstr "Vérification du volume ..."
 
 msgid "Component"
-msgstr ""
+msgstr "Composant"
 
 msgid "Console"
-msgstr ""
+msgstr "Console"
 
 msgid "Convert"
-msgstr ""
+msgstr "Convertir"
 
 msgid "Convert to "
-msgstr ""
+msgstr "Convertir en"
 
 msgid "Convert to qcow2"
 msgstr ""
 
 msgid "Convert to raw"
-msgstr ""
+msgstr "Convertir en raw"
 
 msgid "Create"
-msgstr ""
+msgstr "Créer"
 
 msgid "Create noVNC console"
-msgstr ""
+msgstr "Créer une console noVNC"
 
 msgid "DHCP"
-msgstr ""
+msgstr "DHCP"
 
 msgid "DHCP Range"
 msgstr ""
@@ -141,160 +145,179 @@ msgid "DHCP starting address"
 msgstr ""
 
 msgid "Date & Time"
-msgstr ""
+msgstr "Date & Heure"
 
 msgid "Delete"
+msgstr "Supprimer"
+
+msgid "Delete + storage"
 msgstr ""
 
 msgid "Delete disk ..."
-msgstr ""
+msgstr "Supprimer un disque ..."
 
 msgid "Delete snapshot ..."
+msgstr "Supprimer un snapshot ..."
+
+msgid "Directory"
 msgstr ""
 
 msgid "Disable autostart"
 msgstr ""
 
 msgid "Disk"
-msgstr ""
+msgstr "Disque"
 
 msgid "Disk(s)"
-msgstr ""
+msgstr "Disque(s)"
 
 msgid "Docker is not installed. Please install from omv-extras Docker tab."
 msgstr ""
+"Docker n'est pas installé. Installer depuis l'onglet omv-extras Docker"
 
 msgid "Docker port"
-msgstr ""
+msgstr "Port Docker"
 
 msgid "Done."
-msgstr ""
+msgstr "Terminé."
 
 msgid "Download"
-msgstr ""
+msgstr "Télécharger"
 
 msgid "Download iso from URL"
-msgstr ""
+msgstr "Télécharger l'iso depuis l'URL"
 
 msgid "Download iso from url"
-msgstr ""
+msgstr "Télécharger l'iso depuis l'url"
 
 msgid "Download virtio iso"
-msgstr ""
+msgstr "Télécharger l'iso virtio"
 
 msgid "Download virtio iso ..."
-msgstr ""
+msgstr "Télécharger l'iso virtio ..."
 
 msgid "Edit"
-msgstr ""
+msgstr "Modifier"
 
 msgid "Edit XML"
-msgstr ""
+msgstr "modifier l'XML"
 
 msgid "Enable autostart"
 msgstr ""
 
 msgid "Extension"
-msgstr ""
+msgstr "Extension"
 
 msgid "Failed to start container."
+msgstr "Echec de démarrage du container"
+
+msgid "Filesystem"
+msgstr ""
+
+msgid "For description of each type and how to configure:"
 msgstr ""
 
 msgid "For more info"
-msgstr ""
+msgstr "Pour plus d'info"
 
 msgid "Force"
-msgstr ""
+msgstr "Forcer"
 
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 msgid "Forwarding"
 msgstr ""
 
 msgid "G"
-msgstr ""
+msgstr "G"
 
 msgid "Gateway IP"
-msgstr ""
+msgstr "Passerelle IP"
 
 msgid "Gateway IP Address"
-msgstr ""
+msgstr "Adresse IP de la passerelle"
 
 msgid "GiB"
+msgstr ""
+
+msgid "Host name"
 msgstr ""
 
 msgid "IP Range"
 msgstr ""
 
 msgid "ISOs"
-msgstr ""
+msgstr "ISOs"
 
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 msgid "KVM"
-msgstr ""
+msgstr "KVM"
 
 msgid "Leave blank for random address."
 msgstr ""
 
 msgid "Linux"
-msgstr ""
+msgstr "Linux"
 
 msgid "M"
-msgstr ""
+msgstr "M"
 
 msgid "MAC address"
-msgstr ""
+msgstr "adresse MAC"
 
 msgid "Memory"
-msgstr ""
+msgstr "Mémoire"
 
 msgid "Message"
-msgstr ""
+msgstr "Message"
 
 msgid "MiB"
 msgstr ""
 
 msgid "Model"
-msgstr ""
+msgstr "Modèle"
 
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 msgid "Network"
+msgstr "Réseau"
+
+msgid "Network Filesystem"
 msgstr ""
 
 msgid "Network Name"
-msgstr ""
+msgstr "Nom du réseau"
 
 msgid "Network State"
-msgstr ""
+msgstr "Etat du réseau"
 
 msgid "Network adapter"
-msgstr ""
+msgstr "Adaptateur réseau"
 
 msgid "Networks"
-msgstr ""
+msgstr "Réseaux"
 
 msgid "OS"
 msgstr ""
 
 msgid "Optical"
-msgstr ""
+msgstr "Optique"
 
 msgid "Optical Disk"
-msgstr ""
+msgstr "Disque optique"
 
 msgid "Optical Drive"
-msgstr ""
+msgstr "Lecteur de disque optique"
 
 msgid "Path"
-msgstr ""
+msgstr "Chemin"
 
 msgid "Pause"
-msgstr ""
+msgstr "Pause"
 
 msgid "Permissions of owner."
 msgstr ""
@@ -306,25 +329,25 @@ msgid "Pools"
 msgstr ""
 
 msgid "Reboot"
-msgstr ""
+msgstr "Redémarrer"
 
 msgid "Remove"
-msgstr ""
+msgstr "Supprimer"
 
 msgid "Remove network adapter ..."
-msgstr ""
+msgstr "Supprimer un adaptateur réseau"
 
 msgid "Remove optical disk ..."
-msgstr ""
+msgstr "Supprimer un disque optique ..."
 
 msgid "Resize"
-msgstr ""
+msgstr "Redimensionner"
 
 msgid "Resize disk ..."
-msgstr ""
+msgstr "Redimensionner le disque ..."
 
 msgid "Resume"
-msgstr ""
+msgstr "Continuer"
 
 msgid "Revert"
 msgstr ""
@@ -333,16 +356,16 @@ msgid "Revert to snapshot ..."
 msgstr ""
 
 msgid "Select a file ..."
-msgstr ""
+msgstr "Sélectionner un fichier ..."
 
 msgid "Select a network ..."
-msgstr ""
+msgstr "Sélectionner un réseau ..."
 
 msgid "Select a network adapter ..."
-msgstr ""
+msgstr "Sélectionner un adaptateur réseau ..."
 
 msgid "Select a nic ..."
-msgstr ""
+msgstr "Sélectionner une carte réseau ..."
 
 msgid "Select a pool ..."
 msgstr ""
@@ -351,61 +374,70 @@ msgid "Select a snapshot ..."
 msgstr ""
 
 msgid "Select a volume ..."
-msgstr ""
+msgstr "Sélectionner un volume ..."
 
 msgid "Settings"
-msgstr ""
+msgstr "Réglages"
 
 msgid "Showing volume info ..."
 msgstr ""
 
 msgid "Size"
-msgstr ""
+msgstr "Taille"
 
 msgid "Size to add"
-msgstr ""
+msgstr "Taille à ajouter"
 
 msgid "Snapshot"
-msgstr ""
+msgstr "Snapshot"
 
 msgid "Snapshots"
+msgstr "Snapshots"
+
+msgid "Source Path"
 msgstr ""
 
 msgid "Spice port"
 msgstr ""
 
 msgid "Start"
-msgstr ""
+msgstr "Démarrer"
 
 msgid "State"
-msgstr ""
+msgstr "Etat"
 
 msgid "Stop"
-msgstr ""
+msgstr "Arrêter"
 
 msgid "Stop noVNC console"
-msgstr ""
+msgstr "Arrêter la console noVNC"
 
 msgid "Storage Volume"
-msgstr ""
+msgstr "Volume de stockage"
 
 msgid "Subnet mask"
-msgstr ""
+msgstr "Masque de sous-réseau"
 
 msgid "T"
+msgstr "T"
+
+msgid "Target Path"
+msgstr ""
+
+msgid "Type"
 msgstr ""
 
 msgid "UEFI"
-msgstr ""
+msgstr "UEFI"
 
 msgid "Unable to - "
-msgstr ""
+msgstr "Impossible de ..."
 
 msgid "Unable to add ISO to VM - "
-msgstr ""
+msgstr "Impossible d'ajouter l'ISO à la VM"
 
 msgid "Unable to add disk to VM - "
-msgstr ""
+msgstr "Impossible d'ajouter le disque à la VM - "
 
 msgid "Unable to add network adapter to VM - "
 msgstr ""
@@ -434,6 +466,9 @@ msgstr ""
 msgid "Unable to create volume - "
 msgstr ""
 
+msgid "Unable to delete disk(s) from VM - "
+msgstr ""
+
 msgid "Unable to delete network - "
 msgstr ""
 
@@ -450,6 +485,9 @@ msgid "Unable to remove disk from VM - "
 msgstr ""
 
 msgid "Unable to remove network interface from VM - "
+msgstr ""
+
+msgid "Unable to remove optical from VM - "
 msgstr ""
 
 msgid "Unable to resize disk - "
@@ -488,7 +526,13 @@ msgstr ""
 msgid "Windows"
 msgstr ""
 
+msgid "Wrong VM name entered! Skipping delete ..."
+msgstr ""
+
 msgid "XML"
+msgstr ""
+
+msgid "ZFS"
 msgstr ""
 
 msgid "aarch64"
@@ -501,6 +545,9 @@ msgid "e1000"
 msgstr ""
 
 msgid "i386"
+msgstr ""
+
+msgid "iSCSI"
 msgstr ""
 
 msgid "ide"
@@ -540,4 +587,7 @@ msgid "virtio"
 msgstr ""
 
 msgid "x86_64"
+msgstr ""
+
+msgid "zPool name"
 msgstr ""

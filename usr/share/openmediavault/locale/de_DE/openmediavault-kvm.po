@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-09 17:22-0600\n"
+"POT-Creation-Date: 2021-03-11 07:53-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Ettore Atalan <atalanttore@googlemail.com>, 2021\n"
 "Language-Team: German (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/de/)\n"
@@ -150,11 +150,17 @@ msgstr "Datum & Zeit"
 msgid "Delete"
 msgstr "Löschen"
 
+msgid "Delete + storage"
+msgstr ""
+
 msgid "Delete disk ..."
 msgstr "Festplatte löschen ..."
 
 msgid "Delete snapshot ..."
 msgstr "Schnappschuss löschen ..."
+
+msgid "Directory"
+msgstr ""
 
 msgid "Disable autostart"
 msgstr "Autostart deaktivieren"
@@ -204,6 +210,12 @@ msgstr ""
 msgid "Failed to start container."
 msgstr ""
 
+msgid "Filesystem"
+msgstr ""
+
+msgid "For description of each type and how to configure:"
+msgstr ""
+
 msgid "For more info"
 msgstr ""
 
@@ -227,6 +239,9 @@ msgstr ""
 
 msgid "GiB"
 msgstr "GiB"
+
+msgid "Host name"
+msgstr ""
 
 msgid "IP Range"
 msgstr "IP-Bereich"
@@ -269,6 +284,9 @@ msgstr "Name"
 
 msgid "Network"
 msgstr "Netzwerk"
+
+msgid "Network Filesystem"
+msgstr ""
 
 msgid "Network Name"
 msgstr "Netzwerkname"
@@ -375,6 +393,9 @@ msgstr "Schnappschuss"
 msgid "Snapshots"
 msgstr "Schnappschüsse"
 
+msgid "Source Path"
+msgstr ""
+
 msgid "Spice port"
 msgstr ""
 
@@ -397,6 +418,12 @@ msgid "Subnet mask"
 msgstr "Subnetzmaske"
 
 msgid "T"
+msgstr ""
+
+msgid "Target Path"
+msgstr ""
+
+msgid "Type"
 msgstr ""
 
 msgid "UEFI"
@@ -438,6 +465,9 @@ msgstr ""
 msgid "Unable to create volume - "
 msgstr ""
 
+msgid "Unable to delete disk(s) from VM - "
+msgstr ""
+
 msgid "Unable to delete network - "
 msgstr ""
 
@@ -454,6 +484,9 @@ msgid "Unable to remove disk from VM - "
 msgstr ""
 
 msgid "Unable to remove network interface from VM - "
+msgstr ""
+
+msgid "Unable to remove optical from VM - "
 msgstr ""
 
 msgid "Unable to resize disk - "
@@ -492,8 +525,14 @@ msgstr ""
 msgid "Windows"
 msgstr "Windows"
 
+msgid "Wrong VM name entered! Skipping delete ..."
+msgstr ""
+
 msgid "XML"
 msgstr "XML"
+
+msgid "ZFS"
+msgstr ""
 
 msgid "aarch64"
 msgstr ""
@@ -505,6 +544,9 @@ msgid "e1000"
 msgstr "e1000"
 
 msgid "i386"
+msgstr ""
+
+msgid "iSCSI"
 msgstr ""
 
 msgid "ide"
@@ -544,4 +586,7 @@ msgid "virtio"
 msgstr ""
 
 msgid "x86_64"
+msgstr ""
+
+msgid "zPool name"
 msgstr ""

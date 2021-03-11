@@ -1,10 +1,10 @@
-openmediavault-kvm (5.0.12) UNRELEASED; urgency=medium
+openmediavault-kvm (5.0.12) stable; urgency=low
 
   * Add vmxnet3 network adapter
   * Add more storage pool types
   * Add delete + storage option to delete VM and attached disks
 
- -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Tue, 09 Mar 2021 18:56:45 -0600
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Thu, 11 Mar 2021 07:53:30 -0600
 
 openmediavault-kvm (5.0.11) stable; urgency=low
 

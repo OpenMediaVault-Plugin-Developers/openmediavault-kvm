@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-09 17:22-0600\n"
+"POT-Creation-Date: 2021-03-11 07:53-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: songming <by@songming.me>, 2021\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/zh_CN/)\n"
@@ -150,11 +150,17 @@ msgstr ""
 msgid "Delete"
 msgstr "删除"
 
+msgid "Delete + storage"
+msgstr ""
+
 msgid "Delete disk ..."
 msgstr "删除磁盘 ..."
 
 msgid "Delete snapshot ..."
 msgstr "删除快照 ..."
+
+msgid "Directory"
+msgstr ""
 
 msgid "Disable autostart"
 msgstr "禁用自启动"
@@ -204,6 +210,12 @@ msgstr ""
 msgid "Failed to start container."
 msgstr "运行 container 失败。"
 
+msgid "Filesystem"
+msgstr ""
+
+msgid "For description of each type and how to configure:"
+msgstr ""
+
 msgid "For more info"
 msgstr "更多信息"
 
@@ -227,6 +239,9 @@ msgstr "网关 IP 地址"
 
 msgid "GiB"
 msgstr "GiB"
+
+msgid "Host name"
+msgstr ""
 
 msgid "IP Range"
 msgstr "IP 范围"
@@ -269,6 +284,9 @@ msgstr "名称"
 
 msgid "Network"
 msgstr "网络"
+
+msgid "Network Filesystem"
+msgstr ""
 
 msgid "Network Name"
 msgstr "网络名称"
@@ -375,6 +393,9 @@ msgstr "快照"
 msgid "Snapshots"
 msgstr "快照"
 
+msgid "Source Path"
+msgstr ""
+
 msgid "Spice port"
 msgstr "Spice 端口"
 
@@ -398,6 +419,12 @@ msgstr "子掩码"
 
 msgid "T"
 msgstr "T"
+
+msgid "Target Path"
+msgstr ""
+
+msgid "Type"
+msgstr ""
 
 msgid "UEFI"
 msgstr "UEFI"
@@ -438,6 +465,9 @@ msgstr "无法创建快照 -"
 msgid "Unable to create volume - "
 msgstr "无法创建卷 -"
 
+msgid "Unable to delete disk(s) from VM - "
+msgstr ""
+
 msgid "Unable to delete network - "
 msgstr "无法删除网络 -"
 
@@ -455,6 +485,9 @@ msgstr "无法从 VM - 移除磁盘"
 
 msgid "Unable to remove network interface from VM - "
 msgstr "无法从 VM - 移除网卡"
+
+msgid "Unable to remove optical from VM - "
+msgstr ""
 
 msgid "Unable to resize disk - "
 msgstr "无法调整磁盘大小 -"
@@ -492,8 +525,14 @@ msgstr "卷"
 msgid "Windows"
 msgstr "Windows"
 
+msgid "Wrong VM name entered! Skipping delete ..."
+msgstr ""
+
 msgid "XML"
 msgstr "XML"
+
+msgid "ZFS"
+msgstr ""
 
 msgid "aarch64"
 msgstr ""
@@ -505,6 +544,9 @@ msgid "e1000"
 msgstr "e1000"
 
 msgid "i386"
+msgstr ""
+
+msgid "iSCSI"
 msgstr ""
 
 msgid "ide"
@@ -544,4 +586,7 @@ msgid "virtio"
 msgstr "virtio"
 
 msgid "x86_64"
+msgstr ""
+
+msgid "zPool name"
 msgstr ""
