@@ -44,7 +44,7 @@ Ext.define("OMV.module.admin.service.kvm.Vm", {
                 name: 'voldisk',
                 value: 'Create new disk'
             }],
-            name: ['volpool','volname','volsizefield','volsize','volunit','volformat'],
+            name: ['volpool', 'volname', 'volsizefield', 'volsize', 'volunit', 'volformat'],
             properties: ['show', 'submitValue', '!allowBlank']
         },{
             conditions: [{
@@ -60,12 +60,35 @@ Ext.define("OMV.module.admin.service.kvm.Vm", {
             }],
             name: ['network'],
             properties: ['!show', '!submitValue', 'allowBlank']
+        },{
+            conditions: [{
+                name: 'advanced',
+                value: false
+            }],
+            name: ['arch', 'audio', 'macaddress', 'volname'],
+            properties: ['!show']
+        },{
+            conditions: [{
+                name: 'arch',
+                value: ['i386', 'x86_64']
+            },{
+                name: 'advanced',
+                value: true
+            }],
+            name: ['chipset'],
+            properties: ['show', 'submitValue', '!allowBlank']
         }]
     }],
 
     getFormItems: function() {
         var me = this;
         return [{
+            xtype: "checkbox",
+            name: "advanced",
+            boxLabel: _("Show advanced options"),
+            checked: false,
+            submitValue: false
+        },{
             xtype: "fieldset",
             title: _("Settings"),
             defaults: {
@@ -102,6 +125,19 @@ Ext.define("OMV.module.admin.service.kvm.Vm", {
                         }
                     }
                 }
+            },{
+                xtype: "combo",
+                name: "chipset",
+                fieldLabel: _("Chipset"),
+                queryMode: "local",
+                store: [
+                    [ "pc", _("i440FX") ],
+                    [ "q35", _("Q35") ]
+                ],
+                allowBlank: false,
+                editable: false,
+                triggerAction: "all",
+                value: "i440FX"
             },{
                 xtype: "combo",
                 name: "os",
@@ -169,10 +205,6 @@ Ext.define("OMV.module.admin.service.kvm.Vm", {
                     editable: false,
                     triggerAction: "all",
                     value: "GiB"
-                }],
-                plugins: [{
-                    ptype: "fieldinfo",
-                    text: _("Permissions of owner.")
                 }]
             },{
                 xtype: "checkbox",
@@ -254,7 +286,11 @@ Ext.define("OMV.module.admin.service.kvm.Vm", {
                 xtype: "textfield",
                 name: "volname",
                 fieldLabel: _("Name"),
-                allowBlank: false
+                allowBlank: true,
+                plugins: [{
+                    ptype: "fieldinfo",
+                    text: _("Leave blank to use VM name.")
+                }]
             },{
                 xtype: "compositefield",
                 name: "volsizefield",

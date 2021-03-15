@@ -582,7 +582,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // create new libvirt object
         $lv = $this->connectQemu();
         $arch = $params['arch'];
+        $chipset = $params['chipset'];
         $host_arch = $this->getArch();
+        $vmname = $params['vmname'];
         switch ($arch) {
             case 'aarch64':
                 $apic = false;
@@ -613,7 +615,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $apic = true;
                 $domain_type = "kvm";
                 $native_graphics = true;
-                $machine = 'pc';
+                $machine = $chipset;
                 if ($host_arch == 'i386') {
                     $domain_type = "kvm";
                 } else {
@@ -625,7 +627,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $fd = '/usr/share/OVMF/OVMF_CODE.fd';
                 $ld = 'rom';
                 $native_graphics = true;
-                $machine = 'pc';
+                $machine = $chipset;
                 if (($host_arch == 'amd64') || ($host_arch == 'i386')) {
                     $domain_type = "kvm";
                 } else {
@@ -634,7 +636,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 break;
         }
         $xml = sprintf("<domain type='%s'>", $domain_type);
-        $xml .= sprintf("<name>%s</name>", $params['vmname']);
+        $xml .= sprintf("<name>%s</name>", $vmname);
         $xml .= "<description>created by the openmediavault-kvm plugin</description>";
         $xml .= sprintf("<memory unit='%s'>%d</memory>", $params['memoryunit'], $params['memory']);
         $xml .= sprintf("<vcpu>%d</vcpu>", $params['vcpu']);
@@ -706,12 +708,14 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $msg .= PHP_EOL . PHP_EOL . $xml;
             throw new \OMV\Exception( gettext("Unable to create domain - ") . $msg);
         }
-
         $volbus = $params['volbus'];
         $voldisk = $params['voldisk'];
         $volformat = $params['volformat'];
         $voliso = $params['voliso'];
         $volname = $params['volname'];
+        if (($volname == "") || (empty($volname)) {
+            $volname = $vmname;
+        }
         $volpool = $params['volpool'];
         $volsize = $params['volsize'];
         $volunit = $params['volunit'];
@@ -762,7 +766,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // add optical storage
         if ($voliso != "none") {
             // add a new cdrom XML
-            $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
+            $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
 
             $diskXml = $domXml->devices->addChild('disk');
             $diskXml->addAttribute('type', 'file');
@@ -782,7 +786,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $newXml = $domXml->asXML();
             $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
 
-            if (!$lv->domain_change_xml($params['vmname'], $newXml)) {
+            if (!$lv->domain_change_xml($vmname, $newXml)) {
                 throw new \OMV\Exception( gettext("Unable to add ISO to VM - ") . $lv->get_last_error());
             }
         }
@@ -796,7 +800,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $net = $params['network'];
 
         if ($model == "bridge") {
-            $result = $this->addVmBridgeNic($params['vmname'], $mac, $params['bridge']);
+            $result = $this->addVmBridgeNic($vmname, $mac, $params['bridge']);
         } else {
             $result = $lv->domain_nic_add($newvm, $mac, $net, $model);
         }
