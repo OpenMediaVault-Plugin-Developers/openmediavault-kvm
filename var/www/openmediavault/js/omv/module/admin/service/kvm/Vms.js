@@ -64,16 +64,18 @@ Ext.define("OMV.module.admin.service.kvm.VmXml", {
 Ext.define('OMV.module.admin.service.kvm.Vms', {
     extend: 'OMV.workspace.grid.Panel',
     requires: [
-        'OMV.Rpc',
         'OMV.data.Store',
         'OMV.data.Model',
         'OMV.data.proxy.Rpc'
     ],
 
-    hidePagingToolbar: false,
+    autoReload: true,
+    rememberSelected: true,
+    disableLoadMaskOnLoad: true,
     hideAddButton: true,
     hideEditButton: true,
     hideDeleteButton: true,
+    hidePagingToolbar: false,
     stateful: true,
     stateId: '95b0cc44-6998-11eb-9bad-97c000edb30b',
     columns: [{

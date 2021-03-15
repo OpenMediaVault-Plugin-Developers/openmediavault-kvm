@@ -24,6 +24,7 @@
 // require("js/omv/data/Store.js")
 // require("js/omv/data/Model.js")
 // require("js/omv/data/proxy/Rpc.js")
+// require("js/omv/window/Execute.js")
 // require("js/omvextras/window/RootFolderBrowser.js")
 
 Ext.define("OMV.module.admin.service.kvm.Pool", {
@@ -49,8 +50,15 @@ Ext.define("OMV.module.admin.service.kvm.Pool", {
                 name: 'type',
                 value: 'zfs'
             }],
-            name: ['zpoolname','sourcepath'],
+            name: ['zpoolname'],
             properties: ['show', 'submitValue', '!allowBlank']
+        },{
+            conditions: [{
+                name: 'type',
+                value: 'zfs'
+            }],
+            name: ['path'],
+            properties: ['!show', '!submitValue', 'allowBlank']
         },{
             conditions: [{
                 name: 'type',
@@ -61,7 +69,7 @@ Ext.define("OMV.module.admin.service.kvm.Pool", {
         },{
             conditions: [{
                 name: 'type',
-                value: 'dir'
+                value: ['dir','zfs']
             }],
             name: ['sourcepath'],
             properties: ['!show', '!submitValue', 'allowBlank']
@@ -168,16 +176,19 @@ Ext.define("OMV.module.admin.service.kvm.Pool", {
 Ext.define('OMV.module.admin.service.kvm.Pools', {
     extend: 'OMV.workspace.grid.Panel',
     requires: [
-        'OMV.Rpc',
         'OMV.data.Store',
         'OMV.data.Model',
-        'OMV.data.proxy.Rpc'
+        'OMV.data.proxy.Rpc',
+        'OMV.window.Execute'
     ],
     uses: [
         "OMV.module.admin.service.kvm.Pool",
         "OMV.module.admin.service.kvm.AdvancedPool"
     ],
 
+    autoReload: true,
+    rememberSelected: true,
+    disableLoadMaskOnLoad: true,
     hidePagingToolbar: false,
     hideEditButton: true,
     hideDeleteButton: true,

@@ -185,6 +185,9 @@ Ext.define('OMV.module.admin.service.kvm.Networks', {
         "OMV.module.admin.service.kvm.Macvtap"
     ],
 
+    autoReload: true,
+    rememberSelected: true,
+    disableLoadMaskOnLoad: true,
     hidePagingToolbar: false,
     hideAddButton: true,
     hideEditButton: true,

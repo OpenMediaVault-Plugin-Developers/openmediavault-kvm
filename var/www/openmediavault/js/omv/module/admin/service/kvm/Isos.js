@@ -28,12 +28,14 @@
 Ext.define('OMV.module.admin.service.kvm.Isos', {
     extend: 'OMV.workspace.grid.Panel',
     requires: [
-        'OMV.Rpc',
         'OMV.data.Store',
         'OMV.data.Model',
         'OMV.data.proxy.Rpc'
     ],
 
+    autoReload: true,
+    rememberSelected: true,
+    disableLoadMaskOnLoad: true,
     hidePagingToolbar: false,
     hideAddButton: true,
     hideEditButton: true,

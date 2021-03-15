@@ -24,6 +24,7 @@
 // require("js/omv/data/Store.js")
 // require("js/omv/data/Model.js")
 // require("js/omv/data/proxy/Rpc.js")
+// require("js/omv/window/Execute.js")
 
 Ext.define("OMV.module.admin.service.kvm.Volume", {
     extend: "OMV.workspace.window.Form",
@@ -129,15 +130,18 @@ Ext.define("OMV.module.admin.service.kvm.Volume", {
 Ext.define('OMV.module.admin.service.kvm.Volumes', {
     extend: 'OMV.workspace.grid.Panel',
     requires: [
-        'OMV.Rpc',
         'OMV.data.Store',
         'OMV.data.Model',
-        'OMV.data.proxy.Rpc'
+        'OMV.data.proxy.Rpc',
+        'OMV.window.Execute'
     ],
     uses: [
         "OMV.module.admin.service.kvm.Volume"
     ],
 
+    autoReload: true,
+    rememberSelected: true,
+    disableLoadMaskOnLoad: true,
     hidePagingToolbar: false,
     hideAddButton: true,
     hideEditButton: true,
