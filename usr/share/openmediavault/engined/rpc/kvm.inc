@@ -159,6 +159,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmd = new \OMV\System\Process($cmdLine);
         $cmd->setQuiet(true);
         $cmd->execute($output, $exitStatus);
+        $objects = [];
         foreach ($net as $output) {
             $objects[] = [
                 'bridge' => $net
