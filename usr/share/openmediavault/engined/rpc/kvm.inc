@@ -713,7 +713,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $volformat = $params['volformat'];
         $voliso = $params['voliso'];
         $volname = $params['volname'];
-        if (($volname == "") || (empty($volname)) {
+        if (($volname == "") || (empty($volname))) {
             $volname = $vmname;
         }
         $volpool = $params['volpool'];
