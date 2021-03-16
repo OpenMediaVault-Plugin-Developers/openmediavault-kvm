@@ -1420,6 +1420,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $xml = $lv->domain_get_xml($params['vmname']);
         $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
         $path = $domXml->xpath('//hostdev');
+        $objects = [];
         for ($i = 0; $i < sizeof($path); $i++) {
             $dev = $domXml->devices->hostdev[$i]->source;
             $vendorProduct = sprintf('%s:%s', $dev->vendor['id'], $dev->product['id']);

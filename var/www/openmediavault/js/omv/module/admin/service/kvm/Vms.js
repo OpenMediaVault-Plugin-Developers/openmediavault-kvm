@@ -212,26 +212,31 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
             handler: Ext.Function.bind(me.onAddButton, me, [ me ])
         },{
             xtype: "button",
-            text: _("Disk"),
+            text: _("Devices"),
             scope: this,
-            icon: "images/raid.png",
+            icon: "images/details.png",
             disabled : true,
             selectionConfig : {
                 minSelections : 1,
                 maxSelections : 1
             },
             menu: [{
-                text: _("Add"),
+                text: _("Add Disk"),
                 icon: "images/add.png",
-                handler: Ext.Function.bind(me.onDiskButton, me, [ "add" ])
+                handler: Ext.Function.bind(me.onDiskButton, me, [ "add" ]),
+                disabled : true,
+                selectionConfig : {
+                    minSelections : 1,
+                    maxSelections : 1
+                }
             },{
-                text: _("Resize"),
-                icon: "images/edit.png",
+                text: _("Resize Disk"),
+                icon: "images/expand.png",
                 handler: Ext.Function.bind(me.onDiskButton, me, [ "resize" ]),
                 hidden: true
             },{
-                text: _("Remove"),
-                icon: "images/delete.png",
+                text: _("Remove Disk"),
+                icon: "images/minus.png",
                 handler: Ext.Function.bind(me.onDiskButton, me, [ "remove" ]),
                 disabled : true,
                 selectionConfig : {
@@ -242,24 +247,20 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
                         return (snaps == 0);
                     }
                 }
-            }]
-        },{
-            xtype: "button",
-            text: _("Optical"),
-            scope: this,
-            icon: "images/clock.png",
-            disabled : true,
-            selectionConfig : {
-                minSelections : 1,
-                maxSelections : 1
-            },
-            menu: [{
-                text: _("Add"),
-                icon: "images/add.png",
-                handler: Ext.Function.bind(me.onOpticalButton, me, [ "add" ])
             },{
-                text: _("Remove"),
-                icon: "images/delete.png",
+                xtype: 'menuseparator'
+            },{
+                text: _("Add Optical"),
+                icon: "images/add.png",
+                handler: Ext.Function.bind(me.onOpticalButton, me, [ "add" ]),
+                disabled : true,
+                selectionConfig : {
+                    minSelections : 1,
+                    maxSelections : 1
+                }
+            },{
+                text: _("Remove Optical"),
+                icon: "images/eject.png",
                 handler: Ext.Function.bind(me.onOpticalButton, me, [ "remove" ]),
                 disabled : true,
                 selectionConfig : {
@@ -270,43 +271,40 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
                         return (snaps == 0);
                     }
                 }
-            }]
-        },{
-            xtype: "button",
-            text: _("Network"),
-            scope: this,
-            icon: "images/network.png",
-            disabled : true,
-            selectionConfig : {
-                minSelections : 1,
-                maxSelections : 1
-            },
-            menu: [{
-                text: _("Add"),
-                icon: "images/add.png",
-                handler: Ext.Function.bind(me.onNicButton, me, [ "add" ])
             },{
-                text: _("Remove"),
-                icon: "images/delete.png",
-                handler: Ext.Function.bind(me.onNicButton, me, [ "remove" ])
-            }]
-        },{
-            xtype: "button",
-            text: _("USB"),
-            scope: this,
-            icon: "images/clock.png",
-            disabled : true,
-            selectionConfig : {
-                minSelections : 1,
-                maxSelections : 1
-            },
-            menu: [{
-                text: _("Add"),
-                icon: "images/add.png",
-                handler: Ext.Function.bind(me.onUsbButton, me, [ "add" ])
+                xtype: 'menuseparator'
             },{
-                text: _("Remove"),
-                icon: "images/delete.png",
+                text: _("Add Network"),
+                icon: "images/network.png",
+                handler: Ext.Function.bind(me.onNicButton, me, [ "add" ]),
+                disabled : true,
+                selectionConfig : {
+                    minSelections : 1,
+                    maxSelections : 1
+                }
+            },{
+                text: _("Remove Network"),
+                icon: "images/minus.png",
+                handler: Ext.Function.bind(me.onNicButton, me, [ "remove" ]),
+                disabled : true,
+                selectionConfig : {
+                    minSelections : 1,
+                    maxSelections : 1
+                }
+            },{
+                xtype: 'menuseparator'
+            },{
+                text: _("Add USB"),
+                icon: "images/share.png",
+                handler: Ext.Function.bind(me.onUsbButton, me, [ "add" ]),
+                disabled : true,
+                selectionConfig : {
+                    minSelections : 1,
+                    maxSelections : 1
+                }
+            },{
+                text: _("Remove USB"),
+                icon: "images/eject.png",
                 handler: Ext.Function.bind(me.onUsbButton, me, [ "remove" ]),
                 disabled : true,
                 selectionConfig : {
@@ -400,6 +398,8 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
                     maxSelections : 1
                 }
             },{
+                xtype: 'menuseparator'
+            },{
                 text: _("Pause"),
                 icon: "images/pause.png",
                 handler: Ext.Function.bind(me.onCommandButton, me, [ "pause" ]),
@@ -426,8 +426,10 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
                     }
                 }
             },{
+                xtype: 'menuseparator'
+            },{
                 text: _("Delete"),
-                icon: "images/delete.png",
+                icon: "images/minus.png",
                 handler: Ext.Function.bind(me.onCommandButton, me, [ "undefine" ]),
                 disabled : true,
                 selectionConfig : {
