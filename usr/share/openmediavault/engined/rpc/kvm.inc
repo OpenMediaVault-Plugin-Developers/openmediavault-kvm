@@ -77,6 +77,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('deleteSnapshot');
         $this->registerMethod('revertSnapshot');
 
+        $this->registerMethod('addUsb');
+        $this->registerMethod('removeUsb');
+        $this->registerMethod('enumerateUsbByHost');
+        $this->registerMethod('enumerateUsbByVm');
+
         $this->registerMethod('doCommand');
         $this->registerMethod('doVnc');
         $this->registerMethod('doChangeCpuMemory');
@@ -1384,6 +1389,99 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if (!$lv->domain_snapshot_revert($params['vmname'], $params['snapname'])) {
             throw new \OMV\Exception( gettext("Unable to revert to snapshot - ") . $lv->get_last_error());
         }
+    }
+
+    public function enumerateUsbByHost($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        $cmdLine = 'lsusb';
+        $cmd = new \OMV\System\Process($cmdLine);
+        $cmd->setQuiet(true);
+        $cmd->execute($output, $exitStatus);
+        $objects = [];
+        foreach ($usb as $output) {
+            $dev = explode(' ', $usb, 7);
+            $objects[] = [
+                'description' => $dev[6],
+                'device' => $dev[5],
+            ];
+        }
+        // Filter the result.
+        return ($objects);
+    }
+
+    public function enumerateUsbByVm($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // create new libvirt object
+        $lv = $this->connectQemu();
+        $xml = $lv->domain_get_xml($params['vmname']);
+        $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
+        $path = $domXml->xpath('//hostdev');
+        for ($i = 0; $i < sizeof($path); $i++) {
+            $dev = $domXml->devices->hostdev[$i]->source;
+            $vendorProduct = sprintf('%s:%s', $dev->vendor['id'], $dev->product['id']);
+            $objects[] = [
+                'device' => $device,
+                'description' => $device
+            ];
+        }
+        return ($objects);
+    }
+
+    public function addUsb($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.addoptical');
+        // create new libvirt object
+        $lv = $this->connectQemu();
+        // get VM object
+        $vm = $lv->get_domain_by_name($params['vmname']);
+        $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
+        $dev = explode(':', $params['device']);
+        $vendor = $dev[0];
+        $product = $dev[1];
+        // add optical storage
+        $hostDevXml = $domXml->devices->addChild('hostdev');
+        $hostDevXml->addAttribute('mode', 'subsystem');
+        $hostDevXml->addAttribute('type', 'usb');
+        $hostDevXml->addAttribute('managed', 'yes');
+
+        $sourceXml = $hostDevXml->addChild('source');
+
+        $vendorXml = $sourceXml->addChild('vendor');
+        $vendorXml->addAttribute('id', $vendor);
+
+        $productXml = $sourceXml->addChild('vendor');
+        $productXml->addAttribute('id', $product);
+
+        $newXml = $domXml->asXML();
+        $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
+        if (!$lv->domain_change_xml($params['vmname'], $newXml)) {
+            throw new \OMV\Exception( gettext("Unable to add USB device to VM - ") . $lv->get_last_error());
+        }
+    }
+
+    private function removeUsb($params, $context)
+    {
+        // create new libvirt object
+        $lv = $this->connectQemu();
+        $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
+        $xpath = $domXml->xpath('//hostdev');
+        for ($i = 0; $i < sizeof($xpath); $i++) {
+            $dev = $domXml->devices->hostdev[$i]->source;
+            $vendorProduct = sprintf('%s:%s', $dev->vendor['id'], $dev->product['id']);
+            if ($vendorProduct == $params['dev']) {
+                unset($domXml->devices->hostdev[$i]);
+            }
+        }
+        $newXml = $domXml->asXML();
+        $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
+        return ($lv->domain_change_xml($vmname, $newXml));
     }
 
     public function doCommand($params, $context)
