@@ -1395,15 +1395,15 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
     {
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
-        $cmdLine = 'lsusb';
+        $cmdLine = '/usr/bin/lsusb';
         $cmd = new \OMV\System\Process($cmdLine);
         $cmd->setQuiet(true);
         $cmd->execute($output, $exitStatus);
         $objects = [];
-        foreach ($usb as $output) {
+        foreach ($output as $usb) {
             $dev = explode(' ', $usb, 7);
             $objects[] = [
-                'description' => $dev[6],
+                'description' => sprintf('%s - %s', $dev[6], $dev[5]),
                 'device' => $dev[5],
             ];
         }
@@ -1475,7 +1475,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         for ($i = 0; $i < sizeof($xpath); $i++) {
             $dev = $domXml->devices->hostdev[$i]->source;
             $vendorProduct = sprintf('%s:%s', $dev->vendor['id'], $dev->product['id']);
-            if ($vendorProduct == $params['dev']) {
+            if ($vendorProduct == $params['device']) {
                 unset($domXml->devices->hostdev[$i]);
             }
         }

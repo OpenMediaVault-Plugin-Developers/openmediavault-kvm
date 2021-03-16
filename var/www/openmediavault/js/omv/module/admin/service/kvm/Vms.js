@@ -27,6 +27,7 @@
 // require("js/omv/module/admin/service/kvm/Disk.js")
 // require("js/omv/module/admin/service/kvm/Optical.js")
 // require("js/omv/module/admin/service/kvm/Snapshot.js")
+// require("js/omv/module/admin/service/kvm/Usb.js")
 // require("js/omv/module/admin/service/kvm/VcpuMemory.js")
 // require("js/omv/module/admin/service/kvm/Vm.js")
 
@@ -288,6 +289,34 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
                 text: _("Remove"),
                 icon: "images/delete.png",
                 handler: Ext.Function.bind(me.onNicButton, me, [ "remove" ])
+            }]
+        },{
+            xtype: "button",
+            text: _("USB"),
+            scope: this,
+            icon: "images/clock.png",
+            disabled : true,
+            selectionConfig : {
+                minSelections : 1,
+                maxSelections : 1
+            },
+            menu: [{
+                text: _("Add"),
+                icon: "images/add.png",
+                handler: Ext.Function.bind(me.onUsbButton, me, [ "add" ])
+            },{
+                text: _("Remove"),
+                icon: "images/delete.png",
+                handler: Ext.Function.bind(me.onUsbButton, me, [ "remove" ]),
+                disabled : true,
+                selectionConfig : {
+                    minSelections : 1,
+                    maxSelections : 1,
+                    enabledFn: function(c, records) {
+                        var snaps = records[0].get("snaps");
+                        return (snaps == 0);
+                    }
+                }
             }]
         },{
             xtype: "button",
@@ -838,6 +867,41 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
         } else if (cmd == "snap_delete") {
             Ext.create("OMV.module.admin.service.kvm.SnapDelete", {
                 title: _("Delete snapshot ..."),
+                vmname: vmname,
+                rpcGetParams: {
+                    vmname: vmname
+                },
+                listeners: {
+                    scope: me,
+                    submit: function() {
+                        this.doReload();
+                    }
+                }
+            }).show();
+        }
+    },
+
+    onUsbButton: function(cmd) {
+        var me = this;
+        var record = me.getSelected();
+        var vmname = record.get("vmname");
+        if (cmd == "add") {
+            Ext.create("OMV.module.admin.service.kvm.AddUsb", {
+                title: _("Add USB device ..."),
+                vmname: vmname,
+                rpcGetParams: {
+                    vmname: vmname
+                },
+                listeners: {
+                    scope: me,
+                    submit: function() {
+                        this.doReload();
+                    }
+                }
+            }).show();
+        } else if (cmd == "remove") {
+            Ext.create("OMV.module.admin.service.kvm.RemoveUsb", {
+                title: _("Remove USB device ..."),
                 vmname: vmname,
                 rpcGetParams: {
                     vmname: vmname
