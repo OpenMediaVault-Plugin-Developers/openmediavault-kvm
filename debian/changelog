@@ -4,6 +4,7 @@ openmediavault-kvm (5.0.13) UNRELEASED; urgency=medium
   * Improve VM delete
   * Add advanced checkbox to new VM form
   * Add chipset selection to new VM form
+  * Add USB passthrough forms
 
  -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Thu, 11 Mar 2021 08:40:47 -0600
 

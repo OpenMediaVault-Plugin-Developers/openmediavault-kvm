@@ -281,10 +281,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // create new libvirt object
         $lv = $this->connectQemu();
-        $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
-        $path = $domXml->xpath('//interface');
         $mac = $params['network'];
-        for ($i = 0; $i < sizeof($path); $i++) {
+        $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
+        $xpath = $domXml->xpath('//interface');
+        $xpathSize = sizeof($xpath);
+        for ($i = 0; $i < $xpathSize; $i++) {
             if ($domXml->devices->interface[$i]->mac['address'] == $mac) {
                 unset($domXml->devices->interface[$i]);
                 $newXml = $domXml->asXML();
@@ -305,8 +306,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $lv = $this->connectQemu();
         $xml = $lv->domain_get_xml($params['vmname']);
         $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
-        $path = $domXml->xpath('//interface');
-        for ($i = 0; $i < sizeof($path); $i++) {
+        $xpath = $domXml->xpath('//interface');
+        $xpathSize = sizeof($xpath);
+        for ($i = 0; $i < $xpathSize; $i++) {
             $nic = $domXml->devices->interface[$i];
             $type = $nic['type'];
             $mac = $nic->mac['address'];
@@ -510,8 +512,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 continue;
             }
             $domXml = new SimpleXMLElement($lv->domain_get_xml($name));
-            $path = $domXml->xpath('//graphics');
-            for ($i = 0; $i < sizeof($path); $i++) {
+            $xpath = $domXml->xpath('//graphics');
+            $xpathSize = sizeof($xpath);
+            for ($i = 0; $i < $xpathSize; $i++) {
                 $graphics = $domXml->devices->graphics[$i];
                 if ($graphics['type'] == 'spice') {
                     $spiceport = $graphics['port'];
@@ -1000,8 +1003,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $lv = $this->connectQemu();
         $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
         $dev = $params['disk'];
-        $path = $domXml->xpath('//disk');
-        for ($i = 0; $i < sizeof($path); $i++) {
+        $xpath = $domXml->xpath('//disk');
+        $xpathSize = sizeof($xpath);
+        for ($i = 0; $i < $xpathSize; $i++) {
             if ($domXml->devices->disk[$i]->target['dev'] == $dev) {
                 unset($domXml->devices->disk[$i]);
                 $newXml = $domXml->asXML();
@@ -1054,7 +1058,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             if ($info['volume_count'] > 0) {
                 $volumes = $lv->storagepool_get_volume_information($pool);
                 $keys = array_keys($volumes);
-                for ($i = 0; $i < sizeof($volumes); $i++) {
+                $xpathSize = sizeof($volumes);
+                for ($i = 0; $i < $xpathSize; $i++) {
                     $volume = $volumes[$keys[$i]];
                     $ext = pathinfo($volume['path'], PATHINFO_EXTENSION);
                     if (((strtolower($ext) != 'iso') && (!$optical)) || ((strtolower($ext) == 'iso') && ($optical))) {
@@ -1110,7 +1115,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             if ($info['volume_count'] > 0) {
                 $volumes = $lv->storagepool_get_volume_information($pool);
                 $keys = array_keys($volumes);
-                for ($i = 0; $i < sizeof($volumes); $i++) {
+                $xpathSize = sizeof($volumes);
+                for ($i = 0; $i < $xpathSize; $i++) {
                     $volume = $volumes[$keys[$i]];
                     $ext = pathinfo($volume['path'], PATHINFO_EXTENSION);
                     $add = false;
@@ -1144,7 +1150,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if ($optical) {
             $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
             $xpath = $domXml->xpath('//disk');
-            for ($i = 0; $i < sizeof($xpath); $i++) {
+            $xpathSize = sizeof($xpath);
+            for ($i = 0; $i < $xpathSize; $i++) {
                 $disk = $domXml->devices->disk[$i];
                 $devtype = $disk['device'];
                 $device = $disk->source['file'];
@@ -1158,7 +1165,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             }
         } else {
             $disks = $lv->get_disk_stats($params['vmname']);
-            for ($i = 0; $i < sizeof($disks); $i++) {
+            $xpathSize = sizeof($disks);
+            for ($i = 0; $i < $xpathSize; $i++) {
                 $disk = $disks[$i];
                 $capacity = $lv->format_size($disk['capacity'], 2);
                 $dev = (array_key_exists('file', $disk)) ? $disk['file'] : $disk['partition'];
@@ -1295,7 +1303,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $lv = $this->connectQemu();
         $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
         $xpath = $domXml->xpath('//disk');
-        for ($i = 0; $i < sizeof($xpath); $i++) {
+        $xpathSize = sizeof($xpath);
+        for ($i = 0; $i < $xpathSize; $i++) {
             $disk = $domXml->devices->disk[$i];
             if ($disk['device'] == "cdrom") {
                 unset($domXml->devices->disk[$i]);
@@ -1312,7 +1321,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $lv = $this->connectQemu();
         $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
         $xpath = $domXml->xpath('//disk');
-        for ($i = 0; $i < sizeof($xpath); $i++) {
+        $xpathSize = sizeof($xpath);
+        for ($i = 0; $i < $xpathSize; $i++) {
             $disk = $domXml->devices->disk[$i];
             if ($disk['device'] == "disk") {
                 unlink($disk->source['file']);
@@ -1400,16 +1410,13 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmd->setQuiet(true);
         $cmd->execute($output, $exitStatus);
         $objects = [];
-        $i = 0;
-        foreach ($output as $usb) {
-            $i++;
-            $dev = explode(' ', $usb, 7);
+        $usbCount = count($output);
+        for ($i = 0; $i < $usbCount; $i++) {
             $objects[] = [
-                'description' => $i . trim($usb),
-                'device' => $dev[5]
+                'description' => $output[$i],
+                'device' => $output[$i]
             ];
         }
-        // Filter the result.
         return ($objects);
     }
 
@@ -1424,7 +1431,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
         $xpath = $domXml->xpath('//hostdev');
         $objects = [];
-        for ($i = 0; $i < sizeof($xpath); $i++) {
+        $xpathSize = sizeof($xpath);
+        for ($i = 0; $i < $xpathSize; $i++) {
             $dev = $domXml->devices->hostdev[$i]->source;
             $vendorProduct = sprintf('%s:%s', $dev->vendor['id'], $dev->product['id']);
             $objects[] = [
@@ -1446,9 +1454,10 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // get VM object
         $vm = $lv->get_domain_by_name($params['vmname']);
         $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
-        $dev = explode(':', $params['device']);
-        $vendor = $dev[0];
-        $product = $dev[1];
+        $dev = explode(' ', $params['device']);
+        $vendorProduct = explode(':', $dev[5]);
+        $vendor = $vendorProduct[0];
+        $product = $vendorProduct[1];
         // add usb device
         $hostDevXml = $domXml->devices->addChild('hostdev');
         $hostDevXml->addAttribute('mode', 'subsystem');
@@ -1482,7 +1491,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $vmname = $params['vmname'];
         $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
         $xpath = $domXml->xpath('//hostdev');
-        for ($i = 0; $i < sizeof($xpath); $i++) {
+        $xpathSize = sizeof($xpath);
+        for ($i = 0; $i < $xpathSize; $i++) {
             $dev = $domXml->devices->hostdev[$i]->source;
             $vendorProduct = sprintf('%s:%s', $dev->vendor['id'], $dev->product['id']);
             if ($vendorProduct == $device) {
