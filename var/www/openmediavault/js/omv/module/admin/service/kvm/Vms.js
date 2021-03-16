@@ -70,7 +70,7 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
         'OMV.data.proxy.Rpc'
     ],
 
-    autoReload: true,
+    autoReload: false,
     rememberSelected: true,
     disableLoadMaskOnLoad: true,
     hideAddButton: true,

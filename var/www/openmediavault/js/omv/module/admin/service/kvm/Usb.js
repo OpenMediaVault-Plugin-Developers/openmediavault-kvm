@@ -48,8 +48,8 @@ Ext.define("OMV.module.admin.service.kvm.AddUsb", {
                 triggerAction: "all",
                 displayField: "description",
                 valueField: "device",
-                allowNone: true,
-                allowBlank: true,
+                allowNone: false,
+                allowBlank: false,
                 store: Ext.create("OMV.data.Store", {
                     autoLoad: true,
                     model: OMV.data.Model.createImplicit({
@@ -66,11 +66,7 @@ Ext.define("OMV.module.admin.service.kvm.AddUsb", {
                             method: "enumerateUsbByHost"
                         },
                         appendSortParams: false
-                    },
-                    sorters: [{
-                        direction: "ASC",
-                        property: "device"
-                    }]
+                    }
                 })
             },{
                 xtype: "hidden",

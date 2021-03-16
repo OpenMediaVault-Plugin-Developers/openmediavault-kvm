@@ -1395,16 +1395,18 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
     {
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
-        $cmdLine = '/usr/bin/lsusb';
+        $cmdLine = 'lsusb | sort -h';
         $cmd = new \OMV\System\Process($cmdLine);
         $cmd->setQuiet(true);
         $cmd->execute($output, $exitStatus);
         $objects = [];
+        $i = 0;
         foreach ($output as $usb) {
+            $i++;
             $dev = explode(' ', $usb, 7);
             $objects[] = [
-                'description' => sprintf('%s - %s', $dev[6], $dev[5]),
-                'device' => $dev[5],
+                'description' => $i . trim($usb),
+                'device' => $dev[5]
             ];
         }
         // Filter the result.
@@ -1415,18 +1417,19 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
     {
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.vmname');
         // create new libvirt object
         $lv = $this->connectQemu();
-        $xml = $lv->domain_get_xml($params['vmname']);
         $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
-        $path = $domXml->xpath('//hostdev');
+        $xpath = $domXml->xpath('//hostdev');
         $objects = [];
-        for ($i = 0; $i < sizeof($path); $i++) {
+        for ($i = 0; $i < sizeof($xpath); $i++) {
             $dev = $domXml->devices->hostdev[$i]->source;
             $vendorProduct = sprintf('%s:%s', $dev->vendor['id'], $dev->product['id']);
             $objects[] = [
-                'device' => $device,
-                'description' => $device
+                'device' => $vendorProduct,
+                'description' => $vendorProduct
             ];
         }
         return ($objects);
@@ -1437,7 +1440,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
-        $this->validateMethodParams($params, 'rpc.kvm.addoptical');
+        $this->validateMethodParams($params, 'rpc.kvm.usb');
         // create new libvirt object
         $lv = $this->connectQemu();
         // get VM object
@@ -1446,7 +1449,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $dev = explode(':', $params['device']);
         $vendor = $dev[0];
         $product = $dev[1];
-        // add optical storage
+        // add usb device
         $hostDevXml = $domXml->devices->addChild('hostdev');
         $hostDevXml->addAttribute('mode', 'subsystem');
         $hostDevXml->addAttribute('type', 'usb');
@@ -1455,10 +1458,10 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $sourceXml = $hostDevXml->addChild('source');
 
         $vendorXml = $sourceXml->addChild('vendor');
-        $vendorXml->addAttribute('id', $vendor);
+        $vendorXml->addAttribute('id', '0x'.$vendor);
 
-        $productXml = $sourceXml->addChild('vendor');
-        $productXml->addAttribute('id', $product);
+        $productXml = $sourceXml->addChild('product');
+        $productXml->addAttribute('id', '0x'.$product);
 
         $newXml = $domXml->asXML();
         $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
@@ -1467,22 +1470,31 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
     }
 
-    private function removeUsb($params, $context)
+    public function removeUsb($params, $context)
     {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.usb');
         // create new libvirt object
         $lv = $this->connectQemu();
+        $device = $params['device'];
+        $vmname = $params['vmname'];
         $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
         $xpath = $domXml->xpath('//hostdev');
         for ($i = 0; $i < sizeof($xpath); $i++) {
             $dev = $domXml->devices->hostdev[$i]->source;
             $vendorProduct = sprintf('%s:%s', $dev->vendor['id'], $dev->product['id']);
-            if ($vendorProduct == $params['device']) {
+            if ($vendorProduct == $device) {
                 unset($domXml->devices->hostdev[$i]);
+                break;
             }
         }
         $newXml = $domXml->asXML();
         $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
-        return ($lv->domain_change_xml($vmname, $newXml));
+        if (!$lv->domain_change_xml($vmname, $newXml)) {
+            throw new \OMV\Exception( gettext("Unable to remove USB device to VM - ") . $lv->get_last_error());
+        }
     }
 
     public function doCommand($params, $context)
