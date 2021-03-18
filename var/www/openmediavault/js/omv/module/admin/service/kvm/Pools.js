@@ -35,7 +35,7 @@ Ext.define("OMV.module.admin.service.kvm.Pool", {
     uses: [
         "OMV.data.Model",
         "OMV.data.Store",
-        "OMV.window.FolderBrowser"
+        "OmvExtras.window.RootFolderBrowser"
     ],
 
     rpcService: "Kvm",
