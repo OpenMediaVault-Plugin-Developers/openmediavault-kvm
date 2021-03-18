@@ -597,6 +597,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         switch ($arch) {
             case 'aarch64':
                 $apic = false;
+                $cpuModel = 'cortex-a57';
                 $fd = '/usr/share/AAVMF/AAVMF_CODE.fd';
                 $ld = 'pflash';
                 $machine = 'virt';
@@ -610,6 +611,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 break;
             case 'arm':
                 $apic = false;
+                $cpuModel = 'cortex-a15';
                 $fd = '/usr/share/AAVMF/AAVMF_CODE.fd';
                 $machine = 'virt';
                 if (($host_arch == 'arm64') || ($host_arch == 'armhf')) {
@@ -679,7 +681,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $xml .= "</cpu>";
         } elseif ($arch == 'aarch64' || $arch == 'arm') {
             $xml .= "<cpu mode='custom' match='exact'>";
-            $xml .= "<model>cortex-a57</model>";
+            $xml .= sprintf("<model>%s</model>", $cpuModel);
             $xml .= "</cpu>";
         }
         $xml .= "<clock offset='localtime'/>";
