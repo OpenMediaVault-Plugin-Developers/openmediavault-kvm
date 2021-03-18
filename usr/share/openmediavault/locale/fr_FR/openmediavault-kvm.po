@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-11 07:53-0600\n"
+"POT-Creation-Date: 2021-03-18 07:54-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Etienne V, 2021\n"
 "Language-Team: French (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/fr/)\n"
@@ -30,23 +30,35 @@ msgstr "Activité"
 msgid "Add"
 msgstr "Ajouter"
 
-msgid "Add Macvtap Bridge"
+msgid "Add Disk"
 msgstr ""
+
+msgid "Add Macvtap Bridge"
+msgstr "Ajouter un pont Macvtap"
 
 msgid "Add Network"
 msgstr "Ajouter un réseau"
+
+msgid "Add Optical"
+msgstr ""
+
+msgid "Add USB"
+msgstr ""
+
+msgid "Add USB device ..."
+msgstr ""
 
 msgid "Add VM"
 msgstr "Ajouter une VM"
 
 msgid "Add XML"
-msgstr ""
+msgstr "Ajouter un XML"
 
 msgid "Add disk ..."
 msgstr "Ajouter un disque ..."
 
 msgid "Add macvtap bridge"
-msgstr ""
+msgstr "Ajouter un pont macvtap"
 
 msgid "Add network"
 msgstr "Ajouter un réseau"
@@ -58,7 +70,7 @@ msgid "Add optical disk ..."
 msgstr "Ajouter un disque optique"
 
 msgid "Add pool"
-msgstr ""
+msgstr "Ajouter un pool"
 
 msgid "Add volume"
 msgstr "Ajouter un volume"
@@ -79,10 +91,13 @@ msgid "Audio"
 msgstr "Audio"
 
 msgid "AutoStart"
-msgstr ""
+msgstr "AutoStart"
 
 msgid "Available"
 msgstr "Disponible"
+
+msgid "Bridge"
+msgstr ""
 
 msgid "Bus"
 msgstr "Bus"
@@ -91,22 +106,25 @@ msgid "CPUs"
 msgstr "Processeurs"
 
 msgid "Call"
-msgstr ""
+msgstr "Call"
 
 msgid "Capacity"
 msgstr "Capacité"
 
 msgid "Change memory ..."
-msgstr ""
+msgstr "Changer la mémoire"
 
 msgid "Change vCPU quantity ..."
-msgstr ""
+msgstr "Changer le nombre de vCPU"
 
 msgid "Check"
 msgstr "Vérifier"
 
 msgid "Checking volume ..."
 msgstr "Vérification du volume ..."
+
+msgid "Chipset"
+msgstr ""
 
 msgid "Component"
 msgstr "Composant"
@@ -121,7 +139,7 @@ msgid "Convert to "
 msgstr "Convertir en"
 
 msgid "Convert to qcow2"
-msgstr ""
+msgstr "Convertir à qcow2"
 
 msgid "Convert to raw"
 msgstr "Convertir en raw"
@@ -136,13 +154,13 @@ msgid "DHCP"
 msgstr "DHCP"
 
 msgid "DHCP Range"
-msgstr ""
+msgstr "Intervalle DHCP"
 
 msgid "DHCP ending address"
-msgstr ""
+msgstr "Adresse de fin DHCP"
 
 msgid "DHCP starting address"
-msgstr ""
+msgstr "Adresse de début DHCP"
 
 msgid "Date & Time"
 msgstr "Date & Heure"
@@ -159,11 +177,14 @@ msgstr "Supprimer un disque ..."
 msgid "Delete snapshot ..."
 msgstr "Supprimer un snapshot ..."
 
-msgid "Directory"
+msgid "Devices"
 msgstr ""
 
+msgid "Directory"
+msgstr "Répertoire"
+
 msgid "Disable autostart"
-msgstr ""
+msgstr "Désactiver l'autostart"
 
 msgid "Disk"
 msgstr "Disque"
@@ -203,7 +224,7 @@ msgid "Edit XML"
 msgstr "modifier l'XML"
 
 msgid "Enable autostart"
-msgstr ""
+msgstr "Activer l'autostart"
 
 msgid "Extension"
 msgstr "Extension"
@@ -212,10 +233,10 @@ msgid "Failed to start container."
 msgstr "Echec de démarrage du container"
 
 msgid "Filesystem"
-msgstr ""
+msgstr "Système de fichiers"
 
 msgid "For description of each type and how to configure:"
-msgstr ""
+msgstr "Pour la description de chaque type et du mode de configuration :"
 
 msgid "For more info"
 msgstr "Pour plus d'info"
@@ -227,7 +248,7 @@ msgid "Format"
 msgstr "Format"
 
 msgid "Forwarding"
-msgstr ""
+msgstr "Transfert"
 
 msgid "G"
 msgstr "G"
@@ -239,13 +260,13 @@ msgid "Gateway IP Address"
 msgstr "Adresse IP de la passerelle"
 
 msgid "GiB"
-msgstr ""
+msgstr "Gio"
 
 msgid "Host name"
-msgstr ""
+msgstr "Nom d'hôte"
 
 msgid "IP Range"
-msgstr ""
+msgstr "Intervalle d'adresses IP"
 
 msgid "ISOs"
 msgstr "ISOs"
@@ -257,6 +278,9 @@ msgid "KVM"
 msgstr "KVM"
 
 msgid "Leave blank for random address."
+msgstr "Laisser à blanc pour une adresse aléatoire"
+
+msgid "Leave blank to use VM name."
 msgstr ""
 
 msgid "Linux"
@@ -275,7 +299,7 @@ msgid "Message"
 msgstr "Message"
 
 msgid "MiB"
-msgstr ""
+msgstr "Mio"
 
 msgid "Model"
 msgstr "Modèle"
@@ -287,7 +311,7 @@ msgid "Network"
 msgstr "Réseau"
 
 msgid "Network Filesystem"
-msgstr ""
+msgstr "Système de fichiers réseau"
 
 msgid "Network Name"
 msgstr "Nom du réseau"
@@ -302,7 +326,7 @@ msgid "Networks"
 msgstr "Réseaux"
 
 msgid "OS"
-msgstr ""
+msgstr "OS"
 
 msgid "Optical"
 msgstr "Optique"
@@ -320,12 +344,15 @@ msgid "Pause"
 msgstr "Pause"
 
 msgid "Permissions of owner."
-msgstr ""
+msgstr "Autorisations du propriétaire"
 
 msgid "Pool"
-msgstr ""
+msgstr "Pool"
 
 msgid "Pools"
+msgstr "Pools"
+
+msgid "Q35"
 msgstr ""
 
 msgid "Reboot"
@@ -333,6 +360,21 @@ msgstr "Redémarrer"
 
 msgid "Remove"
 msgstr "Supprimer"
+
+msgid "Remove Disk"
+msgstr ""
+
+msgid "Remove Network"
+msgstr ""
+
+msgid "Remove Optical"
+msgstr ""
+
+msgid "Remove USB"
+msgstr ""
+
+msgid "Remove USB device ..."
+msgstr ""
 
 msgid "Remove network adapter ..."
 msgstr "Supprimer un adaptateur réseau"
@@ -343,6 +385,9 @@ msgstr "Supprimer un disque optique ..."
 msgid "Resize"
 msgstr "Redimensionner"
 
+msgid "Resize Disk"
+msgstr ""
+
 msgid "Resize disk ..."
 msgstr "Redimensionner le disque ..."
 
@@ -350,9 +395,15 @@ msgid "Resume"
 msgstr "Continuer"
 
 msgid "Revert"
-msgstr ""
+msgstr "Revenir"
 
 msgid "Revert to snapshot ..."
+msgstr "Revenir au snapshot ..."
+
+msgid "Select a bridge ..."
+msgstr ""
+
+msgid "Select a device ..."
 msgstr ""
 
 msgid "Select a file ..."
@@ -368,10 +419,10 @@ msgid "Select a nic ..."
 msgstr "Sélectionner une carte réseau ..."
 
 msgid "Select a pool ..."
-msgstr ""
+msgstr "Sélectionner un pool ..."
 
 msgid "Select a snapshot ..."
-msgstr ""
+msgstr "Sélectionner un snapshot ..."
 
 msgid "Select a volume ..."
 msgstr "Sélectionner un volume ..."
@@ -379,8 +430,11 @@ msgstr "Sélectionner un volume ..."
 msgid "Settings"
 msgstr "Réglages"
 
-msgid "Showing volume info ..."
+msgid "Show advanced options"
 msgstr ""
+
+msgid "Showing volume info ..."
+msgstr "Montrer les informations du volume ..."
 
 msgid "Size"
 msgstr "Taille"
@@ -395,7 +449,7 @@ msgid "Snapshots"
 msgstr "Snapshots"
 
 msgid "Source Path"
-msgstr ""
+msgstr "Chemin source"
 
 msgid "Spice port"
 msgstr ""
@@ -422,13 +476,19 @@ msgid "T"
 msgstr "T"
 
 msgid "Target Path"
-msgstr ""
+msgstr "Chemin cible"
 
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 msgid "UEFI"
 msgstr "UEFI"
+
+msgid "USB Device"
+msgstr ""
+
+msgid "USB device"
+msgstr ""
 
 msgid "Unable to - "
 msgstr "Impossible de ..."
@@ -436,158 +496,164 @@ msgstr "Impossible de ..."
 msgid "Unable to add ISO to VM - "
 msgstr "Impossible d'ajouter l'ISO à la VM"
 
+msgid "Unable to add USB device to VM - "
+msgstr ""
+
 msgid "Unable to add disk to VM - "
 msgstr "Impossible d'ajouter le disque à la VM - "
 
 msgid "Unable to add network adapter to VM - "
-msgstr ""
+msgstr "Impossible d'ajouter l'adaptateur réseau à la VM - "
 
 msgid "Unable to change memory or vCPUs on VM - "
-msgstr ""
+msgstr "Impossible de changer la mémoire ou les vCPUs de la VM"
 
 msgid "Unable to create Macvap - "
-msgstr ""
+msgstr "Impossible de créer Macvap -"
 
 msgid "Unable to create domain - "
-msgstr ""
+msgstr "Impossible de créer le domaine -"
 
 msgid "Unable to create network - "
-msgstr ""
+msgstr "Impossible de créer le réseau - "
 
 msgid "Unable to create new disk - "
-msgstr ""
+msgstr "Impossible de créer un nouveau disque - "
 
 msgid "Unable to create pool - "
-msgstr ""
+msgstr "Impossible de créer un pool - "
 
 msgid "Unable to create snapshot - "
-msgstr ""
+msgstr "Impossible de créer un snapshot - "
 
 msgid "Unable to create volume - "
-msgstr ""
+msgstr "Impossible de créer un volume - "
 
 msgid "Unable to delete disk(s) from VM - "
-msgstr ""
+msgstr "Impossible de supprimer le(s) disque(s) de la VM - "
 
 msgid "Unable to delete network - "
-msgstr ""
+msgstr "Impossible de supprimer le réseau - "
 
 msgid "Unable to delete pool - "
-msgstr ""
+msgstr "Impossible de supprimer le pool - "
 
 msgid "Unable to delete snapshot - "
-msgstr ""
+msgstr "Impossible de supprimer le snapshot - "
 
 msgid "Unable to delete volume - "
+msgstr "Impossible de supprimer le volume - "
+
+msgid "Unable to remove USB device to VM - "
 msgstr ""
 
 msgid "Unable to remove disk from VM - "
-msgstr ""
+msgstr "Impossible de supprimer le disque de la VM - "
 
 msgid "Unable to remove network interface from VM - "
-msgstr ""
-
-msgid "Unable to remove optical from VM - "
-msgstr ""
+msgstr "Impossible de supprimer l'interface de la VM - "
 
 msgid "Unable to resize disk - "
-msgstr ""
+msgstr "Impossible de redimensionner le disque -"
 
 msgid "Unable to revert to snapshot - "
-msgstr ""
+msgstr "Impossible de revenir au snapshot - "
 
 msgid "Unable to set VM XML - "
-msgstr ""
+msgstr "Impossible de régler VM XML -"
 
 msgid "Unable to start network - "
-msgstr ""
+msgstr "Impossible de démarrer le réseau - "
 
 msgid "Unable to stop network - "
-msgstr ""
+msgstr "Impossible de d'arrêter le réseau - "
 
 msgid "VM Name"
-msgstr ""
+msgstr "Nom de la VM"
 
 msgid "VMs"
-msgstr ""
+msgstr "VMs"
 
 msgid "VNC port"
-msgstr ""
+msgstr "port VNC"
 
 msgid "Volume"
-msgstr ""
+msgstr "Volume"
 
 msgid "Volume Count"
 msgstr ""
 
 msgid "Volumes"
-msgstr ""
+msgstr "Volumes"
 
 msgid "Windows"
-msgstr ""
+msgstr "Windows"
 
 msgid "Wrong VM name entered! Skipping delete ..."
-msgstr ""
+msgstr "Nom de VM erroné ! Ignore la suppression ..."
 
 msgid "XML"
-msgstr ""
+msgstr "XML"
 
 msgid "ZFS"
-msgstr ""
+msgstr "ZFS"
 
 msgid "aarch64"
-msgstr ""
+msgstr "aarch64"
 
 msgid "arm"
-msgstr ""
+msgstr "arm"
 
 msgid "e1000"
-msgstr ""
+msgstr "e1000"
 
 msgid "i386"
+msgstr "i386"
+
+msgid "i440FX"
 msgstr ""
 
 msgid "iSCSI"
-msgstr ""
+msgstr "iSCSI"
 
 msgid "ide"
-msgstr ""
+msgstr "ide"
 
 msgid "n/a"
-msgstr ""
+msgstr "n/a"
 
 msgid "ne2k_pci"
-msgstr ""
+msgstr "ne2k_pci"
 
 msgid "noVNC Docker URL"
-msgstr ""
+msgstr " URL Docker de noVNC"
 
 msgid "pcnet"
-msgstr ""
+msgstr "pcnet"
 
 msgid "qcow2"
-msgstr ""
+msgstr "qcow2"
 
 msgid "raw"
-msgstr ""
+msgstr "raw"
 
 msgid "rtl8139"
-msgstr ""
+msgstr "rtl8139"
 
 msgid "sata"
-msgstr ""
+msgstr "sata"
 
 msgid "scsi"
-msgstr ""
+msgstr "scsi"
 
 msgid "vCPU"
-msgstr ""
+msgstr "vCPU"
 
 msgid "virtio"
-msgstr ""
+msgstr "virtio"
 
 msgid "x86_64"
-msgstr ""
+msgstr "x86_64"
 
 msgid "zPool name"
-msgstr ""
+msgstr "nom du zPool"

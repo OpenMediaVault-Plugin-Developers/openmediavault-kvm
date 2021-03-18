@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-11 07:53-0600\n"
+"POT-Creation-Date: 2021-03-18 07:54-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>, 2021\n"
 "Language-Team: Galician (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/gl/)\n"
@@ -30,11 +30,23 @@ msgstr "Actividade"
 msgid "Add"
 msgstr "Engadir"
 
+msgid "Add Disk"
+msgstr ""
+
 msgid "Add Macvtap Bridge"
 msgstr "Engadir unha ponte MACVTAP"
 
 msgid "Add Network"
 msgstr "Engadir unha rede"
+
+msgid "Add Optical"
+msgstr ""
+
+msgid "Add USB"
+msgstr ""
+
+msgid "Add USB device ..."
+msgstr ""
 
 msgid "Add VM"
 msgstr "Engadir unha MV"
@@ -84,6 +96,9 @@ msgstr "InicioAutom."
 msgid "Available"
 msgstr "Dispoñíbel"
 
+msgid "Bridge"
+msgstr ""
+
 msgid "Bus"
 msgstr "Bus"
 
@@ -107,6 +122,9 @@ msgstr "Comprobar"
 
 msgid "Checking volume ..."
 msgstr "Comprobando o volume…"
+
+msgid "Chipset"
+msgstr ""
 
 msgid "Component"
 msgstr "Compoñente"
@@ -151,7 +169,7 @@ msgid "Delete"
 msgstr "Eliminar"
 
 msgid "Delete + storage"
-msgstr ""
+msgstr "Eliminar + almacenamento"
 
 msgid "Delete disk ..."
 msgstr "Eliminar un disco…"
@@ -159,8 +177,11 @@ msgstr "Eliminar un disco…"
 msgid "Delete snapshot ..."
 msgstr "Eliminar a instantánea…"
 
-msgid "Directory"
+msgid "Devices"
 msgstr ""
+
+msgid "Directory"
+msgstr "Directorio"
 
 msgid "Disable autostart"
 msgstr "Desactivar o inicio automático"
@@ -212,10 +233,10 @@ msgid "Failed to start container."
 msgstr "Produciuse un fallo ao iniciar o contedor."
 
 msgid "Filesystem"
-msgstr ""
+msgstr "Sistema de ficheiros"
 
 msgid "For description of each type and how to configure:"
-msgstr ""
+msgstr "Para ver a descrición de cada tipo e como configuralo:"
 
 msgid "For more info"
 msgstr "Para máis información"
@@ -242,7 +263,7 @@ msgid "GiB"
 msgstr "GiB"
 
 msgid "Host name"
-msgstr ""
+msgstr "Nome de máquina"
 
 msgid "IP Range"
 msgstr "Intervalo IP"
@@ -258,6 +279,9 @@ msgstr "KVM"
 
 msgid "Leave blank for random address."
 msgstr "Déixeo en branco para un enderezo ao chou."
+
+msgid "Leave blank to use VM name."
+msgstr ""
 
 msgid "Linux"
 msgstr "Linux"
@@ -287,7 +311,7 @@ msgid "Network"
 msgstr "Rede"
 
 msgid "Network Filesystem"
-msgstr ""
+msgstr "Sistema de ficheiros de rede"
 
 msgid "Network Name"
 msgstr "Nome da rede"
@@ -328,11 +352,29 @@ msgstr "Agrupación"
 msgid "Pools"
 msgstr "Agrupacións"
 
+msgid "Q35"
+msgstr ""
+
 msgid "Reboot"
 msgstr "Reiniciar"
 
 msgid "Remove"
 msgstr "Retirar"
+
+msgid "Remove Disk"
+msgstr ""
+
+msgid "Remove Network"
+msgstr ""
+
+msgid "Remove Optical"
+msgstr ""
+
+msgid "Remove USB"
+msgstr ""
+
+msgid "Remove USB device ..."
+msgstr ""
 
 msgid "Remove network adapter ..."
 msgstr "Retirar un adaptador de rede…"
@@ -342,6 +384,9 @@ msgstr "Retirar un disco óptico…"
 
 msgid "Resize"
 msgstr "Redimensionar"
+
+msgid "Resize Disk"
+msgstr ""
 
 msgid "Resize disk ..."
 msgstr "Redimensionar un disco…"
@@ -354,6 +399,12 @@ msgstr "Reverter"
 
 msgid "Revert to snapshot ..."
 msgstr "Reverter á instantánea…"
+
+msgid "Select a bridge ..."
+msgstr ""
+
+msgid "Select a device ..."
+msgstr ""
 
 msgid "Select a file ..."
 msgstr "Seleccione un ficheiro…"
@@ -379,6 +430,9 @@ msgstr "Seleccione un volume…"
 msgid "Settings"
 msgstr "Axustes"
 
+msgid "Show advanced options"
+msgstr ""
+
 msgid "Showing volume info ..."
 msgstr "Amosando a información do volume…"
 
@@ -395,7 +449,7 @@ msgid "Snapshots"
 msgstr "Instantáneas"
 
 msgid "Source Path"
-msgstr ""
+msgstr "Ruta á orixe"
 
 msgid "Spice port"
 msgstr "Porto de Spice"
@@ -422,19 +476,28 @@ msgid "T"
 msgstr "T"
 
 msgid "Target Path"
-msgstr ""
+msgstr "Ruta ao destino"
 
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 msgid "UEFI"
 msgstr "UEFI"
+
+msgid "USB Device"
+msgstr ""
+
+msgid "USB device"
+msgstr ""
 
 msgid "Unable to - "
 msgstr "Non é posíbel  - "
 
 msgid "Unable to add ISO to VM - "
 msgstr "Non é posíbel engadir a ISO a máquina virtual -"
+
+msgid "Unable to add USB device to VM - "
+msgstr ""
 
 msgid "Unable to add disk to VM - "
 msgstr "Non é posíbel engadir o disco a máquina virtual -"
@@ -467,7 +530,7 @@ msgid "Unable to create volume - "
 msgstr "Non é posíbel  crear un volume - "
 
 msgid "Unable to delete disk(s) from VM - "
-msgstr ""
+msgstr "Non é posíbel eliminao o(s) disco(s) da máquina virtual -"
 
 msgid "Unable to delete network - "
 msgstr "Non é posíbel  eliminar a rede - "
@@ -481,14 +544,14 @@ msgstr "Non é posíbel  eliminar a instantánea - "
 msgid "Unable to delete volume - "
 msgstr "Non é posíbel  eliminar o volume - "
 
+msgid "Unable to remove USB device to VM - "
+msgstr ""
+
 msgid "Unable to remove disk from VM - "
 msgstr "Non é posíbel retirar o disco da máquina virtual -"
 
 msgid "Unable to remove network interface from VM - "
 msgstr "Non é posíbel retirar a interface de rede da máquina virtual -"
-
-msgid "Unable to remove optical from VM - "
-msgstr ""
 
 msgid "Unable to resize disk - "
 msgstr "Non é posíbel  redimensionar o disco - "
@@ -528,12 +591,13 @@ msgstr "Windows"
 
 msgid "Wrong VM name entered! Skipping delete ..."
 msgstr ""
+"Introduciu un nome de máquina virtual incorrecto. Omitindo a eliminación…"
 
 msgid "XML"
 msgstr "XML"
 
 msgid "ZFS"
-msgstr ""
+msgstr "ZFS"
 
 msgid "aarch64"
 msgstr "aarch64"
@@ -547,8 +611,11 @@ msgstr "e1000"
 msgid "i386"
 msgstr "i386"
 
-msgid "iSCSI"
+msgid "i440FX"
 msgstr ""
+
+msgid "iSCSI"
+msgstr "iSCSI"
 
 msgid "ide"
 msgstr "ide"
@@ -590,4 +657,4 @@ msgid "x86_64"
 msgstr "x86_64"
 
 msgid "zPool name"
-msgstr ""
+msgstr "Nome da zPool"
