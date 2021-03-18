@@ -1,12 +1,13 @@
-openmediavault-kvm (5.0.13) UNRELEASED; urgency=medium
+openmediavault-kvm (5.0.13) stable; urgency=low
 
   * Add bridge option for network adapter
   * Improve VM delete
   * Add advanced checkbox to new VM form
   * Add chipset selection to new VM form
   * Add USB passthrough forms
+  * Enable auto-reload of grids
 
- -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Thu, 11 Mar 2021 08:40:47 -0600
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Thu, 18 Mar 2021 07:54:33 -0500
 
 openmediavault-kvm (5.0.12) stable; urgency=low
 
