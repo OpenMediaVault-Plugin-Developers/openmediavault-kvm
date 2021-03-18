@@ -1407,6 +1407,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
     {
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        $output = [];
         $cmdLine = 'lsusb | sort -h';
         $cmd = new \OMV\System\Process($cmdLine);
         $cmd->setQuiet(true);
@@ -1432,14 +1433,30 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $lv = $this->connectQemu();
         $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
         $xpath = $domXml->xpath('//hostdev');
+        // get list of current usb devices from host
+        $output = [];
+        $cmdLine = 'lsusb | sort -h';
+        $cmd = new \OMV\System\Process($cmdLine);
+        $cmd->setQuiet(true);
+        $cmd->execute($output, $exitStatus);
+        $usbCount = count($output);
+        // get list of usb devices from VM
         $objects = [];
         $xpathSize = sizeof($xpath);
         for ($i = 0; $i < $xpathSize; $i++) {
             $dev = $domXml->devices->hostdev[$i]->source;
             $vendorProduct = sprintf('%s:%s', $dev->vendor['id'], $dev->product['id']);
+            $vpCheck = str_replace('0x', '', $vendorProduct);
+            $description = $vendorProduct;
+            for ($j = 0; $j < $usbCount; $j++) {
+                if (strpos($output[$j], $vpCheck)) {
+                    $description = $output[$j];
+                    break;
+                }
+            }
             $objects[] = [
                 'device' => $vendorProduct,
-                'description' => $vendorProduct
+                'description' => $description
             ];
         }
         return ($objects);
