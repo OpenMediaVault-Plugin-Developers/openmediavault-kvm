@@ -70,7 +70,7 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
         'OMV.data.proxy.Rpc'
     ],
 
-    autoReload: false,
+    autoReload: true,
     rememberSelected: true,
     disableLoadMaskOnLoad: true,
     hideAddButton: true,
@@ -172,7 +172,7 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
             store: Ext.create('OMV.data.Store', {
                 autoLoad: true,
                 model: OMV.data.Model.createImplicit({
-                    idProperty: 'uuid',
+                    idProperty: 'vmname',
                     fields: [
                         { name: 'vmname', type: 'string' },
                         { name: 'mem', type: 'string' },

@@ -238,7 +238,7 @@ Ext.define('OMV.module.admin.service.kvm.Networks', {
             store: Ext.create('OMV.data.Store', {
                 autoLoad: true,
                 model: OMV.data.Model.createImplicit({
-                    idProperty: 'uuid',
+                    idProperty: 'netname',
                     fields: [
                         { name: 'netname', type: 'string' },
                         { name: 'active', type: 'string' },
