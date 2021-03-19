@@ -1,3 +1,9 @@
+openmediavault-kvm (5.0.14) stable; urgency=low
+
+  * Fix bridge enumeration
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Fri, 19 Mar 2021 07:00:04 -0500
+
 openmediavault-kvm (5.0.13) stable; urgency=low
 
   * Add bridge option for network adapter
