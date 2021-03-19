@@ -595,6 +595,10 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $chipset = $params['chipset'];
         if ((empty($chipset)) || ($chipset != 'q35')) {
             $chipset = 'pc';
+            $sound = 'ich9';
+        } else {
+            $chipset = 'q35';
+            $sound = 'ac97';
         }
         $host_arch = $this->getArch();
         $uefi = $params['uefi'];
@@ -681,9 +685,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
         $xml .= "</features>";
         if ($params['os'] == "windows") {
-            $xml .= "<cpu mode='host-model' check='partial'>";
-            $xml .= "<model fallback='allow'/>";
-            $xml .= "</cpu>";
+            if ($hostarch == 'amd64' || $hostarch == 'i386') {
+                $xml .= "<cpu mode='host-model' check='partial'>";
+                $xml .= "<model fallback='allow'/>";
+                $xml .= "</cpu>";
+            }
         } elseif ($arch == 'aarch64' || $arch == 'arm') {
             $xml .= "<cpu mode='custom' match='exact'>";
             $xml .= sprintf("<model>%s</model>", $cpuModel);
@@ -711,7 +717,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
              $xml .= "</rng>";
         }
         if ($params['audio']) {
-            $xml .= "<sound model='ich9'/>";
+            $xml .= sprintf("<sound model='%s'/>", $sound);
         }
         $xml .= "<memballoon model='virtio'>";
         $xml .= "<stats period='10'/>";
