@@ -101,9 +101,7 @@
 				"required": true
 			},
 			"chipset": {
-				"type": "string",
-				"enum": [ "pc", "q35" ],
-				"required": true
+				"type": "string"
 			},
 			"memoryunit": {
 				"type": "string",

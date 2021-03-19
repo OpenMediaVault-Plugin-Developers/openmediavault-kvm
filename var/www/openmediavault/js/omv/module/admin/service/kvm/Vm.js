@@ -134,10 +134,10 @@ Ext.define("OMV.module.admin.service.kvm.Vm", {
                     [ "pc", _("i440FX") ],
                     [ "q35", _("Q35") ]
                 ],
-                allowBlank: false,
+                allowBlank: true,
                 editable: false,
                 triggerAction: "all",
-                value: "i440FX"
+                value: "pc"
             },{
                 xtype: "combo",
                 name: "os",

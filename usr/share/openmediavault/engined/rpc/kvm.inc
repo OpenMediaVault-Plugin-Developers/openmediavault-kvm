@@ -593,7 +593,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $lv = $this->connectQemu();
         $arch = $params['arch'];
         $chipset = $params['chipset'];
+        if ((empty($chipset)) || ($chipset != 'q35')) {
+            $chipset = 'pc';
+        }
         $host_arch = $this->getArch();
+        $uefi = $params['uefi'];
         $vmname = $params['vmname'];
         switch ($arch) {
             case 'aarch64':
@@ -654,7 +658,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $xml .= sprintf("<vcpu>%d</vcpu>", $params['vcpu']);
         $xml .= "<os>";
         $xml .= sprintf("<type arch='%s' machine='%s'>hvm</type>", $arch, $machine);
-        if ($params['uefi']) {
+        if ($uefi) {
             $xml .= sprintf("<loader readonly='yes' type='%s'>%s</loader>", $ld, $fd);
         }
         $xml .= "<boot dev='hd'/>";
@@ -749,7 +753,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
 
         // add disk to VM
-        if ($params['uefi']) {
+        if (($uefi) || ($chipset == 'q35')) {
             $cdpre = "sd";
             $ctrl = "sata";
         } else {
