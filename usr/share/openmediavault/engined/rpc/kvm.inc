@@ -160,12 +160,13 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
     {
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        $output = [];
         $cmdLine = 'ls /sys/class/net | grep ^br';
         $cmd = new \OMV\System\Process($cmdLine);
         $cmd->setQuiet(true);
         $cmd->execute($output, $exitStatus);
         $objects = [];
-        foreach ($net as $output) {
+        foreach ($output as $net) {
             $objects[] = [
                 'bridge' => $net
             ];
