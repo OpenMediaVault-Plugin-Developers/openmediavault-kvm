@@ -1,3 +1,15 @@
+openmediavault-kvm (5.0.15) stable; urgency=low
+
+  * Fix host architecture detection
+  * Add vm reset
+  * Allow volname to be blank
+  * Fix vm resume and pause
+  * Fix cpu model for windows on arm
+  * Use ac97 sound for q35 chipset
+  * Fix chipset settings
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sat, 20 Mar 2021 15:02:39 -0500
+
 openmediavault-kvm (5.0.14) stable; urgency=low
 
   * Fix bridge enumeration
