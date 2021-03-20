@@ -389,6 +389,19 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
                     }
                 }
             },{
+                text: _("Reset"),
+                icon: "images/refresh.png",
+                handler: Ext.Function.bind(me.onCommandButton, me, [ "reset" ]),
+                disabled : true,
+                selectionConfig : {
+                    minSelections : 1,
+                    maxSelections : 1,
+                    enabledFn: function(c, records) {
+                        var state = records[0].get("state");
+                        return (state == 'running');
+                    }
+                }
+            },{
                 text: _("Force"),
                 icon: "images/arrow-down.png",
                 handler: Ext.Function.bind(me.onCommandButton, me, [ "force" ]),

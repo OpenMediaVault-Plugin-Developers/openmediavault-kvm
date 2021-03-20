@@ -44,8 +44,15 @@ Ext.define("OMV.module.admin.service.kvm.Vm", {
                 name: 'voldisk',
                 value: 'Create new disk'
             }],
-            name: ['volpool', 'volname', 'volsizefield', 'volsize', 'volunit', 'volformat'],
+            name: ['volpool', 'volsizefield', 'volsize', 'volunit', 'volformat'],
             properties: ['show', 'submitValue', '!allowBlank']
+        },{
+            conditions: [{
+                name: 'voldisk',
+                value: 'Create new disk'
+            }],
+            name: ['volname'],
+            properties: ['show', 'submitValue']
         },{
             conditions: [{
                 name: 'model',

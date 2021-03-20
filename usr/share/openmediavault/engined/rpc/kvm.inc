@@ -96,7 +96,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
 
     private function getArch()
     {
-        $cmd = new \OMV\System\Process('arch');
+        $cmd = new \OMV\System\Process('dpkg --print-architecture');
         $cmd->execute($output);
         return (strtolower($output[0]));
     }
@@ -636,7 +636,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $domain_type = "kvm";
                 $native_graphics = true;
                 $machine = $chipset;
-                if ($host_arch == 'i386') {
+                if (($host_arch == 'amd64') || ($host_arch == 'i386')) {
                     $domain_type = "kvm";
                 } else {
                     $domain_type = "qemu";
@@ -1546,10 +1546,10 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // create new libvirt object
         $lv = $this->connectQemu();
         if (substr($params['command'], 0, 5) == "pool_") {
-            $pool = $params['name'];
-            $res = $lv->get_storagepool_res($pool);
+            $res = $lv->get_storagepool_res($params['name']);
         } else {
-            $dom = $lv->get_domain_object($params['name']);
+            $vmname = $params['name'];
+            $dom = $lv->get_domain_object($vmname);
         }
         switch ($params['command']) {
             case 'poweron':
@@ -1558,6 +1558,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             case 'reboot':
                 $result = $lv->domain_reboot($dom);
                 break;
+            case 'reset':
+                $cmdLine = sprintf('virsh reset %s', $vmname);
+                $cmd = new \OMV\System\Process($cmdLine);
+                $cmd->execute($output, $result);
+                break;
             case 'poweroff':
                 $result = $lv->domain_shutdown($dom);
                 break;
@@ -1565,26 +1570,26 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $result = $lv->domain_destroy($dom);
                 break;
             case 'pause':
-                $result = $lv->domain_destroy($dom);
+                $result = $lv->domain_suspend($dom);
                 break;
             case 'resume':
-                $result = $lv->domain_destroy($dom);
+                $result = $lv->domain_resume($dom);
                 break;
             case 'undefine':
-                $cmdLine = sprintf('virsh undefine --nvram %s', $params['name']);
+                $cmdLine = sprintf('virsh undefine --nvram %s', $vmname);
                 $cmd = new \OMV\System\Process($cmdLine);
                 $cmd->execute($output, $result);
                 break;
             case 'undefineplus':
                 $undefine = false;
-                if ($this->deleteDisksByVm($params['name'])) {
+                if ($this->deleteDisksByVm($vmname)) {
                     $undefine = true;
                 } else {
                     $undefine = false;
                     throw new \OMV\Exception( gettext("Unable to delete disk(s) from VM - ") . $lv->get_last_error());
                 }
                 if ($undefine) {
-                    $cmdLine = sprintf('virsh undefine --nvram %s', $params['name']);
+                    $cmdLine = sprintf('virsh undefine --nvram %s', $vmname);
                     $cmd = new \OMV\System\Process($cmdLine);
                     $cmd->execute($output, $result);
                 }
