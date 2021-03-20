@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-18 07:54-0500\n"
+"POT-Creation-Date: 2021-03-20 15:04-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>, 2021\n"
 "Language-Team: Spanish (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/es/)\n"
@@ -380,6 +380,9 @@ msgstr "Eliminar adaptador de Red ..."
 
 msgid "Remove optical disk ..."
 msgstr "Eliminar CD ..."
+
+msgid "Reset"
+msgstr ""
 
 msgid "Resize"
 msgstr "Redimensionar"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-18 07:54-0500\n"
+"POT-Creation-Date: 2021-03-20 15:04-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: kochin <kochinc@outlook.com>, 2021\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/zh_TW/)\n"
@@ -380,6 +380,9 @@ msgstr "移除網路卡 …"
 
 msgid "Remove optical disk ..."
 msgstr "移除光碟 ..."
+
+msgid "Reset"
+msgstr ""
 
 msgid "Resize"
 msgstr ""
