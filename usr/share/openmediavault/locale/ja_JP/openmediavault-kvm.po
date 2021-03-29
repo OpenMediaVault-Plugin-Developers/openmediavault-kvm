@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-20 15:04-0500\n"
+"POT-Creation-Date: 2021-03-29 08:16-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Language-Team: Japanese (Japan) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -107,7 +107,13 @@ msgstr ""
 msgid "Capacity"
 msgstr ""
 
+msgid "Change Memory"
+msgstr ""
+
 msgid "Change memory ..."
+msgstr ""
+
+msgid "Change vCPU"
 msgstr ""
 
 msgid "Change vCPU quantity ..."
