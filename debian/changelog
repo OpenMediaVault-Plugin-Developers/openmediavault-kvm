@@ -1,3 +1,11 @@
+openmediavault-kvm (5.0.16) stable; urgency=low
+
+  * Use host IP address instead of hostname for noVNC docker container
+    to fix DNS issues
+  * Move change cpu/memory to devices menu
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Mon, 29 Mar 2021 08:15:35 -0500
+
 openmediavault-kvm (5.0.15) stable; urgency=low
 
   * Fix host architecture detection
