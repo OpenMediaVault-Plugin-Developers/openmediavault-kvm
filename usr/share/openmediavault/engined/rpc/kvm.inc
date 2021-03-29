@@ -1630,12 +1630,21 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             if ($hostport >= 1024) {
                 // create container
                 $output = [];
-                $cmdLine = sprintf('docker run -d -e REMOTE_HOST=$(hostname -f) -e REMOTE_PORT=%d -p %d:8081 --name %s dougw/novnc', $params['vncport'], $hostport, $containerName);
-                $cmd = new \OMV\System\Process($cmdLine);
+                $cmdArgs = [];
+                $cmdArgs[] = 'docker';
+                $cmdArgs[] = 'run';
+                $cmdArgs[] = '-d';
+                $cmdArgs[] = sprintf('-e REMOTE_HOST=%s', getHostByName(getHostName()));
+                $cmdArgs[] = sprintf('-e REMOTE_PORT=%d', $params['vncport']);
+                $cmdArgs[] = sprintf('-p %d:8081', $hostport);
+                $cmdArgs[] = sprintf('--name %s', $containerName);
+                $cmdArgs[] = 'dougw/novnc';
+                $cmd = new \OMV\System\Process($cmdArgs);
                 $cmd->setQuiet(true);
                 $cmd->execute($output, $exitStatus);
+                $cmdLine = $cmd->getCommandLine();
                 if ((0 == $exitStatus) && (!empty($output))) {
-                    throw new \OMV\Exception(gettext("Failed to start container."));
+                    throw new \OMV\Exception(gettext("Failed to start container.") . $cmdLine);
                 }
             }
         } else {

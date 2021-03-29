@@ -315,29 +315,34 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
                         return (snaps == 0);
                     }
                 }
-            }]
-        },{
-            xtype: "button",
-            text: _("Edit"),
-            scope: this,
-            icon: "images/edit.png",
-            disabled : true,
-            selectionConfig : {
-                minSelections : 1,
-                maxSelections : 1,
-                enabledFn: function(c, records) {
-                    var state = records[0].get("state");
-                    return (state == 'shutoff');
-                }
-            },
-            menu: [{
-                text: _("vCPU"),
-                icon: "images/details.png",
-                handler: Ext.Function.bind(me.onEditButton, me, [ "vcpu" ])
             },{
-                text: _("Memory"),
-                icon: "images/details.png",
-                handler: Ext.Function.bind(me.onEditButton, me, [ "memory" ])
+                xtype: 'menuseparator'
+            },{
+                text: _("Change vCPU"),
+                icon: "images/edit.png",
+                handler: Ext.Function.bind(me.onEditButton, me, [ "vcpu" ]),
+                disabled : true,
+                selectionConfig : {
+                    minSelections : 1,
+                    maxSelections : 1,
+                    enabledFn: function(c, records) {
+                        var state = records[0].get("state");
+                        return (state == 'shutoff');
+                    }
+                }
+            },{
+                text: _("Change Memory"),
+                icon: "images/edit.png",
+                handler: Ext.Function.bind(me.onEditButton, me, [ "memory" ]),
+                disabled : true,
+                selectionConfig : {
+                    minSelections : 1,
+                    maxSelections : 1,
+                    enabledFn: function(c, records) {
+                        var state = records[0].get("state");
+                        return (state == 'shutoff');
+                    }
+                }
             }]
         },{
             xtype: "button",
