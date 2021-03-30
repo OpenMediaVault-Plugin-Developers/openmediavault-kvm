@@ -504,7 +504,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmd->execute($output, $exitStatus);
                 $dockerport = array_pop(explode(':', $output[0]));
                 if ($dockerport >= 1024) {
-                    $dockerurl = sprintf('http://%s:%d/vnc.html', gethostname(), $dockerport);
+                    $dockerurl = sprintf('http://%s:%d/vnc.html?resize=remote&autoconnect=1', gethostname(), $dockerport);
                 } else {
                     $dockerport = 'n/a';
                 }
