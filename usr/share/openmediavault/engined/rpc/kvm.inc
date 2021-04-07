@@ -705,6 +705,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $xml .= "<video>";
             $xml .= "<model type='qxl'/>";
             $xml .= "</video>";
+            $xml .= "<channel type='spicevmc'>";
+            $xml .= "<target type='virtio'/>";
+            $xml .= "</channel>";
             $xml .= "<input type='tablet' bus='virtio'/>";
         } else {
              $xml .= "<console type='pty'/>";
