@@ -1,3 +1,9 @@
+openmediavault-kvm (5.0.17) stable; urgency=low
+
+  * Add spicevmc channel
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Wed, 07 Apr 2021 17:44:20 -0500
+
 openmediavault-kvm (5.0.16) stable; urgency=low
 
   * Use host IP address instead of hostname for noVNC docker container
