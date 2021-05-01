@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-29 08:16-0500\n"
+"POT-Creation-Date: 2021-05-01 13:48-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: kochin <kochinc@outlook.com>, 2021\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/zh_TW/)\n"
@@ -153,6 +153,9 @@ msgstr "轉換成 raw"
 msgid "Create"
 msgstr "新建"
 
+msgid "Create consoles"
+msgstr ""
+
 msgid "Create noVNC console"
 msgstr "建立 noVNC 控制台"
 
@@ -198,9 +201,6 @@ msgstr "磁碟"
 msgid "Disk(s)"
 msgstr "磁碟"
 
-msgid "Docker is not installed. Please install from omv-extras Docker tab."
-msgstr "Docker 還未被安裝。請從 omv-extras 之 Docker 分頁安裝。"
-
 msgid "Docker port"
 msgstr "Docker 連接埠"
 
@@ -236,6 +236,12 @@ msgstr "延伸"
 
 msgid "Failed to start container."
 msgstr "無法啟動容櫃 - "
+
+msgid "Failed to start websockify for noVNC."
+msgstr ""
+
+msgid "Failed to start websockify for spice-html5."
+msgstr ""
 
 msgid "Filesystem"
 msgstr "檔案系統"
@@ -471,6 +477,9 @@ msgstr "狀態"
 msgid "Stop"
 msgstr "停止"
 
+msgid "Stop consoles"
+msgstr ""
+
 msgid "Stop noVNC console"
 msgstr "停止 noVNC 控制台"
 
@@ -636,6 +645,12 @@ msgstr "ne2k_pci"
 msgid "noVNC Docker URL"
 msgstr "noVNC Docker URL"
 
+msgid "noVNC URL"
+msgstr ""
+
+msgid "noVNC port"
+msgstr ""
+
 msgid "pcnet"
 msgstr "pcnet"
 
@@ -653,6 +668,12 @@ msgstr "sata"
 
 msgid "scsi"
 msgstr "scsi"
+
+msgid "spice-html5 URL"
+msgstr ""
+
+msgid "spice-html5 port"
+msgstr ""
 
 msgid "vCPU"
 msgstr "vCPU"

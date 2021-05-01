@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-29 08:16-0500\n"
+"POT-Creation-Date: 2021-05-01 13:48-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Andi Chandler <andi@gowling.com>, 2021\n"
 "Language-Team: English (United Kingdom) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/en_GB/)\n"
@@ -153,6 +153,9 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
+msgid "Create consoles"
+msgstr ""
+
 msgid "Create noVNC console"
 msgstr ""
 
@@ -198,9 +201,6 @@ msgstr ""
 msgid "Disk(s)"
 msgstr ""
 
-msgid "Docker is not installed. Please install from omv-extras Docker tab."
-msgstr ""
-
 msgid "Docker port"
 msgstr ""
 
@@ -235,6 +235,12 @@ msgid "Extension"
 msgstr ""
 
 msgid "Failed to start container."
+msgstr ""
+
+msgid "Failed to start websockify for noVNC."
+msgstr ""
+
+msgid "Failed to start websockify for spice-html5."
 msgstr ""
 
 msgid "Filesystem"
@@ -471,6 +477,9 @@ msgstr ""
 msgid "Stop"
 msgstr ""
 
+msgid "Stop consoles"
+msgstr ""
+
 msgid "Stop noVNC console"
 msgstr ""
 
@@ -636,6 +645,12 @@ msgstr ""
 msgid "noVNC Docker URL"
 msgstr ""
 
+msgid "noVNC URL"
+msgstr ""
+
+msgid "noVNC port"
+msgstr ""
+
 msgid "pcnet"
 msgstr ""
 
@@ -652,6 +667,12 @@ msgid "sata"
 msgstr ""
 
 msgid "scsi"
+msgstr ""
+
+msgid "spice-html5 URL"
+msgstr ""
+
+msgid "spice-html5 port"
 msgstr ""
 
 msgid "vCPU"

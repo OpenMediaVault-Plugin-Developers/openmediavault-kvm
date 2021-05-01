@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-29 08:16-0500\n"
+"POT-Creation-Date: 2021-05-01 13:48-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>, 2021\n"
 "Language-Team: Galician (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/gl/)\n"
@@ -153,6 +153,9 @@ msgstr "Converter a en bruto"
 msgid "Create"
 msgstr "Crear"
 
+msgid "Create consoles"
+msgstr ""
+
 msgid "Create noVNC console"
 msgstr "Crear unha consola nonVNC"
 
@@ -198,10 +201,6 @@ msgstr "Disco"
 msgid "Disk(s)"
 msgstr "Disco(s)"
 
-msgid "Docker is not installed. Please install from omv-extras Docker tab."
-msgstr ""
-"Docker non está instalado. Instáleo dende a lapela Docker de omv-extras."
-
 msgid "Docker port"
 msgstr "Porto de Docker"
 
@@ -237,6 +236,12 @@ msgstr "Extensión"
 
 msgid "Failed to start container."
 msgstr "Produciuse un fallo ao iniciar o contedor."
+
+msgid "Failed to start websockify for noVNC."
+msgstr ""
+
+msgid "Failed to start websockify for spice-html5."
+msgstr ""
 
 msgid "Filesystem"
 msgstr "Sistema de ficheiros"
@@ -472,6 +477,9 @@ msgstr "Estado"
 msgid "Stop"
 msgstr "Deter"
 
+msgid "Stop consoles"
+msgstr ""
+
 msgid "Stop noVNC console"
 msgstr "Deter a consola nonVNC"
 
@@ -638,6 +646,12 @@ msgstr "ne2k_pci"
 msgid "noVNC Docker URL"
 msgstr "URL do Docker nonVNC"
 
+msgid "noVNC URL"
+msgstr ""
+
+msgid "noVNC port"
+msgstr ""
+
 msgid "pcnet"
 msgstr "PCNET"
 
@@ -655,6 +669,12 @@ msgstr "SATA"
 
 msgid "scsi"
 msgstr "SCSI"
+
+msgid "spice-html5 URL"
+msgstr ""
+
+msgid "spice-html5 port"
+msgstr ""
 
 msgid "vCPU"
 msgstr "vCPU"
