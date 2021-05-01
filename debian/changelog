@@ -1,3 +1,9 @@
+openmediavault-kvm (5.0.18) stable; urgency=low
+
+  * Disallow illegal characters in VM name
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sat, 01 May 2021 09:19:29 -0500
+
 openmediavault-kvm (5.0.17) stable; urgency=low
 
   * Add spicevmc channel

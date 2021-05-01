@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 msgid " already exists!"
-msgstr ""
+msgstr "已經存在！"
 
 msgid "Activity"
 msgstr "活動"
@@ -31,22 +31,22 @@ msgid "Add"
 msgstr "新增"
 
 msgid "Add Disk"
-msgstr ""
+msgstr "新增磁碟"
 
 msgid "Add Macvtap Bridge"
-msgstr ""
+msgstr "新增 Macvtap 橋接器"
 
 msgid "Add Network"
 msgstr "新增網路"
 
 msgid "Add Optical"
-msgstr ""
+msgstr "新增光碟"
 
 msgid "Add USB"
-msgstr ""
+msgstr "新增 USB"
 
 msgid "Add USB device ..."
-msgstr ""
+msgstr "新增 USB 裝置 ..."
 
 msgid "Add VM"
 msgstr "新增 VM"
@@ -58,7 +58,7 @@ msgid "Add disk ..."
 msgstr "新增磁碟 ..."
 
 msgid "Add macvtap bridge"
-msgstr ""
+msgstr "新增 Macvtap 橋接器"
 
 msgid "Add network"
 msgstr "新增網路"
@@ -70,25 +70,25 @@ msgid "Add optical disk ..."
 msgstr "新增光碟 ..."
 
 msgid "Add pool"
-msgstr ""
+msgstr "新增集用場"
 
 msgid "Add volume"
-msgstr ""
+msgstr "新增儲存卷"
 
 msgid "Advanced"
 msgstr "進階"
 
 msgid "Allocation"
-msgstr ""
+msgstr "配置"
 
 msgid "Arch"
 msgstr "硬體架構"
 
 msgid "Architecture"
-msgstr ""
+msgstr "架構"
 
 msgid "Audio"
-msgstr ""
+msgstr "聲頻"
 
 msgid "AutoStart"
 msgstr "自動啟動"
@@ -97,64 +97,64 @@ msgid "Available"
 msgstr "可用"
 
 msgid "Bridge"
-msgstr ""
+msgstr "橋接器"
 
 msgid "Bus"
-msgstr ""
+msgstr "匯流排"
 
 msgid "CPUs"
 msgstr "CPUs"
 
 msgid "Call"
-msgstr ""
+msgstr "呼叫"
 
 msgid "Capacity"
-msgstr ""
+msgstr "容量"
 
 msgid "Change Memory"
-msgstr ""
+msgstr "改變記憶體"
 
 msgid "Change memory ..."
 msgstr "改變記憶體 ..."
 
 msgid "Change vCPU"
-msgstr ""
+msgstr "改變 vCPU"
 
 msgid "Change vCPU quantity ..."
 msgstr "改變 vCPU 數量 ..."
 
 msgid "Check"
-msgstr ""
+msgstr "檢查"
 
 msgid "Checking volume ..."
-msgstr ""
+msgstr "檢查儲存卷"
 
 msgid "Chipset"
-msgstr ""
+msgstr "晶片組"
 
 msgid "Component"
-msgstr ""
+msgstr "組件"
 
 msgid "Console"
-msgstr ""
+msgstr "控制台"
 
 msgid "Convert"
-msgstr ""
+msgstr "轉換"
 
 msgid "Convert to "
-msgstr ""
+msgstr "轉換成"
 
 msgid "Convert to qcow2"
-msgstr ""
+msgstr "轉換成 qcow2"
 
 msgid "Convert to raw"
-msgstr ""
+msgstr "轉換成 raw"
 
 msgid "Create"
 msgstr "新建"
 
 msgid "Create noVNC console"
-msgstr ""
+msgstr "建立 noVNC 控制台"
 
 msgid "DHCP"
 msgstr "DHCP"
@@ -175,19 +175,19 @@ msgid "Delete"
 msgstr "刪除"
 
 msgid "Delete + storage"
-msgstr ""
+msgstr "刪除 + 儲存"
 
 msgid "Delete disk ..."
 msgstr "刪除磁碟 ..."
 
 msgid "Delete snapshot ..."
-msgstr ""
+msgstr "刪除快照 ..."
 
 msgid "Devices"
-msgstr ""
+msgstr "裝置"
 
 msgid "Directory"
-msgstr ""
+msgstr "目錄"
 
 msgid "Disable autostart"
 msgstr "停用自動啟動"
@@ -199,7 +199,7 @@ msgid "Disk(s)"
 msgstr "磁碟"
 
 msgid "Docker is not installed. Please install from omv-extras Docker tab."
-msgstr ""
+msgstr "Docker 還未被安裝。請從 omv-extras 之 Docker 分頁安裝。"
 
 msgid "Docker port"
 msgstr "Docker 連接埠"
@@ -232,43 +232,43 @@ msgid "Enable autostart"
 msgstr "啟用自動啟動"
 
 msgid "Extension"
-msgstr ""
+msgstr "延伸"
 
 msgid "Failed to start container."
-msgstr ""
+msgstr "無法啟動容櫃 - "
 
 msgid "Filesystem"
-msgstr ""
+msgstr "檔案系統"
 
 msgid "For description of each type and how to configure:"
-msgstr ""
+msgstr "每種型式的敘述與如何來設置。"
 
 msgid "For more info"
-msgstr ""
+msgstr "額外資訊"
 
 msgid "Force"
 msgstr "強制"
 
 msgid "Format"
-msgstr ""
+msgstr "格式"
 
 msgid "Forwarding"
-msgstr ""
+msgstr "轉接"
 
 msgid "G"
 msgstr "G"
 
 msgid "Gateway IP"
-msgstr ""
+msgstr "閘道器 IP"
 
 msgid "Gateway IP Address"
-msgstr ""
+msgstr "閘道器 IP 地址"
 
 msgid "GiB"
 msgstr "GiB"
 
 msgid "Host name"
-msgstr ""
+msgstr "主機名稱"
 
 msgid "IP Range"
 msgstr "IP 範圍"
@@ -277,16 +277,16 @@ msgid "ISOs"
 msgstr "ISOs"
 
 msgid "Info"
-msgstr ""
+msgstr "資訊"
 
 msgid "KVM"
 msgstr "KVM"
 
 msgid "Leave blank for random address."
-msgstr ""
+msgstr "保留空白則使用隨機產生的地址。"
 
 msgid "Leave blank to use VM name."
-msgstr ""
+msgstr "保留空白則使用 VM 名稱。"
 
 msgid "Linux"
 msgstr "Linux"
@@ -316,7 +316,7 @@ msgid "Network"
 msgstr "網路"
 
 msgid "Network Filesystem"
-msgstr ""
+msgstr "網路檔案系統"
 
 msgid "Network Name"
 msgstr "網路名稱"
@@ -334,7 +334,7 @@ msgid "OS"
 msgstr "作業系統"
 
 msgid "Optical"
-msgstr ""
+msgstr "光碟"
 
 msgid "Optical Disk"
 msgstr "光碟"
@@ -349,16 +349,16 @@ msgid "Pause"
 msgstr "暫停"
 
 msgid "Permissions of owner."
-msgstr ""
+msgstr "所有者的權限。"
 
 msgid "Pool"
-msgstr ""
+msgstr "集用場"
 
 msgid "Pools"
-msgstr ""
+msgstr "集用場"
 
 msgid "Q35"
-msgstr ""
+msgstr "Q35"
 
 msgid "Reboot"
 msgstr "重新啟動"
@@ -367,19 +367,19 @@ msgid "Remove"
 msgstr "移除"
 
 msgid "Remove Disk"
-msgstr ""
+msgstr "移除磁碟"
 
 msgid "Remove Network"
-msgstr ""
+msgstr "移除網路"
 
 msgid "Remove Optical"
-msgstr ""
+msgstr "移除光碟"
 
 msgid "Remove USB"
-msgstr ""
+msgstr "移除 USB"
 
 msgid "Remove USB device ..."
-msgstr ""
+msgstr "移除 USB 裝置 ..."
 
 msgid "Remove network adapter ..."
 msgstr "移除網路卡 …"
@@ -388,31 +388,31 @@ msgid "Remove optical disk ..."
 msgstr "移除光碟 ..."
 
 msgid "Reset"
-msgstr ""
+msgstr "重設"
 
 msgid "Resize"
-msgstr ""
+msgstr "改變大小"
 
 msgid "Resize Disk"
-msgstr ""
+msgstr "改變磁碟大小"
 
 msgid "Resize disk ..."
-msgstr ""
+msgstr "改變磁碟大小 ..."
 
 msgid "Resume"
-msgstr ""
+msgstr "恢復"
 
 msgid "Revert"
-msgstr ""
+msgstr "還原"
 
 msgid "Revert to snapshot ..."
-msgstr ""
+msgstr "還原回快照 ..."
 
 msgid "Select a bridge ..."
-msgstr ""
+msgstr "選擇一個橋接器 ..."
 
 msgid "Select a device ..."
-msgstr ""
+msgstr "選擇一個裝置 ..."
 
 msgid "Select a file ..."
 msgstr "選擇一個檔案 ..."
@@ -427,22 +427,22 @@ msgid "Select a nic ..."
 msgstr "選擇一個網路卡 ..."
 
 msgid "Select a pool ..."
-msgstr ""
+msgstr "選擇一個集用場 ..."
 
 msgid "Select a snapshot ..."
-msgstr ""
+msgstr "選擇一個快照 ..."
 
 msgid "Select a volume ..."
-msgstr ""
+msgstr "選擇一個儲存卷"
 
 msgid "Settings"
 msgstr "設定"
 
 msgid "Show advanced options"
-msgstr ""
+msgstr "顯示進階選項"
 
 msgid "Showing volume info ..."
-msgstr ""
+msgstr "顯示儲存卷資訊 ..."
 
 msgid "Size"
 msgstr "大小"
@@ -451,16 +451,16 @@ msgid "Size to add"
 msgstr "要增加的大小"
 
 msgid "Snapshot"
-msgstr ""
+msgstr "快照"
 
 msgid "Snapshots"
-msgstr ""
+msgstr "快照"
 
 msgid "Source Path"
-msgstr ""
+msgstr "來源路徑"
 
 msgid "Spice port"
-msgstr ""
+msgstr "Spice 連接埠"
 
 msgid "Start"
 msgstr "啟動"
@@ -472,31 +472,31 @@ msgid "Stop"
 msgstr "停止"
 
 msgid "Stop noVNC console"
-msgstr ""
+msgstr "停止 noVNC 控制台"
 
 msgid "Storage Volume"
-msgstr ""
+msgstr "儲存卷"
 
 msgid "Subnet mask"
-msgstr ""
+msgstr "子網遮罩"
 
 msgid "T"
 msgstr "T"
 
 msgid "Target Path"
-msgstr ""
+msgstr "目標路徑"
 
 msgid "Type"
-msgstr ""
+msgstr "型式"
 
 msgid "UEFI"
 msgstr "UEFI"
 
 msgid "USB Device"
-msgstr ""
+msgstr "USB 裝置"
 
 msgid "USB device"
-msgstr ""
+msgstr "USB 裝置"
 
 msgid "Unable to - "
 msgstr "無法 -"
@@ -505,7 +505,7 @@ msgid "Unable to add ISO to VM - "
 msgstr "無法新增 ISO 到 VM -"
 
 msgid "Unable to add USB device to VM - "
-msgstr ""
+msgstr "無法新增 USB 裝置到 VM -"
 
 msgid "Unable to add disk to VM - "
 msgstr "無法新增磁碟到 VM -"
@@ -520,7 +520,7 @@ msgid "Unable to create Macvap - "
 msgstr "無法建立 Macvap - "
 
 msgid "Unable to create domain - "
-msgstr ""
+msgstr "無法建立虛擬機域 - "
 
 msgid "Unable to create network - "
 msgstr "無法建立網路 - "
@@ -529,31 +529,31 @@ msgid "Unable to create new disk - "
 msgstr "無法建立新磁碟 - "
 
 msgid "Unable to create pool - "
-msgstr ""
+msgstr "無法建立集用場 - "
 
 msgid "Unable to create snapshot - "
-msgstr ""
+msgstr "無法建立快照 - "
 
 msgid "Unable to create volume - "
-msgstr ""
+msgstr "無法建立儲存卷 - "
 
 msgid "Unable to delete disk(s) from VM - "
-msgstr ""
+msgstr "無法從 VM 移除磁碟 -"
 
 msgid "Unable to delete network - "
-msgstr ""
+msgstr "無法刪除網路 - "
 
 msgid "Unable to delete pool - "
-msgstr ""
+msgstr "無法刪除集用場 - "
 
 msgid "Unable to delete snapshot - "
-msgstr ""
+msgstr "無法刪除快照 - "
 
 msgid "Unable to delete volume - "
-msgstr ""
+msgstr "無法刪除儲存卷 - "
 
 msgid "Unable to remove USB device to VM - "
-msgstr ""
+msgstr "無法從 VM 移除 USB 裝置 -"
 
 msgid "Unable to remove disk from VM - "
 msgstr "無法從 VM 移除磁碟 -"
@@ -562,79 +562,79 @@ msgid "Unable to remove network interface from VM - "
 msgstr "無法從 VM 移除網路卡 -"
 
 msgid "Unable to resize disk - "
-msgstr ""
+msgstr "無法改變磁碟大小 - "
 
 msgid "Unable to revert to snapshot - "
-msgstr ""
+msgstr "無法復原回快照 - "
 
 msgid "Unable to set VM XML - "
-msgstr ""
+msgstr "無法設定 VM XML - "
 
 msgid "Unable to start network - "
-msgstr ""
+msgstr "無法啟動網路 - "
 
 msgid "Unable to stop network - "
-msgstr ""
+msgstr "無法停止網路 - "
 
 msgid "VM Name"
-msgstr ""
+msgstr "VM 名稱"
 
 msgid "VMs"
-msgstr ""
+msgstr "VMs"
 
 msgid "VNC port"
-msgstr ""
+msgstr "VNC 連接埠"
 
 msgid "Volume"
-msgstr ""
+msgstr "儲存卷"
 
 msgid "Volume Count"
-msgstr ""
+msgstr "儲存卷數目"
 
 msgid "Volumes"
-msgstr ""
+msgstr "儲存卷"
 
 msgid "Windows"
-msgstr ""
+msgstr "視窗"
 
 msgid "Wrong VM name entered! Skipping delete ..."
-msgstr ""
+msgstr "輸入了錯的 VM 名稱！跳過刪除 ..."
 
 msgid "XML"
-msgstr ""
+msgstr "XML"
 
 msgid "ZFS"
-msgstr ""
+msgstr "ZFS"
 
 msgid "aarch64"
-msgstr ""
+msgstr "aarch64"
 
 msgid "arm"
-msgstr ""
+msgstr "arm"
 
 msgid "e1000"
-msgstr ""
+msgstr "e1000"
 
 msgid "i386"
-msgstr ""
+msgstr "i386"
 
 msgid "i440FX"
-msgstr ""
+msgstr "i440FX"
 
 msgid "iSCSI"
-msgstr ""
+msgstr "iSCSI"
 
 msgid "ide"
-msgstr ""
+msgstr "ide"
 
 msgid "n/a"
-msgstr ""
+msgstr "不適用"
 
 msgid "ne2k_pci"
 msgstr "ne2k_pci"
 
 msgid "noVNC Docker URL"
-msgstr ""
+msgstr "noVNC Docker URL"
 
 msgid "pcnet"
 msgstr "pcnet"
@@ -643,7 +643,7 @@ msgid "qcow2"
 msgstr "qcow2"
 
 msgid "raw"
-msgstr ""
+msgstr "raw"
 
 msgid "rtl8139"
 msgstr "rtl8139"
@@ -661,7 +661,7 @@ msgid "virtio"
 msgstr "virtio"
 
 msgid "x86_64"
-msgstr ""
+msgstr "x86_64"
 
 msgid "zPool name"
-msgstr ""
+msgstr "zPool 名稱"

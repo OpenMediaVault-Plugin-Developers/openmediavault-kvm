@@ -3,6 +3,9 @@
 # This file is distributed under the same license as the openmediavault-kvm package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
+# Translators:
+# Andi Chandler <andi@gowling.com>, 2021
+# 
 #, fuzzy
 msgid ""
 msgstr ""
@@ -10,6 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-29 08:16-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
+"Last-Translator: Andi Chandler <andi@gowling.com>, 2021\n"
 "Language-Team: English (United Kingdom) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,49 +22,49 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid " already exists!"
-msgstr ""
+msgstr " already exists!"
 
 msgid "Activity"
-msgstr ""
+msgstr "Activity"
 
 msgid "Add"
-msgstr ""
+msgstr "Add"
 
 msgid "Add Disk"
-msgstr ""
+msgstr "Add Disk"
 
 msgid "Add Macvtap Bridge"
-msgstr ""
+msgstr "Add Macvtap Bridge"
 
 msgid "Add Network"
-msgstr ""
+msgstr "Add Network"
 
 msgid "Add Optical"
-msgstr ""
+msgstr "Add Optical"
 
 msgid "Add USB"
-msgstr ""
+msgstr "Add USB"
 
 msgid "Add USB device ..."
-msgstr ""
+msgstr "Add USB device ..."
 
 msgid "Add VM"
-msgstr ""
+msgstr "Add VM"
 
 msgid "Add XML"
-msgstr ""
+msgstr "Add XML"
 
 msgid "Add disk ..."
-msgstr ""
+msgstr "Add disk ..."
 
 msgid "Add macvtap bridge"
-msgstr ""
+msgstr "Add macvtap bridge"
 
 msgid "Add network"
-msgstr ""
+msgstr "Add network"
 
 msgid "Add network adapter ..."
-msgstr ""
+msgstr "Add network adapter ..."
 
 msgid "Add optical disk ..."
 msgstr ""

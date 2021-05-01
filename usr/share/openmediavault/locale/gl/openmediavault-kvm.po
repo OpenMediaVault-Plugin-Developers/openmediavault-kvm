@@ -31,7 +31,7 @@ msgid "Add"
 msgstr "Engadir"
 
 msgid "Add Disk"
-msgstr ""
+msgstr "Engadir un disco"
 
 msgid "Add Macvtap Bridge"
 msgstr "Engadir unha ponte MACVTAP"
@@ -40,13 +40,13 @@ msgid "Add Network"
 msgstr "Engadir unha rede"
 
 msgid "Add Optical"
-msgstr ""
+msgstr "Engadir un dispositivo óptico"
 
 msgid "Add USB"
-msgstr ""
+msgstr "Engadir un USB"
 
 msgid "Add USB device ..."
-msgstr ""
+msgstr "Engadir un dispositivo USB…"
 
 msgid "Add VM"
 msgstr "Engadir unha MV"
@@ -97,7 +97,7 @@ msgid "Available"
 msgstr "Dispoñíbel"
 
 msgid "Bridge"
-msgstr ""
+msgstr "Ponte"
 
 msgid "Bus"
 msgstr "Bus"
@@ -112,13 +112,13 @@ msgid "Capacity"
 msgstr "Capacidade"
 
 msgid "Change Memory"
-msgstr ""
+msgstr "Cambiar a memoria"
 
 msgid "Change memory ..."
 msgstr "Cambiar a memoria…"
 
 msgid "Change vCPU"
-msgstr ""
+msgstr "Cambiar a  vCPU"
 
 msgid "Change vCPU quantity ..."
 msgstr "Cambiar a cantidade de vCPU…"
@@ -130,7 +130,7 @@ msgid "Checking volume ..."
 msgstr "Comprobando o volume…"
 
 msgid "Chipset"
-msgstr ""
+msgstr "Conxunto de chips"
 
 msgid "Component"
 msgstr "Compoñente"
@@ -184,7 +184,7 @@ msgid "Delete snapshot ..."
 msgstr "Eliminar a instantánea…"
 
 msgid "Devices"
-msgstr ""
+msgstr "Dispositivos"
 
 msgid "Directory"
 msgstr "Directorio"
@@ -287,7 +287,7 @@ msgid "Leave blank for random address."
 msgstr "Déixeo en branco para un enderezo ao chou."
 
 msgid "Leave blank to use VM name."
-msgstr ""
+msgstr "Déixeo en branco para usar o nome da máquina virtual."
 
 msgid "Linux"
 msgstr "Linux"
@@ -359,7 +359,7 @@ msgid "Pools"
 msgstr "Agrupacións"
 
 msgid "Q35"
-msgstr ""
+msgstr "Q35"
 
 msgid "Reboot"
 msgstr "Reiniciar"
@@ -368,34 +368,34 @@ msgid "Remove"
 msgstr "Retirar"
 
 msgid "Remove Disk"
-msgstr ""
+msgstr "Retirar o disco"
 
 msgid "Remove Network"
-msgstr ""
+msgstr "Retirar a rede"
 
 msgid "Remove Optical"
-msgstr ""
+msgstr "Retirar o dispositivo óptico"
 
 msgid "Remove USB"
-msgstr ""
+msgstr "Retirar o USB"
 
 msgid "Remove USB device ..."
-msgstr ""
+msgstr "Retirar o dispositivo USB…"
 
 msgid "Remove network adapter ..."
-msgstr "Retirar un adaptador de rede…"
+msgstr "Retirar o adaptador de rede…"
 
 msgid "Remove optical disk ..."
-msgstr "Retirar un disco óptico…"
+msgstr "Retirar o disco óptico…"
 
 msgid "Reset"
-msgstr ""
+msgstr "Restabelecer"
 
 msgid "Resize"
 msgstr "Redimensionar"
 
 msgid "Resize Disk"
-msgstr ""
+msgstr "Redimensionar o disco"
 
 msgid "Resize disk ..."
 msgstr "Redimensionar un disco…"
@@ -410,10 +410,10 @@ msgid "Revert to snapshot ..."
 msgstr "Reverter á instantánea…"
 
 msgid "Select a bridge ..."
-msgstr ""
+msgstr "Seleccione unha ponte…"
 
 msgid "Select a device ..."
-msgstr ""
+msgstr "Seleccione un dispositivo…"
 
 msgid "Select a file ..."
 msgstr "Seleccione un ficheiro…"
@@ -440,7 +440,7 @@ msgid "Settings"
 msgstr "Axustes"
 
 msgid "Show advanced options"
-msgstr ""
+msgstr "Amosar as opcións avanzadas"
 
 msgid "Showing volume info ..."
 msgstr "Amosando a información do volume…"
@@ -494,10 +494,10 @@ msgid "UEFI"
 msgstr "UEFI"
 
 msgid "USB Device"
-msgstr ""
+msgstr "Dispositivo USB"
 
 msgid "USB device"
-msgstr ""
+msgstr "Dispositivo USB"
 
 msgid "Unable to - "
 msgstr "Non é posíbel  - "
@@ -506,7 +506,7 @@ msgid "Unable to add ISO to VM - "
 msgstr "Non é posíbel engadir a ISO a máquina virtual -"
 
 msgid "Unable to add USB device to VM - "
-msgstr ""
+msgstr "Non é posíbel engadir o USB a máquina virtual -"
 
 msgid "Unable to add disk to VM - "
 msgstr "Non é posíbel engadir o disco a máquina virtual -"
@@ -554,7 +554,7 @@ msgid "Unable to delete volume - "
 msgstr "Non é posíbel  eliminar o volume - "
 
 msgid "Unable to remove USB device to VM - "
-msgstr ""
+msgstr "Non é posíbel retirar o USB da máquina virtual -"
 
 msgid "Unable to remove disk from VM - "
 msgstr "Non é posíbel retirar o disco da máquina virtual -"
@@ -621,7 +621,7 @@ msgid "i386"
 msgstr "i386"
 
 msgid "i440FX"
-msgstr ""
+msgstr "i440FX"
 
 msgid "iSCSI"
 msgstr "iSCSI"

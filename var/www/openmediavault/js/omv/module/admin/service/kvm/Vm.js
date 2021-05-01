@@ -105,7 +105,8 @@ Ext.define("OMV.module.admin.service.kvm.Vm", {
                 xtype: "textfield",
                 name: "vmname",
                 fieldLabel: _("VM Name"),
-                allowBlank: false
+                allowBlank: false,
+                vtype: "sharename"
             },{
                 xtype: "combo",
                 name: "arch",

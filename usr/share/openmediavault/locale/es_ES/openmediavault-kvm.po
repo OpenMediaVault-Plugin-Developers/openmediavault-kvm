@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid " already exists!"
-msgstr ""
+msgstr "Ya existe!"
 
 msgid "Activity"
 msgstr "Actividad"
@@ -31,7 +31,7 @@ msgid "Add"
 msgstr "Añadir"
 
 msgid "Add Disk"
-msgstr ""
+msgstr "Añadir Disco"
 
 msgid "Add Macvtap Bridge"
 msgstr "Añadir puente Macvtap"
@@ -40,13 +40,13 @@ msgid "Add Network"
 msgstr "Añadir Red"
 
 msgid "Add Optical"
-msgstr ""
+msgstr "Añadir CD"
 
 msgid "Add USB"
-msgstr ""
+msgstr "Añadir USB"
 
 msgid "Add USB device ..."
-msgstr ""
+msgstr "Añadir dispositivo USB ..."
 
 msgid "Add VM"
 msgstr "Añadir VM"
@@ -85,10 +85,10 @@ msgid "Arch"
 msgstr "Arch"
 
 msgid "Architecture"
-msgstr ""
+msgstr "Arquitectura"
 
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 msgid "AutoStart"
 msgstr "AutoArranque"
@@ -97,7 +97,7 @@ msgid "Available"
 msgstr "Disponible"
 
 msgid "Bridge"
-msgstr ""
+msgstr "Puente"
 
 msgid "Bus"
 msgstr "Bus"
@@ -112,25 +112,25 @@ msgid "Capacity"
 msgstr "Capacidad"
 
 msgid "Change Memory"
-msgstr ""
+msgstr "Cambiar RAM"
 
 msgid "Change memory ..."
 msgstr "Cambiar Memoria ..."
 
 msgid "Change vCPU"
-msgstr ""
+msgstr "Cambiar vCPU"
 
 msgid "Change vCPU quantity ..."
 msgstr "Cambiar vCPU ..."
 
 msgid "Check"
-msgstr ""
+msgstr "Comprobar"
 
 msgid "Checking volume ..."
-msgstr ""
+msgstr "Comprobar volumen ..."
 
 msgid "Chipset"
-msgstr ""
+msgstr "Chipset"
 
 msgid "Component"
 msgstr "Componente"
@@ -139,16 +139,16 @@ msgid "Console"
 msgstr "Consola"
 
 msgid "Convert"
-msgstr ""
+msgstr "Convertir"
 
 msgid "Convert to "
-msgstr ""
+msgstr "Convertir a"
 
 msgid "Convert to qcow2"
-msgstr ""
+msgstr "Convertir a qcow2"
 
 msgid "Convert to raw"
-msgstr ""
+msgstr "Convertir a raw"
 
 msgid "Create"
 msgstr "Crear"
@@ -175,7 +175,7 @@ msgid "Delete"
 msgstr "Borrar"
 
 msgid "Delete + storage"
-msgstr ""
+msgstr "Borrar + Almacenamiento"
 
 msgid "Delete disk ..."
 msgstr "Borrar Disco ..."
@@ -184,10 +184,10 @@ msgid "Delete snapshot ..."
 msgstr "Borrar Instantánea ..."
 
 msgid "Devices"
-msgstr ""
+msgstr "Dispositivos"
 
 msgid "Directory"
-msgstr ""
+msgstr "Directorio"
 
 msgid "Disable autostart"
 msgstr "Deshabilitar AutoArranque"
@@ -232,16 +232,16 @@ msgid "Enable autostart"
 msgstr "Habilitar AutoArranque"
 
 msgid "Extension"
-msgstr ""
+msgstr "Extensión"
 
 msgid "Failed to start container."
 msgstr "Error al arrancar un container."
 
 msgid "Filesystem"
-msgstr ""
+msgstr "Sistema de Archivos"
 
 msgid "For description of each type and how to configure:"
-msgstr ""
+msgstr "para la descripción de cada tipo y como configurarlo:"
 
 msgid "For more info"
 msgstr "Más información."
@@ -268,7 +268,7 @@ msgid "GiB"
 msgstr "GiB"
 
 msgid "Host name"
-msgstr ""
+msgstr "Nombre del host"
 
 msgid "IP Range"
 msgstr "Rango IP"
@@ -277,7 +277,7 @@ msgid "ISOs"
 msgstr "ISOs"
 
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 msgid "KVM"
 msgstr "KVM"
@@ -286,7 +286,7 @@ msgid "Leave blank for random address."
 msgstr "Dejar en blanco para dirección aleatoria."
 
 msgid "Leave blank to use VM name."
-msgstr ""
+msgstr "Dejar en blanco para usar el nombre de la VM."
 
 msgid "Linux"
 msgstr "Linux"
@@ -316,7 +316,7 @@ msgid "Network"
 msgstr "Red"
 
 msgid "Network Filesystem"
-msgstr ""
+msgstr "Sistema de archivos en red"
 
 msgid "Network Name"
 msgstr "Nombre de Red"
@@ -358,7 +358,7 @@ msgid "Pools"
 msgstr "Pools"
 
 msgid "Q35"
-msgstr ""
+msgstr "Q35"
 
 msgid "Reboot"
 msgstr "Reinicio"
@@ -367,19 +367,19 @@ msgid "Remove"
 msgstr "Eliminar"
 
 msgid "Remove Disk"
-msgstr ""
+msgstr "Quitar Disco"
 
 msgid "Remove Network"
-msgstr ""
+msgstr "Quitar Red"
 
 msgid "Remove Optical"
-msgstr ""
+msgstr "Quitar CD"
 
 msgid "Remove USB"
-msgstr ""
+msgstr "Quitar USB"
 
 msgid "Remove USB device ..."
-msgstr ""
+msgstr "Quitar dispositivo USB ..."
 
 msgid "Remove network adapter ..."
 msgstr "Eliminar adaptador de Red ..."
@@ -388,13 +388,13 @@ msgid "Remove optical disk ..."
 msgstr "Eliminar CD ..."
 
 msgid "Reset"
-msgstr ""
+msgstr "Reset"
 
 msgid "Resize"
 msgstr "Redimensionar"
 
 msgid "Resize Disk"
-msgstr ""
+msgstr "Redimensionar tamaño del Disco"
 
 msgid "Resize disk ..."
 msgstr "Redimensionar Disco ..."
@@ -409,10 +409,10 @@ msgid "Revert to snapshot ..."
 msgstr "Revertir a Instantánea ..."
 
 msgid "Select a bridge ..."
-msgstr ""
+msgstr "Seleccionar un puente ..."
 
 msgid "Select a device ..."
-msgstr ""
+msgstr "Seleccionar un dispositivo ..."
 
 msgid "Select a file ..."
 msgstr "Seleccionar un archivo ..."
@@ -439,10 +439,10 @@ msgid "Settings"
 msgstr "Opciones"
 
 msgid "Show advanced options"
-msgstr ""
+msgstr "Mostrar opciones avanzadas"
 
 msgid "Showing volume info ..."
-msgstr ""
+msgstr "Mostrar información del volumen ..."
 
 msgid "Size"
 msgstr "Tamaño"
@@ -457,7 +457,7 @@ msgid "Snapshots"
 msgstr "Instantáneas "
 
 msgid "Source Path"
-msgstr ""
+msgstr "Ruta Origen"
 
 msgid "Spice port"
 msgstr "Spice port"
@@ -484,19 +484,19 @@ msgid "T"
 msgstr "T"
 
 msgid "Target Path"
-msgstr ""
+msgstr "Ruta Destino"
 
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 msgid "UEFI"
 msgstr "UEFI"
 
 msgid "USB Device"
-msgstr ""
+msgstr "Dispositivo USB"
 
 msgid "USB device"
-msgstr ""
+msgstr "Dispositivo USB"
 
 msgid "Unable to - "
 msgstr "Incapaz de -"
@@ -505,7 +505,7 @@ msgid "Unable to add ISO to VM - "
 msgstr "Incapaz añadir la ISO a la VM -"
 
 msgid "Unable to add USB device to VM - "
-msgstr ""
+msgstr "No es posible añadir el dispositivo USB a la VM -"
 
 msgid "Unable to add disk to VM - "
 msgstr "Incapaz añadir el disco a la VM -"
@@ -538,7 +538,7 @@ msgid "Unable to create volume - "
 msgstr "Incapaz de crear un volumen -"
 
 msgid "Unable to delete disk(s) from VM - "
-msgstr ""
+msgstr "No es posible borrar el Disco(s) de la VM -"
 
 msgid "Unable to delete network - "
 msgstr "Incapaz de borrar una Red -"
@@ -553,7 +553,7 @@ msgid "Unable to delete volume - "
 msgstr "Incapaz de de borrar un volumen -"
 
 msgid "Unable to remove USB device to VM - "
-msgstr ""
+msgstr "No es posible borrar el dispositivo USB de la VM -"
 
 msgid "Unable to remove disk from VM - "
 msgstr "Incapaz de eliminar un disco de la VM -"
@@ -598,31 +598,31 @@ msgid "Windows"
 msgstr "Windows"
 
 msgid "Wrong VM name entered! Skipping delete ..."
-msgstr ""
+msgstr "Nombre de VM incorrecto! no se puede borrar ..."
 
 msgid "XML"
 msgstr "XML"
 
 msgid "ZFS"
-msgstr ""
+msgstr "ZFS"
 
 msgid "aarch64"
-msgstr ""
+msgstr "aarch64"
 
 msgid "arm"
-msgstr ""
+msgstr "arm"
 
 msgid "e1000"
 msgstr "e1000"
 
 msgid "i386"
-msgstr ""
+msgstr "i386"
 
 msgid "i440FX"
-msgstr ""
+msgstr "i440FX"
 
 msgid "iSCSI"
-msgstr ""
+msgstr "iSCSI"
 
 msgid "ide"
 msgstr "ide"
@@ -661,7 +661,7 @@ msgid "virtio"
 msgstr "virtio"
 
 msgid "x86_64"
-msgstr ""
+msgstr "x86_64"
 
 msgid "zPool name"
-msgstr ""
+msgstr "zPool name"
