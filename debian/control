@@ -3,7 +3,7 @@ Section: net
 XB-Plugin-Section: utilities
 Priority: optional
 Maintainer: OpenMediaVault Plugin Developers <plugins@omv-extras.org>
-Build-Depends: debhelper (>= 10)
+Build-Depends: debhelper (>= 12)
 Standards-Version: 4.3.0
 Homepage: http://omv-extras.org/
 
@@ -14,11 +14,13 @@ Depends: dnsmasq-base,
          libvirt-daemon,
          libvirt-daemon-system,
          netcat-openbsd,
+         novnc,
          openmediavault (>= 5.6),
          ovmf,
          omvextras-common,
          php-libvirt-php,
          php-xml,
+         python-websockify,
          qemu,
          qemu-efi,
          qemu-efi-aarch64,
@@ -27,5 +29,6 @@ Depends: dnsmasq-base,
          qemu-system-common,
          qemu-system-data,
          qemu-system-x86,
-         qemu-utils
+         qemu-utils,
+         spice-html5
 Description: kvm plugin for OpenMediaVault.

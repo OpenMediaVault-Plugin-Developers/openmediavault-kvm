@@ -140,24 +140,48 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
         stateId: 'vncport'
     },{
         xtype: 'textcolumn',
-        text: _('noVNC Docker URL'),
+        text: _('noVNC URL'),
         sortable: true,
-        dataIndex: 'dockerurl',
-        stateId: 'dockerurl',
+        dataIndex: 'novncurl',
+        stateId: 'novncurl',
         renderer: function(val) {
-            var url = val; 
-            if (url != 'n/a') {
-                url = ('<a href="' + url + '" target="_blank">' + url + '</a>');
+            var url = val;
+            if (url != 'n/a' && url != '') {
+                url = ('<a href="' + url + '" target="_blank">link</a>');
+            } else {
+                url = '';
             }
             return (url);
-        },
-        flex: 1
+        }
     },{
         xtype: 'textcolumn',
-        text: _('Docker port'),
+        text: _('spice-html5 URL'),
         sortable: true,
-        dataIndex: 'dockerport',
-        stateId: 'dockerport'
+        dataIndex: 'spicehtml5url',
+        stateId: 'spicehtml5url',
+        renderer: function(val) {
+            var url = val;
+            if (url != 'n/a' && url != '') {
+                url = ('<a href="' + url + '" target="_blank">link</a>');
+            } else {
+                url = '';
+            }
+            return (url);
+        }
+    },{
+        xtype: 'textcolumn',
+        text: _('noVNC port'),
+        sortable: true,
+        dataIndex: 'novncport',
+        stateId: 'novncrport',
+        hidden: true
+    },{
+        xtype: 'textcolumn',
+        text: _('spice-html5 port'),
+        sortable: true,
+        dataIndex: 'spicehtml5port',
+        stateId: 'spicehtml5rport',
+        hidden: true
     },{
         xtype: 'textcolumn',
         text: _('Arch'),
@@ -182,8 +206,10 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
                         { name: 'disks', type: 'string' },
                         { name: 'vncport', type: 'string' },
                         { name: 'spiceport', type: 'string' },
-                        { name: 'dockerport', type: 'string' },
-                        { name: 'dockerurl', type: 'string' },
+                        { name: 'novncport', type: 'string' },
+                        { name: 'novncurl', type: 'string' },
+                        { name: 'spicehtml5port', type: 'string' },
+                        { name: 'spicehtml5url', type: 'string' },
                         { name: 'autostart', type: 'boolean' },
                         { name: 'snaps', type: 'integer' }
                     ]
@@ -568,15 +594,15 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
                 maxSelections : 1
             },
             menu: [{
-                text: _("Create noVNC console"),
+                text: _("Create consoles"),
                 icon: "images/book.png",
-                handler: Ext.Function.bind(me.onVncButton, me, [ "start" ]),
+                handler: Ext.Function.bind(me.onWebButton, me, [ "start" ]),
                 disabled : true,
                 selectionConfig : {
                     minSelections : 1,
                     maxSelections : 1,
                     enabledFn: function(c, records) {
-                        var url = records[0].get("dockerurl");
+                        var url = records[0].get("novncurl");
                         var port = records[0].get("vncport");
                         var regex = /[a-zA-Z]/g; 
                         if (regex.test(port)) {
@@ -586,15 +612,15 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
                     }
                 }
             },{
-                text: _("Stop noVNC console"),
+                text: _("Stop consoles"),
                 icon: "images/delete.png",
-                handler: Ext.Function.bind(me.onVncButton, me, [ "stop" ]),
+                handler: Ext.Function.bind(me.onWebButton, me, [ "stop" ]),
                 disabled : true,
                 selectionConfig : {
                     minSelections : 1,
                     maxSelections : 1,
                     enabledFn: function(c, records) {
-                        var url = records[0].get("dockerurl");
+                        var url = records[0].get("novncurl");
                         return (url.indexOf("vnc.html") > 0);
                     }
                 }
@@ -662,14 +688,16 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
         }).show();
     },
 
-    onVncButton: function(cmd) {
+    onWebButton: function(cmd) {
         var me = this;
         var record = me.getSelected();
         var vncport = parseInt(record.get("vncport"));
+        var spiceport = parseInt(record.get("spiceport"));
         var vmname = record.get("vmname");
         var hostport = 0;
+        var hostport2 = 0;
         if (cmd == "start") {
-            hostport = parseInt(prompt("Enter host port", "8081"));
+            hostport = parseInt(prompt("Enter host port for noVNC", "8081"));
             if (vncport < 1024) {
                 alert("VM does not appear to have a VNC port or is powered off. " + vncport);
                 return;
@@ -677,14 +705,28 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
                 alert("Port for host is too low.");
                 return;
             }
+            hostport2 = parseInt(prompt("Enter host port for spice-html5", "8091"));
+            if (spiceport < 1024) {
+                alert("VM does not appear to have a Spice port or is powered off. " + spiceport);
+                return;
+            } else if(hostport2 < 1024) {
+                alert("Port for host is too low.");
+                return;
+            }
+        } else {
+            hostport = parseInt(record.get("novncport"));
+            hostport2 = parseInt(record.get("spicehtml5port"));
         }
         OMV.Rpc.request({
             scope: me,
             rpcData: {
                 service: "Kvm",
-                method: "doVnc",
+                method: "doWeb",
                 params: {
+                    command: cmd,
                     hostport: hostport,
+                    hostport2: hostport2,
+                    spiceport: spiceport,
                     vmname: vmname,
                     vncport: vncport
                 }
@@ -941,9 +983,9 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
         var record = me.getSelected();
         var vmname = record.get("vmname");
         if (cmd == "stop" || cmd == "force") {
-            var url = record.get("dockerurl");
+            var url = record.get("novncurl");
             if (url.indexOf("vnc.html") > 0) {
-                me.onVncButton("stop");
+                me.onWebButton("stop");
             }
         } else if (cmd == "undefineplus") {
             hostdelete = prompt("confirm VM name to delete", "");

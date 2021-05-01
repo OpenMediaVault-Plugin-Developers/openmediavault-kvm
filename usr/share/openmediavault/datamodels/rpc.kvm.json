@@ -422,10 +422,14 @@
 	}
 },{
 	"type": "rpc",
-	"id": "rpc.kvm.dovnc",
+	"id": "rpc.kvm.doweb",
 	"params": {
 		"type": "object",
 		"properties": {
+			"command": {
+				"type": "string",
+				"required": true
+                        },
 			"vmname": {
 				"type": "string",
 				"required": true
@@ -434,7 +438,15 @@
 				"type": "integer",
 				"required": true
                         },
+			"hostport2": {
+				"type": "integer",
+				"required": true
+                        },
 			"vncport": {
+				"type": "integer",
+				"required": true
+                        },
+			"spiceport": {
 				"type": "integer",
 				"required": true
                         }

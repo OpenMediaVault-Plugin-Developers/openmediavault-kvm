@@ -1,3 +1,10 @@
+openmediavault-kvm (5.1.0) stable; urgency=low
+
+  * Use native noVNC instead of docker
+  * Add Spice html5 console
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sat, 01 May 2021 13:40:36 -0500
+
 openmediavault-kvm (5.0.18) stable; urgency=low
 
   * Disallow illegal characters in VM name

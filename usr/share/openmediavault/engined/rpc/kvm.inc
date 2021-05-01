@@ -83,7 +83,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('enumerateUsbByVm');
 
         $this->registerMethod('doCommand');
-        $this->registerMethod('doVnc');
+        $this->registerMethod('doWeb');
         $this->registerMethod('doChangeCpuMemory');
     }
 
@@ -489,30 +489,29 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             } else {
                 $disks = 'n/a';
             }
+            // vnc and novnc
             $vncport = $lv->domain_get_vnc_port($dom);
             if ($vncport == -1) {
-                $vncport = "n/a";
+                $vncport = 'n/a';
             }
-            $dockerport = "n/a";
-            $dockerurl = "n/a";
-            if (file_exists("/usr/bin/docker")) {
+            $novncport = 'n/a';
+            $novncurl = 'n/a';
+            if (intval($vncport) >= 1024) {
                 $output = [];
-                $containerName = sprintf('novnc_%s', $name);
-                $cmdLine = sprintf('docker container port %s', $containerName);
+                $cmdLine = sprintf('pgrep -a websockify | awk \'$7 == "localhost:%d" { print $6 }\'', $vncport);
                 $cmd = new \OMV\System\Process($cmdLine);
                 $cmd->setQuiet(true);
                 $cmd->execute($output, $exitStatus);
-                $dockerport = array_pop(explode(':', $output[0]));
-                if ($dockerport >= 1024) {
-                    $dockerurl = sprintf('http://%s:%d/vnc.html?resize=remote&autoconnect=1', gethostname(), $dockerport);
-                } else {
-                    $dockerport = 'n/a';
+                $novncport = intval($output[0]);
+                if ($novncport >= 1024) {
+                    $novncurl = sprintf('http://%s:%d/vnc.html?resize=remote&autoconnect=1', gethostname(), $novncport);
                 }
             }
             if (!$lv->domain_get_xml($name)) {
                 continue;
             }
             $domXml = new SimpleXMLElement($lv->domain_get_xml($name));
+            // spice and spice_html5
             $xpath = $domXml->xpath('//graphics');
             $xpathSize = sizeof($xpath);
             for ($i = 0; $i < $xpathSize; $i++) {
@@ -523,7 +522,20 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 }
             }
             if ($spiceport == -1 || $spiceport == '') {
-                $spiceport = "n/a";
+                $spiceport = 'n/a';
+            }
+            $spicehtml5port = 'n/a';
+            $spicehtml5url = 'n/a';
+            if (intval($spiceport) >= 1024) {
+                $output = [];
+                $cmdLine = sprintf('pgrep -a websockify | awk \'$7 == "localhost:%d" { print $6 }\'', $spiceport);
+                $cmd = new \OMV\System\Process($cmdLine);
+                $cmd->setQuiet(true);
+                $cmd->execute($output, $exitStatus);
+                $spicehtml5port = intval($output[0]);
+                if ($spicehtml5port >= 1024) {
+                    $spicehtml5url = sprintf('http://%s:%d/spice_auto.html?resize=remote', gethostname(), $spicehtml5port);
+                }
             }
             $snaplist = $lv->domain_snapshots_list($dom);
             $snaps = 0;
@@ -540,8 +552,10 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 'autostart' => $lv->domain_get_autostart($dom),
                 'vncport' => $vncport,
                 'spiceport' => $spiceport,
-                'dockerport' => $dockerport,
-                'dockerurl' => $dockerurl,
+                'novncport' => $novncport,
+                'novncurl' => $novncurl,
+                'spicehtml5port' => $spicehtml5port,
+                'spicehtml5url' => $spicehtml5url,
                 'snaps' => $snaps
             ];
         }
@@ -1615,43 +1629,58 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
     }
 
-    public function doVnc($params, $context)
+    public function doWeb($params, $context)
     {
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
-        $this->validateMethodParams($params, 'rpc.kvm.dovnc');
-        $containerName = sprintf('novnc_%s', $params['vmname']);
+        $this->validateMethodParams($params, 'rpc.kvm.doweb');
+        $command = $params['command'];
         $hostport = $params['hostport'];
-        // remove existing container if exists
-        if (file_exists("/usr/bin/docker")) {
+        $hostport2 = $params['hostport2'];
+        // remove existing websockify processes if they exist
+        $output = [];
+        $cmdLine = sprintf('pgrep -a websockify | awk \'$6 == %d { print $1 }\' | xargs kill', $hostport);
+        $cmd = new \OMV\System\Process($cmdLine);
+        $cmd->setQuiet(true);
+        $cmd->execute($output, $exitStatus);
+        $cmdLine = sprintf('pgrep -a websockify | awk \'$6 == %d { print $1 }\' | xargs kill', $hostport2);
+        $cmd = new \OMV\System\Process($cmdLine);
+        $cmd->setQuiet(true);
+        $cmd->execute($output, $exitStatus);
+        // create websockify process for noVNC
+        if ($command == "start" && $hostport >= 1024) {
             $output = [];
-            $cmdLine = sprintf('docker container rm -f %s', $containerName);
-            $cmd = new \OMV\System\Process($cmdLine);
+            $cmdArgs = [];
+            $cmdArgs[] = 'websockify';
+            $cmdArgs[] = '-D';
+            $cmdArgs[] = '--web=/usr/share/novnc/';
+            $cmdArgs[] = $hostport;
+            $cmdArgs[] = sprintf('localhost:%d', $params['vncport']);
+            $cmd = new \OMV\System\Process($cmdArgs);
             $cmd->setQuiet(true);
             $cmd->execute($output, $exitStatus);
-            if ($hostport >= 1024) {
-                // create container
-                $output = [];
-                $cmdArgs = [];
-                $cmdArgs[] = 'docker';
-                $cmdArgs[] = 'run';
-                $cmdArgs[] = '-d';
-                $cmdArgs[] = sprintf('-e REMOTE_HOST=%s', getHostByName(getHostName()));
-                $cmdArgs[] = sprintf('-e REMOTE_PORT=%d', $params['vncport']);
-                $cmdArgs[] = sprintf('-p %d:8081', $hostport);
-                $cmdArgs[] = sprintf('--name %s', $containerName);
-                $cmdArgs[] = 'dougw/novnc';
-                $cmd = new \OMV\System\Process($cmdArgs);
-                $cmd->setQuiet(true);
-                $cmd->execute($output, $exitStatus);
-                $cmdLine = $cmd->getCommandLine();
-                if ((0 == $exitStatus) && (!empty($output))) {
-                    throw new \OMV\Exception(gettext("Failed to start container.") . $cmdLine);
-                }
+            $cmdLine = $cmd->getCommandLine();
+            if ((0 == $exitStatus) && (!empty($output))) {
+                throw new \OMV\Exception(gettext("Failed to start websockify for noVNC.") . $cmdLine);
             }
-        } else {
-            throw new \OMV\Exception(gettext("Docker is not installed. Please install from omv-extras Docker tab."));
+        }
+        // create websockify process for spice html5
+        if ($command == "start" && $hostport2 >= 1024) {
+            $output = [];
+            $cmdArgs = [];
+            $cmdArgs[] = 'websockify';
+            $cmdArgs[] = '-D';
+            $cmdArgs[] = '--web=/usr/share/spice-html5/';
+            $cmdArgs[] = $hostport2;
+            $cmdArgs[] = sprintf('localhost:%d', $params['spiceport']);
+            $cmd = new \OMV\System\Process($cmdArgs);
+            $cmd->setQuiet(true);
+            $cmd->execute($output, $exitStatus);
+            $cmdLine = $cmd->getCommandLine();
+            if ((0 == $exitStatus) && (!empty($output))) {
+                throw new \OMV\Exception(gettext("Failed to start websockify for spice-html5.") . $cmdLine);
+            }
         }
     }
 
