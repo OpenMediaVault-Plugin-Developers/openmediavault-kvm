@@ -697,25 +697,35 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
         var hostport = 0;
         var hostport2 = 0;
         if (cmd == "start") {
-            hostport = parseInt(prompt("Enter host port for noVNC", "8081"));
-            if (vncport < 1024) {
-                alert("VM does not appear to have a VNC port or is powered off. " + vncport);
-                return;
-            } else if(hostport < 1024) {
-                alert("Port for host is too low.");
-                return;
+            if (vncport > 1024) {
+                hostport = parseInt(prompt("Enter host port for noVNC", "8081"));
+                if (vncport < 1024) {
+                    alert("VM does not appear to have a VNC port or is powered off. " + vncport);
+                    return;
+                } else if(hostport < 1024) {
+                    alert("Port for host is too low.");
+                    return;
+                }
             }
-            hostport2 = parseInt(prompt("Enter host port for spice-html5", "8091"));
-            if (spiceport < 1024) {
-                alert("VM does not appear to have a Spice port or is powered off. " + spiceport);
-                return;
-            } else if(hostport2 < 1024) {
-                alert("Port for host is too low.");
-                return;
+            if (spiceport > 1024) {
+                hostport2 = parseInt(prompt("Enter host port for spice-html5", "8091"));
+                if (spiceport < 1024) {
+                    alert("VM does not appear to have a Spice port or is powered off. " + spiceport);
+                    return;
+                } else if(hostport2 < 1024) {
+                    alert("Port for host is too low.");
+                    return;
+                }
             }
         } else {
             hostport = parseInt(record.get("novncport"));
             hostport2 = parseInt(record.get("spicehtml5port"));
+        }
+        if (isNaN(vncport)) {
+            vncport = 0;
+        }
+        if (isNaN(spiceport)) {
+            spiceport = 0;
         }
         OMV.Rpc.request({
             scope: me,

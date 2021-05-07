@@ -512,6 +512,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             }
             $domXml = new SimpleXMLElement($lv->domain_get_xml($name));
             // spice and spice_html5
+            $spiceport = '';
             $xpath = $domXml->xpath('//graphics');
             $xpathSize = sizeof($xpath);
             for ($i = 0; $i < $xpathSize; $i++) {
