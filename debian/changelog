@@ -1,3 +1,9 @@
+openmediavault-kvm (5.1.1) stable; urgency=low
+
+  * Fix consoles when VM does not have a spice or vnc port
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Fri, 07 May 2021 10:25:50 -0500
+
 openmediavault-kvm (5.1.0) stable; urgency=low
 
   * Use native noVNC instead of docker
