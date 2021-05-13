@@ -1,3 +1,9 @@
+openmediavault-kvm (5.1.2) stable; urgency=low
+
+  * Use openmediavault-kvmweb to start noVNC and spice
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Thu, 13 May 2021 06:55:54 -0500
+
 openmediavault-kvm (5.1.1) stable; urgency=low
 
   * Fix consoles when VM does not have a spice or vnc port
