@@ -26,6 +26,12 @@ case "$1" in
 
         # restart service
         systemctl restart libvirtd.service
+
+        if ! omv_user_id_exists openmediavault-kvmweb; then
+            useradd --system --user-group --no-create-home \
+                --shell '/usr/sbin/nologin' \
+                openmediavault-kvmweb
+        fi
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

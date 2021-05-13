@@ -498,7 +498,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $novncurl = 'n/a';
             if (intval($vncport) >= 1024) {
                 $output = [];
-                $cmdLine = sprintf('pgrep -a websockify | awk \'$7 == "localhost:%d" { print $6 }\'', $vncport);
+                $cmdLine = sprintf('pgrep -u openmediavault-kvmweb -a websockify | awk \'$7 == "localhost:%d" { print $6 }\'', $vncport);
                 $cmd = new \OMV\System\Process($cmdLine);
                 $cmd->setQuiet(true);
                 $cmd->execute($output, $exitStatus);
@@ -529,7 +529,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $spicehtml5url = 'n/a';
             if (intval($spiceport) >= 1024) {
                 $output = [];
-                $cmdLine = sprintf('pgrep -a websockify | awk \'$7 == "localhost:%d" { print $6 }\'', $spiceport);
+                $cmdLine = sprintf('pgrep -u openmediavault-kvmweb -a websockify | awk \'$7 == "localhost:%d" { print $6 }\'', $spiceport);
                 $cmd = new \OMV\System\Process($cmdLine);
                 $cmd->setQuiet(true);
                 $cmd->execute($output, $exitStatus);
@@ -1641,11 +1641,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $hostport2 = $params['hostport2'];
         // remove existing websockify processes if they exist
         $output = [];
-        $cmdLine = sprintf('pgrep -a websockify | awk \'$6 == %d { print $1 }\' | xargs kill', $hostport);
+        $cmdLine = sprintf('pgrep -u openmediavault-kvmweb -a websockify | awk \'$6 == %d { print $1 }\' | xargs kill', $hostport);
         $cmd = new \OMV\System\Process($cmdLine);
         $cmd->setQuiet(true);
         $cmd->execute($output, $exitStatus);
-        $cmdLine = sprintf('pgrep -a websockify | awk \'$6 == %d { print $1 }\' | xargs kill', $hostport2);
+        $cmdLine = sprintf('pgrep -u openmediavault-kvmweb -a websockify | awk \'$6 == %d { print $1 }\' | xargs kill', $hostport2);
         $cmd = new \OMV\System\Process($cmdLine);
         $cmd->setQuiet(true);
         $cmd->execute($output, $exitStatus);
@@ -1653,6 +1653,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if ($command == "start" && $hostport >= 1024) {
             $output = [];
             $cmdArgs = [];
+            $cmdArgs[] = "sudo ";
+            $cmdArgs[] = "--shell";
+            $cmdArgs[] = "--non-interactive";
+            $cmdArgs[] = "--user=openmediavault-kvmweb";
+            $cmdArgs[] = "--";
             $cmdArgs[] = 'websockify';
             $cmdArgs[] = '-D';
             $cmdArgs[] = '--web=/usr/share/novnc/';
@@ -1670,6 +1675,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if ($command == "start" && $hostport2 >= 1024) {
             $output = [];
             $cmdArgs = [];
+            $cmdArgs[] = "sudo ";
+            $cmdArgs[] = "--shell";
+            $cmdArgs[] = "--non-interactive";
+            $cmdArgs[] = "--user=openmediavault-kvmweb";
+            $cmdArgs[] = "--";
             $cmdArgs[] = 'websockify';
             $cmdArgs[] = '-D';
             $cmdArgs[] = '--web=/usr/share/spice-html5/';
