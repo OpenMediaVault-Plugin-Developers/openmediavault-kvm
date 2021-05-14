@@ -52,6 +52,21 @@
 	}
 },{
 	"type": "rpc",
+	"id": "rpc.kvm.setnotes",
+	"params": {
+		"type": "object",
+		"properties": {
+			"vmname": {
+				"type": "string",
+				"required": true
+			},
+			"notes": {
+				"type": "string"
+			}
+		}
+	}
+},{
+	"type": "rpc",
 	"id": "rpc.kvm.setpool",
 	"params": {
 		"type": "object",
@@ -165,6 +180,9 @@
 				"type": "string"
 			},
 			"bridge": {
+				"type": "string"
+			},
+			"notes": {
 				"type": "string"
 			}
 		}

@@ -82,6 +82,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('enumerateUsbByHost');
         $this->registerMethod('enumerateUsbByVm');
 
+        $this->registerMethod('getNotes');
+        $this->registerMethod('setNotes');
+
         $this->registerMethod('doCommand');
         $this->registerMethod('doWeb');
         $this->registerMethod('doChangeCpuMemory');
@@ -543,6 +546,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             if ($snaplist) {
                 $snaps = count($snaplist);
             }
+            $notes = $lv->domain_get_description($dom);
             $objects[] = [
                 'vmname' => $name,
                 'mem' => $info['memory'] * 1024,
@@ -557,7 +561,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 'novncurl' => $novncurl,
                 'spicehtml5port' => $spicehtml5port,
                 'spicehtml5url' => $spicehtml5url,
-                'snaps' => $snaps
+                'snaps' => $snaps,
+                'notes' => $notes
             ];
         }
         // Filter the result.
@@ -672,7 +677,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
         $xml = sprintf("<domain type='%s'>", $domain_type);
         $xml .= sprintf("<name>%s</name>", $vmname);
-        $xml .= "<description>created by the openmediavault-kvm plugin</description>";
+        $xml .= sprintf("<description>%s</description>", htmlspecialchars($params['notes'], ENT_XML1));
         $xml .= sprintf("<memory unit='%s'>%d</memory>", $params['memoryunit'], $params['memory']);
         $xml .= sprintf("<vcpu>%d</vcpu>", $params['vcpu']);
         $xml .= "<os>";
@@ -1724,6 +1729,38 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
         if (!$lv->domain_change_xml($params['vmname'], $newXml)) {
             throw new \OMV\Exception( gettext("Unable to change memory or vCPUs on VM - ") . $lv->get_last_error());
+        }
+    }
+
+    public function getNotes($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        //$this->validateMethodParams($params, 'rpc.kvm.vmname');
+        // create new libvirt object
+        $lv = $this->connectQemu();
+        $notes = "";
+        $dom = $lv->get_domain_object($params['vmname']);
+        $notes = $lv->domain_get_description($dom);
+        return ["notes" => $notes];
+    }
+
+    public function setNotes($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.setnotes');
+        // create new libvirt object
+        $lv = $this->connectQemu();
+        $vmname = $params['vmname'];
+        $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
+        $domXml->description = htmlspecialchars($params['notes'], ENT_XML1);
+        $newXml = $domXml->asXML();
+        $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
+        if (!$lv->domain_change_xml($vmname, $newXml)) {
+            throw new \OMV\Exception( gettext("Unable to change notes for VM - ") . $lv->get_last_error());
         }
     }
 }

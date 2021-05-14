@@ -497,6 +497,18 @@ Ext.define("OMV.module.admin.service.kvm.Vm", {
                     text: _("Leave blank for random address.")
                 }]
             }]
+        },{
+            xtype: "fieldset",
+            title: _("Notes"),
+            defaults: {
+                labelSeparator: ""
+            },
+            items : [{
+                xtype: "textarea",
+                name: "notes",
+                fieldLabel: _("Notes"),
+                allowBlank: true
+            }]
         }];
     }
 });

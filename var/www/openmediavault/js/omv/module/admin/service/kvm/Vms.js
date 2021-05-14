@@ -25,6 +25,7 @@
 // require("js/omv/data/Model.js")
 // require("js/omv/data/proxy/Rpc.js")
 // require("js/omv/module/admin/service/kvm/Disk.js")
+// require("js/omv/module/admin/service/kvm/Notes.js")
 // require("js/omv/module/admin/service/kvm/Optical.js")
 // require("js/omv/module/admin/service/kvm/Snapshot.js")
 // require("js/omv/module/admin/service/kvm/Usb.js")
@@ -188,6 +189,17 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
         sortable: true,
         dataIndex: 'arch',
         stateId: 'arch'
+    },{
+        xtype: 'textcolumn',
+        text: _('Notes'),
+        sortable: true,
+        dataIndex: 'notes',
+        stateId: 'notes',
+        renderer: function(value) {
+            var newval = value.replace(/\n/g, "<br />");
+            var template = Ext.create('Ext.XTemplate', '<tpl for=".">{.}<br/></tpl>');
+            return template.apply(newval);
+        }
     }],
 
     initComponent: function () {
@@ -211,7 +223,8 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
                         { name: 'spicehtml5port', type: 'string' },
                         { name: 'spicehtml5url', type: 'string' },
                         { name: 'autostart', type: 'boolean' },
-                        { name: 'snaps', type: 'integer' }
+                        { name: 'snaps', type: 'integer' },
+                        { name: 'notes', type: 'string' }
                     ]
                 }),
                 proxy: {
@@ -643,6 +656,15 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
                     minSelections : 1,
                     maxSelections : 1
                 }
+            },{
+                text: _("Edit notes"),
+                icon: "images/edit.png",
+                handler: Ext.Function.bind(me.onNotesButton, me, [ me ]),
+                disabled : true,
+                selectionConfig : {
+                    minSelections : 1,
+                    maxSelections : 1
+                }
             }]
         }]);
         return items;
@@ -653,6 +675,25 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
         Ext.create("OMV.module.admin.service.kvm.Vm", {
             title: _("Add VM"),
             uuid: OMV.UUID_UNDEFINED,
+            listeners: {
+                scope: me,
+                submit: function() {
+                    this.doReload();
+                }
+            }
+        }).show();
+    },
+
+    onNotesButton: function() {
+        var me = this;
+        var record = me.getSelected();
+        vmname = record.get("vmname");
+        Ext.create("OMV.module.admin.service.kvm.Notes", {
+            title: "Edit VM notes",
+            vmname: vmname,
+            rpcGetParams: {
+                vmname: vmname
+            },
             listeners: {
                 scope: me,
                 submit: function() {
