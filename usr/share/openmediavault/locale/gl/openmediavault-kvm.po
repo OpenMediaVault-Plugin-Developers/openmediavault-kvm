@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-01 13:48-0500\n"
+"POT-Creation-Date: 2021-05-14 08:32-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>, 2021\n"
 "Language-Team: Galician (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/gl/)\n"
@@ -228,6 +228,9 @@ msgstr "Editar"
 msgid "Edit XML"
 msgstr "Editar XML"
 
+msgid "Edit notes"
+msgstr ""
+
 msgid "Enable autostart"
 msgstr "Activar o inicio automático"
 
@@ -335,6 +338,9 @@ msgstr "Adaptador de rede"
 
 msgid "Networks"
 msgstr "Redes"
+
+msgid "Notes"
+msgstr ""
 
 msgid "OS"
 msgstr "OS"
@@ -524,6 +530,9 @@ msgstr "Non é posíbel engadir o adaptador de rede a máquina virtual -"
 
 msgid "Unable to change memory or vCPUs on VM - "
 msgstr "Non é posíbel cambiar a memoria nin as vCPU na máquina virtual -"
+
+msgid "Unable to change notes for VM - "
+msgstr ""
 
 msgid "Unable to create Macvap - "
 msgstr "Non é posíbel  crear unha MACVTAP - "

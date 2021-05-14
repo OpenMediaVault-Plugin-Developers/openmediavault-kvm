@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-01 13:48-0500\n"
+"POT-Creation-Date: 2021-05-14 08:32-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Marcelo Esteves <marcelopge@gmail.com>, 2021\n"
 "Language-Team: Portuguese (Brazil) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/pt_BR/)\n"
@@ -228,6 +228,9 @@ msgstr "Editar"
 msgid "Edit XML"
 msgstr ""
 
+msgid "Edit notes"
+msgstr ""
+
 msgid "Enable autostart"
 msgstr ""
 
@@ -334,6 +337,9 @@ msgid "Network adapter"
 msgstr ""
 
 msgid "Networks"
+msgstr ""
+
+msgid "Notes"
 msgstr ""
 
 msgid "OS"
@@ -523,6 +529,9 @@ msgid "Unable to add network adapter to VM - "
 msgstr ""
 
 msgid "Unable to change memory or vCPUs on VM - "
+msgstr ""
+
+msgid "Unable to change notes for VM - "
 msgstr ""
 
 msgid "Unable to create Macvap - "

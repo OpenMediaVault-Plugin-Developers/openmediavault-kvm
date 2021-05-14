@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-01 13:48-0500\n"
+"POT-Creation-Date: 2021-05-14 08:32-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: songming <by@songming.me>, 2021\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/zh_CN/)\n"
@@ -228,6 +228,9 @@ msgstr "编辑"
 msgid "Edit XML"
 msgstr "编辑 XML"
 
+msgid "Edit notes"
+msgstr ""
+
 msgid "Enable autostart"
 msgstr "启用自启动"
 
@@ -335,6 +338,9 @@ msgstr "网络适配器"
 
 msgid "Networks"
 msgstr "网络"
+
+msgid "Notes"
+msgstr ""
 
 msgid "OS"
 msgstr "OS"
@@ -524,6 +530,9 @@ msgstr "无法在 VM - 添加网络适配器"
 
 msgid "Unable to change memory or vCPUs on VM - "
 msgstr "无法在 VM - 变更内存和 vCPU数"
+
+msgid "Unable to change notes for VM - "
+msgstr ""
 
 msgid "Unable to create Macvap - "
 msgstr "无法创建 Macvap - "
