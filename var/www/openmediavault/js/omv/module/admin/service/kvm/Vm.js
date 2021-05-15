@@ -366,13 +366,12 @@ Ext.define("OMV.module.admin.service.kvm.Vm", {
                 xtype: "combo",
                 name: "voliso",
                 fieldLabel: _("Optical Disk"),
-                emptyText: _("Select a file ..."),
                 editable: false,
                 triggerAction: "all",
                 displayField: "path",
                 valueField: "path",
                 allowNone: true,
-                allowBlank: true,
+                value: "none",
                 store: Ext.create("OMV.data.Store", {
                     autoLoad: true,
                     model: OMV.data.Model.createImplicit({
