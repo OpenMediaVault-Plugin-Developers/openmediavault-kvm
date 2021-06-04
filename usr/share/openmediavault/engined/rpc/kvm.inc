@@ -1713,24 +1713,28 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $memory = $params['memory'];
         $memoryunit = $params['memoryunit'];
         $vcpu = $params['vcpu'];
-        $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
+        $vmname = $params['vmname'];
         if ($vcpu == -1) {
             switch ($memoryunit) {
                 case 'GiB':  $multi = 1024 * 1024; break;
                 case 'MiB':  $multi = 1024; break;
             }
             $newMem = $memory * $multi;
-            $domXml->memory = $newMem;
-            $domXml->currentMemory = $newMem;
-            //$result = $lv->domain_change_memory_allocation($params['vmname'], $newMem, $newMem);
+            $cmdLine = sprintf('virsh setmaxmem %s %s --config', $vmname, $newMem);
+            $cmdLine2 = sprintf('virsh setmem %s %s --config', $vmname, $newMem);
         } else if ($memory == -1) {
-            $domXml->vcpu = $vcpu;
-            //$result = $lv->domain_change_numVCpus($params['vmname'], $vcpu);
+            $cmdLine = sprintf('virsh setvcpus %s %d --config --maximum', $vmname, $vcpu);
+            $cmdLine2 = sprintf('virsh setvcpus %s %d --config ', $vmname, $vcpu);
         }
-        $newXml = $domXml->asXML();
-        $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
-        if (!$lv->domain_change_xml($params['vmname'], $newXml)) {
-            throw new \OMV\Exception( gettext("Unable to change memory or vCPUs on VM - ") . $lv->get_last_error());
+        $cmd = new \OMV\System\Process($cmdLine);
+        $cmd->execute($output, $exitStatus);
+        if (0 !== $exitStatus) {
+            throw new \OMV\Exception(gettext("Failed to set maximum") . " :: " . $cmdLine);
+        }
+        $cmd = new \OMV\System\Process($cmdLine2);
+        $cmd->execute($output, $exitStatus);
+        if (0 !== $exitStatus) {
+            throw new \OMV\Exception(gettext("Failed to change ") . " :: " . $cmdLine);
         }
     }
 
