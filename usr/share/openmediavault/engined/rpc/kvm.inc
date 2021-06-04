@@ -622,6 +622,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
         $host_arch = $this->getArch();
         $uefi = $params['uefi'];
+        $vcpu = $params['vcpu'];
         $vmname = $params['vmname'];
         switch ($arch) {
             case 'aarch64':
@@ -679,7 +680,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $xml .= sprintf("<name>%s</name>", $vmname);
         $xml .= sprintf("<description>%s</description>", htmlspecialchars($params['notes'], ENT_XML1));
         $xml .= sprintf("<memory unit='%s'>%d</memory>", $params['memoryunit'], $params['memory']);
-        $xml .= sprintf("<vcpu>%d</vcpu>", $params['vcpu']);
+        $xml .= sprintf("<vcpu>%d</vcpu>", $vcpu);
         $xml .= "<os>";
         $xml .= sprintf("<type arch='%s' machine='%s'>hvm</type>", $arch, $machine);
         if ($uefi) {
@@ -708,6 +709,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             if ($hostarch == 'amd64' || $hostarch == 'i386') {
                 $xml .= "<cpu mode='host-model' check='partial'>";
                 $xml .= "<model fallback='allow'/>";
+                $xml .= sprintf("<topology sockets='1' cores='%d' threads='1'/>", $vcpu);
                 $xml .= "</cpu>";
             }
         } elseif ($arch == 'aarch64' || $arch == 'arm') {

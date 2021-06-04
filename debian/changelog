@@ -1,3 +1,10 @@
+openmediavault-kvm (5.1.4) stable; urgency=low
+
+  * Set default cdrom to none on new VMs
+  * Use one cpu socket for Windows VMs
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Fri, 04 Jun 2021 07:15:45 -0500
+
 openmediavault-kvm (5.1.3) stable; urgency=low
 
   * Add notes field for VM and ability to edit
