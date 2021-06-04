@@ -707,9 +707,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $xml .= "</features>";
         if ($params['os'] == "windows") {
             if ($hostarch == 'amd64' || $hostarch == 'i386') {
-                $xml .= "<cpu mode='host-model' check='partial'>";
-                $xml .= "<model fallback='allow'/>";
+                $xml .= "<cpu mode='host-passthrough' check='none'>";
                 $xml .= sprintf("<topology sockets='1' cores='%d' threads='1'/>", $vcpu);
+                $xml .= "<feature policy='disable' name='smep'/>";
                 $xml .= "</cpu>";
             }
         } elseif ($arch == 'aarch64' || $arch == 'arm') {
