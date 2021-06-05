@@ -621,6 +621,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $sound = 'ac97';
         }
         $host_arch = $this->getArch();
+        $os = strtolower($params['os']);
         $uefi = $params['uefi'];
         $vcpu = $params['vcpu'];
         $vmname = $params['vmname'];
@@ -697,7 +698,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         } else {
             //$xml .= "<gic version='2'/>";
         }
-        if ($params['os'] == "windows") {
+        if ($os == "windows") {
             $xml .= "<hyperv>";
             $xml .= "<relaxed state='on'/>";
             $xml .= "<vapic state='on'/>";
@@ -705,8 +706,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $xml .= "</hyperv>";
         }
         $xml .= "</features>";
-        if ($params['os'] == "windows") {
-            if ($hostarch == 'amd64' || $hostarch == 'i386') {
+        if ($os == "windows") {
+            if ($host_arch == 'amd64' || $host_arch == 'i386') {
                 $xml .= "<cpu mode='host-passthrough' check='none'>";
                 $xml .= sprintf("<topology sockets='1' cores='%d' threads='1'/>", $vcpu);
                 $xml .= "<feature policy='disable' name='smep'/>";
@@ -988,7 +989,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
         $voliso = $params['voliso'];
         // get next device
-        if (isset($domXml->os->loader)) {
+        if (isset($domXml->os->loader) || strpos($domXml->os->type['machine'], 'q35') > -1) {
             $targetbus = 'sata';
             $dev = "sd";
         } else {
