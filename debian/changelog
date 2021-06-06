@@ -1,7 +1,10 @@
 openmediavault-kvm (5.1.4) stable; urgency=low
 
   * Set default cdrom to none on new VMs
-  * Use one cpu socket for Windows VMs
+  * Use one cpu socket and disable smep for Windows VMs
+  * Use sata for isos q35 machine type
+  * Fix change cpu/memory
+  * Fix typo causing Windows config to be created incorrectly
 
  -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Fri, 04 Jun 2021 07:15:45 -0500
 
