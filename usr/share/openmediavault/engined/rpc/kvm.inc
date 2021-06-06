@@ -1715,6 +1715,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $memoryunit = $params['memoryunit'];
         $vcpu = $params['vcpu'];
         $vmname = $params['vmname'];
+        $skip = false;
         if ($vcpu == -1) {
             switch ($memoryunit) {
                 case 'GiB':  $multi = 1024 * 1024; break;
@@ -1726,16 +1727,29 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         } else if ($memory == -1) {
             $cmdLine = sprintf('virsh setvcpus %s %d --config --maximum', $vmname, $vcpu);
             $cmdLine2 = sprintf('virsh setvcpus %s %d --config ', $vmname, $vcpu);
+            $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
+            if (isset($domXml->cpu->topology)) {
+                $domXml->cpu->topology['cores'] = $vcpu;
+                $domXml->vcpu = $vcpu;
+                $newXml = $domXml->asXML();
+                $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
+                if (!$lv->domain_change_xml($vmname, $newXml)) {
+                    throw new \OMV\Exception( gettext("Unable to change topolgy cores for VM - ") . $lv->get_last_error());
+                }
+                $skip = true;
+            }
         }
-        $cmd = new \OMV\System\Process($cmdLine);
-        $cmd->execute($output, $exitStatus);
-        if (0 !== $exitStatus) {
-            throw new \OMV\Exception(gettext("Failed to set maximum") . " :: " . $cmdLine);
-        }
-        $cmd = new \OMV\System\Process($cmdLine2);
-        $cmd->execute($output, $exitStatus);
-        if (0 !== $exitStatus) {
-            throw new \OMV\Exception(gettext("Failed to change ") . " :: " . $cmdLine);
+        if (!$skip) {
+            $cmd = new \OMV\System\Process($cmdLine);
+            $cmd->execute($output, $exitStatus);
+            if (0 !== $exitStatus) {
+                throw new \OMV\Exception(gettext("Failed to set maximum") . " :: " . $cmdLine);
+            }
+            $cmd = new \OMV\System\Process($cmdLine2);
+            $cmd->execute($output, $exitStatus);
+            if (0 !== $exitStatus) {
+                throw new \OMV\Exception(gettext("Failed to change ") . " :: " . $cmdLine);
+            }
         }
     }
 
