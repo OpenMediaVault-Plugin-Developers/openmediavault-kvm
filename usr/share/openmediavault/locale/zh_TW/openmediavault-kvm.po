@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-14 08:32-0500\n"
+"POT-Creation-Date: 2021-06-11 09:04-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: kochin <kochinc@outlook.com>, 2021\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/zh_TW/)\n"
@@ -23,6 +23,9 @@ msgstr ""
 
 msgid " already exists!"
 msgstr "已經存在！"
+
+msgid " to "
+msgstr ""
 
 msgid "Activity"
 msgstr "活動"
@@ -132,6 +135,12 @@ msgstr "檢查儲存卷"
 msgid "Chipset"
 msgstr "晶片組"
 
+msgid "Clone"
+msgstr ""
+
+msgid "Clone "
+msgstr ""
+
 msgid "Component"
 msgstr "組件"
 
@@ -237,6 +246,12 @@ msgstr "啟用自動啟動"
 msgid "Extension"
 msgstr "延伸"
 
+msgid "Failed to change "
+msgstr ""
+
+msgid "Failed to set maximum"
+msgstr ""
+
 msgid "Failed to start container."
 msgstr "無法啟動容櫃 - "
 
@@ -338,6 +353,9 @@ msgstr "網路卡"
 
 msgid "Networks"
 msgstr "網路"
+
+msgid "New VM name cannot be the same as source VM!"
+msgstr ""
 
 msgid "Notes"
 msgstr ""
@@ -534,6 +552,9 @@ msgstr "無法改變 VM 上的記憶體或 vCPUs -"
 msgid "Unable to change notes for VM - "
 msgstr ""
 
+msgid "Unable to change topolgy cores for VM - "
+msgstr ""
+
 msgid "Unable to create Macvap - "
 msgstr "無法建立 Macvap - "
 
@@ -620,6 +641,9 @@ msgstr "輸入了錯的 VM 名稱！跳過刪除 ..."
 
 msgid "XML"
 msgstr "XML"
+
+msgid "You must enter a VM name!"
+msgstr ""
 
 msgid "ZFS"
 msgstr "ZFS"

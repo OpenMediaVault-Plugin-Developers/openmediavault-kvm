@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-14 08:32-0500\n"
+"POT-Creation-Date: 2021-06-11 09:04-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Language-Team: Polish (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -18,6 +18,9 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
 msgid " already exists!"
+msgstr ""
+
+msgid " to "
 msgstr ""
 
 msgid "Activity"
@@ -128,6 +131,12 @@ msgstr ""
 msgid "Chipset"
 msgstr ""
 
+msgid "Clone"
+msgstr ""
+
+msgid "Clone "
+msgstr ""
+
 msgid "Component"
 msgstr ""
 
@@ -233,6 +242,12 @@ msgstr ""
 msgid "Extension"
 msgstr ""
 
+msgid "Failed to change "
+msgstr ""
+
+msgid "Failed to set maximum"
+msgstr ""
+
 msgid "Failed to start container."
 msgstr ""
 
@@ -333,6 +348,9 @@ msgid "Network adapter"
 msgstr ""
 
 msgid "Networks"
+msgstr ""
+
+msgid "New VM name cannot be the same as source VM!"
 msgstr ""
 
 msgid "Notes"
@@ -530,6 +548,9 @@ msgstr ""
 msgid "Unable to change notes for VM - "
 msgstr ""
 
+msgid "Unable to change topolgy cores for VM - "
+msgstr ""
+
 msgid "Unable to create Macvap - "
 msgstr ""
 
@@ -615,6 +636,9 @@ msgid "Wrong VM name entered! Skipping delete ..."
 msgstr ""
 
 msgid "XML"
+msgstr ""
+
+msgid "You must enter a VM name!"
 msgstr ""
 
 msgid "ZFS"
