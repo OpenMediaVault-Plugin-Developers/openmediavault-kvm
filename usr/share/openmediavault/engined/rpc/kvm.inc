@@ -56,6 +56,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('setVmXml');
         $this->registerMethod('setVm');
         $this->registerMethod('getDisk');
+        $this->registerMethod('cloneVm');
 
         $this->registerMethod('addDisk');
         $this->registerMethod('addOptical');
@@ -1078,6 +1079,35 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
 
     public function getDisk($params, $context)
     {
+    }
+
+    public function cloneVm($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ["role" => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, "rpc.kvm.clonevm");
+        $newname = $params['newname'];
+        $path = sprintf('/etc/libvirt/qemu/%s.xml', $newname);
+        if (file_exists($path)) {
+            throw new \OMV\Exception($newname . gettext(" already exists!"));
+        }
+        return $this->execBgProc(function($bgStatusFilename, $bgOutputFilename)
+            use ($params, $newname) {
+                $cmdArgs = [];
+                $cmdArgs[] = '/usr/bin/virt-clone';
+                $cmdArgs[] = sprintf('--original %s', $params['vmname']);
+                $cmdArgs[] = sprintf('--name %s', $newname);
+                $cmdArgs[] = '--auto-clone';
+                $cmd = new \OMV\System\Process($cmdArgs);
+                $cmd->setRedirect2to1();
+                $cmdLine = $cmd->getCommandLine();
+                if (0 !== $this->exec($cmdLine, $output, $bgOutputFilename)) {
+                    throw new \OMV\ExecException($cmdLine, $output);
+                }
+                return $output;
+            }
+        );
     }
 
     public function getVolumeList($params, $context)

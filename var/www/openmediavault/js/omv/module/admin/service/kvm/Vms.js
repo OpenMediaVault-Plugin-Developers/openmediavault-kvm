@@ -485,6 +485,21 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
             },{
                 xtype: 'menuseparator'
             },{
+                text: _("Clone"),
+                icon: "images/rsync.png",
+                handler: Ext.Function.bind(me.onCloneButton, me, [ me ]),
+                disabled : true,
+                selectionConfig : {
+                    minSelections : 1,
+                    maxSelections : 1,
+                    enabledFn: function(c, records) {
+                        var state = records[0].get("state");
+                        return (state == 'shutoff');
+                    }
+                }
+            },{
+                xtype: 'menuseparator'
+            },{
                 text: _("Delete"),
                 icon: "images/minus.png",
                 handler: Ext.Function.bind(me.onCommandButton, me, [ "undefine" ]),
@@ -1027,6 +1042,51 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
                 }
             }).show();
         }
+    },
+
+    onCloneButton: function() {
+        var me = this;
+        var record = me.getSelected();
+        var vmname = record.get("vmname");
+        var newname = prompt("Enter name for new VM", vmname + "-clone");
+        newname = newname.replace(" ", "");
+        if (vmname == newname) {
+            alert(_("New VM name cannot be the same as source VM!"));
+            return;
+        }
+        if (!newname || newname == "" || newname.length < 1) {
+            alert(_("You must enter a VM name!"));
+            return;
+        }
+        var wnd = Ext.create("OMV.window.Execute", {
+            title: _("Clone ") + vmname + _(" to ") + newname + " ...",
+            rpcService: "Kvm",
+            rpcMethod: "cloneVm",
+            rpcParams: {
+                "vmname": vmname,
+                "newname": newname
+            },
+            rpcIgnoreErrors: true,
+            hideStartButton: true,
+            hideStopButton: true,
+            listeners: {
+                scope: me,
+                finish: function(wnd, response) {
+                    wnd.appendValue(_("Done."));
+                    wnd.setButtonDisabled("close", false);
+                },
+                exception: function(wnd, error) {
+                    OMV.MessageBox.error(null, error);
+                    wnd.setButtonDisabled("close", false);
+                },
+                close: function() {
+                    me.doReload();
+                }
+            }
+        });
+        wnd.setButtonDisabled("close", true);
+        wnd.show();
+        wnd.start();
     },
 
     onCommandButton: function(cmd) {

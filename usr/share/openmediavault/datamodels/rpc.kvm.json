@@ -529,4 +529,20 @@
                         }
 		}
 	}
+},{
+	"type": "rpc",
+	"id": "rpc.kvm.clonevm",
+	"params": {
+		"type": "object",
+		"properties": {
+			"vmname": {
+				"type": "string",
+				"required": true
+                        },
+			"newname": {
+				"type": "string",
+				"required": true
+                        }
+		}
+	}
 }]
