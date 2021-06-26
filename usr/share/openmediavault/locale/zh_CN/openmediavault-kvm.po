@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-11 09:04-0500\n"
+"POT-Creation-Date: 2021-06-26 09:51-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: songming <by@songming.me>, 2021\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/zh_CN/)\n"
@@ -247,6 +247,9 @@ msgid "Extension"
 msgstr ""
 
 msgid "Failed to change "
+msgstr ""
+
+msgid "Failed to change autostart"
 msgstr ""
 
 msgid "Failed to set maximum"
@@ -531,6 +534,9 @@ msgstr ""
 msgid "USB device"
 msgstr ""
 
+msgid "Unable to"
+msgstr ""
+
 msgid "Unable to - "
 msgstr "无法 - "
 
@@ -686,6 +692,9 @@ msgstr ""
 
 msgid "pcnet"
 msgstr "pcnet"
+
+msgid "pool"
+msgstr ""
 
 msgid "qcow2"
 msgstr "qcow2"
