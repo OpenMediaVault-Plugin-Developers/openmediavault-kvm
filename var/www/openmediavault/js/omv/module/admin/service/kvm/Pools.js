@@ -312,7 +312,7 @@ Ext.define('OMV.module.admin.service.kvm.Pools', {
             menu: [{
                 text: _("Start"),
                 icon: "images/arrow-up.png",
-                handler: Ext.Function.bind(me.onCommandButton, me, [ "pool_start" ]),
+                handler: Ext.Function.bind(me.onCommandButton, me, [ "start" ]),
                 disabled : true,
                 selectionConfig : {
                     minSelections : 1,
@@ -325,7 +325,7 @@ Ext.define('OMV.module.admin.service.kvm.Pools', {
             },{
                 text: _("Stop"),
                 icon: "images/arrow-down.png",
-                handler: Ext.Function.bind(me.onCommandButton, me, [ "pool_stop" ]),
+                handler: Ext.Function.bind(me.onCommandButton, me, [ "stop" ]),
                 disabled : true,
                 selectionConfig : {
                     minSelections : 1,
@@ -401,7 +401,7 @@ Ext.define('OMV.module.admin.service.kvm.Pools', {
             scope: me,
             rpcData: {
                 service: "Kvm",
-                method: "doCommand",
+                method: "poolCommand",
                 params: {
                     name: record.get("name"),
                     command: cmd

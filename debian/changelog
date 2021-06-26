@@ -1,3 +1,9 @@
+openmediavault-kvm (5.1.6) stable; urgency=low
+
+  * Enable pool autostart when starting pool
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sat, 26 Jun 2021 09:43:38 -0500
+
 openmediavault-kvm (5.1.5) stable; urgency=low
 
   * Add ability to clone VMs

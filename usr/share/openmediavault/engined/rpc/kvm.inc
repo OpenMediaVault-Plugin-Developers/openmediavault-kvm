@@ -50,6 +50,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('getPool');
         $this->registerMethod('setPool');
         $this->registerMethod('deletePool');
+        $this->registerMethod('poolCommand');
 
         $this->registerMethod('getVmList');
         $this->registerMethod('getVmXml');
@@ -468,6 +469,40 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             throw new \OMV\Exception( gettext("Unable to delete pool - ") . $lv->get_last_error());
         }
     }
+
+    public function poolCommand($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.docommand');
+        // create new libvirt object
+        $lv = $this->connectQemu();
+        $command = $params['command'];
+        $pool = $params['name'];
+        $res = $lv->get_storagepool_res($pool);
+        $disable = '';
+        switch ($command) {
+            case 'start':
+                $result = $lv->storagepool_create($res);
+                break;
+            case 'stop':
+                $result = $lv->storagepool_destroy($res);
+                $disable = ' --disable';
+                break;
+        }
+        if (!$result) {
+            $msg = sprint("%s %s %s %s", gettext("Unable to"), $command, gettext("pool"), $lv->get_last_error());
+            throw new \OMV\Exception($msg);
+        }
+        $cmdLine = sprintf('virsh pool-autostart %s%s', $pool, $disable);
+        $cmd = new \OMV\System\Process($cmdLine);
+        $cmd->execute($output, $exitStatus);
+        if (0 !== $exitStatus) {
+            throw new \OMV\Exception(gettext("Failed to change autostart") . " :: " . $cmdLine);
+        }
+    }
+
 
 
     public function getVmList($params, $context)
@@ -1601,12 +1636,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodParams($params, 'rpc.kvm.docommand');
         // create new libvirt object
         $lv = $this->connectQemu();
-        if (substr($params['command'], 0, 5) == "pool_") {
-            $res = $lv->get_storagepool_res($params['name']);
-        } else {
-            $vmname = $params['name'];
-            $dom = $lv->get_domain_object($vmname);
-        }
+        $vmname = $params['name'];
+        $dom = $lv->get_domain_object($vmname);
         switch ($params['command']) {
             case 'poweron':
                 $result = $lv->domain_start($dom);
@@ -1649,12 +1680,6 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                     $cmd = new \OMV\System\Process($cmdLine);
                     $cmd->execute($output, $result);
                 }
-                break;
-            case 'pool_start':
-                $result = $lv->storagepool_create($res);
-                break;
-            case 'pool_stop':
-                $result = $lv->storagepool_destroy($res);
                 break;
             case 'autostart_disable':
                 $result = $lv->domain_set_autostart($dom,false);
