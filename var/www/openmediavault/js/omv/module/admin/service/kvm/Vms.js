@@ -382,6 +382,34 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
                         return (state == 'shutoff');
                     }
                 }
+            },{
+                xtype: 'menuseparator'
+            },{
+                text: _("Enable vnc/spice ports"),
+                icon: "images/edit.png",
+                handler: Ext.Function.bind(me.onVncButton, me, [ "enable" ]),
+                disabled : true,
+                selectionConfig : {
+                    minSelections : 1,
+                    maxSelections : 1,
+                    enabledFn: function(c, records) {
+                        var state = records[0].get("state");
+                        return (state == 'shutoff');
+                    }
+                }
+            },{
+                text: _("Disable vnc/spice ports"),
+                icon: "images/edit.png",
+                handler: Ext.Function.bind(me.onVncButton, me, [ "disable" ]),
+                disabled : true,
+                selectionConfig : {
+                    minSelections : 1,
+                    maxSelections : 1,
+                    enabledFn: function(c, records) {
+                        var state = records[0].get("state");
+                        return (state == 'shutoff');
+                    }
+                }
             }]
         },{
             xtype: "button",
@@ -1113,6 +1141,27 @@ Ext.define('OMV.module.admin.service.kvm.Vms', {
                 params: {
                     name: vmname,
                     command: cmd
+                }
+            }
+        });
+        me.doReload();
+    },
+
+    onVncButton: function(state) {
+        var me = this;
+        var record = me.getSelected();
+        var vmname = record.get("vmname");
+        var method = "removeVnc";
+        if (state == "enable") {
+            method = "addVnc";
+        }
+        OMV.Rpc.request({
+            scope: me,
+            rpcData: {
+                service: "Kvm",
+                method: method,
+                params: {
+                    vmname: vmname
                 }
             }
         });

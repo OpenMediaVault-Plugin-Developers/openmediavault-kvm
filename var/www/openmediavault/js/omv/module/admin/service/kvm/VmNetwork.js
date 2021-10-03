@@ -31,6 +31,25 @@ Ext.define("OMV.module.admin.service.kvm.AddVmNic", {
     rpcGetMethod: "getDisk",
     rpcSetMethod: "addVmNic",
 
+    plugins: [{
+        ptype: 'linkedfields',
+        correlations: [{
+            conditions: [{
+                name: 'model',
+                value: 'bridge'
+            }],
+            name: ['bridge'],
+            properties: ['show', 'submitValue', '!allowBlank']
+        },{
+            conditions: [{
+                name: 'model',
+                value: 'bridge'
+            }],
+            name: ['network'],
+            properties: ['!show', '!submitValue', 'allowBlank']
+        }]
+    }],
+
     getFormItems: function() {
         var me = this;
         return [{
@@ -47,14 +66,48 @@ Ext.define("OMV.module.admin.service.kvm.AddVmNic", {
                 store: [
                     [ "virtio", _("virtio") ],
                     [ "e1000", _("e1000") ],
+                    [ "vmxnet3", "vmxnet3" ],
                     [ "rtl8139", _("rtl8139") ],
                     [ "ne2k_pci", _("ne2k_pci") ],
-                    [ "pcnet", _("pcnet") ]
+                    [ "pcnet", _("pcnet") ],
+                    [ "bridge", "bridge" ]
                 ],
                 allowBlank: false,
                 editable: false,
                 triggerAction: "all",
                 value: "virtio"
+            },{
+                xtype: "combo",
+                name: "bridge",
+                fieldLabel: _("Bridge"),
+                emptyText: _("Select a bridge ..."),
+                editable: false,
+                triggerAction: "all",
+                displayField: "bridge",
+                valueField: "bridge",
+                allowNone: true,
+                allowBlank: true,
+                store: Ext.create("OMV.data.Store", {
+                    autoLoad: true,
+                    model: OMV.data.Model.createImplicit({
+                        idProperty: "bridge",
+                        fields: [
+                            { name: "bridge", type: "string" }
+                        ]
+                    }),
+                    proxy: {
+                        type: "rpc",
+                        rpcData: {
+                            service: "Kvm",
+                            method: "enumerateBridges"
+                        },
+                        appendSortParams: false
+                    },
+                    sorters: [{
+                        direction: "ASC",
+                        property: "netname"
+                    }]
+                })
             },{
                 xtype: "combo",
                 name: "network",

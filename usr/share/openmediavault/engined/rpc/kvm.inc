@@ -84,6 +84,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('enumerateUsbByHost');
         $this->registerMethod('enumerateUsbByVm');
 
+        $this->registerMethod('addVnc');
+        $this->registerMethod('removeVnc');
+
         $this->registerMethod('getNotes');
         $this->registerMethod('setNotes');
 
@@ -268,7 +271,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // create new libvirt object
         $lv = $this->connectQemu();
         // get VM object
-        $vm = $lv->get_domain_by_name($params['vmname']);
+        $vmname = $params['vmname'];
+        $vm = $lv->get_domain_by_name($vmname);
         // add network
         $mac = $params['macaddress'];
         if (!$mac) {
@@ -276,7 +280,12 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
         $model = $params['model'];
         $net = $params['network'];
-        if (!$lv->domain_nic_add($vm, $mac, $net, $model)) {
+        if ($model == "bridge") {
+            $result = $this->addVmBridgeNic($vmname, $mac, $params['bridge']);
+        } else {
+            $result = $lv->domain_nic_add($vm, $mac, $net, $model);
+        }
+        if (!result) {
             throw new \OMV\Exception( gettext("Unable to add network adapter to VM - ") . $lv->get_last_error());
         }
     }
@@ -319,8 +328,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $type = $nic['type'];
             $mac = $nic->mac['address'];
             switch ($type) {
+                case "bridge":
                 case "network":
-                    $net = $nic->source['network'];
+                    $net = $nic->source[$type];
                     $desc= sprintf('%s - %s (%s)', $type, $net, $mac);
                     break;
                 case "direct":
@@ -530,7 +540,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             }
             // vnc and novnc
             $vncport = $lv->domain_get_vnc_port($dom);
-            if ($vncport == -1) {
+            if (! $vncport || $vncport < 1024 || $vncport == '') {
                 $vncport = 'n/a';
             }
             $novncport = 'n/a';
@@ -561,7 +571,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                     break;
                 }
             }
-            if ($spiceport == -1 || $spiceport == '') {
+            if (!$spiceport || $spiceport < 1024 || $spiceport == '') {
                 $spiceport = 'n/a';
             }
             $spicehtml5port = 'n/a';
@@ -757,10 +767,14 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $xml .= "<clock offset='localtime'/>";
         $xml .= "<devices>";
         if ($native_graphics) {
-            $xml .= "<graphics type='vnc' port='-1' autoport='yes'/>";
-            $xml .= "<graphics type='spice' port='-1' tlsPort='-1' autoport='yes' listen='0.0.0.0'>";
-            $xml .= "<gl enable='no'/>";
-            $xml .= "</graphics>";
+            if ($params['vnc']) {
+                $xml .= "<graphics type='vnc' port='-1' autoport='yes'/>";
+            }
+            if ($params['spice']) {
+                $xml .= "<graphics type='spice' port='-1' tlsPort='-1' autoport='yes' listen='0.0.0.0'>";
+                $xml .= "<gl enable='no'/>";
+                $xml .= "</graphics>";
+            }
             $xml .= "<video>";
             $xml .= "<model type='qxl'/>";
             $xml .= "</video>";
@@ -1837,6 +1851,99 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
         if (!$lv->domain_change_xml($vmname, $newXml)) {
             throw new \OMV\Exception( gettext("Unable to change notes for VM - ") . $lv->get_last_error());
+        }
+    }
+
+    public function addVnc($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.vmname');
+        // create new libvirt object
+        $lv = $this->connectQemu();
+        $vmname = $params['vmname'];
+        $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
+        // check for existing elements
+        $xpath = $domXml->xpath('//graphics');
+        $xpathSize = sizeof($xpath);
+        for ($i = 0; $i < $xpathSize; $i++) {
+            $graphics = $domXml->devices->graphics[$i];
+            $type = $graphics['type'];
+            if ($type == 'vnc') {
+                $vnc = true;
+            }
+            if ($type == 'spice') {
+                $spice = true;
+            }
+        }
+        // add elements if not found
+        $change = false;
+        if (!$vnc) {
+            // add vnc devices
+            $hostDevXml = $domXml->devices->addChild('graphics');
+            $hostDevXml->addAttribute('type', 'vnc');
+            $hostDevXml->addAttribute('port', '-1');
+            $hostDevXml->addAttribute('autoport', 'yes');
+            $change = true;
+        }
+        if (!$spice) {
+            // add spice devices
+            $hostDevXml = $domXml->devices->addChild('graphics');
+            $hostDevXml->addAttribute('type', 'spice');
+            $hostDevXml->addAttribute('port', '-1');
+            $hostDevXml->addAttribute('tlsport', '-1');
+            $hostDevXml->addAttribute('autoport', 'yes');
+            $hostDevXml->addAttribute('listen', '0.0.0.0');
+            $glXml = $hostDevXml->addChild('gl');
+            $glXml->addAttribute('enable', 'no');
+            $change = true;
+        }
+        if ($change) {
+            $newXml = $domXml->asXML();
+            $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
+            if (!$lv->domain_change_xml($vmname, $newXml)) {
+                throw new \OMV\Exception( gettext("Failed to add vnc and/or spice setup - ") . $lv->get_last_error());
+            }
+        }
+    }
+
+    public function removeVnc($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.vmname');
+        // create new libvirt object
+        $lv = $this->connectQemu();
+        $vmname = $params['vmname'];
+        $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
+        // check for existing elements
+        $change = false;
+        $xpath = $domXml->xpath('//graphics');
+        $xpathSize = sizeof($xpath);
+        for ($i = 0; $i < $xpathSize; $i++) {
+            $graphics = $domXml->devices->graphics[$i];
+            $type = $graphics['type'];
+            if ($type == 'vnc') {
+                unset($domXml->devices->graphics[$i]);
+                $change = true;
+            }
+        }
+        for ($i = 0; $i < $xpathSize; $i++) {
+            $graphics = $domXml->devices->graphics[$i];
+            $type = $graphics['type'];
+            if ($type == 'spice') {
+                unset($domXml->devices->graphics[$i]);
+                $change = true;
+            }
+        }
+        if ($change) {
+            $newXml = $domXml->asXML();
+            $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
+            if (!$lv->domain_change_xml($vmname, $newXml)) {
+                throw new \OMV\Exception( gettext("Failed to remove vnc and/or spice setup - ") . $lv->get_last_error());
+            }
         }
     }
 }

@@ -72,7 +72,7 @@ Ext.define("OMV.module.admin.service.kvm.Vm", {
                 name: 'advanced',
                 value: false
             }],
-            name: ['arch', 'audio', 'macaddress', 'volname'],
+            name: ['arch', 'audio', 'macaddress', 'volname', 'vnc', 'spice', 'remote'],
             properties: ['!show']
         },{
             conditions: [{
@@ -219,6 +219,21 @@ Ext.define("OMV.module.admin.service.kvm.Vm", {
                 name: "audio",
                 fieldLabel: _("Audio"),
                 checked: false
+            },{
+                xtype: "compositefield",
+                name: "remote",
+                fieldLabel: _("Remote"),
+                items: [{
+                    xtype: "checkbox",
+                    name: "vnc",
+                    boxLabel: _("VNC"),
+                    checked: true
+                },{
+                    xtype: "checkbox",
+                    name: "spice",
+                    boxLabel: _("Spice"),
+                    checked: true
+                }]
             }]
         },{
             xtype: "fieldset",
