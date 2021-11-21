@@ -1,3 +1,1 @@
-usr/share/openmediavault/*  usr/share/openmediavault
-usr/share/php/*  usr/share/php
-var/www/openmediavault/*    var/www/openmediavault
+usr/* usr

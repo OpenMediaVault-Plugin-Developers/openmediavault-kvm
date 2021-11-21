@@ -1,0 +1,8 @@
+version: "1.0"
+type: navigation-item
+data:
+  path: "services.kvm.iso"
+  text: _("ISOs")
+  position: 40
+  icon: mdi:disc
+  url: "/services/kvm/iso"

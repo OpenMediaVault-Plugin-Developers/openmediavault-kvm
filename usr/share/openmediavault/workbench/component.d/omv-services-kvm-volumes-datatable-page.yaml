@@ -1,0 +1,135 @@
+version: "1.0"
+type: component
+data:
+  name: omv-services-kvm-volumes-datatable-page
+  type: datatablePage
+  config:
+    autoReload: 10000
+    hasSearchField: true
+    stateId: b02a5fd6-6bff-11eb-8c5b-f3581dedb11b
+    rowId: path
+    store:
+      proxy:
+        service: Kvm
+        get:
+          method: getVolumeList
+    columns:
+      - name: _("Name")
+        prop: name
+        flexGrow: 1
+        sortable: true
+      - name: _("Pool")
+        prop: pool
+        flexGrow: 1
+        sortable: true
+      - name: _("Extension")
+        prop: ext
+        flexGrow: 1
+        sortable: true
+      - name: _("Capacity")
+        prop: capacity
+        flexGrow: 1
+        sortable: true
+        cellTemplateName: binaryUnit
+      - name: _("Allocation")
+        prop: percentage
+        flexGrow: 1
+        sortable: true
+        cellTemplateName: progressBar
+        cellTemplateConfig:
+          text: '{{ allocation | tobytes | binaryunit | notavailable("-") }}'
+      - name: _("Path")
+        prop: path
+        flexGrow: 3
+        sortable: true
+    actions:
+      - type: iconButton
+        icon: mdi:plus
+        tooltip: _("Add new volume")
+        execute:
+          type: url
+          url: /services/kvm/volume/add
+      - template: delete
+        execute:
+          type: request
+          request:
+            service: Kvm
+            method: deleteVolume
+            params:
+              path: "{{ _selected[0].path }}"
+      - type: iconButton
+        icon: mdi:content-save-check-outline
+        tooltip: _("Check")
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+        execute:
+          type: taskDialog
+          taskDialog:
+            config:
+              title: _("Check volume ...")
+              startOnInit: true
+              request:
+                service: Kvm
+                method: volumeCommand
+                params:
+                  path: "{{ _selected[0].path }}"
+                  command: check
+            successUrl: /services/kvm/volume
+      - type: iconButton
+        icon: mdi:information-outline
+        tooltip: _("Info")
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+        execute:
+          type: taskDialog
+          taskDialog:
+            config:
+              title: _("Volume info ...")
+              startOnInit: true
+              request:
+                service: Kvm
+                method: volumeCommand
+                params:
+                  path: "{{ _selected[0].path }}"
+                  command: info
+            successUrl: /services/kvm/volume
+      - type: iconButton
+        tooltip: _("Convert to qcow2")
+        icon: mdi:content-save-edit-outline
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+        execute:
+          type: taskDialog
+          taskDialog:
+            config:
+              title: _("Converting to qcow2 ...")
+              startOnInit: true
+              request:
+                service: Kvm
+                method: convertVolume
+                params:
+                  path: "{{ _selected[0].path }}"
+                  format: qcow2
+            successUrl: /services/kvm/volume
+      - type: iconButton
+        tooltip: _("Convert to raw")
+        icon: mdi:content-save-edit
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+        execute:
+          type: taskDialog
+          taskDialog:
+            config:
+              title: _("Converting to raw ...")
+              startOnInit: true
+              request:
+                service: Kvm
+                method: convertVolume
+                params:
+                  path: "{{ _selected[0].path }}"
+                  format: raw
+            successUrl: /services/kvm/volume

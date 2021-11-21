@@ -1,0 +1,6 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/kvm/network"
+  title: _("Networks")
+  component: omv-services-kvm-network-datatable-page

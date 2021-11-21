@@ -1,0 +1,31 @@
+version: "1.0"
+type: component
+data:
+  name: omv-services-kvm-notes-form-page
+  type: formPage
+  config:
+    request:
+      service: Kvm
+      get:
+        method: getNotes
+        params:
+          vmname: '{{ _routeParams.vmname }}'
+      post:
+        method: setNotes
+    fields:
+      - type: textarea
+        name: notes
+        label: _("Notes")
+        rows: 5
+      - type: hidden
+        name: vmname
+        value: '{{ _routeParams.vmname }}'
+    buttons:
+      - template: submit
+        execute:
+          type: url
+          url: "/services/kvm/vm"
+      - template: cancel
+        execute:
+          type: url
+          url: "/services/kvm/vm"

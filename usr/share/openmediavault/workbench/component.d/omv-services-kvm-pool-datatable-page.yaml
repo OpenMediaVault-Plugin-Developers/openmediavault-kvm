@@ -1,0 +1,120 @@
+version: "1.0"
+type: component
+data:
+  name: omv-services-kvm-pool-datatable-page
+  type: datatablePage
+  config:
+    autoReload: 10000
+    hasSearchField: true
+    stateId: a4bec1a6-6bef-11eb-87f3-731abcfb36e8
+    rowId: name
+    store:
+      proxy:
+        service: Kvm
+        get:
+          method: getPoolList
+    columns:
+      - name: _("Name")
+        prop: name
+        flexGrow: 1
+        sortable: true
+      - name: _("Activity")
+        prop: active
+        flexGrow: 1
+        sortable: true
+      - name: _("Volume Count")
+        prop: volcount
+        flexGrow: 1
+        sortable: true
+      - name: _("State")
+        prop: state
+        flexGrow: 1
+        sortable: true
+      - name: _("Capacity")
+        prop: capacity
+        flexGrow: 1
+        sortable: true
+        cellTemplateName: binaryUnit
+      - name: _("Allocation")
+        prop: percentage
+        flexGrow: 1
+        sortable: true
+        cellTemplateName: progressBar
+        cellTemplateConfig:
+          text: '{{ allocation | tobytes | binaryunit | notavailable("-") }}'
+      - name: _("Available")
+        prop: available
+        flexGrow: 1
+        sortable: true
+        cellTemplateName: binaryUnit
+      - name: _("Path")
+        prop: path
+        flexGrow: 3
+        sortable: true
+    actions:
+      - template: create
+        execute:
+          type: url
+          url: "/services/kvm/pool/add"
+      - template: delete
+        execute:
+          type: request
+          request:
+            service: Kvm
+            method: deletePool
+            params:
+              name: "{{ _selected[0].name }}"
+      - type: menu
+        icon: mdi:rotate-left
+        tooltip: _("State")
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+        actions:
+          - text: _("Start")
+            icon: mdi:arrow-up-bold-outline
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: poolCommand
+                params:
+                  name: "{{ _selected[0].name }}"
+                  command: "start"
+                task: true
+                successUrl: /services/kvm/pool
+          - text: _("Stop")
+            icon: mdi:arrow-down-bold-outline
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: poolCommand
+                params:
+                  name: "{{ _selected[0].name }}"
+                  command: "stop"
+                task: true
+                successUrl: /services/kvm/pool
+      - type: iconButton
+        icon: mdi:download
+        tooltip: _("Download")
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+        actions:
+          - text: _("Download virtio iso")
+            icon: mdi:download-network
+            execute:
+              type: taskDialog
+              taskDialog:
+                config:
+                  title: _("Download virtio iso ...")
+                  startOnInit: true
+                  request:
+                    service: Kvm
+                    method: downloadIso
+                    params:
+                      filename: "virtio-win.iso"
+                      path: "{{ _selected[0].path }}"
+                      url: "https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso"
+                successUrl: /services/kvm/pool

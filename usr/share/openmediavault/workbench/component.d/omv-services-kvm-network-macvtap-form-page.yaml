@@ -1,0 +1,33 @@
+version: "1.0"
+type: component
+data:
+  name: omv-services-kvm-network-macvtap-form-page
+  type: formPage
+  config:
+    request:
+      service: Kvm
+      post:
+        method: setMacvtap
+    fields:
+      - type: textInput
+        name: name
+        label: _("Name")
+      - type: select
+        name: nic
+        label: _('Network adapter')
+        textField: devicename
+        valueField: devicename
+        store:
+          proxy:
+            service: 'Network'
+            get:
+              method: 'enumerateDevices'
+    buttons:
+      - template: submit
+        execute:
+          type: url
+          url: "/services/kvm/network"
+      - template: cancel
+        execute:
+          type: url
+          url: "/services/kvm/network"

@@ -1,0 +1,6 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/kvm/iso"
+  title: _("ISOs")
+  component: omv-services-kvm-iso-datatable-page

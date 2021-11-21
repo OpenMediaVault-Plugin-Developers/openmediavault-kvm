@@ -1,0 +1,6 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/kvm/volume"
+  title: _("Volumes")
+  component: omv-services-kvm-volumes-datatable-page

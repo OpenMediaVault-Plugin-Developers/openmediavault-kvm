@@ -1,0 +1,8 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/kvm/nic/remove/:vmname"
+  title: _("Remove VM network adapter")
+  editing: true
+  notificationTitle: _("Removed VM network adapter.")
+  component: omv-services-kvm-nic-remove-form-page

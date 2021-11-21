@@ -1,0 +1,8 @@
+version: "1.0"
+type: navigation-item
+data:
+  path: "services.kvm.volume"
+  text: _("Volumes")
+  position: 30
+  icon: mdi:content-save-all-outline
+  url: "/services/kvm/volume"

@@ -363,12 +363,12 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $objects[] = [
                 'name' => $pool,
                 'active' => $info['active'] ? 'Active' : 'Inactive',
-                'volume_count' => $info['volume_count'],
+                'volcount' => $info['volume_count'],
                 'state' => $lv->translate_storagepool_state($info['state']),
                 'capacity' => $info['capacity'],
                 'allocation' => $info['allocation'],
-                'allocationT' => binary_format($info['allocation']),
                 'available' => $info['available'],
+                'percentage' => ($info['allocation'] / $info['capacity']) * 100,
                 'path' => $info['path']
             ];
         }
@@ -950,7 +950,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 'device' => $vol['device'],
                 'capacity' => $vol['capacity'],
                 'allocation' => $vol['allocation'],
-                'allocationT' => binary_format($vol['allocation']),
+                'percentage' => ($vol['allocation'] / $vol['capacity']) * 100,
                 'physical' => $vol['physical']
             ];
         }
@@ -1184,11 +1184,12 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                         $objects[] = [
                             'name' => $keys[$i],
                             'pool' => $pool,
-                            'ext' => pathinfo($volume['path'], PATHINFO_EXTENSION),
+                            'ext' => $ext,
                             'capacity' => $volume['capacity'],
                             'allocation' => $volume['allocation'],
-                            'allocationT' => binary_format($volume['allocation']),
-                            'path' => $volume['path']
+                            'percentage' => ($volume['allocation'] / $volume['capacity']) * 100,
+                            'path' => $volume['path'],
+                            'propConvert' => ($ext == 'qcow2') ? true : false,
                         ];
                     }
                 }
@@ -1320,7 +1321,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $image = $name . '.' . $format;
         $size = $params['volsize'] . $params['volunit'];
         if (!$lv->storagevolume_create($pool, $image, $size, $size, $format)) {
-            throw new \OMV\Exception( gettext("Unable to create volume - ") . $params['path']);
+            $msg = sprintf("%s on %s of type %s and size %s", $name, $pool, $format, $size);
+            throw new \OMV\Exception( gettext("Unable to create volume - ") . $msg);
         }
     }
 
@@ -1695,10 +1697,10 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                     $cmd->execute($output, $result);
                 }
                 break;
-            case 'autostart_disable':
+            case 'autostartdisable':
                 $result = $lv->domain_set_autostart($dom,false);
                 break;
-            case 'autostart_enable':
+            case 'autostartenable':
                 $result = $lv->domain_set_autostart($dom,true);
                 break;
         }

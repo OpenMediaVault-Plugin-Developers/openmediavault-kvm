@@ -1,0 +1,45 @@
+version: "1.0"
+type: component
+data:
+  name: omv-services-kvm-memory-form-page
+  type: formPage
+  config:
+    request:
+      service: Kvm
+      post:
+        method: doChangeCpuMemory
+    fields:
+      - type: container
+        fields:
+          - type: numberInput
+            name: memory
+            label: _("Memory")
+            value: '{{ _routeParams.mem }}'
+            validators:
+              min: 1
+              max: 99999
+              patteryType: port
+              required: true
+          - type: select
+            name: memoryunit
+            label: _("Unit")
+            value: "G"
+            store:
+              data:
+                - ["MiB", _("MiB")]
+                - ["GiB", _("GiB")]
+      - type: hidden
+        name: vcpu
+        value: -1
+      - type: hidden
+        name: vmname
+        value: '{{ _routeParams.vmname }}'
+    buttons:
+      - template: submit
+        execute:
+          type: url
+          url: "/services/kvm/vm"
+      - template: cancel
+        execute:
+          type: url
+          url: "/services/kvm/vm"

@@ -435,7 +435,7 @@
 				"enum": [ "delete", "start", "stop", "poweron",
                                           "reboot", "poweroff", "force", "pause",
                                           "resume", "undefine", "undefineplus",
-                                          "autostart_disable", "autostart_enable",
+                                          "autostartdisable", "autostartenable",
                                           "reset"
                                         ],
 				"required": true

@@ -1,0 +1,33 @@
+version: "1.0"
+type: component
+data:
+  name: omv-services-kvm-usb-add-form-page
+  type: formPage
+  config:
+    request:
+      service: Kvm
+      post:
+        method: addUsb
+    fields:
+      - type: select
+        name: device
+        label: _('USB device')
+        textField: description
+        valueField: device
+        store:
+          proxy:
+            service: 'Kvm'
+            get:
+              method: 'enumerateUsbByHost'
+      - type: hidden
+        name: vmname
+        value: '{{ _routeParams.vmname }}'
+    buttons:
+      - template: submit
+        execute:
+          type: url
+          url: "/services/kvm/vm"
+      - template: cancel
+        execute:
+          type: url
+          url: "/services/kvm/vm"

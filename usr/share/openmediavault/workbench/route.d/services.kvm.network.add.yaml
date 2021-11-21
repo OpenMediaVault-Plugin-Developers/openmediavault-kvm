@@ -1,0 +1,7 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/kvm/network/add"
+  title: _("Add network")
+  notificationTitle: _("Network created.")
+  component: omv-services-kvm-network-add-form-page

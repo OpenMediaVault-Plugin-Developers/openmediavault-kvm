@@ -1,0 +1,369 @@
+version: "1.0"
+type: component
+data:
+  name: omv-services-kvm-vm-datatable-page
+  type: datatablePage
+  config:
+    autoReload: 10000
+    hasSearchField: true
+    stateId: 95b0cc44-6998-11eb-9bad-97c000edb30b
+    rowId: vmname
+    sorters:
+      - dir: asc
+        prop: vmname
+    store:
+      proxy:
+        service: Kvm
+        get:
+          method: getVmList
+    columns:
+      - name: _("AutoStart")
+        prop: autostart
+        flexGrow: 1
+        sortable: true
+        cellTemplateName: checkIcon
+      - name: _("VM Name")
+        prop: vmname
+        flexGrow: 1
+        sortable: true
+      - name: _("State")
+        prop: state
+        flexGrow: 1
+        sortable: true
+      - name: _("vCPU")
+        prop: cpu
+        flexGrow: 1
+        sortable: true
+      - name: _("Memory")
+        prop: mem
+        flexGrow: 1
+        sortable: true
+        cellTemplateName: binaryUnit
+      - name: _("Disk(s)")
+        prop: disks
+        flexGrow: 1
+        sortable: true
+      - name: _("Snapshots")
+        prop: snaps
+        flexGrow: 1
+        sortable: true
+      - name: _("Spice port")
+        prop: spiceport
+        flexGrow: 1
+        sortable: true
+      - name: _("VNC port")
+        prop: vncport
+        flexGrow: 1
+        sortable: true
+      - name: _("noVNC URL")
+        prop: novncurl
+        flexGrow: 2
+        sortable: true
+      - name: _("spice-html5 URL")
+        prop: spicehtml5curl
+        flexGrow: 2
+        sortable: true
+      - name: _("noVNC port")
+        prop: novncport
+        flexGrow: 1
+        sortable: true
+        hidden: true
+      - name: _("spice-html5 port")
+        prop: spicehtml5port
+        flexGrow: 1
+        sortable: true
+        hidden: true
+      - name: _("Arch")
+        prop: arch
+        flexGrow: 1
+        sortable: true
+        hidden: true
+      - name: _("Notes")
+        prop: notes
+        flexGrow: 2
+        sortable: true
+        cellTemplateName: unsortedList
+    actions:
+      - type: iconButton
+        icon: mdi:desktop-classic
+        tooltip: _("Add new VM")
+        execute:
+          type: url
+          url: /services/kvm/vm/add
+      - type: menu
+        icon: mdi:harddisk
+        tooltip: _("Hard disk")
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+        actions:
+          - text: _("Add disk")
+            icon: mdi:harddisk-plus
+            execute:
+              type: url
+              url: "/services/kvm/disk/add/{{ _selected[0].vmname }}"
+          - text: _("Remove disk")
+            icon: mdi:harddisk-remove
+            execute:
+              type: url
+              url: "/services/kvm/disk/remove/{{ _selected[0].vmname }}"
+      - type: menu
+        icon: mdi:disc
+        tooltip: _("Optical")
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+        actions:
+          - text: _("Add disk")
+            icon: mdi:plus-circle-outline
+            execute:
+              type: url
+              url: "/services/kvm/optical/add/{{ _selected[0].vmname }}"
+          - text: _("Remove disk")
+            icon: mdi:minus-circle-outline
+            execute:
+              type: url
+              url: "/services/kvm/optical/remove/{{ _selected[0].vmname }}"
+      - type: menu
+        icon: mdi:lan
+        tooltip: _("Network")
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+        actions:
+          - text: _("Add network")
+            icon: mdi:plus-network-outline
+            execute:
+              type: url
+              url: "/services/kvm/network/add/{{ _selected[0].vmname }}"
+          - text: _("Remove network")
+            icon: mdi:minus-network-outline
+            execute:
+              type: url
+              url: "/services/kvm/network/add/{{ _selected[0].vmname }}"
+      - type: menu
+        icon: mdi:usb
+        tooltip: _("USB")
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+        actions:
+          - text: _("Add USB")
+            icon: mdi:plus-box-outline
+            execute:
+              type: url
+              url: "/services/kvm/usb/add/{{ _selected[0].vmname }}"
+          - text: _("Remove USB")
+            icon: mdi:minus-box-outline
+            execute:
+              type: url
+              url: "/services/kvm/usb/add/{{ _selected[0].vmname }}"
+      - type: menu
+        icon: mdi:power
+        tooltip: _("State")
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+        actions:
+          - text: _("Start")
+            icon: mdi:play-circle-outline
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: doCommand
+                params:
+                  name: "{{ _selected[0].vmname }}"
+                  command: "autostartenable"
+                task: true
+          - text: _("Reboot")
+            icon: mdi:restart
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: doCommand
+                params:
+                  name: "{{ _selected[0].vmname }}"
+                  command: "autostartdisable"
+                task: true
+          - text: _("Stop")
+            icon: mdi:stop-circle-outline
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: doCommand
+                params:
+                  name: "{{ _selected[0].vmname }}"
+                  command: "autostartdisable"
+                task: true
+          - text: _("Reset")
+            icon: mdi:cached
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: doCommand
+                params:
+                  name: "{{ _selected[0].vmname }}"
+                  command: "autostartdisable"
+                task: true
+          - text: _("Force")
+            icon: mdi:arrow-down
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: doCommand
+                params:
+                  name: "{{ _selected[0].vmname }}"
+                  command: "autostartdisable"
+                task: true
+          - text: _("Pause")
+            icon: mdi:pause-circle-outline
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: doCommand
+                params:
+                  name: "{{ _selected[0].vmname }}"
+                  command: "autostartdisable"
+                task: true
+          - text: _("Resume")
+            icon: mdi:play-box-outline
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: doCommand
+                params:
+                  name: "{{ _selected[0].vmname }}"
+                  command: "autostartdisable"
+                task: true
+      - type: menu
+        icon: mdi:clock-start
+        tooltip: _("AutoStart")
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+        actions:
+          - text: _("Enable")
+            icon: mdi:arrow-up-bold-outline
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: doCommand
+                params:
+                  name: "{{ _selected[0].vmname }}"
+                  command: "autostartenable"
+                task: true
+          - text: _("Disable")
+            icon: mdi:arrow-down-bold-outline
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: doCommand
+                params:
+                  name: "{{ _selected[0].vmname }}"
+                  command: "autostartdisable"
+                task: true
+      - type: menu
+        icon: mdi:content-copy
+        tooltip: _("Snapshots")
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+        actions:
+          - text: _("Create")
+            icon: mdi:file-cog-outline
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: doCommand
+                params:
+                  name: "{{ _selected[0].vmname }}"
+                  command: "autostartenable"
+                task: true
+          - text: _("Revert")
+            icon: mdi:file-undo
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: doCommand
+                params:
+                  name: "{{ _selected[0].vmname }}"
+                  command: "autostartdisable"
+                task: true
+          - text: _("Delete")
+            icon: mdi:delete-outline
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: doCommand
+                params:
+                  name: "{{ _selected[0].vmname }}"
+                  command: "autostartdisable"
+                task: true
+      - type: menu
+        icon: mdi:console-network-outline
+        tooltip: _("Console")
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+        actions:
+          - text: _("Start")
+            icon: mdi:television-play
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: doCommand
+                params:
+                  name: "{{ _selected[0].vmname }}"
+                  command: "autostartenable"
+                task: true
+          - text: _("Stop")
+            icon: mdi:television-stop
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: doCommand
+                params:
+                  name: "{{ _selected[0].vmname }}"
+                  command: "autostartdisable"
+                task: true
+      - type: menu
+        icon: mdi:cog-outline
+        tooltip: _("Advanced")
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+        actions:
+          - text: _("Edit Notes")
+            icon: mdi:note-edit-outline
+            execute:
+              type: url
+              url: "/services/kvm/notes/{{ _selected[0].vmname }}"
+          - text: _("Edit XML")
+            icon: mdi:xml
+            execute:
+              type: url
+              url: "/services/kvm/vmxml/{{ _selected[0].vmname }}"
+          - text: _("Change vCPU")
+            icon: mdi:memory
+            execute:
+              type: url
+              url: "/services/kvm/vcpu/{{ _selected[0].vmname }}"
+          - text: _("Change memory")
+            icon: mdi:rectangle-outline
+            execute:
+              type: url
+              url: "/services/kvm/memory/{{ _selected[0].vmname }}"

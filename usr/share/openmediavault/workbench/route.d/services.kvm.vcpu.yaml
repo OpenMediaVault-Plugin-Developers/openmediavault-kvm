@@ -1,0 +1,8 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/kvm/vcpu/:vmname/:cpu"
+  title: _("Edit vcpu")
+  editing: true
+  notificationTitle: _("vcpu changed.")
+  component: omv-services-kvm-vcpu-form-page

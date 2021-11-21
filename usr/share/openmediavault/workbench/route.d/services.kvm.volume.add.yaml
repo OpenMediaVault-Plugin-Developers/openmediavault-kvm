@@ -1,0 +1,7 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/kvm/volume/add"
+  title: _("Add volume")
+  notificationTitle: _("Volume added.")
+  component: omv-services-kvm-volume-add-form-page

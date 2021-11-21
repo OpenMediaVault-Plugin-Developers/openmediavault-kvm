@@ -1,0 +1,7 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/kvm/disk/remove/:vmname"
+  title: _("Remove disk")
+  notificationTitle: _("Disk removed.")
+  component: omv-services-kvm-disk-remove-form-page

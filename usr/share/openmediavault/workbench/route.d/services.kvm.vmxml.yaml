@@ -1,0 +1,8 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/kvm/vmxml/:vmname"
+  title: _("Edit VM xml")
+  editing: true
+  notificationTitle: _("Edit VM xml.")
+  component: omv-services-kvm-vmxml-form-page

@@ -1,0 +1,58 @@
+version: "1.0"
+type: component
+data:
+  name: omv-services-kvm-pool-add-form-page
+  type: formPage
+  config:
+    request:
+      service: Kvm
+      post:
+        method: setPool
+    fields:
+      - type: textInput
+        name: name
+        label: _("Name")
+      - type: select
+        name: type
+        label: _("Type")
+        value: "dir"
+        store:
+          data:
+            - ["dir", _("Directory")]
+            - ["fs", _("Filesystem")]
+            - ["netfs", _("Network Filesystem")]
+            - ["disk", _("Disk")]
+            - ["iscsi", _("iSCSI")]
+            - ["zfs", _("ZFS")]
+        hint: _("For description of each type and how to configure <a href='https://libvirt.org/storage.html' target='_blank'>libvirt.org/storage.html</a>")
+      - type: textInput
+        name: hostname
+        label: _("Host name")
+      - type: textInput
+        name: zpoolname
+        label: _("zPool name")
+      - type: hidden
+        name: rootfsref
+        value: "79684322-3eac-11ea-a974-63a080abab18"
+        submitValue: false
+      - type: folderBrowser
+        name: sourcepath
+        label: _("Source path")
+        value: ''
+        dirType: mntent
+        dirRefIdField: rootfsref
+      - type: folderBrowser
+        name: path
+        label: _("Path")
+        value: ''
+        dirType: mntent
+        dirRefIdField: rootfsref
+    buttons:
+      - template: submit
+        execute:
+          type: url
+          url: "/services/kvm/pool"
+      - template: cancel
+        execute:
+          type: url
+          url: "/services/kvm/pool"

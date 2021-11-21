@@ -1,0 +1,8 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/kvm/memory/:vmname/:mem"
+  title: _("VM memory")
+  editing: true
+  notificationTitle: _("VM memory changed.")
+  component: omv-services-kvm-memory-form-page

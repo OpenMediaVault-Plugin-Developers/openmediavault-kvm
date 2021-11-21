@@ -1,0 +1,8 @@
+version: "1.0"
+type: navigation-item
+data:
+  path: "services.kvm.network"
+  text: _("Networks")
+  position: 50
+  icon: mdi:lan
+  url: "/services/kvm/network"

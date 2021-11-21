@@ -1,0 +1,95 @@
+version: "1.0"
+type: component
+data:
+  name: omv-services-kvm-network-datatable-page
+  type: datatablePage
+  config:
+    autoReload: 10000
+    hasSearchField: true
+    stateId: 96b2e392-6bec-11eb-acfe-3f28acbd13c8
+    rowId: netname
+    store:
+      proxy:
+        service: Kvm
+        get:
+          method: getNetworkList
+    columns:
+      - name: _("Network Name")
+        prop: netname
+        flexGrow: 1
+        sortable: true
+      - name: _("Network State")
+        prop: active
+        flexGrow: 1
+        sortable: true
+      - name: _("Gateway IP")
+        prop: ip
+        flexGrow: 1
+        sortable: true
+      - name: _("IP Range")
+        prop: iprange
+        flexGrow: 2
+        sortable: true
+      - name: _("Forwarding")
+        prop: forward
+        flexGrow: 2
+        sortable: true
+      - name: _("DHCP Range")
+        prop: dhcp
+        flexGrow: 2
+        sortable: true
+    actions:
+      - type: menu
+        icon: mdi:plus
+        tooltip: _("Add")
+        actions:
+          - text: _("Add network")
+            icon: mdi:plus-network
+            execute:
+              type: url
+              url: /services/kvm/network/add
+          - text: _("Add macvtap network")
+            icon: mdi:plus-network-outline
+            execute:
+              type: url
+              url: /services/kvm/network/macvtap
+      - template: delete
+        execute:
+          type: request
+          request:
+            service: Kvm
+            method: networkCommand
+            params:
+              command: "delete"
+              name: "{{ _selected[0].netname }}"
+      - type: menu
+        icon: mdi:rotate-left
+        tooltip: _("State")
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+        actions:
+          - text: _("Start")
+            icon: mdi:arrow-up-bold-outline
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: networkCommand
+                params:
+                  name: "{{ _selected[0].netname }}"
+                  command: "start"
+                task: true
+                successUrl: /services/kvm/network
+          - text: _("Stop")
+            icon: mdi:arrow-down-bold-outline
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: networkCommand
+                params:
+                  name: "{{ _selected[0].netname }}"
+                  command: "stop"
+                task: true
+                successUrl: /services/kvm/network

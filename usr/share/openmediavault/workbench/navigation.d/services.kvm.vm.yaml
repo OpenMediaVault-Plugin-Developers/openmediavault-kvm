@@ -1,0 +1,8 @@
+version: "1.0"
+type: navigation-item
+data:
+  path: "services.kvm.vm"
+  text: _("VMs")
+  position: 10
+  icon: mdi:desktop-classic
+  url: "/services/kvm/vm"

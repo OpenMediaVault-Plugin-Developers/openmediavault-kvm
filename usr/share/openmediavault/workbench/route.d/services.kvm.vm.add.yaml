@@ -1,0 +1,7 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/kvm/vm/add"
+  title: _("Create VM")
+  notificationTitle: _("Created VM.")
+  component: omv-services-kvm-vm-add-form-page

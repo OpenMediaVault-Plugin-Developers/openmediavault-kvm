@@ -1,0 +1,8 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/kvm/optical/add/:vmname"
+  title: _("Add VM optical disc")
+  editing: true
+  notificationTitle: _("Added VM optical disc.")
+  component: omv-services-kvm-optical-add-form-page

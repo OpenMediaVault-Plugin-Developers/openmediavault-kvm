@@ -1,0 +1,8 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/kvm/usb/remove/:vmname"
+  title: _("Remove USB device")
+  editing: true
+  notificationTitle: _("USB device removed.")
+  component: omv-services-kvm-usb-remove-form-page

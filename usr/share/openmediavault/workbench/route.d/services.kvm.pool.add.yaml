@@ -1,0 +1,7 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/kvm/pool/add"
+  title: _("Add pool")
+  notificationTitle: _("Pool added.")
+  component: omv-services-kvm-pool-add-form-page

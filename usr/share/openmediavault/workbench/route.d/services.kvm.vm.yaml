@@ -1,0 +1,6 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/kvm/vm"
+  title: _("VMs")
+  component: omv-services-kvm-vm-datatable-page

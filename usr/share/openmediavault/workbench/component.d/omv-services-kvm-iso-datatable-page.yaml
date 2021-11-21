@@ -1,0 +1,44 @@
+version: "1.0"
+type: component
+data:
+  name: omv-services-kvm-iso-datatable-page
+  type: datatablePage
+  config:
+    autoReload: 10000
+    hasSearchField: true
+    stateId: 94ac20f2-7783-11eb-934f-ff8b5251b0ef
+    rowId: path
+    store:
+      proxy:
+        service: Kvm
+        get:
+          method: getVolumeList
+          params:
+            optical: true
+    columns:
+      - name: _("Name")
+        prop: name
+        flexGrow: 2
+        sortable: true
+      - name: _("Pool")
+        prop: pool
+        flexGrow: 1
+        sortable: true
+      - name: _("Size")
+        prop: capacity
+        flexGrow: 1
+        sortable: true
+        cellTemplateName: binaryUnit
+      - name: _("Path")
+        prop: path
+        flexGrow: 3
+        sortable: true
+    actions:
+      - template: delete
+        execute:
+          type: request
+          request:
+            service: Kvm
+            method: deleteVolume
+            params:
+              path: "{{ _selected[0].path }}"

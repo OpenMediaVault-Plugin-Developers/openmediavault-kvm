@@ -1,0 +1,8 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/kvm/optical/remove/:vmname"
+  title: _("Remove VM optical disc")
+  editing: true
+  notificationTitle: _("Removed VM optical disc.")
+  component: omv-services-kvm-optical-remove-form-page

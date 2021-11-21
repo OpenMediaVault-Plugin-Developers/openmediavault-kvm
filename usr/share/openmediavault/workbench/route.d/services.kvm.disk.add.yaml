@@ -1,0 +1,7 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/kvm/disk/add/:vmname"
+  title: _("Add disk")
+  notificationTitle: _("Disk added.")
+  component: omv-services-kvm-disk-add-form-page

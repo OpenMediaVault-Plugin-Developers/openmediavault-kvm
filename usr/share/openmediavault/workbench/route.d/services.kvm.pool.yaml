@@ -1,0 +1,6 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/kvm/pool"
+  title: _("Pools")
+  component: omv-services-kvm-pool-datatable-page
