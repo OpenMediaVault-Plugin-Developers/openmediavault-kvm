@@ -53,7 +53,9 @@ data:
             execute:
               type: url
               url: /services/kvm/network/macvtap
-      - template: delete
+      - type: iconButton
+        icon: delete
+        tooltip: _("Delete")
         execute:
           type: request
           request:
@@ -62,6 +64,14 @@ data:
             params:
               command: "delete"
               name: "{{ _selected[0].netname }}"
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+          constraint:
+            - operator: ne
+              arg0:
+                prop: active
+              arg1: "Active"
       - type: menu
         icon: mdi:rotate-left
         tooltip: _("State")
@@ -79,8 +89,16 @@ data:
                 params:
                   name: "{{ _selected[0].netname }}"
                   command: "start"
-                task: true
+                task: false
                 successUrl: /services/kvm/network
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: ne
+                  arg0:
+                    prop: active
+                  arg1: "Active"
           - text: _("Stop")
             icon: mdi:arrow-down-bold-outline
             execute:
@@ -91,5 +109,13 @@ data:
                 params:
                   name: "{{ _selected[0].netname }}"
                   command: "stop"
-                task: true
+                task: false
                 successUrl: /services/kvm/network
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: eq
+                  arg0:
+                    prop: active
+                  arg1: "Active"

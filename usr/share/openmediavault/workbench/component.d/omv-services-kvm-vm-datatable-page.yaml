@@ -81,8 +81,7 @@ data:
       - name: _("Notes")
         prop: notes
         flexGrow: 2
-        sortable: true
-        cellTemplateName: unsortedList
+        sortable: false
     actions:
       - type: iconButton
         icon: mdi:desktop-classic
@@ -107,6 +106,14 @@ data:
             execute:
               type: url
               url: "/services/kvm/disk/remove/{{ _selected[0].vmname }}"
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: eq
+                  arg0:
+                    prop: snaps
+                  arg1: 0
       - type: menu
         icon: mdi:disc
         tooltip: _("Optical")
@@ -124,6 +131,14 @@ data:
             execute:
               type: url
               url: "/services/kvm/optical/remove/{{ _selected[0].vmname }}"
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: eq
+                  arg0:
+                    prop: snaps
+                  arg1: 0
       - type: menu
         icon: mdi:lan
         tooltip: _("Network")
@@ -158,6 +173,14 @@ data:
             execute:
               type: url
               url: "/services/kvm/usb/add/{{ _selected[0].vmname }}"
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: eq
+                  arg0:
+                    prop: snaps
+                  arg1: 0
       - type: menu
         icon: mdi:power
         tooltip: _("State")
@@ -174,8 +197,16 @@ data:
                 method: doCommand
                 params:
                   name: "{{ _selected[0].vmname }}"
-                  command: "autostartenable"
-                task: true
+                  command: "poweron"
+                task: false
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: ne
+                  arg0:
+                    prop: state
+                  arg1: "running"
           - text: _("Reboot")
             icon: mdi:restart
             execute:
@@ -185,8 +216,16 @@ data:
                 method: doCommand
                 params:
                   name: "{{ _selected[0].vmname }}"
-                  command: "autostartdisable"
-                task: true
+                  command: "reboot"
+                task: false
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: eq
+                  arg0:
+                    prop: state
+                  arg1: "running"
           - text: _("Stop")
             icon: mdi:stop-circle-outline
             execute:
@@ -196,8 +235,16 @@ data:
                 method: doCommand
                 params:
                   name: "{{ _selected[0].vmname }}"
-                  command: "autostartdisable"
-                task: true
+                  command: "poweroff"
+                task: false
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: eq
+                  arg0:
+                    prop: state
+                  arg1: "running"
           - text: _("Reset")
             icon: mdi:cached
             execute:
@@ -207,8 +254,16 @@ data:
                 method: doCommand
                 params:
                   name: "{{ _selected[0].vmname }}"
-                  command: "autostartdisable"
-                task: true
+                  command: "reset"
+                task: false
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: eq
+                  arg0:
+                    prop: state
+                  arg1: "running"
           - text: _("Force")
             icon: mdi:arrow-down
             execute:
@@ -218,8 +273,8 @@ data:
                 method: doCommand
                 params:
                   name: "{{ _selected[0].vmname }}"
-                  command: "autostartdisable"
-                task: true
+                  command: "force"
+                task: false
           - text: _("Pause")
             icon: mdi:pause-circle-outline
             execute:
@@ -229,8 +284,16 @@ data:
                 method: doCommand
                 params:
                   name: "{{ _selected[0].vmname }}"
-                  command: "autostartdisable"
-                task: true
+                  command: "pause"
+                task: false
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: eq
+                  arg0:
+                    prop: state
+                  arg1: "running"
           - text: _("Resume")
             icon: mdi:play-box-outline
             execute:
@@ -240,8 +303,57 @@ data:
                 method: doCommand
                 params:
                   name: "{{ _selected[0].vmname }}"
-                  command: "autostartdisable"
-                task: true
+                  command: "resume"
+                task: false
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: eq
+                  arg0:
+                    prop: state
+                  arg1: "paused"
+      - type: menu
+        icon: delete
+        tooltip: _("Delete")
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+          constraint:
+            - operator: and
+              arg0:
+                - operator: eq
+                  arg0:
+                    prop: state
+                  arg1: "shutoff"
+              arg1:
+                - operator: eq
+                  arg0:
+                    prop: snaps
+                  arg1: 0
+        actions:
+          - text: _("Delete")
+            icon: mdi:text-box-minus-outline
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: doCommand
+                params:
+                  name: "{{ _selected[0].vmname }}"
+                  command: "undefine"
+                task: false
+          - text: _("Delete + storage")
+            icon: mdi:delete-sweep-outline
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: doCommand
+                params:
+                  name: "{{ _selected[0].vmname }}"
+                  command: "undefineplus"
+                task: false
       - type: menu
         icon: mdi:clock-start
         tooltip: _("AutoStart")
@@ -259,7 +371,14 @@ data:
                 params:
                   name: "{{ _selected[0].vmname }}"
                   command: "autostartenable"
-                task: true
+                task: false
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: falsy
+                  arg0:
+                    prop: autostart
           - text: _("Disable")
             icon: mdi:arrow-down-bold-outline
             execute:
@@ -270,7 +389,14 @@ data:
                 params:
                   name: "{{ _selected[0].vmname }}"
                   command: "autostartdisable"
-                task: true
+                task: false
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: truthy
+                  arg0:
+                    prop: autostart
       - type: menu
         icon: mdi:content-copy
         tooltip: _("Snapshots")
@@ -284,33 +410,92 @@ data:
               type: request
               request:
                 service: Kvm
-                method: doCommand
+                method: addSnapshot
                 params:
-                  name: "{{ _selected[0].vmname }}"
-                  command: "autostartenable"
-                task: true
+                  vmname: "{{ _selected[0].vmname }}"
+                task: false
           - text: _("Revert")
             icon: mdi:file-undo
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: gt
+                  arg0:
+                    prop: snaps
+                  arg1: 0
             execute:
-              type: request
-              request:
-                service: Kvm
-                method: doCommand
-                params:
-                  name: "{{ _selected[0].vmname }}"
-                  command: "autostartdisable"
-                task: true
+              type: formDialog
+              formDialog:
+                title: _('Revert to snapshot')
+                fields:
+                  - type: textInput
+                    name: vmname
+                    label: _("Source VM")
+                    value: "{{ _selected[0].vmname }}"
+                    readonly: true
+                  - type: select
+                    name: snapname
+                    label: _("Snapshot")
+                    placeholder: _("Select a snapshot ...")
+                    textField: description
+                    valueField: snapname
+                    store:
+                      proxy:
+                        service: Kvm
+                        get:
+                          method: enumerateSnapshots
+                          params:
+                            vmname: "{{ _selected[0].vmname }}"
+                buttons:
+                  submit:
+                    text: _('Revert')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: revertSnapshot
           - text: _("Delete")
             icon: mdi:delete-outline
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: gt
+                  arg0:
+                    prop: snaps
+                  arg1: 0
             execute:
-              type: request
-              request:
-                service: Kvm
-                method: doCommand
-                params:
-                  name: "{{ _selected[0].vmname }}"
-                  command: "autostartdisable"
-                task: true
+              type: formDialog
+              formDialog:
+                title: _('Delete snapshot')
+                fields:
+                  - type: textInput
+                    name: vmname
+                    label: _("Source VM")
+                    value: "{{ _selected[0].vmname }}"
+                    readonly: true
+                  - type: select
+                    name: snapname
+                    label: _("Snapshot")
+                    placeholder: _("Select a snapshot ...")
+                    textField: description
+                    valueField: snapname
+                    store:
+                      proxy:
+                        service: Kvm
+                        get:
+                          method: enumerateSnapshots
+                          params:
+                            vmname: "{{ _selected[0].vmname }}"
+                buttons:
+                  submit:
+                    text: _('Delete')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: deleteSnapshot
       - type: menu
         icon: mdi:console-network-outline
         tooltip: _("Console")
@@ -320,15 +505,63 @@ data:
         actions:
           - text: _("Start")
             icon: mdi:television-play
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: eq
+                  arg0:
+                    prop: vncport
+                  arg1: "n/a"
             execute:
-              type: request
-              request:
-                service: Kvm
-                method: doCommand
-                params:
-                  name: "{{ _selected[0].vmname }}"
-                  command: "autostartenable"
-                task: true
+              type: formDialog
+              formDialog:
+                title: _('Create consoles')
+                fields:
+                  - type: textInput
+                    name: vmname
+                    label: _("Source VM")
+                    value: "{{ _selected[0].vmname }}"
+                    readonly: true
+                  - type: textInput
+                    name: vncport
+                    label: _("VNC port")
+                    value: "{{ _selected[0].vncport }}"
+                    readonly: true
+                  - type: numberInput
+                    name: hostport
+                    label: _("Host VNC port")
+                    value: 8081
+                    validators:
+                      min: 1024
+                      max: 65536
+                      patternType: integer
+                      required: true
+                  - type: textInput
+                    name: spiceport
+                    label: _("Spice port")
+                    value: "{{ _selected[0].spiceport }}"
+                    readonly: true
+                  - type: numberInput
+                    name: hostport2
+                    label: _("Host spice port")
+                    value: 8091
+                    validators:
+                      min: 1024
+                      max: 65536
+                      patternType: integer
+                      required: true
+                  - type: hidden
+                    name: command
+                    value: "start"
+                buttons:
+                  submit:
+                    text: _('Start')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: doWeb
           - text: _("Stop")
             icon: mdi:television-stop
             execute:
@@ -339,7 +572,7 @@ data:
                 params:
                   name: "{{ _selected[0].vmname }}"
                   command: "autostartdisable"
-                task: true
+                task: false
       - type: menu
         icon: mdi:cog-outline
         tooltip: _("Advanced")
@@ -347,23 +580,97 @@ data:
           minSelected: 1
           maxSelected: 1
         actions:
+          - text: _("Clone")
+            icon: mdi:content-duplicate
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: eq
+                  arg0:
+                    prop: state
+                  arg1: "shutoff"
+            execute:
+              type: formDialog
+              formDialog:
+                title: _('Clone VM')
+                fields:
+                  - type: textInput
+                    name: vmname
+                    label: _("Source VM")
+                    value: "{{ _selected[0].vmname }}"
+                    readonly: true
+                  - type: textInput
+                    name: newname
+                    label: _("New name")
+                    value: ""
+                    validators:
+                      required: true
+                      custom:
+                        - constraint:
+                            operator: ne
+                            arg0:
+                              prop: vmname
+                            arg1:
+                              prop: newname
+                          errorData: _('A different name must be specified.')
+                buttons:
+                  submit:
+                    text: _('Clone')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: cloneVm
           - text: _("Edit Notes")
             icon: mdi:note-edit-outline
             execute:
               type: url
               url: "/services/kvm/notes/{{ _selected[0].vmname }}"
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: eq
+                  arg0:
+                    prop: snaps
+                  arg1: 0
           - text: _("Edit XML")
             icon: mdi:xml
             execute:
               type: url
               url: "/services/kvm/vmxml/{{ _selected[0].vmname }}"
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: eq
+                  arg0:
+                    prop: snaps
+                  arg1: 0
           - text: _("Change vCPU")
             icon: mdi:memory
             execute:
               type: url
               url: "/services/kvm/vcpu/{{ _selected[0].vmname }}"
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: eq
+                  arg0:
+                    prop: state
+                  arg1: "shutoff"
           - text: _("Change memory")
             icon: mdi:rectangle-outline
             execute:
               type: url
               url: "/services/kvm/memory/{{ _selected[0].vmname }}"
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: eq
+                  arg0:
+                    prop: state
+                  arg1: "shutoff"

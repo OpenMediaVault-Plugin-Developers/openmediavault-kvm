@@ -93,6 +93,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('doCommand');
         $this->registerMethod('doWeb');
         $this->registerMethod('doChangeCpuMemory');
+        $this->registerMethod('getVcpu');
     }
 
     private function connectQemu()
@@ -608,7 +609,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 'spicehtml5port' => $spicehtml5port,
                 'spicehtml5url' => $spicehtml5url,
                 'snaps' => $snaps,
-                'notes' => $notes
+                'notes' => str_replace(PHP_EOL,'<br/>',$notes)
             ];
         }
         // Filter the result.
@@ -1473,7 +1474,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $ctime = date("Y.m.d H:i:s", $value);
             $snapstate = $tmpxml->state[0];
             $objects[] = [
-                'snapname' => $name,
+                'snapname' => strval($name),
                 'description' => sprintf("%s :: %s (%s)", $ctime, $snapstate, $name)
             ];
         }
@@ -1822,6 +1823,19 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 throw new \OMV\Exception(gettext("Failed to change ") . " :: " . $cmdLine);
             }
         }
+    }
+
+    public function getVcpu($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        //$this->validateMethodParams($params, 'rpc.kvm.vmname');
+        // create new libvirt object
+        $lv = $this->connectQemu();
+        $dom = $lv->get_domain_object($params['vmname']);
+        $info = $lv->domain_get_info($dom);
+        return ["vcpu" => $info['nrVirtCpu']];
     }
 
     public function getNotes($params, $context)

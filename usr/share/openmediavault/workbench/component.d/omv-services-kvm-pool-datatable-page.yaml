@@ -56,7 +56,9 @@ data:
         execute:
           type: url
           url: "/services/kvm/pool/add"
-      - template: delete
+      - type: iconButton
+        icon: delete
+        tooltip: _("Delete")
         execute:
           type: request
           request:
@@ -64,6 +66,14 @@ data:
             method: deletePool
             params:
               name: "{{ _selected[0].name }}"
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+          constraint:
+            - operator: ne
+              arg0:
+                prop: state
+              arg1: "Running"
       - type: menu
         icon: mdi:rotate-left
         tooltip: _("State")
@@ -83,6 +93,14 @@ data:
                   command: "start"
                 task: true
                 successUrl: /services/kvm/pool
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: ne
+                  arg0:
+                    prop: active
+                  arg1: "Active"
           - text: _("Stop")
             icon: mdi:arrow-down-bold-outline
             execute:
@@ -95,26 +113,35 @@ data:
                   command: "stop"
                 task: true
                 successUrl: /services/kvm/pool
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: eq
+                  arg0:
+                    prop: active
+                  arg1: "Active"
       - type: iconButton
         icon: mdi:download
-        tooltip: _("Download")
+        tooltip: _("Download virtio iso")
         enabledConstraints:
           minSelected: 1
           maxSelected: 1
-        actions:
-          - text: _("Download virtio iso")
-            icon: mdi:download-network
-            execute:
-              type: taskDialog
-              taskDialog:
-                config:
-                  title: _("Download virtio iso ...")
-                  startOnInit: true
-                  request:
-                    service: Kvm
-                    method: downloadIso
-                    params:
-                      filename: "virtio-win.iso"
-                      path: "{{ _selected[0].path }}"
-                      url: "https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso"
-                successUrl: /services/kvm/pool
+          constraint:
+            - operator: eq
+              arg0:
+                prop: active
+              arg1: "Active"
+        execute:
+          type: taskDialog
+          taskDialog:
+            config:
+              title: _("Download virtio iso ...")
+              startOnInit: true
+              request:
+                service: Kvm
+                method: downloadIso
+                params:
+                  filename: "virtio-win.iso"
+                  path: "{{ _selected[0].path }}"
+                  url: "https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso"
