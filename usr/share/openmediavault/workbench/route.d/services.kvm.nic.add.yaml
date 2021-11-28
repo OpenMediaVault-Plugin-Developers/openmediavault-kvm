@@ -1,8 +1,0 @@
-version: "1.0"
-type: route
-data:
-  url: "/services/kvm/nic/add/:vmname"
-  title: _("Add VM network adapter")
-  editing: true
-  notificationTitle: _("Added VM network adapter.")
-  component: omv-services-kvm-nic-add-form-page

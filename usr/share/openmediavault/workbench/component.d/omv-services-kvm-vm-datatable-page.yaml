@@ -308,13 +308,107 @@ data:
           - text: _("Add network")
             icon: mdi:plus-network-outline
             execute:
-              type: url
-              url: "/services/kvm/network/add/{{ _selected[0].vmname }}"
+              type: formDialog
+              formDialog:
+                title: _('Add network adapter ...')
+                fields:
+                  - type: textInput
+                    name: vmname
+                    label: _('VM Name')
+                    value: '{{ _selected[0].vmname }}'
+                    readonly: true
+                  - type: select
+                    name: model
+                    label: _("Model")
+                    value: "virtio"
+                    store:
+                      data:
+                        - ["virtio", _("virtio")]
+                        - ["e1000", _("e1000")]
+                        - ["vmxnet3", _("vmxnet3")]
+                        - ["rtl8139", _("rtl8139")]
+                        - ["ne2k_pci", _("ne2k_pci")]
+                        - ["pcnet", _("pcnet")]
+                        - ["bridge", _("bridge")]
+                  - type: select
+                    name: bridge
+                    label: _('Bridge')
+                    textField: bridge
+                    valueField: bridge
+                    store:
+                      proxy:
+                        service: 'Kvm'
+                        get:
+                          method: 'enumerateBridges'
+                    modifiers:
+                      - type: visible
+                        constraint:
+                          arg0:
+                            prop: model
+                          arg1: "bridge"
+                  - type: select
+                    name: network
+                    label: _('Network')
+                    textField: netname
+                    valueField: netname
+                    store:
+                      proxy:
+                        service: 'Kvm'
+                        get:
+                          method: 'enumerateNetworks'
+                    modifiers:
+                      - type: visible
+                        constraint:
+                          operator: ne
+                          arg0:
+                            prop: model
+                          arg1: "bridge"
+                  - type: textInput
+                    name: macaddress
+                    label: _("MAC address")
+                    hint: _("Leave blank for random address.")
+                buttons:
+                  submit:
+                    text: _('Add')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: AddVmNic
+                    successUrl: /services/kvm/vm
           - text: _("Remove network")
             icon: mdi:minus-network-outline
             execute:
-              type: url
-              url: "/services/kvm/network/add/{{ _selected[0].vmname }}"
+              type: formDialog
+              formDialog:
+                title: _('Remove network adapter ...')
+                fields:
+                  - type: textInput
+                    name: vmname
+                    label: _('VM Name')
+                    value: '{{ _selected[0].vmname }}'
+                    readonly: true
+                  - type: select
+                    name: network
+                    label: _('Network')
+                    textField: description
+                    valueField: mac
+                    store:
+                      proxy:
+                        service: 'Kvm'
+                        get:
+                          method: 'enumerateVmNic'
+                          params:
+                            vmname: '{{ _selected[0].vmname }}'
+                buttons:
+                  submit:
+                    text: _('Remove')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: RemoveVmNic
+                    successUrl: /services/kvm/vm
       - type: menu
         icon: mdi:usb
         tooltip: _("USB")
@@ -325,13 +419,67 @@ data:
           - text: _("Add USB")
             icon: mdi:plus-box-outline
             execute:
-              type: url
-              url: "/services/kvm/usb/add/{{ _selected[0].vmname }}"
+              type: formDialog
+              formDialog:
+                title: _('Add USB device ...')
+                fields:
+                  - type: textInput
+                    name: vmname
+                    label: _('VM Name')
+                    value: '{{ _selected[0].vmname }}'
+                    readonly: true
+                  - type: select
+                    name: device
+                    label: _('USB device')
+                    textField: description
+                    valueField: device
+                    store:
+                      proxy:
+                        service: 'Kvm'
+                        get:
+                          method: 'enumerateUsbByHost'
+                buttons:
+                  submit:
+                    text: _('Add')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: addUsb
+                    successUrl: /services/kvm/vm
           - text: _("Remove USB")
             icon: mdi:minus-box-outline
             execute:
-              type: url
-              url: "/services/kvm/usb/add/{{ _selected[0].vmname }}"
+              type: formDialog
+              formDialog:
+                title: _('Remove USB device ...')
+                fields:
+                  - type: textInput
+                    name: vmname
+                    label: _('VM Name')
+                    value: '{{ _selected[0].vmname }}'
+                    readonly: true
+                  - type: select
+                    name: device
+                    label: _('USB device')
+                    textField: description
+                    valueField: device
+                    store:
+                      proxy:
+                        service: 'Kvm'
+                        get:
+                          method: 'enumerateUsbByVm'
+                          params:
+                            vmname: '{{ _selected[0].vmname }}'
+                buttons:
+                  submit:
+                    text: _('Remove')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: removeUsb
+                    successUrl: /services/kvm/vm
             enabledConstraints:
               minSelected: 1
               maxSelected: 1

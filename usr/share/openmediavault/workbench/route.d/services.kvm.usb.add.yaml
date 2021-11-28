@@ -1,7 +1,0 @@
-version: "1.0"
-type: route
-data:
-  url: "/services/kvm/usb/add/:vmname"
-  title: _("Add USB device")
-  notificationTitle: _("USB device added.")
-  component: omv-services-kvm-usb-add-form-page
