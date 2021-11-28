@@ -99,13 +99,114 @@ data:
           - text: _("Add disk")
             icon: mdi:harddisk-plus
             execute:
-              type: url
-              url: "/services/kvm/disk/add/{{ _selected[0].vmname }}"
+              type: formDialog
+              formDialog:
+                title: _('Add disk ...')
+                fields:
+                  - type: textInput
+                    name: vmname
+                    label: _('VM Name')
+                    value: '{{ _selected[0].vmname }}'
+                    readonly: true
+                  - type: select
+                    name: voldisk
+                    label: _('Volume')
+                    textField: path
+                    valueField: path
+                    store:
+                      proxy:
+                        service: 'Kvm'
+                        get:
+                          method: 'enumerateVolumes'
+                          params:
+                            optical: false
+                            opticalNone: false
+                  - type: select
+                    name: volpool
+                    label: _('Pool')
+                    textField: name
+                    valueField: name
+                    store:
+                      proxy:
+                        service: 'Kvm'
+                        get:
+                          method: 'enumeratePools'
+                  - type: textInput
+                    name: volname
+                    label: _("Name")
+                  - type: container
+                    fields:
+                      - type: numberInput
+                        name: volsize
+                        label: _("Size")
+                        value: 1
+                        validators:
+                          min: 1
+                          max: 99999
+                          patteryType: integer
+                          required: true
+                      - type: select
+                        name: volunit
+                        label: _("Unit")
+                        value: "G"
+                        store:
+                          data:
+                            - ["M", _("Megabytes")]
+                            - ["G", _("Gigabytes")]
+                            - ["T", _("Terabytes")]
+                  - type: select
+                    name: volbus
+                    label: _("Bus")
+                    value: "virtio"
+                    store:
+                      data:
+                        - ["virtio", _("virtio")]
+                        - ["scsi", _("scsi")]
+                        - ["sata", _("sata")]
+                        - ["ide", _("ide")]
+                buttons:
+                  submit:
+                    text: _('Add')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: addDisk
+                    successUrl: /services/kvm/vm
           - text: _("Remove disk")
             icon: mdi:harddisk-remove
             execute:
-              type: url
-              url: "/services/kvm/disk/remove/{{ _selected[0].vmname }}"
+              type: formDialog
+              formDialog:
+                title: _('Remove disk ...')
+                fields:
+                  - type: textInput
+                    name: vmname
+                    label: _('VM Name')
+                    value: '{{ _selected[0].vmname }}'
+                    readonly: true
+                  - type: select
+                    name: disk
+                    label: _('Disk')
+                    textField: description
+                    valueField: device
+                    store:
+                      proxy:
+                        service: 'Kvm'
+                        get:
+                          method: 'enumerateVolumesByVm'
+                          params:
+                            optical: false
+                            vmname: '{{ _selected[0].vmname }}'
+                buttons:
+                  submit:
+                    text: _('Remove')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: removeDisk
+                    successUrl: /services/kvm/vm
             enabledConstraints:
               minSelected: 1
               maxSelected: 1
@@ -124,13 +225,71 @@ data:
           - text: _("Add disk")
             icon: mdi:plus-circle-outline
             execute:
-              type: url
-              url: "/services/kvm/optical/add/{{ _selected[0].vmname }}"
+              type: formDialog
+              formDialog:
+                title: _('Add optical disc ...')
+                fields:
+                  - type: textInput
+                    name: vmname
+                    label: _('VM Name')
+                    value: '{{ _selected[0].vmname }}'
+                    readonly: true
+                  - type: select
+                    name: voliso
+                    label: _('Optical disc')
+                    textField: path
+                    valueField: path
+                    store:
+                      proxy:
+                        service: 'Kvm'
+                        get:
+                          method: 'enumerateVolumes'
+                          params:
+                            optical: true
+                            opticalNone: false
+                buttons:
+                  submit:
+                    text: _('Add')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: addOptical
+                    successUrl: /services/kvm/vm
           - text: _("Remove disk")
             icon: mdi:minus-circle-outline
             execute:
-              type: url
-              url: "/services/kvm/optical/remove/{{ _selected[0].vmname }}"
+              type: formDialog
+              formDialog:
+                title: _('Remove optical disc ...')
+                fields:
+                  - type: textInput
+                    name: vmname
+                    label: _('VM Name')
+                    value: '{{ _selected[0].vmname }}'
+                    readonly: true
+                  - type: select
+                    name: voliso
+                    label: _('Optical disc')
+                    textField: path
+                    valueField: path
+                    store:
+                      proxy:
+                        service: 'Kvm'
+                        get:
+                          method: 'enumerateVolumesByVm'
+                          params:
+                            optical: false
+                            vmname: '{{ selected[0].vmname }}'
+                buttons:
+                  submit:
+                    text: _('Remove')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: removeDisk
+                    successUrl: /services/kvm/vm
             enabledConstraints:
               minSelected: 1
               maxSelected: 1
