@@ -4,27 +4,27 @@ data:
   id: kvm
   text: _("kvm")
   columns:
-  - name: _("Date & Time")
-    sortable: true
-    prop: date
-    cellTemplateName: localeDateTime
-    flex: 1
-  - name: _("Component")
-    sortable: true
-    prop: component
-    flex: 2
-  - name: _("Level")
-    sortable: true
-    prop: level
-    flexGrow: 1
-  - name: _("Call")
-    sortable: true
-    prop: call
-    flexGrow: 1
-  - name: _("Message")
-    sortable: true
-    prop: message
-    flexGrow: 3
+    - name: _("Date & Time")
+      sortable: true
+      prop: date
+      cellTemplateName: localeDateTime
+      flex: 1
+    - name: _("Component")
+      sortable: true
+      prop: component
+      flex: 2
+    - name: _("Level")
+      sortable: true
+      prop: level
+      flexGrow: 1
+    - name: _("Call")
+      sortable: true
+      prop: call
+      flexGrow: 1
+    - name: _("Message")
+      sortable: true
+      prop: message
+      flexGrow: 3
   request:
     service: LogFile
     method: getList

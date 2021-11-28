@@ -52,10 +52,61 @@ data:
         flexGrow: 3
         sortable: true
     actions:
-      - template: create
+      - type: iconButton
+        icon: add
+        tooltip: _("Add new pool")
         execute:
-          type: url
-          url: "/services/kvm/pool/add"
+          type: formDialog
+          formDialog:
+            title: _('Add new pool ...')
+            fields:
+              - type: textInput
+                name: name
+                label: _("Name")
+              - type: select
+                name: type
+                label: _("Type")
+                value: "dir"
+                store:
+                  data:
+                    - ["dir", _("Directory")]
+                    - ["fs", _("Filesystem")]
+                    - ["netfs", _("Network Filesystem")]
+                    - ["disk", _("Disk")]
+                    - ["iscsi", _("iSCSI")]
+                    - ["zfs", _("ZFS")]
+                hint: _("For description of each type and how to configure <a href='https://libvirt.org/storage.html' target='_blank'>libvirt.org/storage.html</a>")
+              - type: textInput
+                name: hostname
+                label: _("Host name")
+              - type: textInput
+                name: zpoolname
+                label: _("zPool name")
+              - type: hidden
+                name: rootfsref
+                value: "79684322-3eac-11ea-a974-63a080abab18"
+                submitValue: false
+              - type: folderBrowser
+                name: sourcepath
+                label: _("Source path")
+                value: ''
+                dirType: mntent
+                dirRefIdField: rootfsref
+              - type: folderBrowser
+                name: path
+                label: _("Path")
+                value: ''
+                dirType: mntent
+                dirRefIdField: rootfsref
+                buttons:
+                  submit:
+                    text: _('Add')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: setPool
+                    successUrl: /services/kvm/pool
       - type: iconButton
         icon: delete
         tooltip: _("Delete")

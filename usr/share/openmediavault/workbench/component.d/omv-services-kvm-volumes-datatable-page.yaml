@@ -47,8 +47,60 @@ data:
         icon: mdi:plus
         tooltip: _("Add new volume")
         execute:
-          type: url
-          url: /services/kvm/volume/add
+          type: formDialog
+          formDialog:
+            title: _('Add new volume ...')
+            fields:
+              - type: select
+                name: pool
+                label: _('Pool')
+                textField: name
+                valueField: name
+                store:
+                  proxy:
+                    service: 'Kvm'
+                    get:
+                      method: 'enumeratePools'
+              - type: textInput
+                name: name
+                label: _("Name")
+              - type: container
+                fields:
+                  - type: numberInput
+                    name: volsize
+                    label: _("Size")
+                    value: 1
+                    validators:
+                      min: 1
+                      max: 99999
+                      patteryType: integer
+                      required: true
+                  - type: select
+                    name: volunit
+                    label: _("Unit")
+                    value: "G"
+                    store:
+                      data:
+                        - ["M", _("Megabytes")]
+                        - ["G", _("Gigabytes")]
+                        - ["T", _("Terabytes")]
+              - type: select
+                name: format
+                label: _("Format")
+                value: "qcow2"
+                store:
+                  data:
+                    - ["qcow2", _("qcow2")]
+                    - ["raw", _("raw")]
+            buttons:
+              submit:
+                text: _('Add')
+                execute:
+                  type: request
+                  request:
+                    service: Kvm
+                    method: setVolume
+                successUrl: /services/kvm/volume
       - template: delete
         execute:
           type: request
