@@ -932,8 +932,28 @@ data:
           - text: _("Edit Notes")
             icon: mdi:note-edit-outline
             execute:
-              type: url
-              url: "/services/kvm/notes/{{ _selected[0].vmname }}"
+              type: formDialog
+              formDialog:
+                title: _('Edit notes')
+                fields:
+                  - type: textInput
+                    name: vmname
+                    label: _("Source VM")
+                    value: "{{ _selected[0].vmname }}"
+                    readonly: true
+                  - type: textarea
+                    name: notes
+                    label: _("Notes")
+                    value: "{{ _selected[0].notes | replace('<br/>', '\n') }}"
+                    rows: 5
+                buttons:
+                  submit:
+                    text: _('Save')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: setNotes
             enabledConstraints:
               minSelected: 1
               maxSelected: 1
@@ -958,8 +978,35 @@ data:
           - text: _("Change vCPU")
             icon: mdi:memory
             execute:
-              type: url
-              url: "/services/kvm/vcpu/{{ _selected[0].vmname }}"
+              type: formDialog
+              formDialog:
+                title: _('Change vCPU')
+                fields:
+                  - type: textInput
+                    name: vmname
+                    label: _("Source VM")
+                    value: "{{ _selected[0].vmname }}"
+                    readonly: true
+                  - type: numberInput
+                    name: vcpu
+                    label: _("CPUs")
+                    value: "{{ _selected[0].cpu }}"
+                    validators:
+                      min: 1
+                      max: 32
+                      patteryType: integer
+                      required: true
+                  - type: hidden
+                    name: memory
+                    value: -1
+                buttons:
+                  submit:
+                    text: _('Change')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: doChangeCpuMemory
             enabledConstraints:
               minSelected: 1
               maxSelected: 1
@@ -971,8 +1018,43 @@ data:
           - text: _("Change memory")
             icon: mdi:rectangle-outline
             execute:
-              type: url
-              url: "/services/kvm/memory/{{ _selected[0].vmname }}"
+              type: formDialog
+              formDialog:
+                title: _('Change memory')
+                fields:
+                  - type: textInput
+                    name: vmname
+                    label: _("Source VM")
+                    value: "{{ _selected[0].vmname }}"
+                    readonly: true
+                  - type: numberInput
+                    name: memory
+                    label: _("Memory")
+                    value: "{{ _selected[0].mem / 1024 / 1024 }}"
+                    validators:
+                      min: 1
+                      max: 99999
+                      patteryType: integer
+                      required: true
+                  - type: select
+                    name: memoryunit
+                    label: _("Unit")
+                    value: "MiB"
+                    store:
+                      data:
+                        - ["MiB", _("MiB")]
+                        - ["GiB", _("GiB")]
+                  - type: hidden
+                    name: vcpu
+                    value: -1
+                buttons:
+                  submit:
+                    text: _('Change')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: doChangeCpuMemory
             enabledConstraints:
               minSelected: 1
               maxSelected: 1

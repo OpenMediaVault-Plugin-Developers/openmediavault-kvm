@@ -1,8 +1,0 @@
-version: "1.0"
-type: route
-data:
-  url: "/services/kvm/notes/:vmname"
-  title: _("Edit VM notes")
-  editing: true
-  notificationTitle: _("Edit VM notes.")
-  component: omv-services-kvm-notes-form-page

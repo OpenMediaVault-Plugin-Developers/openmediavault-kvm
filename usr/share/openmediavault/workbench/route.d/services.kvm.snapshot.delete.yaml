@@ -1,8 +1,0 @@
-version: "1.0"
-type: route
-data:
-  url: "/services/kvm/snapshot/delete/:vmname"
-  title: _("Delete snapshot")
-  editing: true
-  notificationTitle: _("Deleted snapshot.")
-  component: omv-services-kvm-snapshot-delete-form-page
