@@ -2,20 +2,16 @@ version: "1.0"
 type: log
 data:
   id: kvm
-  text: _("kvm")
+  text: _("KVM")
   columns:
     - name: _("Date & Time")
       sortable: true
       prop: date
       cellTemplateName: localeDateTime
-      flex: 1
+      flexGrow: 1
     - name: _("Component")
       sortable: true
       prop: component
-      flex: 2
-    - name: _("Level")
-      sortable: true
-      prop: level
       flexGrow: 1
     - name: _("Call")
       sortable: true

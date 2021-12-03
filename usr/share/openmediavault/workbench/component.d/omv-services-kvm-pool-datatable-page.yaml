@@ -79,9 +79,31 @@ data:
               - type: textInput
                 name: hostname
                 label: _("Host name")
+                modifiers:
+                  - type: visible
+                    constraint:
+                      operator: or
+                      arg0:
+                        operator: eq
+                        arg0:
+                          prop: type
+                        arg1: "iscsi"
+                      arg1:
+                        operator: eq
+                        arg0:
+                          prop: type
+                        arg1: "netfs"
               - type: textInput
                 name: zpoolname
                 label: _("zPool name")
+                value: ""
+                modifiers:
+                  - type: visible
+                    constraint:
+                      operator: eq
+                      arg0:
+                        prop: type
+                      arg1: "zfs"
               - type: hidden
                 name: rootfsref
                 value: "79684322-3eac-11ea-a974-63a080abab18"
@@ -92,21 +114,42 @@ data:
                 value: ''
                 dirType: mntent
                 dirRefIdField: rootfsref
+                modifiers:
+                  - type: hidden
+                    constraint:
+                      operator: or
+                      arg0:
+                        operator: eq
+                        arg0:
+                          prop: type
+                        arg1: "dir"
+                      arg1:
+                        operator: eq
+                        arg0:
+                          prop: type
+                        arg1: "zfs"
               - type: folderBrowser
                 name: path
                 label: _("Path")
                 value: ''
                 dirType: mntent
                 dirRefIdField: rootfsref
-                buttons:
-                  submit:
-                    text: _('Add')
-                    execute:
-                      type: request
-                      request:
-                        service: Kvm
-                        method: setPool
-                    successUrl: /services/kvm/pool
+                modifiers:
+                  - type: hidden
+                    constraint:
+                      operator: eq
+                      arg0:
+                        prop: type
+                      arg1: "zfs"
+            buttons:
+              submit:
+                text: _('Add')
+                execute:
+                  type: request
+                  request:
+                    service: Kvm
+                    method: setPool
+                successUrl: /services/kvm/pool
       - type: iconButton
         icon: delete
         tooltip: _("Delete")

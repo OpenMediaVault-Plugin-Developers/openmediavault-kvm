@@ -2,6 +2,6 @@ version: "1.0"
 type: navigation-item
 data:
   path: "services.kvm"
-  text: _("kvm")
+  text: _("KVM")
   icon: "mdi:desktop-tower"
   url: "/services/kvm"
