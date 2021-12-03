@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-26 09:51-0500\n"
+"POT-Creation-Date: 2021-12-03 07:06-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Language-Team: Polish (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -20,58 +20,31 @@ msgstr ""
 msgid " already exists!"
 msgstr ""
 
-msgid " to "
-msgstr ""
-
 msgid "Activity"
 msgstr ""
 
 msgid "Add"
 msgstr ""
 
-msgid "Add Disk"
-msgstr ""
-
-msgid "Add Macvtap Bridge"
-msgstr ""
-
-msgid "Add Network"
-msgstr ""
-
-msgid "Add Optical"
-msgstr ""
-
 msgid "Add USB"
 msgstr ""
 
-msgid "Add USB device ..."
+msgid "Add disk"
 msgstr ""
 
-msgid "Add VM"
-msgstr ""
-
-msgid "Add XML"
-msgstr ""
-
-msgid "Add disk ..."
-msgstr ""
-
-msgid "Add macvtap bridge"
+msgid "Add macvtap network"
 msgstr ""
 
 msgid "Add network"
 msgstr ""
 
-msgid "Add network adapter ..."
+msgid "Add new VM"
 msgstr ""
 
-msgid "Add optical disk ..."
+msgid "Add new pool"
 msgstr ""
 
-msgid "Add pool"
-msgstr ""
-
-msgid "Add volume"
+msgid "Add new volume"
 msgstr ""
 
 msgid "Advanced"
@@ -95,9 +68,6 @@ msgstr ""
 msgid "Available"
 msgstr ""
 
-msgid "Bridge"
-msgstr ""
-
 msgid "Bus"
 msgstr ""
 
@@ -110,22 +80,16 @@ msgstr ""
 msgid "Capacity"
 msgstr ""
 
-msgid "Change Memory"
-msgstr ""
-
-msgid "Change memory ..."
+msgid "Change memory"
 msgstr ""
 
 msgid "Change vCPU"
 msgstr ""
 
-msgid "Change vCPU quantity ..."
-msgstr ""
-
 msgid "Check"
 msgstr ""
 
-msgid "Checking volume ..."
+msgid "Check volume ..."
 msgstr ""
 
 msgid "Chipset"
@@ -134,19 +98,10 @@ msgstr ""
 msgid "Clone"
 msgstr ""
 
-msgid "Clone "
-msgstr ""
-
 msgid "Component"
 msgstr ""
 
 msgid "Console"
-msgstr ""
-
-msgid "Convert"
-msgstr ""
-
-msgid "Convert to "
 msgstr ""
 
 msgid "Convert to qcow2"
@@ -155,13 +110,19 @@ msgstr ""
 msgid "Convert to raw"
 msgstr ""
 
+msgid "Converting to qcow2 ..."
+msgstr ""
+
+msgid "Converting to raw ..."
+msgstr ""
+
 msgid "Create"
 msgstr ""
 
-msgid "Create consoles"
+msgid "Create VM"
 msgstr ""
 
-msgid "Create noVNC console"
+msgid "Created VM."
 msgstr ""
 
 msgid "DHCP"
@@ -185,19 +146,10 @@ msgstr ""
 msgid "Delete + storage"
 msgstr ""
 
-msgid "Delete disk ..."
-msgstr ""
-
-msgid "Delete snapshot ..."
-msgstr ""
-
-msgid "Devices"
-msgstr ""
-
 msgid "Directory"
 msgstr ""
 
-msgid "Disable autostart"
+msgid "Disable"
 msgstr ""
 
 msgid "Disk"
@@ -206,40 +158,31 @@ msgstr ""
 msgid "Disk(s)"
 msgstr ""
 
-msgid "Docker port"
-msgstr ""
-
-msgid "Done."
-msgstr ""
-
-msgid "Download"
-msgstr ""
-
-msgid "Download iso from URL"
-msgstr ""
-
-msgid "Download iso from url"
-msgstr ""
-
 msgid "Download virtio iso"
 msgstr ""
 
 msgid "Download virtio iso ..."
 msgstr ""
 
-msgid "Edit"
+msgid "Edit Notes"
+msgstr ""
+
+msgid "Edit VM xml"
+msgstr ""
+
+msgid "Edit VM xml."
 msgstr ""
 
 msgid "Edit XML"
 msgstr ""
 
-msgid "Edit notes"
-msgstr ""
-
-msgid "Enable autostart"
+msgid "Enable"
 msgstr ""
 
 msgid "Extension"
+msgstr ""
+
+msgid "Failed to add vnc and/or spice setup - "
 msgstr ""
 
 msgid "Failed to change "
@@ -248,10 +191,10 @@ msgstr ""
 msgid "Failed to change autostart"
 msgstr ""
 
-msgid "Failed to set maximum"
+msgid "Failed to remove vnc and/or spice setup - "
 msgstr ""
 
-msgid "Failed to start container."
+msgid "Failed to set maximum"
 msgstr ""
 
 msgid "Failed to start websockify for noVNC."
@@ -263,10 +206,10 @@ msgstr ""
 msgid "Filesystem"
 msgstr ""
 
-msgid "For description of each type and how to configure:"
-msgstr ""
-
-msgid "For more info"
+msgid ""
+"For description of each type and how to configure <a "
+"href='https://libvirt.org/storage.html' "
+"target='_blank'>libvirt.org/storage.html</a>"
 msgstr ""
 
 msgid "Force"
@@ -278,19 +221,28 @@ msgstr ""
 msgid "Forwarding"
 msgstr ""
 
-msgid "G"
-msgstr ""
-
 msgid "Gateway IP"
 msgstr ""
 
-msgid "Gateway IP Address"
+msgid "Gateway IP address"
 msgstr ""
 
 msgid "GiB"
 msgstr ""
 
+msgid "Gigabytes"
+msgstr ""
+
+msgid "Hard disk"
+msgstr ""
+
+msgid "Host VNC port"
+msgstr ""
+
 msgid "Host name"
+msgstr ""
+
+msgid "Host spice port"
 msgstr ""
 
 msgid "IP Range"
@@ -314,10 +266,10 @@ msgstr ""
 msgid "Linux"
 msgstr ""
 
-msgid "M"
+msgid "MAC address"
 msgstr ""
 
-msgid "MAC address"
+msgid "Megabytes"
 msgstr ""
 
 msgid "Memory"
@@ -347,13 +299,10 @@ msgstr ""
 msgid "Network State"
 msgstr ""
 
-msgid "Network adapter"
-msgstr ""
-
 msgid "Networks"
 msgstr ""
 
-msgid "New VM name cannot be the same as source VM!"
+msgid "New name"
 msgstr ""
 
 msgid "Notes"
@@ -365,9 +314,6 @@ msgstr ""
 msgid "Optical"
 msgstr ""
 
-msgid "Optical Disk"
-msgstr ""
-
 msgid "Optical Drive"
 msgstr ""
 
@@ -375,9 +321,6 @@ msgid "Path"
 msgstr ""
 
 msgid "Pause"
-msgstr ""
-
-msgid "Permissions of owner."
 msgstr ""
 
 msgid "Pool"
@@ -392,40 +335,16 @@ msgstr ""
 msgid "Reboot"
 msgstr ""
 
-msgid "Remove"
-msgstr ""
-
-msgid "Remove Disk"
-msgstr ""
-
-msgid "Remove Network"
-msgstr ""
-
-msgid "Remove Optical"
-msgstr ""
-
 msgid "Remove USB"
 msgstr ""
 
-msgid "Remove USB device ..."
+msgid "Remove disk"
 msgstr ""
 
-msgid "Remove network adapter ..."
-msgstr ""
-
-msgid "Remove optical disk ..."
+msgid "Remove network"
 msgstr ""
 
 msgid "Reset"
-msgstr ""
-
-msgid "Resize"
-msgstr ""
-
-msgid "Resize Disk"
-msgstr ""
-
-msgid "Resize disk ..."
 msgstr ""
 
 msgid "Resume"
@@ -434,34 +353,7 @@ msgstr ""
 msgid "Revert"
 msgstr ""
 
-msgid "Revert to snapshot ..."
-msgstr ""
-
-msgid "Select a bridge ..."
-msgstr ""
-
-msgid "Select a device ..."
-msgstr ""
-
-msgid "Select a file ..."
-msgstr ""
-
-msgid "Select a network ..."
-msgstr ""
-
-msgid "Select a network adapter ..."
-msgstr ""
-
-msgid "Select a nic ..."
-msgstr ""
-
-msgid "Select a pool ..."
-msgstr ""
-
 msgid "Select a snapshot ..."
-msgstr ""
-
-msgid "Select a volume ..."
 msgstr ""
 
 msgid "Settings"
@@ -470,13 +362,7 @@ msgstr ""
 msgid "Show advanced options"
 msgstr ""
 
-msgid "Showing volume info ..."
-msgstr ""
-
 msgid "Size"
-msgstr ""
-
-msgid "Size to add"
 msgstr ""
 
 msgid "Snapshot"
@@ -485,7 +371,13 @@ msgstr ""
 msgid "Snapshots"
 msgstr ""
 
-msgid "Source Path"
+msgid "Source VM"
+msgstr ""
+
+msgid "Source path"
+msgstr ""
+
+msgid "Spice"
 msgstr ""
 
 msgid "Spice port"
@@ -500,22 +392,13 @@ msgstr ""
 msgid "Stop"
 msgstr ""
 
-msgid "Stop consoles"
-msgstr ""
-
-msgid "Stop noVNC console"
-msgstr ""
-
 msgid "Storage Volume"
 msgstr ""
 
 msgid "Subnet mask"
 msgstr ""
 
-msgid "T"
-msgstr ""
-
-msgid "Target Path"
+msgid "Terabytes"
 msgstr ""
 
 msgid "Type"
@@ -524,10 +407,7 @@ msgstr ""
 msgid "UEFI"
 msgstr ""
 
-msgid "USB Device"
-msgstr ""
-
-msgid "USB device"
+msgid "USB"
 msgstr ""
 
 msgid "Unable to"
@@ -546,9 +426,6 @@ msgid "Unable to add disk to VM - "
 msgstr ""
 
 msgid "Unable to add network adapter to VM - "
-msgstr ""
-
-msgid "Unable to change memory or vCPUs on VM - "
 msgstr ""
 
 msgid "Unable to change notes for VM - "
@@ -617,19 +494,28 @@ msgstr ""
 msgid "Unable to stop network - "
 msgstr ""
 
+msgid "Unit"
+msgstr ""
+
 msgid "VM Name"
+msgstr ""
+
+msgid "VM name"
 msgstr ""
 
 msgid "VMs"
 msgstr ""
 
+msgid "VNC"
+msgstr ""
+
 msgid "VNC port"
 msgstr ""
 
-msgid "Volume"
+msgid "Volume Count"
 msgstr ""
 
-msgid "Volume Count"
+msgid "Volume info ..."
 msgstr ""
 
 msgid "Volumes"
@@ -638,13 +524,7 @@ msgstr ""
 msgid "Windows"
 msgstr ""
 
-msgid "Wrong VM name entered! Skipping delete ..."
-msgstr ""
-
 msgid "XML"
-msgstr ""
-
-msgid "You must enter a VM name!"
 msgstr ""
 
 msgid "ZFS"
@@ -654,6 +534,9 @@ msgid "aarch64"
 msgstr ""
 
 msgid "arm"
+msgstr ""
+
+msgid "bridge"
 msgstr ""
 
 msgid "e1000"
@@ -671,13 +554,7 @@ msgstr ""
 msgid "ide"
 msgstr ""
 
-msgid "n/a"
-msgstr ""
-
 msgid "ne2k_pci"
-msgstr ""
-
-msgid "noVNC Docker URL"
 msgstr ""
 
 msgid "noVNC URL"
@@ -717,6 +594,9 @@ msgid "vCPU"
 msgstr ""
 
 msgid "virtio"
+msgstr ""
+
+msgid "vmxnet3"
 msgstr ""
 
 msgid "x86_64"

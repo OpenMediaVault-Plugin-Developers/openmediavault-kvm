@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-26 09:51-0500\n"
+"POT-Creation-Date: 2021-12-03 07:06-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: kochin <kochinc@outlook.com>, 2021\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/zh_TW/)\n"
@@ -24,59 +24,32 @@ msgstr ""
 msgid " already exists!"
 msgstr "已經存在！"
 
-msgid " to "
-msgstr ""
-
 msgid "Activity"
 msgstr "活動"
 
 msgid "Add"
 msgstr "新增"
 
-msgid "Add Disk"
-msgstr "新增磁碟"
-
-msgid "Add Macvtap Bridge"
-msgstr "新增 Macvtap 橋接器"
-
-msgid "Add Network"
-msgstr "新增網路"
-
-msgid "Add Optical"
-msgstr "新增光碟"
-
 msgid "Add USB"
 msgstr "新增 USB"
 
-msgid "Add USB device ..."
-msgstr "新增 USB 裝置 ..."
+msgid "Add disk"
+msgstr ""
 
-msgid "Add VM"
-msgstr "新增 VM"
-
-msgid "Add XML"
-msgstr "新增 XML"
-
-msgid "Add disk ..."
-msgstr "新增磁碟 ..."
-
-msgid "Add macvtap bridge"
-msgstr "新增 Macvtap 橋接器"
+msgid "Add macvtap network"
+msgstr ""
 
 msgid "Add network"
 msgstr "新增網路"
 
-msgid "Add network adapter ..."
-msgstr "新增網路卡 …"
+msgid "Add new VM"
+msgstr ""
 
-msgid "Add optical disk ..."
-msgstr "新增光碟 ..."
+msgid "Add new pool"
+msgstr ""
 
-msgid "Add pool"
-msgstr "新增集用場"
-
-msgid "Add volume"
-msgstr "新增儲存卷"
+msgid "Add new volume"
+msgstr ""
 
 msgid "Advanced"
 msgstr "進階"
@@ -99,9 +72,6 @@ msgstr "自動啟動"
 msgid "Available"
 msgstr "可用"
 
-msgid "Bridge"
-msgstr "橋接器"
-
 msgid "Bus"
 msgstr "匯流排"
 
@@ -114,32 +84,23 @@ msgstr "呼叫"
 msgid "Capacity"
 msgstr "容量"
 
-msgid "Change Memory"
-msgstr "改變記憶體"
-
-msgid "Change memory ..."
-msgstr "改變記憶體 ..."
+msgid "Change memory"
+msgstr ""
 
 msgid "Change vCPU"
 msgstr "改變 vCPU"
 
-msgid "Change vCPU quantity ..."
-msgstr "改變 vCPU 數量 ..."
-
 msgid "Check"
 msgstr "檢查"
 
-msgid "Checking volume ..."
-msgstr "檢查儲存卷"
+msgid "Check volume ..."
+msgstr ""
 
 msgid "Chipset"
 msgstr "晶片組"
 
 msgid "Clone"
-msgstr ""
-
-msgid "Clone "
-msgstr ""
+msgstr "複製"
 
 msgid "Component"
 msgstr "組件"
@@ -147,26 +108,26 @@ msgstr "組件"
 msgid "Console"
 msgstr "控制台"
 
-msgid "Convert"
-msgstr "轉換"
-
-msgid "Convert to "
-msgstr "轉換成"
-
 msgid "Convert to qcow2"
 msgstr "轉換成 qcow2"
 
 msgid "Convert to raw"
 msgstr "轉換成 raw"
 
+msgid "Converting to qcow2 ..."
+msgstr ""
+
+msgid "Converting to raw ..."
+msgstr ""
+
 msgid "Create"
 msgstr "新建"
 
-msgid "Create consoles"
-msgstr "建立控制台"
+msgid "Create VM"
+msgstr ""
 
-msgid "Create noVNC console"
-msgstr "建立 noVNC 控制台"
+msgid "Created VM."
+msgstr ""
 
 msgid "DHCP"
 msgstr "DHCP"
@@ -189,20 +150,11 @@ msgstr "刪除"
 msgid "Delete + storage"
 msgstr "刪除 + 儲存"
 
-msgid "Delete disk ..."
-msgstr "刪除磁碟 ..."
-
-msgid "Delete snapshot ..."
-msgstr "刪除快照 ..."
-
-msgid "Devices"
-msgstr "裝置"
-
 msgid "Directory"
 msgstr "目錄"
 
-msgid "Disable autostart"
-msgstr "停用自動啟動"
+msgid "Disable"
+msgstr ""
 
 msgid "Disk"
 msgstr "磁碟"
@@ -210,53 +162,44 @@ msgstr "磁碟"
 msgid "Disk(s)"
 msgstr "磁碟"
 
-msgid "Docker port"
-msgstr "Docker 連接埠"
-
-msgid "Done."
-msgstr "完成。"
-
-msgid "Download"
-msgstr "下載"
-
-msgid "Download iso from URL"
-msgstr "從 URL 下載 iso"
-
-msgid "Download iso from url"
-msgstr "從 url 下載 iso"
-
 msgid "Download virtio iso"
 msgstr "下載 virtio iso"
 
 msgid "Download virtio iso ..."
 msgstr "下載 virtio iso …"
 
-msgid "Edit"
-msgstr "編輯"
+msgid "Edit Notes"
+msgstr ""
+
+msgid "Edit VM xml"
+msgstr ""
+
+msgid "Edit VM xml."
+msgstr ""
 
 msgid "Edit XML"
 msgstr "編輯 XML"
 
-msgid "Edit notes"
+msgid "Enable"
 msgstr ""
-
-msgid "Enable autostart"
-msgstr "啟用自動啟動"
 
 msgid "Extension"
 msgstr "延伸"
 
-msgid "Failed to change "
+msgid "Failed to add vnc and/or spice setup - "
 msgstr ""
 
+msgid "Failed to change "
+msgstr "變更失敗"
+
 msgid "Failed to change autostart"
+msgstr "變更自動啟動失敗"
+
+msgid "Failed to remove vnc and/or spice setup - "
 msgstr ""
 
 msgid "Failed to set maximum"
-msgstr ""
-
-msgid "Failed to start container."
-msgstr "無法啟動容櫃 - "
+msgstr "設定最大值失敗"
 
 msgid "Failed to start websockify for noVNC."
 msgstr "為 noVNC 啟動 websockify 失敗。"
@@ -267,11 +210,11 @@ msgstr "為 spice-html5 啟動 websockify 失敗。"
 msgid "Filesystem"
 msgstr "檔案系統"
 
-msgid "For description of each type and how to configure:"
-msgstr "每種型式的敘述與如何來設置。"
-
-msgid "For more info"
-msgstr "額外資訊"
+msgid ""
+"For description of each type and how to configure <a "
+"href='https://libvirt.org/storage.html' "
+"target='_blank'>libvirt.org/storage.html</a>"
+msgstr ""
 
 msgid "Force"
 msgstr "強制"
@@ -282,20 +225,29 @@ msgstr "格式"
 msgid "Forwarding"
 msgstr "轉接"
 
-msgid "G"
-msgstr "G"
-
 msgid "Gateway IP"
 msgstr "閘道器 IP"
 
-msgid "Gateway IP Address"
-msgstr "閘道器 IP 地址"
+msgid "Gateway IP address"
+msgstr ""
 
 msgid "GiB"
 msgstr "GiB"
 
+msgid "Gigabytes"
+msgstr ""
+
+msgid "Hard disk"
+msgstr ""
+
+msgid "Host VNC port"
+msgstr ""
+
 msgid "Host name"
 msgstr "主機名稱"
+
+msgid "Host spice port"
+msgstr ""
 
 msgid "IP Range"
 msgstr "IP 範圍"
@@ -318,11 +270,11 @@ msgstr "保留空白則使用 VM 名稱。"
 msgid "Linux"
 msgstr "Linux"
 
-msgid "M"
-msgstr "M"
-
 msgid "MAC address"
 msgstr "MAC 地址"
+
+msgid "Megabytes"
+msgstr ""
 
 msgid "Memory"
 msgstr "記憶體"
@@ -351,25 +303,19 @@ msgstr "網路名稱"
 msgid "Network State"
 msgstr "網路狀態"
 
-msgid "Network adapter"
-msgstr "網路卡"
-
 msgid "Networks"
 msgstr "網路"
 
-msgid "New VM name cannot be the same as source VM!"
+msgid "New name"
 msgstr ""
 
 msgid "Notes"
-msgstr ""
+msgstr "註釋"
 
 msgid "OS"
 msgstr "作業系統"
 
 msgid "Optical"
-msgstr "光碟"
-
-msgid "Optical Disk"
 msgstr "光碟"
 
 msgid "Optical Drive"
@@ -380,9 +326,6 @@ msgstr "路徑"
 
 msgid "Pause"
 msgstr "暫停"
-
-msgid "Permissions of owner."
-msgstr "所有者的權限。"
 
 msgid "Pool"
 msgstr "集用場"
@@ -396,41 +339,17 @@ msgstr "Q35"
 msgid "Reboot"
 msgstr "重新啟動"
 
-msgid "Remove"
-msgstr "移除"
-
-msgid "Remove Disk"
-msgstr "移除磁碟"
-
-msgid "Remove Network"
-msgstr "移除網路"
-
-msgid "Remove Optical"
-msgstr "移除光碟"
-
 msgid "Remove USB"
 msgstr "移除 USB"
 
-msgid "Remove USB device ..."
-msgstr "移除 USB 裝置 ..."
+msgid "Remove disk"
+msgstr ""
 
-msgid "Remove network adapter ..."
-msgstr "移除網路卡 …"
-
-msgid "Remove optical disk ..."
-msgstr "移除光碟 ..."
+msgid "Remove network"
+msgstr ""
 
 msgid "Reset"
 msgstr "重設"
-
-msgid "Resize"
-msgstr "改變大小"
-
-msgid "Resize Disk"
-msgstr "改變磁碟大小"
-
-msgid "Resize disk ..."
-msgstr "改變磁碟大小 ..."
 
 msgid "Resume"
 msgstr "恢復"
@@ -438,35 +357,8 @@ msgstr "恢復"
 msgid "Revert"
 msgstr "還原"
 
-msgid "Revert to snapshot ..."
-msgstr "還原回快照 ..."
-
-msgid "Select a bridge ..."
-msgstr "選擇一個橋接器 ..."
-
-msgid "Select a device ..."
-msgstr "選擇一個裝置 ..."
-
-msgid "Select a file ..."
-msgstr "選擇一個檔案 ..."
-
-msgid "Select a network ..."
-msgstr "選擇一個網路 ..."
-
-msgid "Select a network adapter ..."
-msgstr "選擇一個網路卡 ..."
-
-msgid "Select a nic ..."
-msgstr "選擇一個網路卡 ..."
-
-msgid "Select a pool ..."
-msgstr "選擇一個集用場 ..."
-
 msgid "Select a snapshot ..."
 msgstr "選擇一個快照 ..."
-
-msgid "Select a volume ..."
-msgstr "選擇一個儲存卷"
 
 msgid "Settings"
 msgstr "設定"
@@ -474,14 +366,8 @@ msgstr "設定"
 msgid "Show advanced options"
 msgstr "顯示進階選項"
 
-msgid "Showing volume info ..."
-msgstr "顯示儲存卷資訊 ..."
-
 msgid "Size"
 msgstr "大小"
-
-msgid "Size to add"
-msgstr "要增加的大小"
 
 msgid "Snapshot"
 msgstr "快照"
@@ -489,8 +375,14 @@ msgstr "快照"
 msgid "Snapshots"
 msgstr "快照"
 
-msgid "Source Path"
-msgstr "來源路徑"
+msgid "Source VM"
+msgstr ""
+
+msgid "Source path"
+msgstr ""
+
+msgid "Spice"
+msgstr ""
 
 msgid "Spice port"
 msgstr "Spice 連接埠"
@@ -504,23 +396,14 @@ msgstr "狀態"
 msgid "Stop"
 msgstr "停止"
 
-msgid "Stop consoles"
-msgstr "停止控制台"
-
-msgid "Stop noVNC console"
-msgstr "停止 noVNC 控制台"
-
 msgid "Storage Volume"
 msgstr "儲存卷"
 
 msgid "Subnet mask"
 msgstr "子網遮罩"
 
-msgid "T"
-msgstr "T"
-
-msgid "Target Path"
-msgstr "目標路徑"
+msgid "Terabytes"
+msgstr ""
 
 msgid "Type"
 msgstr "型式"
@@ -528,14 +411,11 @@ msgstr "型式"
 msgid "UEFI"
 msgstr "UEFI"
 
-msgid "USB Device"
-msgstr "USB 裝置"
-
-msgid "USB device"
-msgstr "USB 裝置"
+msgid "USB"
+msgstr ""
 
 msgid "Unable to"
-msgstr ""
+msgstr "無法"
 
 msgid "Unable to - "
 msgstr "無法 -"
@@ -552,14 +432,11 @@ msgstr "無法新增磁碟到 VM -"
 msgid "Unable to add network adapter to VM - "
 msgstr "無法新增網路卡到 VM -"
 
-msgid "Unable to change memory or vCPUs on VM - "
-msgstr "無法改變 VM 上的記憶體或 vCPUs -"
-
 msgid "Unable to change notes for VM - "
-msgstr ""
+msgstr "無法改變 VM 的註釋 - "
 
 msgid "Unable to change topolgy cores for VM - "
-msgstr ""
+msgstr "無法替 VM 改變處理器核心的怖局 - "
 
 msgid "Unable to create Macvap - "
 msgstr "無法建立 Macvap - "
@@ -621,20 +498,29 @@ msgstr "無法啟動網路 - "
 msgid "Unable to stop network - "
 msgstr "無法停止網路 - "
 
+msgid "Unit"
+msgstr ""
+
 msgid "VM Name"
 msgstr "VM 名稱"
+
+msgid "VM name"
+msgstr ""
 
 msgid "VMs"
 msgstr "VMs"
 
+msgid "VNC"
+msgstr ""
+
 msgid "VNC port"
 msgstr "VNC 連接埠"
 
-msgid "Volume"
-msgstr "儲存卷"
-
 msgid "Volume Count"
 msgstr "儲存卷數目"
+
+msgid "Volume info ..."
+msgstr ""
 
 msgid "Volumes"
 msgstr "儲存卷"
@@ -642,14 +528,8 @@ msgstr "儲存卷"
 msgid "Windows"
 msgstr "視窗"
 
-msgid "Wrong VM name entered! Skipping delete ..."
-msgstr "輸入了錯的 VM 名稱！跳過刪除 ..."
-
 msgid "XML"
 msgstr "XML"
-
-msgid "You must enter a VM name!"
-msgstr ""
 
 msgid "ZFS"
 msgstr "ZFS"
@@ -659,6 +539,9 @@ msgstr "aarch64"
 
 msgid "arm"
 msgstr "arm"
+
+msgid "bridge"
+msgstr ""
 
 msgid "e1000"
 msgstr "e1000"
@@ -675,14 +558,8 @@ msgstr "iSCSI"
 msgid "ide"
 msgstr "ide"
 
-msgid "n/a"
-msgstr "不適用"
-
 msgid "ne2k_pci"
 msgstr "ne2k_pci"
-
-msgid "noVNC Docker URL"
-msgstr "noVNC Docker URL"
 
 msgid "noVNC URL"
 msgstr "noVNC URL"
@@ -694,7 +571,7 @@ msgid "pcnet"
 msgstr "pcnet"
 
 msgid "pool"
-msgstr ""
+msgstr "集用場"
 
 msgid "qcow2"
 msgstr "qcow2"
@@ -722,6 +599,9 @@ msgstr "vCPU"
 
 msgid "virtio"
 msgstr "virtio"
+
+msgid "vmxnet3"
+msgstr ""
 
 msgid "x86_64"
 msgstr "x86_64"
