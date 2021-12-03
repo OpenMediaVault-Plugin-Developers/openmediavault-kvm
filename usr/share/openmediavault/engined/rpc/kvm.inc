@@ -1180,15 +1180,23 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $xpathSize = sizeof($volumes);
                 for ($i = 0; $i < $xpathSize; $i++) {
                     $volume = $volumes[$keys[$i]];
+                    if (is_dir($volume['path'])) continue;
                     $ext = pathinfo($volume['path'], PATHINFO_EXTENSION);
                     if (((strtolower($ext) != 'iso') && (!$optical)) || ((strtolower($ext) == 'iso') && ($optical))) {
+                        $capacity = volume['capacity'];
+                        if ($capacity <= 0) {
+                            $capacity = 0;
+                            $percentage = 0;
+                        } else {
+                            $percentage = ($volume['allocation'] / $volume['capacity']) * 100;
+                        }
                         $objects[] = [
                             'name' => $keys[$i],
                             'pool' => $pool,
                             'ext' => $ext,
                             'capacity' => $volume['capacity'],
                             'allocation' => $volume['allocation'],
-                            'percentage' => ($volume['allocation'] / $volume['capacity']) * 100,
+                            'percentage' => $percentage,
                             'path' => $volume['path'],
                             'propConvert' => ($ext == 'qcow2') ? true : false,
                         ];

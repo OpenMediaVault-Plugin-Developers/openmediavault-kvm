@@ -13,6 +13,8 @@ data:
         service: Kvm
         get:
           method: getVolumeList
+          params:
+            optical: false
     columns:
       - name: _("Name")
         prop: name
