@@ -469,11 +469,11 @@
 				"required": true
                         },
 			"vncport": {
-				"type": "integer",
+				"type": "string",
 				"required": true
                         },
 			"spiceport": {
-				"type": "integer",
+				"type": "string",
 				"required": true
                         }
 		}

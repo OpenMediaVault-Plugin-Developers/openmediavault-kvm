@@ -55,13 +55,13 @@ data:
         prop: vncport
         flexGrow: 1
         sortable: true
+      - name: _("spice-html5 URL")
+        prop: spicehtml5url
+        flexGrow: 1
+        sortable: true
       - name: _("noVNC URL")
         prop: novncurl
-        flexGrow: 2
-        sortable: true
-      - name: _("spice-html5 URL")
-        prop: spicehtml5curl
-        flexGrow: 2
+        flexGrow: 1
         sortable: true
       - name: _("noVNC port")
         prop: novncport
@@ -816,10 +816,10 @@ data:
               minSelected: 1
               maxSelected: 1
               constraint:
-                - operator: eq
+                - operator: gt
                   arg0:
                     prop: vncport
-                  arg1: "n/a"
+                  arg1: 0
             execute:
               type: formDialog
               formDialog:
@@ -830,7 +830,7 @@ data:
                     label: _("Source VM")
                     value: "{{ _selected[0].vmname }}"
                     readonly: true
-                  - type: textInput
+                  - type: numberInput
                     name: vncport
                     label: _("VNC port")
                     value: "{{ _selected[0].vncport }}"
@@ -844,7 +844,7 @@ data:
                       max: 65536
                       patternType: integer
                       required: true
-                  - type: textInput
+                  - type: numberInput
                     name: spiceport
                     label: _("Spice port")
                     value: "{{ _selected[0].spiceport }}"

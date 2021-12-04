@@ -554,7 +554,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmd->execute($output, $exitStatus);
                 $novncport = intval($output[0]);
                 if ($novncport >= 1024) {
-                    $novncurl = sprintf('http://%s:%d/vnc.html?resize=remote&autoconnect=1', gethostname(), $novncport);
+                    $novncurl = sprintf('<a href="http://%s:%d/vnc.html?resize=remote&autoconnect=1" target="_blank">link</a>', gethostname(), $novncport);
                 }
             }
             if (!$lv->domain_get_xml($name)) {
@@ -585,7 +585,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmd->execute($output, $exitStatus);
                 $spicehtml5port = intval($output[0]);
                 if ($spicehtml5port >= 1024) {
-                    $spicehtml5url = sprintf('http://%s:%d/spice_auto.html?resize=remote', gethostname(), $spicehtml5port);
+                    $spicehtml5url = sprintf('<a href="http://%s:%d/spice_auto.html?resize=remote" target="_blank">link</a>', gethostname(), $spicehtml5port);
                 }
             }
             $snaplist = $lv->domain_snapshots_list($dom);
@@ -1725,8 +1725,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.doweb');
         $command = $params['command'];
-        $hostport = $params['hostport'];
-        $hostport2 = $params['hostport2'];
+        $hostport = intval($params['hostport']);
+        $hostport2 = intval($params['hostport2']);
         // remove existing websockify processes if they exist
         $output = [];
         $cmdLine = sprintf('pgrep -u openmediavault-kvmweb -a websockify | awk \'$6 == %d { print $1 }\' | xargs kill', $hostport);
