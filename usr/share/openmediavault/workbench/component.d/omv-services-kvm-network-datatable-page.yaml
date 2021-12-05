@@ -56,6 +56,7 @@ data:
                   - type: textInput
                     name: macaddress
                     label: _("MAC address")
+                    value: ""
                   - type: textInput
                     name: gatewayip
                     label: _("Gateway IP address")
@@ -77,9 +78,11 @@ data:
                   - type: checkbox
                     name: dhcp
                     label: _("DHCP")
+                    value: false
                   - type: textInput
                     name: startaddress
                     label: _("DHCP starting address")
+                    value: ""
                     modifiers:
                       - type: visible
                         constraint:
@@ -91,6 +94,7 @@ data:
                   - type: textInput
                     name: endaddress
                     label: _("DHCP ending address")
+                    value: ""
                     modifiers:
                       - type: visible
                         constraint:

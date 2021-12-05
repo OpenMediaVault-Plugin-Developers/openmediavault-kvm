@@ -79,6 +79,7 @@ data:
               - type: textInput
                 name: hostname
                 label: _("Host name")
+                value: ""
                 modifiers:
                   - type: visible
                     constraint:
@@ -185,7 +186,7 @@ data:
                 params:
                   name: "{{ _selected[0].name }}"
                   command: "start"
-                task: true
+                task: false
                 successUrl: /services/kvm/pool
             enabledConstraints:
               minSelected: 1
@@ -205,7 +206,7 @@ data:
                 params:
                   name: "{{ _selected[0].name }}"
                   command: "stop"
-                task: true
+                task: false
                 successUrl: /services/kvm/pool
             enabledConstraints:
               minSelected: 1

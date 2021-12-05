@@ -361,15 +361,22 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         foreach ($pools as $pool) {
             $lv->storagepool_refresh($pool);
             $info = $lv->get_storagepool_info($pool);
+            $capacity = $info['capacity'];
+            if ($capacity <= 0) {
+                $capacity = 0;
+                $percentage = 0;
+            } else {
+                $percentage = ($info['allocation'] / $info['capacity']) * 100;
+            }
             $objects[] = [
                 'name' => $pool,
                 'active' => $info['active'] ? 'Active' : 'Inactive',
                 'volcount' => $info['volume_count'],
                 'state' => $lv->translate_storagepool_state($info['state']),
-                'capacity' => $info['capacity'],
+                'capacity' => $capacity,
                 'allocation' => $info['allocation'],
                 'available' => $info['available'],
-                'percentage' => ($info['allocation'] / $info['capacity']) * 100,
+                'percentage' => $percentage,
                 'path' => $info['path']
             ];
         }
@@ -1183,7 +1190,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                     if (is_dir($volume['path'])) continue;
                     $ext = pathinfo($volume['path'], PATHINFO_EXTENSION);
                     if (((strtolower($ext) != 'iso') && (!$optical)) || ((strtolower($ext) == 'iso') && ($optical))) {
-                        $capacity = volume['capacity'];
+                        $capacity = $volume['capacity'];
                         if ($capacity <= 0) {
                             $capacity = 0;
                             $percentage = 0;
