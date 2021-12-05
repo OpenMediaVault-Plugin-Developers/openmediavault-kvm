@@ -842,7 +842,7 @@ data:
                     validators:
                       min: 1024
                       max: 65536
-                      patternType: integer
+                      patternType: port
                       required: true
                   - type: numberInput
                     name: spiceport
@@ -856,7 +856,7 @@ data:
                     validators:
                       min: 1024
                       max: 65536
-                      patternType: integer
+                      patternType: port
                       required: true
                   - type: hidden
                     name: command
