@@ -1708,6 +1708,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                     throw new \OMV\Exception( gettext("Unable to delete disk(s) from VM - ") . $lv->get_last_error());
                 }
                 if ($undefine) {
+                    $output = [];
                     $cmdLine = sprintf('virsh undefine --nvram %s', $vmname);
                     $cmd = new \OMV\System\Process($cmdLine);
                     $cmd->execute($output, $result);
@@ -1721,7 +1722,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 break;
         }
         if (!$result) {
-            throw new \OMV\Exception( gettext("Unable to - ") . $params['command'] . $lv->get_last_error());
+            if (!$undefine) {
+                throw new \OMV\Exception( gettext("Unable to - ") . $params['command'] . $lv->get_last_error());
+            }
         }
     }
 

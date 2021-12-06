@@ -816,10 +816,10 @@ data:
               minSelected: 1
               maxSelected: 1
               constraint:
-                - operator: gt
+                - operator: eq
                   arg0:
-                    prop: vncport
-                  arg1: 0
+                    prop: novncurl
+                  arg1: "n/a"
             execute:
               type: formDialog
               formDialog:
@@ -871,6 +871,14 @@ data:
                         method: doWeb
           - text: _("Stop")
             icon: mdi:television-stop
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: ne
+                  arg0:
+                    prop: novncurl
+                  arg1: "n/a"
             execute:
               type: request
               request:
@@ -1030,7 +1038,7 @@ data:
                   - type: numberInput
                     name: memory
                     label: _("Memory")
-                    value: "{{ _selected[0].mem / 1024 / 1024 }}"
+                    value: "{{ _selected[0].mem | int / 1024 / 1024 }}"
                     validators:
                       min: 1
                       max: 99999
