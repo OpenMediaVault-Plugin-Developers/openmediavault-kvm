@@ -341,8 +341,9 @@ data:
                         get:
                           method: 'enumerateBridges'
                     modifiers:
-                      - type: visible
+                      - type: hidden
                         constraint:
+                          operator: ne
                           arg0:
                             prop: model
                           arg1: "bridge"
@@ -357,9 +358,9 @@ data:
                         get:
                           method: 'enumerateNetworks'
                     modifiers:
-                      - type: visible
+                      - type: hidden
                         constraint:
-                          operator: ne
+                          operator: eq
                           arg0:
                             prop: model
                           arg1: "bridge"
