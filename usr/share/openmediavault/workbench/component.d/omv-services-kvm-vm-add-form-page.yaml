@@ -299,6 +299,9 @@ data:
               params:
                 optical: true
                 opticalNone: true
+          sorters:
+            - dir: asc
+              prop: path
       - type: divider
         title: _("Network")
       - type: select
@@ -352,6 +355,7 @@ data:
         label: _('Network')
         textField: netname
         valueField: netname
+        value: ""
         store:
           proxy:
             service: 'Kvm'

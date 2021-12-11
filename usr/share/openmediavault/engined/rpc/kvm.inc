@@ -297,12 +297,13 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // create new libvirt object
         $lv = $this->connectQemu();
-        $mac = $params['network'];
+        $mac = trim($params['network'][0]);
         $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
         $xpath = $domXml->xpath('//interface');
         $xpathSize = sizeof($xpath);
         for ($i = 0; $i < $xpathSize; $i++) {
-            if ($domXml->devices->interface[$i]->mac['address'] == $mac) {
+            $mac2 = trim($domXml->devices->interface[$i]->mac['address']);
+            if ($mac2 == $mac) {
                 unset($domXml->devices->interface[$i]);
                 $newXml = $domXml->asXML();
                 $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);

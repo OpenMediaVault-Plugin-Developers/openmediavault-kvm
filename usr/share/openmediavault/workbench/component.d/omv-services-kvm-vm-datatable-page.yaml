@@ -375,7 +375,7 @@ data:
                       type: request
                       request:
                         service: Kvm
-                        method: AddVmNic
+                        method: addVmNic
                     successUrl: /services/kvm/vm
           - text: _("Remove network")
             icon: mdi:minus-network-outline
@@ -408,7 +408,7 @@ data:
                       type: request
                       request:
                         service: Kvm
-                        method: RemoveVmNic
+                        method: removeVmNic
                     successUrl: /services/kvm/vm
       - type: menu
         icon: mdi:usb
