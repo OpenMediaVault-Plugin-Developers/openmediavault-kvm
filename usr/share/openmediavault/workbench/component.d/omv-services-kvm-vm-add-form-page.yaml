@@ -186,18 +186,7 @@ data:
         modifiers:
           - type: visible
             constraint:
-              arg0:
-                prop: voldisk
-              arg1: "Create new disk"
-      - type: textInput
-        name: volname
-        label: _("Name")
-        value: ""
-        hint: _("Leave blank to use VM name.")
-        modifiers:
-          - type: visible
-            constraint:
-              operator: and
+              operator: eq
               arg0:
                 prop: voldisk
               arg1: "Create new disk"
@@ -205,6 +194,43 @@ data:
         modifiers:
           - type: visible
             constraint:
+              operator: eq
+              arg0:
+                prop: voldisk
+              arg1: "Create new disk"
+        fields:
+          - type: textInput
+            name: volname
+            label: _("Name")
+            value: ""
+            hint: _("Leave blank to use VM name.")
+            modifiers:
+              - type: visible
+                constraint:
+                  operator: eq
+                  arg0:
+                    prop: voldisk
+                  arg1: "Create new disk"
+          - type: select
+            name: volformat
+            label: _("Format")
+            value: "qcow2"
+            store:
+              data:
+                - ["qcow2", _("qcow2")]
+                - ["raw", _("raw")]
+            modifiers:
+              - type: visible
+                constraint:
+                  operator: eq
+                  arg0:
+                    prop: voldisk
+                  arg1: "Create new disk"
+      - type: container
+        modifiers:
+          - type: visible
+            constraint:
+              operator: eq
               arg0:
                 prop: voldisk
               arg1: "Create new disk"
@@ -221,6 +247,7 @@ data:
             modifiers:
               - type: visible
                 constraint:
+                  operator: eq
                   arg0:
                     prop: voldisk
                   arg1: "Create new disk"
@@ -236,23 +263,10 @@ data:
             modifiers:
               - type: visible
                 constraint:
+                  operator: eq
                   arg0:
                     prop: voldisk
                   arg1: "Create new disk"
-      - type: select
-        name: volformat
-        label: _("Format")
-        value: "qcow2"
-        store:
-          data:
-            - ["qcow2", _("qcow2")]
-            - ["raw", _("raw")]
-        modifiers:
-          - type: visible
-            constraint:
-              arg0:
-                prop: voldisk
-              arg1: "Create new disk"
       - type: select
         name: volbus
         label: _("Bus")
@@ -266,9 +280,9 @@ data:
         modifiers:
           - type: visible
             constraint:
+              operator: truthy
               arg0:
-                prop: voldisk
-              arg1: "Create new disk"
+                prop: advanced
           - type: value
             typeConfig: "virtio"
             constraint:

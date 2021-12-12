@@ -95,6 +95,11 @@ data:
         enabledConstraints:
           minSelected: 1
           maxSelected: 1
+          constraint:
+            - operator: ne
+              arg0:
+                prop: state
+              arg1: "running"
         actions:
           - text: _("Add disk")
             icon: mdi:harddisk-plus
@@ -113,6 +118,7 @@ data:
                     label: _('Volume')
                     textField: path
                     valueField: path
+                    value: 'Create new disk'
                     store:
                       proxy:
                         service: 'Kvm'
@@ -126,15 +132,62 @@ data:
                     label: _('Pool')
                     textField: name
                     valueField: name
+                    value: ''
                     store:
                       proxy:
                         service: 'Kvm'
                         get:
                           method: 'enumeratePools'
-                  - type: textInput
-                    name: volname
-                    label: _("Name")
+                    modifiers:
+                      - type: visible
+                        constraint:
+                          operator: eq
+                          arg0:
+                            prop: voldisk
+                          arg1: "Create new disk"
                   - type: container
+                    modifiers:
+                      - type: visible
+                        constraint:
+                          operator: eq
+                          arg0:
+                            prop: voldisk
+                          arg1: "Create new disk"
+                    fields:
+                      - type: textInput
+                        name: volname
+                        label: _("Name")
+                        value: ""
+                        modifiers:
+                          - type: visible
+                            constraint:
+                              operator: eq
+                              arg0:
+                                prop: voldisk
+                              arg1: "Create new disk"
+                      - type: select
+                        name: volformat
+                        label: _("Format")
+                        value: "qcow2"
+                        store:
+                          data:
+                            - ["qcow2", _("qcow2")]
+                            - ["raw", _("raw")]
+                        modifiers:
+                          - type: visible
+                            constraint:
+                              operator: eq
+                              arg0:
+                                prop: voldisk
+                              arg1: "Create new disk"
+                  - type: container
+                    modifiers:
+                      - type: visible
+                        constraint:
+                          operator: eq
+                          arg0:
+                            prop: voldisk
+                          arg1: "Create new disk"
                     fields:
                       - type: numberInput
                         name: volsize
@@ -145,6 +198,13 @@ data:
                           max: 99999
                           patteryType: integer
                           required: true
+                        modifiers:
+                          - type: visible
+                            constraint:
+                              operator: eq
+                              arg0:
+                                prop: voldisk
+                              arg1: "Create new disk"
                       - type: select
                         name: volunit
                         label: _("Unit")
@@ -154,6 +214,13 @@ data:
                             - ["M", _("Megabytes")]
                             - ["G", _("Gigabytes")]
                             - ["T", _("Terabytes")]
+                        modifiers:
+                          - type: visible
+                            constraint:
+                              operator: eq
+                              arg0:
+                                prop: voldisk
+                              arg1: "Create new disk"
                   - type: select
                     name: volbus
                     label: _("Bus")
