@@ -768,12 +768,13 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $xml .= "<feature policy='disable' name='smep'/>";
                 $xml .= "</cpu>";
             }
+            $xml .= "<clock offset='localtime'/>";
         } elseif ($arch == 'aarch64' || $arch == 'arm') {
             $xml .= "<cpu mode='custom' match='exact'>";
             $xml .= sprintf("<model>%s</model>", $cpuModel);
             $xml .= "</cpu>";
+            $xml .= "<clock offset='utc'/>";
         }
-        $xml .= "<clock offset='localtime'/>";
         $xml .= "<devices>";
         if ($native_graphics) {
             if ($params['vnc']) {
