@@ -1,13 +1,13 @@
 version: "1.0"
 type: component
 data:
-  name: omv-services-kvm-vm-add-form-page
+  name: omv-services-kvm-vm-add2-form-page
   type: formPage
   config:
     request:
       service: Kvm
       post:
-        method: setVm
+        method: setVmVI
     fields:
       - type: checkbox
         name: advanced
@@ -26,12 +26,13 @@ data:
         name: arch
         label: _("Architecture")
         value: "x86_64"
+        textField: arch
+        valueField: arch
         store:
-          data:
-            - ["aarch64", _("aarch64")]
-            - ["arm", _("arm")]
-            - ["i386", _("i386")]
-            - ["x86_64", _("x86_64")]
+          proxy:
+            service: 'Kvm'
+            get:
+              method: 'enumerateArchitectures'
         modifiers:
           - type: visible
             constraint:
@@ -39,41 +40,40 @@ data:
               arg0:
                 prop: advanced
       - type: select
-        name: chipset
-        label: _("Chipset")
-        value: "q35"
+        name: cpu
+        label: _("CPU")
+        value: 'host-passthrough'
+        textField: cpu
+        valueField: cpu
         store:
-          data:
-            - ["pc", _("i440FX")]
-            - ["q35", _("Q35")]
+          proxy:
+            service: Kvm
+            get:
+              method: enumerateCpus
         modifiers:
           - type: visible
             constraint:
               operator: and
               arg0:
-                operator: or
-                arg0:
-                  operator: eq
-                  arg0:
-                    prop: arch
-                  arg1: "x86_64"
-                arg1:
-                  operator: eq
-                  arg0:
-                    prop: arch
-                  arg1: "i386"
-              arg1:
                 operator: truthy
                 arg0:
                   prop: advanced
+              arg1:
+                operator: in
+                arg0:
+                  prop: arch
+                arg1: ['armv6l', 'armv7l', 'aarch64', 'i686', 'ppc64', 'ppc64le', 'x86_64']
       - type: select
         name: os
         label: _("OS")
-        value: "linux"
+        value: 'Generic Linux 2020'
+        textField: name
+        valueField: id
         store:
-          data:
-            - ["linux", _("Linux")]
-            - ["windows", _("Windows")]
+          proxy:
+            service: Kvm
+            get:
+              method: enumerateOses
       - type: checkbox
         name: uefi
         label: _("UEFI")
@@ -107,6 +107,7 @@ data:
             name: memory
             label: _("Memory")
             value: 1
+            flex: 10
             validators:
               min: 1
               max: 99999
@@ -115,6 +116,7 @@ data:
           - type: select
             name: memoryunit
             value: "GiB"
+            flex: 10
             store:
               data:
                 - ["MiB", _("MiB")]

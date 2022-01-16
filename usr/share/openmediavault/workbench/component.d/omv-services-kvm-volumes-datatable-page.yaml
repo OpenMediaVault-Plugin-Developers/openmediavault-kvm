@@ -75,7 +75,7 @@ data:
                     validators:
                       min: 1
                       max: 99999
-                      patteryType: integer
+                      patternType: integer
                       required: true
                   - type: select
                     name: volunit

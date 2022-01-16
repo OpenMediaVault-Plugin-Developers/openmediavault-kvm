@@ -1,7 +1,7 @@
 <?php
 /*
  * @author    OpenMediaVault Plugin Developers <plugins@omv-extras.org>
- * @copyright Copyright (c) 2021 OpenMediaVault Plugin Developers
+ * @copyright Copyright (c) 2021-2022 OpenMediaVault Plugin Developers
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -56,6 +56,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('getVmXml');
         $this->registerMethod('setVmXml');
         $this->registerMethod('setVm');
+        $this->registerMethod('setVmVI');
         $this->registerMethod('getDisk');
         $this->registerMethod('cloneVm');
 
@@ -94,6 +95,10 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('doWeb');
         $this->registerMethod('doChangeCpuMemory');
         $this->registerMethod('getVcpu');
+
+        $this->registerMethod('enumerateArchitectures');
+        $this->registerMethod('enumerateCpus');
+        $this->registerMethod('enumerateOses');
     }
 
     private function connectQemu()
@@ -428,6 +433,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $xml .= sprintf("<name>%s</name>", $name);
         switch ($type) {
             case 'dir':
+                $path = (substr($path,0) == '/' ? $path : '/' . $path);
                 mkdir($path, 0755, true);
                 break;
             case 'fs':
@@ -675,7 +681,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $chipset = 'q35';
             $sound = 'ac97';
         }
-        $host_arch = $this->getArch();
+        $hostArch = $this->getArch();
         $os = strtolower($params['os']);
         $uefi = $params['uefi'];
         $vcpu = $params['vcpu'];
@@ -687,7 +693,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $fd = '/usr/share/AAVMF/AAVMF_CODE.fd';
                 $ld = 'pflash';
                 $machine = 'virt';
-                if (($host_arch == 'arm64') || ($host_arch == 'armhf')) {
+                if (($hostArch == 'arm64') || ($hostArch == 'armhf')) {
                     $domain_type = "kvm";
                     $native_graphics = true;
                 } else {
@@ -700,7 +706,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cpuModel = 'cortex-a15';
                 $fd = '/usr/share/AAVMF/AAVMF_CODE.fd';
                 $machine = 'virt';
-                if (($host_arch == 'arm64') || ($host_arch == 'armhf')) {
+                if (($hostArch == 'arm64') || ($hostArch == 'armhf')) {
                     $domain_type = "kvm";
                     $native_graphics = true;
                 } else {
@@ -713,7 +719,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $domain_type = "kvm";
                 $native_graphics = true;
                 $machine = $chipset;
-                if (($host_arch == 'amd64') || ($host_arch == 'i386')) {
+                if (($hostArch == 'amd64') || ($hostArch == 'i386')) {
                     $domain_type = "kvm";
                 } else {
                     $domain_type = "qemu";
@@ -725,7 +731,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $ld = 'rom';
                 $native_graphics = true;
                 $machine = $chipset;
-                if (($host_arch == 'amd64') || ($host_arch == 'i386')) {
+                if (($hostArch == 'amd64') || ($hostArch == 'i386')) {
                     $domain_type = "kvm";
                 } else {
                     $domain_type = "qemu";
@@ -762,7 +768,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
         $xml .= "</features>";
         if ($os == "windows") {
-            if ($host_arch == 'amd64' || $host_arch == 'i386') {
+            if ($hostArch == 'amd64' || $hostArch == 'i386') {
                 $xml .= "<cpu mode='host-passthrough' check='none'>";
                 $xml .= sprintf("<topology sockets='1' cores='%d' threads='1'/>", $vcpu);
                 $xml .= "<feature policy='disable' name='smep'/>";
@@ -915,6 +921,148 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if (!result) {
             throw new \OMV\Exception( gettext("Unable to add network adapter to VM - ") . $lv->get_last_error());
         }
+    }
+
+    public function setVmVI($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.setvm');
+
+        $arch = $params['arch'];
+        $cpuModel = $params['cpu'];
+        $hostArch = $this->getArch();
+        $os = strtolower($params['os']);
+        $uefi = $params['uefi'];
+        $vmname = $params['vmname'];
+        $xmlFile = sprintf('/tmp/%s.xml', $vmname);
+
+        // memory
+        $memory = $params['memory'];
+        if ($params['memoryunit'] == 'GiB') {
+            $memory *= 1024;
+        }
+
+        // OS-based arguments
+        if (strpos($os, "Windows") !== false) {
+            $vcpuArgs = sprintf('sockets=1,cores=%d,threads=1', $params['vcpu']);
+            $clockArgs = 'offset=localtime';
+        } else {
+            $vcpuArgs = $params['vcpu'];
+            $clockArgs = 'offset=utc';
+        }
+
+        // arch-based arguments
+        switch ($arch) {
+            case 'aarch64':
+                $fd = '/usr/share/AAVMF/AAVMF_CODE.fd';
+                if (($hostArch == 'arm64') || ($hostArch == 'armhf')) {
+                    $native_graphics = true;
+                } else {
+                    $native_graphics = false;
+                }
+                break;
+            case 'arm':
+                $fd = '/usr/share/AAVMF/AAVMF_CODE.fd';
+                if (($hostArch == 'arm64') || ($hostArch == 'armhf')) {
+                    $native_graphics = true;
+                } else {
+                    $native_graphics = false;
+                }
+                break;
+            case 'i386':
+                $native_graphics = true;
+                break;
+            case 'x86_64':
+                $fd = '/usr/share/OVMF/OVMF_CODE.fd';
+                $native_graphics = true;
+                break;
+        }
+
+        // disk arguments
+        $volbus = $params['volbus'];
+        $voldisk = $params['voldisk'];
+        $volformat = $params['volformat'];
+        $voliso = $params['voliso'];
+        $volname = $params['volname'];
+        $volsize = $params['volsize'];
+        if (($volname == "") || (empty($volname))) {
+            $volname = $vmname;
+        }
+        $volpool = $params['volpool'];
+
+        if ($voldisk == 'Create new disk') {
+            if ($volunit == "T") {
+                $volsize *= 1024;
+            }
+            $diskArgs = sprintf('size=%d,bus=%s,pool=%s,cache=none,io=native,format=%s', $volsize, $volbus, $volpool, $volformat);
+        } else {
+            $diskArgs = sprintf('%s,bus=%s,cache=none,io=native', $voldisk, $volbus);
+            $volformat = pathinfo($voldisk, PATHINFO_EXTENSION);
+        }
+
+        // add network
+        $mac = $params['macaddress'];
+        $net = $params['network'];
+        if (strlen($mac) != 17) {
+            $mac = 'RANDOM';
+        }
+        $model = $params['model'];
+        if ($model == "bridge") {
+            $netArgs = sprintf('bridge=%s,mac=%s', $params['bridge'], $mac);
+        } else {
+            $netArgs = sprintf('network=%s,model=%s,mac=%s', $net, $model, $mac);
+        }
+
+        // build virt-install arguments
+        $cmdArgs = [];
+        $cmdArgs[] = '--boot hd,cdrom';
+        $cmdArgs[] = sprintf('--arch %s', $arch);
+        $cmdArgs[] = sprintf('--cpu %s', $cpuModel);
+        $cmdArgs[] = sprintf('--disk %s', $diskArgs);
+        $cmdArgs[] = sprintf('--memory %s', $memory);
+        $cmdArgs[] = sprintf('--metadata description="%s"', htmlspecialchars($params['notes'], ENT_XML1));
+        $cmdArgs[] = sprintf('--name %s', $vmname);
+        $cmdArgs[] = sprintf('--network %s', $netArgs);
+        $cmdArgs[] = sprintf('--os-variant name=%s', $params['os']);
+        $cmdArgs[] = sprintf('--vcpus %s', $vcpuArgs);
+
+        if ($params['audio']) {
+            $cmdArgs[] = '--sound default';
+        }
+
+        if ($params['uefi']) {
+            $cmdArgs[] = sprintf('--boot loader=%s', $fd);
+        }
+
+        if ($voliso != 'none') {
+            $cmdArgs[] = sprintf('--cdrom %s', $params['voliso']);
+            $printStep = '';
+        } else {
+            $printStep = '';
+        }
+
+        if ($params['vnc']) {
+            $cmdArgs[] = '--graphics vnc,listen=0.0.0.0';
+        }
+        if ($params['spice']) {
+            $cmdArgs[] = '--graphics spice,listen=0.0.0.0';
+        }
+
+        $cmdArgs[] = sprintf('--print-xml%s', $printStep);
+        $cmdArgs[] = sprintf(' > %s', $xmlFile);
+
+        $cmd = new \OMV\System\Process('virt-install', $cmdArgs);
+        $cmd->execute($output, $exitStatus);
+
+        // import newly created xml file
+        $cmdArgs = [];
+        $cmdArgs[] = 'define';
+        $cmdArgs[] = sprintf('--file %s', $xmlFile);
+
+        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
+        $cmd->execute($output, $exitStatus);
     }
 
     private function addVmBridgeNic($vmname, $mac, $net)
@@ -1981,5 +2129,80 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 throw new \OMV\Exception( gettext("Failed to remove vnc and/or spice setup - ") . $lv->get_last_error());
             }
         }
+    }
+
+    public function enumerateArchitectures($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        $output = [];
+        $arch = $params['arch'];
+        $cmd = new \OMV\System\Process('virsh', 'capabilities');
+        $cmd->setQuiet(true);
+        $cmd->execute($output, $exitStatus);
+        $virshXml = implode($output, PHP_EOL);
+        $xml = new SimpleXMLElement($virshXml);
+        $xpath = $xml->xpath('/capabilities/guest');
+        $xpathSize = sizeof($xpath);
+        $objects = [];
+        for ($i = 0; $i < $xpathSize; $i++) {
+            $arch = $xml->guest[$i]->arch->attributes()->name->__toString();
+            $objects[] = ['arch' => $arch];
+        }
+        return ($objects);
+    }
+
+    public function enumerateCpus($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        $output = [];
+        $arch = $params['arch'];
+        //$cmd = new \OMV\System\Process('virsh', 'cpu-models', $arch);
+        $maps = array_diff(scandir('/usr/share/libvirt/cpu_map/'), ["..", "."]);
+        $objects = [];
+        $objects[] = ['cpu' => 'host-passthrough'];
+        $badlist = ['features', 'index', 'vendors'];
+        foreach ($maps as $map) {
+            $cpu = str_replace('.xml', '', $map);
+            $cpu = str_replace('_', ' ', $cpu);
+            $skip = false;
+            foreach ($badlist as $bad) {
+                if (strpos($cpu, $bad) !== false) {
+                    $skip = true;
+                    break;
+                } 
+            }
+            if ($skip) {
+                continue;
+            }
+            $objects[] = ['cpu' => $cpu];
+        }
+        return ($objects);
+    }
+
+    public function enumerateOses($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        $output = [];
+        $cmd = new \OMV\System\Process('osinfo-query', '--fields=short-id,name os');
+        $cmd->setQuiet(true);
+        $cmd->execute($output, $exitStatus);
+        $objects = [];
+        $count = count($output);
+        if ($count > 1) {
+            for ($i = 1; $i < $count; $i++) {
+                $os = explode('|', $output[$i]);
+                if (strlen($os[1]) < 3) {
+                    continue;
+                }
+                $objects[] = [
+                    'id' => trim($os[0]),
+                    'name' => trim($os[1])
+                ];
+            }
+        }
+        return ($objects);
     }
 }

@@ -89,6 +89,12 @@ data:
         execute:
           type: url
           url: /services/kvm/vm/add
+      - type: iconButton
+        icon: mdi:desktop-classic
+        tooltip: _("Add new VM 2")
+        execute:
+          type: url
+          url: /services/kvm/vm/add2
       - type: menu
         icon: mdi:harddisk
         tooltip: _("Hard disk")
@@ -196,7 +202,7 @@ data:
                         validators:
                           min: 1
                           max: 99999
-                          patteryType: integer
+                          patternType: integer
                           required: true
                         modifiers:
                           - type: visible
@@ -346,7 +352,7 @@ data:
                         get:
                           method: 'enumerateVolumesByVm'
                           params:
-                            optical: false
+                            optical: true
                             vmname: '{{ selected[0].vmname }}'
                 buttons:
                   submit:
@@ -1070,7 +1076,7 @@ data:
                     validators:
                       min: 1
                       max: 32
-                      patteryType: integer
+                      patternType: integer
                       required: true
                   - type: hidden
                     name: memory
@@ -1110,7 +1116,7 @@ data:
                     validators:
                       min: 1
                       max: 99999
-                      patteryType: integer
+                      patternType: integer
                       required: true
                   - type: select
                     name: memoryunit
