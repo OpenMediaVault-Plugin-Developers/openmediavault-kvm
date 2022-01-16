@@ -256,6 +256,10 @@
 				"type": "string",
 				"required": true
 			},
+			"state": {
+				"type": "string",
+				"required": true
+			},
 			"disk": {
 				"type": "string",
 				"required": true

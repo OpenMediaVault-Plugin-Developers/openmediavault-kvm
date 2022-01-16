@@ -271,6 +271,10 @@ data:
                           params:
                             optical: false
                             vmname: '{{ _selected[0].vmname }}'
+                  - type: hidden
+                    name: state
+                    value: '{{ _selected[0].state }}'
+                    readonly: true
                 buttons:
                   submit:
                     text: _('Remove')

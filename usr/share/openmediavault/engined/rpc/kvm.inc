@@ -931,7 +931,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodParams($params, 'rpc.kvm.setvm');
 
         $arch = $params['arch'];
-        $cpuModel = $params['cpu'];
+        $cpu = $params['cpu'];
+        $cpuModel = explode(' ', $cpu)[1];
         $hostArch = $this->getArch();
         $os = strtolower($params['os']);
         $uefi = $params['uefi'];
@@ -1038,7 +1039,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
 
         if ($voliso != 'none') {
             $cmdArgs[] = sprintf('--cdrom %s', $params['voliso']);
-            $printStep = '';
+            $printStep = ' 2';
         } else {
             $printStep = '';
         }
@@ -1246,23 +1247,18 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.removedisk');
-        // create new libvirt object
-        $lv = $this->connectQemu();
-        $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
-        $dev = $params['disk'];
-        $xpath = $domXml->xpath('//disk');
-        $xpathSize = sizeof($xpath);
-        for ($i = 0; $i < $xpathSize; $i++) {
-            if ($domXml->devices->disk[$i]->target['dev'] == $dev) {
-                unset($domXml->devices->disk[$i]);
-                $newXml = $domXml->asXML();
-                $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
-                if (!$lv->domain_change_xml($params['vmname'], $newXml)) {
-                    throw new \OMV\Exception( gettext("Unable to remove disk from VM - ") . $lv->get_last_error());
-                }
-                break;
-            }
+        // virsh detach-disk
+        $cmdArgs = [];
+        $cmdArgs[] = 'detach-disk';
+        $cmdArgs[] = sprintf('--domain %s', $params['vmname']);
+        $cmdArgs[] = sprintf('--target %s', $params['disk']);
+        $cmdArgs[] = '--persistent';
+        $cmdArgs[] = '--config';
+        if ($params['state'] == 'running') {
+            $cmdArgs[] = '--live';
         }
+        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
+        $cmd->execute($output, $exitStatus);
     }
 
     public function resizeDisk($params, $context)
@@ -2161,7 +2157,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         //$cmd = new \OMV\System\Process('virsh', 'cpu-models', $arch);
         $maps = array_diff(scandir('/usr/share/libvirt/cpu_map/'), ["..", "."]);
         $objects = [];
-        $objects[] = ['cpu' => 'host-passthrough'];
+        $objects[] = ['cpu' => 'host host-passthrough'];
         $badlist = ['features', 'index', 'vendors'];
         foreach ($maps as $map) {
             $cpu = str_replace('.xml', '', $map);

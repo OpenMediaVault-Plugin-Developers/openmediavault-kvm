@@ -42,7 +42,7 @@ data:
       - type: select
         name: cpu
         label: _("CPU")
-        value: 'host-passthrough'
+        value: 'host host-passthrough'
         textField: cpu
         valueField: cpu
         store:
