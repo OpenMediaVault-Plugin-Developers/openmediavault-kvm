@@ -23,6 +23,12 @@ case "$1" in
         line2=$((line+6))
         sed -i "${line},${line2} s/#//" ${qemuConf}
 
+        # disable ksm if not supported
+        if [ ! -f "/sys/kernel/mm/ksm/run" ]; then
+            systemctl stop ksm.service
+            systemctl disable ksm.service
+        fi
+
         # restart service
         systemctl restart libvirtd.service
 
