@@ -324,28 +324,20 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
     {
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
-        // create new libvirt object
-        $lv = $this->connectQemu();
-        $xml = $lv->domain_get_xml($params['vmname']);
-        $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
-        $xpath = $domXml->xpath('//interface');
-        $xpathSize = sizeof($xpath);
-        for ($i = 0; $i < $xpathSize; $i++) {
-            $nic = $domXml->devices->interface[$i];
-            $type = $nic['type'];
-            $mac = $nic->mac['address'];
-            switch ($type) {
-                case "bridge":
-                case "network":
-                    $net = $nic->source[$type];
-                    $desc= sprintf('%s - %s (%s)', $type, $net, $mac);
-                    break;
-                case "direct":
-                    $dev = $nic->source['dev'];
-                    $mode = $nic->source['mode'];
-                    $desc= sprintf('%s - %s %s (%s)', $type, $dev, $mode, $mac);
-                    break;
+        // enumerate interfaces with virsh
+        $cmdLine = sprintf('virsh domiflist %s | sed 1,2d', $params['vmname']);
+        $cmd = new \OMV\System\Process($cmdLine);
+        $cmd->execute($output, $exitStatus);
+        $objects = [];
+        foreach ($output as $nic) {
+            if (empty($nic)) {
+                continue;
             }
+            $parts = preg_split('/\s+/', $nic, -1, PREG_SPLIT_NO_EMPTY);
+            $type = $parts[1];
+            $src = $parts[2];
+            $mac = $parts[4];
+            $desc= sprintf('%s - %s (%s)', $type, $src, $mac);
             $objects[] = [
                 'mac' => $mac,
                 'description' => $desc
@@ -1424,42 +1416,36 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.enumeratevolumesbyvm');
-        // create new libvirt object
-        $lv = $this->connectQemu();
+        // enumerate volumes with virsh
         $optical = $params["optical"];
-        $objects= [];
+        $cmdArgs = [];
+        $cmdArgs[] = 'domblklist';
+        $cmdArgs[] = $params['vmname'];
+        $cmdArgs[] = '--details';
+        $cmdArgs[] = '| sed 1,2d';
+        $cmdArgs[] = '| awk NF';
         if ($optical) {
-            $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
-            $xpath = $domXml->xpath('//disk');
-            $xpathSize = sizeof($xpath);
-            for ($i = 0; $i < $xpathSize; $i++) {
-                $disk = $domXml->devices->disk[$i];
-                $devtype = $disk['device'];
-                $device = $disk->source['file'];
-                $dev = $disk->target['dev'];
-                if ($devtype == "cdrom") {
-                    $objects[] = [
-                        'device' => $dev,
-                        'description' => sprintf('%s :: %s', $device, $dev)
-                    ];
-                }
-            }
+            $cmdArgs[] = '| awk \'$2 == "cdrom" { print $2","$3","$4 }\'';
         } else {
-            $disks = $lv->get_disk_stats($params['vmname']);
-            $xpathSize = sizeof($disks);
-            for ($i = 0; $i < $xpathSize; $i++) {
-                $disk = $disks[$i];
-                $capacity = $lv->format_size($disk['capacity'], 2);
-                $dev = (array_key_exists('file', $disk)) ? $disk['file'] : $disk['partition'];
-                $device = $disk['device'];
-                $ext = array_pop(explode('.', $dev));
-                $add = false;
-                $objects[] = [
-                    'device' => $device,
-                    'description' => sprintf('%s :: %s', $dev, $device),
-                    'path' => $dev
-                ];
+            $cmdArgs[] = '| awk \'$2 != "cdrom" { print $2","$3","$4 }\'';
+        }
+        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
+        $cmd->execute($output, $exitStatus);
+        $objects = [];
+        foreach ($output as $vol) {
+            if (empty($vol)) {
+                continue;
             }
+            $parts = explode(',', $vol);
+            $dev = $parts[0];
+            $tgt = $parts[1];
+            $src = $parts[2];
+            $cap = binary_format(filesize($src));
+            $objects[] = [
+                'device' => $dev,
+                'description' => sprintf('[%s] %s :: %s (%s)', $dev, $tgt, $src, $cap),
+                'path' => $src
+            ];
         }
         // Filter the result.
         return ($objects);

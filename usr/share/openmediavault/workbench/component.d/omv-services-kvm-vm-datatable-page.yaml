@@ -262,7 +262,7 @@ data:
                     name: disk
                     label: _('Disk')
                     textField: description
-                    valueField: device
+                    valueField: path
                     store:
                       proxy:
                         service: 'Kvm'
@@ -348,7 +348,7 @@ data:
                   - type: select
                     name: voliso
                     label: _('Optical disc')
-                    textField: path
+                    textField: description
                     valueField: path
                     store:
                       proxy:
@@ -357,7 +357,7 @@ data:
                           method: 'enumerateVolumesByVm'
                           params:
                             optical: true
-                            vmname: '{{ selected[0].vmname }}'
+                            vmname: '{{ _selected[0].vmname }}'
                 buttons:
                   submit:
                     text: _('Remove')
