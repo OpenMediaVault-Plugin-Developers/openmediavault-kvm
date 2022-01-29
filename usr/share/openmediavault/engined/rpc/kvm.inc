@@ -115,6 +115,28 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         return (strtolower($output[0]));
     }
 
+    private function getVolumeSizes($path)
+    {
+	$sizes = 'n/a';
+        if (file_exists($path)) {
+	    $output = [];
+            $cmdArgs = [];
+            $cmdArgs[] = '/usr/bin/qemu-img';
+            $cmdArgs[] = 'info';
+            $cmdArgs[] = $path;
+            $cmdArgs[] = '| grep -E \'virtual size|disk size\'';
+            $cmdArgs[] = '| awk \'{ print $3" "$4 }\'';
+            $cmd = new \OMV\System\Process($cmdArgs);
+            $cmd->execute($output);
+	    if (empty($output[0])) {
+                $sizes = '(n/a)';
+            } else {
+                $sizes = sprintf('(%s :: %s)', $output[1], $output[0]);
+            }
+        }
+        return $sizes;
+    }
+
     public function getNetworkList($params, $context)
     {
         // Validate the RPC caller context.
@@ -300,33 +322,49 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
     {
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
-        // create new libvirt object
-        $lv = $this->connectQemu();
-        $mac = trim($params['network'][0]);
-        $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
-        $xpath = $domXml->xpath('//interface');
-        $xpathSize = sizeof($xpath);
-        for ($i = 0; $i < $xpathSize; $i++) {
-            $mac2 = trim($domXml->devices->interface[$i]->mac['address']);
-            if ($mac2 == $mac) {
-                unset($domXml->devices->interface[$i]);
-                $newXml = $domXml->asXML();
-                $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
-                if (!$lv->domain_change_xml($params['vmname'], $newXml)) {
-                    throw new \OMV\Exception( gettext("Unable to remove network interface from VM - ") . $lv->get_last_error());
-                }
-                break;
-            }
+        $mac = trim($params['network']);
+        $vmname = trim($params['vmname']);
+	// virsh domiflist
+        $output = [];
+        $cmdArgs = [];
+        $cmdArgs[] = 'domiflist';
+        $cmdArgs[] = sprintf('--domain %s', $vmname);
+        $cmdArgs[] = sprintf('| awk \'$5 == "%s" { print $2 }\'', $mac);
+        $cmdArgs[] = '| awk NF';
+        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
+        $cmd->execute($output, $exitStatus);
+	$type = $output[0];
+        if (empty($type)) {
+            throw new \OMV\Exception( gettext("Unable to get network adapter type - ") . $cmd->getCommandLine());
         }
+        // virsh detach-interface
+        $output = [];
+        $cmdArgs = [];
+        $cmdArgs[] = 'detach-interface';
+        $cmdArgs[] = sprintf('--domain %s', $vmname);
+        $cmdArgs[] = sprintf('--type %s', $type);
+        $cmdArgs[] = sprintf('--mac %s', $mac);
+        $cmdArgs[] = '--persistent';
+        $cmdArgs[] = '--config';
+        if ($params['state'] == 'running') {
+            $cmdArgs[] = '--live';
+        }
+        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
+        $cmd->execute($output, $exitStatus);
     }
 
     public function enumerateVmNic($params, $context)
     {
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        $vmname = trim($params['vmname']);
         // enumerate interfaces with virsh
-        $cmdLine = sprintf('virsh domiflist %s | sed 1,2d', $params['vmname']);
-        $cmd = new \OMV\System\Process($cmdLine);
+        $cmdArgs = [];
+        $cmdArgs[] = 'domiflist';
+        $cmdArgs[] = sprintf('--domain %s', $vmname);
+        $cmdArgs[] = '| sed 1,2d';
+        $cmdArgs[] = '| awk NF';
+        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
         $cmd->execute($output, $exitStatus);
         $objects = [];
         foreach ($output as $nic) {
@@ -1186,8 +1224,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // create new libvirt object
         $lv = $this->connectQemu();
         // get VM object
-        $vm = $lv->get_domain_by_name($params['vmname']);
-        $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
+	$vmname = $params['vmname'];
+        $vm = $lv->get_domain_by_name($vmname);
+        $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
         $voliso = $params['voliso'];
         // get next device
         if (isset($domXml->os->loader) || strpos($domXml->os->type['machine'], 'q35') > -1) {
@@ -1211,26 +1250,21 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $targetdev = $dev . "a";
         }
         // add optical storage
-        $diskXml = $domXml->devices->addChild('disk');
-        $diskXml->addAttribute('type', 'file');
-        $diskXml->addAttribute('device', 'cdrom');
-
-        $driverXml = $diskXml->addChild('driver');
-        $driverXml->addAttribute('name', 'qemu');
-        $driverXml->addAttribute('type', 'raw');
-
-        $sourceXml = $diskXml->addChild('source');
-        $sourceXml->addAttribute('file', $voliso);
-
-        $targetXml = $diskXml->addChild('target');
-        $targetXml->addAttribute('dev', $targetdev);
-        $targetXml->addAttribute('bus', $targetbus);
-
-        $newXml = $domXml->asXML();
-        $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
-        if (!$lv->domain_change_xml($params['vmname'], $newXml)) {
-            throw new \OMV\Exception( gettext("Unable to add ISO to VM - ") . $lv->get_last_error());
+        $cmdArgs = [];
+        $cmdArgs[] = 'attach-disk';
+        $cmdArgs[] = sprintf('--domain %s', $vmname);
+        $cmdArgs[] = sprintf('--source %s', $voliso);
+        $cmdArgs[] = sprintf('--target %s', $targetdev);
+        $cmdArgs[] = sprintf('--targetbus %s', $targetbus);
+        $cmdArgs[] = '--type cdrom';
+        $cmdArgs[] = '--mode readonly';
+        $cmdArgs[] = '--persistent';
+        $cmdArgs[] = '--config';
+        if ($params['state'] == 'running') {
+            $cmdArgs[] = '--live';
         }
+        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
+        $cmd->execute($output, $exitStatus);
     }
 
     public function removeDisk($params, $context)
@@ -1368,7 +1402,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $objects= [];
         if (!$optical) {
             $objects[] = [
-                'name' => 'new',
+                'name' => 'Create new disk',
                 'capacity' => 0,
                 'path' => 'Create new disk'
             ];
@@ -1381,28 +1415,38 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 ];
             }
         }
-
         foreach ($pools as $pool) {
-            $lv->storagepool_refresh($pool);
-            $info = $lv->get_storagepool_info($pool);
-            if ($info['volume_count'] > 0) {
-                $volumes = $lv->storagepool_get_volume_information($pool);
-                $keys = array_keys($volumes);
-                $xpathSize = sizeof($volumes);
-                for ($i = 0; $i < $xpathSize; $i++) {
-                    $volume = $volumes[$keys[$i]];
-                    $ext = pathinfo($volume['path'], PATHINFO_EXTENSION);
-                    $add = false;
-                    if (((strtolower($ext) != 'iso') && (!$optical)) || ((strtolower($ext) == 'iso') && ($optical))) {
-                        $add = true;
-                    } 
-                    if ($add) {
-                        $objects[] = [
-                            'name' => $keys[$i],
-                            'capacity' => $volume['capacity'],
-                            'path' => $volume['path']
-                        ];
-                    }
+            $output = [];
+            $cmdArgs = [];
+            $cmdArgs[] = 'vol-list';
+            $cmdArgs[] = $pool;
+            $cmdArgs[] = '--details';
+            $cmdArgs[] = '| sed 1,2d';
+            $cmdArgs[] = '| awk NF';
+            $cmdArgs[] = '| awk -F ';
+            $cmdArgs[] = '\'[[:space:]][[:space:]]+\'';
+            $cmdArgs[] = '\'{ print $1","$2","$4 }\'';
+            $cmd = new \OMV\System\Process('virsh', $cmdArgs);
+            $cmd->execute($output, $exitStatus);
+            foreach ($output as $vol) {
+                if (empty($vol)) {
+                    continue;
+                }
+                $parts = explode(',', $vol);
+                $name = $parts[0];
+                $path = $parts[1];
+                $cap = $this->getVolumeSizes($path);
+                $ext = pathinfo($path, PATHINFO_EXTENSION);
+                $add = false;
+                if (((strtolower($ext) != 'iso') && (!$optical)) || ((strtolower($ext) == 'iso') && ($optical))) {
+                    $add = true;
+                }
+                if ($add) {
+                    $objects[] = [
+                        'name' => sprintf('[%s] %s %s', $pool, $name, $cap),
+                        'capacity' => $cap,
+                        'path' => $path
+                    ];
                 }
             }
         }
@@ -1565,24 +1609,6 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         );
     }
 
-    private function removeOpticalByVm($vmname)
-    {
-        // create new libvirt object
-        $lv = $this->connectQemu();
-        $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
-        $xpath = $domXml->xpath('//disk');
-        $xpathSize = sizeof($xpath);
-        for ($i = 0; $i < $xpathSize; $i++) {
-            $disk = $domXml->devices->disk[$i];
-            if ($disk['device'] == "cdrom") {
-                unset($domXml->devices->disk[$i]);
-            }
-        }
-        $newXml = $domXml->asXML();
-        $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
-        return ($lv->domain_change_xml($vmname, $newXml));
-    }
-
     private function deleteDisksByVm($vmname)
     {
         // create new libvirt object
@@ -1734,34 +1760,20 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.usb');
-        // create new libvirt object
-        $lv = $this->connectQemu();
-        // get VM object
-        $vm = $lv->get_domain_by_name($params['vmname']);
-        $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
-        $dev = explode(' ', $params['device']);
-        $vendorProduct = explode(':', $dev[5]);
-        $vendor = $vendorProduct[0];
-        $product = $vendorProduct[1];
-        // add usb device
-        $hostDevXml = $domXml->devices->addChild('hostdev');
-        $hostDevXml->addAttribute('mode', 'subsystem');
-        $hostDevXml->addAttribute('type', 'usb');
-        $hostDevXml->addAttribute('managed', 'yes');
-
-        $sourceXml = $hostDevXml->addChild('source');
-
-        $vendorXml = $sourceXml->addChild('vendor');
-        $vendorXml->addAttribute('id', '0x'.$vendor);
-
-        $productXml = $sourceXml->addChild('product');
-        $productXml->addAttribute('id', '0x'.$product);
-
-        $newXml = $domXml->asXML();
-        $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
-        if (!$lv->domain_change_xml($params['vmname'], $newXml)) {
-            throw new \OMV\Exception( gettext("Unable to add USB device to VM - ") . $lv->get_last_error());
+        // create usb xml
+        $usbXml = $this->createUsbXml($params['device']);
+        // add usb with virsh
+        $cmdArgs = [];
+        $cmdArgs[] = 'attach-device';
+        $cmdArgs[] = sprintf('--domain %s', $params['vmname']);
+        $cmdArgs[] = sprintf('--file %s', $usbXml);
+        $cmdArgs[] = '--persistent';
+        $cmdArgs[] = '--config';
+        if ($params['state'] == 'running') {
+            $cmdArgs[] = '--live';
         }
+        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
+        $cmd->execute($output, $exitStatus);
     }
 
     public function removeUsb($params, $context)
@@ -1770,26 +1782,45 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.usb');
-        // create new libvirt object
-        $lv = $this->connectQemu();
-        $device = $params['device'];
-        $vmname = $params['vmname'];
-        $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
-        $xpath = $domXml->xpath('//hostdev');
-        $xpathSize = sizeof($xpath);
-        for ($i = 0; $i < $xpathSize; $i++) {
-            $dev = $domXml->devices->hostdev[$i]->source;
-            $vendorProduct = sprintf('%s:%s', $dev->vendor['id'], $dev->product['id']);
-            if ($vendorProduct == $device) {
-                unset($domXml->devices->hostdev[$i]);
-                break;
-            }
+        // create usb xml
+        $usbXml = $this->createUsbXml($params['device']);
+        // remove usb with virsh
+        $cmdArgs = [];
+        $cmdArgs[] = 'detach-device';
+        $cmdArgs[] = sprintf('--domain %s', $params['vmname']);
+        $cmdArgs[] = sprintf('--file %s', $usbXml);
+        $cmdArgs[] = '--persistent';
+        $cmdArgs[] = '--config';
+        if ($params['state'] == 'running') {
+            $cmdArgs[] = '--live';
         }
-        $newXml = $domXml->asXML();
-        $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
-        if (!$lv->domain_change_xml($vmname, $newXml)) {
-            throw new \OMV\Exception( gettext("Unable to remove USB device to VM - ") . $lv->get_last_error());
-        }
+        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
+        $cmd->execute($output, $exitStatus);
+    }
+
+    private function createUsbXml($device)
+    {
+        // create usb xml
+        $dev = explode(' ', $device);
+        $vendorProduct = explode(':', $dev[5]);
+        $vendor = $vendorProduct[0];
+        $product = $vendorProduct[1];
+        // create xml structure
+        $usbXml = new SimpleXMLElement('<xml/>');
+        $hostDevXml = $usbXml->devices->addChild('hostdev');
+        $hostDevXml->addAttribute('mode', 'subsystem');
+        $hostDevXml->addAttribute('type', 'usb');
+        $hostDevXml->addAttribute('managed', 'yes');
+        $sourceXml = $hostDevXml->addChild('source');
+        $vendorXml = $sourceXml->addChild('vendor');
+        $vendorXml->addAttribute('id', '0x'.$vendor);
+        $productXml = $sourceXml->addChild('product');
+        $productXml->addAttribute('id', '0x'.$product);
+        // create xml file
+        $temp = tempnam(sys_get_temp_dir(), 'virsh_usb');
+        $newXml = $usbXml->asXML($temp);
+        // return filename
+	return ($temp);
     }
 
     public function doCommand($params, $context)

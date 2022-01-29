@@ -122,7 +122,7 @@ data:
                   - type: select
                     name: voldisk
                     label: _('Volume')
-                    textField: path
+                    textField: name
                     valueField: path
                     value: 'Create new disk'
                     store:
@@ -237,6 +237,10 @@ data:
                         - ["scsi", _("scsi")]
                         - ["sata", _("sata")]
                         - ["ide", _("ide")]
+                  - type: hidden
+                    name: state
+                    value: '{{ _selected[0].state }}'
+                    readonly: true
                 buttons:
                   submit:
                     text: _('Add')
@@ -314,7 +318,7 @@ data:
                   - type: select
                     name: voliso
                     label: _('Optical disc')
-                    textField: path
+                    textField: name
                     valueField: path
                     store:
                       proxy:
@@ -324,6 +328,10 @@ data:
                           params:
                             optical: true
                             opticalNone: false
+                  - type: hidden
+                    name: state
+                    value: '{{ _selected[0].state }}'
+                    readonly: true
                 buttons:
                   submit:
                     text: _('Add')
@@ -358,6 +366,10 @@ data:
                           params:
                             optical: true
                             vmname: '{{ _selected[0].vmname }}'
+                  - type: hidden
+                    name: state
+                    value: '{{ _selected[0].state }}'
+                    readonly: true
                 buttons:
                   submit:
                     text: _('Remove')
@@ -445,6 +457,10 @@ data:
                     name: macaddress
                     label: _("MAC address")
                     hint: _("Leave blank for random address.")
+                  - type: hidden
+                    name: state
+                    value: '{{ _selected[0].state }}'
+                    readonly: true
                 buttons:
                   submit:
                     text: _('Add')
@@ -478,6 +494,10 @@ data:
                           method: 'enumerateVmNic'
                           params:
                             vmname: '{{ _selected[0].vmname }}'
+                  - type: hidden
+                    name: state
+                    value: '{{ _selected[0].state }}'
+                    readonly: true
                 buttons:
                   submit:
                     text: _('Remove')
@@ -516,6 +536,10 @@ data:
                         service: 'Kvm'
                         get:
                           method: 'enumerateUsbByHost'
+                  - type: hidden
+                    name: state
+                    value: '{{ _selected[0].state }}'
+                    readonly: true
                 buttons:
                   submit:
                     text: _('Add')
@@ -549,6 +573,10 @@ data:
                           method: 'enumerateUsbByVm'
                           params:
                             vmname: '{{ _selected[0].vmname }}'
+                  - type: hidden
+                    name: state
+                    value: '{{ _selected[0].state }}'
+                    readonly: true
                 buttons:
                   submit:
                     text: _('Remove')
