@@ -21,7 +21,7 @@ data:
         value: ""
         validators:
           required: true
-          patternType: 'shareName'
+          patternType: shareName
       - type: select
         name: arch
         label: _("Architecture")
@@ -63,6 +63,23 @@ data:
                 arg0:
                   prop: arch
                 arg1: ['armv6l', 'armv7l', 'aarch64', 'i686', 'ppc64', 'ppc64le', 'x86_64']
+      - type: textInput
+        name: otherCpu
+        label: _("Other CPU")
+        value: ''
+        modifiers:
+          - type: visible
+            constraint:
+              operator: and
+              arg0:
+                operator: truthy
+                arg0:
+                  prop: advanced
+              arg1:
+                operator: eq
+                arg0:
+                  prop: cpu
+                arg1: 'other not listed'
       - type: select
         name: os
         label: _("OS")

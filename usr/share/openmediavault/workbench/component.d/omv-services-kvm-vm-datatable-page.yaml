@@ -354,7 +354,7 @@ data:
                     value: '{{ _selected[0].vmname }}'
                     readonly: true
                   - type: select
-                    name: voliso
+                    name: disk
                     label: _('Optical disc')
                     textField: description
                     valueField: path
@@ -733,20 +733,20 @@ data:
           minSelected: 1
           maxSelected: 1
           constraint:
-            - operator: and
+            - operator: eq
               arg0:
-                - operator: eq
-                  arg0:
-                    prop: state
-                  arg1: "shutoff"
-              arg1:
-                - operator: eq
-                  arg0:
-                    prop: snaps
-                  arg1: 0
+                prop: state
+              arg1: "shutoff"
+            - operator: le
+              arg0:
+                prop: snaps
+              arg1: 0
         actions:
           - text: _("Delete")
             icon: mdi:text-box-minus-outline
+            confirmationDialogConfig:
+              template: confirmation
+              message: _("Are you sure you want to delete?")
             execute:
               type: request
               request:
@@ -758,6 +758,9 @@ data:
                 task: false
           - text: _("Delete + storage")
             icon: mdi:delete-sweep-outline
+            confirmationDialogConfig:
+              template: confirmation
+              message: _("Are you sure you want to delete?")
             execute:
               type: request
               request:

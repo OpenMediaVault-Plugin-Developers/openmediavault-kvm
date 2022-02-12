@@ -74,6 +74,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('convertVolume');
         $this->registerMethod('volumeCommand');
         $this->registerMethod('downloadIso');
+        $this->registerMethod('addFsPass');
 
         $this->registerMethod('enumerateSnapshots');
         $this->registerMethod('addSnapshot');
@@ -286,10 +287,13 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 }
                 break;
         }
-        $cmdLine = sprintf('virsh net-autostart --network %s%s', $params['name'], $disable);
-        $cmd = new \OMV\System\Process($cmdLine);
-        $cmd->setQuiet(true);
-        $cmd->execute($output, $exitStatus);
+        $cmdArgs = [];
+        $cmdArgs[] = 'net-autostart';
+        $cmdArgs[] = '--network';
+        $cmdArgs[] = $params['name'];
+        $cmdArgs[] = $disable;
+        $err = gettext("Failed to ") . $params['command'];
+        $this->virshCommand($cmdArgs, $err);
     }
 
     public function addVmNic($params, $context)
@@ -349,8 +353,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if ($params['state'] == 'running') {
             $cmdArgs[] = '--live';
         }
-        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
-        $cmd->execute($output, $exitStatus);
+        $err = gettext("Failed to remove network.");
+        $this->virshCommand($cmdArgs, $err);
     }
 
     public function enumerateVmNic($params, $context)
@@ -556,6 +560,12 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if (0 !== $exitStatus) {
             throw new \OMV\Exception(gettext("Failed to change autostart") . " :: " . $cmdLine);
         }
+        $cmdArgs = [];
+        $cmdArgs[] = 'pool-autostart';
+        $cmdArgs[] = $pool;
+        $cmdArgs[] = $disable;
+        $err = gettext("Failed to create VM.");
+        $this->virshCommand($cmdArgs, $err);
     }
 
 
@@ -961,13 +971,43 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodParams($params, 'rpc.kvm.setvm');
 
         $arch = $params['arch'];
-        $cpu = $params['cpu'];
-        $cpuModel = explode(' ', $cpu)[1];
+        $cpu = explode(' ', $params['cpu']);
+        $cpuArch = $cpu[0];
+        if ($cpuArch == 'other') {
+            $cpuModel = $params['otherCpu'];
+        } else {
+            $cpuModel = $cpu[1];
+        }
         $hostArch = $this->getArch();
         $os = strtolower($params['os']);
         $uefi = $params['uefi'];
+        $vcpu = $params['vcpu'];
         $vmname = $params['vmname'];
         $xmlFile = sprintf('/tmp/%s.xml', $vmname);
+
+        // verify if arch and cpu are compatible
+        $archOk = false;
+        switch ($cpuArch) {
+            case 'arm':
+                $arm = ['armv6l','armv7l','aarch64','sh4','sh4eb'];
+                if (in_array($arch, $arm)) $archOk = true;
+                break;
+            case 'ppc64':
+                $ppc = ['ppc','ppc64','ppc64le'];
+                if (in_array($arch, $ppc)) $archOk = true;
+                break;
+            case 'x86':
+                $x86 = ['i686','x86_64'];
+                if (in_array($arch, $x86)) $archOk = true;
+                break;
+            case 'host':
+            case 'other':
+                $archOk = true;
+                break;
+        }
+        if($archOk !== true) {
+            throw(gettext('Incompatible cpu and architecture!'));
+        }
 
         // memory
         $memory = $params['memory'];
@@ -1084,16 +1124,16 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmdArgs[] = sprintf('--print-xml%s', $printStep);
         $cmdArgs[] = sprintf(' > %s', $xmlFile);
 
-        $cmd = new \OMV\System\Process('virt-install', $cmdArgs);
-        $cmd->execute($output, $exitStatus);
+        $err = gettext("Failed to create VM XML.");
+        $this->virshCommand($cmdArgs, $err, 'virt-install');
 
         // import newly created xml file
         $cmdArgs = [];
         $cmdArgs[] = 'define';
         $cmdArgs[] = sprintf('--file %s', $xmlFile);
 
-        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
-        $cmd->execute($output, $exitStatus);
+        $err = gettext("Failed to create VM.");
+        $this->virshCommand($cmdArgs, $err);
     }
 
     private function addVmBridgeNic($vmname, $mac, $net)
@@ -1263,8 +1303,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if ($params['state'] == 'running') {
             $cmdArgs[] = '--live';
         }
-        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
-        $cmd->execute($output, $exitStatus);
+        $err = gettext("Failed to add optical disk.");
+        $this->virshCommand($cmdArgs, $err);
     }
 
     public function removeDisk($params, $context)
@@ -1283,8 +1323,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if ($params['state'] == 'running') {
             $cmdArgs[] = '--live';
         }
-        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
-        $cmd->execute($output, $exitStatus);
+        $err = gettext("Failed to remove disk.");
+        $this->virshCommand($cmdArgs, $err);
     }
 
     public function resizeDisk($params, $context)
@@ -1772,8 +1812,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if ($params['state'] == 'running') {
             $cmdArgs[] = '--live';
         }
-        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
-        $cmd->execute($output, $exitStatus);
+        $err = gettext("Failed to add USB.");
+        $this->virshCommand($cmdArgs, $err);
     }
 
     public function removeUsb($params, $context)
@@ -1794,8 +1834,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if ($params['state'] == 'running') {
             $cmdArgs[] = '--live';
         }
-        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
-        $cmd->execute($output, $exitStatus);
+        $err = gettext("Failed to remove USB.");
+        $this->virshCommand($cmdArgs, $err);
     }
 
     private function createUsbXml($device)
@@ -1820,7 +1860,29 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $temp = tempnam(sys_get_temp_dir(), 'virsh_usb');
         $newXml = $usbXml->asXML($temp);
         // return filename
-	return ($temp);
+        return ($temp);
+    }
+
+    public function addFsPass($params, $context)
+    {
+    }
+
+    private function createFsXml($src, $tgt)
+    {
+        // create filesystem passthrough xml
+        $xml = new SimpleXMLElement('<xml/>');
+        $fsXml = $xml->devices->addChild('filesystem');
+        $fsXml->addAttribute('type', 'mount');
+        $fsXml->addAttribute('accessmode', 'passthrough');
+        $srcXml = $hostDevXml->addChild('source');
+        $srcXml->addAttribute('dir', $src);
+        $tgtXml = $fsXml->addChild('target');
+        $productXml->addAttribute('dir', $tgt);
+        // create xml file
+        $temp = tempnam(sys_get_temp_dir(), 'virsh_fs');
+        $newXml = $xml->asXML($temp);
+        // return filename
+        return ($temp);
     }
 
     public function doCommand($params, $context)
@@ -1841,9 +1903,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $result = $lv->domain_reboot($dom);
                 break;
             case 'reset':
-                $cmdLine = sprintf('virsh reset %s', $vmname);
-                $cmd = new \OMV\System\Process($cmdLine);
-                $cmd->execute($output, $result);
+                $cmdArgs = [];
+                $cmdArgs[] = 'reset';
+                $cmdArgs[] = $vmname;
+                $err = gettext("Failed to reset VM.");
+                $this->virshCommand($cmdArgs, $err);
                 break;
             case 'poweroff':
                 $result = $lv->domain_shutdown($dom);
@@ -1858,9 +1922,12 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $result = $lv->domain_resume($dom);
                 break;
             case 'undefine':
-                $cmdLine = sprintf('virsh undefine --nvram %s', $vmname);
-                $cmd = new \OMV\System\Process($cmdLine);
-                $cmd->execute($output, $result);
+                $cmdArgs = [];
+                $cmdArgs[] = 'undefine';
+                $cmdArgs[] = '--nvram';
+                $cmdArgs[] = $vmname;
+                $err = gettext("Failed to delete VM.");
+                $this->virshCommand($cmdArgs, $err);
                 break;
             case 'undefineplus':
                 $undefine = false;
@@ -1871,10 +1938,12 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                     throw new \OMV\Exception( gettext("Unable to delete disk(s) from VM - ") . $lv->get_last_error());
                 }
                 if ($undefine) {
-                    $output = [];
-                    $cmdLine = sprintf('virsh undefine --nvram %s', $vmname);
-                    $cmd = new \OMV\System\Process($cmdLine);
-                    $cmd->execute($output, $result);
+                    $cmdArgs = [];
+                    $cmdArgs[] = 'undefine';
+                    $cmdArgs[] = '--nvram';
+                    $cmdArgs[] = $vmname;
+                    $err = gettext("Failed to create VM.");
+                    $this->virshCommand($cmdArgs, $err);
                 }
                 break;
             case 'autostartdisable':
@@ -1993,16 +2062,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             }
         }
         if (!$skip) {
-            $cmd = new \OMV\System\Process($cmdLine);
-            $cmd->execute($output, $exitStatus);
-            if (0 !== $exitStatus) {
-                throw new \OMV\Exception(gettext("Failed to set maximum") . " :: " . $cmdLine);
-            }
-            $cmd = new \OMV\System\Process($cmdLine2);
-            $cmd->execute($output, $exitStatus);
-            if (0 !== $exitStatus) {
-                throw new \OMV\Exception(gettext("Failed to change ") . " :: " . $cmdLine);
-            }
+            $err = gettext("Failed to set maximum.");
+            $this->virshCommand($cmdLine, $err);
+
+            $err = gettext("Failed to set change.");
+            $this->virshCommand($cmdLine2, $err);
         }
     }
 
@@ -2191,6 +2255,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             }
             $objects[] = ['cpu' => $cpu];
         }
+        $objects[] = ['cpu' => 'other not listed'];
         return ($objects);
     }
 
@@ -2217,5 +2282,21 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             }
         }
         return ($objects);
+    }
+
+    private function virshCommand($cmdArgs, $msg, $virsh = 'virsh') {
+        $output = [];
+        $cmd = new \OMV\System\Process($virsh, $cmdArgs);
+        $cmd->setQuiet(true);
+        $cmd->setRedirect2to1();
+        $cmd->execute($output, $exitStatus);
+        if (0 != $exitStatus) {
+            $outMsg = implode(PHP_EOL, array_filter($output));
+            $cmdMsg = implode(' ', array_filter($cmdArgs));
+            $errMsg = sprintf('%s%s%s%s%s %s',
+                $msg, PHP_EOL, $outMsg, PHP_EOL, $virsh, $cmdMsg
+            );
+            throw new \OMV\Exception($errMsg);
+        }
     }
 }
