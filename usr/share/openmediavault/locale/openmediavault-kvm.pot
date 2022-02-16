@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-03 07:06-0600\n"
+"POT-Creation-Date: 2022-02-16 11:37-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,6 +41,9 @@ msgstr ""
 msgid "Add new VM"
 msgstr ""
 
+msgid "Add new VM 2"
+msgstr ""
+
 msgid "Add new pool"
 msgstr ""
 
@@ -59,6 +62,9 @@ msgstr ""
 msgid "Architecture"
 msgstr ""
 
+msgid "Are you sure you want to delete?"
+msgstr ""
+
 msgid "Audio"
 msgstr ""
 
@@ -68,7 +74,16 @@ msgstr ""
 msgid "Available"
 msgstr ""
 
+msgid "Backup"
+msgstr ""
+
+msgid "Backup with Compression"
+msgstr ""
+
 msgid "Bus"
+msgstr ""
+
+msgid "CPU"
 msgstr ""
 
 msgid "CPUs"
@@ -101,6 +116,9 @@ msgstr ""
 msgid "Component"
 msgstr ""
 
+msgid "Compression"
+msgstr ""
+
 msgid "Console"
 msgstr ""
 
@@ -122,7 +140,16 @@ msgstr ""
 msgid "Create VM"
 msgstr ""
 
+msgid "Create VM 2"
+msgstr ""
+
+msgid "Created VM 2."
+msgstr ""
+
 msgid "Created VM."
+msgstr ""
+
+msgid "Created scheduled job."
 msgstr ""
 
 msgid "DHCP"
@@ -135,6 +162,9 @@ msgid "DHCP ending address"
 msgstr ""
 
 msgid "DHCP starting address"
+msgstr ""
+
+msgid "Date"
 msgstr ""
 
 msgid "Date & Time"
@@ -164,6 +194,9 @@ msgstr ""
 msgid "Download virtio iso ..."
 msgstr ""
 
+msgid "Edit"
+msgstr ""
+
 msgid "Edit Notes"
 msgstr ""
 
@@ -176,10 +209,34 @@ msgstr ""
 msgid "Edit XML"
 msgstr ""
 
+msgid "Edit scheduled job."
+msgstr ""
+
 msgid "Enable"
 msgstr ""
 
+msgid "Execute backup using selected VM name and path ..."
+msgstr ""
+
+msgid "Execute backup with compression using selected VM name and path ..."
+msgstr ""
+
+msgid "Execute scheduled job ..."
+msgstr ""
+
 msgid "Extension"
+msgstr ""
+
+msgid "Failed to "
+msgstr ""
+
+msgid "Failed to add USB device."
+msgstr ""
+
+msgid "Failed to add filesystem passthrough."
+msgstr ""
+
+msgid "Failed to add optical disk."
 msgstr ""
 
 msgid "Failed to add vnc and/or spice setup - "
@@ -191,10 +248,40 @@ msgstr ""
 msgid "Failed to change autostart"
 msgstr ""
 
+msgid "Failed to create VM XML."
+msgstr ""
+
+msgid "Failed to create VM."
+msgstr ""
+
+msgid "Failed to delete VM."
+msgstr ""
+
+msgid "Failed to remove USB device."
+msgstr ""
+
+msgid "Failed to remove disk."
+msgstr ""
+
+msgid "Failed to remove filesystem passthrough."
+msgstr ""
+
+msgid "Failed to remove network."
+msgstr ""
+
 msgid "Failed to remove vnc and/or spice setup - "
 msgstr ""
 
+msgid "Failed to reset VM."
+msgstr ""
+
+msgid "Failed to set change."
+msgstr ""
+
 msgid "Failed to set maximum"
+msgstr ""
+
+msgid "Failed to set maximum."
 msgstr ""
 
 msgid "Failed to start websockify for noVNC."
@@ -252,6 +339,9 @@ msgid "Info"
 msgstr ""
 
 msgid "KVM"
+msgstr ""
+
+msgid "KVM Backup"
 msgstr ""
 
 msgid "Leave blank for random address."
@@ -314,6 +404,9 @@ msgstr ""
 msgid "Optical Drive"
 msgstr ""
 
+msgid "Other CPU"
+msgstr ""
+
 msgid "Path"
 msgstr ""
 
@@ -348,6 +441,12 @@ msgid "Resume"
 msgstr ""
 
 msgid "Revert"
+msgstr ""
+
+msgid "Run"
+msgstr ""
+
+msgid "Schedule"
 msgstr ""
 
 msgid "Select a snapshot ..."
@@ -405,6 +504,9 @@ msgid "UEFI"
 msgstr ""
 
 msgid "USB"
+msgstr ""
+
+msgid "UUID"
 msgstr ""
 
 msgid "Unable to"
@@ -465,6 +567,9 @@ msgid "Unable to delete snapshot - "
 msgstr ""
 
 msgid "Unable to delete volume - "
+msgstr ""
+
+msgid "Unable to get network adapter type - "
 msgstr ""
 
 msgid "Unable to remove USB device to VM - "

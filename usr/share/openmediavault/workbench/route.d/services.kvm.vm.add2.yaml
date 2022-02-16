@@ -1,7 +1,0 @@
-version: "1.0"
-type: route
-data:
-  url: "/services/kvm/vm/add2"
-  title: _("Create VM 2")
-  notificationTitle: _("Created VM 2.")
-  component: omv-services-kvm-vm-add2-form-page

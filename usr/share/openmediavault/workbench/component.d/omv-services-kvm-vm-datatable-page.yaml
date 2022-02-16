@@ -89,12 +89,6 @@ data:
         execute:
           type: url
           url: /services/kvm/vm/add
-      - type: iconButton
-        icon: mdi:desktop-classic
-        tooltip: _("Add new VM 2")
-        execute:
-          type: url
-          url: /services/kvm/vm/add2
       - type: menu
         icon: mdi:harddisk
         tooltip: _("Hard disk")
