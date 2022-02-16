@@ -2205,7 +2205,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
         $cmdArgs = [];
         $cmdArgs[] = '-i';
-        $cmdArgs[] = sprintf('"/^%s.*%s.*%s$/d"', $uuid, $vmname, $date));
+        $cmdArgs[] = sprintf('"/^%s.*%s.*%s$/d"', $uuid, $vmname, $date);
         $cmdArgs[] = '/etc/omv-backup-vm.list';
         $cmd = new \OMV\System\Process('sed', $cmdArgs);
         $cmd->setQuiet(true);
