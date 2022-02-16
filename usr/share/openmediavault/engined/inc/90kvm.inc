@@ -29,3 +29,13 @@
         "message" => 6
     ]
 ]);
+
+\OMV\System\LogFileSpec::registerSpecification("omv-backup-vm", [
+    "filename" => "omv-backup-vm.log",
+    "filepath" => "/var/log/omv-backup-vm.log",
+    "regex" => "/^\[((.*?)\s+(.*?))\]\s+(.*?)$/",
+    "columns" => [
+        "date" => 1,
+        "message" => 4
+    ]
+]);

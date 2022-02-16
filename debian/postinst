@@ -42,6 +42,8 @@ case "$1" in
             omv_config_add_node "/config/services" "kvm"
             omv_config_add_node "/config/services/kvm" "jobs"
         fi
+
+        omv-salt deploy run --no-color kvm || :
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

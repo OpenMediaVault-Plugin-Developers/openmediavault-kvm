@@ -76,10 +76,9 @@ data:
             config:
               title: _("Execute scheduled job ...")
               startOnInit: true
+              showCompletion: false
               request:
-                service: Job
+                service: Kvm
                 method: doJob
                 params:
-                  compression: "{{ _selected[0].compression }}"
-                  path: "{{ _selected[0].path }}"
-                  vmname: "{{ _selected[0].vmname }}"
+                  uuid: '{{ _selected[0].uuid }}'

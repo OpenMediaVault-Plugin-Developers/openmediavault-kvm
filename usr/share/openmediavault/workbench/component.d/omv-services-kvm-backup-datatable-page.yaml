@@ -43,11 +43,32 @@ data:
             config:
               title: _("Execute backup using selected VM name and path ...")
               startOnInit: true
+              showCompletion: false
               request:
-                service: Job
-                method: doJob
+                service: Kvm
+                method: doBackup
                 params:
                   compression: false
+                  path: "{{ _selected[0].path }}"
+                  vmname: "{{ _selected[0].vmname }}"
+      - type: iconButton
+        tooltip: _("Backup with Compression")
+        icon: mdi:play-box
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+        execute:
+          type: taskDialog
+          taskDialog:
+            config:
+              title: _("Execute backup with compression using selected VM name and path ...")
+              startOnInit: true
+              showCompletion: false
+              request:
+                service: Kvm
+                method: doBackup
+                params:
+                  compression: true
                   path: "{{ _selected[0].path }}"
                   vmname: "{{ _selected[0].vmname }}"
       - template: delete

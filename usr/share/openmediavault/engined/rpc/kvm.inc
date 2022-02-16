@@ -2227,10 +2227,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmdArgs[] = '/usr/sbin/omv-backup-vm';
                 $cmdArgs[] = sprintf('-v %s', $params['vmname']);
                 $cmdArgs[] = sprintf('-d %s', $params['path']);
-                if ($params['compression']) {
+                if ($params['compression'] === true) {
                     $cmdArgs[] = '-c';
                 }
                 $cmd = new \OMV\System\Process($cmdArgs);
+                $cmd->setRedirect2to1();
                 $cmdLine = $cmd->getCommandLine();
                 if (0 !== $this->exec($cmdLine, $output, $bgOutputFilename)) {
                     throw new \OMV\ExecException($cmdLine, $output);
@@ -2304,20 +2305,21 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
-        $this->validateMethodParams($params, 'rpc.kvm.dobackup');
-        if (substr($params['path'],0,1) != '/') {
-            $params['path'] = '/' . $params['path'];
-        }
+		$this->validateMethodParams($params, "rpc.common.objectuuid");
+        // Get the configuration object.
+        $db = \OMV\Config\Database::getInstance();
+        $object = $db->get("conf.service.kvm.job", $params['uuid']);
         return $this->execBgProc(function($bgStatusFilename, $bgOutputFilename)
-            use ($params) {
+            use ($object) {
                 $cmdArgs = [];
                 $cmdArgs[] = '/usr/sbin/omv-backup-vm';
-                $cmdArgs[] = sprintf('-v %s', $params['vmname']);
-                $cmdArgs[] = sprintf('-d %s', $params['path']);
-                if ($params['compression']) {
+                $cmdArgs[] = sprintf('-v %s', $object->get('vmname'));
+                $cmdArgs[] = sprintf('-d %s', $object->get('path'));
+                if ($object->get('compression') === true) {
                     $cmdArgs[] = '-c';
                 }
                 $cmd = new \OMV\System\Process($cmdArgs);
+                $cmd->setRedirect2to1();
                 $cmdLine = $cmd->getCommandLine();
                 if (0 !== $this->exec($cmdLine, $output, $bgOutputFilename)) {
                     throw new \OMV\ExecException($cmdLine, $output);

@@ -28,3 +28,18 @@ configure_kvm_scheduled_jobs:
     - user: root
     - group: root
     - mode: 644
+
+configure_omv_backup_vm_logrotate:
+  file.managed:
+    - name: "/etc/logrotate.d/omv-backup-vm"
+    - contents: |
+        /var/log/omv-backup-vm.log {
+          monthly
+          missingok
+          rotate 12
+          compress
+          notifempty
+        }
+    - user: root
+    - group: root
+    - mode: 644

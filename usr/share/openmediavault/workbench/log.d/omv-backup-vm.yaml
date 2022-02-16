@@ -1,0 +1,20 @@
+version: "1.0"
+type: log
+data:
+  id: omv-backup-vm
+  text: _("KVM Backup")
+  columns:
+    - name: _("Date & Time")
+      sortable: true
+      prop: date
+      cellTemplateName: localeDateTime
+      flexGrow: 1
+    - name: _("Message")
+      sortable: true
+      prop: message
+      flexGrow: 3
+  request:
+    service: LogFile
+    method: getList
+    params:
+      id: omv-backup-vm

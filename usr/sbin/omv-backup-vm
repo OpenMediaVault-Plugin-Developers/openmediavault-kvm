@@ -40,11 +40,10 @@ _log()
 
 # loop through options
 while getopts "cd:hv:" opt; do
-  echo "option ${opt}"
   case "${opt}" in
     c)
       compress=" -c"
-      _log "compress :: ${compress}"
+      _log "compression :: enabled"
       ;;
     d)
       backupDir=${OPTARG}
@@ -102,12 +101,12 @@ fi
 # get date
 date="$(date +'%Y-%m-%d_%H-%M-%S')"
 
-# get VM ID
-vmId=$(virsh domid ${backupVm})
+# get VM power state
+powerState="$(virsh dominfo ${backupVm} | awk '$1 == "State:" { print $2 }')"
 
-if [ ${vmId} -lt 1 ]; then
-  _log "ID '${vmId}' for VM '${backupVm}' is not valid!"
-  exit 6
+# get VM ID
+if [ "${powerState}" = "running" ]; then
+  vmId=$(virsh domid ${backupVm})
 fi
 _log "${backupVm} ID :: ${vmId}"
 
@@ -118,17 +117,17 @@ mkdir -p "${backupVmDir}"
 # create backup xml
 backupXml="${backupVm}_${date}.xml"
 _log "Dump XML for backup :: ${backupXml}"
-virsh dumpxml ${vmId} > "${backupVmDir}/${backupXml}"
+virsh dumpxml ${backupVm} > "${backupVmDir}/${backupXml}"
 
 # get list of disks for VM
-disks=$(virsh domblklist ${vmId} --details | sed 1,2d | awk NF | awk '$2 == "disk" { print $3","$4 }')
+disks=$(virsh domblklist ${backupVm} --details | sed 1,2d | awk NF | awk '$2 == "disk" { print $3","$4 }')
 
 for disk in ${disks}; do
   _log "Adding disk to snapshot :: ${disk%%,*}"
   diskSpecs="${diskSpecs} --diskspec ${disk%%,*},snapshot=external"
 done
 
-# skip snapshot if the VM is powered off
+# skip snapshot if the VM is not powered on
 if [ ${vmId} -gt 0 ]; then
   _log "Creating snapshot..."
   virsh snapshot-create-as \
@@ -144,7 +143,7 @@ if [ ${vmId} -gt 0 ]; then
       exit 7
   fi
 else
-  _log "Skip snapshot - VM is powered off"
+  _log "Skip snapshot - VM is not powered on"
 fi
 
 # copy disks to VM backup directory
@@ -155,7 +154,7 @@ for disk in ${disks}; do
   qemu-img convert -O qcow2 ${compress} "${disk#*,}" "${backupVmDir}/${filename}_${date}.bak"
 done
 
-# skip commit and remove if the VM is powered off
+# skip commit and remove if the VM is not powered on
 if [ ${vmId} -gt 0 ]; then
   # get list of disks
   disks=$(virsh domblklist ${vmId} --details | sed 1,2d | awk NF | awk '$2 == "disk" { print $3","$4 }')
@@ -181,7 +180,7 @@ if [ ${vmId} -gt 0 ]; then
     rm -fv "${disk#*,}"
   done
 else
-  _log "Skip commit and remove - VM is powered off"
+  _log "Skip commit and remove - VM is not powered on"
 fi
 
 # add entry to list file
