@@ -55,8 +55,9 @@ data:
           type: request
           request:
             service: Kvm
-            method: deleteVolume
+            method: deleteBackup
             params:
               date: "{{ _selected[0].date }}"
               path: "{{ _selected[0].path }}"
+              uuid: "{{ _selected[0].uuid }}"
               vmname: "{{ _selected[0].vmname }}"
