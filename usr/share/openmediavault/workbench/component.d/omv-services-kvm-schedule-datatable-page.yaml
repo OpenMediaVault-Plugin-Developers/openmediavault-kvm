@@ -80,6 +80,6 @@ data:
                 service: Job
                 method: doJob
                 params:
-                  vmname: "{{ _selected[0].vmname }}"
-                  path: "{{ _selected[0].path }}"
                   compression: "{{ _selected[0].compression }}"
+                  path: "{{ _selected[0].path }}"
+                  vmname: "{{ _selected[0].vmname }}"

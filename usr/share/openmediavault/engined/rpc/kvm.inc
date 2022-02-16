@@ -2186,6 +2186,30 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
 
     public function deleteBackup($params, $context)
     {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        //$this->validateMethodParams($params, 'rpc.kvm.dobackup');
+        $date = $params['date'];
+        $path = $params['path'];
+        $uuid = $params['uuid'];
+        $vmname = $params['vmname'];
+        $dir = sprintf('%s/%s/%s', $path, $vmname, $date);
+        if ((is_dir($dir)) && (strlen($dir) > 2)) {
+            $cmdArgs = [];
+            $cmdArgs[] = '-rf';
+            $cmdArgs[] = sprintf('"%s"', $dir);
+            $cmd = new \OMV\System\Process('rm', $cmdArgs);
+            $cmd->setQuiet(true);
+            $cmd->execute($output, $exitStatus);
+        }
+        $cmdArgs = [];
+        $cmdArgs[] = '-i';
+        $cmdArgs[] = sprintf('"/%s.*%s.*%s/d"', $uuid, $vmname, $date));
+        $cmdArgs[] = '/etc/omv-backup-vm.list';
+        $cmd = new \OMV\System\Process('sed', $cmdArgs);
+        $cmd->setQuiet(true);
+        $cmd->execute($output, $exitStatus);
     }
 
     public function doBackup($params, $context)

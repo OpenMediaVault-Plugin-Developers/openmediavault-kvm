@@ -13,6 +13,11 @@ data:
         get:
           method: getBackupList
     columns:
+      - name: _("UUID")
+        prop: uuid
+        flexGrow: 1
+        sortable: true
+        hidden: true
       - name: _("VM Name")
         prop: vmname
         flexGrow: 1
@@ -26,6 +31,25 @@ data:
         flexGrow: 3
         sortable: true
     actions:
+      - type: iconButton
+        tooltip: _("Backup")
+        icon: mdi:play-box-outline
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+        execute:
+          type: taskDialog
+          taskDialog:
+            config:
+              title: _("Execute backup using selected VM name and path ...")
+              startOnInit: true
+              request:
+                service: Job
+                method: doJob
+                params:
+                  compression: false
+                  path: "{{ _selected[0].path }}"
+                  vmname: "{{ _selected[0].vmname }}"
       - template: delete
         execute:
           type: request
@@ -33,4 +57,6 @@ data:
             service: Kvm
             method: deleteVolume
             params:
+              date: "{{ _selected[0].date }}"
               path: "{{ _selected[0].path }}"
+              vmname: "{{ _selected[0].vmname }}"
