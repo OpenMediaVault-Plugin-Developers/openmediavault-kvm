@@ -550,11 +550,106 @@
 			"vmname": {
 				"type": "string",
 				"required": true
-                        },
+            },
 			"newname": {
 				"type": "string",
 				"required": true
-                        }
+            }
 		}
 	}
+},{
+	"type": "rpc",
+	"id": "rpc.kvm.dobackup",
+	"params": {
+		"type": "object",
+		"properties": {
+			"vmname": {
+				"type": "string",
+				"required": true
+            },
+			"path": {
+				"type": "string",
+				"required": true
+            },
+			"compression": {
+				"type": "boolean"
+            }
+		}
+	}
+},{
+	"type": "rpc",
+	"id": "rpc.kvm.setjob",
+	"params": {
+		"type": "object",
+		"properties": {
+            "uuid": {
+                "type": "string",
+				"required": true
+            },
+            "enable": {
+                "type": "boolean",
+				"required": true
+            },
+            "vmname": {
+                "type": "string",
+				"required": true
+            },
+            "path": {
+                "type": "string",
+				"required": true
+            },
+            "compression": {
+                "type": "boolean",
+				"required": true
+            },
+            "sendemail": {
+                "type": "boolean",
+				"required": true
+            },
+            "comment": {
+                "type": "string"
+            },
+            "execution":{
+                "type": "string",
+                "enum": [
+                    "exactly", "hourly", "daily", "weekly",
+                    "monthly", "yearly", "reboot"
+                ],
+                "required": true
+            },
+            "minute": {
+                "type": "string",
+				"required": true
+            },
+            "everynminute": {
+                "type": "boolean",
+				"required": true
+            },
+            "hour": {
+                "type": "string",
+				"required": true
+            },
+            "everynhour": {
+                "type":"boolean",
+				"required": true
+            },
+            "month": {
+                "type": "string",
+				"required": true
+            },
+            "dayofmonth": {
+                "type": "string",
+				"required": true
+            },
+            "everyndayofmonth": {
+                "type": "boolean",
+				"required": true
+            },
+            "dayofweek": {
+                "type": "string",
+				"required": true
+            }
+        }
+    }
+
 }]

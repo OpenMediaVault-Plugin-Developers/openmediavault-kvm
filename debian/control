@@ -36,5 +36,6 @@ Depends: dnsmasq-base,
          qemu-system-x86,
          qemu-utils,
          spice-html5,
+         uuid,
          virtinst
 Description: kvm plugin for OpenMediaVault.

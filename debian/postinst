@@ -37,6 +37,11 @@ case "$1" in
                 --shell '/usr/sbin/nologin' \
                 openmediavault-kvmweb
         fi
+
+        if ! omv_config_exists "/config/services/kvm"; then
+            omv_config_add_node "/config/services" "kvm"
+            omv_config_add_node "/config/services/kvm" "jobs"
+        fi
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

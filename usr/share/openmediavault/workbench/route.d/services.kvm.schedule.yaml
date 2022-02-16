@@ -1,0 +1,6 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/kvm/schedule"
+  title: _("Schedule")
+  component: omv-services-kvm-schedule-datatable-page

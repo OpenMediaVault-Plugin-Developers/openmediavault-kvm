@@ -1,0 +1,8 @@
+version: "1.0"
+type: navigation-item
+data:
+  path: "services.kvm.backup"
+  text: _("Backup")
+  position: 60
+  icon: mdi:backup-restore
+  url: "/services/kvm/backup"

@@ -1,0 +1,36 @@
+version: "1.0"
+type: component
+data:
+  name: omv-services-kvm-backup-datatable-page
+  type: datatablePage
+  config:
+    autoReload: false
+    hasSearchField: true
+    stateId: 1341c5ac-8e67-11ec-bba9-672ebede14ed
+    store:
+      proxy:
+        service: Kvm
+        get:
+          method: getBackupList
+    columns:
+      - name: _("VM Name")
+        prop: vmname
+        flexGrow: 1
+        sortable: true
+      - name: _("Date")
+        prop: date
+        flexGrow: 2
+        sortable: true
+      - name: _("Path")
+        prop: path
+        flexGrow: 3
+        sortable: true
+    actions:
+      - template: delete
+        execute:
+          type: request
+          request:
+            service: Kvm
+            method: deleteVolume
+            params:
+              path: "{{ _selected[0].path }}"

@@ -1,0 +1,8 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/kvm/schedule/edit/:uuid"
+  title: _("Edit")
+  editing: true
+  notificationTitle: _("Edit scheduled job.")
+  component: omv-services-kvm-schedule-form-page

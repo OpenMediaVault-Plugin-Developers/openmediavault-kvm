@@ -53,6 +53,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('poolCommand');
 
         $this->registerMethod('getVmList');
+        $this->registerMethod('getVmNameList');
         $this->registerMethod('getVmXml');
         $this->registerMethod('setVmXml');
         $this->registerMethod('setVm');
@@ -75,6 +76,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('volumeCommand');
         $this->registerMethod('downloadIso');
         $this->registerMethod('addFsPass');
+        $this->registerMethod('removeFsPass');
 
         $this->registerMethod('enumerateSnapshots');
         $this->registerMethod('addSnapshot');
@@ -96,6 +98,16 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('doWeb');
         $this->registerMethod('doChangeCpuMemory');
         $this->registerMethod('getVcpu');
+
+        $this->registerMethod('getBackupList');
+        $this->registerMethod('deleteBackup');
+        $this->registerMethod('doBackup');
+
+		$this->registerMethod("getJobList");
+		$this->registerMethod("getJob");
+		$this->registerMethod("setJob");
+		$this->registerMethod("deleteJob");
+		$this->registerMethod("doJob");
 
         $this->registerMethod('enumerateArchitectures');
         $this->registerMethod('enumerateCpus');
@@ -669,6 +681,24 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Filter the result.
         return $this->applyFilter($objects, $params['start'], $params['limit'],
             $params['sortfield'], $params['sortdir']);
+    }
+
+    public function getVmNameList($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // create new libvirt object
+        $lv = $this->connectQemu();
+        $doms = $lv->get_domains();
+        $objects= [];
+        foreach ($doms as $name) {
+            if (!$lv->domain_get_xml($name)) {
+                continue;
+            }
+            $objects[] = [ 'vmname' => $name ];
+        }
+        // Filter the result.
+        return ($objects);
     }
 
     public function getVmXml($params, $context)
@@ -1264,7 +1294,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // create new libvirt object
         $lv = $this->connectQemu();
         // get VM object
-	$vmname = $params['vmname'];
+        $vmname = $params['vmname'];
         $vm = $lv->get_domain_by_name($vmname);
         $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
         $voliso = $params['voliso'];
@@ -1580,7 +1610,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $path = $params['path'];
         $ext = pathinfo($path, PATHINFO_EXTENSION);
         $format = $params['format'];
-        $newPath = str_replace($ext, $format, $path);
+        if ($ext == '') {
+            $newPath = sprintf('%s.%s', $path, $format);
+        } else {
+            $newPath = str_replace($ext, $format, $path);
+        }
         if (file_exists($newPath)) {
             throw new \OMV\Exception($newPath . gettext(" already exists!"));
         }
@@ -1800,19 +1834,14 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.usb');
-        // create usb xml
-        $usbXml = $this->createUsbXml($params['device']);
-        // add usb with virsh
-        $cmdArgs = [];
-        $cmdArgs[] = 'attach-device';
-        $cmdArgs[] = sprintf('--domain %s', $params['vmname']);
-        $cmdArgs[] = sprintf('--file %s', $usbXml);
-        $cmdArgs[] = '--persistent';
-        $cmdArgs[] = '--config';
-        if ($params['state'] == 'running') {
-            $cmdArgs[] = '--live';
-        }
-        $err = gettext("Failed to add USB.");
+        // get parameters
+        $vmname = $params['vmname'];
+        $state = $params['state'];
+        // create xml
+        $xml = $this->createUsbXml($params['device']);
+        // remove with virsh
+        $cmdArgs = $this->deviceArgs('attach-device', $vmname, $xml, $state);
+        $err = gettext("Failed to add USB device.");
         $this->virshCommand($cmdArgs, $err);
     }
 
@@ -1822,19 +1851,14 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.usb');
-        // create usb xml
-        $usbXml = $this->createUsbXml($params['device']);
-        // remove usb with virsh
-        $cmdArgs = [];
-        $cmdArgs[] = 'detach-device';
-        $cmdArgs[] = sprintf('--domain %s', $params['vmname']);
-        $cmdArgs[] = sprintf('--file %s', $usbXml);
-        $cmdArgs[] = '--persistent';
-        $cmdArgs[] = '--config';
-        if ($params['state'] == 'running') {
-            $cmdArgs[] = '--live';
-        }
-        $err = gettext("Failed to remove USB.");
+        // get parameters
+        $vmname = $params['vmname'];
+        $state = $params['state'];
+        // create xml
+        $xml = $this->createUsbXml($params['device']);
+        // remove with virsh
+        $cmdArgs = $this->deviceArgs('detach-device', $vmname, $xml, $state);
+        $err = gettext("Failed to remove USB device.");
         $this->virshCommand($cmdArgs, $err);
     }
 
@@ -1865,8 +1889,37 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
 
     public function addFsPass($params, $context)
     {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.usb');
+        // get parameters
+        $vmname = $params['vmname'];
+        $state = $params['state'];
+        // create xml
+        $xml = $this->createFsXml($params['device']);
+        // remove with virsh
+        $cmdArgs = $this->deviceArgs('attach-device', $vmname, $xml, $state);
+        $err = gettext("Failed to add filesystem passthrough.");
+        $this->virshCommand($cmdArgs, $err);
     }
 
+    public function removeFsPass($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.usb');
+        // get parameters
+        $vmname = $params['vmname'];
+        $state = $params['state'];
+        // create xml
+        $xml = $this->createFsXml($params['device']);
+        // remove with virsh
+        $cmdArgs = $this->deviceArgs('detach-device', $vmname, $xml, $state);
+        $err = gettext("Failed to remove filesystem passthrough.");
+        $this->virshCommand($cmdArgs, $err);
+    }
     private function createFsXml($src, $tgt)
     {
         // create filesystem passthrough xml
@@ -2115,6 +2168,141 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
     }
 
+    public function getBackupList($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.common.getlist');
+        // get backup list from list file
+        $rows = array_map('str_getcsv', file('/etc/omv-backup-vm.list'));
+        $header = ['uuid','path','vmname','date'];
+        $objects = [];
+        foreach($rows as $row) {
+            $objects[] = array_combine($header, $row);
+        }
+        return ($objects);
+    }
+
+    public function deleteBackup($params, $context)
+    {
+    }
+
+    public function doBackup($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.dobackup');
+        if (substr($params['path'],0,1) != '/') {
+            $params['path'] = '/' . $params['path'];
+        }
+        return $this->execBgProc(function($bgStatusFilename, $bgOutputFilename)
+            use ($params) {
+                $cmdArgs = [];
+                $cmdArgs[] = '/usr/sbin/omv-backup-vm';
+                $cmdArgs[] = sprintf('-v %s', $params['vmname']);
+                $cmdArgs[] = sprintf('-d %s', $params['path']);
+                if ($params['compression']) {
+                    $cmdArgs[] = '-c';
+                }
+                $cmd = new \OMV\System\Process($cmdArgs);
+                $cmdLine = $cmd->getCommandLine();
+                if (0 !== $this->exec($cmdLine, $output, $bgOutputFilename)) {
+                    throw new \OMV\ExecException($cmdLine, $output);
+                }
+                return $output;
+            }
+        );
+    }
+
+    public function getJobList($params, $context)
+    {
+		// Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+		// Validate the parameters of the RPC service method.
+		$this->validateMethodParams($params, "rpc.common.getlist");
+        // Get configuration data.
+        $db = \OMV\Config\Database::getInstance();
+        $objects = $db->getAssoc("conf.service.kvm.job");
+        // Filter the result.
+        return $this->applyFilter($objects, $params['start'], $params['limit'],
+            $params['sortfield'], $params['sortdir']);
+	}
+
+	function getJob($params, $context)
+    {
+		// Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+		// Validate the parameters of the RPC service method.
+		$this->validateMethodParams($params, "rpc.common.objectuuid");
+		// Get the configuration object.
+		$db = \OMV\Config\Database::getInstance();
+		$object = $db->get("conf.service.kvm.job", $params['uuid']);
+		return $object->getAssoc();
+	}
+
+	function setJob($params, $context)
+    {
+		// Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+		// Validate the parameters of the RPC service method.
+		$this->validateMethodParams($params, "rpc.kvm.setjob");
+        // Prepare the configuration object.
+        $object = new \OMV\Config\ConfigObject("conf.service.kvm.job");
+        $db = \OMV\Config\Database::getInstance();
+        if (substr($params['path'],0,1) != '/') {
+            $params['path'] = '/' . $params['path'];
+        }
+        $object->setAssoc($params);
+        // Set the configuration object.
+        $db->set($object);
+        // Return the configuration object.
+        return $object->getAssoc();
+	}
+
+	public function deleteJob($params, $context)
+    {
+		// Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+		// Validate the parameters of the RPC service method.
+		$this->validateMethodParams($params, "rpc.common.objectuuid");
+		// Delete the configuration object.
+		$db = \OMV\Config\Database::getInstance();
+		$object = $db->get("conf.service.kvm.job", $params['uuid']);
+		$db->delete($object);
+		// Return the deleted configuration object.
+		return $object->getAssoc();
+	}
+
+	public function doJob($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.dobackup');
+        if (substr($params['path'],0,1) != '/') {
+            $params['path'] = '/' . $params['path'];
+        }
+        return $this->execBgProc(function($bgStatusFilename, $bgOutputFilename)
+            use ($params) {
+                $cmdArgs = [];
+                $cmdArgs[] = '/usr/sbin/omv-backup-vm';
+                $cmdArgs[] = sprintf('-v %s', $params['vmname']);
+                $cmdArgs[] = sprintf('-d %s', $params['path']);
+                if ($params['compression']) {
+                    $cmdArgs[] = '-c';
+                }
+                $cmd = new \OMV\System\Process($cmdArgs);
+                $cmdLine = $cmd->getCommandLine();
+                if (0 !== $this->exec($cmdLine, $output, $bgOutputFilename)) {
+                    throw new \OMV\ExecException($cmdLine, $output);
+                }
+                return $output;
+            }
+        );
+	}
+
     public function addVnc($params, $context)
     {
         // Validate the RPC caller context.
@@ -2298,5 +2486,18 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             );
             throw new \OMV\Exception($errMsg);
         }
+    }
+
+    private function deviceArgs($cmd, $vmname, $filename, $state) {
+        $cmdArgs = [];
+        $cmdArgs[] = $cmd;
+        $cmdArgs[] = sprintf('--domain %s', $vmname);
+        $cmdArgs[] = sprintf('--file %s', $filename);
+        $cmdArgs[] = '--persistent';
+        $cmdArgs[] = '--config';
+        if ($state == 'running') {
+            $cmdArgs[] = '--live';
+        }
+        return ($cmdArgs);
     }
 }

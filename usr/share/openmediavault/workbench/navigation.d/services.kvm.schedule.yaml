@@ -1,0 +1,8 @@
+version: "1.0"
+type: navigation-item
+data:
+  path: "services.kvm.schedule"
+  text: _("Schedule")
+  position: 70
+  icon: mdi:calendar-clock-outline
+  url: "/services/kvm/schedule"

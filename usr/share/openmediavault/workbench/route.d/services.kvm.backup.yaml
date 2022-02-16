@@ -1,0 +1,6 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/kvm/backup"
+  title: _("Backup")
+  component: omv-services-kvm-backup-datatable-page

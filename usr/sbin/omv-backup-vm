@@ -1,0 +1,194 @@
+#!/bin/bash
+#
+# shellcheck disable=SC2086,SC2181
+#
+# Copyright (c) 2022 OpenMediaVault Plugin Developers
+#
+# This file is licensed under the terms of the GNU General Public
+# License version 2. This program is licensed "as is" without any
+# warranty of any kind, whether express or implied.
+#
+# version: 0.0.1
+#
+
+if [[ $(id -u) -ne 0 ]]; then
+  echo "This script must be executed as root or using sudo."
+  exit 99
+fi
+
+export LANG=C.UTF-8
+
+# declare/initialize
+declare -i vmId=0
+
+backupDir=""
+backupVm=""
+compress=""
+diskSpecs=""
+
+# logging location
+logDir="/var/log/"
+logFile="${logDir}/omv-backup-vm.log"
+listFile="/etc/omv-backup-vm.list"
+
+
+_log()
+{
+  msg=${1}
+  echo "[$(date +'%Y-%m-%d %H:%M:%S%z')] ${msg}" | tee -a ${logFile} >&2
+}
+
+# loop through options
+while getopts "cd:hv:" opt; do
+  echo "option ${opt}"
+  case "${opt}" in
+    c)
+      compress=" -c"
+      _log "compress :: ${compress}"
+      ;;
+    d)
+      backupDir=${OPTARG}
+      _log "Backup dir :: ${backupDir}"
+      ;;
+    h)
+      echo "Use the following flags:"
+      echo "  -c"
+      echo "    compress backup (slower)"
+      echo "  -d dir"
+      echo "    set backup directory"
+      echo "  -h"
+      echo "    show this help"
+      echo "  -v vm-name"
+      echo "    VM name to backup"
+      echo ""
+      echo "Examples:"
+      echo "  omv-backup-vm.sh -d /srv/backup/ -v testvm1"
+      echo ""
+      exit 100
+      ;;
+    v)
+      backupVm=${OPTARG}
+      _log "Backup VM :: ${backupVm}"
+      ;;
+    \?)
+      echo "Invalid option: -${OPTARG}"
+      ;;
+  esac
+done
+
+if [ ! -f "/usr/bin/virsh" ]; then
+  _log "virsh command not found!"
+  exit 2
+fi
+
+# check if directory exists
+if [ ! -d "${backupDir}" ]; then
+  _log "Backup directory '${backupDir}' does not exist!"
+  exit 3
+fi
+
+# check if VM name was specified
+if [ -z "${backupVm}" ]; then
+  _log "No VM specified!"
+  exit 4
+fi
+
+# check if VM is defined by libvirt
+if ! virsh dominfo ${backupVm} > /dev/null 2>&1; then
+  _log "VM '${backupVm}' not defined!"
+  exit 5
+fi
+
+# get date
+date="$(date +'%Y-%m-%d_%H-%M-%S')"
+
+# get VM ID
+vmId=$(virsh domid ${backupVm})
+
+if [ ${vmId} -lt 1 ]; then
+  _log "ID '${vmId}' for VM '${backupVm}' is not valid!"
+  exit 6
+fi
+_log "${backupVm} ID :: ${vmId}"
+
+# create backup directory for VM
+backupVmDir="${backupDir}/${backupVm}/${date}"
+mkdir -p "${backupVmDir}"
+
+# create backup xml
+backupXml="${backupVm}_${date}.xml"
+_log "Dump XML for backup :: ${backupXml}"
+virsh dumpxml ${vmId} > "${backupVmDir}/${backupXml}"
+
+# get list of disks for VM
+disks=$(virsh domblklist ${vmId} --details | sed 1,2d | awk NF | awk '$2 == "disk" { print $3","$4 }')
+
+for disk in ${disks}; do
+  _log "Adding disk to snapshot :: ${disk%%,*}"
+  diskSpecs="${diskSpecs} --diskspec ${disk%%,*},snapshot=external"
+done
+
+# skip snapshot if the VM is powered off
+if [ ${vmId} -gt 0 ]; then
+  _log "Creating snapshot..."
+  virsh snapshot-create-as \
+    --domain ${vmId} \
+    --atomic \
+    --disk-only \
+    --name "backup-snapshot_${date}" \
+    --no-metadata \
+    $diskSpecs
+  
+  if [ $? -ne 0 ]; then
+      _log "Failed to create snapshot!"
+      exit 7
+  fi
+else
+  _log "Skip snapshot - VM is powered off"
+fi
+
+# copy disks to VM backup directory
+_log "Copy disks to backup directory..."
+for disk in ${disks}; do
+  _log "Copying disk :: ${disk#*,}"
+  filename="$(basename ${disk#*,})"
+  qemu-img convert -O qcow2 ${compress} "${disk#*,}" "${backupVmDir}/${filename}_${date}.bak"
+done
+
+# skip commit and remove if the VM is powered off
+if [ ${vmId} -gt 0 ]; then
+  # get list of disks
+  disks=$(virsh domblklist ${vmId} --details | sed 1,2d | awk NF | awk '$2 == "disk" { print $3","$4 }')
+  
+  # commit changes
+  _log "Commit changes back to original disks..."
+  for disk in ${disks}; do
+    _log "Disk :: ${disk}"
+    if ! virsh blockcommit ${vmId} "${disk#*,}" --active --pivot; then
+      _log "Failed to commit changes.  VM '${backupVm}' may be in a bad state."
+      exit 8
+    fi
+    sync
+  done
+  
+  # wait 5 secs before removing files 
+  sleep 5
+  
+  # remove temp files
+  _log "Remove temp files..."
+  for disk in ${disks}; do
+    _log "Disk :: ${disk}"
+    rm -fv "${disk#*,}"
+  done
+else
+  _log "Skip commit and remove - VM is powered off"
+fi
+
+# add entry to list file
+_log "Adding entry to list file '${listFile}'"
+echo "$(uuid),${backupDir},${backupVm},${date}" >> ${listFile}
+
+
+_log "Done."
+
+exit 0
