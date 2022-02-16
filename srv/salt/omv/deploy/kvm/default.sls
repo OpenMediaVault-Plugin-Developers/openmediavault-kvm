@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-{% set config = salt['omv_conf.get']('conf.service.kvm.jobs') %}
+{% set config = salt['omv_conf.get']('conf.service.kvm.job') %}
 
 configure_kvm_scheduled_jobs:
   file.managed:
@@ -24,7 +24,7 @@ configure_kvm_scheduled_jobs:
       - salt://{{ tpldir }}/files/jobs.j2
     - template: jinja
     - context:
-        config: {{ config | json }}
+        jobs: {{ config | json }}
     - user: root
     - group: root
     - mode: 644
