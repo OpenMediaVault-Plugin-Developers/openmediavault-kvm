@@ -382,6 +382,92 @@ data:
                     prop: snaps
                   arg1: 0
       - type: menu
+        icon: mdi:folder-swap-outline
+        tooltip: _("Passthrough Filesystem")
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+        actions:
+          - text: _("Add passthrough")
+            icon: mdi:file-upload-outline
+            execute:
+              type: formDialog
+              formDialog:
+                title: _('Add passthrough filesystem ...')
+                fields:
+                  - type: textInput
+                    name: vmname
+                    label: _('VM Name')
+                    value: '{{ _selected[0].vmname }}'
+                    readonly: true
+                  - type: textInput
+                    name: src
+                    label: _('Source')
+                    value: ''
+                  - type: textInput
+                    name: tgt
+                    label: _('Mount tag')
+                    value: ''
+                    hint: _('Arbitrary string that is used inside the guest to identify the shared file system to be mounted. It does not have to correspond to the desired mount point in the guest.')
+                  - type: hidden
+                    name: state
+                    value: '{{ _selected[0].state }}'
+                    readonly: true
+                buttons:
+                  submit:
+                    text: _('Add')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: addFsPass
+                    successUrl: /services/kvm/vm
+          - text: _("Remove passthrough")
+            icon: mdi:file-download-outline
+            execute:
+              type: formDialog
+              formDialog:
+                title: _('Remove passthrough filesystem ...')
+                fields:
+                  - type: textInput
+                    name: vmname
+                    label: _('VM Name')
+                    value: '{{ _selected[0].vmname }}'
+                    readonly: true
+                  - type: select
+                    name: srctgt
+                    label: _('Passthrough')
+                    textField: description
+                    valueField: srctgt
+                    store:
+                      proxy:
+                        service: Kvm
+                        get:
+                          method: enumerateFsPassByVm
+                          params:
+                            vmname: '{{ _selected[0].vmname }}'
+                  - type: hidden
+                    name: state
+                    value: '{{ _selected[0].state }}'
+                    readonly: true
+                buttons:
+                  submit:
+                    text: _('Remove')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: removeFsPass
+                    successUrl: /services/kvm/vm
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: eq
+                  arg0:
+                    prop: snaps
+                  arg1: 0
+      - type: menu
         icon: mdi:lan
         tooltip: _("Network")
         enabledConstraints:

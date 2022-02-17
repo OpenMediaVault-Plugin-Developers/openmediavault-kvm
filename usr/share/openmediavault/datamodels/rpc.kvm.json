@@ -578,6 +578,50 @@
 	}
 },{
 	"type": "rpc",
+	"id": "rpc.kvm.addfspass",
+	"params": {
+		"type": "object",
+		"properties": {
+			"vmname": {
+				"type": "string",
+				"required": true
+            },
+			"src": {
+				"type": "string",
+				"required": true
+            },
+			"tgt": {
+				"type": "string",
+				"required": true
+            },
+			"state": {
+				"type": "string",
+				"required": true
+            }
+		}
+	}
+},{
+	"type": "rpc",
+	"id": "rpc.kvm.removefspass",
+	"params": {
+		"type": "object",
+		"properties": {
+			"vmname": {
+				"type": "string",
+				"required": true
+            },
+			"srctgt": {
+				"type": "string",
+				"required": true
+            },
+			"state": {
+				"type": "string",
+				"required": true
+            }
+		}
+	}
+},{
+	"type": "rpc",
 	"id": "rpc.kvm.setjob",
 	"params": {
 		"type": "object",

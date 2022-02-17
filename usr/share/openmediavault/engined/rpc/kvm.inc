@@ -77,6 +77,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('downloadIso');
         $this->registerMethod('addFsPass');
         $this->registerMethod('removeFsPass');
+        $this->registerMethod('enumerateFsPassByVm');
 
         $this->registerMethod('enumerateSnapshots');
         $this->registerMethod('addSnapshot');
@@ -1870,8 +1871,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $vendor = $vendorProduct[0];
         $product = $vendorProduct[1];
         // create xml structure
-        $usbXml = new SimpleXMLElement('<xml/>');
-        $hostDevXml = $usbXml->devices->addChild('hostdev');
+        $hostDevXml = new SimpleXMLElement('<hostdev/>');
         $hostDevXml->addAttribute('mode', 'subsystem');
         $hostDevXml->addAttribute('type', 'usb');
         $hostDevXml->addAttribute('managed', 'yes');
@@ -1882,7 +1882,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $productXml->addAttribute('id', '0x'.$product);
         // create xml file
         $temp = tempnam(sys_get_temp_dir(), 'virsh_usb');
-        $newXml = $usbXml->asXML($temp);
+        $newXml = $hostDevXml->asXML();
+        $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
+        file_put_contents($temp, $newXml);
         // return filename
         return ($temp);
     }
@@ -1892,12 +1894,14 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
-        $this->validateMethodParams($params, 'rpc.kvm.usb');
+        $this->validateMethodParams($params, 'rpc.kvm.addfspass');
         // get parameters
         $vmname = $params['vmname'];
         $state = $params['state'];
+        $src = $params['src'];
+        $tgt = $params['tgt'];
         // create xml
-        $xml = $this->createFsXml($params['device']);
+        $xml = $this->createFsXml($src, $tgt);
         // remove with virsh
         $cmdArgs = $this->deviceArgs('attach-device', $vmname, $xml, $state);
         $err = gettext("Failed to add filesystem passthrough.");
@@ -1909,31 +1913,63 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
-        $this->validateMethodParams($params, 'rpc.kvm.usb');
+        $this->validateMethodParams($params, 'rpc.kvm.removefspass');
         // get parameters
         $vmname = $params['vmname'];
         $state = $params['state'];
+        $srctgt = explode("|", $params['srctgt']);
+        $src = trim($srctgt[0]);
+        $tgt = trim($srctgt[1]);
         // create xml
-        $xml = $this->createFsXml($params['device']);
+        $xml = $this->createFsXml($src, $tgt);
         // remove with virsh
         $cmdArgs = $this->deviceArgs('detach-device', $vmname, $xml, $state);
         $err = gettext("Failed to remove filesystem passthrough.");
         $this->virshCommand($cmdArgs, $err);
     }
+
+    public function enumerateFsPassByVm($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.vmname');
+        // create new libvirt object
+        $lv = $this->connectQemu();
+        $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
+        $xpath = $domXml->xpath('//filesystem');
+        // get list of passthrough filesystem devices from VM
+        $objects = [];
+        $xpathSize = sizeof($xpath);
+        for ($i = 0; $i < $xpathSize; $i++) {
+            $dev = $domXml->devices->filesystem[$i];
+            $src = $dev->source['dir'];
+            $tgt = $dev->target['dir'];
+            $srctgt = sprintf('%s | %s', $src, $tgt);
+            $description = $srctgt;
+            $objects[] = [
+                'srctgt' => $srctgt,
+                'description' => $description
+            ];
+        }
+        return ($objects);
+    }
+
     private function createFsXml($src, $tgt)
     {
         // create filesystem passthrough xml
-        $xml = new SimpleXMLElement('<xml/>');
-        $fsXml = $xml->devices->addChild('filesystem');
+        $fsXml = new SimpleXMLElement('<filesystem/>');
         $fsXml->addAttribute('type', 'mount');
         $fsXml->addAttribute('accessmode', 'passthrough');
-        $srcXml = $hostDevXml->addChild('source');
+        $srcXml = $fsXml->addChild('source');
         $srcXml->addAttribute('dir', $src);
         $tgtXml = $fsXml->addChild('target');
-        $productXml->addAttribute('dir', $tgt);
+        $tgtXml->addAttribute('dir', $tgt);
         // create xml file
         $temp = tempnam(sys_get_temp_dir(), 'virsh_fs');
-        $newXml = $xml->asXML($temp);
+        $newXml = $fsXml->asXML();
+        $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
+        file_put_contents($temp, $newXml);
         // return filename
         return ($temp);
     }
