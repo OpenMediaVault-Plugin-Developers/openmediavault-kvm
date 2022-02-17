@@ -3,6 +3,10 @@ openmediavault-kvm (6.1) UNRELEASED; urgency=medium
   * Use ksm for better performance on support systems
   * Use virsh for better actions on removal/adding
   * Use virt-install to create VM xml to eliminate need to maintain xml in plugin
+  * Add Backup tab to view backups and run a backup again
+  * Add Restore tab to restore backups to same or new VM
+  * Add Schedule tab to schedule VM backups and run manual backups
+  * Add/Remove filesystem passthrough to guest
 
  -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Wed, 19 Jan 2022 13:30:01 -0600
 

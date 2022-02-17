@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-16 11:37-0600\n"
+"POT-Creation-Date: 2022-02-17 13:28-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,6 +18,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid " already exists!"
+msgstr ""
+
+msgid "Action"
 msgstr ""
 
 msgid "Activity"
@@ -48,6 +51,9 @@ msgid "Add new pool"
 msgstr ""
 
 msgid "Add new volume"
+msgstr ""
+
+msgid "Add passthrough"
 msgstr ""
 
 msgid "Advanced"
@@ -407,6 +413,9 @@ msgstr ""
 msgid "Other CPU"
 msgstr ""
 
+msgid "Passthrough Filesystem"
+msgstr ""
+
 msgid "Path"
 msgstr ""
 
@@ -434,7 +443,16 @@ msgstr ""
 msgid "Remove network"
 msgstr ""
 
+msgid "Remove passthrough"
+msgstr ""
+
 msgid "Reset"
+msgstr ""
+
+msgid "Restore"
+msgstr ""
+
+msgid "Restore VM ..."
 msgstr ""
 
 msgid "Resume"
@@ -603,6 +621,9 @@ msgid "VM Name"
 msgstr ""
 
 msgid "VM name"
+msgstr ""
+
+msgid "VM name for restored VM"
 msgstr ""
 
 msgid "VMs"

@@ -578,6 +578,22 @@
 	}
 },{
 	"type": "rpc",
+	"id": "rpc.kvm.dorestore",
+	"params": {
+		"type": "object",
+		"properties": {
+			"newname": {
+				"type": "string",
+				"required": true
+            },
+			"backup": {
+				"type": "string",
+				"required": true
+            }
+		}
+	}
+},{
+	"type": "rpc",
 	"id": "rpc.kvm.addfspass",
 	"params": {
 		"type": "object",

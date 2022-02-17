@@ -3,6 +3,6 @@ type: navigation-item
 data:
   path: "services.kvm.schedule"
   text: _("Schedule")
-  position: 70
+  position: 80
   icon: mdi:calendar-clock-outline
   url: "/services/kvm/schedule"

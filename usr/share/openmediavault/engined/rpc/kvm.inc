@@ -104,6 +104,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('deleteBackup');
         $this->registerMethod('doBackup');
 
+        $this->registerMethod('getRestoreList');
+        $this->registerMethod('doRestore');
+
 		$this->registerMethod("getJobList");
 		$this->registerMethod("getJob");
 		$this->registerMethod("setJob");
@@ -2266,6 +2269,49 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 if ($params['compression'] === true) {
                     $cmdArgs[] = '-c';
                 }
+                $cmd = new \OMV\System\Process($cmdArgs);
+                $cmd->setRedirect2to1();
+                $cmdLine = $cmd->getCommandLine();
+                if (0 !== $this->exec($cmdLine, $output, $bgOutputFilename)) {
+                    throw new \OMV\ExecException($cmdLine, $output);
+                }
+                return $output;
+            }
+        );
+    }
+
+    public function getRestoreList($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // get backup list from list file
+        $rows = array_map('str_getcsv', file('/etc/omv-backup-vm.list'));
+        $objects = [];
+        foreach($rows as $row) {
+            $desc = sprintf('%s | %s | %s', $row[2], $row[3], $row[1]);
+            $objects[] = [ 'description' => $desc ];
+        }
+        return ($objects);
+    }
+
+    public function doRestore($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.dorestore');
+        return $this->execBgProc(function($bgStatusFilename, $bgOutputFilename)
+            use ($params) {
+                $backup = explode('|', $params['backup']);
+                $date = trim($backup[1]);
+                $path = trim($backup[2]);
+                $vmname = trim($backup[0]);
+                $cmdArgs = [];
+                $cmdArgs[] = '/usr/sbin/omv-restore-vm';
+                $cmdArgs[] = sprintf('-d %s', $path);
+                $cmdArgs[] = sprintf('-r %s', $params['newname']);
+                $cmdArgs[] = sprintf('-t %s', $date);
+                $cmdArgs[] = sprintf('-v %s', $vmname);
                 $cmd = new \OMV\System\Process($cmdArgs);
                 $cmd->setRedirect2to1();
                 $cmdLine = $cmd->getCommandLine();

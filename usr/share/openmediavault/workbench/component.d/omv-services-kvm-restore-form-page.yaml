@@ -1,0 +1,42 @@
+version: "1.0"
+type: component
+data:
+  name: omv-services-kvm-restore-form-page
+  type: formPage
+  config:
+    request:
+      service: Kvm
+    fields:
+      - type: select
+        name: backup
+        label: _("Backup")
+        value: ""
+        textField: description
+        valueField: description
+        store:
+          proxy:
+            service: Kvm
+            get:
+              method: getRestoreList
+      - type: textInput
+        name: newname
+        label: _("VM name")
+        value: ""
+        hint: _("VM name for restored VM")
+    buttons:
+      - text: _("Restore")
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+        execute:
+          type: taskDialog
+          taskDialog:
+            config:
+              title: _("Restore VM ...")
+              startOnInit: false
+              request:
+                service: Kvm
+                method: doRestore
+                params:
+                  backup: "{{ backup }}"
+                  newname: "{{ newname }}"

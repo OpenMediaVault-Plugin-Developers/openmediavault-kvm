@@ -9,10 +9,14 @@ data:
       prop: date
       cellTemplateName: localeDateTime
       flexGrow: 1
+    - name: _("Action")
+      sortable: true
+      prop: action
+      flexGrow: 1
     - name: _("Message")
       sortable: true
       prop: message
-      flexGrow: 3
+      flexGrow: 4
   request:
     service: LogFile
     method: getList

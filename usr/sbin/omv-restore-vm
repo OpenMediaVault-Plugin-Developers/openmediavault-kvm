@@ -1,0 +1,149 @@
+#!/bin/bash
+#
+# shellcheck disable=SC2086,SC2181
+#
+# Copyright (c) 2022 OpenMediaVault Plugin Developers
+#
+# This file is licensed under the terms of the GNU General Public
+# License version 2. This program is licensed "as is" without any
+# warranty of any kind, whether express or implied.
+#
+# version: 0.0.1
+#
+
+if [[ $(id -u) -ne 0 ]]; then
+  echo "This script must be executed as root or using sudo."
+  exit 99
+fi
+
+export LANG=C.UTF-8
+
+# declare/initialize
+backupDir=""
+backupVm=""
+date=""
+restoreVm=""
+
+# logging location
+logDir="/var/log/"
+logFile="${logDir}/omv-backup-vm.log"
+
+
+_log()
+{
+  msg=${1}
+  echo "[$(date +'%Y-%m-%d %H:%M:%S%z')] [restore] ${msg}" | tee -a ${logFile} >&2
+}
+
+# loop through options
+while getopts "d:hr:t:v:" opt; do
+  case "${opt}" in
+    d)
+      backupDir=${OPTARG}
+      _log "Backup dir :: ${backupDir}"
+      ;;
+    h)
+      echo "Use the following flags:"
+      echo "  -d dir"
+      echo "    set restore directory"
+      echo "  -h"
+      echo "    show this help"
+      echo "  -r vm-name"
+      echo "    VM name to restore TO"
+      echo "  -t datetime"
+      echo "    datetime to restore from (in YYYY-MM-DD_HH-MM-SS format)"
+      echo "  -v vm-name"
+      echo "    VM name to restore FROM"
+      echo ""
+      echo "Examples:"
+      echo "  omv-backup-vm.sh -d /srv/backup/ -t 2022-02-16_10-00-01 -r testvm1res -v testvm1"
+      echo ""
+      exit 100
+      ;;
+    r)
+      restoreVm=${OPTARG}
+      _log "Restore VM :: ${restoreVm}"
+      ;;
+    t)
+      date=${OPTARG}
+      _log "Date :: ${date}"
+      ;;
+    v)
+      backupVm=${OPTARG}
+      _log "Backup VM :: ${backupVm}"
+      ;;
+    \?)
+      echo "Invalid option: -${OPTARG}"
+      ;;
+  esac
+done
+
+if [ ! -f "/usr/bin/virsh" ]; then
+  _log "virsh command not found!"
+  exit 2
+fi
+
+# check if directory exists
+if [ ! -d "${backupDir}" ]; then
+  _log "Backup directory '${backupDir}' does not exist!"
+  exit 3
+fi
+
+# check if VM name was specified
+if [ -z "${backupVm}" ]; then
+  _log "No VM name to restore FROM specified!"
+  exit 4
+fi
+
+# check if VM name was specified
+if [ -z "${restoreVm}" ]; then
+  _log "No VM name to restore TO specified!"
+  exit 5
+fi
+
+# check if datetime was specified
+if [ -z "${date}" ]; then
+  _log "No date specified!"
+  exit 6
+fi
+
+# restore FROM directory
+restoreFromDir="${backupDir}/${backupVm}/${date}"
+if [ ! -d "${restoreFromDir}" ]; then
+  _log "No restore directory '${restoreFromDir}' found!"
+  exit 7
+fi
+_log "Restore from :: ${restoreFromDir}"
+
+# create temp domain xml file
+restoreXml="${restoreFromDir}/${backupVm}_${date}.xml"
+tempXml="$(mktemp)"
+cp -fv "${restoreXml}" "${tempXml}"
+
+# change name in temp xml file to restore VM name
+xmlstarlet edit --inplace --update "/domain/name" -v "${restoreVm}" "${tempXml}"
+xmlstarlet edit --inplace --update "/domain/uuid" -v "$(uuid)" "${tempXml}"
+
+# define restore VM
+_log "Creating new VM :: ${tempXml}"
+virsh define --file "${tempXml}"
+
+# get list of disks in backup
+_log "Restoring disks ..."
+for bak in "${restoreFromDir}"/*.bak; do
+  diskfile="$(basename ${bak})"
+  disk="${diskfile%%_*}" 
+  copyTo="$(grep ${disk} "${tempXml}" | awk -F'"' '{ print $2 }')"
+  _log "Copy from :: ${bak}"
+  _log "Copy to :: ${copyTo}"
+  if [ -n "${copyTo}" ]; then
+    qemu-img dd if="${bak}" of="${copyTo}" bs=1M
+  fi
+done
+
+# remove temp file
+rm -f "${tempXml}"
+
+_log "Done."
+
+exit 0
