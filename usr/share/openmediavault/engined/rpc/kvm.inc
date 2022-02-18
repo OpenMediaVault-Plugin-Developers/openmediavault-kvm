@@ -59,7 +59,10 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('setVm');
         $this->registerMethod('setVmVI');
         $this->registerMethod('getDisk');
+
         $this->registerMethod('cloneVm');
+        $this->registerMethod('createBacking');
+        $this->registerMethod('createLinkedClone');
 
         $this->registerMethod('addDisk');
         $this->registerMethod('addOptical');
@@ -1413,6 +1416,42 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         );
     }
 
+    public function createLinkedClone($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.createlinkedclone');
+        // omv-linked-clone
+        $output = [];
+        $cmdArgs = [];
+        $cmdArgs[] = sprintf('-c %s', $params['clone']);
+        $cmdArgs[] = sprintf('-v %s', $params['source']);
+        $cmd = new \OMV\System\Process('omv-linked-clone', $cmdArgs);
+        $cmd->execute($output, $exitStatus);
+    }
+
+    public function createBacking($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.createbacking');
+        // qemu-img create
+        $back = $params['backing'];
+        $base = $params['base'];
+        $path = dirname($base);
+        $output = [];
+        $cmdArgs = [];
+        $cmdArgs[] = 'create';
+        $cmdArgs[] = '-f qcow2';
+        $cmdArgs[] = '-F qcow2';
+        $cmdArgs[] = sprintf('-b "%s"', $base);
+        $cmdArgs[] = sprintf('"%s/%s"', $path, $back);
+        $cmd = new \OMV\System\Process('qemu-img', $cmdArgs);
+        $cmd->execute($output, $exitStatus);
+    }
+
     public function getVolumeList($params, $context)
     {
         // Validate the RPC caller context.
@@ -1653,6 +1692,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmdArgs[] = '/usr/bin/qemu-img';
                 $cmdArgs[] = $params['command'];
                 $cmdArgs[] = $params['path'];
+                if ($params['command'] == 'info') {
+                    $cmdArgs[] = '--backing-chain';
+                }
                 $cmd = new \OMV\System\Process($cmdArgs);
                 $cmd->setRedirect2to1();
                 $cmdLine = $cmd->getCommandLine();

@@ -202,3 +202,38 @@ data:
                   path: "{{ _selected[0].path }}"
                   format: raw
             successUrl: /services/kvm/volume
+      - type: iconButton
+        icon: mdi:file-link-outline
+        tooltip: _("Create backing file")
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+          constraint:
+            - operator: eq
+              arg0:
+                prop: ext
+              arg1: "qcow2"
+        execute:
+          type: formDialog
+          formDialog:
+            title: _('Create backing file ...')
+            fields:
+              - type: textInput
+                name: base
+                label: _("Base image")
+                value: "{{ _selected[0].path }}"
+                readonly: true
+              - type: textInput
+                name: backing
+                label: _("Backing file")
+                value: ""
+                hint: _("File will be place in same directory as the base image.")
+            buttons:
+              submit:
+                text: _('Create')
+                execute:
+                  type: request
+                  request:
+                    service: Kvm
+                    method: createBacking
+                successUrl: /services/kvm/volume

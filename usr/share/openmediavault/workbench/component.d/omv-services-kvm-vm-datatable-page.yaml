@@ -1126,6 +1126,40 @@ data:
                       request:
                         service: Kvm
                         method: cloneVm
+          - text: _("Linked Clone")
+            icon: mdi:content-duplicate
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: eq
+                  arg0:
+                    prop: state
+                  arg1: "shutoff"
+            execute:
+              type: formDialog
+              formDialog:
+                title: _('Create Linked Clone VM')
+                fields:
+                  - type: textInput
+                    name: source
+                    label: _("Source VM")
+                    value: "{{ _selected[0].vmname }}"
+                    readonly: true
+                  - type: textInput
+                    name: clone
+                    label: _("Clone name")
+                    value: ""
+                    validators:
+                      required: true
+                buttons:
+                  submit:
+                    text: _('Clone')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: createLinkedClone
           - text: _("Edit Notes")
             icon: mdi:note-edit-outline
             execute:

@@ -61,7 +61,7 @@ while getopts "cd:hv:" opt; do
       echo "    VM name to backup"
       echo ""
       echo "Examples:"
-      echo "  omv-backup-vm.sh -d /srv/backup/ -v testvm1"
+      echo "  omv-backup-vm -d /srv/backup/ -v testvm1"
       echo ""
       exit 100
       ;;

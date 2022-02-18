@@ -56,7 +56,7 @@ while getopts "d:hr:t:v:" opt; do
       echo "    VM name to restore FROM"
       echo ""
       echo "Examples:"
-      echo "  omv-backup-vm.sh -d /srv/backup/ -t 2022-02-16_10-00-01 -r testvm1res -v testvm1"
+      echo "  omv-restore-vm -d /srv/backup/ -t 2022-02-16_10-00-01 -r testvm1res -v testvm1"
       echo ""
       exit 100
       ;;
@@ -120,9 +120,12 @@ restoreXml="${restoreFromDir}/${backupVm}_${date}.xml"
 tempXml="$(mktemp)"
 cp -fv "${restoreXml}" "${tempXml}"
 
-# change name in temp xml file to restore VM name
+# change name,uuid,mac address in temp xml file to restore VM name
 xmlstarlet edit --inplace --update "/domain/name" -v "${restoreVm}" "${tempXml}"
 xmlstarlet edit --inplace --update "/domain/uuid" -v "$(uuid)" "${tempXml}"
+if [ ! "${restoreVm}" = "${backupVm}" ]; then
+  sed -i "/mac address/d" "${tempXml}"
+fi
 
 # define restore VM
 _log "Creating new VM :: ${tempXml}"

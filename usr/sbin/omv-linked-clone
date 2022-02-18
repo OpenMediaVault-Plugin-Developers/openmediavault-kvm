@@ -1,0 +1,137 @@
+#!/bin/bash
+#
+# shellcheck disable=SC2086,SC2181
+#
+# Copyright (c) 2022 OpenMediaVault Plugin Developers
+#
+# This file is licensed under the terms of the GNU General Public
+# License version 2. This program is licensed "as is" without any
+# warranty of any kind, whether express or implied.
+#
+# version: 0.0.1
+#
+
+if [[ $(id -u) -ne 0 ]]; then
+  echo "This script must be executed as root or using sudo."
+  exit 99
+fi
+
+export LANG=C.UTF-8
+
+# declare/initialize
+cloneVm=""
+sourceVm=""
+
+# logging location
+logDir="/var/log/"
+logFile="${logDir}/omv-backup-vm.log"
+
+
+_log()
+{
+  msg=${1}
+  echo "[$(date +'%Y-%m-%d %H:%M:%S%z')] [linkedclone] ${msg}" | tee -a ${logFile} >&2
+}
+
+# loop through options
+while getopts "c:hv:" opt; do
+  case "${opt}" in
+    c)
+      cloneVm=${OPTARG}
+      _log "Clone VM :: ${cloneVm}"
+      ;;
+    h)
+      echo "Use the following flags:"
+      echo "  -h"
+      echo "    show this help"
+      echo "  -c clone vm-name"
+      echo "    VM name for linked clone"
+      echo "  -v source vm-name"
+      echo "    VM name to clone"
+      echo ""
+      echo "Examples:"
+      echo "  omv-linked-clone -c testvm1clone -v testvm1"
+      echo ""
+      exit 100
+      ;;
+    v)
+      sourceVm=${OPTARG}
+      _log "Source VM :: ${sourceVm}"
+      ;;
+    \?)
+      echo "Invalid option: -${OPTARG}"
+      ;;
+  esac
+done
+
+if [ ! -f "/usr/bin/virsh" ]; then
+  _log "virsh command not found!"
+  exit 2
+fi
+
+# check if VM name was specified
+if [ -z "${cloneVm}" ]; then
+  _log "No clone VM name specified!"
+  exit 3
+fi
+
+# check if VM name was specified
+if [ -z "${sourceVm}" ]; then
+  _log "No source VM name specified!"
+  exit 4
+fi
+
+# check if source VM is defined by libvirt
+if ! virsh dominfo ${sourceVm} > /dev/null 2>&1; then
+  _log "VM '${sourceVm}' not defined!"
+  exit 5
+fi
+
+# check if clone VM is defined by libvirt
+if virsh dominfo ${cloneVm} > /dev/null 2>&1; then
+  _log "VM '${cloneVm}' is already defined!"
+  exit 6
+fi
+
+
+# create backup xml
+tempXml="$(mktemp)"
+virsh dumpxml ${sourceVm} > "${tempXml}"
+
+# change name,uuid,mac address in temp xml file to clone VM name
+xmlstarlet edit --inplace --update "/domain/name" -v "${cloneVm}" "${tempXml}"
+xmlstarlet edit --inplace --update "/domain/uuid" -v "$(uuid)" "${tempXml}"
+sed -i "/mac address/d" "${tempXml}"
+
+# get list of disks in backup
+_log "Creating linked clones of each disk ..."
+disks=$(xmlstarlet sel -t -v "/domain/devices/disk/source/@file" "${tempXml}")
+
+OFS=$IFS
+IFS=$'\n'
+for disk in ${disks}; do
+  _log "Source disk :: ${disk}"
+  diskdir="$(dirname ${disk})"
+  diskfile="$(basename ${disk})"
+  clonedisk="${diskdir}/${cloneVm}_${diskfile}"
+  _log "Clone disk :: ${clonedisk}"
+  qemu-img create -f qcow2 -F qcow2 -b "${disk}" "${clonedisk}"
+  if [ $? -gt 0 ]; then
+    _log "Error creating backing file :: ${clonedisk}"
+    exit 7
+  fi
+  sed -i "s|${disk}|${clonedisk}|" "${tempXml}"
+done
+
+IFS=$OFS
+
+# define clone VM
+_log "Creating clone VM :: ${tempXml}"
+virsh define --file "${tempXml}"
+
+# remove temp file
+rm -f "${tempXml}"
+
+_log "Done."
+
+exit 0
