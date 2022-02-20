@@ -14,6 +14,7 @@ case "$1" in
     purge)
         remove_action
         omv_config_delete "/config/services/kvm"
+        rm -f /etc/omv-backup-vm.list /etc/cron.d/omv-backup-vm /var/log/omv-backup-vm.log*
     ;;
 
     remove)

@@ -30,6 +30,11 @@ data:
         prop: path
         flexGrow: 3
         sortable: true
+      - name: _("Space Used")
+        prop: used
+        flexGrow: 1
+        sortable: true
+        cellTemplateName: binaryUnit
     actions:
       - type: iconButton
         tooltip: _("Backup")
@@ -42,7 +47,7 @@ data:
           taskDialog:
             config:
               title: _("Execute backup using selected VM name and path ...")
-              startOnInit: true
+              startOnInit: false
               showCompletion: false
               request:
                 service: Kvm
@@ -62,7 +67,7 @@ data:
           taskDialog:
             config:
               title: _("Execute backup with compression using selected VM name and path ...")
-              startOnInit: true
+              startOnInit: false
               showCompletion: false
               request:
                 service: Kvm

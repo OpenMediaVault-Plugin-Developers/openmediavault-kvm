@@ -19,10 +19,12 @@ fi
 export LANG=C.UTF-8
 
 # declare/initialize
+declare -i used=0
 declare -i vmId=0
 
 backupDir=""
 backupVm=""
+backupVmDir=""
 compress=""
 diskSpecs=""
 
@@ -100,6 +102,9 @@ fi
 
 # get date
 date="$(date +'%Y-%m-%d_%H-%M-%S')"
+
+start=$(date +%s)
+_log "Starting backup..."
 
 # get VM power state
 powerState="$(virsh dominfo ${backupVm} | awk '$1 == "State:" { print $2 }')"
@@ -184,9 +189,15 @@ else
 fi
 
 # add entry to list file
+used=$(du --block-size=1 ${backupVmDir} | awk '{ print $1 }')
 _log "Adding entry to list file '${listFile}'"
-echo "$(uuid),${backupDir},${backupVm},${date}" >> ${listFile}
+echo "$(uuid),${backupDir},${backupVm},${date},${used}" >> ${listFile}
 
+end=$(date +%s)
+backuptime=$((end-start))
+
+_log "Backup size :: ${used} bytes"
+_log "Backup time :: ${backuptime} secs"
 
 _log "Done."
 

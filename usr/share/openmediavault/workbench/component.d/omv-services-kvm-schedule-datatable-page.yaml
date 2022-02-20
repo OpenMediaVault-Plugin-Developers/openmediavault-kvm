@@ -75,7 +75,7 @@ data:
           taskDialog:
             config:
               title: _("Execute scheduled job ...")
-              startOnInit: true
+              startOnInit: false
               showCompletion: false
               request:
                 service: Kvm

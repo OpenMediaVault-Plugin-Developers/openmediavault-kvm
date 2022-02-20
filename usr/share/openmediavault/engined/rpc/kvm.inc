@@ -2257,7 +2257,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodParams($params, 'rpc.common.getlist');
         // get backup list from list file
         $rows = array_map('str_getcsv', file('/etc/omv-backup-vm.list'));
-        $header = ['uuid','path','vmname','date'];
+        $header = ['uuid','path','vmname','date','used'];
         $objects = [];
         foreach($rows as $row) {
             $objects[] = array_combine($header, $row);

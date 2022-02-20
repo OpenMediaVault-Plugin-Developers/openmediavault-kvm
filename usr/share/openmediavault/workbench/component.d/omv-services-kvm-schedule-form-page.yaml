@@ -48,6 +48,7 @@ data:
         name: compression
         label: _('Compress')
         value: false
+        hint: _('Will slow down backup significantly!')
       - type: paragraph
         text: _('Schedule')
       - type: select
