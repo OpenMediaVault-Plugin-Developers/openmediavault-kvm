@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-03 07:06-0600\n"
+"POT-Creation-Date: 2022-02-20 10:05-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: dsafsadf <heneral@gmail.com>, 2021\n"
 "Language-Team: Ukrainian (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/uk/)\n"
@@ -22,6 +22,9 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 
 msgid " already exists!"
+msgstr ""
+
+msgid "Action"
 msgstr ""
 
 msgid "Activity"
@@ -45,10 +48,16 @@ msgstr ""
 msgid "Add new VM"
 msgstr ""
 
+msgid "Add new VM 2"
+msgstr ""
+
 msgid "Add new pool"
 msgstr ""
 
 msgid "Add new volume"
+msgstr ""
+
+msgid "Add passthrough"
 msgstr ""
 
 msgid "Advanced"
@@ -63,6 +72,9 @@ msgstr ""
 msgid "Architecture"
 msgstr ""
 
+msgid "Are you sure you want to delete?"
+msgstr ""
+
 msgid "Audio"
 msgstr ""
 
@@ -72,7 +84,22 @@ msgstr ""
 msgid "Available"
 msgstr ""
 
+msgid "Backing file"
+msgstr ""
+
+msgid "Backup"
+msgstr ""
+
+msgid "Backup with Compression"
+msgstr ""
+
+msgid "Base image"
+msgstr ""
+
 msgid "Bus"
+msgstr ""
+
+msgid "CPU"
 msgstr ""
 
 msgid "CPUs"
@@ -102,7 +129,13 @@ msgstr ""
 msgid "Clone"
 msgstr ""
 
+msgid "Clone name"
+msgstr ""
+
 msgid "Component"
+msgstr ""
+
+msgid "Compression"
 msgstr ""
 
 msgid "Console"
@@ -126,7 +159,19 @@ msgstr ""
 msgid "Create VM"
 msgstr ""
 
+msgid "Create VM 2"
+msgstr ""
+
+msgid "Create backing file"
+msgstr ""
+
+msgid "Created VM 2."
+msgstr ""
+
 msgid "Created VM."
+msgstr ""
+
+msgid "Created scheduled job."
 msgstr ""
 
 msgid "DHCP"
@@ -139,6 +184,9 @@ msgid "DHCP ending address"
 msgstr ""
 
 msgid "DHCP starting address"
+msgstr ""
+
+msgid "Date"
 msgstr ""
 
 msgid "Date & Time"
@@ -168,6 +216,9 @@ msgstr ""
 msgid "Download virtio iso ..."
 msgstr ""
 
+msgid "Edit"
+msgstr ""
+
 msgid "Edit Notes"
 msgstr ""
 
@@ -180,10 +231,34 @@ msgstr ""
 msgid "Edit XML"
 msgstr ""
 
+msgid "Edit scheduled job."
+msgstr ""
+
 msgid "Enable"
 msgstr ""
 
+msgid "Execute backup using selected VM name and path ..."
+msgstr ""
+
+msgid "Execute backup with compression using selected VM name and path ..."
+msgstr ""
+
+msgid "Execute scheduled job ..."
+msgstr ""
+
 msgid "Extension"
+msgstr ""
+
+msgid "Failed to "
+msgstr ""
+
+msgid "Failed to add USB device."
+msgstr ""
+
+msgid "Failed to add filesystem passthrough."
+msgstr ""
+
+msgid "Failed to add optical disk."
 msgstr ""
 
 msgid "Failed to add vnc and/or spice setup - "
@@ -195,16 +270,49 @@ msgstr ""
 msgid "Failed to change autostart"
 msgstr ""
 
+msgid "Failed to create VM XML."
+msgstr ""
+
+msgid "Failed to create VM."
+msgstr ""
+
+msgid "Failed to delete VM."
+msgstr ""
+
+msgid "Failed to remove USB device."
+msgstr ""
+
+msgid "Failed to remove disk."
+msgstr ""
+
+msgid "Failed to remove filesystem passthrough."
+msgstr ""
+
+msgid "Failed to remove network."
+msgstr ""
+
 msgid "Failed to remove vnc and/or spice setup - "
 msgstr ""
 
+msgid "Failed to reset VM."
+msgstr ""
+
+msgid "Failed to set change."
+msgstr ""
+
 msgid "Failed to set maximum"
+msgstr ""
+
+msgid "Failed to set maximum."
 msgstr ""
 
 msgid "Failed to start websockify for noVNC."
 msgstr ""
 
 msgid "Failed to start websockify for spice-html5."
+msgstr ""
+
+msgid "File will be place in same directory as the base image."
 msgstr ""
 
 msgid "Filesystem"
@@ -261,10 +369,16 @@ msgstr ""
 msgid "KVM"
 msgstr ""
 
+msgid "KVM Backup"
+msgstr ""
+
 msgid "Leave blank for random address."
 msgstr ""
 
 msgid "Leave blank to use VM name."
+msgstr ""
+
+msgid "Linked Clone"
 msgstr ""
 
 msgid "Linux"
@@ -321,6 +435,12 @@ msgstr ""
 msgid "Optical Drive"
 msgstr ""
 
+msgid "Other CPU"
+msgstr ""
+
+msgid "Passthrough Filesystem"
+msgstr ""
+
 msgid "Path"
 msgstr ""
 
@@ -348,13 +468,28 @@ msgstr ""
 msgid "Remove network"
 msgstr ""
 
+msgid "Remove passthrough"
+msgstr ""
+
 msgid "Reset"
+msgstr ""
+
+msgid "Restore"
+msgstr ""
+
+msgid "Restore VM ..."
 msgstr ""
 
 msgid "Resume"
 msgstr ""
 
 msgid "Revert"
+msgstr ""
+
+msgid "Run"
+msgstr ""
+
+msgid "Schedule"
 msgstr ""
 
 msgid "Select a snapshot ..."
@@ -379,6 +514,9 @@ msgid "Source VM"
 msgstr ""
 
 msgid "Source path"
+msgstr ""
+
+msgid "Space Used"
 msgstr ""
 
 msgid "Spice"
@@ -412,6 +550,9 @@ msgid "UEFI"
 msgstr ""
 
 msgid "USB"
+msgstr ""
+
+msgid "UUID"
 msgstr ""
 
 msgid "Unable to"
@@ -474,6 +615,9 @@ msgstr ""
 msgid "Unable to delete volume - "
 msgstr ""
 
+msgid "Unable to get network adapter type - "
+msgstr ""
+
 msgid "Unable to remove USB device to VM - "
 msgstr ""
 
@@ -505,6 +649,9 @@ msgid "VM Name"
 msgstr ""
 
 msgid "VM name"
+msgstr ""
+
+msgid "VM name for restored VM"
 msgstr ""
 
 msgid "VMs"

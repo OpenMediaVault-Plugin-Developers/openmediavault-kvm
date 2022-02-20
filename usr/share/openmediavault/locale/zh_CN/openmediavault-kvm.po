@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-03 07:06-0600\n"
+"POT-Creation-Date: 2022-02-20 10:05-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: songming <by@songming.me>, 2021\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/zh_CN/)\n"
@@ -24,6 +24,9 @@ msgstr ""
 msgid " already exists!"
 msgstr "已经存在！"
 
+msgid "Action"
+msgstr ""
+
 msgid "Activity"
 msgstr "激活"
 
@@ -34,21 +37,27 @@ msgid "Add USB"
 msgstr "添加 USB"
 
 msgid "Add disk"
-msgstr ""
+msgstr "添加磁盘"
 
 msgid "Add macvtap network"
-msgstr ""
+msgstr "添加 macvtap 网络"
 
 msgid "Add network"
 msgstr "添加网络"
 
 msgid "Add new VM"
+msgstr "添加新  VM"
+
+msgid "Add new VM 2"
 msgstr ""
 
 msgid "Add new pool"
-msgstr ""
+msgstr "添加新池"
 
 msgid "Add new volume"
+msgstr "添加新卷"
+
+msgid "Add passthrough"
 msgstr ""
 
 msgid "Advanced"
@@ -63,6 +72,9 @@ msgstr "Arch"
 msgid "Architecture"
 msgstr "架构"
 
+msgid "Are you sure you want to delete?"
+msgstr ""
+
 msgid "Audio"
 msgstr "音频"
 
@@ -72,8 +84,23 @@ msgstr "自启动"
 msgid "Available"
 msgstr "空闲"
 
+msgid "Backing file"
+msgstr ""
+
+msgid "Backup"
+msgstr ""
+
+msgid "Backup with Compression"
+msgstr ""
+
+msgid "Base image"
+msgstr ""
+
 msgid "Bus"
 msgstr "Bus"
+
+msgid "CPU"
+msgstr ""
 
 msgid "CPUs"
 msgstr "CPUs"
@@ -85,7 +112,7 @@ msgid "Capacity"
 msgstr "容量"
 
 msgid "Change memory"
-msgstr ""
+msgstr "改变内存"
 
 msgid "Change vCPU"
 msgstr "改变 vCPU"
@@ -94,7 +121,7 @@ msgid "Check"
 msgstr "检查"
 
 msgid "Check volume ..."
-msgstr ""
+msgstr "检查卷中 ..."
 
 msgid "Chipset"
 msgstr "芯片组"
@@ -102,8 +129,14 @@ msgstr "芯片组"
 msgid "Clone"
 msgstr "克隆"
 
+msgid "Clone name"
+msgstr ""
+
 msgid "Component"
 msgstr "组件"
+
+msgid "Compression"
+msgstr ""
 
 msgid "Console"
 msgstr "控制台"
@@ -115,18 +148,30 @@ msgid "Convert to raw"
 msgstr "转换成 raw"
 
 msgid "Converting to qcow2 ..."
-msgstr ""
+msgstr "转换成 qcow2 ..."
 
 msgid "Converting to raw ..."
-msgstr ""
+msgstr "转换成  raw ..."
 
 msgid "Create"
 msgstr "创建"
 
 msgid "Create VM"
+msgstr "创建 VM"
+
+msgid "Create VM 2"
+msgstr ""
+
+msgid "Create backing file"
+msgstr ""
+
+msgid "Created VM 2."
 msgstr ""
 
 msgid "Created VM."
+msgstr "已创建 VM。"
+
+msgid "Created scheduled job."
 msgstr ""
 
 msgid "DHCP"
@@ -141,6 +186,9 @@ msgstr "DHCP 结束地址"
 msgid "DHCP starting address"
 msgstr "DHCP 开始地址"
 
+msgid "Date"
+msgstr ""
+
 msgid "Date & Time"
 msgstr "日期 & 时间"
 
@@ -154,7 +202,7 @@ msgid "Directory"
 msgstr "路径"
 
 msgid "Disable"
-msgstr ""
+msgstr "关闭"
 
 msgid "Disk"
 msgstr "磁盘"
@@ -168,26 +216,53 @@ msgstr "下载  virtio iso"
 msgid "Download virtio iso ..."
 msgstr " 下载 virtio iso ..."
 
-msgid "Edit Notes"
+msgid "Edit"
 msgstr ""
+
+msgid "Edit Notes"
+msgstr "编辑注释"
 
 msgid "Edit VM xml"
-msgstr ""
+msgstr "编辑 VM xml"
 
 msgid "Edit VM xml."
-msgstr ""
+msgstr "编辑 VM xml。"
 
 msgid "Edit XML"
 msgstr "编辑 XML"
 
+msgid "Edit scheduled job."
+msgstr ""
+
 msgid "Enable"
+msgstr "启用"
+
+msgid "Execute backup using selected VM name and path ..."
+msgstr ""
+
+msgid "Execute backup with compression using selected VM name and path ..."
+msgstr ""
+
+msgid "Execute scheduled job ..."
 msgstr ""
 
 msgid "Extension"
 msgstr "扩展"
 
-msgid "Failed to add vnc and/or spice setup - "
+msgid "Failed to "
 msgstr ""
+
+msgid "Failed to add USB device."
+msgstr ""
+
+msgid "Failed to add filesystem passthrough."
+msgstr ""
+
+msgid "Failed to add optical disk."
+msgstr ""
+
+msgid "Failed to add vnc and/or spice setup - "
+msgstr "添加 vnc 或 spice 设置失败"
 
 msgid "Failed to change "
 msgstr "变更失败"
@@ -195,17 +270,50 @@ msgstr "变更失败"
 msgid "Failed to change autostart"
 msgstr "设置自启动失败"
 
+msgid "Failed to create VM XML."
+msgstr ""
+
+msgid "Failed to create VM."
+msgstr ""
+
+msgid "Failed to delete VM."
+msgstr ""
+
+msgid "Failed to remove USB device."
+msgstr ""
+
+msgid "Failed to remove disk."
+msgstr ""
+
+msgid "Failed to remove filesystem passthrough."
+msgstr ""
+
+msgid "Failed to remove network."
+msgstr ""
+
 msgid "Failed to remove vnc and/or spice setup - "
+msgstr "删除 vnc 或 spice 设置失败"
+
+msgid "Failed to reset VM."
+msgstr ""
+
+msgid "Failed to set change."
 msgstr ""
 
 msgid "Failed to set maximum"
 msgstr "设置最大值失败"
+
+msgid "Failed to set maximum."
+msgstr ""
 
 msgid "Failed to start websockify for noVNC."
 msgstr "为 noVNC 启动  websockify 失败。"
 
 msgid "Failed to start websockify for spice-html5."
 msgstr "为 spice-html5 启动 websockify 失败。"
+
+msgid "File will be place in same directory as the base image."
+msgstr ""
 
 msgid "Filesystem"
 msgstr "文件系统"
@@ -215,6 +323,8 @@ msgid ""
 "href='https://libvirt.org/storage.html' "
 "target='_blank'>libvirt.org/storage.html</a>"
 msgstr ""
+"每种类型的描述和配置详情见<a href='https://libvirt.org/storage.html' "
+"target='_blank'>libvirt.org/storage.html</a>"
 
 msgid "Force"
 msgstr "强制"
@@ -229,25 +339,25 @@ msgid "Gateway IP"
 msgstr "网关"
 
 msgid "Gateway IP address"
-msgstr ""
+msgstr "网关 IP 地址"
 
 msgid "GiB"
 msgstr "GiB"
 
 msgid "Gigabytes"
-msgstr ""
+msgstr "GB"
 
 msgid "Hard disk"
-msgstr ""
+msgstr "硬盘"
 
 msgid "Host VNC port"
-msgstr ""
+msgstr "VNC 主机端口"
 
 msgid "Host name"
 msgstr "主机名"
 
 msgid "Host spice port"
-msgstr ""
+msgstr "spice 主机端口"
 
 msgid "IP Range"
 msgstr "IP 范围"
@@ -261,11 +371,17 @@ msgstr "信息"
 msgid "KVM"
 msgstr "KVM"
 
+msgid "KVM Backup"
+msgstr ""
+
 msgid "Leave blank for random address."
 msgstr "留空则使用随机地址。"
 
 msgid "Leave blank to use VM name."
 msgstr "留空则使用 VM 名称。"
+
+msgid "Linked Clone"
+msgstr ""
 
 msgid "Linux"
 msgstr "Linux"
@@ -274,7 +390,7 @@ msgid "MAC address"
 msgstr "MAC 地址"
 
 msgid "Megabytes"
-msgstr ""
+msgstr "MB"
 
 msgid "Memory"
 msgstr "内存"
@@ -307,7 +423,7 @@ msgid "Networks"
 msgstr "网络"
 
 msgid "New name"
-msgstr ""
+msgstr "新名称"
 
 msgid "Notes"
 msgstr "注意"
@@ -320,6 +436,12 @@ msgstr "光盘"
 
 msgid "Optical Drive"
 msgstr "光驱"
+
+msgid "Other CPU"
+msgstr ""
+
+msgid "Passthrough Filesystem"
+msgstr ""
 
 msgid "Path"
 msgstr "路径"
@@ -343,19 +465,34 @@ msgid "Remove USB"
 msgstr "移除 USB"
 
 msgid "Remove disk"
-msgstr ""
+msgstr "删除磁盘"
 
 msgid "Remove network"
+msgstr "删除网络"
+
+msgid "Remove passthrough"
 msgstr ""
 
 msgid "Reset"
 msgstr "重置"
+
+msgid "Restore"
+msgstr ""
+
+msgid "Restore VM ..."
+msgstr ""
 
 msgid "Resume"
 msgstr "恢复"
 
 msgid "Revert"
 msgstr "还原"
+
+msgid "Run"
+msgstr ""
+
+msgid "Schedule"
+msgstr ""
 
 msgid "Select a snapshot ..."
 msgstr "选择快照 ..."
@@ -376,13 +513,16 @@ msgid "Snapshots"
 msgstr "快照"
 
 msgid "Source VM"
-msgstr ""
+msgstr "VM 源"
 
 msgid "Source path"
+msgstr "路径源"
+
+msgid "Space Used"
 msgstr ""
 
 msgid "Spice"
-msgstr ""
+msgstr "Spice"
 
 msgid "Spice port"
 msgstr "Spice 端口"
@@ -403,7 +543,7 @@ msgid "Subnet mask"
 msgstr "子掩码"
 
 msgid "Terabytes"
-msgstr ""
+msgstr "TB"
 
 msgid "Type"
 msgstr "类型"
@@ -412,6 +552,9 @@ msgid "UEFI"
 msgstr "UEFI"
 
 msgid "USB"
+msgstr "USB"
+
+msgid "UUID"
 msgstr ""
 
 msgid "Unable to"
@@ -474,6 +617,9 @@ msgstr "无法删除快照 -"
 msgid "Unable to delete volume - "
 msgstr "无法删除卷 -"
 
+msgid "Unable to get network adapter type - "
+msgstr ""
+
 msgid "Unable to remove USB device to VM - "
 msgstr "无法删除 VM 的 USB 设备-"
 
@@ -499,19 +645,22 @@ msgid "Unable to stop network - "
 msgstr "无法停止网络 -"
 
 msgid "Unit"
-msgstr ""
+msgstr "单位"
 
 msgid "VM Name"
 msgstr "VM 名称"
 
 msgid "VM name"
+msgstr "VM 名称"
+
+msgid "VM name for restored VM"
 msgstr ""
 
 msgid "VMs"
 msgstr "VMs"
 
 msgid "VNC"
-msgstr ""
+msgstr "VNC"
 
 msgid "VNC port"
 msgstr "VNC 端口"
@@ -520,7 +669,7 @@ msgid "Volume Count"
 msgstr "卷数量"
 
 msgid "Volume info ..."
-msgstr ""
+msgstr "卷信息 ..."
 
 msgid "Volumes"
 msgstr "卷"
@@ -541,7 +690,7 @@ msgid "arm"
 msgstr "arm"
 
 msgid "bridge"
-msgstr ""
+msgstr "桥"
 
 msgid "e1000"
 msgstr "e1000"
@@ -601,7 +750,7 @@ msgid "virtio"
 msgstr "virtio"
 
 msgid "vmxnet3"
-msgstr ""
+msgstr "vmxnet3"
 
 msgid "x86_64"
 msgstr "x86_64"

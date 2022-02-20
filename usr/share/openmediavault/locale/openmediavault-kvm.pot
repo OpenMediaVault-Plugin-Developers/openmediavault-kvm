@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-17 13:28-0600\n"
+"POT-Creation-Date: 2022-02-20 10:05-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -80,10 +80,16 @@ msgstr ""
 msgid "Available"
 msgstr ""
 
+msgid "Backing file"
+msgstr ""
+
 msgid "Backup"
 msgstr ""
 
 msgid "Backup with Compression"
+msgstr ""
+
+msgid "Base image"
 msgstr ""
 
 msgid "Bus"
@@ -119,6 +125,9 @@ msgstr ""
 msgid "Clone"
 msgstr ""
 
+msgid "Clone name"
+msgstr ""
+
 msgid "Component"
 msgstr ""
 
@@ -147,6 +156,9 @@ msgid "Create VM"
 msgstr ""
 
 msgid "Create VM 2"
+msgstr ""
+
+msgid "Create backing file"
 msgstr ""
 
 msgid "Created VM 2."
@@ -296,6 +308,9 @@ msgstr ""
 msgid "Failed to start websockify for spice-html5."
 msgstr ""
 
+msgid "File will be place in same directory as the base image."
+msgstr ""
+
 msgid "Filesystem"
 msgstr ""
 
@@ -354,6 +369,9 @@ msgid "Leave blank for random address."
 msgstr ""
 
 msgid "Leave blank to use VM name."
+msgstr ""
+
+msgid "Linked Clone"
 msgstr ""
 
 msgid "Linux"
@@ -489,6 +507,9 @@ msgid "Source VM"
 msgstr ""
 
 msgid "Source path"
+msgstr ""
+
+msgid "Space Used"
 msgstr ""
 
 msgid "Spice"
