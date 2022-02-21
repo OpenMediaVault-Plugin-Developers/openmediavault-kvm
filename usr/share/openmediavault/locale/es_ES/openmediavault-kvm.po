@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-20 10:05-0600\n"
+"POT-Creation-Date: 2022-02-21 12:35-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>, 2022\n"
 "Language-Team: Spanish (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/es/)\n"
@@ -25,7 +25,7 @@ msgid " already exists!"
 msgstr "¡ Ya existe !"
 
 msgid "Action"
-msgstr ""
+msgstr "Acción"
 
 msgid "Activity"
 msgstr "Actividad"
@@ -49,7 +49,7 @@ msgid "Add new VM"
 msgstr "Añadir VM"
 
 msgid "Add new VM 2"
-msgstr ""
+msgstr "Añadir nueva VM2"
 
 msgid "Add new pool"
 msgstr "Añadir pool"
@@ -58,7 +58,7 @@ msgid "Add new volume"
 msgstr "Añadir volumen"
 
 msgid "Add passthrough"
-msgstr ""
+msgstr "Añadir passthrough"
 
 msgid "Advanced"
 msgstr "Avanzado"
@@ -73,7 +73,7 @@ msgid "Architecture"
 msgstr "Arquitectura"
 
 msgid "Are you sure you want to delete?"
-msgstr ""
+msgstr "¿Esta seguro de que desea borrar?"
 
 msgid "Audio"
 msgstr "Sonido"
@@ -85,22 +85,22 @@ msgid "Available"
 msgstr "Disponible"
 
 msgid "Backing file"
-msgstr ""
+msgstr "respaldando archivo"
 
 msgid "Backup"
-msgstr ""
+msgstr "Backup"
 
 msgid "Backup with Compression"
-msgstr ""
+msgstr "Backup con Compresión"
 
 msgid "Base image"
-msgstr ""
+msgstr "Imagen Base"
 
 msgid "Bus"
 msgstr "Bus"
 
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 msgid "CPUs"
 msgstr "CPUs"
@@ -130,13 +130,13 @@ msgid "Clone"
 msgstr "Clonar"
 
 msgid "Clone name"
-msgstr ""
+msgstr "Nombre del clon"
 
 msgid "Component"
 msgstr "Componente"
 
 msgid "Compression"
-msgstr ""
+msgstr "Compresión"
 
 msgid "Console"
 msgstr "Consola"
@@ -160,19 +160,19 @@ msgid "Create VM"
 msgstr "Crear VM"
 
 msgid "Create VM 2"
-msgstr ""
+msgstr "Crear VM2"
 
 msgid "Create backing file"
-msgstr ""
+msgstr "Crear archivo de respaldo"
 
 msgid "Created VM 2."
-msgstr ""
+msgstr "VM2 creada"
 
 msgid "Created VM."
 msgstr "VM Creada."
 
 msgid "Created scheduled job."
-msgstr ""
+msgstr "Trabajo programado creado."
 
 msgid "DHCP"
 msgstr "DHCP"
@@ -187,7 +187,7 @@ msgid "DHCP starting address"
 msgstr "Dirección inicial DHCP"
 
 msgid "Date"
-msgstr ""
+msgstr "Fecha"
 
 msgid "Date & Time"
 msgstr "Fecha / Hora"
@@ -217,7 +217,7 @@ msgid "Download virtio iso ..."
 msgstr "Descargar ISO virtio ..."
 
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 msgid "Edit Notes"
 msgstr "Editar notas"
@@ -232,7 +232,7 @@ msgid "Edit XML"
 msgstr "Editar XML"
 
 msgid "Edit scheduled job."
-msgstr ""
+msgstr "Editar trabajo programado"
 
 msgid "Enable"
 msgstr "Habilitar"
@@ -373,6 +373,15 @@ msgid "KVM"
 msgstr "KVM"
 
 msgid "KVM Backup"
+msgstr ""
+
+msgid "Keep"
+msgstr ""
+
+msgid "Keep Recent"
+msgstr ""
+
+msgid "Keep the most recent number of backups. 0 = keep all backups"
 msgstr ""
 
 msgid "Leave blank for random address."

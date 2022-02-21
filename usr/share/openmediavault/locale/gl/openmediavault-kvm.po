@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-20 10:05-0600\n"
+"POT-Creation-Date: 2022-02-21 12:35-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>, 2021\n"
 "Language-Team: Galician (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/gl/)\n"
@@ -370,6 +370,15 @@ msgid "KVM"
 msgstr "KVM"
 
 msgid "KVM Backup"
+msgstr ""
+
+msgid "Keep"
+msgstr ""
+
+msgid "Keep Recent"
+msgstr ""
+
+msgid "Keep the most recent number of backups. 0 = keep all backups"
 msgstr ""
 
 msgid "Leave blank for random address."
