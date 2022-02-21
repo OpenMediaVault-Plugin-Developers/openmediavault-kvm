@@ -43,6 +43,16 @@ case "$1" in
             omv_config_add_node "/config/services/kvm" "jobs"
         fi
 
+        count=$(omv_config_get_count "/config/services/kvm/jobs/job");
+        index=1;
+        while [ ${index} -le ${count} ]; do
+            job="/config/services/kvm/jobs/job[position()=${index}]"
+            if ! omv_config_exists "${job}/keep"; then
+                omv_config_add_key "${job}" "keep" "0"
+            fi
+            index=$(( ${index} + 1 ))
+        done;
+
         omv-salt deploy run --no-color kvm || :
     ;;
 

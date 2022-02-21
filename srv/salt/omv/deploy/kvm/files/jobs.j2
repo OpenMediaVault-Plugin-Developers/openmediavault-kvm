@@ -12,7 +12,11 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 {%- else -%}
 @{{ job.execution }}
 {%- endif -%}
-{{ separator }}root{{ separator }}omv-backup-vm -v {{ job.vmname }} -d {{ job.path }}{{ ' -c' if job.compression | to_bool }}
+{%- set keep = '' -%}
+{%- if job.keep > 0 -%}
+{%- set keep = ' -k ' ~ job.keep -%}
+{%- endif -%}
+{{ separator }}root omv-backup-vm -v {{ job.vmname }} -d {{ job.path }}{{ keep }}{{ ' -c' if job.compression | to_bool }}
 {%- if not job.sendemail | to_bool -%}
 {{ separator }}>/dev/null 2>&1
 {%- else -%}

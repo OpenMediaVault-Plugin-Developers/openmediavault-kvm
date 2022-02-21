@@ -8,7 +8,7 @@
 # License version 2. This program is licensed "as is" without any
 # warranty of any kind, whether express or implied.
 #
-# version: 0.0.1
+# version: 0.1.2
 #
 
 if [[ $(id -u) -ne 0 ]]; then
@@ -19,6 +19,7 @@ fi
 export LANG=C.UTF-8
 
 # declare/initialize
+declare -i keep=0
 declare -i used=0
 declare -i vmId=0
 
@@ -41,7 +42,7 @@ _log()
 }
 
 # loop through options
-while getopts "cd:hv:" opt; do
+while getopts "cd:hk:v:" opt; do
   case "${opt}" in
     c)
       compress=" -c"
@@ -59,13 +60,19 @@ while getopts "cd:hv:" opt; do
       echo "    set backup directory"
       echo "  -h"
       echo "    show this help"
+      echo "  -k #"
+      echo "    keep last number of backups"
       echo "  -v vm-name"
       echo "    VM name to backup"
       echo ""
       echo "Examples:"
-      echo "  omv-backup-vm -d /srv/backup/ -v testvm1"
+      echo "  omv-backup-vm -d /srv/backup/ -k 5 -v testvm1"
       echo ""
       exit 100
+      ;;
+    k)
+      keep=${OPTARG}
+      _log "Keep :: ${keep}"
       ;;
     v)
       backupVm=${OPTARG}
@@ -198,6 +205,24 @@ backuptime=$((end-start))
 
 _log "Backup size :: ${used} bytes"
 _log "Backup time :: ${backuptime} secs"
+
+if [ ${keep} -gt 0 ]; then
+  _log "Keeping the most recent ${keep} backups..."
+  keepDir="${backupDir}/${backupVm}/"
+
+  OFS=$IFS
+  IFS=$'\n'
+  delDirs=$(find ${keepDir} -mindepth 1 -maxdepth 1 -type d | sort -r | awk "NR>${keep}")
+  for d in ${delDirs}; do
+    delDate="$(basename "${d}")"
+    _log "delete date :: ${delDate}"
+    delDir="$(dirname "${keepDir}")"
+    _log "delete dir :: ${delDir}"
+    rm -rv "${d}"
+    sed -i "\|${delDir},${backupVm},${delDate}|d" ${listFile}
+  done
+  IFS=$OFS
+fi
 
 _log "Done."
 

@@ -690,6 +690,10 @@
                 "type": "string",
 				"required": true
             },
+            "keep": {
+                "type": "integer",
+				"required": true
+            },
             "compression": {
                 "type": "boolean",
 				"required": true

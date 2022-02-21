@@ -24,6 +24,12 @@
 			"type": "string",
 			"default": ""
 		},
+		"keep": {
+			"type": "integer",
+            "minimum": 0,
+			"maximum": 65535,
+			"default": 0
+		},
 		"compression": {
 			"type": "boolean",
 			"default": false

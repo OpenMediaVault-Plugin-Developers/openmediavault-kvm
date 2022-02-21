@@ -1,3 +1,10 @@
+openmediavault-kvm (6.1.2) stable; urgency=low
+
+  * Add keep most recent number of backups parameter to scheduled
+    backups
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Mon, 21 Feb 2022 11:38:52 -0600
+
 openmediavault-kvm (6.1.1) stable; urgency=low
 
   * Update locales

@@ -2286,7 +2286,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
         $cmdArgs = [];
         $cmdArgs[] = '-i';
-        $cmdArgs[] = sprintf('"/^%s.*%s.*%s$/d"', $uuid, $vmname, $date);
+        $cmdArgs[] = sprintf('"/^%s.*%s.*%s.*$/d"', $uuid, $vmname, $date);
         $cmdArgs[] = '/etc/omv-backup-vm.list';
         $cmd = new \OMV\System\Process('sed', $cmdArgs);
         $cmd->setQuiet(true);
@@ -2439,6 +2439,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmdArgs[] = '/usr/sbin/omv-backup-vm';
                 $cmdArgs[] = sprintf('-v %s', $object->get('vmname'));
                 $cmdArgs[] = sprintf('-d %s', $object->get('path'));
+                if ($object->get('keep') > 0) {
+                    $cmdArgs[] = sprintf('-k %s', $object->get('keep'));
+                }
                 if ($object->get('compression') === true) {
                     $cmdArgs[] = '-c';
                 }

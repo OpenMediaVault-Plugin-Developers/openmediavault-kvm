@@ -44,6 +44,14 @@ data:
         dirRefIdField: rootfsref
         validators:
           required: true
+      - type: numberInput
+        name: keep
+        label: _("Keep")
+        value: 0
+        validators:
+          min: 0
+          max: 65535
+        hint: _("Keep the most recent number of backups. 0 = keep all backups")
       - type: checkbox
         name: compression
         label: _('Compress')

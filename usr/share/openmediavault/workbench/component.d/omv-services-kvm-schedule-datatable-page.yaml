@@ -42,6 +42,10 @@ data:
           {% else %}
           {{ execution | capitalize | translate }}
           {% endif %}
+      - name: _("Keep Recent")
+        prop: keep
+        flexGrow: 1
+        sortable: true
       - name: _("Compression")
         prop: compression
         flexGrow: 1
