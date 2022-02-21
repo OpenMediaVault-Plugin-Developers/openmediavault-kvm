@@ -825,7 +825,7 @@ data:
           - text: _("Delete")
             icon: mdi:text-box-minus-outline
             confirmationDialogConfig:
-              template: confirmation
+              template: confirmation-danger
               message: _("Are you sure you want to delete?")
             execute:
               type: request
@@ -839,7 +839,7 @@ data:
           - text: _("Delete + storage")
             icon: mdi:delete-sweep-outline
             confirmationDialogConfig:
-              template: confirmation
+              template: confirmation-critical
               message: _("Are you sure you want to delete?")
             execute:
               type: request
