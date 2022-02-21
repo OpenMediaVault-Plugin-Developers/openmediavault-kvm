@@ -216,9 +216,11 @@ if [ ${keep} -gt 0 ]; then
   for d in ${delDirs}; do
     delDate="$(basename "${d}")"
     _log "delete date :: ${delDate}"
-    delDir="$(dirname "${keepDir}")"
+    delDir="$(dirname "${keepDir}")/"
     _log "delete dir :: ${delDir}"
+    _log "Removing ${d}..."
     rm -rv "${d}"
+    grep "${delDir},${backupVm},${delDate}" ${listFile}
     sed -i "\|${delDir},${backupVm},${delDate}|d" ${listFile}
   done
   IFS=$OFS
