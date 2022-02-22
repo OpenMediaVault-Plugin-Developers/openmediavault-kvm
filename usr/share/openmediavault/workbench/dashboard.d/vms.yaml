@@ -1,0 +1,33 @@
+version: "1.0"
+type: dashboard-widget
+data:
+  id: 7e0f5222-9377-11ec-bc33-0385354532ab
+  title: _("VMs")
+  type: datatable
+  permissions:
+    role:
+    - admin
+  datatable:
+    columns:
+    - name: _("Name")
+      prop: vmname
+      flexGrow: 1
+      sortable: true
+    - name: _("State")
+      prop: state
+      sortable: true
+      flexGrow: 1
+    - name: _("vCPUs")
+      prop: cpu
+      sortable: true
+      flexGrow: 1
+    - name: _("Memory")
+      prop: mem
+      sortable: true
+      flexGrow: 1
+      cellTemplateName: binaryUnit
+    store:
+      proxy:
+        service: Kvm
+        get:
+          method: getVmNameStateList

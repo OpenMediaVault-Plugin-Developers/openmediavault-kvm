@@ -53,6 +53,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('poolCommand');
 
         $this->registerMethod('getVmList');
+        $this->registerMethod('getVmNameStateList');
         $this->registerMethod('getVmNameList');
         $this->registerMethod('getVmXml');
         $this->registerMethod('setVmXml');
@@ -683,6 +684,32 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 'spicehtml5url' => $spicehtml5url,
                 'snaps' => $snaps,
                 'notes' => str_replace(PHP_EOL,'<br/>',$notes)
+            ];
+        }
+        // Filter the result.
+        return $this->applyFilter($objects, $params['start'], $params['limit'],
+            $params['sortfield'], $params['sortdir']);
+    }
+
+    public function getVmNameStateList($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // create new libvirt object
+        $lv = $this->connectQemu();
+        $doms = $lv->get_domains();
+        $objects= [];
+        foreach ($doms as $name) {
+            if (!$lv->domain_get_xml($name)) {
+                continue;
+            }
+            $dom = $lv->get_domain_object($name);
+            $info = $lv->domain_get_info($dom);
+            $objects[] = [
+                'vmname' => $name,
+                'mem' => $info['memory'] * 1024,
+                'cpu' => $info['nrVirtCpu'],
+                'state' => $lv->domain_state_translate($info['state'])
             ];
         }
         // Filter the result.
