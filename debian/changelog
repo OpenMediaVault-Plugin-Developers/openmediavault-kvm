@@ -1,6 +1,7 @@
 openmediavault-kvm (6.1.4) UNRELEASED; urgency=medium
 
   * Add VM dashboard widget
+  * Fix cpu and memory change
 
  -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Mon, 21 Feb 2022 18:49:45 -0600
 

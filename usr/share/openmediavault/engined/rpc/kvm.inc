@@ -2205,11 +2205,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 case 'MiB':  $multi = 1024; break;
             }
             $newMem = $memory * $multi;
-            $cmdLine = sprintf('virsh setmaxmem %s %s --config', $vmname, $newMem);
-            $cmdLine2 = sprintf('virsh setmem %s %s --config', $vmname, $newMem);
+            $cmdLine = sprintf('setmaxmem %s %s --config', $vmname, $newMem);
+            $cmdLine2 = sprintf('setmem %s %s --config', $vmname, $newMem);
         } else if ($memory == -1) {
-            $cmdLine = sprintf('virsh setvcpus %s %d --config --maximum', $vmname, $vcpu);
-            $cmdLine2 = sprintf('virsh setvcpus %s %d --config ', $vmname, $vcpu);
+            $cmdLine = sprintf('setvcpus %s %d --config --maximum', $vmname, $vcpu);
+            $cmdLine2 = sprintf('setvcpus %s %d --config ', $vmname, $vcpu);
             $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
             if (isset($domXml->cpu->topology)) {
                 $domXml->cpu->topology['cores'] = $vcpu;

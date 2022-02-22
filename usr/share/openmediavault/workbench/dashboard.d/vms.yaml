@@ -4,6 +4,7 @@ data:
   id: 7e0f5222-9377-11ec-bc33-0385354532ab
   title: _("VMs")
   type: datatable
+  reloadPeriod: 30000
   permissions:
     role:
     - admin
@@ -17,15 +18,15 @@ data:
       prop: state
       sortable: true
       flexGrow: 1
-    - name: _("vCPUs")
-      prop: cpu
-      sortable: true
-      flexGrow: 1
     - name: _("Memory")
       prop: mem
       sortable: true
       flexGrow: 1
       cellTemplateName: binaryUnit
+    - name: _("vCPUs")
+      prop: cpu
+      sortable: true
+      flexGrow: 1
     store:
       proxy:
         service: Kvm
