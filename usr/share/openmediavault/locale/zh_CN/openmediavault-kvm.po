@@ -375,13 +375,13 @@ msgid "KVM Backup"
 msgstr "KVM 备份"
 
 msgid "Keep"
-msgstr ""
+msgstr "保留"
 
 msgid "Keep Recent"
-msgstr ""
+msgstr "保留最近"
 
 msgid "Keep the most recent number of backups. 0 = keep all backups"
-msgstr ""
+msgstr "保留最近的备份份数。0 = 保留所有备份"
 
 msgid "Leave blank for random address."
 msgstr "留空则使用随机地址。"
