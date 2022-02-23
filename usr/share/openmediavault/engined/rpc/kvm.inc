@@ -1260,9 +1260,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodParams($params, 'rpc.kvm.adddisk');
         // create new libvirt object
         $lv = $this->connectQemu();
-        // get VM object
-        $vm = $lv->get_domain_by_name($params['vmname']);
 
+        $vmname = $params['vmname'];
         $volbus = $params['volbus'];
         $voldisk = $params['voldisk'];
         $volformat = $params['volformat'];
@@ -1273,6 +1272,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if ($volunit == "") {
             $volunit = "G";
         }
+        // get VM object
+        $vm = $lv->get_domain_by_name($vmname);
+
         // create new disk (if specified)
         if ($voldisk == "Create new disk") {
             $newdisk = $lv->storagevolume_create($volpool, $volname.'.'.$volformat, $volsize.$volunit, $volsize.$volunit, $volformat);  
@@ -1314,9 +1316,16 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $targetdev = $dev . "a";
         }
         // add disk to VM
-        if (!$lv->domain_disk_add($vm, $diskpath, $targetdev, $volbus, $volformat)) {
-            throw new \OMV\Exception( gettext("Unable to add disk to VM - ") . $lv->get_last_error());
-        }
+        $cmdArgs = [];
+        $cmdArgs[] = 'attach-disk';
+        $cmdArgs[] = sprintf('--domain %s', $vmname);
+        $cmdArgs[] = sprintf('--source %s', $diskpath);
+        $cmdArgs[] = sprintf('--target %s', $targetdev);
+        $cmdArgs[] = sprintf('--targetbus %s', $volbus);
+        $cmdArgs[] = '--persistent';
+        $cmdArgs[] = '--config';
+        $err = gettext("Failed to add disk.");
+        $this->virshCommand($cmdArgs, $err);
     }
 
     public function addOptical($params, $context)

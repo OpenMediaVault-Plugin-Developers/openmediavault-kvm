@@ -62,7 +62,7 @@ data:
       - type: select
         name: execution
         label: _('Time of execution')
-        value: 'exactly'
+        value: 'weekly'
         store:
           data:
             - ['exactly', _('Certain date')]
