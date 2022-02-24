@@ -1,3 +1,11 @@
+openmediavault-kvm (6.1.5) stable; urgency=low
+
+  * Use virsh to attach disk
+  * Fix creation of new vm with existing disk
+  * Fix delete VM
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Thu, 24 Feb 2022 06:22:47 -0600
+
 openmediavault-kvm (6.1.4) stable; urgency=low
 
   * Add VM dashboard widget
