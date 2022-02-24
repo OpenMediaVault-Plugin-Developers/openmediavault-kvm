@@ -197,6 +197,7 @@ data:
         label: _('Pool')
         textField: name
         valueField: name
+        value: ''
         store:
           proxy:
             service: 'Kvm'
