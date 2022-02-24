@@ -2065,6 +2065,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $lv = $this->connectQemu();
         $vmname = $params['name'];
         $dom = $lv->get_domain_object($vmname);
+        $undefine = false;
         switch ($params['command']) {
             case 'poweron':
                 $result = $lv->domain_start($dom);
@@ -2098,6 +2099,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmdArgs[] = $vmname;
                 $err = gettext("Failed to delete VM.");
                 $this->virshCommand($cmdArgs, $err);
+                $result = true;
                 break;
             case 'undefineplus':
                 $undefine = false;
@@ -2115,6 +2117,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                     $err = gettext("Failed to create VM.");
                     $this->virshCommand($cmdArgs, $err);
                 }
+                $result = true;
                 break;
             case 'autostartdisable':
                 $result = $lv->domain_set_autostart($dom,false);
@@ -2124,9 +2127,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 break;
         }
         if (!$result) {
-            if (!$undefine) {
-                throw new \OMV\Exception( gettext("Unable to - ") . $params['command'] . $lv->get_last_error());
-            }
+            throw new \OMV\Exception( gettext("Unable to - ") . $params['command'] . $lv->get_last_error());
         }
     }
 
