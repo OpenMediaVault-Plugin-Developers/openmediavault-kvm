@@ -387,6 +387,11 @@ data:
         enabledConstraints:
           minSelected: 1
           maxSelected: 1
+          constraint:
+            - operator: ne
+              arg0:
+                prop: state
+              arg1: "running"
         actions:
           - text: _("Add passthrough")
             icon: mdi:file-upload-outline
