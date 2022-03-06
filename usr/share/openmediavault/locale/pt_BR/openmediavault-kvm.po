@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-21 12:35-0600\n"
+"POT-Creation-Date: 2022-03-06 10:24-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Marcelo Esteves <marcelopge@gmail.com>, 2021\n"
 "Language-Team: Portuguese (Brazil) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/pt_BR/)\n"
@@ -253,6 +253,9 @@ msgid "Failed to "
 msgstr ""
 
 msgid "Failed to add USB device."
+msgstr ""
+
+msgid "Failed to add disk."
 msgstr ""
 
 msgid "Failed to add filesystem passthrough."
@@ -751,6 +754,9 @@ msgid "spice-html5 port"
 msgstr ""
 
 msgid "vCPU"
+msgstr ""
+
+msgid "vCPUs"
 msgstr ""
 
 msgid "virtio"

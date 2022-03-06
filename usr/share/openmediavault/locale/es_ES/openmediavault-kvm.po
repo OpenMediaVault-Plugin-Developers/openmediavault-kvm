@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-21 12:35-0600\n"
+"POT-Creation-Date: 2022-03-06 10:24-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>, 2022\n"
 "Language-Team: Spanish (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/es/)\n"
@@ -238,28 +238,32 @@ msgid "Enable"
 msgstr "Habilitar"
 
 msgid "Execute backup using selected VM name and path ..."
-msgstr ""
+msgstr "Ejecutar el Backup usando el nombre y ruta de VM ..."
 
 msgid "Execute backup with compression using selected VM name and path ..."
 msgstr ""
+"Ejecutar el backup con compresión usando el nombre y la ruta de VM ..."
 
 msgid "Execute scheduled job ..."
-msgstr ""
+msgstr "Ejecute el trabajo programado ..."
 
 msgid "Extension"
 msgstr "Extension"
 
 msgid "Failed to "
-msgstr ""
+msgstr "Fallo el "
 
 msgid "Failed to add USB device."
+msgstr "Fallo el añadir dispositivo USB"
+
+msgid "Failed to add disk."
 msgstr ""
 
 msgid "Failed to add filesystem passthrough."
-msgstr ""
+msgstr "Fallo el añadir un sistema de archivos passthrough."
 
 msgid "Failed to add optical disk."
-msgstr ""
+msgstr "Falló el añadir un CD."
 
 msgid "Failed to add vnc and/or spice setup - "
 msgstr "Error al añadir vnc o spice"
@@ -271,40 +275,40 @@ msgid "Failed to change autostart"
 msgstr "Falló el cambio de autoarranque"
 
 msgid "Failed to create VM XML."
-msgstr ""
+msgstr "Falló al crear XML VM."
 
 msgid "Failed to create VM."
-msgstr ""
+msgstr "Falló al crear una VM."
 
 msgid "Failed to delete VM."
-msgstr ""
+msgstr "Falló el borrar una VM."
 
 msgid "Failed to remove USB device."
-msgstr ""
+msgstr "Falló el remover un dispositivo USB."
 
 msgid "Failed to remove disk."
-msgstr ""
+msgstr "Falló el remover un disco."
 
 msgid "Failed to remove filesystem passthrough."
-msgstr ""
+msgstr "Fallo el remover un sistema de archivos passthrough."
 
 msgid "Failed to remove network."
-msgstr ""
+msgstr "Falló el remover una red."
 
 msgid "Failed to remove vnc and/or spice setup - "
 msgstr "Error al eliminar vnc o spice"
 
 msgid "Failed to reset VM."
-msgstr ""
+msgstr "Falló el reiniciar una VM."
 
 msgid "Failed to set change."
-msgstr ""
+msgstr "Falló aplicar el cambio."
 
 msgid "Failed to set maximum"
 msgstr "Falló definir el máximo"
 
 msgid "Failed to set maximum."
-msgstr ""
+msgstr "Falló usar el máximo."
 
 msgid "Failed to start websockify for noVNC."
 msgstr "Falló arrancar websockify para noVNC."
@@ -313,7 +317,7 @@ msgid "Failed to start websockify for spice-html5."
 msgstr "Falló arrancar  websockify para spice-html5."
 
 msgid "File will be place in same directory as the base image."
-msgstr ""
+msgstr "El archivo debe estar en el mismo directorio que la imagen base."
 
 msgid "Filesystem"
 msgstr "Sistema de Archivos"
@@ -373,16 +377,16 @@ msgid "KVM"
 msgstr "KVM"
 
 msgid "KVM Backup"
-msgstr ""
+msgstr "Backup KMV"
 
 msgid "Keep"
-msgstr ""
+msgstr "Mantener"
 
 msgid "Keep Recent"
-msgstr ""
+msgstr "Mantener recientes"
 
 msgid "Keep the most recent number of backups. 0 = keep all backups"
-msgstr ""
+msgstr "Mantener el nº más reciente de backup. 0=mantener todos."
 
 msgid "Leave blank for random address."
 msgstr "Dejar en blanco para dirección aleatoria."
@@ -391,7 +395,7 @@ msgid "Leave blank to use VM name."
 msgstr "Dejar en blanco para usar el nombre de la VM."
 
 msgid "Linked Clone"
-msgstr ""
+msgstr "Clon enlazado"
 
 msgid "Linux"
 msgstr "Linux"
@@ -448,10 +452,10 @@ msgid "Optical Drive"
 msgstr "Optical Drive"
 
 msgid "Other CPU"
-msgstr ""
+msgstr "Otra CPU"
 
 msgid "Passthrough Filesystem"
-msgstr ""
+msgstr "Sistema de Archivos Passthrough "
 
 msgid "Path"
 msgstr "Ruta"
@@ -481,16 +485,16 @@ msgid "Remove network"
 msgstr "Eliminar Red"
 
 msgid "Remove passthrough"
-msgstr ""
+msgstr "Remover passthrough"
 
 msgid "Reset"
 msgstr "Reset"
 
 msgid "Restore"
-msgstr ""
+msgstr "Restaurar"
 
 msgid "Restore VM ..."
-msgstr ""
+msgstr "Restaurar una VM..."
 
 msgid "Resume"
 msgstr "Reanudar"
@@ -499,10 +503,10 @@ msgid "Revert"
 msgstr "Revertir"
 
 msgid "Run"
-msgstr ""
+msgstr "Ejecutar"
 
 msgid "Schedule"
-msgstr ""
+msgstr "Tarea programada"
 
 msgid "Select a snapshot ..."
 msgstr "Seleccionar una Instantánea ..."
@@ -529,7 +533,7 @@ msgid "Source path"
 msgstr "Ruta origen"
 
 msgid "Space Used"
-msgstr ""
+msgstr "Espacio usado"
 
 msgid "Spice"
 msgstr "Spice"
@@ -565,7 +569,7 @@ msgid "USB"
 msgstr "USB"
 
 msgid "UUID"
-msgstr ""
+msgstr "UUID"
 
 msgid "Unable to"
 msgstr "No es posible ..."
@@ -628,7 +632,7 @@ msgid "Unable to delete volume - "
 msgstr "Incapaz de de borrar un volumen -"
 
 msgid "Unable to get network adapter type - "
-msgstr ""
+msgstr "No es posible usar ese tipo de adaptador -"
 
 msgid "Unable to remove USB device to VM - "
 msgstr "No es posible eliminar los dispositivos USB de la VM -"
@@ -664,7 +668,7 @@ msgid "VM name"
 msgstr "Nombre de la VM"
 
 msgid "VM name for restored VM"
-msgstr ""
+msgstr "Nombre para la VM restaurada"
 
 msgid "VMs"
 msgstr "VMs"
@@ -755,6 +759,9 @@ msgstr "spice-html5 port"
 
 msgid "vCPU"
 msgstr "vCPU"
+
+msgid "vCPUs"
+msgstr ""
 
 msgid "virtio"
 msgstr "virtio"
