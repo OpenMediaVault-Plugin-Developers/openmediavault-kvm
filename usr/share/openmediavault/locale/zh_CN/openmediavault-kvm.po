@@ -256,7 +256,7 @@ msgid "Failed to add USB device."
 msgstr "添加 USB 设备失败。"
 
 msgid "Failed to add disk."
-msgstr ""
+msgstr "添加磁盘失败。"
 
 msgid "Failed to add filesystem passthrough."
 msgstr "添加直通文件系统失败。"
@@ -759,7 +759,7 @@ msgid "vCPU"
 msgstr "vCPU"
 
 msgid "vCPUs"
-msgstr ""
+msgstr "vCPUs"
 
 msgid "virtio"
 msgstr "virtio"
