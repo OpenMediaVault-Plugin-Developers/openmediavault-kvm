@@ -43,3 +43,18 @@ configure_omv_backup_vm_logrotate:
     - user: root
     - group: root
     - mode: 644
+
+configure_omv_virsh_command_logrotate:
+  file.managed:
+    - name: "/etc/logrotate.d/omv-virsh-command"
+    - contents: |
+        /var/log/omv-virsh-command.log {
+          monthly
+          missingok
+          rotate 12
+          compress
+          notifempty
+        }
+    - user: root
+    - group: root
+    - mode: 644

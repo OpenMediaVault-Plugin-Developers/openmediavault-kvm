@@ -1080,11 +1080,13 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
 
         // OS-based arguments
-        if (strpos($os, "Windows") !== false) {
-            $vcpuArgs = sprintf('sockets=1,cores=%d,threads=1', $params['vcpu']);
+        $vcpuArgs = '';
+        $clockArgs = '';
+        if (strpos($os, 'win') == 0) {
+            $vcpuArgs = sprintf('%d,sockets=1,cores=%d,threads=1', $vcpu, $vcpu);
             $clockArgs = 'offset=localtime';
         } else {
-            $vcpuArgs = $params['vcpu'];
+            $vcpuArgs = $vcpu;
             $clockArgs = 'offset=utc';
         }
 
@@ -1172,8 +1174,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
 
         if ($voliso != 'none') {
-            $cmdArgs[] = sprintf('--cdrom %s', $params['voliso']);
-            $printStep = ' 2';
+            $cmdArgs[] = sprintf('--cdrom %s --install no_install=yes', $params['voliso']);
+            $printStep = ' 1';
         } else {
             $printStep = '';
         }
@@ -1198,6 +1200,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
 
         $err = gettext("Failed to create VM.");
         $this->virshCommand($cmdArgs, $err);
+
+        // remove temporary xml file
+        unlink($xmlFile);
     }
 
     private function addVmBridgeNic($vmname, $mac, $net)
@@ -2667,6 +2672,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmd = new \OMV\System\Process($virsh, $cmdArgs);
         $cmd->setQuiet(true);
         $cmd->setRedirect2to1();
+        $today = '[' . date("Y-m-d H:i:s") . '] ';
+        file_put_contents("/var/log/omv-virsh-command.log",
+          $today . $cmd->getCommandLine() . PHP_EOL,
+          FILE_APPEND
+        );
         $cmd->execute($output, $exitStatus);
         if (0 != $exitStatus) {
             $outMsg = implode(PHP_EOL, array_filter($output));

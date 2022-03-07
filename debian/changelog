@@ -1,3 +1,15 @@
+openmediavault-kvm (6.1.7) stable; urgency=low
+
+  * Fix vcpus on Windows
+  * Add command log
+  * Fix cdrom boot issue
+  * Remove temporary xml file used to create new VM
+  * Use correct network adapter type on Windows
+  * Use correct disk bus type on Windows
+  * Default new VMs to Debian 11
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Mon, 07 Mar 2022 11:21:00 -0600
+
 openmediavault-kvm (6.1.6) stable; urgency=low
 
   * Update locales
