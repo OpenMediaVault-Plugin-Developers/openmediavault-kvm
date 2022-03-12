@@ -1,0 +1,8 @@
+version: "1.0"
+type: navigation-item
+data:
+  path: "services.kvm.virttop"
+  text: _("virt-top")
+  position: 90
+  icon: mdi:chart-box-outline
+  url: "/services/kvm/virttop"

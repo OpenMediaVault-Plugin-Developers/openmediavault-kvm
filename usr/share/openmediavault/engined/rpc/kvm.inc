@@ -111,11 +111,13 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('getRestoreList');
         $this->registerMethod('doRestore');
 
-		$this->registerMethod("getJobList");
-		$this->registerMethod("getJob");
-		$this->registerMethod("setJob");
-		$this->registerMethod("deleteJob");
-		$this->registerMethod("doJob");
+		$this->registerMethod('getJobList');
+		$this->registerMethod('getJob');
+		$this->registerMethod('setJob');
+		$this->registerMethod('deleteJob');
+		$this->registerMethod('doJob');
+
+		$this->registerMethod('getVirtTop');
 
         $this->registerMethod('enumerateArchitectures');
         $this->registerMethod('enumerateCpus');
@@ -2046,7 +2048,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // create filesystem passthrough xml
         $fsXml = new SimpleXMLElement('<filesystem/>');
         $fsXml->addAttribute('type', 'mount');
-        $fsXml->addAttribute('accessmode', 'passthrough');
+        $fsXml->addAttribute('accessmode', 'mapped');
         $srcXml = $fsXml->addChild('source');
         $srcXml->addAttribute('dir', $src);
         $tgtXml = $fsXml->addChild('target');
@@ -2589,6 +2591,19 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 throw new \OMV\Exception( gettext("Failed to remove vnc and/or spice setup - ") . $lv->get_last_error());
             }
         }
+    }
+
+    public function getVirtTop($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        $output = [];
+        $cmdArgs = [];
+        $cmdArgs[] = "--stream";
+        $cmdArgs[] = "-n 1";
+        $cmd = new \OMV\System\Process('virt-top', $cmdArgs);
+        $cmd->execute($output);
+        return (implode(PHP_EOL, $output));
     }
 
     public function enumerateArchitectures($params, $context)

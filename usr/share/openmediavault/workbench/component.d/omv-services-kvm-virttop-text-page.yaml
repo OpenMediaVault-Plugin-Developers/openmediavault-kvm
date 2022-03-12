@@ -1,0 +1,12 @@
+version: "1.0"
+type: component
+data:
+  name: omv-services-kvm-virttop-text-page
+  type: textPage
+  config:
+    autoReload: 10000
+    hasReloadButton: true
+    request:
+      service: Kvm
+      get:
+        method: getVirtTop
