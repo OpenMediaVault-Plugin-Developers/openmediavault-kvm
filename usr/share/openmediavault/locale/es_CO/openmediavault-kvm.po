@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-06 10:24-0600\n"
+"POT-Creation-Date: 2022-03-12 08:31-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Language-Team: Spanish (Colombia) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/es_CO/)\n"
 "MIME-Version: 1.0\n"
@@ -753,6 +753,9 @@ msgid "vCPU"
 msgstr ""
 
 msgid "vCPUs"
+msgstr ""
+
+msgid "virt-top"
 msgstr ""
 
 msgid "virtio"
