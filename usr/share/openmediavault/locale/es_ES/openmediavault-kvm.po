@@ -257,7 +257,7 @@ msgid "Failed to add USB device."
 msgstr "Fallo el añadir dispositivo USB"
 
 msgid "Failed to add disk."
-msgstr ""
+msgstr "Error al añadir el disco."
 
 msgid "Failed to add filesystem passthrough."
 msgstr "Fallo el añadir un sistema de archivos passthrough."
@@ -761,10 +761,10 @@ msgid "vCPU"
 msgstr "vCPU"
 
 msgid "vCPUs"
-msgstr ""
+msgstr "vCPUs"
 
 msgid "virt-top"
-msgstr ""
+msgstr "virt-top"
 
 msgid "virtio"
 msgstr "virtio"
