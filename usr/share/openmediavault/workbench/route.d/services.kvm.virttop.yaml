@@ -1,6 +1,0 @@
-version: "1.0"
-type: route
-data:
-  url: "/services/kvm/virttop"
-  title: _("virt-top")
-  component: omv-services-kvm-virttop-text-page
