@@ -1267,7 +1267,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodParams($params, 'rpc.kvm.adddisk');
         // create new libvirt object
         $lv = $this->connectQemu();
-
+        // get parameters
         $vmname = $params['vmname'];
         $volbus = $params['volbus'];
         $voldisk = $params['voldisk'];
@@ -1284,11 +1284,15 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
 
         // create new disk (if specified)
         if ($voldisk == "Create new disk") {
-            $newdisk = $lv->storagevolume_create($volpool, $volname.'.'.$volformat, $volsize.$volunit, $volsize.$volunit, $volformat);  
-            if (!$newdisk) {
-                throw new \OMV\Exception( gettext("Unable to create new disk - ") . $lv->get_last_error());
-            }
-            $diskpath = libvirt_storagevolume_get_path($newdisk);
+            $pool = $lv->get_storagepool_info($volpool);
+            $diskpath = sprintf('%s/%s.%s', $pool['path'], $volname, $volformat);
+            $cmdArgs = [];
+            $cmdArgs[] = 'create';
+            $cmdArgs[] = sprintf('-f %s', $volformat);
+            $cmdArgs[] = $diskpath;
+            $cmdArgs[] = sprintf('%d%s', $volsize, $volunit);
+            $err = gettext("Failed to create new disk :: ") . $params['command'];
+            $this->virshCommand($cmdArgs, $err, 'qemu-img');
         } else {
             $diskpath = $voldisk;
             $volformat = pathinfo($voldisk, PATHINFO_EXTENSION);
@@ -2505,53 +2509,16 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
-        $this->validateMethodParams($params, 'rpc.kvm.vmname');
-        // create new libvirt object
-        $lv = $this->connectQemu();
+        //$this->validateMethodParams($params, 'rpc.kvm.vmname');
+        $spice = $params['spice'];
+        $state = $params['state'];
         $vmname = $params['vmname'];
-        $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
-        // check for existing elements
-        $xpath = $domXml->xpath('//graphics');
-        $xpathSize = sizeof($xpath);
-        for ($i = 0; $i < $xpathSize; $i++) {
-            $graphics = $domXml->devices->graphics[$i];
-            $type = $graphics['type'];
-            if ($type == 'vnc') {
-                $vnc = true;
-            }
-            if ($type == 'spice') {
-                $spice = true;
-            }
-        }
-        // add elements if not found
-        $change = false;
-        if (!$vnc) {
-            // add vnc devices
-            $hostDevXml = $domXml->devices->addChild('graphics');
-            $hostDevXml->addAttribute('type', 'vnc');
-            $hostDevXml->addAttribute('port', '-1');
-            $hostDevXml->addAttribute('autoport', 'yes');
-            $change = true;
-        }
-        if (!$spice) {
-            // add spice devices
-            $hostDevXml = $domXml->devices->addChild('graphics');
-            $hostDevXml->addAttribute('type', 'spice');
-            $hostDevXml->addAttribute('port', '-1');
-            $hostDevXml->addAttribute('tlsport', '-1');
-            $hostDevXml->addAttribute('autoport', 'yes');
-            $hostDevXml->addAttribute('listen', '0.0.0.0');
-            $glXml = $hostDevXml->addChild('gl');
-            $glXml->addAttribute('enable', 'no');
-            $change = true;
-        }
-        if ($change) {
-            $newXml = $domXml->asXML();
-            $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
-            if (!$lv->domain_change_xml($vmname, $newXml)) {
-                throw new \OMV\Exception( gettext("Failed to add vnc and/or spice setup - ") . $lv->get_last_error());
-            }
-        }
+        // create xml
+        $xml = $this->createVncXml($spice);
+        // remove with virsh
+        $cmdArgs = $this->deviceArgs('attach-device', $vmname, $xml, $state);
+        $err = gettext("Failed to add VNC device.");
+        $this->virshCommand($cmdArgs, $err);
     }
 
     public function removeVnc($params, $context)
@@ -2559,38 +2526,44 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
-        $this->validateMethodParams($params, 'rpc.kvm.vmname');
-        // create new libvirt object
-        $lv = $this->connectQemu();
+        //$this->validateMethodParams($params, 'rpc.kvm.vmname');
+        $spice = $params['spice'];
+        $state = $params['state'];
         $vmname = $params['vmname'];
-        $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
-        // check for existing elements
-        $change = false;
-        $xpath = $domXml->xpath('//graphics');
-        $xpathSize = sizeof($xpath);
-        for ($i = 0; $i < $xpathSize; $i++) {
-            $graphics = $domXml->devices->graphics[$i];
-            $type = $graphics['type'];
-            if ($type == 'vnc') {
-                unset($domXml->devices->graphics[$i]);
-                $change = true;
-            }
+        // create xml
+        $xml = $this->createVncXml($spice);
+        // remove with virsh
+        $cmdArgs = $this->deviceArgs('detach-device', $vmname, $xml, $state);
+        $err = gettext("Failed to remove VNC device.");
+        $this->virshCommand($cmdArgs, $err);
+    }
+
+    private function createVncXml($spice)
+    {
+        // create xml structure
+        $hostDevXml = new SimpleXMLElement('<graphics/>');
+        if (!$spice) {
+            // add vnc devices
+            $hostDevXml->addAttribute('type', 'vnc');
+            $hostDevXml->addAttribute('port', '-1');
+            $hostDevXml->addAttribute('autoport', 'yes');
+        } else {
+            // add spice devices
+            $hostDevXml->addAttribute('type', 'spice');
+            $hostDevXml->addAttribute('port', '-1');
+            $hostDevXml->addAttribute('tlsport', '-1');
+            $hostDevXml->addAttribute('autoport', 'yes');
+            $hostDevXml->addAttribute('listen', '0.0.0.0');
+            $glXml = $hostDevXml->addChild('gl');
+            $glXml->addAttribute('enable', 'no');
         }
-        for ($i = 0; $i < $xpathSize; $i++) {
-            $graphics = $domXml->devices->graphics[$i];
-            $type = $graphics['type'];
-            if ($type == 'spice') {
-                unset($domXml->devices->graphics[$i]);
-                $change = true;
-            }
-        }
-        if ($change) {
-            $newXml = $domXml->asXML();
-            $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
-            if (!$lv->domain_change_xml($vmname, $newXml)) {
-                throw new \OMV\Exception( gettext("Failed to remove vnc and/or spice setup - ") . $lv->get_last_error());
-            }
-        }
+        // create xml file
+        $temp = tempnam(sys_get_temp_dir(), 'virsh_vnc');
+        $newXml = $hostDevXml->asXML();
+        $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
+        file_put_contents($temp, $newXml);
+        // return filename
+        return ($temp);
     }
 
     public function getVirtTop($params, $context)
