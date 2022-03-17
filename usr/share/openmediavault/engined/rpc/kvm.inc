@@ -140,9 +140,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
 
     private function getVolumeSizes($path)
     {
-	$sizes = 'n/a';
+        $sizes = 'n/a';
         if (file_exists($path)) {
-	    $output = [];
+            $output = [];
             $cmdArgs = [];
             $cmdArgs[] = '/usr/bin/qemu-img';
             $cmdArgs[] = 'info';
@@ -151,7 +151,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $cmdArgs[] = '| awk \'{ print $3" "$4 }\'';
             $cmd = new \OMV\System\Process($cmdArgs);
             $cmd->execute($output);
-	    if (empty($output[0])) {
+            if (empty($output[0])) {
                 $sizes = '(n/a)';
             } else {
                 $sizes = sprintf('(%s :: %s)', $output[1], $output[0]);
@@ -1417,17 +1417,15 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.resizedisk');
-        // create new libvirt object
-        $lv = $this->connectQemu();
-        // resize disk
-        switch ($params['volsizeunit']) {
-            case 'GiB':  $multi = 1024 * 1024; break;
-            case 'MiB':  $multi = 1024; break;
-            case 'TiB':  $multi = 1024 * 1024 * 1024; break;
-        }
-        if (!$lv->resize_storagevolume_by_path($params['path'], $params['volsize'] * $multi)) {
-            throw new \OMV\Exception( gettext("Unable to resize disk - ") . $lv->get_last_error());
-        }
+        $amount = $params['amount'];
+        $sign = '+';
+        if ($amount < 0) $sign = '-';
+        $cmdArgs = [];
+        $cmdArgs[] = 'resize';
+        $cmdArgs[] = $params['path'];
+        $cmdArgs[] = sprintf('%s%d%s', $sign, $params['amount'], $params['amountunit']);
+        $err = gettext("Failed to resize disk!");
+        $this->virshCommand($cmdArgs, $err, 'qemu-img');
     }
 
     public function getDisk($params, $context)

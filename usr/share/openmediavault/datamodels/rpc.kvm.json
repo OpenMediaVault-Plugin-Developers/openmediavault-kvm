@@ -276,11 +276,11 @@
 				"type": "string",
 				"required": true
 			},
-			"volsize": {
+			"amount": {
 				"type": "integer",
 				"required": true
-                        },
-			"volsizeunit": {
+            },
+			"amountunit": {
 				"type": "string",
 				"required": true
 			}

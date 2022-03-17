@@ -103,6 +103,56 @@ data:
                     service: Kvm
                     method: setVolume
                 successUrl: /services/kvm/volume
+      - type: iconButton
+        icon: mdi:arrow-split-horizontal
+        tooltip: _("Extend volume")
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+        execute:
+          type: formDialog
+          formDialog:
+            title: _('Extend volume ...')
+            fields:
+              - type: textInput
+                name: path
+                label: _("Path")
+                value: "{{ _selected[0].path }}"
+                readonly: true
+              - type: textInput
+                name: currentSize
+                label: _("Current size")
+                readonly: true
+                value: "{{ _selected[0].capacity | binaryunit }}"
+                submitValue: false
+              - type: container
+                fields:
+                  - type: numberInput
+                    name: amount
+                    label: _("Amount")
+                    validators:
+                      min: 1
+                      max: 99999
+                      patternType: integer
+                      required: true
+                  - type: select
+                    name: amountunit
+                    label: _("Unit")
+                    value: "G"
+                    store:
+                      data:
+                        - ["M", _("Megabytes")]
+                        - ["G", _("Gigabytes")]
+                        - ["T", _("Terabytes")]
+            buttons:
+              submit:
+                text: _('Extend')
+                execute:
+                  type: request
+                  request:
+                    service: Kvm
+                    method: resizeDisk
+                successUrl: /services/kvm/volume
       - template: delete
         execute:
           type: request
