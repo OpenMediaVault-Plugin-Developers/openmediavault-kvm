@@ -1,751 +1,810 @@
-[{
-	"type": "rpc",
-	"id": "rpc.kvm.setnetwork",
-	"params": {
-		"type": "object",
-		"properties": {
-			"name": {
-				"type": "string",
-				"required": true
-			},
-			"macaddress": {
-				"type": "string",
-				"required": true
-			},
-			"gatewayip": {
-				"type": "string",
-				"required": true
-			},
-			"subnet": {
-				"type": "string",
-				"required": true
-			},
-			"dhcp": {
-				"type": "boolean",
-				"required": true
-			},
-			"startaddress": {
-				"type": "string",
-				"required": false
-			},
-			"endaddress": {
-				"type": "string",
-				"required": false
-			}
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.setmacvtap",
-	"params": {
-		"type": "object",
-		"properties": {
-			"name": {
-				"type": "string",
-				"required": true
-			},
-			"nic": {
-				"type": "string",
-				"required": true
-			}
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.setnotes",
-	"params": {
-		"type": "object",
-		"properties": {
-			"vmname": {
-				"type": "string",
-				"required": true
-			},
-			"notes": {
-				"type": "string"
-			}
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.setpool",
-	"params": {
-		"type": "object",
-		"properties": {
-			"name": {
-				"type": "string",
-				"required": true
-			},
-			"path": {
-				"type": "string",
-				"required": true
-			},
-			"type": {
-				"type": "string",
-				"required": true
-			}
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.setvmxml",
-	"params": {
-		"type": "object",
-		"properties": {
-			"vmname": {
-				"type": "string",
-				"required": true
-			},
-			"vmxml": {
-				"type": "string",
-				"required": true
-			}
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.setvm",
-	"params": {
-		"type": "object",
-		"properties": {
-			"vmname": {
-				"type": "string",
-				"required": true
-			},
-			"arch": {
-				"type": "string",
-				"required": true
-			},
-			"chipset": {
-				"type": "string"
-			},
-			"memoryunit": {
-				"type": "string",
-				"required": true
-			},
-			"memory": {
-				"type": "integer",
-				"required": true
-			},
-			"vcpu": {
-				"type": "integer",
-				"required": true
-			},
-			"os": {
-				"type": "string",
-				"required": true
-			},
-			"uefi": {
-				"type": "boolean",
-				"required": true
-			},
-			"volbus": {
-				"type": "string",
-				"required": true
-			},
-			"voldisk": {
-				"type": "string",
-				"required": true
-			},
-			"volformat": {
-				"type": "string"
-			},
-			"voliso": {
-				"type": "string",
-				"required": true
-			},
-			"volname": {
-				"type": "string"
-			},
-			"volpool": {
-				"type": "string"
-			},
-			"volsize": {
-				"type": "integer"
-			},
-			"volunit": {
-				"type": "string"
-			},
-			"macaddress": {
-				"type": "string"
-			},
-			"model": {
-				"type": "string",
-				"required": true
-			},
-			"audio": {
-				"type": "boolean",
-				"required": true
-			},
-			"vnc": {
-				"type": "boolean",
-				"required": true
-			},
-			"spice": {
-				"type": "boolean",
-				"required": true
-			},
-			"network": {
-				"type": "string"
-			},
-			"bridge": {
-				"type": "string"
-			},
-			"notes": {
-				"type": "string"
-			}
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.adddisk",
-	"params": {
-		"type": "object",
-		"properties": {
-			"vmname": {
-				"type": "string",
-				"required": true
-			},
-			"volbus": {
-				"type": "string",
-				"required": true
-			},
-			"voldisk": {
-				"type": "string",
-				"required": true
-			},
-			"volformat": {
-				"type": "string"
-			},
-			"volname": {
-				"type": "string"
-			},
-			"volpool": {
-				"type": "string"
-			},
-			"volsize": {
-				"type": "integer"
-			},
-			"volunit": {
-				"type": "string"
-			}
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.addoptical",
-	"params": {
-		"type": "object",
-		"properties": {
-			"vmname": {
-				"type": "string",
-				"required": true
-			},
-			"voliso": {
-				"type": "string",
-				"required": true
-			}
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.removedisk",
-	"params": {
-		"type": "object",
-		"properties": {
-			"vmname": {
-				"type": "string",
-				"required": true
-			},
-			"state": {
-				"type": "string",
-				"required": true
-			},
-			"disk": {
-				"type": "string",
-				"required": true
-			}
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.resizedisk",
-	"params": {
-		"type": "object",
-		"properties": {
-			"path": {
-				"type": "string",
-				"required": true
-			},
-			"amount": {
-				"type": "integer",
-				"required": true
-            },
-			"amountunit": {
-				"type": "string",
-				"required": true
-			}
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.enumeratevolumes",
-	"params": {
-		"type": "object",
-		"properties": {
-			"optical": {
-				"type": "boolean",
-				"required": true
-                        },
-			"opticalNone": {
-				"type": "boolean",
-				"required": true
-                        }
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.enumeratevolumesbyvm",
-	"params": {
-		"type": "object",
-		"properties": {
-			"vmname": {
-				"type": "string",
-				"required": true
-                        },
-			"optical": {
-				"type": "boolean",
-				"required": true
-                        }
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.setvolume",
-	"params": {
-		"type": "object",
-		"properties": {
-			"name": {
-				"type": "string",
-				"required": true
-                        },
-			"size": {
-				"type": "integer",
-				"required": true
-                        },
-			"volunit": {
-				"type": "string",
-				"required": true
-                        },
-			"pool": {
-				"type": "string",
-				"required": true
-                        }
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.convertvolume",
-	"params": {
-		"type": "object",
-		"properties": {
-			"path": {
-				"type": "string",
-				"required": true
-                        },
-			"format": {
-				"type": "string",
-				"enum": [ "qcow2", "raw" ],
-				"required": true
-                        }
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.volumecommand",
-	"params": {
-		"type": "object",
-		"properties": {
-			"path": {
-				"type": "string",
-				"required": true
-                        },
-			"command": {
-				"type": "string",
-				"enum": [ "check", "info" ],
-				"required": true
-                        }
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.name",
-	"params": {
-		"type": "object",
-		"properties": {
-			"name": {
-				"type": "string",
-				"required": true
-                        }
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.path",
-	"params": {
-		"type": "object",
-		"properties": {
-			"path": {
-				"type": "string",
-				"required": true
-                        }
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.vmname",
-	"params": {
-		"type": "object",
-		"properties": {
-			"vmname": {
-				"type": "string",
-				"required": true
-                        }
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.snapshot",
-	"params": {
-		"type": "object",
-		"properties": {
-			"vmname": {
-				"type": "string",
-				"required": true
-                        },
-			"snapname": {
-				"type": "string",
-				"required": true
-                        }
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.docommand",
-	"params": {
-		"type": "object",
-		"properties": {
-			"command": {
-				"type": "string",
-				"enum": [ "delete", "start", "stop", "poweron",
-                                          "reboot", "poweroff", "force", "pause",
-                                          "resume", "undefine", "undefineplus",
-                                          "autostartdisable", "autostartenable",
-                                          "reset"
-                                        ],
-				"required": true
-			},
-			"name": {
-				"type": "string",
-				"required": true
-			}
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.doweb",
-	"params": {
-		"type": "object",
-		"properties": {
-			"command": {
-				"type": "string",
-				"required": true
-                        },
-			"vmname": {
-				"type": "string",
-				"required": true
-                        },
-			"hostport": {
-				"type": "integer",
-				"required": true
-                        },
-			"hostport2": {
-				"type": "integer",
-				"required": true
-                        },
-			"vncport": {
-				"type": "string",
-				"required": true
-                        },
-			"spiceport": {
-				"type": "string",
-				"required": true
-                        }
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.dochangecpumemory",
-	"params": {
-		"type": "object",
-		"properties": {
-			"vmname": {
-				"type": "string",
-				"required": true
-                        },
-			"memory": {
-				"type": ["string","integer"],
-				"required": true
-                        },
-			"memoryunit": {
-				"type": "string"
-                        },
-			"vcpu": {
-				"type": ["string","integer"],
-				"required": true
-                        }
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.downloadiso",
-	"params": {
-		"type": "object",
-		"properties": {
-			"filename": {
-				"type": "string",
-				"required": true
-			},
-			"path": {
-				"type": "string",
-				"required": true
-			},
-			"url": {
-				"type": "string",
-				"required": true
-			}
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.usb",
-	"params": {
-		"type": "object",
-		"properties": {
-			"vmname": {
-				"type": "string",
-				"required": true
-                        },
-			"device": {
-				"type": "string",
-				"required": true
-                        }
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.clonevm",
-	"params": {
-		"type": "object",
-		"properties": {
-			"vmname": {
-				"type": "string",
-				"required": true
-            },
-			"newname": {
-				"type": "string",
-				"required": true
-            }
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.dobackup",
-	"params": {
-		"type": "object",
-		"properties": {
-			"vmname": {
-				"type": "string",
-				"required": true
-            },
-			"path": {
-				"type": "string",
-				"required": true
-            },
-			"compression": {
-				"type": "boolean"
-            }
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.dorestore",
-	"params": {
-		"type": "object",
-		"properties": {
-			"newname": {
-				"type": "string",
-				"required": true
-            },
-			"backup": {
-				"type": "string",
-				"required": true
-            }
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.createbacking",
-	"params": {
-		"type": "object",
-		"properties": {
-			"backing": {
-				"type": "string",
-				"required": true
-            },
-			"base": {
-				"type": "string",
-				"required": true
-            }
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.createlinkedclone",
-	"params": {
-		"type": "object",
-		"properties": {
-			"clone": {
-				"type": "string",
-				"required": true
-            },
-			"source": {
-				"type": "string",
-				"required": true
-            }
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.addfspass",
-	"params": {
-		"type": "object",
-		"properties": {
-			"vmname": {
-				"type": "string",
-				"required": true
-            },
-			"src": {
-				"type": "string",
-				"required": true
-            },
-			"tgt": {
-				"type": "string",
-				"required": true
-            },
-			"state": {
-				"type": "string",
-				"required": true
-            }
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.removefspass",
-	"params": {
-		"type": "object",
-		"properties": {
-			"vmname": {
-				"type": "string",
-				"required": true
-            },
-			"srctgt": {
-				"type": "string",
-				"required": true
-            },
-			"state": {
-				"type": "string",
-				"required": true
-            }
-		}
-	}
-},{
-	"type": "rpc",
-	"id": "rpc.kvm.setjob",
-	"params": {
-		"type": "object",
-		"properties": {
-            "uuid": {
-                "type": "string",
-				"required": true
-            },
-            "enable": {
-                "type": "boolean",
-				"required": true
-            },
-            "vmname": {
-                "type": "string",
-				"required": true
-            },
-            "path": {
-                "type": "string",
-				"required": true
-            },
-            "keep": {
-                "type": "integer",
-				"required": true
-            },
-            "compression": {
-                "type": "boolean",
-				"required": true
-            },
-            "sendemail": {
-                "type": "boolean",
-				"required": true
-            },
-            "comment": {
-                "type": "string"
-            },
-            "execution":{
-                "type": "string",
-                "enum": [
-                    "exactly", "hourly", "daily", "weekly",
-                    "monthly", "yearly", "reboot"
-                ],
-                "required": true
-            },
-            "minute": {
-                "type": "string",
-				"required": true
-            },
-            "everynminute": {
-                "type": "boolean",
-				"required": true
-            },
-            "hour": {
-                "type": "string",
-				"required": true
-            },
-            "everynhour": {
-                "type":"boolean",
-				"required": true
-            },
-            "month": {
-                "type": "string",
-				"required": true
-            },
-            "dayofmonth": {
-                "type": "string",
-				"required": true
-            },
-            "everyndayofmonth": {
-                "type": "boolean",
-				"required": true
-            },
-            "dayofweek": {
-                "type": "string",
-				"required": true
-            }
+[
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.setnetwork",
+    "params": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "required": true
+        },
+        "macaddress": {
+          "type": "string",
+          "required": true
+        },
+        "gatewayip": {
+          "type": "string",
+          "required": true
+        },
+        "subnet": {
+          "type": "string",
+          "required": true
+        },
+        "dhcp": {
+          "type": "boolean",
+          "required": true
+        },
+        "startaddress": {
+          "type": "string",
+          "required": false
+        },
+        "endaddress": {
+          "type": "string",
+          "required": false
         }
+      }
     }
-
-}]
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.setmacvtap",
+    "params": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "required": true
+        },
+        "nic": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.setnotes",
+    "params": {
+      "type": "object",
+      "properties": {
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.setpool",
+    "params": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "required": true
+        },
+        "path": {
+          "type": "string",
+          "required": true
+        },
+        "type": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.setvmxml",
+    "params": {
+      "type": "object",
+      "properties": {
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "vmxml": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.setvm",
+    "params": {
+      "type": "object",
+      "properties": {
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "arch": {
+          "type": "string",
+          "required": true
+        },
+        "chipset": {
+          "type": "string"
+        },
+        "memoryunit": {
+          "type": "string",
+          "required": true
+        },
+        "memory": {
+          "type": "integer",
+          "required": true
+        },
+        "vcpu": {
+          "type": "integer",
+          "required": true
+        },
+        "os": {
+          "type": "string",
+          "required": true
+        },
+        "uefi": {
+          "type": "boolean",
+          "required": true
+        },
+        "volbus": {
+          "type": "string",
+          "required": true
+        },
+        "voldisk": {
+          "type": "string",
+          "required": true
+        },
+        "volformat": {
+          "type": "string"
+        },
+        "voliso": {
+          "type": "string",
+          "required": true
+        },
+        "volname": {
+          "type": "string"
+        },
+        "volpool": {
+          "type": "string"
+        },
+        "volsize": {
+          "type": "integer"
+        },
+        "volunit": {
+          "type": "string"
+        },
+        "macaddress": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string",
+          "required": true
+        },
+        "audio": {
+          "type": "boolean",
+          "required": true
+        },
+        "vnc": {
+          "type": "boolean",
+          "required": true
+        },
+        "spice": {
+          "type": "boolean",
+          "required": true
+        },
+        "network": {
+          "type": "string"
+        },
+        "bridge": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.adddisk",
+    "params": {
+      "type": "object",
+      "properties": {
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "volbus": {
+          "type": "string",
+          "required": true
+        },
+        "voldisk": {
+          "type": "string",
+          "required": true
+        },
+        "volformat": {
+          "type": "string"
+        },
+        "volname": {
+          "type": "string"
+        },
+        "volpool": {
+          "type": "string"
+        },
+        "volsize": {
+          "type": "integer"
+        },
+        "volunit": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.addoptical",
+    "params": {
+      "type": "object",
+      "properties": {
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "voliso": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.removedisk",
+    "params": {
+      "type": "object",
+      "properties": {
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "state": {
+          "type": "string",
+          "required": true
+        },
+        "disk": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.resizedisk",
+    "params": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "required": true
+        },
+        "amount": {
+          "type": "integer",
+          "required": true
+        },
+        "amountunit": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.enumeratevolumes",
+    "params": {
+      "type": "object",
+      "properties": {
+        "optical": {
+          "type": "boolean",
+          "required": true
+        },
+        "opticalNone": {
+          "type": "boolean",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.enumeratevolumesbyvm",
+    "params": {
+      "type": "object",
+      "properties": {
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "optical": {
+          "type": "boolean",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.setvolume",
+    "params": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "required": true
+        },
+        "size": {
+          "type": "integer",
+          "required": true
+        },
+        "volunit": {
+          "type": "string",
+          "required": true
+        },
+        "pool": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.convertvolume",
+    "params": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "required": true
+        },
+        "format": {
+          "type": "string",
+          "enum": [
+            "qcow2",
+            "raw"
+          ],
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.volumecommand",
+    "params": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "required": true
+        },
+        "command": {
+          "type": "string",
+          "enum": [
+            "check",
+            "info"
+          ],
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.name",
+    "params": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.path",
+    "params": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.vmname",
+    "params": {
+      "type": "object",
+      "properties": {
+        "vmname": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.snapshot",
+    "params": {
+      "type": "object",
+      "properties": {
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "snapname": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.docommand",
+    "params": {
+      "type": "object",
+      "properties": {
+        "command": {
+          "type": "string",
+          "enum": [
+            "delete",
+            "start",
+            "stop",
+            "poweron",
+            "reboot",
+            "poweroff",
+            "force",
+            "pause",
+            "resume",
+            "undefine",
+            "undefineplus",
+            "autostartdisable",
+            "autostartenable",
+            "reset"
+          ],
+          "required": true
+        },
+        "name": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.doweb",
+    "params": {
+      "type": "object",
+      "properties": {
+        "command": {
+          "type": "string",
+          "required": true
+        },
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "hostport": {
+          "type": "integer",
+          "required": true
+        },
+        "hostport2": {
+          "type": "integer",
+          "required": true
+        },
+        "vncport": {
+          "type": "string",
+          "required": true
+        },
+        "spiceport": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.dochangecpumemory",
+    "params": {
+      "type": "object",
+      "properties": {
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "memory": {
+          "type": [
+            "string",
+            "integer"
+          ],
+          "required": true
+        },
+        "memoryunit": {
+          "type": "string"
+        },
+        "vcpu": {
+          "type": [
+            "string",
+            "integer"
+          ],
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.downloadiso",
+    "params": {
+      "type": "object",
+      "properties": {
+        "filename": {
+          "type": "string",
+          "required": true
+        },
+        "path": {
+          "type": "string",
+          "required": true
+        },
+        "url": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.usb",
+    "params": {
+      "type": "object",
+      "properties": {
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "device": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.clonevm",
+    "params": {
+      "type": "object",
+      "properties": {
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "newname": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.dobackup",
+    "params": {
+      "type": "object",
+      "properties": {
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "path": {
+          "type": "string",
+          "required": true
+        },
+        "compression": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.dorestore",
+    "params": {
+      "type": "object",
+      "properties": {
+        "newname": {
+          "type": "string",
+          "required": true
+        },
+        "backup": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.createbacking",
+    "params": {
+      "type": "object",
+      "properties": {
+        "backing": {
+          "type": "string",
+          "required": true
+        },
+        "base": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.createlinkedclone",
+    "params": {
+      "type": "object",
+      "properties": {
+        "clone": {
+          "type": "string",
+          "required": true
+        },
+        "source": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.addfspass",
+    "params": {
+      "type": "object",
+      "properties": {
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "src": {
+          "type": "string",
+          "required": true
+        },
+        "tgt": {
+          "type": "string",
+          "required": true
+        },
+        "state": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.removefspass",
+    "params": {
+      "type": "object",
+      "properties": {
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "srctgt": {
+          "type": "string",
+          "required": true
+        },
+        "state": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.setjob",
+    "params": {
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "type": "string",
+          "required": true
+        },
+        "enable": {
+          "type": "boolean",
+          "required": true
+        },
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "path": {
+          "type": "string",
+          "required": true
+        },
+        "keep": {
+          "type": "integer",
+          "required": true
+        },
+        "compression": {
+          "type": "boolean",
+          "required": true
+        },
+        "sendemail": {
+          "type": "boolean",
+          "required": true
+        },
+        "comment": {
+          "type": "string"
+        },
+        "execution": {
+          "type": "string",
+          "enum": [
+            "exactly",
+            "hourly",
+            "daily",
+            "weekly",
+            "monthly",
+            "yearly",
+            "reboot"
+          ],
+          "required": true
+        },
+        "minute": {
+          "type": "string",
+          "required": true
+        },
+        "everynminute": {
+          "type": "boolean",
+          "required": true
+        },
+        "hour": {
+          "type": "string",
+          "required": true
+        },
+        "everynhour": {
+          "type": "boolean",
+          "required": true
+        },
+        "month": {
+          "type": "string",
+          "required": true
+        },
+        "dayofmonth": {
+          "type": "string",
+          "required": true
+        },
+        "everyndayofmonth": {
+          "type": "boolean",
+          "required": true
+        },
+        "dayofweek": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  }
+]
