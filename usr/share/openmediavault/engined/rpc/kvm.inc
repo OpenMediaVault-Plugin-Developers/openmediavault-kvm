@@ -1503,6 +1503,14 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.common.getlist');
+        // get list of disks on running VMs
+        $disks = [];
+        $cmdArgs = [];
+        $cmdArgs[] = 'list --name';
+        $cmdArgs[] = '| xargs -I@ virsh domblklist --details @';
+        $cmdArgs[] = '| awk \'$2 == "disk" { print $4 }\'';
+        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
+        $cmd->execute($disks, $exitStatus);
         // create new libvirt object
         $lv = $this->connectQemu();
         $pools = $lv->get_storagepools();
@@ -1527,6 +1535,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                         } else {
                             $percentage = ($volume['allocation'] / $volume['capacity']) * 100;
                         }
+                        $running = in_array($volume['path'], $disks);
                         $objects[] = [
                             'name' => $keys[$i],
                             'pool' => $pool,
@@ -1536,6 +1545,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                             'percentage' => $percentage,
                             'path' => $volume['path'],
                             'propConvert' => ($ext == 'qcow2') ? true : false,
+                            'running' => $running
                         ];
                     }
                 }

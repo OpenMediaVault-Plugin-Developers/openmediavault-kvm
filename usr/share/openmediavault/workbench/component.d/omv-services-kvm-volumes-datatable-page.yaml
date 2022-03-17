@@ -4,7 +4,7 @@ data:
   name: omv-services-kvm-volumes-datatable-page
   type: datatablePage
   config:
-    autoReload: 10000
+    autoReload: 20000
     hasSearchField: true
     stateId: b02a5fd6-6bff-11eb-8c5b-f3581dedb11b
     rowId: path
@@ -44,10 +44,16 @@ data:
         prop: path
         flexGrow: 3
         sortable: true
+      - name: _("Running")
+        prop: running
+        flexGrow: 1
+        sortable: true
+        cellTemplateName: checkIcon
+        hidden: true
     actions:
       - type: iconButton
         icon: mdi:plus
-        tooltip: _("Add new volume")
+        tooltip: _("Add new")
         execute:
           type: formDialog
           formDialog:
@@ -105,10 +111,14 @@ data:
                 successUrl: /services/kvm/volume
       - type: iconButton
         icon: mdi:arrow-split-horizontal
-        tooltip: _("Extend volume")
+        tooltip: _("Extend")
         enabledConstraints:
           minSelected: 1
           maxSelected: 1
+          constraint:
+            - operator: falsy
+              arg0:
+                prop: running
         execute:
           type: formDialog
           formDialog:
@@ -153,7 +163,19 @@ data:
                     service: Kvm
                     method: resizeDisk
                 successUrl: /services/kvm/volume
-      - template: delete
+      - type: iconButton
+        icon: mdi:delete-forever
+        tooltip: _("Delete")
+        confirmationDialogConfig:
+          template: confirmation-critical
+          message: _("Are you sure you want to delete?")
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+          constraint:
+            - operator: falsy
+              arg0:
+                prop: running
         execute:
           type: request
           request:
