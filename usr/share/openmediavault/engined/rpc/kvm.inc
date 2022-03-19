@@ -1315,42 +1315,13 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $volformat = "raw";
             }
         }
-        $targetdev = "";
-        $devs = [];
-        switch ($volbus) {
-            case "virtio":
-                $dev = "vd";
-                break;
-            case "sata":
-            case "scsi":
-                $dev = "sd";
-                break;
-            case "ide":
-                $dev = "hd";
-                break;
-        }
-        for ($i = 'a'; $i < 'z'; $i++) {
-            $devs[] = $dev . $i;
-        }
-        $tmp = libvirt_domain_get_disk_devices($vm);
-        $result = array_intersect($devs, $tmp);
-        if (count($result) > 0) {
-            $highestresult = max($result);
-            $targetdev = ++$highestresult;
-        } else {
-            $targetdev = $dev . "a";
-        }
-        // add disk to VM
+        // add disk to VM with virt-xml
         $cmdArgs = [];
-        $cmdArgs[] = 'attach-disk';
-        $cmdArgs[] = sprintf('--domain %s', $vmname);
-        $cmdArgs[] = sprintf('--source %s', $diskpath);
-        $cmdArgs[] = sprintf('--target %s', $targetdev);
-        $cmdArgs[] = sprintf('--targetbus %s', $volbus);
-        $cmdArgs[] = '--persistent';
-        $cmdArgs[] = '--config';
+        $cmdArgs[] = $vmname;
+        $cmdArgs[] = '--add-device';
+        $cmdArgs[] = sprintf('--disk %s,target.bus=%s,format=%s', $diskpath, $volbus, $volformat);
         $err = gettext("Failed to add disk.");
-        $this->virshCommand($cmdArgs, $err);
+        $this->virshCommand($cmdArgs, $err, 'virt-xml');
     }
 
     public function addOptical($params, $context)
@@ -1368,41 +1339,17 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $voliso = $params['voliso'];
         // get next device
         if (isset($domXml->os->loader) || strpos($domXml->os->type['machine'], 'q35') > -1) {
-            $targetbus = 'sata';
-            $dev = "sd";
+            $bus = 'sata';
         } else {
-            $targetbus = 'ide';
-            $dev = "hd";
-        }
-        $targetdev = "";
-        $devs = [];
-        for ($i = 'a'; $i < 'z'; $i++) {
-            $devs[] = $dev . $i;
-        }
-        $tmp = libvirt_domain_get_disk_devices($vm);
-        $result = array_intersect($devs, $tmp);
-        if (count($result) > 0) {
-            $highestresult = max($result);
-            $targetdev = ++$highestresult;
-        } else {
-            $targetdev = $dev . "a";
+            $bus = 'ide';
         }
         // add optical storage
         $cmdArgs = [];
-        $cmdArgs[] = 'attach-disk';
-        $cmdArgs[] = sprintf('--domain %s', $vmname);
-        $cmdArgs[] = sprintf('--source %s', $voliso);
-        $cmdArgs[] = sprintf('--target %s', $targetdev);
-        $cmdArgs[] = sprintf('--targetbus %s', $targetbus);
-        $cmdArgs[] = '--type cdrom';
-        $cmdArgs[] = '--mode readonly';
-        $cmdArgs[] = '--persistent';
-        $cmdArgs[] = '--config';
-        if ($params['state'] == 'running') {
-            $cmdArgs[] = '--live';
-        }
-        $err = gettext("Failed to add optical disk.");
-        $this->virshCommand($cmdArgs, $err);
+        $cmdArgs[] = $vmname;
+        $cmdArgs[] = '--add-device';
+        $cmdArgs[] = sprintf('--disk %s,device=cdrom,bus=%s', $voliso, $bus);
+        $err = gettext("Failed to add optical.");
+        $this->virshCommand($cmdArgs, $err, 'virt-xml');
     }
 
     public function removeDisk($params, $context)
