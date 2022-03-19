@@ -2014,12 +2014,13 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $state = $params['state'];
         $src = $params['src'];
         $tgt = $params['tgt'];
-        // create xml
-        $xml = $this->createFsXml($src, $tgt);
-        // remove with virsh
-        $cmdArgs = $this->deviceArgs('attach-device', $vmname, $xml, $state);
+        // add with virt-xml
+        $cmdArgs = [];
+        $cmdArgs[] = $vmname;
+        $cmdArgs[] = '--add-device';
+        $cmdArgs[] = sprintf('--filesystem %s,%s', $src, $tgt);
         $err = gettext("Failed to add filesystem passthrough.");
-        $this->virshCommand($cmdArgs, $err);
+        $this->virshCommand($cmdArgs, $err, 'virt-xml');
     }
 
     public function removeFsPass($params, $context)
@@ -2034,12 +2035,13 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $srctgt = explode("|", $params['srctgt']);
         $src = trim($srctgt[0]);
         $tgt = trim($srctgt[1]);
-        // create xml
-        $xml = $this->createFsXml($src, $tgt);
-        // remove with virsh
-        $cmdArgs = $this->deviceArgs('detach-device', $vmname, $xml, $state);
+        // remove with virt-xml
+        $cmdArgs = [];
+        $cmdArgs[] = $vmname;
+        $cmdArgs[] = '--remove-device';
+        $cmdArgs[] = sprintf('--filesystem %s,%s', $src, $tgt);
         $err = gettext("Failed to remove filesystem passthrough.");
-        $this->virshCommand($cmdArgs, $err);
+        $this->virshCommand($cmdArgs, $err, 'virt-xml');
     }
 
     public function enumerateFsPassByVm($params, $context)
@@ -2067,25 +2069,6 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             ];
         }
         return ($objects);
-    }
-
-    private function createFsXml($src, $tgt)
-    {
-        // create filesystem passthrough xml
-        $fsXml = new SimpleXMLElement('<filesystem/>');
-        $fsXml->addAttribute('type', 'mount');
-        $fsXml->addAttribute('accessmode', 'mapped');
-        $srcXml = $fsXml->addChild('source');
-        $srcXml->addAttribute('dir', $src);
-        $tgtXml = $fsXml->addChild('target');
-        $tgtXml->addAttribute('dir', $tgt);
-        // create xml file
-        $temp = tempnam(sys_get_temp_dir(), 'virsh_fs');
-        $newXml = $fsXml->asXML();
-        $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
-        file_put_contents($temp, $newXml);
-        // return filename
-        return ($temp);
     }
 
     public function doCommand($params, $context)
