@@ -998,7 +998,7 @@ data:
                         service: Kvm
                         method: deleteSnapshot
       - type: menu
-        icon: mdi:console-network-outline
+        icon: mdi:remote-desktop
         tooltip: _("Console")
         enabledConstraints:
           minSelected: 1
@@ -1081,6 +1081,106 @@ data:
                 params:
                   name: "{{ _selected[0].vmname }}"
                   command: "autostartdisable"
+                task: false
+          - text: _("Add Spice")
+            icon: mdi:plus-circle-outline
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: and
+                  arg0:
+                    operator: eq
+                    arg0:
+                      prop: state
+                    arg1: "shutoff"
+                  arg1:
+                    operator: falsy
+                    arg0:
+                      prop: spiceexists
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: addVnc
+                params:
+                  spice: true
+                  vmname: "{{ _selected[0].vmname }}"
+                task: false
+          - text: _("Remove Spice")
+            icon: mdi:minus-circle-outline
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: and
+                  arg0:
+                    operator: eq
+                    arg0:
+                      prop: state
+                    arg1: "shutoff"
+                  arg1:
+                    operator: truthy
+                    arg0:
+                      prop: spiceexists
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: removeVnc
+                params:
+                  spice: true
+                  vmname: "{{ _selected[0].vmname }}"
+                task: false
+          - text: _("Add VNC")
+            icon: mdi:plus-circle-outline
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: and
+                  arg0:
+                    operator: eq
+                    arg0:
+                      prop: state
+                    arg1: "shutoff"
+                  arg1:
+                    operator: falsy
+                    arg0:
+                      prop: vncexists
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: addVnc
+                params:
+                  spice: false
+                  vmname: "{{ _selected[0].vmname }}"
+                task: false
+          - text: _("Remove VNC")
+            icon: mdi:minus-circle-outline
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: and
+                  arg0:
+                    operator: eq
+                    arg0:
+                      prop: state
+                    arg1: "shutoff"
+                  arg1:
+                    operator: truthy
+                    arg0:
+                      prop: vncexists
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: removeVnc
+                params:
+                  spice: false
+                  vmname: "{{ _selected[0].vmname }}"
                 task: false
       - type: menu
         icon: mdi:cog-outline

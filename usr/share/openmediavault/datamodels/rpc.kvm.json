@@ -644,6 +644,23 @@
   },
   {
     "type": "rpc",
+    "id": "rpc.kvm.vnc",
+    "params": {
+      "type": "object",
+      "properties": {
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "spice": {
+          "type": "boolean",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
     "id": "rpc.kvm.createbacking",
     "params": {
       "type": "object",

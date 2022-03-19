@@ -607,6 +607,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 continue;
             }
             $dom = $lv->get_domain_object($name);
+            $domXml = new SimpleXMLElement($lv->domain_get_xml($name));
             $info = $lv->domain_get_info($dom);
             $diskcnt = $lv->get_disk_count($dom);
             if ($diskcnt > 0) {
@@ -616,6 +617,16 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $disks = 'n/a';
             }
             // vnc and novnc
+            $vncexists = false;
+            $xpath = $domXml->xpath('//graphics');
+            $xpathSize = sizeof($xpath);
+            for ($i = 0; $i < $xpathSize; $i++) {
+                $graphics = $domXml->devices->graphics[$i];
+                if ($graphics['type'] == 'vnc') {
+                    $vncexists = true;
+                    break;
+                }
+            }
             $vncport = $lv->domain_get_vnc_port($dom);
             if (! $vncport || $vncport < 1024 || $vncport == '') {
                 $vncport = 'n/a';
@@ -636,15 +647,16 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             if (!$lv->domain_get_xml($name)) {
                 continue;
             }
-            $domXml = new SimpleXMLElement($lv->domain_get_xml($name));
             // spice and spice_html5
             $spiceport = '';
+            $spiceexists = false;
             $xpath = $domXml->xpath('//graphics');
             $xpathSize = sizeof($xpath);
             for ($i = 0; $i < $xpathSize; $i++) {
                 $graphics = $domXml->devices->graphics[$i];
                 if ($graphics['type'] == 'spice') {
                     $spiceport = $graphics['port'];
+                    $spiceexists = true;
                     break;
                 }
             }
@@ -678,6 +690,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 'disks' => $disks,
                 'arch' => $lv->domain_get_arch($dom),
                 'autostart' => $lv->domain_get_autostart($dom),
+                'vncexists' => $vncexists,
+                'spiceexists' => $spiceexists,
                 'vncport' => $vncport,
                 'spiceport' => $spiceport,
                 'novncport' => $novncport,
@@ -2517,16 +2531,30 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
-        //$this->validateMethodParams($params, 'rpc.kvm.vmname');
+        $this->validateMethodParams($params, 'rpc.kvm.vnc');
         $spice = $params['spice'];
-        $state = $params['state'];
         $vmname = $params['vmname'];
-        // create xml
-        $xml = $this->createVncXml($spice);
-        // remove with virsh
-        $cmdArgs = $this->deviceArgs('attach-device', $vmname, $xml, $state);
-        $err = gettext("Failed to add VNC device.");
-        $this->virshCommand($cmdArgs, $err);
+        // add spicevmc channel if spice
+        if ($spice == true) {
+            $cmdArgs = [];
+            $cmdArgs[] = $vmname;
+            $cmdArgs[] = '--add-device';
+            $cmdArgs[] = '--channel spicevmc';
+            $err = gettext("Failed to add spicevmc channel.");
+            $this->virshCommand($cmdArgs, $err, 'virt-xml');
+        }
+        // add with virt-xml
+        $cmdArgs = [];
+        $cmdArgs[] = $vmname;
+        $cmdArgs[] = '--add-device';
+        if ($spice == true) {
+            $cmdArgs[] = '--graphics spice,listen=0.0.0.0';
+            $err = gettext("Failed to add spice device.");
+        } else {
+            $cmdArgs[] = '--graphics vnc,listen=0.0.0.0';
+            $err = gettext("Failed to add VNC device.");
+        }
+        $this->virshCommand($cmdArgs, $err, 'virt-xml');
     }
 
     public function removeVnc($params, $context)
@@ -2534,44 +2562,46 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
-        //$this->validateMethodParams($params, 'rpc.kvm.vmname');
+        $this->validateMethodParams($params, 'rpc.kvm.vnc');
+        $throwMsg = '';
         $spice = $params['spice'];
-        $state = $params['state'];
         $vmname = $params['vmname'];
-        // create xml
-        $xml = $this->createVncXml($spice);
-        // remove with virsh
-        $cmdArgs = $this->deviceArgs('detach-device', $vmname, $xml, $state);
-        $err = gettext("Failed to remove VNC device.");
-        $this->virshCommand($cmdArgs, $err);
-    }
-
-    private function createVncXml($spice)
-    {
-        // create xml structure
-        $hostDevXml = new SimpleXMLElement('<graphics/>');
-        if (!$spice) {
-            // add vnc devices
-            $hostDevXml->addAttribute('type', 'vnc');
-            $hostDevXml->addAttribute('port', '-1');
-            $hostDevXml->addAttribute('autoport', 'yes');
+        // remove with virt-xml
+        $cmdArgs = [];
+        $cmdArgs[] = $vmname;
+        $cmdArgs[] = '--remove-device';
+        if ($spice == true) {
+            $cmdArgs[] = '--graphics spice';
+            $err = gettext("Failed to remove spice device.");
         } else {
-            // add spice devices
-            $hostDevXml->addAttribute('type', 'spice');
-            $hostDevXml->addAttribute('port', '-1');
-            $hostDevXml->addAttribute('tlsport', '-1');
-            $hostDevXml->addAttribute('autoport', 'yes');
-            $hostDevXml->addAttribute('listen', '0.0.0.0');
-            $glXml = $hostDevXml->addChild('gl');
-            $glXml->addAttribute('enable', 'no');
+            $cmdArgs[] = '--graphics vnc';
+            $err = gettext("Failed to remove VNC device.");
         }
-        // create xml file
-        $temp = tempnam(sys_get_temp_dir(), 'virsh_vnc');
-        $newXml = $hostDevXml->asXML();
-        $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
-        file_put_contents($temp, $newXml);
-        // return filename
-        return ($temp);
+        $remove = $this->virshCommand($cmdArgs, $err, 'virt-xml', true);
+        if ($remove != '') {
+            $throwMsg = $remove;
+        }
+        // remove spicevmc channel if spice
+        if ($spice == true) {
+            $cmdArgs = [];
+            $cmdArgs[] = $vmname;
+            $cmdArgs[] = '--remove-device';
+            $cmdArgs[] = '--channel spicevmc';
+            $err = gettext("Failed to remove spicevmc channel.");
+            $remove = $this->virshCommand($cmdArgs, $err, 'virt-xml', true);
+            if ($remove != '') {
+                $throwMsg .= PHP_EOL . $remove;
+            }
+            $cmdArgs = [];
+            $cmdArgs[] = $vmname;
+            $cmdArgs[] = '--remove-device';
+            $cmdArgs[] = '--redirdev usb,type=spicevmc';
+            $err = gettext("Failed to remove spicevmc redirdev.");
+            $this->virshCommand($cmdArgs, $err, 'virt-xml', true);
+        }
+        if ($throwMsg != '') {
+            throw new \OMV\Exception($throwMsg);
+        }
     }
 
     public function getVirtTop($params, $context)
@@ -2663,7 +2693,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         return ($objects);
     }
 
-    private function virshCommand($cmdArgs, $msg, $virsh = 'virsh') {
+    private function virshCommand($cmdArgs, $msg, $virsh = 'virsh', $quiet = false) {
+        $errMsg = '';
         $output = [];
         $cmd = new \OMV\System\Process($virsh, $cmdArgs);
         $cmd->setQuiet(true);
@@ -2680,8 +2711,15 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $errMsg = sprintf('%s%s%s%s%s %s',
                 $msg, PHP_EOL, $outMsg, PHP_EOL, $virsh, $cmdMsg
             );
-            throw new \OMV\Exception($errMsg);
+            file_put_contents("/var/log/omv-virsh-command.log",
+              $today . $errMsg . PHP_EOL,
+              FILE_APPEND
+            );
+            if (!$quiet) {
+                throw new \OMV\Exception($errMsg);
+            }
         }
+        return ($errMsg);
     }
 
     private function deviceArgs($cmd, $vmname, $filename, $state) {
