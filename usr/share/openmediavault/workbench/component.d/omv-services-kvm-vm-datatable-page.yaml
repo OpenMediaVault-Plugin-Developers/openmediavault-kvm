@@ -1077,10 +1077,12 @@ data:
               type: request
               request:
                 service: Kvm
-                method: doCommand
+                method: doWeb
                 params:
                   name: "{{ _selected[0].vmname }}"
-                  command: "autostartdisable"
+                  command: "stop"
+                  hostport: "{{ _selected[0].vncport }}"
+                  hostport2: "{{ _selected[0].spiceport }}"
                 task: false
           - text: _("Add Spice")
             icon: mdi:plus-circle-outline
