@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-12 08:31-0600\n"
+"POT-Creation-Date: 2022-03-21 18:29-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>, 2022\n"
 "Language-Team: Spanish (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/es/)\n"
@@ -33,8 +33,14 @@ msgstr "Actividad"
 msgid "Add"
 msgstr "Añadir"
 
+msgid "Add Spice"
+msgstr ""
+
 msgid "Add USB"
 msgstr "añadir USB"
+
+msgid "Add VNC"
+msgstr ""
 
 msgid "Add disk"
 msgstr "Añadir disco"
@@ -44,6 +50,9 @@ msgstr "Añadir red macvtap"
 
 msgid "Add network"
 msgstr "Añadir Red"
+
+msgid "Add new"
+msgstr ""
 
 msgid "Add new VM"
 msgstr "Añadir VM"
@@ -65,6 +74,9 @@ msgstr "Avanzado"
 
 msgid "Allocation"
 msgstr "Distribición"
+
+msgid "Amount"
+msgstr ""
 
 msgid "Arch"
 msgstr "Arch"
@@ -174,6 +186,9 @@ msgstr "VM Creada."
 msgid "Created scheduled job."
 msgstr "Trabajo programado creado."
 
+msgid "Current size"
+msgstr ""
+
 msgid "DHCP"
 msgstr "DHCP"
 
@@ -247,6 +262,9 @@ msgstr ""
 msgid "Execute scheduled job ..."
 msgstr "Ejecute el trabajo programado ..."
 
+msgid "Extend"
+msgstr ""
+
 msgid "Extension"
 msgstr "Extension"
 
@@ -256,6 +274,9 @@ msgstr "Fallo el "
 msgid "Failed to add USB device."
 msgstr "Fallo el añadir dispositivo USB"
 
+msgid "Failed to add VNC device."
+msgstr ""
+
 msgid "Failed to add disk."
 msgstr "Error al añadir el disco."
 
@@ -264,6 +285,15 @@ msgstr "Fallo el añadir un sistema de archivos passthrough."
 
 msgid "Failed to add optical disk."
 msgstr "Falló el añadir un CD."
+
+msgid "Failed to add optical."
+msgstr ""
+
+msgid "Failed to add spice device."
+msgstr ""
+
+msgid "Failed to add spicevmc channel."
+msgstr ""
 
 msgid "Failed to add vnc and/or spice setup - "
 msgstr "Error al añadir vnc o spice"
@@ -280,11 +310,17 @@ msgstr "Falló al crear XML VM."
 msgid "Failed to create VM."
 msgstr "Falló al crear una VM."
 
+msgid "Failed to create new disk :: "
+msgstr ""
+
 msgid "Failed to delete VM."
 msgstr "Falló el borrar una VM."
 
 msgid "Failed to remove USB device."
 msgstr "Falló el remover un dispositivo USB."
+
+msgid "Failed to remove VNC device."
+msgstr ""
 
 msgid "Failed to remove disk."
 msgstr "Falló el remover un disco."
@@ -295,11 +331,23 @@ msgstr "Fallo el remover un sistema de archivos passthrough."
 msgid "Failed to remove network."
 msgstr "Falló el remover una red."
 
+msgid "Failed to remove spice device."
+msgstr ""
+
+msgid "Failed to remove spicevmc channel."
+msgstr ""
+
+msgid "Failed to remove spicevmc redirdev."
+msgstr ""
+
 msgid "Failed to remove vnc and/or spice setup - "
 msgstr "Error al eliminar vnc o spice"
 
 msgid "Failed to reset VM."
 msgstr "Falló el reiniciar una VM."
+
+msgid "Failed to resize disk!"
+msgstr ""
 
 msgid "Failed to set change."
 msgstr "Falló aplicar el cambio."
@@ -475,8 +523,14 @@ msgstr "Q35"
 msgid "Reboot"
 msgstr "Reinicio"
 
+msgid "Remove Spice"
+msgstr ""
+
 msgid "Remove USB"
 msgstr "Quitar USB"
+
+msgid "Remove VNC"
+msgstr ""
 
 msgid "Remove disk"
 msgstr "Eliminar Disco"
@@ -504,6 +558,9 @@ msgstr "Revertir"
 
 msgid "Run"
 msgstr "Ejecutar"
+
+msgid "Running"
+msgstr ""
 
 msgid "Schedule"
 msgstr "Tarea programada"

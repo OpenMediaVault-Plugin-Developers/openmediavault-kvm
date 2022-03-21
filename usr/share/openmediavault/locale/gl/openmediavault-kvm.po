@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-12 08:31-0600\n"
+"POT-Creation-Date: 2022-03-21 18:29-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>, 2021\n"
 "Language-Team: Galician (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/gl/)\n"
@@ -33,8 +33,14 @@ msgstr "Actividade"
 msgid "Add"
 msgstr "Engadir"
 
+msgid "Add Spice"
+msgstr ""
+
 msgid "Add USB"
 msgstr "Engadir un USB"
+
+msgid "Add VNC"
+msgstr ""
 
 msgid "Add disk"
 msgstr ""
@@ -44,6 +50,9 @@ msgstr ""
 
 msgid "Add network"
 msgstr "Engadir unha rede"
+
+msgid "Add new"
+msgstr ""
 
 msgid "Add new VM"
 msgstr ""
@@ -65,6 +74,9 @@ msgstr "Avanzado"
 
 msgid "Allocation"
 msgstr "Asignación"
+
+msgid "Amount"
+msgstr ""
 
 msgid "Arch"
 msgstr "Arquivo"
@@ -174,6 +186,9 @@ msgstr ""
 msgid "Created scheduled job."
 msgstr ""
 
+msgid "Current size"
+msgstr ""
+
 msgid "DHCP"
 msgstr "DHCP"
 
@@ -246,6 +261,9 @@ msgstr ""
 msgid "Execute scheduled job ..."
 msgstr ""
 
+msgid "Extend"
+msgstr ""
+
 msgid "Extension"
 msgstr "Extensión"
 
@@ -255,6 +273,9 @@ msgstr ""
 msgid "Failed to add USB device."
 msgstr ""
 
+msgid "Failed to add VNC device."
+msgstr ""
+
 msgid "Failed to add disk."
 msgstr ""
 
@@ -262,6 +283,15 @@ msgid "Failed to add filesystem passthrough."
 msgstr ""
 
 msgid "Failed to add optical disk."
+msgstr ""
+
+msgid "Failed to add optical."
+msgstr ""
+
+msgid "Failed to add spice device."
+msgstr ""
+
+msgid "Failed to add spicevmc channel."
 msgstr ""
 
 msgid "Failed to add vnc and/or spice setup - "
@@ -279,10 +309,16 @@ msgstr ""
 msgid "Failed to create VM."
 msgstr ""
 
+msgid "Failed to create new disk :: "
+msgstr ""
+
 msgid "Failed to delete VM."
 msgstr ""
 
 msgid "Failed to remove USB device."
+msgstr ""
+
+msgid "Failed to remove VNC device."
 msgstr ""
 
 msgid "Failed to remove disk."
@@ -294,10 +330,22 @@ msgstr ""
 msgid "Failed to remove network."
 msgstr ""
 
+msgid "Failed to remove spice device."
+msgstr ""
+
+msgid "Failed to remove spicevmc channel."
+msgstr ""
+
+msgid "Failed to remove spicevmc redirdev."
+msgstr ""
+
 msgid "Failed to remove vnc and/or spice setup - "
 msgstr ""
 
 msgid "Failed to reset VM."
+msgstr ""
+
+msgid "Failed to resize disk!"
 msgstr ""
 
 msgid "Failed to set change."
@@ -471,8 +519,14 @@ msgstr "Q35"
 msgid "Reboot"
 msgstr "Reiniciar"
 
+msgid "Remove Spice"
+msgstr ""
+
 msgid "Remove USB"
 msgstr "Retirar o USB"
+
+msgid "Remove VNC"
+msgstr ""
 
 msgid "Remove disk"
 msgstr ""
@@ -499,6 +553,9 @@ msgid "Revert"
 msgstr "Reverter"
 
 msgid "Run"
+msgstr ""
+
+msgid "Running"
 msgstr ""
 
 msgid "Schedule"
