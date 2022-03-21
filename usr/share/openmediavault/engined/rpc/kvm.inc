@@ -1059,7 +1059,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmdArgs = [];
         $cmdArgs[] = $vmname;
         $cmdArgs[] = '--add-device';
-        $cmdArgs[] = sprintf('--disk %s,target.bus=%s,format=%s', $diskpath, $volbus, $volformat);
+        $cmdArgs[] = sprintf('--disk %s,target.bus=%s,format=%s,cache=none,io=native', $diskpath, $volbus, $volformat);
         $err = gettext("Failed to add disk.");
         $this->virshCommand($cmdArgs, $err, 'virt-xml');
     }
@@ -1838,8 +1838,6 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
     {
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
-        // Validate the parameters of the RPC service method.
-        $this->validateMethodParams($params, 'rpc.kvm.doweb');
         $command = $params['command'];
         $hostport = intval($params['hostport']);
         $hostport2 = intval($params['hostport2']);

@@ -1079,10 +1079,10 @@ data:
                 service: Kvm
                 method: doWeb
                 params:
-                  name: "{{ _selected[0].vmname }}"
+                  vmname: "{{ _selected[0].vmname }}"
                   command: "stop"
-                  hostport: "{{ _selected[0].vncport }}"
-                  hostport2: "{{ _selected[0].spiceport }}"
+                  hostport: "{{ _selected[0].novncport | int }}"
+                  hostport2: "{{ _selected[0].spicehtml5port | int }}"
                 task: false
           - text: _("Add Spice")
             icon: mdi:plus-circle-outline
