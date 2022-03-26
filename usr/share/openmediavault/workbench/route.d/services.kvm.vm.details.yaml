@@ -1,0 +1,7 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/kvm/vm/details/:vmname"
+  title: _("Details")
+  editing: true
+  component: omv-services-kvm-vm-details-form-page

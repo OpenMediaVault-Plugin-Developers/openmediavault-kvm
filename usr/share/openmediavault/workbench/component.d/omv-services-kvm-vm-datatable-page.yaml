@@ -679,6 +679,15 @@ data:
                   arg0:
                     prop: snaps
                   arg1: 0
+      - type: iconButton
+        icon: mdi:information-outline
+        tooltip: _("Details")
+        execute:
+          type: url
+          url: "/services/kvm/vm/details/{{ _selected[0].vmname }}"
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
       - type: menu
         icon: mdi:power
         tooltip: _("State")

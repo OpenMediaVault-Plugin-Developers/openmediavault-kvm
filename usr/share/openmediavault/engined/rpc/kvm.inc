@@ -57,6 +57,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('getVmNameList');
         $this->registerMethod('getVmXml');
         $this->registerMethod('setVmXml');
+        $this->registerMethod('getVmDetails');
         $this->registerMethod('setVmVI');
         $this->registerMethod('getDisk');
 
@@ -781,6 +782,58 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if (!results) {
             throw new \OMV\Exception( gettext("Unable to set VM XML - ") . $lv->get_last_error());
         }
+    }
+
+    public function getVmDetails($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.vmname');
+        // vm info
+        $output = [];
+        $cmdArgs = [];
+        $cmdArgs[] = 'dominfo';
+        $cmdArgs[] = sprintf('--domain %s', $params['vmname']);
+        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
+        $cmd->execute($output, $exitStatus);
+        $vminfo = implode(PHP_EOL, array_filter($output));
+        // disk list
+        $output = [];
+        $cmdArgs = [];
+        $cmdArgs[] = 'domblklist';
+        $cmdArgs[] = sprintf('--domain %s', $params['vmname']);
+        $cmdArgs[] = '--details';
+        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
+        $cmd->execute($output, $exitStatus);
+        $disklist = implode(PHP_EOL, array_filter($output));
+        // disk info
+        $output = [];
+        $cmdArgs = [];
+        $cmdArgs[] = 'domblkinfo';
+        $cmdArgs[] = sprintf('--domain %s', $params['vmname']);
+        $cmdArgs[] = '--all';
+        $cmdArgs[] = '--human';
+        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
+        $cmd->execute($output, $exitStatus);
+        $diskinfo = implode(PHP_EOL, array_filter($output));
+        // disk stats
+        $output = [];
+        $cmdArgs = [];
+        $cmdArgs[] = 'domblkstat';
+        $cmdArgs[] = sprintf('--domain %s', $params['vmname']);
+        $cmdArgs[] = '--human';
+        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
+        $cmd->setQuiet(true);
+        $cmd->execute($output, $exitStatus);
+        $diskstats = implode(PHP_EOL, array_filter($output));
+        // return results
+        return [
+            "vminfo" => $vminfo,
+            "disklist" => $disklist,
+            "diskinfo" => $diskinfo,
+            "diskstats" => $diskstats
+        ];
     }
 
     public function setVmVI($params, $context)

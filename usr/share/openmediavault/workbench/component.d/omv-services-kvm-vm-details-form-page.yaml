@@ -1,0 +1,43 @@
+version: "1.0"
+type: component
+data:
+  name: omv-services-kvm-vm-details-form-page
+  type: formPage
+  config:
+    request:
+      service: Kvm
+      get:
+        method: getVmDetails
+        params:
+          vmname: '{{ _routeParams.vmname }}'
+    fields:
+      - type: textInput
+        label: _("VM name")
+        name: vmname
+        value: '{{ _routeParams.vmname }}'
+        readonly: true
+      - type: textarea
+        name: vminfo
+        label: _("VM info")
+        rows: 12
+        readonly: true
+      - type: textarea
+        name: disklist
+        label: _("Disk list")
+        rows: 5
+        readonly: true
+      - type: textarea
+        name: diskinfo
+        label: _("Disk info")
+        rows: 5
+        readonly: true
+      - type: textarea
+        name: diskstats
+        label: _("Disk stats")
+        rows: 9
+        readonly: true
+    buttons:
+      - template: cancel
+        execute:
+          type: url
+          url: "/services/kvm/vm"
