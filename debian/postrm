@@ -5,7 +5,12 @@ set -e
 . /etc/default/openmediavault
 . /usr/share/openmediavault/scripts/helper-functions
 
+ipFwdConf="/etc/sysctl.conf.d/ip_forward.conf"
+
 remove_action() {
+    if [ -f "${ipFwdConf}" ]; then
+        rm ${ipFwdConf}
+    fi
     # Activate trigger to purge cached files.
     dpkg-trigger update-workbench
 }

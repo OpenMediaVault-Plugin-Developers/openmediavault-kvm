@@ -10,6 +10,9 @@ case "$1" in
         # Activate package triggers.
         dpkg-trigger update-workbench
 
+        # load system settings
+        sysctl -p /etc/sysctl.d/ip_forward.conf
+
         # add and load macvlan module
         echo "macvlan" > /etc/modules-load.d/macvlan.conf
         modprobe macvlan || :

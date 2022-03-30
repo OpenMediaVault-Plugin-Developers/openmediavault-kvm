@@ -1,3 +1,9 @@
+openmediavault-kvm (6.1.13) UNRELEASED; urgency=medium
+
+  * Enable ipv4 forwarding via sysctl
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Wed, 30 Mar 2022 09:31:16 -0500
+
 openmediavault-kvm (6.1.12) stable; urgency=low
 
   * Add disk extend
