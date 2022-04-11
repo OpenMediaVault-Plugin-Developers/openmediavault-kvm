@@ -146,7 +146,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $cmdArgs = [];
             $cmdArgs[] = '/usr/bin/qemu-img';
             $cmdArgs[] = 'info';
-            $cmdArgs[] = $path;
+            $cmdArgs[] = sprintf("'%s'", $path);
             $cmdArgs[] = '| grep -E \'virtual size|disk size\'';
             $cmdArgs[] = '| awk \'{ print $3" "$4 }\'';
             $cmd = new \OMV\System\Process($cmdArgs);
@@ -944,7 +944,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             }
             $diskArgs = sprintf('size=%d,bus=%s,pool=%s,cache=none,io=native,format=%s', $volsize, $volbus, $volpool, $volformat);
         } else {
-            $diskArgs = sprintf('%s,bus=%s,cache=none,io=native', $voldisk, $volbus);
+            $diskArgs = sprintf("'%s',bus=%s,cache=none,io=native", $voldisk, $volbus);
             $volformat = pathinfo($voldisk, PATHINFO_EXTENSION);
         }
 
@@ -983,7 +983,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
 
         if ($voliso != 'none') {
-            $cmdArgs[] = sprintf('--cdrom %s --install no_install=yes', $params['voliso']);
+            $cmdArgs[] = sprintf("--cdrom '%s' --install no_install=yes", $params['voliso']);
             $printStep = ' 1';
         } else {
             $printStep = '';
@@ -1092,7 +1092,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // create new disk (if specified)
         if ($voldisk == "Create new disk") {
             $pool = $lv->get_storagepool_info($volpool);
-            $diskpath = sprintf('%s/%s.%s', $pool['path'], $volname, $volformat);
+            $diskpath = sprintf("'%s/%s.%s'", $pool['path'], $volname, $volformat);
             $cmdArgs = [];
             $cmdArgs[] = 'create';
             $cmdArgs[] = sprintf('-f %s', $volformat);
@@ -1101,7 +1101,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $err = gettext("Failed to create new disk :: ") . $params['command'];
             $this->virshCommand($cmdArgs, $err, 'qemu-img');
         } else {
-            $diskpath = $voldisk;
+            $diskpath = sprintf("'%s'", $voldisk);
             $volformat = pathinfo($voldisk, PATHINFO_EXTENSION);
             $volname = pathinfo($voldisk, PATHINFO_FILENAME);
             if ($volformat != "qcow2") {
@@ -1140,7 +1140,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmdArgs = [];
         $cmdArgs[] = $vmname;
         $cmdArgs[] = '--add-device';
-        $cmdArgs[] = sprintf('--disk %s,device=cdrom,bus=%s', $voliso, $bus);
+        $cmdArgs[] = sprintf("--disk '%s',device=cdrom,bus=%s", $voliso, $bus);
         $err = gettext("Failed to add optical.");
         $this->virshCommand($cmdArgs, $err, 'virt-xml');
     }
@@ -1155,7 +1155,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmdArgs = [];
         $cmdArgs[] = 'detach-disk';
         $cmdArgs[] = sprintf('--domain %s', $params['vmname']);
-        $cmdArgs[] = sprintf('--target %s', $params['disk']);
+        $cmdArgs[] = sprintf("--target '%s'", $params['disk']);
         $cmdArgs[] = '--persistent';
         $cmdArgs[] = '--config';
         if ($params['state'] == 'running') {
@@ -1176,7 +1176,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if ($amount < 0) $sign = '-';
         $cmdArgs = [];
         $cmdArgs[] = 'resize';
-        $cmdArgs[] = $params['path'];
+        $cmdArgs[] = sprintf("'%s'", $params['path']);
         $cmdArgs[] = sprintf('%s%d%s', $sign, $params['amount'], $params['amountunit']);
         $err = gettext("Failed to resize disk!");
         $this->virshCommand($cmdArgs, $err, 'qemu-img');
@@ -1246,7 +1246,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmdArgs[] = '-f qcow2';
         $cmdArgs[] = '-F qcow2';
         $cmdArgs[] = sprintf('-b "%s"', $base);
-        $cmdArgs[] = sprintf('"%s/%s"', $path, $back);
+        $cmdArgs[] = sprintf("'%s/%s'", $path, $back);
         $cmd = new \OMV\System\Process('qemu-img', $cmdArgs);
         $cmd->execute($output, $exitStatus);
     }
@@ -1262,7 +1262,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmdArgs = [];
         $cmdArgs[] = 'list --name';
         $cmdArgs[] = '| xargs -I@ virsh domblklist --details @';
-        $cmdArgs[] = '| awk \'$2 == "disk" { print $4 }\'';
+        $cmdArgs[] = '| awk \'$2 == "disk" { $1="";$2="";$3="";sub(/^[ \t]+/,"");print $0 }\'';
         $cmd = new \OMV\System\Process('virsh', $cmdArgs);
         $cmd->execute($disks, $exitStatus);
         // create new libvirt object
@@ -1391,9 +1391,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmdArgs[] = '| sed 1,2d';
         $cmdArgs[] = '| awk NF';
         if ($optical) {
-            $cmdArgs[] = '| awk \'$2 == "cdrom" { print $2","$3","$4 }\'';
+            $cmdArgs[] = '| awk \'$2 == "cdrom" { printf $2","$3",";$1="";$2="";$3="";sub(/^[ \t]+/,"");print $0 }\'';
         } else {
-            $cmdArgs[] = '| awk \'$2 != "cdrom" { print $2","$3","$4 }\'';
+            $cmdArgs[] = '| awk \'$2 != "cdrom" { printf $2","$3",";$1="";$2="";$3="";sub(/^[ \t]+/,"");print $0 }\'';
         }
         $cmd = new \OMV\System\Process('virsh', $cmdArgs);
         $cmd->execute($output, $exitStatus);
@@ -1432,8 +1432,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $pool = $params['pool'];
         $name = $params['name'];
         $format = $params['format'];
-        $image = $name . '.' . $format;
-        $size = $params['volsize'] . $params['volunit'];
+        $image = sprintf('%s.%s', $name, $format);
+        $size = sprintf('%d%s', $params['volsize'], $params['volunit']);
         if (!$lv->storagevolume_create($pool, $image, $size, $size, $format)) {
             $msg = sprintf("%s on %s of type %s and size %s", $name, $pool, $format, $size);
             throw new \OMV\Exception( gettext("Unable to create volume - ") . $msg);
@@ -1476,8 +1476,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmdArgs[] = '/usr/bin/qemu-img';
                 $cmdArgs[] = 'convert';
                 $cmdArgs[] = '-O ' . $format;
-                $cmdArgs[] = $path;
-                $cmdArgs[] = $newPath;
+                $cmdArgs[] = sprintf("'%s'", $path);
+                $cmdArgs[] = sprintf("'%s'", $newPath);
                 $cmd = new \OMV\System\Process($cmdArgs);
                 $cmd->setRedirect2to1();
                 $cmdLine = $cmd->getCommandLine();
@@ -1500,7 +1500,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmdArgs = [];
                 $cmdArgs[] = '/usr/bin/qemu-img';
                 $cmdArgs[] = $params['command'];
-                $cmdArgs[] = $params['path'];
+                $cmdArgs[] = sprintf("'%s'", $params['path']);
                 if ($params['command'] == 'info') {
                     $cmdArgs[] = '--backing-chain';
                 }
@@ -1525,7 +1525,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             use ($params) {
                 $cmdArgs = [];
                 $cmdArgs[] = '/usr/bin/wget';
-                $cmdArgs[] = sprintf('--output-document=%s/%s', $params['path'], $params['filename']);
+                $cmdArgs[] = sprintf('--output-document="%s/%s"', $params['path'], $params['filename']);
                 $cmdArgs[] = $params['url'];
                 $cmd = new \OMV\System\Process($cmdArgs);
                 $cmd->setRedirect2to1();
@@ -1758,7 +1758,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmdArgs = [];
         $cmdArgs[] = $vmname;
         $cmdArgs[] = '--add-device';
-        $cmdArgs[] = sprintf('--filesystem %s,%s', $src, $tgt);
+        $cmdArgs[] = sprintf("--filesystem '%s',%s", $src, $tgt);
         $err = gettext("Failed to add filesystem passthrough.");
         $this->virshCommand($cmdArgs, $err, 'virt-xml');
     }
@@ -1779,7 +1779,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmdArgs = [];
         $cmdArgs[] = $vmname;
         $cmdArgs[] = '--remove-device';
-        $cmdArgs[] = sprintf('--filesystem %s,%s', $src, $tgt);
+        $cmdArgs[] = sprintf("--filesystem '%s',%s", $src, $tgt);
         $err = gettext("Failed to remove filesystem passthrough.");
         $this->virshCommand($cmdArgs, $err, 'virt-xml');
     }
@@ -2070,14 +2070,14 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if ((is_dir($dir)) && (strlen($dir) > 2)) {
             $cmdArgs = [];
             $cmdArgs[] = '-rf';
-            $cmdArgs[] = sprintf('"%s"', $dir);
+            $cmdArgs[] = sprintf("'%s'", $dir);
             $cmd = new \OMV\System\Process('rm', $cmdArgs);
             $cmd->setQuiet(true);
             $cmd->execute($output, $exitStatus);
         }
         $cmdArgs = [];
         $cmdArgs[] = '-i';
-        $cmdArgs[] = sprintf('"/^%s.*%s.*%s.*$/d"', $uuid, $vmname, $date);
+        $cmdArgs[] = sprintf("'/^%s.*%s.*%s.*$/d'", $uuid, $vmname, $date);
         $cmdArgs[] = '/etc/omv-backup-vm.list';
         $cmd = new \OMV\System\Process('sed', $cmdArgs);
         $cmd->setQuiet(true);
@@ -2098,7 +2098,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmdArgs = [];
                 $cmdArgs[] = '/usr/sbin/omv-backup-vm';
                 $cmdArgs[] = sprintf('-v %s', $params['vmname']);
-                $cmdArgs[] = sprintf('-d %s', $params['path']);
+                $cmdArgs[] = sprintf("-d '%s'", $params['path']);
                 if ($params['compression'] === true) {
                     $cmdArgs[] = '-c';
                 }
@@ -2141,7 +2141,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $vmname = trim($backup[0]);
                 $cmdArgs = [];
                 $cmdArgs[] = '/usr/sbin/omv-restore-vm';
-                $cmdArgs[] = sprintf('-d %s', $path);
+                $cmdArgs[] = sprintf("-d '%s'", $path);
                 $cmdArgs[] = sprintf('-r %s', $params['newname']);
                 $cmdArgs[] = sprintf('-t %s', $date);
                 $cmdArgs[] = sprintf('-v %s', $vmname);
@@ -2229,7 +2229,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmdArgs = [];
                 $cmdArgs[] = '/usr/sbin/omv-backup-vm';
                 $cmdArgs[] = sprintf('-v %s', $object->get('vmname'));
-                $cmdArgs[] = sprintf('-d %s', $object->get('path'));
+                $cmdArgs[] = sprintf("-d '%s'", $object->get('path'));
                 if ($object->get('keep') > 0) {
                     $cmdArgs[] = sprintf('-k %s', $object->get('keep'));
                 }
@@ -2447,7 +2447,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmdArgs = [];
         $cmdArgs[] = $cmd;
         $cmdArgs[] = sprintf('--domain %s', $vmname);
-        $cmdArgs[] = sprintf('--file %s', $filename);
+        $cmdArgs[] = sprintf("--file '%s'", $filename);
         $cmdArgs[] = '--persistent';
         $cmdArgs[] = '--config';
         if ($state == 'running') {
