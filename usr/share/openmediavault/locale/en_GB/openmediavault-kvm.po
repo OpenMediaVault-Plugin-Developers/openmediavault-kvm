@@ -4,7 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Andi Chandler <andi@gowling.com>, 2021
+# Andi Chandler <andi@gowling.com>, 2022
 # 
 #, fuzzy
 msgid ""
@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-21 18:29-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
-"Last-Translator: Andi Chandler <andi@gowling.com>, 2021\n"
+"Last-Translator: Andi Chandler <andi@gowling.com>, 2022\n"
 "Language-Team: English (United Kingdom) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,7 +25,7 @@ msgid " already exists!"
 msgstr " already exists!"
 
 msgid "Action"
-msgstr ""
+msgstr "Action"
 
 msgid "Activity"
 msgstr "Activity"
@@ -34,19 +34,19 @@ msgid "Add"
 msgstr "Add"
 
 msgid "Add Spice"
-msgstr ""
+msgstr "Add Spice"
 
 msgid "Add USB"
 msgstr "Add USB"
 
 msgid "Add VNC"
-msgstr ""
+msgstr "Add VNC"
 
 msgid "Add disk"
-msgstr ""
+msgstr "Add disk"
 
 msgid "Add macvtap network"
-msgstr ""
+msgstr "Add macvtap network"
 
 msgid "Add network"
 msgstr "Add network"
@@ -61,40 +61,40 @@ msgid "Add new VM 2"
 msgstr ""
 
 msgid "Add new pool"
-msgstr ""
+msgstr "Add new pool"
 
 msgid "Add new volume"
-msgstr ""
+msgstr "Add new volume"
 
 msgid "Add passthrough"
-msgstr ""
+msgstr "Add passthrough"
 
 msgid "Advanced"
-msgstr ""
+msgstr "Advanced"
 
 msgid "Allocation"
-msgstr ""
+msgstr "Allocation"
 
 msgid "Amount"
 msgstr ""
 
 msgid "Arch"
-msgstr ""
+msgstr "Arch"
 
 msgid "Architecture"
-msgstr ""
+msgstr "Architecture"
 
 msgid "Are you sure you want to delete?"
-msgstr ""
+msgstr "Are you sure you want to delete?"
 
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 msgid "AutoStart"
-msgstr ""
+msgstr "AutoStart"
 
 msgid "Available"
-msgstr ""
+msgstr "Available"
 
 msgid "Backing file"
 msgstr ""

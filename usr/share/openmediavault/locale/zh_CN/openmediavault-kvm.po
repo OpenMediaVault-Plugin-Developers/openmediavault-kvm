@@ -34,13 +34,13 @@ msgid "Add"
 msgstr "添加"
 
 msgid "Add Spice"
-msgstr ""
+msgstr "添加 Spice"
 
 msgid "Add USB"
 msgstr "添加 USB"
 
 msgid "Add VNC"
-msgstr ""
+msgstr "添加 VNC"
 
 msgid "Add disk"
 msgstr "添加磁盘"
@@ -52,7 +52,7 @@ msgid "Add network"
 msgstr "添加网络"
 
 msgid "Add new"
-msgstr ""
+msgstr "添加新的"
 
 msgid "Add new VM"
 msgstr "添加新  VM"
@@ -187,7 +187,7 @@ msgid "Created scheduled job."
 msgstr "创建计划任务。"
 
 msgid "Current size"
-msgstr ""
+msgstr "当前大小"
 
 msgid "DHCP"
 msgstr "DHCP"
@@ -262,7 +262,7 @@ msgid "Execute scheduled job ..."
 msgstr "执行计划任务 ..."
 
 msgid "Extend"
-msgstr ""
+msgstr "扩展"
 
 msgid "Extension"
 msgstr "扩展"
@@ -274,7 +274,7 @@ msgid "Failed to add USB device."
 msgstr "添加 USB 设备失败。"
 
 msgid "Failed to add VNC device."
-msgstr ""
+msgstr "添加 VNC 设备失败。"
 
 msgid "Failed to add disk."
 msgstr "添加磁盘失败。"
@@ -286,13 +286,13 @@ msgid "Failed to add optical disk."
 msgstr "添加光盘失败。"
 
 msgid "Failed to add optical."
-msgstr ""
+msgstr "添加光盘失败。"
 
 msgid "Failed to add spice device."
-msgstr ""
+msgstr "添加 spice 设备失败。"
 
 msgid "Failed to add spicevmc channel."
-msgstr ""
+msgstr "添加 spicevmc 通道失败。"
 
 msgid "Failed to add vnc and/or spice setup - "
 msgstr "添加 vnc 或 spice 设置失败"
@@ -310,7 +310,7 @@ msgid "Failed to create VM."
 msgstr "创建 VM 失败。"
 
 msgid "Failed to create new disk :: "
-msgstr ""
+msgstr "创建新磁盘失败 :: "
 
 msgid "Failed to delete VM."
 msgstr "删除 VM 失败。"
@@ -319,7 +319,7 @@ msgid "Failed to remove USB device."
 msgstr "移除 USB 设备失败。"
 
 msgid "Failed to remove VNC device."
-msgstr ""
+msgstr "移除 VNC 设备失败。"
 
 msgid "Failed to remove disk."
 msgstr "移除磁盘失败。"
@@ -331,13 +331,13 @@ msgid "Failed to remove network."
 msgstr "移除网络失败。"
 
 msgid "Failed to remove spice device."
-msgstr ""
+msgstr "移除 spice 设备失败。"
 
 msgid "Failed to remove spicevmc channel."
-msgstr ""
+msgstr "移除 spicevmc 通道失败。"
 
 msgid "Failed to remove spicevmc redirdev."
-msgstr ""
+msgstr "移除 spicevmc redirdev 失败。"
 
 msgid "Failed to remove vnc and/or spice setup - "
 msgstr "删除 vnc 或 spice 设置失败"
@@ -346,7 +346,7 @@ msgid "Failed to reset VM."
 msgstr "重置 VM 失败。"
 
 msgid "Failed to resize disk!"
-msgstr ""
+msgstr "调整磁盘大小失败！"
 
 msgid "Failed to set change."
 msgstr "改变设置失败。"
@@ -522,13 +522,13 @@ msgid "Reboot"
 msgstr "重启"
 
 msgid "Remove Spice"
-msgstr ""
+msgstr "移除 Spice"
 
 msgid "Remove USB"
 msgstr "移除 USB"
 
 msgid "Remove VNC"
-msgstr ""
+msgstr "移除 VNC"
 
 msgid "Remove disk"
 msgstr "删除磁盘"
@@ -558,7 +558,7 @@ msgid "Run"
 msgstr "运行"
 
 msgid "Running"
-msgstr ""
+msgstr "运行中"
 
 msgid "Schedule"
 msgstr "计划"
@@ -819,7 +819,7 @@ msgid "vCPUs"
 msgstr "vCPUs"
 
 msgid "virt-top"
-msgstr ""
+msgstr "virt-top"
 
 msgid "virtio"
 msgstr "virtio"
