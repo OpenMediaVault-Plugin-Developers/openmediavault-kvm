@@ -75,6 +75,7 @@ data:
                     - ["dir", _("Directory")]
                     - ["fs", _("Filesystem")]
                     - ["netfs", _("Network Filesystem")]
+                    - ["logical", _("Logical")]
                     - ["disk", _("Disk")]
                     - ["iscsi", _("iSCSI")]
                     - ["zfs", _("ZFS")]
@@ -86,17 +87,10 @@ data:
                 modifiers:
                   - type: visible
                     constraint:
-                      operator: or
+                      operator: in
                       arg0:
-                        operator: eq
-                        arg0:
-                          prop: type
-                        arg1: "iscsi"
-                      arg1:
-                        operator: eq
-                        arg0:
-                          prop: type
-                        arg1: "netfs"
+                        prop: type
+                      arg1: ["iscsi","netfs"]
               - type: textInput
                 name: zpoolname
                 label: _("zPool name")
@@ -121,17 +115,10 @@ data:
                 modifiers:
                   - type: hidden
                     constraint:
-                      operator: or
+                      operator: in
                       arg0:
-                        operator: eq
-                        arg0:
-                          prop: type
-                        arg1: "dir"
-                      arg1:
-                        operator: eq
-                        arg0:
-                          prop: type
-                        arg1: "zfs"
+                        prop: type
+                      arg1: ["dir","logical","zfs"]
               - type: folderBrowser
                 name: path
                 label: _("Path")
@@ -141,10 +128,28 @@ data:
                 modifiers:
                   - type: hidden
                     constraint:
+                      operator: in
+                      arg0:
+                        prop: type
+                      arg1: ["logical","zfs"]
+              - type: select
+                name: vg
+                label: _("Volume group")
+                value: ""
+                textField: vgname
+                valueField: vgname
+                store:
+                  proxy:
+                    service: Kvm
+                    get:
+                      method: enumerateVg
+                modifiers:
+                  - type: visible
+                    constraint:
                       operator: eq
                       arg0:
                         prop: type
-                      arg1: "zfs"
+                      arg1: "logical"
             buttons:
               submit:
                 text: _('Add')

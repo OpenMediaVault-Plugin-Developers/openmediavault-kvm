@@ -277,7 +277,6 @@ data:
             value: "G"
             store:
               data:
-                - ["M", _("Megabytes")]
                 - ["G", _("Gigabytes")]
                 - ["T", _("Terabytes")]
             modifiers:

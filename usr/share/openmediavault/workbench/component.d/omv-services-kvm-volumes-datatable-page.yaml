@@ -72,6 +72,9 @@ data:
               - type: textInput
                 name: name
                 label: _("Name")
+                validators:
+                  required: true
+                  patternType: shareName
               - type: container
                 fields:
                   - type: numberInput

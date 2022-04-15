@@ -122,6 +122,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('enumerateArchitectures');
         $this->registerMethod('enumerateCpus');
         $this->registerMethod('enumerateOses');
+        $this->registerMethod('enumerateVg');
     }
 
     private function connectQemu()
@@ -136,6 +137,12 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmd = new \OMV\System\Process('dpkg --print-architecture');
         $cmd->execute($output);
         return (strtolower($output[0]));
+    }
+
+    private function getPoolType($pool) {
+        $poolFile = sprintf('/etc/libvirt/storage/%s.xml', $pool);
+        $poolXml = new SimpleXMLElement(file_get_contents($poolFile));
+        return (trim($poolXml['type']));
     }
 
     private function getVolumeSizes($path)
@@ -482,6 +489,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $path = $params['path'];
         $source = $params['sourcepath'];
         $type = $params['type'];
+        $vg = $params['vg'];
         $zpool = $params['zpoolname'];
         // create new libvirt object
         $lv = $this->connectQemu();
@@ -504,6 +512,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $xml .= sprintf("<host name='%s'/>", $host);
                 $xml .= sprintf("<dir path='%s'/>", $source);
                 $xml .= "<format type='auto'/>";
+                $xml .= "</source>";
+                break;
+            case 'logical':
+                $xml .= "<source>";
+                $xml .= sprintf("<name>%s</name>", $vg);
                 $xml .= "</source>";
                 break;
             case 'disk':
@@ -942,7 +955,12 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             if ($volunit == "T") {
                 $volsize *= 1024;
             }
-            $diskArgs = sprintf('size=%d,bus=%s,pool=%s,cache=none,io=native,format=%s', $volsize, $volbus, $volpool, $volformat);
+            $volpooltype = $this->getPoolType($volpool);
+            $formatArg = '';
+            if ($volpooltype != 'logical') {
+                $formatArg = sprintf(',format=%s', $volformat);
+            }
+            $diskArgs = sprintf('size=%d,bus=%s,pool=%s,cache=none,io=native%s', $volsize, $volbus, $volpool, $formatArg);
         } else {
             $diskArgs = sprintf("'%s',bus=%s,cache=none,io=native", $voldisk, $volbus);
             $volformat = pathinfo($voldisk, PATHINFO_EXTENSION);
@@ -1089,17 +1107,33 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // get VM object
         $vm = $lv->get_domain_by_name($vmname);
 
+        $volpooltype = $this->getPoolType($volpool);
+        $formatArg = '';
+        $block = true;
+        if ($volpooltype != 'logical') {
+            $block = false;
+            $formatArg = sprintf(',format=%s', $volformat);
+        }
         // create new disk (if specified)
         if ($voldisk == "Create new disk") {
-            $pool = $lv->get_storagepool_info($volpool);
-            $diskpath = sprintf("'%s/%s.%s'", $pool['path'], $volname, $volformat);
-            $cmdArgs = [];
-            $cmdArgs[] = 'create';
-            $cmdArgs[] = sprintf('-f %s', $volformat);
-            $cmdArgs[] = $diskpath;
-            $cmdArgs[] = sprintf('%d%s', $volsize, $volunit);
-            $err = gettext("Failed to create new disk :: ") . $params['command'];
-            $this->virshCommand($cmdArgs, $err, 'qemu-img');
+            if ($block) {
+                $cmdArgs = [];
+                $cmdArgs[] = sprintf('-L %d%s', $volsize, $volunit);
+                $cmdArgs[] = sprintf('-n %s', $volname);
+                $cmdArgs[] = $vg;
+                $err = gettext("Failed to create new disk :: ") . $params['command'];
+                $this->virshCommand($cmdArgs, $err, 'lvcreate');
+            } else {
+                $pool = $lv->get_storagepool_info($volpool);
+                $diskpath = sprintf("'%s/%s.%s'", $pool['path'], $volname, $volformat);
+                $cmdArgs = [];
+                $cmdArgs[] = 'create';
+                $cmdArgs[] = sprintf('-f %s', $volformat);
+                $cmdArgs[] = $diskpath;
+                $cmdArgs[] = sprintf('%d%s', $volsize, $volunit);
+                $err = gettext("Failed to create new disk :: ") . $params['command'];
+                $this->virshCommand($cmdArgs, $err, 'qemu-img');
+            }
         } else {
             $diskpath = sprintf("'%s'", $voldisk);
             $volformat = pathinfo($voldisk, PATHINFO_EXTENSION);
@@ -1112,7 +1146,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmdArgs = [];
         $cmdArgs[] = $vmname;
         $cmdArgs[] = '--add-device';
-        $cmdArgs[] = sprintf('--disk %s,target.bus=%s,format=%s,cache=none,io=native', $diskpath, $volbus, $volformat);
+        $cmdArgs[] = sprintf('--disk %s,target.bus=%s%s,cache=none,io=native', $diskpath, $volbus, $formatArg);
         $err = gettext("Failed to add disk.");
         $this->virshCommand($cmdArgs, $err, 'virt-xml');
     }
@@ -2410,6 +2444,25 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                     'name' => trim($os[1])
                 ];
             }
+        }
+        return ($objects);
+    }
+
+    public function enumerateVg($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        $output = [];
+        $cmdArgs = [];
+        $cmdArgs[] = '--noheadings';
+        $cmdArgs[] = '--all';
+        $cmdArgs[] = '--options vg_name';
+        $cmd = new \OMV\System\Process('vgs', $cmdArgs);
+        $cmd->setQuiet(true);
+        $cmd->execute($output, $exitStatus);
+        $objects = [];
+        foreach (array_filter($output) as $vg) {
+            $objects[] = ['vgname' => trim($vg)];
         }
         return ($objects);
     }
