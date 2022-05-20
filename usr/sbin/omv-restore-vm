@@ -137,10 +137,12 @@ for bak in "${restoreFromDir}"/*.bak; do
   diskfile="$(basename ${bak})"
   disk="${diskfile%%_*}" 
   copyTo="$(grep ${disk} "${tempXml}" | awk -F'"' '{ print $2 }')"
+  fmt="$(qemu-img info ${bak} | grep '^file format:' | awk '{ print $3 }')"
   _log "Copy from :: ${bak}"
   _log "Copy to :: ${copyTo}"
+  _log "Format :: ${fmt}"
   if [ -n "${copyTo}" ]; then
-    qemu-img dd if="${bak}" of="${copyTo}" bs=1M
+    qemu-img dd if="${bak}" of="${copyTo}" -O ${fmt} bs=1M
   fi
 done
 
