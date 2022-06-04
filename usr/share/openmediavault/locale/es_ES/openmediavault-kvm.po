@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-21 18:29-0500\n"
+"POT-Creation-Date: 2022-06-04 09:58-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>, 2022\n"
 "Language-Team: Spanish (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/es/)\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: es\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 msgid " already exists!"
 msgstr "¡ Ya existe !"
@@ -34,13 +34,13 @@ msgid "Add"
 msgstr "Añadir"
 
 msgid "Add Spice"
-msgstr ""
+msgstr "Añadir Spice"
 
 msgid "Add USB"
 msgstr "añadir USB"
 
 msgid "Add VNC"
-msgstr ""
+msgstr "Añadir VNC"
 
 msgid "Add disk"
 msgstr "Añadir disco"
@@ -52,7 +52,7 @@ msgid "Add network"
 msgstr "Añadir Red"
 
 msgid "Add new"
-msgstr ""
+msgstr "Añadir nuevo"
 
 msgid "Add new VM"
 msgstr "Añadir VM"
@@ -76,7 +76,7 @@ msgid "Allocation"
 msgstr "Distribición"
 
 msgid "Amount"
-msgstr ""
+msgstr "Cantidad"
 
 msgid "Arch"
 msgstr "Arch"
@@ -187,7 +187,7 @@ msgid "Created scheduled job."
 msgstr "Trabajo programado creado."
 
 msgid "Current size"
-msgstr ""
+msgstr "Tamaño actual"
 
 msgid "DHCP"
 msgstr "DHCP"
@@ -213,6 +213,9 @@ msgstr "Borrar"
 msgid "Delete + storage"
 msgstr "Borrado + almacenamiento"
 
+msgid "Details"
+msgstr ""
+
 msgid "Directory"
 msgstr "Directorio"
 
@@ -221,6 +224,15 @@ msgstr "Deshabilitar"
 
 msgid "Disk"
 msgstr "Disco"
+
+msgid "Disk info"
+msgstr ""
+
+msgid "Disk list"
+msgstr ""
+
+msgid "Disk stats"
+msgstr ""
 
 msgid "Disk(s)"
 msgstr "Disco(s)"
@@ -263,7 +275,7 @@ msgid "Execute scheduled job ..."
 msgstr "Ejecute el trabajo programado ..."
 
 msgid "Extend"
-msgstr ""
+msgstr "Extendido"
 
 msgid "Extension"
 msgstr "Extension"
@@ -275,7 +287,7 @@ msgid "Failed to add USB device."
 msgstr "Fallo el añadir dispositivo USB"
 
 msgid "Failed to add VNC device."
-msgstr ""
+msgstr "Falló el añadir dispositivo VNC"
 
 msgid "Failed to add disk."
 msgstr "Error al añadir el disco."
@@ -287,13 +299,13 @@ msgid "Failed to add optical disk."
 msgstr "Falló el añadir un CD."
 
 msgid "Failed to add optical."
-msgstr ""
+msgstr "Falló el añadir dispositivo óptico (CD/DVD)"
 
 msgid "Failed to add spice device."
-msgstr ""
+msgstr "Falló el añadir dispositivo spice"
 
 msgid "Failed to add spicevmc channel."
-msgstr ""
+msgstr "Falló el añadir canal SpiceVNC"
 
 msgid "Failed to add vnc and/or spice setup - "
 msgstr "Error al añadir vnc o spice"
@@ -311,7 +323,7 @@ msgid "Failed to create VM."
 msgstr "Falló al crear una VM."
 
 msgid "Failed to create new disk :: "
-msgstr ""
+msgstr "Falló el crear un  nuevo disco."
 
 msgid "Failed to delete VM."
 msgstr "Falló el borrar una VM."
@@ -320,7 +332,7 @@ msgid "Failed to remove USB device."
 msgstr "Falló el remover un dispositivo USB."
 
 msgid "Failed to remove VNC device."
-msgstr ""
+msgstr "Falló el eliminar un dispositivo VNC"
 
 msgid "Failed to remove disk."
 msgstr "Falló el remover un disco."
@@ -332,13 +344,13 @@ msgid "Failed to remove network."
 msgstr "Falló el remover una red."
 
 msgid "Failed to remove spice device."
-msgstr ""
+msgstr "Falló el eliminar un dispositivo spice."
 
 msgid "Failed to remove spicevmc channel."
-msgstr ""
+msgstr "Falló el eliminar un canal SpiceVNC"
 
 msgid "Failed to remove spicevmc redirdev."
-msgstr ""
+msgstr "Falló el eliminar un picevmc redirdev."
 
 msgid "Failed to remove vnc and/or spice setup - "
 msgstr "Error al eliminar vnc o spice"
@@ -347,7 +359,7 @@ msgid "Failed to reset VM."
 msgstr "Falló el reiniciar una VM."
 
 msgid "Failed to resize disk!"
-msgstr ""
+msgstr "Falló el redimensionar un disco!"
 
 msgid "Failed to set change."
 msgstr "Falló aplicar el cambio."
@@ -448,6 +460,9 @@ msgstr "Clon enlazado"
 msgid "Linux"
 msgstr "Linux"
 
+msgid "Logical"
+msgstr ""
+
 msgid "MAC address"
 msgstr "Dirección MAC"
 
@@ -524,13 +539,13 @@ msgid "Reboot"
 msgstr "Reinicio"
 
 msgid "Remove Spice"
-msgstr ""
+msgstr "Eliminar spice"
 
 msgid "Remove USB"
 msgstr "Quitar USB"
 
 msgid "Remove VNC"
-msgstr ""
+msgstr "Eliminar VNC"
 
 msgid "Remove disk"
 msgstr "Eliminar Disco"
@@ -560,7 +575,7 @@ msgid "Run"
 msgstr "Ejecutar"
 
 msgid "Running"
-msgstr ""
+msgstr "Ejecutandose"
 
 msgid "Schedule"
 msgstr "Tarea programada"
@@ -721,6 +736,9 @@ msgstr "Unidad"
 msgid "VM Name"
 msgstr "Nombre de la VM"
 
+msgid "VM info"
+msgstr ""
+
 msgid "VM name"
 msgstr "Nombre de la VM"
 
@@ -738,6 +756,9 @@ msgstr "Puerto VNC"
 
 msgid "Volume Count"
 msgstr "Recuento de Volumen"
+
+msgid "Volume group"
+msgstr ""
 
 msgid "Volume info ..."
 msgstr "Información del volumen ..."

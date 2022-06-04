@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-21 18:29-0500\n"
+"POT-Creation-Date: 2022-06-04 09:58-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: songming <by@songming.me>, 2022\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/zh_CN/)\n"
@@ -213,6 +213,9 @@ msgstr "删除"
 msgid "Delete + storage"
 msgstr "删除 + 存储"
 
+msgid "Details"
+msgstr ""
+
 msgid "Directory"
 msgstr "路径"
 
@@ -221,6 +224,15 @@ msgstr "关闭"
 
 msgid "Disk"
 msgstr "磁盘"
+
+msgid "Disk info"
+msgstr ""
+
+msgid "Disk list"
+msgstr ""
+
+msgid "Disk stats"
+msgstr ""
 
 msgid "Disk(s)"
 msgstr "磁盘"
@@ -445,6 +457,9 @@ msgstr "链接克隆"
 
 msgid "Linux"
 msgstr "Linux"
+
+msgid "Logical"
+msgstr ""
 
 msgid "MAC address"
 msgstr "MAC 地址"
@@ -719,6 +734,9 @@ msgstr "单位"
 msgid "VM Name"
 msgstr "VM 名称"
 
+msgid "VM info"
+msgstr ""
+
 msgid "VM name"
 msgstr "VM 名称"
 
@@ -736,6 +754,9 @@ msgstr "VNC 端口"
 
 msgid "Volume Count"
 msgstr "卷数量"
+
+msgid "Volume group"
+msgstr ""
 
 msgid "Volume info ..."
 msgstr "卷信息 ..."

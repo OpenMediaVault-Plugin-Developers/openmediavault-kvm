@@ -5,15 +5,16 @@
 # 
 # Translators:
 # Ettore Atalan <atalanttore@googlemail.com>, 2021
+# Thomas Melka, 2022
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-21 18:29-0500\n"
+"POT-Creation-Date: 2022-06-04 09:58-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
-"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>, 2021\n"
+"Last-Translator: Thomas Melka, 2022\n"
 "Language-Team: German (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +23,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid " already exists!"
-msgstr ""
+msgstr "ist bereits vorhanden!"
 
 msgid "Action"
 msgstr ""
@@ -34,34 +35,34 @@ msgid "Add"
 msgstr "Hinzufügen"
 
 msgid "Add Spice"
-msgstr ""
+msgstr "Spice hinzufügen"
 
 msgid "Add USB"
-msgstr ""
+msgstr "USB hinzufügen"
 
 msgid "Add VNC"
-msgstr ""
+msgstr "VNC hinzufügen"
 
 msgid "Add disk"
-msgstr ""
+msgstr "Datenträger hinzufügen"
 
 msgid "Add macvtap network"
-msgstr ""
+msgstr "macvtap Netztwerk hinzufügen"
 
 msgid "Add network"
 msgstr "Netzwerk hinzufügen"
 
 msgid "Add new"
-msgstr ""
+msgstr "Neue hinzufügen"
 
 msgid "Add new VM"
-msgstr ""
+msgstr "Neue VM hinzufügen"
 
 msgid "Add new VM 2"
 msgstr ""
 
 msgid "Add new pool"
-msgstr ""
+msgstr "Neuen pool hinzufügen"
 
 msgid "Add new volume"
 msgstr ""
@@ -85,7 +86,7 @@ msgid "Architecture"
 msgstr ""
 
 msgid "Are you sure you want to delete?"
-msgstr ""
+msgstr "Sind Sie sicher, dass Sie löschen möchten?"
 
 msgid "Audio"
 msgstr ""
@@ -100,7 +101,7 @@ msgid "Backing file"
 msgstr ""
 
 msgid "Backup"
-msgstr ""
+msgstr "Sicherung"
 
 msgid "Backup with Compression"
 msgstr ""
@@ -112,7 +113,7 @@ msgid "Bus"
 msgstr "Bus"
 
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 msgid "CPUs"
 msgstr "CPUs"
@@ -124,16 +125,16 @@ msgid "Capacity"
 msgstr "Kapazität"
 
 msgid "Change memory"
-msgstr ""
+msgstr "Speicher ändern"
 
 msgid "Change vCPU"
-msgstr ""
+msgstr "vCPU ändern"
 
 msgid "Check"
-msgstr ""
+msgstr "überprüfen"
 
 msgid "Check volume ..."
-msgstr ""
+msgstr "Überprüfe volume ..."
 
 msgid "Chipset"
 msgstr ""
@@ -154,22 +155,22 @@ msgid "Console"
 msgstr "Konsole"
 
 msgid "Convert to qcow2"
-msgstr ""
+msgstr "Konvertieren zu qcow2"
 
 msgid "Convert to raw"
-msgstr ""
+msgstr "Konvertieren zu raw"
 
 msgid "Converting to qcow2 ..."
-msgstr ""
+msgstr "Konvertiere zu qcow2 ..."
 
 msgid "Converting to raw ..."
-msgstr ""
+msgstr "Konvertiere zu raw ..."
 
 msgid "Create"
 msgstr "Erstellen"
 
 msgid "Create VM"
-msgstr ""
+msgstr "Erstelle VM"
 
 msgid "Create VM 2"
 msgstr ""
@@ -181,13 +182,13 @@ msgid "Created VM 2."
 msgstr ""
 
 msgid "Created VM."
-msgstr ""
+msgstr "VM erstellt."
 
 msgid "Created scheduled job."
 msgstr ""
 
 msgid "Current size"
-msgstr ""
+msgstr "Momentane Größe"
 
 msgid "DHCP"
 msgstr "DHCP"
@@ -202,7 +203,7 @@ msgid "DHCP starting address"
 msgstr "DHCP-Anfangsadresse"
 
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 msgid "Date & Time"
 msgstr "Datum & Zeit"
@@ -213,23 +214,35 @@ msgstr "Löschen"
 msgid "Delete + storage"
 msgstr ""
 
+msgid "Details"
+msgstr ""
+
 msgid "Directory"
 msgstr ""
 
 msgid "Disable"
-msgstr ""
+msgstr "deaktivieren"
 
 msgid "Disk"
 msgstr "Festplatte"
+
+msgid "Disk info"
+msgstr ""
+
+msgid "Disk list"
+msgstr ""
+
+msgid "Disk stats"
+msgstr ""
 
 msgid "Disk(s)"
 msgstr "Festplatte(n)"
 
 msgid "Download virtio iso"
-msgstr ""
+msgstr "virtio iso herunterladen"
 
 msgid "Download virtio iso ..."
-msgstr ""
+msgstr "Lade virtio iso ..."
 
 msgid "Edit"
 msgstr ""
@@ -271,10 +284,10 @@ msgid "Failed to "
 msgstr ""
 
 msgid "Failed to add USB device."
-msgstr ""
+msgstr "USB-Gerät konnte nicht hinzugefügt werden."
 
 msgid "Failed to add VNC device."
-msgstr ""
+msgstr "VNC-Gerät konnte nicht hinzugefügt werden."
 
 msgid "Failed to add disk."
 msgstr ""
@@ -283,7 +296,7 @@ msgid "Failed to add filesystem passthrough."
 msgstr ""
 
 msgid "Failed to add optical disk."
-msgstr ""
+msgstr "Optisches Laufwerk konnte nicht hinzugefügt werden."
 
 msgid "Failed to add optical."
 msgstr ""
@@ -298,13 +311,13 @@ msgid "Failed to add vnc and/or spice setup - "
 msgstr ""
 
 msgid "Failed to change "
-msgstr ""
+msgstr "Fehler beim Ändern"
 
 msgid "Failed to change autostart"
-msgstr ""
+msgstr "Fehler beim Ändern der Autostart Einstellung"
 
 msgid "Failed to create VM XML."
-msgstr ""
+msgstr "Fehler beim Erstellen der VM XML."
 
 msgid "Failed to create VM."
 msgstr ""
@@ -415,7 +428,7 @@ msgid "ISOs"
 msgstr "ISOs"
 
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 msgid "KVM"
 msgstr "KVM"
@@ -443,6 +456,9 @@ msgstr ""
 
 msgid "Linux"
 msgstr "Linux"
+
+msgid "Logical"
+msgstr ""
 
 msgid "MAC address"
 msgstr "MAC-Adresse"
@@ -481,7 +497,7 @@ msgid "Networks"
 msgstr "Netzwerke"
 
 msgid "New name"
-msgstr ""
+msgstr "Neuer Name"
 
 msgid "Notes"
 msgstr ""
@@ -526,7 +542,7 @@ msgid "Remove USB"
 msgstr ""
 
 msgid "Remove VNC"
-msgstr ""
+msgstr "VNC entfernen"
 
 msgid "Remove disk"
 msgstr ""
@@ -556,7 +572,7 @@ msgid "Run"
 msgstr ""
 
 msgid "Running"
-msgstr ""
+msgstr "wird ausgeführt"
 
 msgid "Schedule"
 msgstr ""
@@ -717,6 +733,9 @@ msgstr ""
 msgid "VM Name"
 msgstr "VM-Name"
 
+msgid "VM info"
+msgstr ""
+
 msgid "VM name"
 msgstr ""
 
@@ -733,6 +752,9 @@ msgid "VNC port"
 msgstr "VNC-Port"
 
 msgid "Volume Count"
+msgstr ""
+
+msgid "Volume group"
 msgstr ""
 
 msgid "Volume info ..."

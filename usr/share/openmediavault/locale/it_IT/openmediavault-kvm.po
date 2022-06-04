@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-21 18:29-0500\n"
+"POT-Creation-Date: 2022-06-04 09:58-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Language-Team: Italian (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: it\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 msgid " already exists!"
 msgstr ""
@@ -209,6 +209,9 @@ msgstr ""
 msgid "Delete + storage"
 msgstr ""
 
+msgid "Details"
+msgstr ""
+
 msgid "Directory"
 msgstr ""
 
@@ -216,6 +219,15 @@ msgid "Disable"
 msgstr ""
 
 msgid "Disk"
+msgstr ""
+
+msgid "Disk info"
+msgstr ""
+
+msgid "Disk list"
+msgstr ""
+
+msgid "Disk stats"
 msgstr ""
 
 msgid "Disk(s)"
@@ -438,6 +450,9 @@ msgid "Linked Clone"
 msgstr ""
 
 msgid "Linux"
+msgstr ""
+
+msgid "Logical"
 msgstr ""
 
 msgid "MAC address"
@@ -713,6 +728,9 @@ msgstr ""
 msgid "VM Name"
 msgstr ""
 
+msgid "VM info"
+msgstr ""
+
 msgid "VM name"
 msgstr ""
 
@@ -729,6 +747,9 @@ msgid "VNC port"
 msgstr ""
 
 msgid "Volume Count"
+msgstr ""
+
+msgid "Volume group"
 msgstr ""
 
 msgid "Volume info ..."

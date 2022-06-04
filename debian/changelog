@@ -1,9 +1,10 @@
-openmediavault-kvm (6.1.14) UNRELEASED; urgency=medium
+openmediavault-kvm (6.1.14) stable; urgency=low
 
   * Add logical type to Add Pool
   * Allow logical volumes for disks
+  * Fix restore by using original disk type
 
- -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Fri, 15 Apr 2022 09:53:04 -0500
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sat, 04 Jun 2022 09:58:27 -0500
 
 openmediavault-kvm (6.1.13) stable; urgency=low
 

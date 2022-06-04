@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-21 18:29-0500\n"
+"POT-Creation-Date: 2022-06-04 09:58-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Andi Chandler <andi@gowling.com>, 2022\n"
 "Language-Team: English (United Kingdom) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/en_GB/)\n"
@@ -52,13 +52,13 @@ msgid "Add network"
 msgstr "Add network"
 
 msgid "Add new"
-msgstr ""
+msgstr "Add new"
 
 msgid "Add new VM"
-msgstr ""
+msgstr "Add new VM"
 
 msgid "Add new VM 2"
-msgstr ""
+msgstr "Add new VM 2"
 
 msgid "Add new pool"
 msgstr "Add new pool"
@@ -76,7 +76,7 @@ msgid "Allocation"
 msgstr "Allocation"
 
 msgid "Amount"
-msgstr ""
+msgstr "Amount"
 
 msgid "Arch"
 msgstr "Arch"
@@ -97,133 +97,145 @@ msgid "Available"
 msgstr "Available"
 
 msgid "Backing file"
-msgstr ""
+msgstr "Backing file"
 
 msgid "Backup"
-msgstr ""
+msgstr "Backup"
 
 msgid "Backup with Compression"
-msgstr ""
+msgstr "Backup with Compression"
 
 msgid "Base image"
-msgstr ""
+msgstr "Base image"
 
 msgid "Bus"
-msgstr ""
+msgstr "Bus"
 
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 msgid "CPUs"
-msgstr ""
+msgstr "CPUs"
 
 msgid "Call"
-msgstr ""
+msgstr "Call"
 
 msgid "Capacity"
-msgstr ""
+msgstr "Capacity"
 
 msgid "Change memory"
-msgstr ""
+msgstr "Change memory"
 
 msgid "Change vCPU"
-msgstr ""
+msgstr "Change vCPU"
 
 msgid "Check"
-msgstr ""
+msgstr "Check"
 
 msgid "Check volume ..."
-msgstr ""
+msgstr "Check volume ..."
 
 msgid "Chipset"
-msgstr ""
+msgstr "Chipset"
 
 msgid "Clone"
-msgstr ""
+msgstr "Clone"
 
 msgid "Clone name"
-msgstr ""
+msgstr "Clone name"
 
 msgid "Component"
-msgstr ""
+msgstr "Component"
 
 msgid "Compression"
-msgstr ""
+msgstr "Compression"
 
 msgid "Console"
-msgstr ""
+msgstr "Console"
 
 msgid "Convert to qcow2"
-msgstr ""
+msgstr "Convert to qcow2"
 
 msgid "Convert to raw"
-msgstr ""
+msgstr "Convert to raw"
 
 msgid "Converting to qcow2 ..."
 msgstr ""
 
 msgid "Converting to raw ..."
-msgstr ""
+msgstr "Converting to raw ..."
 
 msgid "Create"
-msgstr ""
+msgstr "Create"
 
 msgid "Create VM"
-msgstr ""
+msgstr "Create VM"
 
 msgid "Create VM 2"
-msgstr ""
+msgstr "Create VM 2"
 
 msgid "Create backing file"
-msgstr ""
+msgstr "Create backing file"
 
 msgid "Created VM 2."
-msgstr ""
+msgstr "Created VM 2."
 
 msgid "Created VM."
-msgstr ""
+msgstr "Created VM."
 
 msgid "Created scheduled job."
-msgstr ""
+msgstr "Created scheduled job."
 
 msgid "Current size"
-msgstr ""
+msgstr "Current size"
 
 msgid "DHCP"
-msgstr ""
+msgstr "DHCP"
 
 msgid "DHCP Range"
-msgstr ""
+msgstr "DHCP Range"
 
 msgid "DHCP ending address"
-msgstr ""
+msgstr "DHCP ending address"
 
 msgid "DHCP starting address"
-msgstr ""
+msgstr "DHCP starting address"
 
 msgid "Date"
-msgstr ""
+msgstr "Date"
 
 msgid "Date & Time"
-msgstr ""
+msgstr "Date & Time"
 
 msgid "Delete"
-msgstr ""
+msgstr "Delete"
 
 msgid "Delete + storage"
+msgstr "Delete + storage"
+
+msgid "Details"
 msgstr ""
 
 msgid "Directory"
-msgstr ""
+msgstr "Directory"
 
 msgid "Disable"
-msgstr ""
+msgstr "Disable"
 
 msgid "Disk"
+msgstr "Disk"
+
+msgid "Disk info"
+msgstr ""
+
+msgid "Disk list"
+msgstr ""
+
+msgid "Disk stats"
 msgstr ""
 
 msgid "Disk(s)"
-msgstr ""
+msgstr "Disk(s)"
 
 msgid "Download virtio iso"
 msgstr ""
@@ -442,6 +454,9 @@ msgid "Linked Clone"
 msgstr ""
 
 msgid "Linux"
+msgstr ""
+
+msgid "Logical"
 msgstr ""
 
 msgid "MAC address"
@@ -717,6 +732,9 @@ msgstr ""
 msgid "VM Name"
 msgstr ""
 
+msgid "VM info"
+msgstr ""
+
 msgid "VM name"
 msgstr ""
 
@@ -733,6 +751,9 @@ msgid "VNC port"
 msgstr ""
 
 msgid "Volume Count"
+msgstr ""
+
+msgid "Volume group"
 msgstr ""
 
 msgid "Volume info ..."
