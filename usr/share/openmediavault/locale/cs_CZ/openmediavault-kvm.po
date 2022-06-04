@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-04 09:58-0500\n"
+"POT-Creation-Date: 2022-06-04 13:12-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>, 2021\n"
 "Language-Team: Czech (Czech Republic) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/cs_CZ/)\n"
@@ -23,6 +23,9 @@ msgstr ""
 
 msgid " already exists!"
 msgstr " už existuje!"
+
+msgid " the network!"
+msgstr ""
 
 msgid "Action"
 msgstr ""
@@ -367,6 +370,12 @@ msgid "Failed to set maximum"
 msgstr ""
 
 msgid "Failed to set maximum."
+msgstr ""
+
+msgid "Failed to set pool autostart."
+msgstr ""
+
+msgid "Failed to start pool."
 msgstr ""
 
 msgid "Failed to start websockify for noVNC."
