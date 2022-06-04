@@ -1,3 +1,9 @@
+openmediavault-kvm (6.1.15) UNRELEASED; urgency=medium
+
+  * Escape vm, pool, and network names
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sat, 04 Jun 2022 10:53:26 -0500
+
 openmediavault-kvm (6.1.14) stable; urgency=low
 
   * Add logical type to Add Pool
