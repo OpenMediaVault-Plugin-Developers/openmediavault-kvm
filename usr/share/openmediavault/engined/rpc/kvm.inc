@@ -955,7 +955,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if (($volname == "") || (empty($volname))) {
             $volname = $vmname;
         }
-        $volpool = $this->escapeName($params['volpool']);
+        $volpool = $params['volpool'];
 
         if ($voldisk == 'Create new disk') {
             if ($volunit == "T") {
@@ -966,7 +966,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             if ($volpooltype != 'logical') {
                 $formatArg = sprintf(',format=%s', $volformat);
             }
-            $diskArgs = sprintf('size=%d,bus=%s,pool=%s,cache=none,io=native%s', $volsize, $volbus, $volpool, $formatArg);
+            $diskArgs = sprintf('size=%d,bus=%s,pool="%s",cache=none,io=native%s', $volsize, $volbus, $this->escapeName($volpool), $formatArg);
         } else {
             $diskArgs = sprintf("'%s',bus=%s,cache=none,io=native", $voldisk, $volbus);
             $volformat = pathinfo($voldisk, PATHINFO_EXTENSION);

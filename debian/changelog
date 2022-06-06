@@ -1,3 +1,9 @@
+openmediavault-kvm (6.1.17) stable; urgency=low
+
+  * Fix vm creation when pool has quote in name
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Mon, 06 Jun 2022 16:04:20 -0500
+
 openmediavault-kvm (6.1.16) stable; urgency=low
 
   * Add same format option to scheduled backup and vm backup script
