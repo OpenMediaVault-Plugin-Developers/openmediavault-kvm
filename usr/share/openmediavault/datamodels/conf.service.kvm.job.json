@@ -30,6 +30,10 @@
       "maximum": 65535,
       "default": 0
     },
+    "samefmt": {
+      "type": "boolean",
+      "default": false
+    },
     "compression": {
       "type": "boolean",
       "default": false

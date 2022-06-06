@@ -54,6 +54,9 @@ case "$1" in
             if ! omv_config_exists "${job}/keep"; then
                 omv_config_add_key "${job}" "keep" "0"
             fi
+            if ! omv_config_exists "${job}/samefmt"; then
+                omv_config_add_key "${job}" "samefmt" "0"
+            fi
             index=$(( ${index} + 1 ))
         done;
 

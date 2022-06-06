@@ -53,6 +53,11 @@ data:
           max: 65535
         hint: _("Keep the most recent number of backups. 0 = keep all backups")
       - type: checkbox
+        name: samefmt
+        label: _('Same format')
+        value: false
+        hint: _('Use same disk format as source.  Will use cp to backup disks.  Will ignore compression option if enabled')
+      - type: checkbox
         name: compression
         label: _('Compress')
         value: false

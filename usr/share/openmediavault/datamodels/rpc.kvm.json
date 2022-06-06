@@ -777,6 +777,10 @@
           "type": "integer",
           "required": true
         },
+        "samefmt": {
+          "type": "boolean",
+          "required": false
+        },
         "compression": {
           "type": "boolean",
           "required": true
