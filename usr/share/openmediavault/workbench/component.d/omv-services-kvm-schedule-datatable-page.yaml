@@ -46,6 +46,11 @@ data:
         prop: keep
         flexGrow: 1
         sortable: true
+      - name: _("Same Format")
+        prop: samefmt
+        flexGrow: 1
+        sortable: true
+        cellTemplateName: checkIcon
       - name: _("Compression")
         prop: compression
         flexGrow: 1
