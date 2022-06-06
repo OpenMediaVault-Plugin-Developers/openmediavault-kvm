@@ -955,7 +955,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if (($volname == "") || (empty($volname))) {
             $volname = $vmname;
         }
-        $volpool = $params['volpool'];
+        $volpool = $this->escapeName($params['volpool']);
 
         if ($voldisk == 'Create new disk') {
             if ($volunit == "T") {
