@@ -8,7 +8,7 @@
 # License version 2. This program is licensed "as is" without any
 # warranty of any kind, whether express or implied.
 #
-# version: 0.1.2
+# version: 0.2.0
 #
 
 if [[ $(id -u) -ne 0 ]]; then
@@ -20,6 +20,7 @@ export LANG=C.UTF-8
 
 # declare/initialize
 declare -i keep=0
+declare -i samefmt=0
 declare -i used=0
 declare -i vmId=0
 
@@ -42,7 +43,7 @@ _log()
 }
 
 # loop through options
-while getopts "cd:hk:v:" opt; do
+while getopts "cd:hk:sv:" opt; do
   case "${opt}" in
     c)
       compress=" -c"
@@ -62,6 +63,10 @@ while getopts "cd:hk:v:" opt; do
       echo "    show this help"
       echo "  -k #"
       echo "    keep last number of backups"
+      echo "  -s"
+      echo "    use same format as source"
+      echo "    will use cp command"
+      echo "    compression flag will be ignored"
       echo "  -v vm-name"
       echo "    VM name to backup"
       echo ""
@@ -73,6 +78,10 @@ while getopts "cd:hk:v:" opt; do
     k)
       keep=${OPTARG}
       _log "Keep :: ${keep}"
+      ;;
+    s)
+      samefmt=1
+      _log "Same format :: ${samefmt}"
       ;;
     v)
       backupVm=${OPTARG}
@@ -163,7 +172,11 @@ _log "Copy disks to backup directory..."
 for disk in ${disks}; do
   _log "Copying disk :: ${disk#*,}"
   filename="$(basename ${disk#*,})"
-  qemu-img convert -O qcow2 ${compress} "${disk#*,}" "${backupVmDir}/${filename}_${date}.bak"
+  if [ ${samefmt} -eq 1 ]; then
+    cp -v "${disk#*,}" "${backupVmDir}/${filename}_${date}.bak"
+  else
+    qemu-img convert -O qcow2 ${compress} "${disk#*,}" "${backupVmDir}/${filename}_${date}.bak"
+  fi
 done
 
 # skip commit and remove if the VM is not powered on
