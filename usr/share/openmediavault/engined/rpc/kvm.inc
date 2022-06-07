@@ -2276,6 +2276,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 if ($object->get('compression') === true) {
                     $cmdArgs[] = '-c';
                 }
+                if ($object->get('samefmt') === true) {
+                    $cmdArgs[] = '-s';
+                }
                 $cmd = new \OMV\System\Process($cmdArgs);
                 $cmd->setRedirect2to1();
                 $cmdLine = $cmd->getCommandLine();
