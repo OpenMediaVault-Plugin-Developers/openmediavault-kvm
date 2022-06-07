@@ -1,3 +1,9 @@
+openmediavault-kvm (6.1.18) stable; urgency=low
+
+  * Use samefmt parameter for manual runs of scheduled tasks
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Tue, 07 Jun 2022 09:32:40 -0500
+
 openmediavault-kvm (6.1.17) stable; urgency=low
 
   * Fix vm creation when pool has quote in name
