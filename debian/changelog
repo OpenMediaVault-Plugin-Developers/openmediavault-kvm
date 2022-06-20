@@ -1,3 +1,9 @@
+openmediavault-kvm (6.1.19) stable; urgency=low
+
+  * Use codeEditor component instead of textarea for editing VM xml
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Mon, 20 Jun 2022 17:42:21 -0500
+
 openmediavault-kvm (6.1.18) stable; urgency=low
 
   * Use samefmt parameter for manual runs of scheduled tasks
