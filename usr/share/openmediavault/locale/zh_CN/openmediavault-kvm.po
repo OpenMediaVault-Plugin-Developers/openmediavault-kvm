@@ -25,7 +25,7 @@ msgid " already exists!"
 msgstr "已经存在！"
 
 msgid " the network!"
-msgstr ""
+msgstr "网络"
 
 msgid "Action"
 msgstr "动作"
@@ -79,7 +79,7 @@ msgid "Allocation"
 msgstr "划分"
 
 msgid "Amount"
-msgstr ""
+msgstr "数量"
 
 msgid "Arch"
 msgstr "Arch"
@@ -217,7 +217,7 @@ msgid "Delete + storage"
 msgstr "删除 + 存储"
 
 msgid "Details"
-msgstr ""
+msgstr "详情"
 
 msgid "Directory"
 msgstr "路径"
@@ -229,13 +229,13 @@ msgid "Disk"
 msgstr "磁盘"
 
 msgid "Disk info"
-msgstr ""
+msgstr "磁盘信息"
 
 msgid "Disk list"
-msgstr ""
+msgstr "磁盘列表"
 
 msgid "Disk stats"
-msgstr ""
+msgstr "磁盘状态"
 
 msgid "Disk(s)"
 msgstr "磁盘"
@@ -373,10 +373,10 @@ msgid "Failed to set maximum."
 msgstr "设置最大值失败。"
 
 msgid "Failed to set pool autostart."
-msgstr ""
+msgstr "设置池自启动失败。"
 
 msgid "Failed to start pool."
-msgstr ""
+msgstr "启动池失败。"
 
 msgid "Failed to start websockify for noVNC."
 msgstr "为 noVNC 启动  websockify 失败。"
@@ -468,7 +468,7 @@ msgid "Linux"
 msgstr "Linux"
 
 msgid "Logical"
-msgstr ""
+msgstr "逻辑"
 
 msgid "MAC address"
 msgstr "MAC 地址"
@@ -744,7 +744,7 @@ msgid "VM Name"
 msgstr "VM 名称"
 
 msgid "VM info"
-msgstr ""
+msgstr "VM 信息"
 
 msgid "VM name"
 msgstr "VM 名称"
@@ -765,7 +765,7 @@ msgid "Volume Count"
 msgstr "卷数量"
 
 msgid "Volume group"
-msgstr ""
+msgstr "卷组"
 
 msgid "Volume info ..."
 msgstr "卷信息 ..."

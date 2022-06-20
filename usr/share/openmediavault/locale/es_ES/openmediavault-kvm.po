@@ -25,7 +25,7 @@ msgid " already exists!"
 msgstr "¡ Ya existe !"
 
 msgid " the network!"
-msgstr ""
+msgstr "¡La red!"
 
 msgid "Action"
 msgstr "Acción"
@@ -217,7 +217,7 @@ msgid "Delete + storage"
 msgstr "Borrado + almacenamiento"
 
 msgid "Details"
-msgstr ""
+msgstr "Detalles"
 
 msgid "Directory"
 msgstr "Directorio"
@@ -229,13 +229,13 @@ msgid "Disk"
 msgstr "Disco"
 
 msgid "Disk info"
-msgstr ""
+msgstr "Información del Disco"
 
 msgid "Disk list"
-msgstr ""
+msgstr "Lista de Discos"
 
 msgid "Disk stats"
-msgstr ""
+msgstr "Estadísticas del Disco"
 
 msgid "Disk(s)"
 msgstr "Disco(s)"
@@ -374,10 +374,10 @@ msgid "Failed to set maximum."
 msgstr "Falló usar el máximo."
 
 msgid "Failed to set pool autostart."
-msgstr ""
+msgstr "Error al habilitar el autoarranque del pool."
 
 msgid "Failed to start pool."
-msgstr ""
+msgstr "Error al arrancar el pool."
 
 msgid "Failed to start websockify for noVNC."
 msgstr "Falló arrancar websockify para noVNC."
@@ -470,7 +470,7 @@ msgid "Linux"
 msgstr "Linux"
 
 msgid "Logical"
-msgstr ""
+msgstr "Lógico"
 
 msgid "MAC address"
 msgstr "Dirección MAC"
@@ -746,7 +746,7 @@ msgid "VM Name"
 msgstr "Nombre de la VM"
 
 msgid "VM info"
-msgstr ""
+msgstr "VM info"
 
 msgid "VM name"
 msgstr "Nombre de la VM"
@@ -767,7 +767,7 @@ msgid "Volume Count"
 msgstr "Recuento de Volumen"
 
 msgid "Volume group"
-msgstr ""
+msgstr "Grupo del Volumen"
 
 msgid "Volume info ..."
 msgstr "Información del volumen ..."
