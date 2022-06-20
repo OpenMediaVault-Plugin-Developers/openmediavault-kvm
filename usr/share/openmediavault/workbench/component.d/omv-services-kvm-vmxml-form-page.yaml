@@ -13,10 +13,10 @@ data:
       post:
         method: setVmXml
     fields:
-      - type: textarea
+      - type: codeEditor
         name: vmxml
         label: _("XML")
-        rows: 20
+        language: "xml"
       - type: hidden
         name: vmname
         value: '{{ _routeParams.vmname }}'
