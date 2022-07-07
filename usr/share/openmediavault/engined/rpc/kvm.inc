@@ -67,8 +67,10 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
 
         $this->registerMethod('addDisk');
         $this->registerMethod('addOptical');
+        $this->registerMethod('addHostOptical');
         $this->registerMethod('resizeDisk');
         $this->registerMethod('removeDisk');
+        $this->registerMethod('enumerateHostOptical');
 
         $this->registerMethod('getVolumeList');
         $this->registerMethod('enumerateVolumes');
@@ -1185,6 +1187,21 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->virshCommand($cmdArgs, $err, 'virt-xml');
     }
 
+    public function addHostOptical($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.addhostoptical');
+        // add host optical
+        $cmdArgs = [];
+        $cmdArgs[] = $this->escapeName($params['vmname']);
+        $cmdArgs[] = '--add-device';
+        $cmdArgs[] = sprintf("--disk '%s'", $params['dev']);
+        $err = gettext("Failed to add host optical.");
+        $this->virshCommand($cmdArgs, $err, 'virt-xml');
+    }
+
     public function removeDisk($params, $context)
     {
         // Validate the RPC caller context.
@@ -1220,6 +1237,30 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmdArgs[] = sprintf('%s%d%s', $sign, $params['amount'], $params['amountunit']);
         $err = gettext("Failed to resize disk!");
         $this->virshCommand($cmdArgs, $err, 'qemu-img');
+    }
+
+    public function enumerateHostOptical($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // enumerate host optical devices with lsscsi
+        $cmdArgs = [];
+        $cmdArgs[] = '| awk \'$2 ~ "cd" { print $7 }\'';
+        $cmdArgs[] = '| awk NF';
+        $cmd = new \OMV\System\Process('lsscsi', $cmdArgs);
+        $cmd->execute($output, $exitStatus);
+        $objects = [];
+        foreach ($output as $dev) {
+            if (empty($dev)) {
+                continue;
+            }
+            $objects[] = [
+                'device' => $dev,
+                'description' => sprintf('[host] %s', $dev)
+            ];
+        }
+        // Filter the result.
+        return ($objects);
     }
 
     public function getDisk($params, $context)
