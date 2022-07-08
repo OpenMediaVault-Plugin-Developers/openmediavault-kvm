@@ -297,7 +297,7 @@ data:
           minSelected: 1
           maxSelected: 1
         actions:
-          - text: _("Add disk")
+          - text: _("Add disc")
             icon: mdi:plus-circle-outline
             execute:
               type: formDialog
@@ -335,7 +335,38 @@ data:
                         service: Kvm
                         method: addOptical
                     successUrl: /services/kvm/vm
-          - text: _("Remove disk")
+          - text: _("Add host drive")
+            icon: mdi:plus-circle
+            execute:
+              type: formDialog
+              formDialog:
+                title: _('Add host optical drive ...')
+                fields:
+                  - type: textInput
+                    name: vmname
+                    label: _('VM Name')
+                    value: '{{ _selected[0].vmname }}'
+                    readonly: true
+                  - type: select
+                    name: device
+                    label: _('Optical drive')
+                    textField: description
+                    valueField: device
+                    store:
+                      proxy:
+                        service: 'Kvm'
+                        get:
+                          method: 'enumerateHostOptical'
+                buttons:
+                  submit:
+                    text: _('Add')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: addHostOptical
+                    successUrl: /services/kvm/vm
+          - text: _("Remove disc")
             icon: mdi:minus-circle-outline
             execute:
               type: formDialog

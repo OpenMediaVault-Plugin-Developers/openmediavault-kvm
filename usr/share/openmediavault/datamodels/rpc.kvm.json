@@ -269,6 +269,23 @@
   },
   {
     "type": "rpc",
+    "id": "rpc.kvm.addhostoptical",
+    "params": {
+      "type": "object",
+      "properties": {
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "device": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
     "id": "rpc.kvm.removedisk",
     "params": {
       "type": "object",
