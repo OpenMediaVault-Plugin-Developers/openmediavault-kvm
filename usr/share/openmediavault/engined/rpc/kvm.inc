@@ -1197,7 +1197,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmdArgs = [];
         $cmdArgs[] = $this->escapeName($params['vmname']);
         $cmdArgs[] = '--add-device';
-        $cmdArgs[] = sprintf("--disk '%s'", $params['dev']);
+        $cmdArgs[] = sprintf("--disk '%s',device=cdrom", $params['dev']);
         $err = gettext("Failed to add host optical.");
         $this->virshCommand($cmdArgs, $err, 'virt-xml');
     }
