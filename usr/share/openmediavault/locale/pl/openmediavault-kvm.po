@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-06 15:33-0500\n"
+"POT-Creation-Date: 2022-07-09 11:01-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Language-Team: Polish (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,13 @@ msgstr ""
 msgid "Add VNC"
 msgstr ""
 
+msgid "Add disc"
+msgstr ""
+
 msgid "Add disk"
+msgstr ""
+
+msgid "Add host drive"
 msgstr ""
 
 msgid "Add macvtap network"
@@ -291,6 +297,9 @@ msgid "Failed to add disk."
 msgstr ""
 
 msgid "Failed to add filesystem passthrough."
+msgstr ""
+
+msgid "Failed to add host optical."
 msgstr ""
 
 msgid "Failed to add optical disk."
@@ -548,6 +557,9 @@ msgstr ""
 msgid "Remove VNC"
 msgstr ""
 
+msgid "Remove disc"
+msgstr ""
+
 msgid "Remove disk"
 msgstr ""
 
@@ -576,6 +588,9 @@ msgid "Run"
 msgstr ""
 
 msgid "Running"
+msgstr ""
+
+msgid "Same Format"
 msgstr ""
 
 msgid "Schedule"
