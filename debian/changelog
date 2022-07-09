@@ -1,3 +1,9 @@
+openmediavault-kvm (6.1.20) stable; urgency=low
+
+  * Add host optical drive to VM
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sat, 09 Jul 2022 10:57:14 -0500
+
 openmediavault-kvm (6.1.19) stable; urgency=low
 
   * Use codeEditor component instead of textarea for editing VM xml
