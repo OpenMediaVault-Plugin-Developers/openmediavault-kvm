@@ -1115,15 +1115,15 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // get VM object
         $vm = $lv->get_domain_by_name($vmname);
 
-        $volpooltype = $this->getPoolType($volpool);
         $formatArg = '';
-        $block = true;
-        if ($volpooltype != 'logical') {
-            $block = false;
-            $formatArg = sprintf(',format=%s', $volformat);
-        }
         // create new disk (if specified)
         if ($voldisk == "Create new disk") {
+            $volpooltype = $this->getPoolType($volpool);
+            $block = true;
+            if ($volpooltype != 'logical') {
+                $block = false;
+                $formatArg = sprintf(',format=%s', $volformat);
+            }
             if ($block) {
                 $cmdArgs = [];
                 $cmdArgs[] = sprintf('-L %d%s', $volsize, $volunit);
