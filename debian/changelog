@@ -1,3 +1,9 @@
+openmediavault-kvm (6.1.21) stable; urgency=low
+
+  * Fix adding an existing disk to a VM
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Mon, 11 Jul 2022 08:07:18 -0500
+
 openmediavault-kvm (6.1.20) stable; urgency=low
 
   * Add host optical drive to VM
