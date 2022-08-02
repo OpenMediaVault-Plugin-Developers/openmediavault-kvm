@@ -25,7 +25,7 @@ msgid " already exists!"
 msgstr "已經存在！"
 
 msgid " the network!"
-msgstr ""
+msgstr "網路！"
 
 msgid "Action"
 msgstr "動作"
@@ -46,13 +46,13 @@ msgid "Add VNC"
 msgstr "新增 VNC"
 
 msgid "Add disc"
-msgstr ""
+msgstr "新增光碟"
 
 msgid "Add disk"
 msgstr "新增磁碟"
 
 msgid "Add host drive"
-msgstr ""
+msgstr "新增主機驅動器"
 
 msgid "Add macvtap network"
 msgstr "新增 Macvtap 網路"
@@ -223,7 +223,7 @@ msgid "Delete + storage"
 msgstr "刪除 + 儲存"
 
 msgid "Details"
-msgstr ""
+msgstr "詳情"
 
 msgid "Directory"
 msgstr "目錄"
@@ -235,13 +235,13 @@ msgid "Disk"
 msgstr "磁碟"
 
 msgid "Disk info"
-msgstr ""
+msgstr "磁碟資訊"
 
 msgid "Disk list"
-msgstr ""
+msgstr "磁碟列表"
 
 msgid "Disk stats"
-msgstr ""
+msgstr "磁碟狀態"
 
 msgid "Disk(s)"
 msgstr "磁碟"
@@ -304,7 +304,7 @@ msgid "Failed to add filesystem passthrough."
 msgstr "添加檔案系統直通失敗。"
 
 msgid "Failed to add host optical."
-msgstr ""
+msgstr "添加主機光碟失敗。"
 
 msgid "Failed to add optical disk."
 msgstr "添加光碟失敗。"
@@ -382,10 +382,10 @@ msgid "Failed to set maximum."
 msgstr "設定最大值失敗。"
 
 msgid "Failed to set pool autostart."
-msgstr ""
+msgstr "設定集用場自動啟動失敗。"
 
 msgid "Failed to start pool."
-msgstr ""
+msgstr "無法啟動集用場 - "
 
 msgid "Failed to start websockify for noVNC."
 msgstr "為 noVNC 啟動 websockify 失敗。"
@@ -477,7 +477,7 @@ msgid "Linux"
 msgstr "Linux"
 
 msgid "Logical"
-msgstr ""
+msgstr "邏輯"
 
 msgid "MAC address"
 msgstr "MAC 地址"
@@ -564,7 +564,7 @@ msgid "Remove VNC"
 msgstr "移除 VNC"
 
 msgid "Remove disc"
-msgstr ""
+msgstr "移除光碟"
 
 msgid "Remove disk"
 msgstr "移除磁碟"
@@ -597,7 +597,7 @@ msgid "Running"
 msgstr "執行中 ..."
 
 msgid "Same Format"
-msgstr ""
+msgstr "相同格式"
 
 msgid "Schedule"
 msgstr "預定"
@@ -759,7 +759,7 @@ msgid "VM Name"
 msgstr "VM 名稱"
 
 msgid "VM info"
-msgstr ""
+msgstr "VM 資訊"
 
 msgid "VM name"
 msgstr "VM 名稱"
@@ -780,7 +780,7 @@ msgid "Volume Count"
 msgstr "儲存卷數目"
 
 msgid "Volume group"
-msgstr ""
+msgstr "儲存卷群組"
 
 msgid "Volume info ..."
 msgstr "儲存卷資訊 ..."

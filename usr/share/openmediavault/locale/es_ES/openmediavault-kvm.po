@@ -46,13 +46,13 @@ msgid "Add VNC"
 msgstr "Añadir VNC"
 
 msgid "Add disc"
-msgstr ""
+msgstr "Añadir Disco"
 
 msgid "Add disk"
 msgstr "Añadir disco"
 
 msgid "Add host drive"
-msgstr ""
+msgstr "Añadir Disco de host"
 
 msgid "Add macvtap network"
 msgstr "Añadir red macvtap"
@@ -305,7 +305,7 @@ msgid "Failed to add filesystem passthrough."
 msgstr "Fallo el añadir un sistema de archivos passthrough."
 
 msgid "Failed to add host optical."
-msgstr ""
+msgstr "Fallo al añadir CD al host"
 
 msgid "Failed to add optical disk."
 msgstr "Falló el añadir un CD."
@@ -566,7 +566,7 @@ msgid "Remove VNC"
 msgstr "Eliminar VNC"
 
 msgid "Remove disc"
-msgstr ""
+msgstr "Eliminar Disco"
 
 msgid "Remove disk"
 msgstr "Eliminar Disco"
@@ -599,7 +599,7 @@ msgid "Running"
 msgstr "Ejecutandose"
 
 msgid "Same Format"
-msgstr ""
+msgstr "Mismo Formato."
 
 msgid "Schedule"
 msgstr "Tarea programada"

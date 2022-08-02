@@ -46,13 +46,13 @@ msgid "Add VNC"
 msgstr "添加 VNC"
 
 msgid "Add disc"
-msgstr ""
+msgstr "添加 光盘"
 
 msgid "Add disk"
 msgstr "添加磁盘"
 
 msgid "Add host drive"
-msgstr ""
+msgstr "添加磁盘"
 
 msgid "Add macvtap network"
 msgstr "添加 macvtap 网络"
@@ -304,7 +304,7 @@ msgid "Failed to add filesystem passthrough."
 msgstr "添加直通文件系统失败。"
 
 msgid "Failed to add host optical."
-msgstr ""
+msgstr "添加光驱失败。"
 
 msgid "Failed to add optical disk."
 msgstr "添加光盘失败。"
@@ -564,7 +564,7 @@ msgid "Remove VNC"
 msgstr "移除 VNC"
 
 msgid "Remove disc"
-msgstr ""
+msgstr "移除光盘"
 
 msgid "Remove disk"
 msgstr "删除磁盘"
@@ -597,7 +597,7 @@ msgid "Running"
 msgstr "运行中"
 
 msgid "Same Format"
-msgstr ""
+msgstr "相同格式"
 
 msgid "Schedule"
 msgstr "计划"
