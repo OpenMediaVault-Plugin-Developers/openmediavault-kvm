@@ -1,3 +1,9 @@
+openmediavault-kvm (6.1.22) stable; urgency=low
+
+  * Fix usb remove
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Tue, 02 Aug 2022 15:44:08 -0500
+
 openmediavault-kvm (6.1.21) stable; urgency=low
 
   * Fix adding an existing disk to a VM
