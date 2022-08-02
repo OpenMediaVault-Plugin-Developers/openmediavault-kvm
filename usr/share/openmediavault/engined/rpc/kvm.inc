@@ -1801,8 +1801,13 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
     private function createUsbXml($device)
     {
         // create usb xml
-        $dev = explode(' ', $device);
-        $vendorProduct = explode(':', $dev[5]);
+        if (strpos($device, "Bus") === false) {
+            $dev = str_replace('0x', '', trim($device));
+            $vendorProduct = explode(':', $dev);
+        } else {
+            $dev = explode(' ', $device);
+            $vendorProduct = explode(':', $dev[5]);
+        }
         $vendor = $vendorProduct[0];
         $product = $vendorProduct[1];
         // create xml structure
