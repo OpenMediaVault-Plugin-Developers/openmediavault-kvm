@@ -619,6 +619,14 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.common.getlist');
+        // get hostname and domain name
+        $db = \OMV\Config\Database::getInstance();
+        $dns = $db->get('conf.system.network.dns');
+        $fqdn = $dns->get('hostname');
+        $dn = $dns->get('domainname');
+        if (strlen($dn) > 1) {
+            $fqdn = sprintf('%s.%s', $fqdn, $dn);
+        }
         // create new libvirt object
         $lv = $this->connectQemu();
         $doms = $lv->get_domains();
@@ -662,7 +670,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmd->execute($output, $exitStatus);
                 $novncport = intval($output[0]);
                 if ($novncport >= 1024) {
-                    $novncurl = sprintf('<a href="http://%s:%d/vnc.html?resize=remote&autoconnect=1" target="_blank">link</a>', gethostname(), $novncport);
+                    $novncurl = sprintf('<a href="http://%s:%d/vnc.html?resize=remote&autoconnect=1" target="_blank">link</a>', $fqdn, $novncport);
                 }
             }
             if (!$lv->domain_get_xml($name)) {
@@ -694,7 +702,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmd->execute($output, $exitStatus);
                 $spicehtml5port = intval($output[0]);
                 if ($spicehtml5port >= 1024) {
-                    $spicehtml5url = sprintf('<a href="http://%s:%d/spice_auto.html?resize=remote" target="_blank">link</a>', gethostname(), $spicehtml5port);
+                    $spicehtml5url = sprintf('<a href="http://%s:%d/spice_auto.html?resize=remote" target="_blank">link</a>', $fqdn, $spicehtml5port);
                 }
             }
             $snaplist = $lv->domain_snapshots_list($dom);
