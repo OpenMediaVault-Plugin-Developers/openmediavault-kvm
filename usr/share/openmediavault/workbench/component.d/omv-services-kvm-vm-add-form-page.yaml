@@ -148,6 +148,11 @@ data:
               operator: truthy
               arg0:
                 prop: advanced
+      - type: checkbox
+        name: tpm
+        label: _("TPM")
+        value: false
+        hint: _("Add virtual TPM 2.0 device")
       - type: container
         modifiers:
           - type: visible

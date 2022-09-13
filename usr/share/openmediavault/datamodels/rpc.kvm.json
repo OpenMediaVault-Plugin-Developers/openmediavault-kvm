@@ -156,6 +156,10 @@
           "type": "boolean",
           "required": true
         },
+        "tpm": {
+          "type": "boolean",
+          "required": true
+        },
         "volbus": {
           "type": "string",
           "required": true

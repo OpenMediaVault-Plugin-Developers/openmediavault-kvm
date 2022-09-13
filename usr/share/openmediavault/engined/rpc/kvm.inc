@@ -1030,6 +1030,10 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $cmdArgs[] = '--graphics spice,listen=0.0.0.0';
         }
 
+        if ($params['tpm']) {
+            $cmdArgs[] = '--tpm backend.type=emulator,backend.version=2.0,model=tpm-tis';
+        }
+
         $cmdArgs[] = sprintf('--print-xml%s', $printStep);
         $cmdArgs[] = sprintf(' > %s', $xmlFile);
 
