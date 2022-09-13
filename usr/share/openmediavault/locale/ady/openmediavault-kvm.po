@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-09 11:01-0500\n"
+"POT-Creation-Date: 2022-09-13 15:44-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Language-Team: Adyghe (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/ady/)\n"
 "MIME-Version: 1.0\n"
@@ -72,6 +72,9 @@ msgid "Add new volume"
 msgstr ""
 
 msgid "Add passthrough"
+msgstr ""
+
+msgid "Add virtual TPM 2.0 device"
 msgstr ""
 
 msgid "Advanced"
@@ -642,6 +645,9 @@ msgid "Storage Volume"
 msgstr ""
 
 msgid "Subnet mask"
+msgstr ""
+
+msgid "TPM"
 msgstr ""
 
 msgid "Terabytes"

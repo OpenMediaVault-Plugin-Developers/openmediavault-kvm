@@ -4,17 +4,17 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Ettore Atalan <atalanttore@googlemail.com>, 2021
 # Thomas Melka, 2022
+# Ettore Atalan <atalanttore@googlemail.com>, 2022
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-09 11:01-0500\n"
+"POT-Creation-Date: 2022-09-13 15:44-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
-"Last-Translator: Thomas Melka, 2022\n"
+"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>, 2022\n"
 "Language-Team: German (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,7 +29,7 @@ msgid " the network!"
 msgstr ""
 
 msgid "Action"
-msgstr ""
+msgstr "Aktion"
 
 msgid "Activity"
 msgstr "Aktivität"
@@ -79,6 +79,9 @@ msgstr ""
 msgid "Add passthrough"
 msgstr ""
 
+msgid "Add virtual TPM 2.0 device"
+msgstr ""
+
 msgid "Advanced"
 msgstr "Erweitert"
 
@@ -92,13 +95,13 @@ msgid "Arch"
 msgstr ""
 
 msgid "Architecture"
-msgstr ""
+msgstr "Architektur"
 
 msgid "Are you sure you want to delete?"
 msgstr "Sind Sie sicher, dass Sie löschen möchten?"
 
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 msgid "AutoStart"
 msgstr "AutoStart"
@@ -146,7 +149,7 @@ msgid "Check volume ..."
 msgstr "Überprüfe volume ..."
 
 msgid "Chipset"
-msgstr ""
+msgstr "Chipsatz"
 
 msgid "Clone"
 msgstr ""
@@ -155,10 +158,10 @@ msgid "Clone name"
 msgstr ""
 
 msgid "Component"
-msgstr ""
+msgstr "Komponente"
 
 msgid "Compression"
-msgstr ""
+msgstr "Kompression"
 
 msgid "Console"
 msgstr "Konsole"
@@ -182,19 +185,19 @@ msgid "Create VM"
 msgstr "Erstelle VM"
 
 msgid "Create VM 2"
-msgstr ""
+msgstr "VM 2 erstellen"
 
 msgid "Create backing file"
 msgstr ""
 
 msgid "Created VM 2."
-msgstr ""
+msgstr "VM 2 erstellt."
 
 msgid "Created VM."
 msgstr "VM erstellt."
 
 msgid "Created scheduled job."
-msgstr ""
+msgstr "Geplante Aufgabe erstellt."
 
 msgid "Current size"
 msgstr "Momentane Größe"
@@ -224,10 +227,10 @@ msgid "Delete + storage"
 msgstr ""
 
 msgid "Details"
-msgstr ""
+msgstr "Details"
 
 msgid "Directory"
-msgstr ""
+msgstr "Verzeichnis"
 
 msgid "Disable"
 msgstr "deaktivieren"
@@ -254,7 +257,7 @@ msgid "Download virtio iso ..."
 msgstr "Lade virtio iso ..."
 
 msgid "Edit"
-msgstr ""
+msgstr "Bearbeiten"
 
 msgid "Edit Notes"
 msgstr ""
@@ -272,7 +275,7 @@ msgid "Edit scheduled job."
 msgstr ""
 
 msgid "Enable"
-msgstr ""
+msgstr "Aktivieren"
 
 msgid "Execute backup using selected VM name and path ..."
 msgstr ""
@@ -284,7 +287,7 @@ msgid "Execute scheduled job ..."
 msgstr ""
 
 msgid "Extend"
-msgstr ""
+msgstr "Erweitern"
 
 msgid "Extension"
 msgstr ""
@@ -455,7 +458,7 @@ msgid "KVM Backup"
 msgstr ""
 
 msgid "Keep"
-msgstr ""
+msgstr "Behalten"
 
 msgid "Keep Recent"
 msgstr ""
@@ -476,7 +479,7 @@ msgid "Linux"
 msgstr "Linux"
 
 msgid "Logical"
-msgstr ""
+msgstr "Logisch"
 
 msgid "MAC address"
 msgstr "MAC-Adresse"
@@ -503,7 +506,7 @@ msgid "Network"
 msgstr "Netzwerk"
 
 msgid "Network Filesystem"
-msgstr ""
+msgstr "Netzwerkdateisystem"
 
 msgid "Network Name"
 msgstr "Netzwerkname"
@@ -557,7 +560,7 @@ msgid "Remove Spice"
 msgstr ""
 
 msgid "Remove USB"
-msgstr ""
+msgstr "USB entfernen"
 
 msgid "Remove VNC"
 msgstr "VNC entfernen"
@@ -569,19 +572,19 @@ msgid "Remove disk"
 msgstr ""
 
 msgid "Remove network"
-msgstr ""
+msgstr "Netzwerk entfernen"
 
 msgid "Remove passthrough"
 msgstr ""
 
 msgid "Reset"
-msgstr ""
+msgstr "Zurücksetzen"
 
 msgid "Restore"
-msgstr ""
+msgstr "Wiederherstellen"
 
 msgid "Restore VM ..."
-msgstr ""
+msgstr "VM wiederherstellen ..."
 
 msgid "Resume"
 msgstr "Fortsetzen"
@@ -590,13 +593,13 @@ msgid "Revert"
 msgstr "Zurückkehren"
 
 msgid "Run"
-msgstr ""
+msgstr "Ausführen"
 
 msgid "Running"
 msgstr "wird ausgeführt"
 
 msgid "Same Format"
-msgstr ""
+msgstr "Gleiches Format"
 
 msgid "Schedule"
 msgstr ""
@@ -649,17 +652,20 @@ msgstr "Speichervolumen"
 msgid "Subnet mask"
 msgstr "Subnetzmaske"
 
+msgid "TPM"
+msgstr ""
+
 msgid "Terabytes"
 msgstr ""
 
 msgid "Type"
-msgstr ""
+msgstr "Typ"
 
 msgid "UEFI"
 msgstr "UEFI"
 
 msgid "USB"
-msgstr ""
+msgstr "USB"
 
 msgid "UUID"
 msgstr ""
@@ -770,7 +776,7 @@ msgid "VMs"
 msgstr "VMs"
 
 msgid "VNC"
-msgstr ""
+msgstr "VNC"
 
 msgid "VNC port"
 msgstr "VNC-Port"
@@ -794,7 +800,7 @@ msgid "XML"
 msgstr "XML"
 
 msgid "ZFS"
-msgstr ""
+msgstr "ZFS"
 
 msgid "aarch64"
 msgstr ""
@@ -803,22 +809,22 @@ msgid "arm"
 msgstr ""
 
 msgid "bridge"
-msgstr ""
+msgstr "Brücke"
 
 msgid "e1000"
 msgstr "e1000"
 
 msgid "i386"
-msgstr ""
+msgstr "i386"
 
 msgid "i440FX"
 msgstr ""
 
 msgid "iSCSI"
-msgstr ""
+msgstr "iSCSI"
 
 msgid "ide"
-msgstr ""
+msgstr "Leerlauf"
 
 msgid "ne2k_pci"
 msgstr ""
@@ -872,7 +878,7 @@ msgid "vmxnet3"
 msgstr ""
 
 msgid "x86_64"
-msgstr ""
+msgstr "x86_64"
 
 msgid "zPool name"
 msgstr ""

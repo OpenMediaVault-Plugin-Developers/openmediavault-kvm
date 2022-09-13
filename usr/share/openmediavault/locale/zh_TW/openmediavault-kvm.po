@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-09 11:01-0500\n"
+"POT-Creation-Date: 2022-09-13 15:44-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: kochin <kochinc@outlook.com>, 2022\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/zh_TW/)\n"
@@ -77,6 +77,9 @@ msgstr "新增儲存卷"
 
 msgid "Add passthrough"
 msgstr "新增直通"
+
+msgid "Add virtual TPM 2.0 device"
+msgstr ""
 
 msgid "Advanced"
 msgstr "進階"
@@ -649,6 +652,9 @@ msgstr "儲存卷"
 
 msgid "Subnet mask"
 msgstr "子網遮罩"
+
+msgid "TPM"
+msgstr ""
 
 msgid "Terabytes"
 msgstr "TB"
