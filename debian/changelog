@@ -1,3 +1,9 @@
+openmediavault-kvm (6.1.23) UNRELEASED; urgency=medium
+
+  * Add option to add TPM 2.0 virtual device to new VM
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Tue, 13 Sep 2022 15:44:43 -0500
+
 openmediavault-kvm (6.1.22) stable; urgency=low
 
   * Fix usb remove
