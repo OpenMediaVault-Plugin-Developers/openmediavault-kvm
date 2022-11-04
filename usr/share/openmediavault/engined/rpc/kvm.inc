@@ -2861,6 +2861,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
 
     private function fillImages()
     {
+        // get current time
+        $time = time();
         // if the cache doesn't exist or is older than 1 day, download it
         if ( !file_exists($this->imageCache) or
            ( $time - filemtime($this->imageCache) >= 60*60*24) ) {
