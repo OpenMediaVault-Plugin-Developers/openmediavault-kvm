@@ -26,6 +26,8 @@ require_once("openmediavault/functions.inc");
 class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
 {
 
+    private $imageCache = "/var/cache/openmediavault/lxc_image_cache";
+
     public function getName()
     {
         return 'Kvm';
@@ -58,7 +60,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('getVmXml');
         $this->registerMethod('setVmXml');
         $this->registerMethod('getVmDetails');
-        $this->registerMethod('setVmVI');
+        $this->registerMethod('setVm');
         $this->registerMethod('getDisk');
 
         $this->registerMethod('cloneVm');
@@ -125,12 +127,22 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('enumerateCpus');
         $this->registerMethod('enumerateOses');
         $this->registerMethod('enumerateVg');
+
+        // lxc methods
+        $this->registerMethod('enumerateImages');
     }
 
     private function connectQemu()
     {
         $lv = new Libvirt('/var/log/openmediavault-kvm.log');
         $lv->connect('qemu:///system');
+        return ($lv);
+    }
+
+    private function connectLxc()
+    {
+        $lv = new Libvirt('/var/log/openmediavault-kvm.log');
+        $lv->connect('lxc:///');
         return ($lv);
     }
 
@@ -341,7 +353,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // create new libvirt object
-        $lv = $this->connectQemu();
+        $lv = ($params['virttype'] == 'lxc' ? $this->connectLxc() : $this->connectQemu());
         // get VM object
         $vmname = $params['vmname'];
         $vm = $lv->get_domain_by_name($vmname);
@@ -384,6 +396,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // virsh detach-interface
         $output = [];
         $cmdArgs = [];
+        if ($params['virttype'] == 'lxc') {
+            $cmdArgs[] = '--connect lxc:///';
+        }
         $cmdArgs[] = 'detach-interface';
         $cmdArgs[] = sprintf('--domain %s', $this->escapeName($vmname));
         $cmdArgs[] = sprintf('--type %s', $type);
@@ -627,7 +642,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if (strlen($dn) > 1) {
             $fqdn = sprintf('%s.%s', $fqdn, $dn);
         }
-        // create new libvirt object
+        // create new libvirt object for VMs
         $lv = $this->connectQemu();
         $doms = $lv->get_domains();
         $objects= [];
@@ -713,12 +728,111 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $notes = $lv->domain_get_description($dom);
             $objects[] = [
                 'vmname' => $name,
+                'virttype' => 'vm',
                 'mem' => $info['memory'] * 1024,
                 'cpu' => $info['nrVirtCpu'],
                 'state' => $lv->domain_state_translate($info['state']),
                 'disks' => $disks,
                 'arch' => $lv->domain_get_arch($dom),
                 'autostart' => $lv->domain_get_autostart($dom),
+                'vncexists' => $vncexists,
+                'spiceexists' => $spiceexists,
+                'vncport' => $vncport,
+                'spiceport' => $spiceport,
+                'novncport' => $novncport,
+                'novncurl' => $novncurl,
+                'spicehtml5port' => $spicehtml5port,
+                'spicehtml5url' => $spicehtml5url,
+                'snaps' => $snaps,
+                'notes' => str_replace(PHP_EOL,'<br/>',$notes)
+            ];
+        }
+        // create new libvirt object for LXC containers
+        $lv2 = $this->connectLxc();
+        $doms = $lv2->get_domains();
+        foreach ($doms as $name) {
+            if (!$lv2->domain_get_xml($name)) {
+                continue;
+            }
+            $dom = $lv2->get_domain_object($name);
+            $domXml = new SimpleXMLElement($lv2->domain_get_xml($name));
+            $info = $lv2->domain_get_info($dom);
+            $disks = 'n/a';
+            // vnc and novnc
+            $vncexists = false;
+            $xpath = $domXml->xpath('//graphics');
+            $xpathSize = sizeof($xpath);
+            for ($i = 0; $i < $xpathSize; $i++) {
+                $graphics = $domXml->devices->graphics[$i];
+                if ($graphics['type'] == 'vnc') {
+                    $vncexists = true;
+                    break;
+                }
+            }
+            $vncport = $lv2->domain_get_vnc_port($dom);
+            if (! $vncport || $vncport < 1024 || $vncport == '') {
+                $vncport = 'n/a';
+            }
+            $novncport = 'n/a';
+            $novncurl = 'n/a';
+            if (intval($vncport) >= 1024) {
+                $output = [];
+                $cmdLine = sprintf('pgrep -u openmediavault-kvmweb -a websockify | awk \'$7 == "localhost:%d" { print $6 }\'', $vncport);
+                $cmd = new \OMV\System\Process($cmdLine);
+                $cmd->setQuiet(true);
+                $cmd->execute($output, $exitStatus);
+                $novncport = intval($output[0]);
+                if ($novncport >= 1024) {
+                    $novncurl = sprintf('<a href="http://%s:%d/vnc.html?resize=remote&autoconnect=1" target="_blank">link</a>', $fqdn, $novncport);
+                }
+            }
+            if (!$lv2->domain_get_xml($name)) {
+                continue;
+            }
+            // spice and spice_html5
+            $spiceport = '';
+            $spiceexists = false;
+            $xpath = $domXml->xpath('//graphics');
+            $xpathSize = sizeof($xpath);
+            for ($i = 0; $i < $xpathSize; $i++) {
+                $graphics = $domXml->devices->graphics[$i];
+                if ($graphics['type'] == 'spice') {
+                    $spiceport = $graphics['port'];
+                    $spiceexists = true;
+                    break;
+                }
+            }
+            if (!$spiceport || $spiceport < 1024 || $spiceport == '') {
+                $spiceport = 'n/a';
+            }
+            $spicehtml5port = 'n/a';
+            $spicehtml5url = 'n/a';
+            if (intval($spiceport) >= 1024) {
+                $output = [];
+                $cmdLine = sprintf('pgrep -u openmediavault-kvmweb -a websockify | awk \'$7 == "localhost:%d" { print $6 }\'', $spiceport);
+                $cmd = new \OMV\System\Process($cmdLine);
+                $cmd->setQuiet(true);
+                $cmd->execute($output, $exitStatus);
+                $spicehtml5port = intval($output[0]);
+                if ($spicehtml5port >= 1024) {
+                    $spicehtml5url = sprintf('<a href="http://%s:%d/spice_auto.html?resize=remote" target="_blank">link</a>', $fqdn, $spicehtml5port);
+                }
+            }
+            $snaplist = $lv2->domain_snapshots_list($dom);
+            $snaps = 0;
+            if ($snaplist) {
+                $snaps = count($snaplist);
+            }
+            $notes = $lv2->domain_get_description($dom);
+            $objects[] = [
+                'vmname' => $name,
+                'virttype' => 'lxc',
+                'mem' => $info['memory'] * 1024,
+                'cpu' => $info['nrVirtCpu'],
+                'state' => $lv2->domain_state_translate($info['state']),
+                'disks' => $disks,
+                'arch' => $lv2->domain_get_arch($dom),
+                'autostart' => $lv2->domain_get_autostart($dom),
                 'vncexists' => $vncexists,
                 'spiceexists' => $spiceexists,
                 'vncport' => $vncport,
@@ -787,7 +901,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         //$this->validateMethodParams($params, 'rpc.kvm.vmname');
         // create new libvirt object
-        $lv = $this->connectQemu();
+        $lv = ($params['virttype'] == 'lxc' ? $this->connectLxc() : $this->connectQemu());
         $vmxml = "";
         if ($params['vmname']) {
             $vmxml = $lv->domain_get_xml($params['vmname']);
@@ -802,7 +916,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.setvmxml');
         // create new libvirt object
-        $lv = $this->connectQemu();
+        $lv = ($params['virttype'] == 'lxc' ? $this->connectLxc() : $this->connectQemu());
         if ($params['vmname']) {
             $result = $lv->domain_change_xml($params['vmname'], $params['vmxml']);
         } else {
@@ -865,51 +979,58 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         ];
     }
 
-    public function setVmVI($params, $context)
+    public function setVm($params, $context)
     {
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
-        // Validate the parameters of the RPC service method.
-        $this->validateMethodParams($params, 'rpc.kvm.setvm');
-
-        $arch = $params['arch'];
-        $cpu = explode(' ', $params['cpu']);
-        $cpuArch = $cpu[0];
-        if ($cpuArch == 'other') {
-            $cpuModel = $params['otherCpu'];
+        $lxc = $params['lxc'];
+        if ($lxc) {
+            // Validate the parameters of the RPC service method.
+            $this->validateMethodParams($params, 'rpc.kvm.setlxc');
+            $path = $params['path'];
+            $path = (substr($path, 0, 1) == '/' ? $path : '/' . $path);
+            $image = $params['image'];
         } else {
-            $cpuModel = $cpu[1];
+            // Validate the parameters of the RPC service method.
+            $this->validateMethodParams($params, 'rpc.kvm.setvm');
+            $arch = $params['arch'];
+            $cpu = explode(' ', $params['cpu']);
+            $cpuArch = $cpu[0];
+            if ($cpuArch == 'other') {
+                $cpuModel = $params['otherCpu'];
+            } else {
+                $cpuModel = $cpu[1];
+            }
+            $hostArch = $this->getArch();
+            $os = strtolower($params['os']);
+            $uefi = $params['uefi'];
+            // verify if arch and cpu are compatible
+            $archOk = false;
+            switch ($cpuArch) {
+                case 'arm':
+                    $arm = ['armv6l','armv7l','aarch64','sh4','sh4eb'];
+                    if (in_array($arch, $arm)) $archOk = true;
+                    break;
+                case 'ppc64':
+                    $ppc = ['ppc','ppc64','ppc64le'];
+                    if (in_array($arch, $ppc)) $archOk = true;
+                    break;
+                case 'x86':
+                    $x86 = ['i686','x86_64'];
+                    if (in_array($arch, $x86)) $archOk = true;
+                    break;
+                case 'host':
+                case 'other':
+                    $archOk = true;
+                    break;
+            }
+            if($archOk !== true) {
+                throw(gettext('Incompatible cpu and architecture!'));
+            }
         }
-        $hostArch = $this->getArch();
-        $os = strtolower($params['os']);
-        $uefi = $params['uefi'];
         $vcpu = $params['vcpu'];
         $vmname = $params['vmname'];
         $xmlFile = sprintf('/tmp/%s.xml', $vmname);
-
-        // verify if arch and cpu are compatible
-        $archOk = false;
-        switch ($cpuArch) {
-            case 'arm':
-                $arm = ['armv6l','armv7l','aarch64','sh4','sh4eb'];
-                if (in_array($arch, $arm)) $archOk = true;
-                break;
-            case 'ppc64':
-                $ppc = ['ppc','ppc64','ppc64le'];
-                if (in_array($arch, $ppc)) $archOk = true;
-                break;
-            case 'x86':
-                $x86 = ['i686','x86_64'];
-                if (in_array($arch, $x86)) $archOk = true;
-                break;
-            case 'host':
-            case 'other':
-                $archOk = true;
-                break;
-        }
-        if($archOk !== true) {
-            throw(gettext('Incompatible cpu and architecture!'));
-        }
 
         // memory
         $memory = $params['memory'];
@@ -928,58 +1049,62 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $clockArgs = 'offset=utc';
         }
 
-        // arch-based arguments
-        switch ($arch) {
-            case 'aarch64':
-                $fd = '/usr/share/AAVMF/AAVMF_CODE.fd';
-                if (($hostArch == 'arm64') || ($hostArch == 'armhf')) {
-                    $native_graphics = true;
-                } else {
-                    $native_graphics = false;
-                }
-                break;
-            case 'arm':
-                $fd = '/usr/share/AAVMF/AAVMF_CODE.fd';
-                if (($hostArch == 'arm64') || ($hostArch == 'armhf')) {
-                    $native_graphics = true;
-                } else {
-                    $native_graphics = false;
-                }
-                break;
-            case 'i386':
-                $native_graphics = true;
-                break;
-            case 'x86_64':
-                $fd = '/usr/share/OVMF/OVMF_CODE.fd';
-                $native_graphics = true;
-                break;
-        }
-
-        // disk arguments
-        $volbus = $params['volbus'];
-        $voldisk = $params['voldisk'];
-        $volformat = $params['volformat'];
-        $voliso = $params['voliso'];
-        $volname = $params['volname'];
-        $volsize = $params['volsize'];
-        if (($volname == "") || (empty($volname))) {
-            $volname = $vmname;
-        }
-        $volpool = $params['volpool'];
-
-        if ($voldisk == 'Create new disk') {
-            if ($volunit == "T") {
-                $volsize *= 1024;
-            }
-            $volpooltype = $this->getPoolType($volpool);
-            $formatArg = '';
-            if ($volpooltype != 'logical') {
-                $formatArg = sprintf(',format=%s', $volformat);
-            }
-            $diskArgs = sprintf('size=%d,bus=%s,pool="%s",cache=none,io=native%s', $volsize, $volbus, $this->escapeName($volpool), $formatArg);
+        if ($lxc) {
+            $native_graphics = false;
         } else {
-            $diskArgs = sprintf("'%s',bus=%s,cache=none,io=native", $voldisk, $volbus);
-            $volformat = pathinfo($voldisk, PATHINFO_EXTENSION);
+            // arch-based arguments
+            switch ($arch) {
+                case 'aarch64':
+                    $fd = '/usr/share/AAVMF/AAVMF_CODE.fd';
+                    if (($hostArch == 'arm64') || ($hostArch == 'armhf')) {
+                        $native_graphics = true;
+                    } else {
+                        $native_graphics = false;
+                    }
+                    break;
+                case 'arm':
+                    $fd = '/usr/share/AAVMF/AAVMF_CODE.fd';
+                    if (($hostArch == 'arm64') || ($hostArch == 'armhf')) {
+                        $native_graphics = true;
+                    } else {
+                        $native_graphics = false;
+                    }
+                    break;
+                case 'i386':
+                    $native_graphics = true;
+                    break;
+                case 'x86_64':
+                    $fd = '/usr/share/OVMF/OVMF_CODE.fd';
+                    $native_graphics = true;
+                    break;
+            }
+
+            // disk arguments
+            $volbus = $params['volbus'];
+            $voldisk = $params['voldisk'];
+            $volformat = $params['volformat'];
+            $voliso = $params['voliso'];
+            $volname = $params['volname'];
+            $volsize = $params['volsize'];
+            if (($volname == "") || (empty($volname))) {
+                $volname = $vmname;
+            }
+            $volpool = $params['volpool'];
+
+            if ($voldisk == 'Create new disk') {
+                if ($volunit == "T") {
+                    $volsize *= 1024;
+                }
+                $volpooltype = $this->getPoolType($volpool);
+                $formatArg = '';
+                if ($volpooltype != 'logical') {
+                    $formatArg = sprintf(',format=%s', $volformat);
+                }
+                $diskArgs = sprintf('size=%d,bus=%s,pool="%s",cache=none,io=native%s', $volsize, $volbus, $this->escapeName($volpool), $formatArg);
+            } else {
+                $diskArgs = sprintf("'%s',bus=%s,cache=none,io=native", $voldisk, $volbus);
+                $volformat = pathinfo($voldisk, PATHINFO_EXTENSION);
+            }
         }
 
         // add network
@@ -997,30 +1122,43 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
 
         // build virt-install arguments
         $cmdArgs = [];
-        $cmdArgs[] = '--boot hd,cdrom';
-        $cmdArgs[] = sprintf('--arch %s', $arch);
-        $cmdArgs[] = sprintf('--cpu %s', $cpuModel);
-        $cmdArgs[] = sprintf('--disk %s', $diskArgs);
+        if ($lxc) {
+            $cmdArgs[] = '--connect lxc:///';
+            $cmdArgs[] = '--container';
+        } else {
+            $cmdArgs[] = '--boot hd,cdrom';
+            $cmdArgs[] = sprintf('--arch %s', $arch);
+            $cmdArgs[] = sprintf('--cpu %s', $cpuModel);
+            $cmdArgs[] = sprintf('--disk %s', $diskArgs);
+            $cmdArgs[] = sprintf('--os-variant name=%s', $params['os']);
+        }
         $cmdArgs[] = sprintf('--memory %s', $memory);
         $cmdArgs[] = sprintf('--metadata description="%s"', htmlspecialchars($params['notes'], ENT_XML1));
         $cmdArgs[] = sprintf('--name %s', $vmname);
         $cmdArgs[] = sprintf('--network %s', $netArgs);
-        $cmdArgs[] = sprintf('--os-variant name=%s', $params['os']);
         $cmdArgs[] = sprintf('--vcpus %s', $vcpuArgs);
 
-        if ($params['audio']) {
-            $cmdArgs[] = '--sound default';
-        }
-
-        if ($params['uefi']) {
-            $cmdArgs[] = sprintf('--boot loader=%s', $fd);
-        }
-
-        if ($voliso != 'none') {
-            $cmdArgs[] = sprintf("--cdrom '%s' --install no_install=yes", $params['voliso']);
-            $printStep = ' 1';
+        if ($lxc) {
+            $cmdArgs[] = sprintf('--filesystem %s,/', $path);
         } else {
-            $printStep = '';
+            if ($params['audio']) {
+                $cmdArgs[] = '--sound default';
+            }
+
+            if ($params['uefi']) {
+                $cmdArgs[] = sprintf('--boot loader=%s', $fd);
+            }
+
+            if ($voliso != 'none') {
+                $cmdArgs[] = sprintf("--cdrom '%s' --install no_install=yes", $params['voliso']);
+                $printStep = ' 1';
+            } else {
+                $printStep = '';
+            }
+
+            if ($params['tpm']) {
+                $cmdArgs[] = '--tpm backend.type=emulator,backend.version=2.0,model=tpm-tis';
+            }
         }
 
         if ($params['vnc']) {
@@ -1030,18 +1168,28 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $cmdArgs[] = '--graphics spice,listen=0.0.0.0';
         }
 
-        if ($params['tpm']) {
-            $cmdArgs[] = '--tpm backend.type=emulator,backend.version=2.0,model=tpm-tis';
-        }
-
         $cmdArgs[] = sprintf('--print-xml%s', $printStep);
         $cmdArgs[] = sprintf(' > %s', $xmlFile);
 
         $err = gettext("Failed to create VM XML.");
         $this->virshCommand($cmdArgs, $err, 'virt-install');
 
+        // download distro files
+        if ($lxc && $image !== 'noimage') {
+            mkdir($path, 0750, true);
+            if (count(scandir($path)) == 2) {
+                $this->downloadImage($image, $path);
+                $this->resetLxcPassword($path);
+            } else {
+                throw new \OMV\Exception(gettext("Directory is not empty!"));
+            }
+        }
+
         // import newly created xml file
         $cmdArgs = [];
+        if ($lxc) {
+            $cmdArgs[] = '--connect lxc:///';
+        }
         $cmdArgs[] = 'define';
         $cmdArgs[] = sprintf('--file %s', $xmlFile);
 
@@ -1055,7 +1203,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
     private function addVmBridgeNic($vmname, $mac, $net)
     {
         // create new libvirt object
-        $lv = $this->connectQemu();
+        $lv = ($params['virttype'] == 'lxc' ? $this->connectLxc() : $this->connectQemu());
 
         // add a new bridge nic XML
         $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
@@ -1631,23 +1779,41 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         );
     }
 
-    private function deleteDisksByVm($vmname)
+    private function deleteDisksByVm($vmname, $lxc)
     {
         // create new libvirt object
-        $lv = $this->connectQemu();
+        $lv = ($lxc ? $this->connectLxc() : $this->connectQemu());
         $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
-        $xpath = $domXml->xpath('//disk');
-        $xpathSize = sizeof($xpath);
-        for ($i = 0; $i < $xpathSize; $i++) {
-            $disk = $domXml->devices->disk[$i];
-            if ($disk['device'] == "disk") {
-                unlink($disk->source['file']);
-                unset($domXml->devices->disk[$i]);
+        if ($lxc) {
+            $xpath = $domXml->xpath('//filesystem');
+            $xpathSize = sizeof($xpath);
+            for ($i = 0; $i < $xpathSize; $i++) {
+                $dst = $domXml->devices->filesystem[$i]->target['dir'];
+                if ($dst == "/") {
+                    $src = $domXml->devices->filesystem[$i]->source['dir'];
+                    if ($src !== "/" && file_exists($src)) {
+                        $cmdLine = sprintf('rm -rf %s', $src);
+                        $cmd = new \OMV\System\Process($cmdLine);
+                        $cmd->execute($output, $exitStatus);
+                    }
+                    return (true);
+                }
             }
+        } else {
+            $xpath = $domXml->xpath('//disk');
+            $xpathSize = sizeof($xpath);
+            for ($i = 0; $i < $xpathSize; $i++) {
+                $disk = $domXml->devices->disk[$i];
+                if ($disk['device'] == "disk") {
+                    unlink($disk->source['file']);
+                    unset($domXml->devices->disk[$i]);
+                }
+            }
+            $newXml = $domXml->asXML();
+            $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
+            return ($lv->domain_change_xml($vmname, $newXml));
         }
-        $newXml = $domXml->asXML();
-        $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
-        return ($lv->domain_change_xml($vmname, $newXml));
+        return (false);
     }
 
     public function enumerateSnapshots($params, $context)
@@ -1657,7 +1823,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.vmname');
         // create new libvirt object
-        $lv = $this->connectQemu();
+        $lv = ($params['virttype'] == 'lxc' ? $this->connectLxc() : $this->connectQemu());
         $dom = $lv->get_domain_object($params['vmname']);
         $snaps = $lv->domain_snapshots_list($dom);
         $objects= [];
@@ -1684,7 +1850,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.vmname');
         // create new libvirt object
-        $lv = $this->connectQemu();
+        $lv = ($params['virttype'] == 'lxc' ? $this->connectLxc() : $this->connectQemu());
         $dom = $lv->get_domain_object($params['vmname']);
         if (!$lv->domain_snapshot_create($dom)) {
             throw new \OMV\Exception( gettext("Unable to create snapshot - ") . $lv->get_last_error());
@@ -1698,7 +1864,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.snapshot');
         // create new libvirt object
-        $lv = $this->connectQemu();
+        $lv = ($params['virttype'] == 'lxc' ? $this->connectLxc() : $this->connectQemu());
         if (!$lv->domain_snapshot_delete($params['vmname'], $params['snapname'])) {
             throw new \OMV\Exception( gettext("Unable to delete snapshot - ") . $lv->get_last_error());
         }
@@ -1711,7 +1877,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         //$this->validateMethodParams($params, 'rpc.kvm.snapshot');
         // create new libvirt object
-        $lv = $this->connectQemu();
+        $lv = ($params['virttype'] == 'lxc' ? $this->connectLxc() : $this->connectQemu());
         if (!$lv->domain_snapshot_revert($params['vmname'], $params['snapname'])) {
             throw new \OMV\Exception( gettext("Unable to revert to snapshot - ") . $lv->get_last_error());
         }
@@ -1854,6 +2020,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $tgt = $params['tgt'];
         // add with virt-xml
         $cmdArgs = [];
+        if ($params['virttype'] == 'lxc') {
+            $cmdArgs[] = '--connect lxc:///';
+        }
         $cmdArgs[] = $this->escapeName($vmname);
         $cmdArgs[] = '--add-device';
         $cmdArgs[] = sprintf("--filesystem '%s',%s", $src, $tgt);
@@ -1875,6 +2044,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $tgt = trim($srctgt[1]);
         // remove with virt-xml
         $cmdArgs = [];
+        if ($params['virttype'] == 'lxc') {
+            $cmdArgs[] = '--connect lxc:///';
+        }
         $cmdArgs[] = $this->escapeName($vmname);
         $cmdArgs[] = '--remove-device';
         $cmdArgs[] = sprintf("--filesystem '%s',%s", $src, $tgt);
@@ -1889,7 +2061,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.vmname');
         // create new libvirt object
-        $lv = $this->connectQemu();
+        $lv = ($params['virttype'] == 'lxc' ? $this->connectLxc() : $this->connectQemu());
         $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
         $xpath = $domXml->xpath('//filesystem');
         // get list of passthrough filesystem devices from VM
@@ -1916,7 +2088,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.docommand');
         // create new libvirt object
-        $lv = $this->connectQemu();
+        $lxc = false;
+        if ($params['virttype'] == 'lxc') {
+            $lxc = true;
+        }
+        $lv = ($lxc ? $this->connectLxc() : $this->connectQemu());
         $vmname = $params['name'];
         $dom = $lv->get_domain_object($vmname);
         $undefine = false;
@@ -1929,6 +2105,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 break;
             case 'reset':
                 $cmdArgs = [];
+                if ($lxc) {
+                    $cmdArgs[] = '--connect lxc:///';
+                }
                 $cmdArgs[] = 'reset';
                 $cmdArgs[] = $this->escapeName($vmname);
                 $err = gettext("Failed to reset VM.");
@@ -1948,8 +2127,13 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 break;
             case 'undefine':
                 $cmdArgs = [];
+                if ($lxc) {
+                    $cmdArgs[] = '--connect lxc:///';
+                }
                 $cmdArgs[] = 'undefine';
-                $cmdArgs[] = '--nvram';
+                if (!$lxc) {
+                    $cmdArgs[] = '--nvram';
+                }
                 $cmdArgs[] = $this->escapeName($vmname);
                 $err = gettext("Failed to delete VM.");
                 $this->virshCommand($cmdArgs, $err);
@@ -1957,7 +2141,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 break;
             case 'undefineplus':
                 $undefine = false;
-                if ($this->deleteDisksByVm($vmname)) {
+                if ($this->deleteDisksByVm($vmname, $lxc)) {
                     $undefine = true;
                 } else {
                     $undefine = false;
@@ -1965,8 +2149,13 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 }
                 if ($undefine) {
                     $cmdArgs = [];
+                    if ($lxc) {
+                        $cmdArgs[] = '--connect lxc:///';
+                    }
                     $cmdArgs[] = 'undefine';
-                    $cmdArgs[] = '--nvram';
+                    if (!$lxc) {
+                        $cmdArgs[] = '--nvram';
+                    }
                     $cmdArgs[] = $this->escapeName($vmname);
                     $err = gettext("Failed to create VM.");
                     $this->virshCommand($cmdArgs, $err);
@@ -2055,7 +2244,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.dochangecpumemory');
         // create new libvirt object
-        $lv = $this->connectQemu();
+        $lv = ($params['virttype'] == 'lxc' ? $this->connectLxc() : $this->connectQemu());
         $memory = $params['memory'];
         $memoryunit = $params['memoryunit'];
         $vcpu = $params['vcpu'];
@@ -2100,7 +2289,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         //$this->validateMethodParams($params, 'rpc.kvm.vmname');
         // create new libvirt object
-        $lv = $this->connectQemu();
+        $lv = ($params['virttype'] == 'lxc' ? $this->connectLxc() : $this->connectQemu());
         $dom = $lv->get_domain_object($params['vmname']);
         $info = $lv->domain_get_info($dom);
         return ["vcpu" => $info['nrVirtCpu']];
@@ -2113,7 +2302,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         //$this->validateMethodParams($params, 'rpc.kvm.vmname');
         // create new libvirt object
-        $lv = $this->connectQemu();
+        $lv = ($params['virttype'] == 'lxc' ? $this->connectLxc() : $this->connectQemu());
         $notes = "";
         $dom = $lv->get_domain_object($params['vmname']);
         $notes = $lv->domain_get_description($dom);
@@ -2127,7 +2316,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.setnotes');
         // create new libvirt object
-        $lv = $this->connectQemu();
+        $lv = ($params['virttype'] == 'lxc' ? $this->connectLxc() : $this->connectQemu());
         $vmname = $params['vmname'];
         $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
         $domXml->description = htmlspecialchars($params['notes'], ENT_XML1);
@@ -2359,6 +2548,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // add spicevmc channel if spice
         if ($spice == true) {
             $cmdArgs = [];
+            if ($params['virttype'] == 'lxc') {
+                $cmdArgs[] = '--connect lxc:///';
+            }
             $cmdArgs[] = $this->escapeName($vmname);
             $cmdArgs[] = '--add-device';
             $cmdArgs[] = '--channel spicevmc';
@@ -2367,6 +2559,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
         // add with virt-xml
         $cmdArgs = [];
+        if ($params['virttype'] == 'lxc') {
+            $cmdArgs[] = '--connect lxc:///';
+        }
         $cmdArgs[] = $this->escapeName($vmname);
         $cmdArgs[] = '--add-device';
         if ($spice == true) {
@@ -2390,6 +2585,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $vmname = $params['vmname'];
         // remove with virt-xml
         $cmdArgs = [];
+        if ($params['virttype'] == 'lxc') {
+            $cmdArgs[] = '--connect lxc:///';
+        }
         $cmdArgs[] = $this->escapeName($vmname);
         $cmdArgs[] = '--remove-device';
         if ($spice == true) {
@@ -2406,6 +2604,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // remove spicevmc channel if spice
         if ($spice == true) {
             $cmdArgs = [];
+            if ($params['virttype'] == 'lxc') {
+                $cmdArgs[] = '--connect lxc:///';
+            }
             $cmdArgs[] = $this->escapeName($vmname);
             $cmdArgs[] = '--remove-device';
             $cmdArgs[] = '--channel spicevmc';
@@ -2415,6 +2616,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $throwMsg .= PHP_EOL . $remove;
             }
             $cmdArgs = [];
+            if ($params['virttype'] == 'lxc') {
+                $cmdArgs[] = '--connect lxc:///';
+            }
             $cmdArgs[] = $this->escapeName($vmname);
             $cmdArgs[] = '--remove-device';
             $cmdArgs[] = '--redirdev usb,type=spicevmc';
@@ -2574,5 +2778,115 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $cmdArgs[] = '--live';
         }
         return ($cmdArgs);
+    }
+
+
+    // LXC functions
+
+    public function enumerateImages($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        $arch = $this->getArch();
+        $this->fillImages();
+        // get list of images
+        $images = file($this->imageCache);
+        $objects= [];
+        $objects[] = [
+            'desc' => gettext("No image - use existing image path"),
+            'image' => 'noimage'
+        ];
+        foreach (array_filter($images) as $image) {
+            $line = explode(';', $image);
+            if ($line[3] == 'cloud') continue;
+            if (($arch == $line[2] ) ||
+              ($arch == 'amd64' && $line[2] == 'i386') ||
+              ($arch == 'arm64' && $line[2] == 'armhf')) {
+                array_pop($line);
+                $desc = implode(';', $line);
+                $objects[] = [
+                    'desc' => $desc,
+                    'image' => $desc
+                ];
+            }
+        }
+        return ($objects);
+    }
+
+    private function downloadImage($image, $path)
+    {
+        // build image url
+        $repo = 'https://images.linuxcontainers.org/images';
+        $fldr = str_replace(';', '/', $image);
+        $file = 'rootfs.tar.xz';
+        $url = sprintf('%s/%s/%s', $repo, $fldr, $file);
+
+        // build command args
+        $cmdArgs = [];
+        $cmdArgs[] = 'wget';
+        $cmdArgs[] = '-qO-';
+        $cmdArgs[] = $url;
+        $cmdArgs[] = '|';
+        $cmdArgs[] = 'tar';
+        $cmdArgs[] = 'xJ';
+        $cmdArgs[] = '-C';
+        $cmdArgs[] = $path;
+        $cmd = new \OMV\System\Process($cmdArgs);
+
+        // log command
+        $today = '[' . date("Y-m-d H:i:s") . '] ';
+        file_put_contents("/var/log/omv-virsh-command.log",
+            $today . $cmd->getCommandLine() . PHP_EOL,
+            FILE_APPEND
+        );
+
+        // execute command
+        $output = [];
+        $cmd->execute($output, $exitStatus);
+
+        // if failure
+        if (0 != $exitStatus) {
+            $outMsg = implode(PHP_EOL, array_filter($output));
+            $cmdMsg = implode(' ', array_filter($cmdArgs));
+            $errMsg = sprintf('%s%s%s%s%s %s',
+                $msg, PHP_EOL, $outMsg, PHP_EOL, $virsh, $cmdMsg
+            );
+            file_put_contents("/var/log/omv-virsh-command.log",
+                $today . $errMsg . PHP_EOL,
+                FILE_APPEND
+            );
+            throw new \OMV\Exception($errMsg);
+        }
+    }
+
+    private function fillImages()
+    {
+        // if the cache doesn't exist or is older than 1 day, download it
+        if ( !file_exists($this->imageCache) or
+           ( $time - filemtime($this->imageCache) >= 60*60*24) ) {
+            $url = 'https://images.linuxcontainers.org/meta/1.0/index-system';
+            $list = file($url);
+            // Get repos info and put in cache file
+            file_put_contents($this->imageCache, $list);
+        }
+    }
+
+    private function resetLxcPassword($path)
+    {
+        // create encrypted password
+        $cmd = new \OMV\System\Process('mkpasswd', 'openmediavault');
+        $output = [];
+        $cmd->execute($output, $exitStatus);
+        $pass = $output[0];
+        // reset password
+        $cmdArgs = [];
+        $cmdArgs[] = 'awk';
+        $cmdArgs[] = '-i inplace';
+        $cmdArgs[] = '-F":"';
+        $cmdArgs[] = sprintf("'BEGIN{OFS = \":\"} /root/{\$2=\"%s\"}{ print }'", $pass);
+        $cmdArgs[] = sprintf('%s/etc/shadow', $path);
+        $cmd = new \OMV\System\Process($cmdArgs);
+        $output = [];
+        $cmd->execute($output, $exitStatus);
     }
 }

@@ -125,6 +125,10 @@
     "params": {
       "type": "object",
       "properties": {
+        "lxc": {
+          "type": "boolean",
+          "required": true
+        },
         "vmname": {
           "type": "string",
           "required": true
@@ -196,6 +200,67 @@
         },
         "audio": {
           "type": "boolean",
+          "required": true
+        },
+        "vnc": {
+          "type": "boolean",
+          "required": true
+        },
+        "spice": {
+          "type": "boolean",
+          "required": true
+        },
+        "network": {
+          "type": "string"
+        },
+        "bridge": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.setlxc",
+    "params": {
+      "type": "object",
+      "properties": {
+        "lxc": {
+          "type": "boolean",
+          "required": true
+        },
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "path": {
+          "type": "string",
+          "required": true
+        },
+        "image": {
+          "type": "string",
+          "required": true
+        },
+        "memoryunit": {
+          "type": "string",
+          "required": true
+        },
+        "memory": {
+          "type": "integer",
+          "required": true
+        },
+        "vcpu": {
+          "type": "integer",
+          "required": true
+        },
+        "macaddress": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string",
           "required": true
         },
         "vnc": {

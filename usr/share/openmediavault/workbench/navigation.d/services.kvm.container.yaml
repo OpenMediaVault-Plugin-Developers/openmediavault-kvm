@@ -1,0 +1,8 @@
+version: "1.0"
+type: navigation-item
+data:
+  path: "services.kvm.pool"
+  text: _("Pools")
+  position: 20
+  icon: mdi:server
+  url: "/services/kvm/pool"

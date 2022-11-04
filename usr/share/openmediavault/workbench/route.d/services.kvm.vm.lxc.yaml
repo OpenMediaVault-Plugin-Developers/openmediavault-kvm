@@ -1,0 +1,7 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/kvm/vm/lxc"
+  title: _("Create LXC")
+  notificationTitle: _("Created LXC.")
+  component: omv-services-kvm-vm-lxc-form-page

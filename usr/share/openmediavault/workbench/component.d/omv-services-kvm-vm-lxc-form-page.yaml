@@ -1,0 +1,183 @@
+version: "1.0"
+type: component
+data:
+  name: omv-services-kvm-vm-lxc-form-page
+  type: formPage
+  config:
+    request:
+      service: Kvm
+      post:
+        method: setVm
+    fields:
+      - type: hidden
+        name: lxc
+        value: true
+      - type: checkbox
+        name: advanced
+        label: _("Show advanced options")
+        submitValue: false
+      - type: divider
+        title: _("Settings")
+      - type: textInput
+        name: vmname
+        label: _("LXC name")
+        value: ""
+        validators:
+          required: true
+          patternType: shareName
+      - type: select
+        name: image
+        label: _("Image")
+        value: ''
+        textField: desc
+        valueField: image
+        store:
+          proxy:
+            service: Kvm
+            get:
+              method: enumerateImages
+      - type: hidden
+        name: rootfsref
+        value: "79684322-3eac-11ea-a974-63a080abab18"
+        submitValue: false
+      - type: folderBrowser
+        name: path
+        label: _("Path")
+        value: ''
+        dirType: mntent
+        dirRefIdField: rootfsref
+      - type: numberInput
+        name: vcpu
+        label: _("CPUs")
+        value: 1
+        validators:
+          min: 1
+          max: 32
+          patternType: integer
+          required: true
+      - type: container
+        fields:
+          - type: numberInput
+            name: memory
+            label: _("Memory")
+            value: 1
+            flex: 10
+            validators:
+              min: 1
+              max: 99999
+              patternType: integer
+              required: true
+          - type: select
+            name: memoryunit
+            value: "GiB"
+            flex: 10
+            store:
+              data:
+                - ["MiB", _("MiB")]
+                - ["GiB", _("GiB")]
+      - type: container
+        modifiers:
+          - type: visible
+            constraint:
+              operator: truthy
+              arg0:
+                prop: advanced
+        fields:
+          - type: checkbox
+            name: vnc
+            label: _("VNC")
+            value: false
+            modifiers:
+              - type: visible
+                constraint:
+                  operator: truthy
+                  arg0:
+                    prop: advanced
+          - type: checkbox
+            name: spice
+            label: _("Spice")
+            value: false
+            modifiers:
+              - type: visible
+                constraint:
+                  operator: truthy
+                  arg0:
+                    prop: advanced
+      - type: divider
+        title: _("Network")
+      - type: select
+        name: model
+        label: _("Model")
+        value: "virtio"
+        store:
+          data:
+            - ["virtio", _("virtio")]
+            - ["e1000", _("e1000")]
+            - ["vmxnet3", _("vmxnet3")]
+            - ["rtl8139", _("rtl8139")]
+            - ["ne2k_pci", _("ne2k_pci")]
+            - ["pcnet", _("pcnet")]
+            - ["bridge", _("bridge")]
+      - type: select
+        name: bridge
+        label: _('Bridge')
+        textField: bridge
+        valueField: bridge
+        value: ""
+        store:
+          proxy:
+            service: Kvm
+            get:
+              method: enumerateBridges
+        modifiers:
+          - type: visible
+            constraint:
+              operator: eq
+              arg0:
+                prop: model
+              arg1: "bridge"
+      - type: select
+        name: network
+        label: _('Network')
+        textField: netname
+        valueField: netname
+        value: 'default'
+        store:
+          proxy:
+            service: Kvm
+            get:
+              method: enumerateNetworks
+        modifiers:
+          - type: visible
+            constraint:
+              operator: ne
+              arg0:
+                prop: model
+              arg1: "bridge"
+      - type: textInput
+        name: macaddress
+        label: _("MAC address")
+        hint: _("Leave blank for random address.")
+        value: ""
+        modifiers:
+          - type: visible
+            constraint:
+              operator: truthy
+              arg0:
+                prop: advanced
+      - type: divider
+        title: _("Notes")
+      - type: textarea
+        name: notes
+        label: _("Notes")
+        value: ""
+        rows: 3
+    buttons:
+      - template: submit
+        execute:
+          type: url
+          url: "/services/kvm/vm"
+      - template: cancel
+        execute:
+          type: url
+          url: "/services/kvm/vm"

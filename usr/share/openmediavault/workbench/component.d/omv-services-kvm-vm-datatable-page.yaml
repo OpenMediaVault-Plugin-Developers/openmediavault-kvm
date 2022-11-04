@@ -22,8 +22,12 @@ data:
         flexGrow: 1
         sortable: true
         cellTemplateName: checkIcon
-      - name: _("VM Name")
+      - name: _("Name")
         prop: vmname
+        flexGrow: 1
+        sortable: true
+      - name: _("Type")
+        prop: virttype
         flexGrow: 1
         sortable: true
       - name: _("State")
@@ -89,6 +93,12 @@ data:
         execute:
           type: url
           url: /services/kvm/vm/add
+      - type: iconButton
+        icon: mdi:train-car-container
+        tooltip: _("Add new container")
+        execute:
+          type: url
+          url: /services/kvm/vm/lxc
       - type: menu
         icon: mdi:harddisk
         tooltip: _("Hard disk")
@@ -96,10 +106,17 @@ data:
           minSelected: 1
           maxSelected: 1
           constraint:
-            - operator: ne
+            - operator: and
               arg0:
-                prop: state
-              arg1: "running"
+                operator: ne
+                arg0:
+                  prop: state
+                arg1: "running"
+              arg1:
+                operator: ne
+                arg0:
+                  prop: virttype
+                arg1: "lxc"
         actions:
           - text: _("Add disk")
             icon: mdi:harddisk-plus
@@ -296,6 +313,11 @@ data:
         enabledConstraints:
           minSelected: 1
           maxSelected: 1
+          constraint:
+            - operator: ne
+              arg0:
+                prop: virttype
+              arg1: "lxc"
         actions:
           - text: _("Add disc")
             icon: mdi:plus-circle-outline
@@ -449,6 +471,10 @@ data:
                     name: state
                     value: '{{ _selected[0].state }}'
                     readonly: true
+                  - type: hidden
+                    name: virttype
+                    value: '{{ _selected[0].virttype }}'
+                    readonly: true
                 buttons:
                   submit:
                     text: _('Add')
@@ -482,9 +508,14 @@ data:
                           method: enumerateFsPassByVm
                           params:
                             vmname: '{{ _selected[0].vmname }}'
+                            virttype: '{{ _selected[0].virttype }}'
                   - type: hidden
                     name: state
                     value: '{{ _selected[0].state }}'
+                    readonly: true
+                  - type: hidden
+                    name: virttype
+                    value: '{{ _selected[0].virttype }}'
                     readonly: true
                 buttons:
                   submit:
@@ -577,6 +608,10 @@ data:
                     name: state
                     value: '{{ _selected[0].state }}'
                     readonly: true
+                  - type: hidden
+                    name: virttype
+                    value: '{{ _selected[0].virttype }}'
+                    readonly: true
                 buttons:
                   submit:
                     text: _('Add')
@@ -610,9 +645,14 @@ data:
                           method: 'enumerateVmNic'
                           params:
                             vmname: '{{ _selected[0].vmname }}'
+                            virttype: '{{ _selected[0].virttype }}'
                   - type: hidden
                     name: state
                     value: '{{ _selected[0].state }}'
+                    readonly: true
+                  - type: hidden
+                    name: virttype
+                    value: '{{ _selected[0].virttype }}'
                     readonly: true
                 buttons:
                   submit:
@@ -629,6 +669,11 @@ data:
         enabledConstraints:
           minSelected: 1
           maxSelected: 1
+          constraint:
+            - operator: ne
+              arg0:
+                prop: virttype
+              arg1: "lxc"
         actions:
           - text: _("Add USB")
             icon: mdi:plus-box-outline
@@ -735,6 +780,7 @@ data:
                 method: doCommand
                 params:
                   name: "{{ _selected[0].vmname }}"
+                  virttype: "{{ _selected[0].virttype }}"
                   command: "poweron"
                 task: false
             enabledConstraints:
@@ -754,6 +800,7 @@ data:
                 method: doCommand
                 params:
                   name: "{{ _selected[0].vmname }}"
+                  virttype: "{{ _selected[0].virttype }}"
                   command: "reboot"
                 task: false
             enabledConstraints:
@@ -773,6 +820,7 @@ data:
                 method: doCommand
                 params:
                   name: "{{ _selected[0].vmname }}"
+                  virttype: "{{ _selected[0].virttype }}"
                   command: "poweroff"
                 task: false
             enabledConstraints:
@@ -792,6 +840,7 @@ data:
                 method: doCommand
                 params:
                   name: "{{ _selected[0].vmname }}"
+                  virttype: "{{ _selected[0].virttype }}"
                   command: "reset"
                 task: false
             enabledConstraints:
@@ -811,6 +860,7 @@ data:
                 method: doCommand
                 params:
                   name: "{{ _selected[0].vmname }}"
+                  virttype: "{{ _selected[0].virttype }}"
                   command: "force"
                 task: false
           - text: _("Pause")
@@ -822,6 +872,7 @@ data:
                 method: doCommand
                 params:
                   name: "{{ _selected[0].vmname }}"
+                  virttype: "{{ _selected[0].virttype }}"
                   command: "pause"
                 task: false
             enabledConstraints:
@@ -841,6 +892,7 @@ data:
                 method: doCommand
                 params:
                   name: "{{ _selected[0].vmname }}"
+                  virttype: "{{ _selected[0].virttype }}"
                   command: "resume"
                 task: false
             enabledConstraints:
@@ -879,6 +931,7 @@ data:
                 method: doCommand
                 params:
                   name: "{{ _selected[0].vmname }}"
+                  virttype: "{{ _selected[0].virttype }}"
                   command: "undefine"
                 task: false
           - text: _("Delete + storage")
@@ -893,6 +946,7 @@ data:
                 method: doCommand
                 params:
                   name: "{{ _selected[0].vmname }}"
+                  virttype: "{{ _selected[0].virttype }}"
                   command: "undefineplus"
                 task: false
       - type: menu
@@ -911,6 +965,7 @@ data:
                 method: doCommand
                 params:
                   name: "{{ _selected[0].vmname }}"
+                  virttype: "{{ _selected[0].virttype }}"
                   command: "autostartenable"
                 task: false
             enabledConstraints:
@@ -929,6 +984,7 @@ data:
                 method: doCommand
                 params:
                   name: "{{ _selected[0].vmname }}"
+                  virttype: "{{ _selected[0].virttype }}"
                   command: "autostartdisable"
                 task: false
             enabledConstraints:
@@ -954,6 +1010,7 @@ data:
                 method: addSnapshot
                 params:
                   vmname: "{{ _selected[0].vmname }}"
+                  virttype: "{{ _selected[0].virttype }}"
                 task: false
           - text: _("Revert")
             icon: mdi:file-undo
@@ -988,6 +1045,11 @@ data:
                           method: enumerateSnapshots
                           params:
                             vmname: "{{ _selected[0].vmname }}"
+                            virttype: "{{ _selected[0].virttype }}"
+                  - type: hidden
+                    name: virttype
+                    value: '{{ _selected[0].virttype }}'
+                    readonly: true
                 buttons:
                   submit:
                     text: _('Revert')
@@ -1029,6 +1091,11 @@ data:
                           method: enumerateSnapshots
                           params:
                             vmname: "{{ _selected[0].vmname }}"
+                            virttype: "{{ _selected[0].virttype }}"
+                  - type: hidden
+                    name: virttype
+                    value: '{{ _selected[0].virttype }}'
+                    readonly: true
                 buttons:
                   submit:
                     text: _('Delete')
@@ -1095,6 +1162,10 @@ data:
                   - type: hidden
                     name: command
                     value: "start"
+                  - type: hidden
+                    name: virttype
+                    value: '{{ _selected[0].virttype }}'
+                    readonly: true
                 buttons:
                   submit:
                     text: _('Start')
@@ -1120,6 +1191,7 @@ data:
                 method: doWeb
                 params:
                   vmname: "{{ _selected[0].vmname }}"
+                  virttype: "{{ _selected[0].virttype }}"
                   command: "stop"
                   hostport: "{{ _selected[0].novncport | int }}"
                   hostport2: "{{ _selected[0].spicehtml5port | int }}"
@@ -1148,6 +1220,7 @@ data:
                 params:
                   spice: true
                   vmname: "{{ _selected[0].vmname }}"
+                  virttype: "{{ _selected[0].virttype }}"
                 task: false
           - text: _("Remove Spice")
             icon: mdi:minus-circle-outline
@@ -1173,6 +1246,7 @@ data:
                 params:
                   spice: true
                   vmname: "{{ _selected[0].vmname }}"
+                  virttype: "{{ _selected[0].virttype }}"
                 task: false
           - text: _("Add VNC")
             icon: mdi:plus-circle-outline
@@ -1198,6 +1272,7 @@ data:
                 params:
                   spice: false
                   vmname: "{{ _selected[0].vmname }}"
+                  virttype: "{{ _selected[0].virttype }}"
                 task: false
           - text: _("Remove VNC")
             icon: mdi:minus-circle-outline
@@ -1223,6 +1298,7 @@ data:
                 params:
                   spice: false
                   vmname: "{{ _selected[0].vmname }}"
+                  virttype: "{{ _selected[0].virttype }}"
                 task: false
       - type: menu
         icon: mdi:cog-outline
@@ -1265,6 +1341,10 @@ data:
                             arg1:
                               prop: newname
                           errorData: _('A different name must be specified.')
+                  - type: hidden
+                    name: virttype
+                    value: '{{ _selected[0].virttype }}'
+                    readonly: true
                 buttons:
                   submit:
                     text: _('Clone')
@@ -1279,10 +1359,17 @@ data:
               minSelected: 1
               maxSelected: 1
               constraint:
-                - operator: eq
+                - operator: and
                   arg0:
-                    prop: state
-                  arg1: "shutoff"
+                    operator: eq
+                    arg0:
+                      prop: state
+                    arg1: "shutoff"
+                  arg1:
+                    operator: ne
+                    arg0:
+                      prop: virttype
+                    arg1: "lxc"
             execute:
               type: formDialog
               formDialog:
@@ -1324,6 +1411,10 @@ data:
                     label: _("Notes")
                     value: "{{ _selected[0].notes | replace('<br/>', '\n') }}"
                     rows: 5
+                  - type: hidden
+                    name: virttype
+                    value: '{{ _selected[0].virttype }}'
+                    readonly: true
                 buttons:
                   submit:
                     text: _('Save')
@@ -1377,6 +1468,10 @@ data:
                   - type: hidden
                     name: memory
                     value: -1
+                  - type: hidden
+                    name: virttype
+                    value: '{{ _selected[0].virttype }}'
+                    readonly: true
                 buttons:
                   submit:
                     text: _('Change')
@@ -1425,6 +1520,10 @@ data:
                   - type: hidden
                     name: vcpu
                     value: -1
+                  - type: hidden
+                    name: virttype
+                    value: '{{ _selected[0].virttype }}'
+                    readonly: true
                 buttons:
                   submit:
                     text: _('Change')

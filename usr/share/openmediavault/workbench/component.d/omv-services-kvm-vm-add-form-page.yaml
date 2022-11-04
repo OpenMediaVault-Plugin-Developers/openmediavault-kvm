@@ -7,8 +7,11 @@ data:
     request:
       service: Kvm
       post:
-        method: setVmVI
+        method: setVm
     fields:
+      - type: hidden
+        name: lxc
+        value: false
       - type: checkbox
         name: advanced
         label: _("Show advanced options")

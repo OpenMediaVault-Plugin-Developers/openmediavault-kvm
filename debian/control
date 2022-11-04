@@ -9,16 +9,19 @@ Homepage: http://omv-extras.org/
 
 Package: openmediavault-kvm
 Architecture: all
-Depends: dnsmasq-base,
+Depends: distro-info,
+         dnsmasq-base,
          ksmtuned,
          libosinfo-bin,
          libvirt-clients,
          libvirt-daemon,
          libvirt-daemon-system,
          lsscsi,
+         lxc,
+         lxc-templates,
          netcat-openbsd,
          novnc,
-         openmediavault (>= 6.0.30),
+         openmediavault (>= 6.0.46),
          openmediavault-sharerootfs,
          osinfo-db,
          osinfo-db-tools,
