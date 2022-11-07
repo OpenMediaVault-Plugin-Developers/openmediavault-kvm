@@ -2244,7 +2244,15 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.dochangecpumemory');
         // create new libvirt object
-        $lv = ($params['virttype'] == 'lxc' ? $this->connectLxc() : $this->connectQemu());
+        $conn = '';
+        $lxc = false;
+        if ($params['virttype'] == 'lxc') {
+            $conn = '--connect lxc:/// ';
+            $lxc = true;
+            $lv = $this->connectLxc();
+        } else {
+            $lv = $this->connectQemu();
+        }
         $memory = $params['memory'];
         $memoryunit = $params['memoryunit'];
         $vcpu = $params['vcpu'];
@@ -2256,11 +2264,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 case 'MiB':  $multi = 1024; break;
             }
             $newMem = $memory * $multi;
-            $cmdLine = sprintf('setmaxmem %s %s --config', $this->escapeName($vmname), $newMem);
-            $cmdLine2 = sprintf('setmem %s %s --config', $this->escapeName($vmname), $newMem);
+            $cmdLine = sprintf('%ssetmaxmem %s %s --config', $conn, $this->escapeName($vmname), $newMem);
+            $cmdLine2 = sprintf('%ssetmem %s %s --config', $conn, $this->escapeName($vmname), $newMem);
         } else if ($memory == -1) {
-            $cmdLine = sprintf('setvcpus %s %d --config --maximum', $this->escapeName($vmname), $vcpu);
-            $cmdLine2 = sprintf('setvcpus %s %d --config ', $this->escapeName($vmname), $vcpu);
+            $cmdLine = sprintf('%setvcpus %s %d --config --maximum', $conn, $this->escapeName($vmname), $vcpu);
+            $cmdLine2 = sprintf('%ssetvcpus %s %d --config ', $conn, $this->escapeName($vmname), $vcpu);
             $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
             if (isset($domXml->cpu->topology)) {
                 $domXml->cpu->topology['cores'] = $vcpu;
