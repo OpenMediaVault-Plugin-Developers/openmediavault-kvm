@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-13 15:44-0500\n"
+"POT-Creation-Date: 2022-11-09 07:40-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>, 2021\n"
 "Language-Team: Galician (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/gl/)\n"
@@ -66,13 +66,10 @@ msgstr ""
 msgid "Add new VM"
 msgstr ""
 
-msgid "Add new VM 2"
+msgid "Add new container"
 msgstr ""
 
 msgid "Add new pool"
-msgstr ""
-
-msgid "Add new volume"
 msgstr ""
 
 msgid "Add passthrough"
@@ -147,9 +144,6 @@ msgstr "Comprobar"
 msgid "Check volume ..."
 msgstr ""
 
-msgid "Chipset"
-msgstr "Conxunto de chips"
-
 msgid "Clone"
 msgstr ""
 
@@ -180,16 +174,16 @@ msgstr ""
 msgid "Create"
 msgstr "Crear"
 
-msgid "Create VM"
+msgid "Create LXC"
 msgstr ""
 
-msgid "Create VM 2"
+msgid "Create VM"
 msgstr ""
 
 msgid "Create backing file"
 msgstr ""
 
-msgid "Created VM 2."
+msgid "Created LXC."
 msgstr ""
 
 msgid "Created VM."
@@ -230,6 +224,9 @@ msgstr ""
 
 msgid "Directory"
 msgstr "Directorio"
+
+msgid "Directory is not empty!"
+msgstr ""
 
 msgid "Disable"
 msgstr ""
@@ -309,9 +306,6 @@ msgstr ""
 msgid "Failed to add host optical."
 msgstr ""
 
-msgid "Failed to add optical disk."
-msgstr ""
-
 msgid "Failed to add optical."
 msgstr ""
 
@@ -319,15 +313,6 @@ msgid "Failed to add spice device."
 msgstr ""
 
 msgid "Failed to add spicevmc channel."
-msgstr ""
-
-msgid "Failed to add vnc and/or spice setup - "
-msgstr ""
-
-msgid "Failed to change "
-msgstr ""
-
-msgid "Failed to change autostart"
 msgstr ""
 
 msgid "Failed to create VM XML."
@@ -366,9 +351,6 @@ msgstr ""
 msgid "Failed to remove spicevmc redirdev."
 msgstr ""
 
-msgid "Failed to remove vnc and/or spice setup - "
-msgstr ""
-
 msgid "Failed to reset VM."
 msgstr ""
 
@@ -376,9 +358,6 @@ msgid "Failed to resize disk!"
 msgstr ""
 
 msgid "Failed to set change."
-msgstr ""
-
-msgid "Failed to set maximum"
 msgstr ""
 
 msgid "Failed to set maximum."
@@ -447,6 +426,9 @@ msgstr "Intervalo IP"
 msgid "ISOs"
 msgstr "ISO"
 
+msgid "Image"
+msgstr ""
+
 msgid "Info"
 msgstr "Info."
 
@@ -465,6 +447,9 @@ msgstr ""
 msgid "Keep the most recent number of backups. 0 = keep all backups"
 msgstr ""
 
+msgid "LXC name"
+msgstr ""
+
 msgid "Leave blank for random address."
 msgstr "Déixeo en branco para un enderezo ao chou."
 
@@ -473,9 +458,6 @@ msgstr "Déixeo en branco para usar o nome da máquina virtual."
 
 msgid "Linked Clone"
 msgstr ""
-
-msgid "Linux"
-msgstr "Linux"
 
 msgid "Logical"
 msgstr ""
@@ -519,6 +501,9 @@ msgstr "Redes"
 msgid "New name"
 msgstr ""
 
+msgid "No image - use existing image path"
+msgstr ""
+
 msgid "Notes"
 msgstr ""
 
@@ -548,9 +533,6 @@ msgstr "Agrupación"
 
 msgid "Pools"
 msgstr "Agrupacións"
-
-msgid "Q35"
-msgstr "Q35"
 
 msgid "Reboot"
 msgstr "Reiniciar"
@@ -669,20 +651,8 @@ msgstr ""
 msgid "UUID"
 msgstr ""
 
-msgid "Unable to"
-msgstr ""
-
 msgid "Unable to - "
 msgstr "Non é posíbel  - "
-
-msgid "Unable to add ISO to VM - "
-msgstr "Non é posíbel engadir a ISO a máquina virtual -"
-
-msgid "Unable to add USB device to VM - "
-msgstr "Non é posíbel engadir o USB a máquina virtual -"
-
-msgid "Unable to add disk to VM - "
-msgstr "Non é posíbel engadir o disco a máquina virtual -"
 
 msgid "Unable to add network adapter to VM - "
 msgstr "Non é posíbel engadir o adaptador de rede a máquina virtual -"
@@ -696,14 +666,8 @@ msgstr ""
 msgid "Unable to create Macvap - "
 msgstr "Non é posíbel  crear unha MACVTAP - "
 
-msgid "Unable to create domain - "
-msgstr "Non é posíbel  crear un dominio - "
-
 msgid "Unable to create network - "
 msgstr "Non é posíbel  crear unha rede - "
-
-msgid "Unable to create new disk - "
-msgstr "Non é posíbel  crear un novo disco - "
 
 msgid "Unable to create pool - "
 msgstr "Non é posíbel  crear unha agrupación - "
@@ -731,18 +695,6 @@ msgstr "Non é posíbel  eliminar o volume - "
 
 msgid "Unable to get network adapter type - "
 msgstr ""
-
-msgid "Unable to remove USB device to VM - "
-msgstr "Non é posíbel retirar o USB da máquina virtual -"
-
-msgid "Unable to remove disk from VM - "
-msgstr "Non é posíbel retirar o disco da máquina virtual -"
-
-msgid "Unable to remove network interface from VM - "
-msgstr "Non é posíbel retirar a interface de rede da máquina virtual -"
-
-msgid "Unable to resize disk - "
-msgstr "Non é posíbel  redimensionar o disco - "
 
 msgid "Unable to revert to snapshot - "
 msgstr "Non é posíbel  reverter á instantánea - "
@@ -792,32 +744,17 @@ msgstr ""
 msgid "Volumes"
 msgstr "Volumes"
 
-msgid "Windows"
-msgstr "Windows"
-
 msgid "XML"
 msgstr "XML"
 
 msgid "ZFS"
 msgstr "ZFS"
 
-msgid "aarch64"
-msgstr "aarch64"
-
-msgid "arm"
-msgstr "arm"
-
 msgid "bridge"
 msgstr ""
 
 msgid "e1000"
 msgstr "e1000"
-
-msgid "i386"
-msgstr "i386"
-
-msgid "i440FX"
-msgstr "i440FX"
 
 msgid "iSCSI"
 msgstr "iSCSI"
@@ -836,9 +773,6 @@ msgstr ""
 
 msgid "pcnet"
 msgstr "PCNET"
-
-msgid "pool"
-msgstr ""
 
 msgid "qcow2"
 msgstr "QCOW2"
@@ -867,17 +801,11 @@ msgstr "vCPU"
 msgid "vCPUs"
 msgstr ""
 
-msgid "virt-top"
-msgstr ""
-
 msgid "virtio"
 msgstr "virtio"
 
 msgid "vmxnet3"
 msgstr ""
-
-msgid "x86_64"
-msgstr "x86_64"
 
 msgid "zPool name"
 msgstr "Nome da zPool"

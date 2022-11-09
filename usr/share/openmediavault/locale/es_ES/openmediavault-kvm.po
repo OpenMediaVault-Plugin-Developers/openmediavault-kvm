@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-13 15:44-0500\n"
+"POT-Creation-Date: 2022-11-09 07:40-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>, 2022\n"
 "Language-Team: Spanish (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/es/)\n"
@@ -66,14 +66,11 @@ msgstr "Añadir nuevo"
 msgid "Add new VM"
 msgstr "Añadir VM"
 
-msgid "Add new VM 2"
-msgstr "Añadir nueva VM2"
+msgid "Add new container"
+msgstr ""
 
 msgid "Add new pool"
 msgstr "Añadir pool"
-
-msgid "Add new volume"
-msgstr "Añadir volumen"
 
 msgid "Add passthrough"
 msgstr "Añadir passthrough"
@@ -147,9 +144,6 @@ msgstr "comprobar"
 msgid "Check volume ..."
 msgstr "Revisar volumen ..."
 
-msgid "Chipset"
-msgstr "Chipset"
-
 msgid "Clone"
 msgstr "Clonar"
 
@@ -180,17 +174,17 @@ msgstr "Convertir a raw ..."
 msgid "Create"
 msgstr "Crear"
 
+msgid "Create LXC"
+msgstr ""
+
 msgid "Create VM"
 msgstr "Crear VM"
-
-msgid "Create VM 2"
-msgstr "Crear VM2"
 
 msgid "Create backing file"
 msgstr "Crear archivo de respaldo"
 
-msgid "Created VM 2."
-msgstr "VM2 creada"
+msgid "Created LXC."
+msgstr ""
 
 msgid "Created VM."
 msgstr "VM Creada."
@@ -230,6 +224,9 @@ msgstr "Detalles"
 
 msgid "Directory"
 msgstr "Directorio"
+
+msgid "Directory is not empty!"
+msgstr ""
 
 msgid "Disable"
 msgstr "Deshabilitar"
@@ -310,9 +307,6 @@ msgstr "Fallo el añadir un sistema de archivos passthrough."
 msgid "Failed to add host optical."
 msgstr "Fallo al añadir CD al host"
 
-msgid "Failed to add optical disk."
-msgstr "Falló el añadir un CD."
-
 msgid "Failed to add optical."
 msgstr "Falló el añadir dispositivo óptico (CD/DVD)"
 
@@ -321,15 +315,6 @@ msgstr "Falló el añadir dispositivo spice"
 
 msgid "Failed to add spicevmc channel."
 msgstr "Falló el añadir canal SpiceVNC"
-
-msgid "Failed to add vnc and/or spice setup - "
-msgstr "Error al añadir vnc o spice"
-
-msgid "Failed to change "
-msgstr "Falló el cambio"
-
-msgid "Failed to change autostart"
-msgstr "Falló el cambio de autoarranque"
 
 msgid "Failed to create VM XML."
 msgstr "Falló al crear XML VM."
@@ -367,9 +352,6 @@ msgstr "Falló el eliminar un canal SpiceVNC"
 msgid "Failed to remove spicevmc redirdev."
 msgstr "Falló el eliminar un picevmc redirdev."
 
-msgid "Failed to remove vnc and/or spice setup - "
-msgstr "Error al eliminar vnc o spice"
-
 msgid "Failed to reset VM."
 msgstr "Falló el reiniciar una VM."
 
@@ -378,9 +360,6 @@ msgstr "Falló el redimensionar un disco!"
 
 msgid "Failed to set change."
 msgstr "Falló aplicar el cambio."
-
-msgid "Failed to set maximum"
-msgstr "Falló definir el máximo"
 
 msgid "Failed to set maximum."
 msgstr "Falló usar el máximo."
@@ -451,6 +430,9 @@ msgstr "Rango IP"
 msgid "ISOs"
 msgstr "ISOs"
 
+msgid "Image"
+msgstr ""
+
 msgid "Info"
 msgstr "Info"
 
@@ -469,6 +451,9 @@ msgstr "Mantener recientes"
 msgid "Keep the most recent number of backups. 0 = keep all backups"
 msgstr "Mantener el nº más reciente de backup. 0=mantener todos."
 
+msgid "LXC name"
+msgstr ""
+
 msgid "Leave blank for random address."
 msgstr "Dejar en blanco para dirección aleatoria."
 
@@ -477,9 +462,6 @@ msgstr "Dejar en blanco para usar el nombre de la VM."
 
 msgid "Linked Clone"
 msgstr "Clon enlazado"
-
-msgid "Linux"
-msgstr "Linux"
 
 msgid "Logical"
 msgstr "Lógico"
@@ -523,6 +505,9 @@ msgstr "Redes"
 msgid "New name"
 msgstr "Nuevo Nombre"
 
+msgid "No image - use existing image path"
+msgstr ""
+
 msgid "Notes"
 msgstr "Notas"
 
@@ -552,9 +537,6 @@ msgstr "Pool"
 
 msgid "Pools"
 msgstr "Pools"
-
-msgid "Q35"
-msgstr "Q35"
 
 msgid "Reboot"
 msgstr "Reinicio"
@@ -673,20 +655,8 @@ msgstr "USB"
 msgid "UUID"
 msgstr "UUID"
 
-msgid "Unable to"
-msgstr "No es posible ..."
-
 msgid "Unable to - "
 msgstr "Incapaz de -"
-
-msgid "Unable to add ISO to VM - "
-msgstr "Incapaz añadir la ISO a la VM -"
-
-msgid "Unable to add USB device to VM - "
-msgstr "No es posible añadir un dispositivo USB a la VM -"
-
-msgid "Unable to add disk to VM - "
-msgstr "Incapaz añadir el disco a la VM -"
 
 msgid "Unable to add network adapter to VM - "
 msgstr "Incapaz de añadir adaprtador de Red a la VM -"
@@ -700,14 +670,8 @@ msgstr "No es posible cambiar la topología de núcleos de la VM -"
 msgid "Unable to create Macvap - "
 msgstr "Incapaz de crear MacVap -"
 
-msgid "Unable to create domain - "
-msgstr "Incapaz de crear el dominio -"
-
 msgid "Unable to create network - "
 msgstr "Incapaz de crear la Red -"
-
-msgid "Unable to create new disk - "
-msgstr "Incapaz de crear el Disco -"
 
 msgid "Unable to create pool - "
 msgstr "Incapaz de crear el pool -"
@@ -735,18 +699,6 @@ msgstr "Incapaz de de borrar un volumen -"
 
 msgid "Unable to get network adapter type - "
 msgstr "No es posible usar ese tipo de adaptador -"
-
-msgid "Unable to remove USB device to VM - "
-msgstr "No es posible eliminar los dispositivos USB de la VM -"
-
-msgid "Unable to remove disk from VM - "
-msgstr "Incapaz de eliminar un disco de la VM -"
-
-msgid "Unable to remove network interface from VM - "
-msgstr "Incapaz de eliminar un interfaz de Red de la VM -"
-
-msgid "Unable to resize disk - "
-msgstr "Incapaz de redimensionar el Disco -"
 
 msgid "Unable to revert to snapshot - "
 msgstr "Incapaz de revertir a la instantánea -"
@@ -796,32 +748,17 @@ msgstr "Información del volumen ..."
 msgid "Volumes"
 msgstr "Volumenes"
 
-msgid "Windows"
-msgstr "Windows"
-
 msgid "XML"
 msgstr "XML"
 
 msgid "ZFS"
 msgstr "ZFS"
 
-msgid "aarch64"
-msgstr "aarch64"
-
-msgid "arm"
-msgstr "arm"
-
 msgid "bridge"
 msgstr "Puente"
 
 msgid "e1000"
 msgstr "e1000"
-
-msgid "i386"
-msgstr "i386"
-
-msgid "i440FX"
-msgstr "i440FX"
 
 msgid "iSCSI"
 msgstr "iSCSI"
@@ -840,9 +777,6 @@ msgstr "noVNC port"
 
 msgid "pcnet"
 msgstr "pcnet"
-
-msgid "pool"
-msgstr "pool"
 
 msgid "qcow2"
 msgstr "qcow2"
@@ -871,17 +805,11 @@ msgstr "vCPU"
 msgid "vCPUs"
 msgstr "vCPUs"
 
-msgid "virt-top"
-msgstr "virt-top"
-
 msgid "virtio"
 msgstr "virtio"
 
 msgid "vmxnet3"
 msgstr "vmxnet3"
-
-msgid "x86_64"
-msgstr "x86_64"
 
 msgid "zPool name"
 msgstr "zPool nombre"

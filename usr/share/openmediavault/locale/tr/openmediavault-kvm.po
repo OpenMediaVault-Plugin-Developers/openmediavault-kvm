@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-13 15:44-0500\n"
+"POT-Creation-Date: 2022-11-09 07:40-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Language-Team: Turkish (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -62,13 +62,10 @@ msgstr ""
 msgid "Add new VM"
 msgstr ""
 
-msgid "Add new VM 2"
+msgid "Add new container"
 msgstr ""
 
 msgid "Add new pool"
-msgstr ""
-
-msgid "Add new volume"
 msgstr ""
 
 msgid "Add passthrough"
@@ -143,9 +140,6 @@ msgstr ""
 msgid "Check volume ..."
 msgstr ""
 
-msgid "Chipset"
-msgstr ""
-
 msgid "Clone"
 msgstr ""
 
@@ -176,16 +170,16 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-msgid "Create VM"
+msgid "Create LXC"
 msgstr ""
 
-msgid "Create VM 2"
+msgid "Create VM"
 msgstr ""
 
 msgid "Create backing file"
 msgstr ""
 
-msgid "Created VM 2."
+msgid "Created LXC."
 msgstr ""
 
 msgid "Created VM."
@@ -225,6 +219,9 @@ msgid "Details"
 msgstr ""
 
 msgid "Directory"
+msgstr ""
+
+msgid "Directory is not empty!"
 msgstr ""
 
 msgid "Disable"
@@ -305,9 +302,6 @@ msgstr ""
 msgid "Failed to add host optical."
 msgstr ""
 
-msgid "Failed to add optical disk."
-msgstr ""
-
 msgid "Failed to add optical."
 msgstr ""
 
@@ -315,15 +309,6 @@ msgid "Failed to add spice device."
 msgstr ""
 
 msgid "Failed to add spicevmc channel."
-msgstr ""
-
-msgid "Failed to add vnc and/or spice setup - "
-msgstr ""
-
-msgid "Failed to change "
-msgstr ""
-
-msgid "Failed to change autostart"
 msgstr ""
 
 msgid "Failed to create VM XML."
@@ -362,9 +347,6 @@ msgstr ""
 msgid "Failed to remove spicevmc redirdev."
 msgstr ""
 
-msgid "Failed to remove vnc and/or spice setup - "
-msgstr ""
-
 msgid "Failed to reset VM."
 msgstr ""
 
@@ -372,9 +354,6 @@ msgid "Failed to resize disk!"
 msgstr ""
 
 msgid "Failed to set change."
-msgstr ""
-
-msgid "Failed to set maximum"
 msgstr ""
 
 msgid "Failed to set maximum."
@@ -443,6 +422,9 @@ msgstr ""
 msgid "ISOs"
 msgstr ""
 
+msgid "Image"
+msgstr ""
+
 msgid "Info"
 msgstr ""
 
@@ -461,6 +443,9 @@ msgstr ""
 msgid "Keep the most recent number of backups. 0 = keep all backups"
 msgstr ""
 
+msgid "LXC name"
+msgstr ""
+
 msgid "Leave blank for random address."
 msgstr ""
 
@@ -468,9 +453,6 @@ msgid "Leave blank to use VM name."
 msgstr ""
 
 msgid "Linked Clone"
-msgstr ""
-
-msgid "Linux"
 msgstr ""
 
 msgid "Logical"
@@ -515,6 +497,9 @@ msgstr ""
 msgid "New name"
 msgstr ""
 
+msgid "No image - use existing image path"
+msgstr ""
+
 msgid "Notes"
 msgstr ""
 
@@ -543,9 +528,6 @@ msgid "Pool"
 msgstr ""
 
 msgid "Pools"
-msgstr ""
-
-msgid "Q35"
 msgstr ""
 
 msgid "Reboot"
@@ -665,19 +647,7 @@ msgstr ""
 msgid "UUID"
 msgstr ""
 
-msgid "Unable to"
-msgstr ""
-
 msgid "Unable to - "
-msgstr ""
-
-msgid "Unable to add ISO to VM - "
-msgstr ""
-
-msgid "Unable to add USB device to VM - "
-msgstr ""
-
-msgid "Unable to add disk to VM - "
 msgstr ""
 
 msgid "Unable to add network adapter to VM - "
@@ -692,13 +662,7 @@ msgstr ""
 msgid "Unable to create Macvap - "
 msgstr ""
 
-msgid "Unable to create domain - "
-msgstr ""
-
 msgid "Unable to create network - "
-msgstr ""
-
-msgid "Unable to create new disk - "
 msgstr ""
 
 msgid "Unable to create pool - "
@@ -726,18 +690,6 @@ msgid "Unable to delete volume - "
 msgstr ""
 
 msgid "Unable to get network adapter type - "
-msgstr ""
-
-msgid "Unable to remove USB device to VM - "
-msgstr ""
-
-msgid "Unable to remove disk from VM - "
-msgstr ""
-
-msgid "Unable to remove network interface from VM - "
-msgstr ""
-
-msgid "Unable to resize disk - "
 msgstr ""
 
 msgid "Unable to revert to snapshot - "
@@ -788,31 +740,16 @@ msgstr ""
 msgid "Volumes"
 msgstr ""
 
-msgid "Windows"
-msgstr ""
-
 msgid "XML"
 msgstr ""
 
 msgid "ZFS"
 msgstr ""
 
-msgid "aarch64"
-msgstr ""
-
-msgid "arm"
-msgstr ""
-
 msgid "bridge"
 msgstr ""
 
 msgid "e1000"
-msgstr ""
-
-msgid "i386"
-msgstr ""
-
-msgid "i440FX"
 msgstr ""
 
 msgid "iSCSI"
@@ -831,9 +768,6 @@ msgid "noVNC port"
 msgstr ""
 
 msgid "pcnet"
-msgstr ""
-
-msgid "pool"
 msgstr ""
 
 msgid "qcow2"
@@ -863,16 +797,10 @@ msgstr ""
 msgid "vCPUs"
 msgstr ""
 
-msgid "virt-top"
-msgstr ""
-
 msgid "virtio"
 msgstr ""
 
 msgid "vmxnet3"
-msgstr ""
-
-msgid "x86_64"
 msgstr ""
 
 msgid "zPool name"

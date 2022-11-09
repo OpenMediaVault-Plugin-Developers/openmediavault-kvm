@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-13 15:44-0500\n"
+"POT-Creation-Date: 2022-11-09 07:40-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: kochin <kochinc@outlook.com>, 2022\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/zh_TW/)\n"
@@ -66,20 +66,17 @@ msgstr "新增"
 msgid "Add new VM"
 msgstr "新增 VM"
 
-msgid "Add new VM 2"
-msgstr "新增 VM 2"
+msgid "Add new container"
+msgstr ""
 
 msgid "Add new pool"
 msgstr "新增集用場"
-
-msgid "Add new volume"
-msgstr "新增儲存卷"
 
 msgid "Add passthrough"
 msgstr "新增直通"
 
 msgid "Add virtual TPM 2.0 device"
-msgstr ""
+msgstr "新增虛擬 TPM 2.0 裝置"
 
 msgid "Advanced"
 msgstr "進階"
@@ -147,9 +144,6 @@ msgstr "檢查"
 msgid "Check volume ..."
 msgstr "檢查儲存卷 ..."
 
-msgid "Chipset"
-msgstr "晶片組"
-
 msgid "Clone"
 msgstr "複製"
 
@@ -180,17 +174,17 @@ msgstr "轉換成 raw 中 ..."
 msgid "Create"
 msgstr "新建"
 
+msgid "Create LXC"
+msgstr ""
+
 msgid "Create VM"
 msgstr "建立 VM"
-
-msgid "Create VM 2"
-msgstr "建立 VM 2"
 
 msgid "Create backing file"
 msgstr "建立備份檔案"
 
-msgid "Created VM 2."
-msgstr "已建立 VM 2。"
+msgid "Created LXC."
+msgstr ""
 
 msgid "Created VM."
 msgstr "已建立 VM。"
@@ -230,6 +224,9 @@ msgstr "詳情"
 
 msgid "Directory"
 msgstr "目錄"
+
+msgid "Directory is not empty!"
+msgstr ""
 
 msgid "Disable"
 msgstr "停用"
@@ -309,9 +306,6 @@ msgstr "添加檔案系統直通失敗。"
 msgid "Failed to add host optical."
 msgstr "添加主機光碟失敗。"
 
-msgid "Failed to add optical disk."
-msgstr "添加光碟失敗。"
-
 msgid "Failed to add optical."
 msgstr "添加光碟失敗。"
 
@@ -320,15 +314,6 @@ msgstr "添加 spice 裝置失敗。"
 
 msgid "Failed to add spicevmc channel."
 msgstr "添加 spicevmc 通道失敗。"
-
-msgid "Failed to add vnc and/or spice setup - "
-msgstr "新增 vnc 及/或 spice 設置失敗 - "
-
-msgid "Failed to change "
-msgstr "變更失敗"
-
-msgid "Failed to change autostart"
-msgstr "變更自動啟動失敗"
 
 msgid "Failed to create VM XML."
 msgstr "建立 VM XML 失敗。"
@@ -366,9 +351,6 @@ msgstr "移除 spicevmc 通道失敗。"
 msgid "Failed to remove spicevmc redirdev."
 msgstr "移除 spicevmc redirdev 失敗。"
 
-msgid "Failed to remove vnc and/or spice setup - "
-msgstr "移除 vnc 及/或 spice 設置失敗 - "
-
 msgid "Failed to reset VM."
 msgstr "重置 VM 失敗。"
 
@@ -377,9 +359,6 @@ msgstr "改變磁碟大小失敗 ！"
 
 msgid "Failed to set change."
 msgstr "設定變更失敗。"
-
-msgid "Failed to set maximum"
-msgstr "設定最大值失敗"
 
 msgid "Failed to set maximum."
 msgstr "設定最大值失敗。"
@@ -449,6 +428,9 @@ msgstr "IP 範圍"
 msgid "ISOs"
 msgstr "ISOs"
 
+msgid "Image"
+msgstr ""
+
 msgid "Info"
 msgstr "資訊"
 
@@ -467,6 +449,9 @@ msgstr "保留最近"
 msgid "Keep the most recent number of backups. 0 = keep all backups"
 msgstr "保留最近備份的數目。0 = 保留全部備份"
 
+msgid "LXC name"
+msgstr ""
+
 msgid "Leave blank for random address."
 msgstr "保留空白則使用隨機產生的地址。"
 
@@ -475,9 +460,6 @@ msgstr "保留空白則使用 VM 名稱。"
 
 msgid "Linked Clone"
 msgstr "鍊接複製"
-
-msgid "Linux"
-msgstr "Linux"
 
 msgid "Logical"
 msgstr "邏輯"
@@ -521,6 +503,9 @@ msgstr "網路"
 msgid "New name"
 msgstr "新名稱"
 
+msgid "No image - use existing image path"
+msgstr ""
+
 msgid "Notes"
 msgstr "註釋"
 
@@ -550,9 +535,6 @@ msgstr "集用場"
 
 msgid "Pools"
 msgstr "集用場"
-
-msgid "Q35"
-msgstr "Q35"
 
 msgid "Reboot"
 msgstr "重新啟動"
@@ -654,7 +636,7 @@ msgid "Subnet mask"
 msgstr "子網遮罩"
 
 msgid "TPM"
-msgstr ""
+msgstr "TPM"
 
 msgid "Terabytes"
 msgstr "TB"
@@ -671,20 +653,8 @@ msgstr "USB"
 msgid "UUID"
 msgstr "UUID"
 
-msgid "Unable to"
-msgstr "無法"
-
 msgid "Unable to - "
 msgstr "無法 -"
-
-msgid "Unable to add ISO to VM - "
-msgstr "無法新增 ISO 到 VM -"
-
-msgid "Unable to add USB device to VM - "
-msgstr "無法新增 USB 裝置到 VM -"
-
-msgid "Unable to add disk to VM - "
-msgstr "無法新增磁碟到 VM -"
 
 msgid "Unable to add network adapter to VM - "
 msgstr "無法新增網路卡到 VM -"
@@ -698,14 +668,8 @@ msgstr "無法替 VM 改變處理器核心的怖局 - "
 msgid "Unable to create Macvap - "
 msgstr "無法建立 Macvap - "
 
-msgid "Unable to create domain - "
-msgstr "無法建立虛擬機域 - "
-
 msgid "Unable to create network - "
 msgstr "無法建立網路 - "
-
-msgid "Unable to create new disk - "
-msgstr "無法建立新磁碟 - "
 
 msgid "Unable to create pool - "
 msgstr "無法建立集用場 - "
@@ -733,18 +697,6 @@ msgstr "無法刪除儲存卷 - "
 
 msgid "Unable to get network adapter type - "
 msgstr "無法取得網路卡型式 -"
-
-msgid "Unable to remove USB device to VM - "
-msgstr "無法從 VM 移除 USB 裝置 -"
-
-msgid "Unable to remove disk from VM - "
-msgstr "無法從 VM 移除磁碟 -"
-
-msgid "Unable to remove network interface from VM - "
-msgstr "無法從 VM 移除網路卡 -"
-
-msgid "Unable to resize disk - "
-msgstr "無法改變磁碟大小 - "
 
 msgid "Unable to revert to snapshot - "
 msgstr "無法復原回快照 - "
@@ -794,32 +746,17 @@ msgstr "儲存卷資訊 ..."
 msgid "Volumes"
 msgstr "儲存卷"
 
-msgid "Windows"
-msgstr "視窗"
-
 msgid "XML"
 msgstr "XML"
 
 msgid "ZFS"
 msgstr "ZFS"
 
-msgid "aarch64"
-msgstr "aarch64"
-
-msgid "arm"
-msgstr "arm"
-
 msgid "bridge"
 msgstr "橋接器"
 
 msgid "e1000"
 msgstr "e1000"
-
-msgid "i386"
-msgstr "i386"
-
-msgid "i440FX"
-msgstr "i440FX"
 
 msgid "iSCSI"
 msgstr "iSCSI"
@@ -838,9 +775,6 @@ msgstr "noVNC 連接埠"
 
 msgid "pcnet"
 msgstr "pcnet"
-
-msgid "pool"
-msgstr "集用場"
 
 msgid "qcow2"
 msgstr "qcow2"
@@ -869,17 +803,11 @@ msgstr "vCPU"
 msgid "vCPUs"
 msgstr "vCPUs"
 
-msgid "virt-top"
-msgstr "virt-top"
-
 msgid "virtio"
 msgstr "virtio"
 
 msgid "vmxnet3"
 msgstr "vmxnet3"
-
-msgid "x86_64"
-msgstr "x86_64"
 
 msgid "zPool name"
 msgstr "zPool 名稱"
