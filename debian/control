@@ -44,5 +44,6 @@ Depends: distro-info,
          swtpm,
          swtpm-tools,
          uuid,
-         virtinst
+         virtinst,
+         whois
 Description: kvm plugin for OpenMediaVault.
