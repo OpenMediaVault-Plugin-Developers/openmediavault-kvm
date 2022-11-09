@@ -1,3 +1,9 @@
+openmediavault-kvm (6.2) stable; urgency=low
+
+  * Add LXC support
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Wed, 09 Nov 2022 07:37:23 -0600
+
 openmediavault-kvm (6.1.23) stable; urgency=low
 
   * Add option to add TPM 2.0 virtual device to new VM
