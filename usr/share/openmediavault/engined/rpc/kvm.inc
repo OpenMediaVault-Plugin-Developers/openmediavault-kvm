@@ -115,13 +115,13 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('getRestoreList');
         $this->registerMethod('doRestore');
 
-		$this->registerMethod('getJobList');
-		$this->registerMethod('getJob');
-		$this->registerMethod('setJob');
-		$this->registerMethod('deleteJob');
-		$this->registerMethod('doJob');
+        $this->registerMethod('getJobList');
+        $this->registerMethod('getJob');
+        $this->registerMethod('setJob');
+        $this->registerMethod('deleteJob');
+        $this->registerMethod('doJob');
 
-		$this->registerMethod('getVirtTop');
+        $this->registerMethod('getVirtTop');
 
         $this->registerMethod('enumerateArchitectures');
         $this->registerMethod('enumerateCpus');
