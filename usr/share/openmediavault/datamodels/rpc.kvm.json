@@ -263,14 +263,6 @@
           "type": "string",
           "required": true
         },
-        "vnc": {
-          "type": "boolean",
-          "required": true
-        },
-        "spice": {
-          "type": "boolean",
-          "required": true
-        },
         "network": {
           "type": "string"
         },

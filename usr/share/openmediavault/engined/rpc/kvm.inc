@@ -1159,13 +1159,14 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             if ($params['tpm']) {
                 $cmdArgs[] = '--tpm backend.type=emulator,backend.version=2.0,model=tpm-tis';
             }
-        }
 
-        if ($params['vnc']) {
-            $cmdArgs[] = '--graphics vnc,listen=0.0.0.0';
-        }
-        if ($params['spice']) {
-            $cmdArgs[] = '--graphics spice,listen=0.0.0.0';
+            if ($params['vnc']) {
+                $cmdArgs[] = '--graphics vnc,listen=0.0.0.0';
+            }
+
+            if ($params['spice']) {
+                $cmdArgs[] = '--graphics spice,listen=0.0.0.0';
+            }
         }
 
         $cmdArgs[] = sprintf('--print-xml%s', $printStep);
