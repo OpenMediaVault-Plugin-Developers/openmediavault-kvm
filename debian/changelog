@@ -1,3 +1,10 @@
+openmediavault-kvm (6.2.1) stable; urgency=low
+
+  * Add dependencies
+  * Remove spice and vnc options for LXC
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Wed, 09 Nov 2022 18:16:53 -0600
+
 openmediavault-kvm (6.2) stable; urgency=low
 
   * Add LXC support
