@@ -2454,36 +2454,36 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
 
     public function getJobList($params, $context)
     {
-		// Validate the RPC caller context.
+        // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
-		// Validate the parameters of the RPC service method.
-		$this->validateMethodParams($params, "rpc.common.getlist");
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, "rpc.common.getlist");
         // Get configuration data.
         $db = \OMV\Config\Database::getInstance();
         $objects = $db->getAssoc("conf.service.kvm.job");
         // Filter the result.
         return $this->applyFilter($objects, $params['start'], $params['limit'],
             $params['sortfield'], $params['sortdir']);
-	}
+    }
 
-	function getJob($params, $context)
+    function getJob($params, $context)
     {
-		// Validate the RPC caller context.
+        // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
-		// Validate the parameters of the RPC service method.
-		$this->validateMethodParams($params, "rpc.common.objectuuid");
-		// Get the configuration object.
-		$db = \OMV\Config\Database::getInstance();
-		$object = $db->get("conf.service.kvm.job", $params['uuid']);
-		return $object->getAssoc();
-	}
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, "rpc.common.objectuuid");
+        // Get the configuration object.
+        $db = \OMV\Config\Database::getInstance();
+        $object = $db->get("conf.service.kvm.job", $params['uuid']);
+        return $object->getAssoc();
+    }
 
-	function setJob($params, $context)
+    function setJob($params, $context)
     {
-		// Validate the RPC caller context.
+        // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
-		// Validate the parameters of the RPC service method.
-		$this->validateMethodParams($params, "rpc.kvm.setjob");
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, "rpc.kvm.setjob");
         // Prepare the configuration object.
         $object = new \OMV\Config\ConfigObject("conf.service.kvm.job");
         $db = \OMV\Config\Database::getInstance();
@@ -2495,28 +2495,28 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $db->set($object);
         // Return the configuration object.
         return $object->getAssoc();
-	}
+    }
 
-	public function deleteJob($params, $context)
-    {
-		// Validate the RPC caller context.
-        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
-		// Validate the parameters of the RPC service method.
-		$this->validateMethodParams($params, "rpc.common.objectuuid");
-		// Delete the configuration object.
-		$db = \OMV\Config\Database::getInstance();
-		$object = $db->get("conf.service.kvm.job", $params['uuid']);
-		$db->delete($object);
-		// Return the deleted configuration object.
-		return $object->getAssoc();
-	}
-
-	public function doJob($params, $context)
+    public function deleteJob($params, $context)
     {
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
-		$this->validateMethodParams($params, "rpc.common.objectuuid");
+        $this->validateMethodParams($params, "rpc.common.objectuuid");
+        // Delete the configuration object.
+        $db = \OMV\Config\Database::getInstance();
+        $object = $db->get("conf.service.kvm.job", $params['uuid']);
+        $db->delete($object);
+        // Return the deleted configuration object.
+        return $object->getAssoc();
+    }
+
+    public function doJob($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, "rpc.common.objectuuid");
         // Get the configuration object.
         $db = \OMV\Config\Database::getInstance();
         $object = $db->get("conf.service.kvm.job", $params['uuid']);
@@ -2544,7 +2544,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 return $output;
             }
         );
-	}
+    }
 
     public function addVnc($params, $context)
     {
