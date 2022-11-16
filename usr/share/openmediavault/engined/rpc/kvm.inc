@@ -818,11 +818,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                     $spicehtml5url = sprintf('<a href="http://%s:%d/spice_auto.html?resize=remote" target="_blank">link</a>', $fqdn, $spicehtml5port);
                 }
             }
-            $snaplist = $lv2->domain_snapshots_list($dom);
             $snaps = 0;
-            if ($snaplist) {
-                $snaps = count($snaplist);
-            }
             $notes = $lv2->domain_get_description($dom);
             $objects[] = [
                 'vmname' => $name,
