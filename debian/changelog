@@ -1,3 +1,9 @@
+openmediavault-kvm (6.2.2) stable; urgency=low
+
+  * Add dependencies
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Wed, 16 Nov 2022 17:57:25 -0600
+
 openmediavault-kvm (6.2.1) stable; urgency=low
 
   * Add dependencies
