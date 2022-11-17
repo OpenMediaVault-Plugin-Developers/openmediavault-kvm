@@ -10,6 +10,7 @@ data:
         method: getVmXml
         params:
           vmname: '{{ _routeParams.vmname }}'
+          virttype: '{{ _routeParams.virttype }}'
       post:
         method: setVmXml
     fields:
@@ -20,6 +21,9 @@ data:
       - type: hidden
         name: vmname
         value: '{{ _routeParams.vmname }}'
+      - type: hidden
+        name: virttype
+        value: '{{ _routeParams.virttype }}'
     buttons:
       - template: submit
         execute:

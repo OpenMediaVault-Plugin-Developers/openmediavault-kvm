@@ -1445,7 +1445,7 @@ data:
             icon: mdi:xml
             execute:
               type: url
-              url: "/services/kvm/vmxml/{{ _selected[0].vmname }}"
+              url: "/services/kvm/vmxml/{{ _selected[0].vmname }}/{{ _selected[0].virttype }}"
             enabledConstraints:
               minSelected: 1
               maxSelected: 1

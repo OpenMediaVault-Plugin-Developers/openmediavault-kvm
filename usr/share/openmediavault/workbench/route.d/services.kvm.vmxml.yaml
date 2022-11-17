@@ -1,7 +1,7 @@
 version: "1.0"
 type: route
 data:
-  url: "/services/kvm/vmxml/:vmname"
+  url: "/services/kvm/vmxml/:vmname/:virttype"
   title: _("Edit VM xml")
   editing: true
   notificationTitle: _("Edit VM xml.")
