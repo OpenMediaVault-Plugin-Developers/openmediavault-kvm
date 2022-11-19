@@ -2019,6 +2019,10 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmdArgs = [];
         if ($params['virttype'] == 'lxc') {
             $cmdArgs[] = '--connect lxc:///';
+            $tgt = $params['tgt2'];
+            if ($tgt == '/') {
+                throw new \OMV\Exception( gettext("Cannot use / for mount point."));
+            }
         }
         $cmdArgs[] = $this->escapeName($vmname);
         $cmdArgs[] = '--add-device';
@@ -2043,6 +2047,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmdArgs = [];
         if ($params['virttype'] == 'lxc') {
             $cmdArgs[] = '--connect lxc:///';
+            if ($tgt == '/') {
+                throw new \OMV\Exception( gettext("Cannot remove / from a container."));
+            }
         }
         $cmdArgs[] = $this->escapeName($vmname);
         $cmdArgs[] = '--remove-device';
@@ -2068,6 +2075,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $dev = $domXml->devices->filesystem[$i];
             $src = $dev->source['dir'];
             $tgt = $dev->target['dir'];
+            if ($tgt == '/') {
+                continue;
+            }
             $srctgt = sprintf('%s | %s', $src, $tgt);
             $description = $srctgt;
             $objects[] = [

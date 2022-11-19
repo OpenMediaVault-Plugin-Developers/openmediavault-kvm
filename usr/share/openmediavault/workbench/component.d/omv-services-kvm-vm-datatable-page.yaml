@@ -467,6 +467,24 @@ data:
                     label: _('Mount tag')
                     value: ''
                     hint: _('Arbitrary string that is used inside the guest to identify the shared file system to be mounted. It does not have to correspond to the desired mount point in the guest.')
+                    modifiers:
+                      - type: visible
+                        constraint:
+                          operator: ne
+                          arg0:
+                            prop: virttype
+                          arg1: "lxc"
+                  - type: textInput
+                    name: tgt2
+                    label: _('Mount point')
+                    value: ''
+                    modifiers:
+                      - type: visible
+                        constraint:
+                          operator: eq
+                          arg0:
+                            prop: virttype
+                          arg1: "lxc"
                   - type: hidden
                     name: state
                     value: '{{ _selected[0].state }}'
@@ -1010,6 +1028,11 @@ data:
         enabledConstraints:
           minSelected: 1
           maxSelected: 1
+          constraint:
+            - operator: ne
+              arg0:
+                prop: virttype
+              arg1: "lxc"
         actions:
           - text: _("Create")
             icon: mdi:file-cog-outline
@@ -1120,6 +1143,11 @@ data:
         enabledConstraints:
           minSelected: 1
           maxSelected: 1
+          constraint:
+            - operator: ne
+              arg0:
+                prop: virttype
+              arg1: "lxc"
         actions:
           - text: _("Start")
             icon: mdi:television-play
@@ -1323,10 +1351,17 @@ data:
               minSelected: 1
               maxSelected: 1
               constraint:
-                - operator: eq
+                - operator: and
                   arg0:
-                    prop: state
-                  arg1: "shutoff"
+                    operator: eq
+                    arg0:
+                      prop: state
+                    arg1: "shutoff"
+                  arg1:
+                    operator: ne
+                    arg0:
+                      prop: virttype
+                    arg1: "lxc"
             execute:
               type: formDialog
               formDialog:
