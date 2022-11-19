@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-09 07:40-0600\n"
+"POT-Creation-Date: 2022-11-19 11:49-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Varkentjes, 2021\n"
 "Language-Team: Dutch (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/nl/)\n"
@@ -127,6 +127,12 @@ msgid "CPUs"
 msgstr "Processors"
 
 msgid "Call"
+msgstr ""
+
+msgid "Cannot remove / from a container."
+msgstr ""
+
+msgid "Cannot use / for mount point."
 msgstr ""
 
 msgid "Capacity"

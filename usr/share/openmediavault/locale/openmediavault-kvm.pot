@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-09 07:40-0600\n"
+"POT-Creation-Date: 2022-11-19 11:49-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -123,6 +123,12 @@ msgid "CPUs"
 msgstr ""
 
 msgid "Call"
+msgstr ""
+
+msgid "Cannot remove / from a container."
+msgstr ""
+
+msgid "Cannot use / for mount point."
 msgstr ""
 
 msgid "Capacity"
