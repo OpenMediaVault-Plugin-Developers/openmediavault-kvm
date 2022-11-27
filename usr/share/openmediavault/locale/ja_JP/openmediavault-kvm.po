@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-19 11:49-0600\n"
+"POT-Creation-Date: 2022-11-27 15:39-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Language-Team: Japanese (Japan) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -272,6 +272,9 @@ msgstr ""
 msgid "Edit scheduled job."
 msgstr ""
 
+msgid "Edit settings."
+msgstr ""
+
 msgid "Enable"
 msgstr ""
 
@@ -426,6 +429,13 @@ msgid "IP Range"
 msgstr ""
 
 msgid "ISOs"
+msgstr ""
+
+msgid ""
+"If unchecked, LXC Container Initialization and Autoboot will be disabled."
+msgstr ""
+
+msgid "If unchecked, LXC network bridge will be disabled."
 msgstr ""
 
 msgid "Image"
@@ -762,6 +772,12 @@ msgid "iSCSI"
 msgstr ""
 
 msgid "ide"
+msgstr ""
+
+msgid "lxc service"
+msgstr ""
+
+msgid "lxc-net service"
 msgstr ""
 
 msgid "ne2k_pci"
