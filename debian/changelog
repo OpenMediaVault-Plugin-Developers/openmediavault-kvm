@@ -1,3 +1,9 @@
+openmediavault-kvm (6.2.5) stable; urgency=low
+
+  * Add settings tab with ability to disable lxc services
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sun, 27 Nov 2022 15:38:06 -0600
+
 openmediavault-kvm (6.2.4) stable; urgency=low
 
   * More LXC updates
