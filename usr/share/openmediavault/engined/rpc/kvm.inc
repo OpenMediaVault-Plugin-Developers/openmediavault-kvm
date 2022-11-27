@@ -128,8 +128,10 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('enumerateOses');
         $this->registerMethod('enumerateVg');
 
-        // lxc methods
         $this->registerMethod('enumerateImages');
+
+        $this->registerMethod('getSettings');
+        $this->registerMethod('setSettings');
     }
 
     private function connectQemu()
@@ -2642,6 +2644,49 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
         if ($throwMsg != '') {
             throw new \OMV\Exception($throwMsg);
+        }
+    }
+
+    public function getSettings($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // lxc
+        $systemCtl = new \OMV\System\SystemCtl("lxc");
+        $lxc = $systemCtl->isActive();
+        // lxc-net
+        $systemCtl = new \OMV\System\SystemCtl("lxc-net");
+        $lxcnet = $systemCtl->isActive();
+        // return status
+        $svc = [ 'lxc' => $lxc, 'lxcnet' => $lxcnet ];
+        return ($svc);
+    }
+
+    public function setSettings($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        //$this->validateMethodParams($params, 'rpc.omvextras.set');
+        // lxc
+        $systemCtl = new \OMV\System\SystemCtl("lxc");
+        $lxc = $systemCtl->isActive();
+        if ($lxc !== $params['lxc']) {
+            if ($params['lxc']) {
+                $systemCtl->enable(true);
+            } else {
+                $systemCtl->disable(true);
+            }
+        }
+        // lxc-net
+        $systemCtl = new \OMV\System\SystemCtl("lxc-net");
+        $lxcnet = $systemCtl->isActive();
+        if ($lxcnet !== $params['lxcnet']) {
+            if ($params['lxcnet']) {
+                $systemCtl->enable(true);
+            } else {
+                $systemCtl->disable(true);
+            }
         }
     }
 
