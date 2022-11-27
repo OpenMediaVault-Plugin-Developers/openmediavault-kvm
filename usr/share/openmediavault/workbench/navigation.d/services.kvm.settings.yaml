@@ -1,0 +1,8 @@
+version: "1.0"
+type: navigation-item
+data:
+  path: "services.kvm.settings"
+  text: _("Settings")
+  position: 90
+  icon: tune
+  url: "/services/kvm/settings"

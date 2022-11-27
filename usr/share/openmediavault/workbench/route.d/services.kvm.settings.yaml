@@ -1,0 +1,8 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/kvm/settings"
+  title: _("Settings")
+  editing: true
+  notificationTitle: _("Edit settings.")
+  component: omv-services-kvm-settings-form-page

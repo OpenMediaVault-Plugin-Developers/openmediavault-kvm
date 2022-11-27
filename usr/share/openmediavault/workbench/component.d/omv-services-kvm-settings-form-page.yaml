@@ -1,0 +1,27 @@
+version: "1.0"
+type: component
+data:
+  name: omv-services-kvm-settings-form-page
+  type: formPage
+  config:
+    request:
+      service: Kvm
+      get:
+        method: getSettings
+      post:
+        method: setSettings
+    fields:
+      - type: divider
+        title: "LXC"
+      - type: checkbox
+        name: lxc
+        label: _("lxc service")
+        value: true
+        hint: _("If unchecked, LXC Container Initialization and Autoboot will be disabled.")
+      - type: checkbox
+        name: lxcnet
+        label: _("lxc-net service")
+        value: true
+        hint: _("If unchecked, LXC network bridge will be disabled.")
+    buttons:
+      - template: submit
