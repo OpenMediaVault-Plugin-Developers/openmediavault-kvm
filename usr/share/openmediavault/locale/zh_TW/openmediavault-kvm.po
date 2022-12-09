@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-27 15:39-0600\n"
+"POT-Creation-Date: 2022-12-08 18:14-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: kochin <kochinc@outlook.com>, 2022\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/zh_TW/)\n"
@@ -464,6 +464,9 @@ msgstr "保留最近"
 
 msgid "Keep the most recent number of backups. 0 = keep all backups"
 msgstr "保留最近備份的數目。0 = 保留全部備份"
+
+msgid "LXC"
+msgstr ""
 
 msgid "LXC name"
 msgstr ""

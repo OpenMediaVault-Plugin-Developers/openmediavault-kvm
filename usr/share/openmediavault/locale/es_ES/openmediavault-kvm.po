@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-27 15:39-0600\n"
+"POT-Creation-Date: 2022-12-08 18:14-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>, 2022\n"
 "Language-Team: Spanish (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/es/)\n"
@@ -67,7 +67,7 @@ msgid "Add new VM"
 msgstr "Añadir VM"
 
 msgid "Add new container"
-msgstr ""
+msgstr "Añadir nuevo contenedor"
 
 msgid "Add new pool"
 msgstr "Añadir pool"
@@ -130,10 +130,10 @@ msgid "Call"
 msgstr "Llamada"
 
 msgid "Cannot remove / from a container."
-msgstr ""
+msgstr "No se puede eliminar / del contenedor."
 
 msgid "Cannot use / for mount point."
-msgstr ""
+msgstr "No se puede usar / como punto de montaje."
 
 msgid "Capacity"
 msgstr "Capacidad"
@@ -181,7 +181,7 @@ msgid "Create"
 msgstr "Crear"
 
 msgid "Create LXC"
-msgstr ""
+msgstr "Crear LCX"
 
 msgid "Create VM"
 msgstr "Crear VM"
@@ -190,7 +190,7 @@ msgid "Create backing file"
 msgstr "Crear archivo de respaldo"
 
 msgid "Created LXC."
-msgstr ""
+msgstr "LCX Creado."
 
 msgid "Created VM."
 msgstr "VM Creada."
@@ -232,7 +232,7 @@ msgid "Directory"
 msgstr "Directorio"
 
 msgid "Directory is not empty!"
-msgstr ""
+msgstr "El directorio no está vacío!"
 
 msgid "Disable"
 msgstr "Deshabilitar"
@@ -277,7 +277,7 @@ msgid "Edit scheduled job."
 msgstr "Editar trabajo programado"
 
 msgid "Edit settings."
-msgstr ""
+msgstr "Editar opciones."
 
 msgid "Enable"
 msgstr "Habilitar"
@@ -442,12 +442,14 @@ msgstr "ISOs"
 msgid ""
 "If unchecked, LXC Container Initialization and Autoboot will be disabled."
 msgstr ""
+"Si no está marcado, la inicialización del contenedor LXC y el arranque "
+"automático se desactivarán"
 
 msgid "If unchecked, LXC network bridge will be disabled."
-msgstr ""
+msgstr "Si no está marcado, el puente de red LXC se desactivará."
 
 msgid "Image"
-msgstr ""
+msgstr "Imagen"
 
 msgid "Info"
 msgstr "Info"
@@ -467,8 +469,11 @@ msgstr "Mantener recientes"
 msgid "Keep the most recent number of backups. 0 = keep all backups"
 msgstr "Mantener el nº más reciente de backup. 0=mantener todos."
 
-msgid "LXC name"
+msgid "LXC"
 msgstr ""
+
+msgid "LXC name"
+msgstr "Nombre LCX"
 
 msgid "Leave blank for random address."
 msgstr "Dejar en blanco para dirección aleatoria."
@@ -522,7 +527,7 @@ msgid "New name"
 msgstr "Nuevo Nombre"
 
 msgid "No image - use existing image path"
-msgstr ""
+msgstr "Sin Imagen - Usar la ruta a la imagen existente."
 
 msgid "Notes"
 msgstr "Notas"
@@ -783,10 +788,10 @@ msgid "ide"
 msgstr "ide"
 
 msgid "lxc service"
-msgstr ""
+msgstr "servicio LCX"
 
 msgid "lxc-net service"
-msgstr ""
+msgstr "Servicio LCX-Net"
 
 msgid "ne2k_pci"
 msgstr "ne2k_pci"

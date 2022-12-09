@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-27 15:39-0600\n"
+"POT-Creation-Date: 2022-12-08 18:14-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Language-Team: Korean (Korea) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/ko_KR/)\n"
 "MIME-Version: 1.0\n"
@@ -457,6 +457,9 @@ msgid "Keep Recent"
 msgstr ""
 
 msgid "Keep the most recent number of backups. 0 = keep all backups"
+msgstr ""
+
+msgid "LXC"
 msgstr ""
 
 msgid "LXC name"
