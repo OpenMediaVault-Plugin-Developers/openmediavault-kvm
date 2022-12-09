@@ -1,3 +1,9 @@
+openmediavault-kvm (6.2.6) stable; urgency=low
+
+  * Add LXC dashboard widget
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Thu, 08 Dec 2022 18:14:18 -0600
+
 openmediavault-kvm (6.2.5) stable; urgency=low
 
   * Add settings tab with ability to disable lxc services
