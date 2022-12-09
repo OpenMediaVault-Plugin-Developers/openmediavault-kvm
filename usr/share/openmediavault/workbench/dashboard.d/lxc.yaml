@@ -1,0 +1,34 @@
+version: "1.0"
+type: dashboard-widget
+data:
+  id: f7cbf950-7754-11ed-a426-cb34d9d17166
+  title: _("LXC")
+  type: datatable
+  reloadPeriod: 30000
+  permissions:
+    role:
+    - admin
+  datatable:
+    columns:
+    - name: _("Name")
+      prop: vmname
+      flexGrow: 1
+      sortable: true
+    - name: _("State")
+      prop: state
+      sortable: true
+      flexGrow: 1
+    - name: _("Memory")
+      prop: mem
+      sortable: true
+      flexGrow: 1
+      cellTemplateName: binaryUnit
+    - name: _("vCPUs")
+      prop: cpu
+      sortable: true
+      flexGrow: 1
+    store:
+      proxy:
+        service: Kvm
+        get:
+          method: getLxcNameStateList
