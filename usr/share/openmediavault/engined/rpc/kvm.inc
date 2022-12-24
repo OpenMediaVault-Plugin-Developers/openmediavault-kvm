@@ -2786,7 +2786,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         $output = [];
-        $cmd = new \OMV\System\Process('osinfo-query', '--fields=short-id,name os');
+        $cmd = new \OMV\System\Process('osinfo-query', '--sort=name', '--fields=short-id,name os');
         $cmd->setQuiet(true);
         $cmd->execute($output, $exitStatus);
         $objects = [];
