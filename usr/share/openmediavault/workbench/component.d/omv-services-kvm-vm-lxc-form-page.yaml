@@ -95,7 +95,7 @@ data:
         label: _('Bridge')
         textField: bridge
         valueField: bridge
-        value: ""
+        value: "br0"
         store:
           proxy:
             service: Kvm

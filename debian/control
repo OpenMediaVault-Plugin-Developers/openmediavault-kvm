@@ -11,6 +11,7 @@ Package: openmediavault-kvm
 Architecture: all
 Depends: distro-info,
          dnsmasq-base,
+         gawk,
          ksmtuned,
          libosinfo-bin,
          libvirt-clients,
