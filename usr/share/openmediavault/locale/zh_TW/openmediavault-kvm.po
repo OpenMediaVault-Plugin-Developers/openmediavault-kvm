@@ -4,7 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# kochin <kochinc@outlook.com>, 2022
+# kochin <kochinc@outlook.com>, 2023
 # 
 #, fuzzy
 msgid ""
@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-08 18:14-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
-"Last-Translator: kochin <kochinc@outlook.com>, 2022\n"
+"Last-Translator: kochin <kochinc@outlook.com>, 2023\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -67,7 +67,7 @@ msgid "Add new VM"
 msgstr "新增 VM"
 
 msgid "Add new container"
-msgstr ""
+msgstr "新增容器"
 
 msgid "Add new pool"
 msgstr "新增集用場"
@@ -130,10 +130,10 @@ msgid "Call"
 msgstr "呼叫"
 
 msgid "Cannot remove / from a container."
-msgstr ""
+msgstr "無法將 / 從容器中移除。"
 
 msgid "Cannot use / for mount point."
-msgstr ""
+msgstr "無法使用 / 做為掛載點。"
 
 msgid "Capacity"
 msgstr "容量"
@@ -178,10 +178,10 @@ msgid "Converting to raw ..."
 msgstr "轉換成 raw 中 ..."
 
 msgid "Create"
-msgstr "新建"
+msgstr "建立"
 
 msgid "Create LXC"
-msgstr ""
+msgstr "建立 LXC"
 
 msgid "Create VM"
 msgstr "建立 VM"
@@ -190,7 +190,7 @@ msgid "Create backing file"
 msgstr "建立備份檔案"
 
 msgid "Created LXC."
-msgstr ""
+msgstr "已建立 LXC。"
 
 msgid "Created VM."
 msgstr "已建立 VM。"
@@ -232,7 +232,7 @@ msgid "Directory"
 msgstr "目錄"
 
 msgid "Directory is not empty!"
-msgstr ""
+msgstr "目錄並非空白！"
 
 msgid "Disable"
 msgstr "停用"
@@ -277,7 +277,7 @@ msgid "Edit scheduled job."
 msgstr "編輯預定工作。"
 
 msgid "Edit settings."
-msgstr ""
+msgstr "編輯設定。"
 
 msgid "Enable"
 msgstr "啟用"
@@ -439,13 +439,13 @@ msgstr "ISOs"
 
 msgid ""
 "If unchecked, LXC Container Initialization and Autoboot will be disabled."
-msgstr ""
+msgstr "若未勾選，LXC 容器的初始化和自動啟動將被停用。"
 
 msgid "If unchecked, LXC network bridge will be disabled."
-msgstr ""
+msgstr "若未勾選，LXC 網路橋接將被停用。"
 
 msgid "Image"
-msgstr ""
+msgstr "影像"
 
 msgid "Info"
 msgstr "資訊"
@@ -466,10 +466,10 @@ msgid "Keep the most recent number of backups. 0 = keep all backups"
 msgstr "保留最近備份的數目。0 = 保留全部備份"
 
 msgid "LXC"
-msgstr ""
+msgstr "LXC"
 
 msgid "LXC name"
-msgstr ""
+msgstr "LXC 名稱"
 
 msgid "Leave blank for random address."
 msgstr "保留空白則使用隨機產生的地址。"
@@ -523,7 +523,7 @@ msgid "New name"
 msgstr "新名稱"
 
 msgid "No image - use existing image path"
-msgstr ""
+msgstr "無影像 - 使用現存的影像路徑"
 
 msgid "Notes"
 msgstr "註釋"
@@ -784,10 +784,10 @@ msgid "ide"
 msgstr "ide"
 
 msgid "lxc service"
-msgstr ""
+msgstr "lxc 服務"
 
 msgid "lxc-net service"
-msgstr ""
+msgstr "lxc-net 服務"
 
 msgid "ne2k_pci"
 msgstr "ne2k_pci"
