@@ -2303,7 +2303,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $cmdLine = sprintf('%ssetmaxmem %s %s --config', $conn, $this->escapeName($vmname), $newMem);
             $cmdLine2 = sprintf('%ssetmem %s %s --config', $conn, $this->escapeName($vmname), $newMem);
         } else if ($memory == -1) {
-            $cmdLine = sprintf('%setvcpus %s %d --config --maximum', $conn, $this->escapeName($vmname), $vcpu);
+            $cmdLine = sprintf('%ssetvcpus %s %d --config --maximum', $conn, $this->escapeName($vmname), $vcpu);
             $cmdLine2 = sprintf('%ssetvcpus %s %d --config ', $conn, $this->escapeName($vmname), $vcpu);
             $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
             if (isset($domXml->cpu->topology)) {
