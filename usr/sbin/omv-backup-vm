@@ -8,7 +8,7 @@
 # License version 2. This program is licensed "as is" without any
 # warranty of any kind, whether express or implied.
 #
-# version: 0.2.0
+# version: 0.2.1
 #
 
 if [[ $(id -u) -ne 0 ]]; then
@@ -46,7 +46,7 @@ _log()
 while getopts "cd:hk:sv:" opt; do
   case "${opt}" in
     c)
-      compress=" -c"
+      compress=" -c -o compression_type=zstd"
       _log "compression :: enabled"
       ;;
     d)
