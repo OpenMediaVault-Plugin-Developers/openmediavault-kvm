@@ -94,24 +94,36 @@ data:
             service: Kvm
             get:
               method: enumerateOses
-      - type: checkbox
-        name: uefi
-        label: _("UEFI")
-        value: false
-        modifiers:
-          - type: checked
-            constraint:
-              operator: or
-              arg0:
-                operator: eq
-                arg0:
-                  prop: arch
-                arg1: "aarch64"
-              arg1:
-                operator: eq
-                arg0:
-                  prop: arch
-                arg1: "arm"
+      - type: container
+        fields:
+          - type: checkbox
+            name: uefi
+            label: _("UEFI")
+            value: false
+            modifiers:
+              - type: checked
+                constraint:
+                  operator: or
+                  arg0:
+                    operator: eq
+                    arg0:
+                      prop: arch
+                    arg1: "aarch64"
+                  arg1:
+                    operator: eq
+                    arg0:
+                      prop: arch
+                    arg1: "arm"
+          - type: checkbox
+            name: secure
+            label: _("Secure boot")
+            value: false
+            modifiers:
+              - type: visible
+                constraint:
+                  operator: truthy
+                  arg0:
+                    prop: uefi
       - type: numberInput
         name: vcpu
         label: _("CPUs")

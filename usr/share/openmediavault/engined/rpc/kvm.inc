@@ -1171,7 +1171,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             }
 
             if ($params['uefi']) {
-                $cmdArgs[] = sprintf('--boot loader=%s', $fd);
+                $secure = '';
+                if ($params['secure']) {
+                    $secure = ',loader_secure=yes';
+                }
+                $cmdArgs[] = sprintf('--boot loader=%s%s', $fd, $secure);
             }
 
             if ($voliso != 'none') {
