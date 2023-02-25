@@ -1,6 +1,7 @@
 openmediavault-kvm (6.2.9) stable; urgency=low
 
   * Add option for secure boot
+  * Change compression type to zstd - thanks Krisbee
 
  -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sat, 25 Feb 2023 08:03:30 -0600
 
