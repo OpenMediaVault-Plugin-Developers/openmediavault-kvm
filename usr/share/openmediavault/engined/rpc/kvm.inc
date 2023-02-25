@@ -1029,6 +1029,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $hostArch = $this->getArch();
             $os = strtolower($params['os']);
             $uefi = $params['uefi'];
+            $secure = $params['secure'];
             // verify if arch and cpu are compatible
             $archOk = false;
             switch ($cpuArch) {
@@ -1099,7 +1100,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                     $native_graphics = true;
                     break;
                 case 'x86_64':
-                    $fd = '/usr/share/OVMF/OVMF_CODE.fd';
+                    if ($secure) {
+                        $fd = '/usr/share/OVMF/OVMF_CODE_4M.ms.fd';
+                    } else {
+                        $fd = '/usr/share/OVMF/OVMF_CODE.fd';
+                    }
                     $native_graphics = true;
                     break;
             }
@@ -1171,11 +1176,12 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             }
 
             if ($params['uefi']) {
-                $secure = '';
-                if ($params['secure']) {
-                    $secure = ',loader_secure=yes';
+                $ls = '';
+                if ($secure) {
+                    $ls = ',loader_secure=yes';
+                    $cmdArgs[] = '--features smm=on';
                 }
-                $cmdArgs[] = sprintf('--boot loader=%s%s', $fd, $secure);
+                $cmdArgs[] = sprintf('--boot loader=%s%s', $fd, $ls);
             }
 
             if ($voliso != 'none') {
