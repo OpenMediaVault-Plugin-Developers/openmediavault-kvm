@@ -1961,17 +1961,22 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $xpathSize = sizeof($xpath);
         for ($i = 0; $i < $xpathSize; $i++) {
             $dev = $domXml->devices->hostdev[$i]->source;
-            $vendorProduct = sprintf('%s:%s', $dev->vendor['id'], $dev->product['id']);
-            $vpCheck = str_replace('0x', '', $vendorProduct);
-            $description = $vendorProduct;
+            if (isset($dev->address)) {
+                $device = sprintf('Bus %03d Device %03d', $dev->address['bus'], $dev->address['device']);
+                $check = $device;
+            } else {
+                $device = sprintf('%s:%s', $dev->vendor['id'], $dev->product['id']);
+                $check = str_replace('0x', '', $device);
+            }
+            $description = $device;
             for ($j = 0; $j < $usbCount; $j++) {
-                if (strpos($output[$j], $vpCheck)) {
+                if (strpos($output[$j], $check)) {
                     $description = $output[$j];
                     break;
                 }
             }
             $objects[] = [
-                'device' => $vendorProduct,
+                'device' => $device,
                 'description' => $description
             ];
         }
@@ -1988,11 +1993,13 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $vmname = $this->escapeName($params['vmname']);
         $state = $params['state'];
         // create xml
-        $xml = $this->createUsbXml($params['device']);
-        // remove with virsh
+        $xml = $this->createUsbXml($params['device'], $params['byaddress']);
+        // add with virsh
         $cmdArgs = $this->deviceArgs('attach-device', $vmname, $xml, $state);
         $err = gettext("Failed to add USB device.");
         $this->virshCommand($cmdArgs, $err);
+        // remove temp xml file
+        $unlink($xml);
     }
 
     public function removeUsb($params, $context)
@@ -2005,35 +2012,52 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $vmname = $this->escapeName($params['vmname']);
         $state = $params['state'];
         // create xml
-        $xml = $this->createUsbXml($params['device']);
+        $address = true;
+        if (strpos($params['device'], "Bus") === false) {
+            $address = false;
+        }
+        $xml = $this->createUsbXml($params['device'], $address);
         // remove with virsh
         $cmdArgs = $this->deviceArgs('detach-device', $vmname, $xml, $state);
         $err = gettext("Failed to remove USB device.");
         $this->virshCommand($cmdArgs, $err);
+        // remove temp xml file
+        $unlink($xml);
     }
 
-    private function createUsbXml($device)
+    private function createUsbXml($device, $byaddress)
     {
         // create usb xml
         if (strpos($device, "Bus") === false) {
             $dev = str_replace('0x', '', trim($device));
             $vendorProduct = explode(':', $dev);
+            $bus = '';
+            $device = '';
+            $byaddress = false;
         } else {
             $dev = explode(' ', $device);
             $vendorProduct = explode(':', $dev[5]);
+            $bus = intval($dev[1]);
+            $device = intval($dev[3]);
         }
-        $vendor = $vendorProduct[0];
-        $product = $vendorProduct[1];
         // create xml structure
         $hostDevXml = new SimpleXMLElement('<hostdev/>');
         $hostDevXml->addAttribute('mode', 'subsystem');
         $hostDevXml->addAttribute('type', 'usb');
         $hostDevXml->addAttribute('managed', 'yes');
         $sourceXml = $hostDevXml->addChild('source');
-        $vendorXml = $sourceXml->addChild('vendor');
-        $vendorXml->addAttribute('id', '0x'.$vendor);
-        $productXml = $sourceXml->addChild('product');
-        $productXml->addAttribute('id', '0x'.$product);
+        if ($byaddress && $bus !== '' && $device !== '') {
+            $addressXml = $sourceXml->addChild('address');
+            $addressXml->addAttribute('bus', $bus);
+            $addressXml->addAttribute('device', $device);
+        } else {
+            $vendor = $vendorProduct[0];
+            $product = $vendorProduct[1];
+            $vendorXml = $sourceXml->addChild('vendor');
+            $vendorXml->addAttribute('id', '0x'.$vendor);
+            $productXml = $sourceXml->addChild('product');
+            $productXml->addAttribute('id', '0x'.$product);
+        }
         // create xml file
         $temp = tempnam(sys_get_temp_dir(), 'virsh_usb');
         $newXml = $hostDevXml->asXML();
@@ -2964,9 +2988,17 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if ( !file_exists($this->imageCache) or
            ( $time - filemtime($this->imageCache) >= 60*60*24) ) {
             $url = 'https://images.linuxcontainers.org/meta/1.0/index-system';
-            $list = file($url);
+            for ($i = 0; $i < 5; $i++) {
+                $list = file($url);
+                if ($list && count($list) > 0) {
+                    break;
+                }
+                sleep(3);
+            }
             // Get repos info and put in cache file
-            file_put_contents($this->imageCache, $list);
+            if ($list && count($list) > 0) {
+                file_put_contents($this->imageCache, $list);
+            }
         }
     }
 

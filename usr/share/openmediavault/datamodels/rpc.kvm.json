@@ -674,6 +674,9 @@
         "device": {
           "type": "string",
           "required": true
+        },
+        "byaddress": {
+          "type": "boolean"
         }
       }
     }
