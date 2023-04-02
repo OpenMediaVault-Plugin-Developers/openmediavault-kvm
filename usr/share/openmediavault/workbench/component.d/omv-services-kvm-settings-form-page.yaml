@@ -25,3 +25,9 @@ data:
         hint: _("If unchecked, LXC network bridge will be disabled.")
     buttons:
       - template: submit
+      - text: _("Force image list refresh")
+        execute:
+          type: request
+          request:
+            service: Kvm
+            method: forceImageListRefresh

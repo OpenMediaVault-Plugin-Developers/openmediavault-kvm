@@ -130,6 +130,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('enumerateVg');
 
         $this->registerMethod('enumerateImages');
+        $this->registerMethod('forceImageListRefresh');
 
         $this->registerMethod('getSettings');
         $this->registerMethod('setSettings');
@@ -2932,6 +2933,15 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             }
         }
         return ($objects);
+    }
+
+    public function forceImageListRefresh($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // remove cache file if found and download new list
+        unlink($this->imageCache);
+        $this->fillImages();
     }
 
     private function downloadImage($image, $path)
