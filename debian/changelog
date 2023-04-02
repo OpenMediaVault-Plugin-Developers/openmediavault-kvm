@@ -1,3 +1,11 @@
+openmediavault-kvm (6.2.10) stable; urgency=low
+
+  * Add button to force lxc image list refresh
+  * Improve lxc image list download
+  * Allow usb passthrough by address
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sun, 02 Apr 2023 09:59:53 -0500
+
 openmediavault-kvm (6.2.9) stable; urgency=low
 
   * Add option for secure boot
