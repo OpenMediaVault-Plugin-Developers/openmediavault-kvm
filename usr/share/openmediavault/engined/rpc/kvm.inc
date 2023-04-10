@@ -2000,7 +2000,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $err = gettext("Failed to add USB device.");
         $this->virshCommand($cmdArgs, $err);
         // remove temp xml file
-        $unlink($xml);
+        unlink($xml);
     }
 
     public function removeUsb($params, $context)
@@ -2023,7 +2023,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $err = gettext("Failed to remove USB device.");
         $this->virshCommand($cmdArgs, $err);
         // remove temp xml file
-        $unlink($xml);
+        unlink($xml);
     }
 
     private function createUsbXml($device, $byaddress)

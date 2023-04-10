@@ -722,6 +722,7 @@ data:
                           method: 'enumerateUsbByHost'
                   - type: checkbox
                     name: byaddress
+                    value: false
                     label: _("Passthrough by address instead of using vendor and product IDs")
                     hint: _("Warning! Address can change after VM reboot breaking the passthrough!<br />Useful when the host system has two or more devices with duplicate vendor and product IDs.")
                   - type: hidden
