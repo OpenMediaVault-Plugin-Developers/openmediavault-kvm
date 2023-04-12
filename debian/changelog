@@ -1,3 +1,9 @@
+openmediavault-kvm (6.2.12) stable; urgency=low
+
+  * Change network enumeration back to enumerateDevices
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Wed, 12 Apr 2023 07:02:14 -0500
+
 openmediavault-kvm (6.2.11) stable; urgency=low
 
   * Fix typos

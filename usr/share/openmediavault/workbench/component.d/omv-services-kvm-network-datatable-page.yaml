@@ -134,7 +134,7 @@ data:
                       proxy:
                         service: 'Network'
                         get:
-                          method: 'enumerateDevicesList'
+                          method: 'enumerateDevices'
                 buttons:
                   submit:
                     text: _('Add')
