@@ -533,7 +533,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $fsType = \OMV\System\Filesystem\Filesystem::getTypeByPath($path);
 
                 if($fsType == "btrfs") {
-                    $cmd = new \OMV\System\Process('chattr +C ' . $path);
+                    $cmd = new \OMV\System\Process(sprintf("chattr +C %s", $path));
                     $output = [];
                     $exitStatus = NULL;
                     $cmd->execute($output, $exitStatus);
@@ -542,7 +542,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                         throw new \OMV\ExecException($cmd->getCommandLine(), $output, $exitStatus);
                     }
                 }
-                
+
                 break;
             case 'fs':
                 mkdir($path, 0755, true);
