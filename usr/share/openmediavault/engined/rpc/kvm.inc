@@ -529,6 +529,20 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             case 'dir':
                 $path = (substr($path,0) == '/' ? $path : '/' . $path);
                 mkdir($path, 0755, true);
+
+                $fsType = \OMV\System\Filesystem\Filesystem::getTypeByPath($path);
+
+                if($fsType == "btrfs") {
+                    $cmd = new \OMV\System\Process(sprintf("chattr +C %s", $path));
+                    $output = [];
+                    $exitStatus = NULL;
+                    $cmd->execute($output, $exitStatus);
+
+                    if (($exitStatus !== 0) || (!empty($output))) {
+                        throw new \OMV\ExecException($cmd->getCommandLine(), $output, $exitStatus);
+                    }
+                }
+
                 break;
             case 'fs':
                 mkdir($path, 0755, true);
