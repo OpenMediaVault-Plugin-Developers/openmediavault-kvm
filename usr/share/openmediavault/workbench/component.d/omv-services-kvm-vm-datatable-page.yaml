@@ -558,11 +558,6 @@ data:
         enabledConstraints:
           minSelected: 1
           maxSelected: 1
-          constraint:
-            - operator: ne
-              arg0:
-                prop: virttype
-              arg1: "lxc"
         actions:
           - text: _("Add network")
             icon: mdi:plus-network-outline

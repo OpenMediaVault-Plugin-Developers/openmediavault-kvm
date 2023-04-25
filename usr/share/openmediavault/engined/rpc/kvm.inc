@@ -387,6 +387,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // virsh domiflist
         $output = [];
         $cmdArgs = [];
+        if ($params['virttype'] == 'lxc') {
+            $cmdArgs[] = '--connect lxc:///';
+        }
         $cmdArgs[] = 'domiflist';
         $cmdArgs[] = sprintf('--domain %s', $this->escapeName($vmname));
         $cmdArgs[] = sprintf('| awk \'$5 == "%s" { print $2 }\'', $mac);
@@ -423,6 +426,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $vmname = trim($params['vmname']);
         // enumerate interfaces with virsh
         $cmdArgs = [];
+        if ($params['virttype'] == 'lxc') {
+            $cmdArgs[] = '--connect lxc:///';
+        }
         $cmdArgs[] = 'domiflist';
         $cmdArgs[] = sprintf('--domain %s', $this->escapeName($vmname));
         $cmdArgs[] = '| sed 1,2d';
