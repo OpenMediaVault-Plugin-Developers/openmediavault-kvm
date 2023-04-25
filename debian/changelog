@@ -1,3 +1,10 @@
+openmediavault-kvm (6.2.13) stable; urgency=low
+
+  * Disable copy on write on directory pools located on btrfs
+  * Enable systemd setting for IPv6 package forwarding
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Tue, 25 Apr 2023 16:45:06 -0500
+
 openmediavault-kvm (6.2.12) stable; urgency=low
 
   * Change network enumeration back to enumerateDevices
