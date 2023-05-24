@@ -260,6 +260,8 @@ data:
                       request:
                         service: Kvm
                         method: addDisk
+                        progressMessage: _("Adding a disk ...")
+                        successNotification: _("Disk has been added.")
                     successUrl: /services/kvm/vm
           - text: _("Remove disk")
             icon: mdi:harddisk-remove
@@ -298,6 +300,8 @@ data:
                       request:
                         service: Kvm
                         method: removeDisk
+                        progressMessage: _("Removing disk ...")
+                        successNotification: _("Snapshot has been reverted.")
                     successUrl: /services/kvm/vm
             enabledConstraints:
               minSelected: 1
@@ -356,6 +360,8 @@ data:
                       request:
                         service: Kvm
                         method: addOptical
+                        progressMessage: _("Adding optical disk ...")
+                        successNotification: _("Optical has been added.")
                     successUrl: /services/kvm/vm
           - text: _("Add host drive")
             icon: mdi:plus-circle
@@ -387,6 +393,8 @@ data:
                       request:
                         service: Kvm
                         method: addHostOptical
+                        progressMessage: _("Adding host drive ...")
+                        successNotification: _("Host drive has been added.")
                     successUrl: /services/kvm/vm
           - text: _("Remove disc")
             icon: mdi:minus-circle-outline
@@ -425,6 +433,8 @@ data:
                       request:
                         service: Kvm
                         method: removeDisk
+                        progressMessage: _("Removing optical disc ...")
+                        successNotification: _("Optical disc has been removed.")
                     successUrl: /services/kvm/vm
             enabledConstraints:
               minSelected: 1
@@ -501,6 +511,8 @@ data:
                       request:
                         service: Kvm
                         method: addFsPass
+                        progressMessage: _("Adding passthrough filesystem ...")
+                        successNotification: _("Passthrough filesystem has been added.")
                     successUrl: /services/kvm/vm
           - text: _("Remove passthrough")
             icon: mdi:file-download-outline
@@ -543,6 +555,8 @@ data:
                       request:
                         service: Kvm
                         method: removeFsPass
+                        progressMessage: _("Removing passthrough filesystem ...")
+                        successNotification: _("Passthrough filesystem has been removed.")
                     successUrl: /services/kvm/vm
             enabledConstraints:
               minSelected: 1
@@ -638,6 +652,8 @@ data:
                       request:
                         service: Kvm
                         method: addVmNic
+                        progressMessage: _("Adding network adapter ...")
+                        successNotification: _("Network adapter has been added.")
                     successUrl: /services/kvm/vm
           - text: _("Remove network")
             icon: mdi:minus-network-outline
@@ -680,6 +696,8 @@ data:
                       request:
                         service: Kvm
                         method: removeVmNic
+                        progressMessage: _("Removing network adapter ...")
+                        successNotification: _("Network adapter has been removed.")
                     successUrl: /services/kvm/vm
       - type: menu
         icon: mdi:usb
@@ -732,6 +750,8 @@ data:
                       request:
                         service: Kvm
                         method: addUsb
+                        progressMessage: _("Adding USB device ...")
+                        successNotification: _("USB device has been added.")
                     successUrl: /services/kvm/vm
           - text: _("Remove USB")
             icon: mdi:minus-box-outline
@@ -769,6 +789,8 @@ data:
                       request:
                         service: Kvm
                         method: removeUsb
+                        progressMessage: _("Removing USB device ...")
+                        successNotification: _("USB device has been removed.")
                     successUrl: /services/kvm/vm
             enabledConstraints:
               minSelected: 1
@@ -810,6 +832,8 @@ data:
                   name: "{{ _selected[0].vmname }}"
                   virttype: "{{ _selected[0].virttype }}"
                   command: "poweron"
+                progressMessage: _("Starting ...")
+                successNotification: _("Started.")
                 task: false
             enabledConstraints:
               minSelected: 1
@@ -830,6 +854,8 @@ data:
                   name: "{{ _selected[0].vmname }}"
                   virttype: "{{ _selected[0].virttype }}"
                   command: "reboot"
+                progressMessage: _("Rebooting ...")
+                successNotification: _("Rebooted.")
                 task: false
             enabledConstraints:
               minSelected: 1
@@ -850,6 +876,8 @@ data:
                   name: "{{ _selected[0].vmname }}"
                   virttype: "{{ _selected[0].virttype }}"
                   command: "poweroff"
+                progressMessage: _("Stopping ...")
+                successNotification: _("Stopped.")
                 task: false
             enabledConstraints:
               minSelected: 1
@@ -870,6 +898,8 @@ data:
                   name: "{{ _selected[0].vmname }}"
                   virttype: "{{ _selected[0].virttype }}"
                   command: "reset"
+                progressMessage: _("Resetting ...")
+                successNotification: _("Reset.")
                 task: false
             enabledConstraints:
               minSelected: 1
@@ -890,6 +920,8 @@ data:
                   name: "{{ _selected[0].vmname }}"
                   virttype: "{{ _selected[0].virttype }}"
                   command: "force"
+                progressMessage: _("Forcing down ...")
+                successNotification: _("Forced down.")
                 task: false
           - text: _("Pause")
             icon: mdi:pause-circle-outline
@@ -902,6 +934,8 @@ data:
                   name: "{{ _selected[0].vmname }}"
                   virttype: "{{ _selected[0].virttype }}"
                   command: "pause"
+                progressMessage: _("Pausing ...")
+                successNotification: _("Paused.")
                 task: false
             enabledConstraints:
               minSelected: 1
@@ -922,6 +956,8 @@ data:
                   name: "{{ _selected[0].vmname }}"
                   virttype: "{{ _selected[0].virttype }}"
                   command: "resume"
+                progressMessage: _("Resuming ...")
+                successNotification: _("Resumed.")
                 task: false
             enabledConstraints:
               minSelected: 1
@@ -961,6 +997,8 @@ data:
                   name: "{{ _selected[0].vmname }}"
                   virttype: "{{ _selected[0].virttype }}"
                   command: "undefine"
+                progressMessage: _("Deleting ...")
+                successNotification: _("Deleted.")
                 task: false
           - text: _("Delete + storage")
             icon: mdi:delete-sweep-outline
@@ -976,6 +1014,8 @@ data:
                   name: "{{ _selected[0].vmname }}"
                   virttype: "{{ _selected[0].virttype }}"
                   command: "undefineplus"
+                progressMessage: _("Deleting ...")
+                successNotification: _("Deleted.")
                 task: false
       - type: menu
         icon: mdi:clock-start
@@ -995,6 +1035,8 @@ data:
                   name: "{{ _selected[0].vmname }}"
                   virttype: "{{ _selected[0].virttype }}"
                   command: "autostartenable"
+                progressMessage: _("Enabling autostart ...")
+                successNotification: _("Autostart has been enabled.")
                 task: false
             enabledConstraints:
               minSelected: 1
@@ -1014,6 +1056,8 @@ data:
                   name: "{{ _selected[0].vmname }}"
                   virttype: "{{ _selected[0].virttype }}"
                   command: "autostartdisable"
+                progressMessage: _("Disabling autostart ...")
+                successNotification: _("Autostart has been disabled.")
                 task: false
             enabledConstraints:
               minSelected: 1
@@ -1044,6 +1088,8 @@ data:
                 params:
                   vmname: "{{ _selected[0].vmname }}"
                   virttype: "{{ _selected[0].virttype }}"
+                progressMessage: _("Creating snapshot ...")
+                successNotification: _("Snapshot has been created.")
                 task: false
           - text: _("Revert")
             icon: mdi:file-undo
@@ -1091,6 +1137,8 @@ data:
                       request:
                         service: Kvm
                         method: revertSnapshot
+                        progressMessage: _("Reverting to snapshot ...")
+                        successNotification: _("Snapshot has been reverted.")
           - text: _("Delete")
             icon: mdi:delete-outline
             enabledConstraints:
@@ -1137,6 +1185,8 @@ data:
                       request:
                         service: Kvm
                         method: deleteSnapshot
+                        progressMessage: _("Deleting snapshot ...")
+                        successNotification: _("Snapshot has been deleted.")
       - type: menu
         icon: mdi:remote-desktop
         tooltip: _("Console")
@@ -1212,6 +1262,8 @@ data:
                       request:
                         service: Kvm
                         method: doWeb
+                        progressMessage: _("Starting consoles ...")
+                        successNotification: _("Consoles have been started.")
           - text: _("Stop")
             icon: mdi:television-stop
             enabledConstraints:
@@ -1233,6 +1285,8 @@ data:
                   command: "stop"
                   hostport: "{{ _selected[0].novncport | int }}"
                   hostport2: "{{ _selected[0].spicehtml5port | int }}"
+                progressMessage: _("Stopping consoles ...")
+                successNotification: _("Consoles have been stopped.")
                 task: false
           - text: _("Add Spice")
             icon: mdi:plus-circle-outline
@@ -1259,6 +1313,8 @@ data:
                   spice: true
                   vmname: "{{ _selected[0].vmname }}"
                   virttype: "{{ _selected[0].virttype }}"
+                progressMessage: _("Adding spice viewer ...")
+                successNotification: _("Spice viewer has been added.")
                 task: false
           - text: _("Remove Spice")
             icon: mdi:minus-circle-outline
@@ -1285,6 +1341,8 @@ data:
                   spice: true
                   vmname: "{{ _selected[0].vmname }}"
                   virttype: "{{ _selected[0].virttype }}"
+                progressMessage: _("Removing spice viewer ...")
+                successNotification: _("Spice viewer has been removed.")
                 task: false
           - text: _("Add VNC")
             icon: mdi:plus-circle-outline
@@ -1311,6 +1369,8 @@ data:
                   spice: false
                   vmname: "{{ _selected[0].vmname }}"
                   virttype: "{{ _selected[0].virttype }}"
+                progressMessage: _("Adding VNC viewer ...")
+                successNotification: _("VNC viewer has been added.")
                 task: false
           - text: _("Remove VNC")
             icon: mdi:minus-circle-outline
@@ -1337,6 +1397,8 @@ data:
                   spice: false
                   vmname: "{{ _selected[0].vmname }}"
                   virttype: "{{ _selected[0].virttype }}"
+                progressMessage: _("Removing VNC viewer ...")
+                successNotification: _("VNC viewer has been removed.")
                 task: false
       - type: menu
         icon: mdi:cog-outline
@@ -1398,6 +1460,8 @@ data:
                       request:
                         service: Kvm
                         method: cloneVm
+                        progressMessage: _("Cloning ...")
+                        successNotification: _("Cloning complete.")
           - text: _("Linked Clone")
             icon: mdi:content-duplicate
             enabledConstraints:
@@ -1439,6 +1503,8 @@ data:
                       request:
                         service: Kvm
                         method: createLinkedClone
+                        progressMessage: _("Creating linked clone ...")
+                        successNotification: _("Linked clone complete.")
           - text: _("Edit Notes")
             icon: mdi:note-edit-outline
             execute:
@@ -1525,6 +1591,8 @@ data:
                       request:
                         service: Kvm
                         method: doChangeCpuMemory
+                        progressMessage: _("Changing number of CPUs ...")
+                        successNotification: _("CPU count has been changed.")
             enabledConstraints:
               minSelected: 1
               maxSelected: 1
@@ -1577,6 +1645,8 @@ data:
                       request:
                         service: Kvm
                         method: doChangeCpuMemory
+                        progressMessage: _("Changing memory amount ...")
+                        successNotification: _("Memory amount has been changed.")
             enabledConstraints:
               minSelected: 1
               maxSelected: 1

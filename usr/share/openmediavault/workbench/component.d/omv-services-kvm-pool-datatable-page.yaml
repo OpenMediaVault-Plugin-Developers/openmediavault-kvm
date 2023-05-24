@@ -158,6 +158,8 @@ data:
                   request:
                     service: Kvm
                     method: setPool
+                    progressMessage: _("Adding a pool ...")
+                    successNotification: _("Pool has been added.")
                 successUrl: /services/kvm/pool
       - type: iconButton
         icon: delete
@@ -169,6 +171,8 @@ data:
             method: deletePool
             params:
               name: "{{ _selected[0].name }}"
+            progressMessage: _("Deleting a pool ...")
+            successNotification: _("Pool has been deleted.")
         enabledConstraints:
           minSelected: 1
           maxSelected: 1
@@ -194,6 +198,8 @@ data:
                 params:
                   name: "{{ _selected[0].name }}"
                   command: "start"
+                progressMessage: _("Starting a pool ...")
+                successNotification: _("Pool has been started.")
                 task: false
                 successUrl: /services/kvm/pool
             enabledConstraints:
@@ -214,6 +220,8 @@ data:
                 params:
                   name: "{{ _selected[0].name }}"
                   command: "stop"
+                progressMessage: _("Stopping a pool ...")
+                successNotification: _("Pool has been stopped.")
                 task: false
                 successUrl: /services/kvm/pool
             enabledConstraints:

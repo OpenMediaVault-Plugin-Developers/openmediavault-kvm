@@ -114,6 +114,8 @@ data:
                       request:
                         service: Kvm
                         method: setNetwork
+                        progressMessage: _("Adding a network ...")
+                        successNotification: _("Network has been added.")
                     successUrl: /services/kvm/network
           - text: _("Add macvtap network")
             icon: mdi:plus-network-outline
@@ -143,6 +145,8 @@ data:
                       request:
                         service: Kvm
                         method: setMacvtap
+                        progressMessage: _("Adding a macvtap network ...")
+                        successNotification: _("macvtap network has been added.")
                     successUrl: /services/kvm/network
       - type: iconButton
         icon: delete
@@ -155,6 +159,8 @@ data:
             params:
               command: "delete"
               name: "{{ _selected[0].netname }}"
+            progressMessage: _("Deleting a network ...")
+            successNotification: _("Network has been deleted.")
         enabledConstraints:
           minSelected: 1
           maxSelected: 1
@@ -180,6 +186,8 @@ data:
                 params:
                   name: "{{ _selected[0].netname }}"
                   command: "start"
+                progressMessage: _("Starting network ...")
+                successNotification: _("Network has been started.")
                 task: false
                 successUrl: /services/kvm/network
             enabledConstraints:
@@ -200,6 +208,8 @@ data:
                 params:
                   name: "{{ _selected[0].netname }}"
                   command: "stop"
+                progressMessage: _("Stopping network ...")
+                successNotification: _("Network has been stopped.")
                 task: false
                 successUrl: /services/kvm/network
             enabledConstraints:
