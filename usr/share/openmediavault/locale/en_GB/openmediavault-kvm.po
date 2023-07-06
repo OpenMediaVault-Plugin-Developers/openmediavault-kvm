@@ -4,7 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Andi Chandler <andi@gowling.com>, 2022
+# Andi Chandler <andi@gowling.com>, 2023
 # 
 #, fuzzy
 msgid ""
@@ -13,8 +13,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-08 18:14-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
-"Last-Translator: Andi Chandler <andi@gowling.com>, 2022\n"
-"Language-Team: English (United Kingdom) (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/en_GB/)\n"
+"Last-Translator: Andi Chandler <andi@gowling.com>, 2023\n"
+"Language-Team: English (United Kingdom) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,7 +25,7 @@ msgid " already exists!"
 msgstr " already exists!"
 
 msgid " the network!"
-msgstr ""
+msgstr " the network!"
 
 msgid "Action"
 msgstr "Action"
@@ -46,13 +46,13 @@ msgid "Add VNC"
 msgstr "Add VNC"
 
 msgid "Add disc"
-msgstr ""
+msgstr "Add disc"
 
 msgid "Add disk"
 msgstr "Add disk"
 
 msgid "Add host drive"
-msgstr ""
+msgstr "Add host drive"
 
 msgid "Add macvtap network"
 msgstr "Add macvtap network"
@@ -67,7 +67,7 @@ msgid "Add new VM"
 msgstr "Add new VM"
 
 msgid "Add new container"
-msgstr ""
+msgstr "Add new container"
 
 msgid "Add new pool"
 msgstr "Add new pool"
@@ -76,7 +76,7 @@ msgid "Add passthrough"
 msgstr "Add passthrough"
 
 msgid "Add virtual TPM 2.0 device"
-msgstr ""
+msgstr "Add virtual TPM 2.0 device"
 
 msgid "Advanced"
 msgstr "Advanced"
@@ -130,10 +130,10 @@ msgid "Call"
 msgstr "Call"
 
 msgid "Cannot remove / from a container."
-msgstr ""
+msgstr "Cannot remove / from a container."
 
 msgid "Cannot use / for mount point."
-msgstr ""
+msgstr "Cannot use / for mount point."
 
 msgid "Capacity"
 msgstr "Capacity"
@@ -172,7 +172,7 @@ msgid "Convert to raw"
 msgstr "Convert to raw"
 
 msgid "Converting to qcow2 ..."
-msgstr ""
+msgstr "Converting to qcow2 ..."
 
 msgid "Converting to raw ..."
 msgstr "Converting to raw ..."
@@ -181,7 +181,7 @@ msgid "Create"
 msgstr "Create"
 
 msgid "Create LXC"
-msgstr ""
+msgstr "Create LXC"
 
 msgid "Create VM"
 msgstr "Create VM"
@@ -190,7 +190,7 @@ msgid "Create backing file"
 msgstr "Create backing file"
 
 msgid "Created LXC."
-msgstr ""
+msgstr "Created LXC."
 
 msgid "Created VM."
 msgstr "Created VM."
@@ -226,13 +226,13 @@ msgid "Delete + storage"
 msgstr "Delete + storage"
 
 msgid "Details"
-msgstr ""
+msgstr "Details"
 
 msgid "Directory"
 msgstr "Directory"
 
 msgid "Directory is not empty!"
-msgstr ""
+msgstr "Directory is not empty!"
 
 msgid "Disable"
 msgstr "Disable"
@@ -241,596 +241,600 @@ msgid "Disk"
 msgstr "Disk"
 
 msgid "Disk info"
-msgstr ""
+msgstr "Disk info"
 
 msgid "Disk list"
-msgstr ""
+msgstr "Disk list"
 
 msgid "Disk stats"
-msgstr ""
+msgstr "Disk stats"
 
 msgid "Disk(s)"
 msgstr "Disk(s)"
 
 msgid "Download virtio iso"
-msgstr ""
+msgstr "Download VirtIO ISO"
 
 msgid "Download virtio iso ..."
-msgstr ""
+msgstr "Download VirtIO ISO ..."
 
 msgid "Edit"
-msgstr ""
+msgstr "Edit"
 
 msgid "Edit Notes"
-msgstr ""
+msgstr "Edit Notes"
 
 msgid "Edit VM xml"
-msgstr ""
+msgstr "Edit VM xml"
 
 msgid "Edit VM xml."
-msgstr ""
+msgstr "Edit VM xml."
 
 msgid "Edit XML"
-msgstr ""
+msgstr "Edit XML"
 
 msgid "Edit scheduled job."
-msgstr ""
+msgstr "Edit scheduled job."
 
 msgid "Edit settings."
-msgstr ""
+msgstr "Edit settings."
 
 msgid "Enable"
-msgstr ""
+msgstr "Enable"
 
 msgid "Execute backup using selected VM name and path ..."
-msgstr ""
+msgstr "Execute backup using selected VM name and path ..."
 
 msgid "Execute backup with compression using selected VM name and path ..."
-msgstr ""
+msgstr "Execute backup with compression using selected VM name and path ..."
 
 msgid "Execute scheduled job ..."
-msgstr ""
+msgstr "Execute scheduled job ..."
 
 msgid "Extend"
-msgstr ""
+msgstr "Extend"
 
 msgid "Extension"
-msgstr ""
+msgstr "Extension"
 
 msgid "Failed to "
-msgstr ""
+msgstr "Failed to "
 
 msgid "Failed to add USB device."
-msgstr ""
+msgstr "Failed to add USB device."
 
 msgid "Failed to add VNC device."
-msgstr ""
+msgstr "Failed to add VNC device."
 
 msgid "Failed to add disk."
-msgstr ""
+msgstr "Failed to add disk."
 
 msgid "Failed to add filesystem passthrough."
-msgstr ""
+msgstr "Failed to add filesystem passthrough."
 
 msgid "Failed to add host optical."
-msgstr ""
+msgstr "Failed to add host optical."
 
 msgid "Failed to add optical."
-msgstr ""
+msgstr "Failed to add optical."
 
 msgid "Failed to add spice device."
-msgstr ""
+msgstr "Failed to add spice device."
 
 msgid "Failed to add spicevmc channel."
-msgstr ""
+msgstr "Failed to add spicevmc channel."
 
 msgid "Failed to create VM XML."
-msgstr ""
+msgstr "Failed to create VM XML."
 
 msgid "Failed to create VM."
-msgstr ""
+msgstr "Failed to create VM."
 
 msgid "Failed to create new disk :: "
-msgstr ""
+msgstr "Failed to create new disk :: "
 
 msgid "Failed to delete VM."
-msgstr ""
+msgstr "Failed to delete VM."
 
 msgid "Failed to remove USB device."
-msgstr ""
+msgstr "Failed to remove USB device."
 
 msgid "Failed to remove VNC device."
-msgstr ""
+msgstr "Failed to remove VNC device."
 
 msgid "Failed to remove disk."
-msgstr ""
+msgstr "Failed to remove disk."
 
 msgid "Failed to remove filesystem passthrough."
-msgstr ""
+msgstr "Failed to remove filesystem passthrough."
 
 msgid "Failed to remove network."
-msgstr ""
+msgstr "Failed to remove network."
 
 msgid "Failed to remove spice device."
-msgstr ""
+msgstr "Failed to remove spice device."
 
 msgid "Failed to remove spicevmc channel."
-msgstr ""
+msgstr "Failed to remove spicevmc channel."
 
 msgid "Failed to remove spicevmc redirdev."
-msgstr ""
+msgstr "Failed to remove spicevmc redirdev."
 
 msgid "Failed to reset VM."
-msgstr ""
+msgstr "Failed to reset VM."
 
 msgid "Failed to resize disk!"
-msgstr ""
+msgstr "Failed to resize disk!"
 
 msgid "Failed to set change."
-msgstr ""
+msgstr "Failed to set change."
 
 msgid "Failed to set maximum."
-msgstr ""
+msgstr "Failed to set maximum."
 
 msgid "Failed to set pool autostart."
-msgstr ""
+msgstr "Failed to set pool autostart."
 
 msgid "Failed to start pool."
-msgstr ""
+msgstr "Failed to start pool."
 
 msgid "Failed to start websockify for noVNC."
-msgstr ""
+msgstr "Failed to start websockify for noVNC."
 
 msgid "Failed to start websockify for spice-html5."
-msgstr ""
+msgstr "Failed to start websockify for spice-html5."
 
 msgid "File will be place in same directory as the base image."
-msgstr ""
+msgstr "File will be place in same directory as the base image."
 
 msgid "Filesystem"
-msgstr ""
+msgstr "Filesystem"
 
 msgid ""
 "For description of each type and how to configure <a "
 "href='https://libvirt.org/storage.html' "
 "target='_blank'>libvirt.org/storage.html</a>"
 msgstr ""
+"For description of each type and how to configure <a "
+"href='https://libvirt.org/storage.html' "
+"target='_blank'>libvirt.org/storage.html</a>"
 
 msgid "Force"
-msgstr ""
+msgstr "Force"
 
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 msgid "Forwarding"
-msgstr ""
+msgstr "Forwarding"
 
 msgid "Gateway IP"
-msgstr ""
+msgstr "Gateway IP"
 
 msgid "Gateway IP address"
-msgstr ""
+msgstr "Gateway IP address"
 
 msgid "GiB"
-msgstr ""
+msgstr "GiB"
 
 msgid "Gigabytes"
-msgstr ""
+msgstr "Gigabytes"
 
 msgid "Hard disk"
-msgstr ""
+msgstr "Hard disk"
 
 msgid "Host VNC port"
-msgstr ""
+msgstr "Host VNC port"
 
 msgid "Host name"
-msgstr ""
+msgstr "Host name"
 
 msgid "Host spice port"
-msgstr ""
+msgstr "Host spice port"
 
 msgid "IP Range"
-msgstr ""
+msgstr "IP Range"
 
 msgid "ISOs"
-msgstr ""
+msgstr "ISOs"
 
 msgid ""
 "If unchecked, LXC Container Initialization and Autoboot will be disabled."
 msgstr ""
+"If unchecked, LXC Container Initialisation and Autoboot will be disabled."
 
 msgid "If unchecked, LXC network bridge will be disabled."
-msgstr ""
+msgstr "If unchecked, LXC network bridge will be disabled."
 
 msgid "Image"
-msgstr ""
+msgstr "Image"
 
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 msgid "KVM"
-msgstr ""
+msgstr "KVM"
 
 msgid "KVM Backup"
-msgstr ""
+msgstr "KVM Backup"
 
 msgid "Keep"
-msgstr ""
+msgstr "Keep"
 
 msgid "Keep Recent"
-msgstr ""
+msgstr "Keep Recent"
 
 msgid "Keep the most recent number of backups. 0 = keep all backups"
-msgstr ""
+msgstr "Keep the most recent number of backups. 0 = keep all backups"
 
 msgid "LXC"
-msgstr ""
+msgstr "LXC"
 
 msgid "LXC name"
-msgstr ""
+msgstr "LXC name"
 
 msgid "Leave blank for random address."
-msgstr ""
+msgstr "Leave blank for random address."
 
 msgid "Leave blank to use VM name."
-msgstr ""
+msgstr "Leave blank to use VM name."
 
 msgid "Linked Clone"
-msgstr ""
+msgstr "Linked Clone"
 
 msgid "Logical"
-msgstr ""
+msgstr "Logical"
 
 msgid "MAC address"
-msgstr ""
+msgstr "MAC address"
 
 msgid "Megabytes"
-msgstr ""
+msgstr "Megabytes"
 
 msgid "Memory"
-msgstr ""
+msgstr "Memory"
 
 msgid "Message"
-msgstr ""
+msgstr "Message"
 
 msgid "MiB"
-msgstr ""
+msgstr "MiB"
 
 msgid "Model"
-msgstr ""
+msgstr "Model"
 
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
 msgid "Network"
-msgstr ""
+msgstr "Network"
 
 msgid "Network Filesystem"
-msgstr ""
+msgstr "Network Filesystem"
 
 msgid "Network Name"
-msgstr ""
+msgstr "Network Name"
 
 msgid "Network State"
-msgstr ""
+msgstr "Network State"
 
 msgid "Networks"
-msgstr ""
+msgstr "Networks"
 
 msgid "New name"
-msgstr ""
+msgstr "New name"
 
 msgid "No image - use existing image path"
-msgstr ""
+msgstr "No image - use existing image path"
 
 msgid "Notes"
-msgstr ""
+msgstr "Notes"
 
 msgid "OS"
-msgstr ""
+msgstr "OS"
 
 msgid "Optical"
-msgstr ""
+msgstr "Optical"
 
 msgid "Optical Drive"
-msgstr ""
+msgstr "Optical Drive"
 
 msgid "Other CPU"
-msgstr ""
+msgstr "Other CPU"
 
 msgid "Passthrough Filesystem"
-msgstr ""
+msgstr "Passthrough Filesystem"
 
 msgid "Path"
-msgstr ""
+msgstr "Path"
 
 msgid "Pause"
-msgstr ""
+msgstr "Pause"
 
 msgid "Pool"
-msgstr ""
+msgstr "Pool"
 
 msgid "Pools"
-msgstr ""
+msgstr "Pools"
 
 msgid "Reboot"
-msgstr ""
+msgstr "Reboot"
 
 msgid "Remove Spice"
-msgstr ""
+msgstr "Remove Spice"
 
 msgid "Remove USB"
-msgstr ""
+msgstr "Remove USB"
 
 msgid "Remove VNC"
-msgstr ""
+msgstr "Remove VNC"
 
 msgid "Remove disc"
-msgstr ""
+msgstr "Remove disc"
 
 msgid "Remove disk"
-msgstr ""
+msgstr "Remove disk"
 
 msgid "Remove network"
-msgstr ""
+msgstr "Remove network"
 
 msgid "Remove passthrough"
-msgstr ""
+msgstr "Remove passthrough"
 
 msgid "Reset"
-msgstr ""
+msgstr "Reset"
 
 msgid "Restore"
-msgstr ""
+msgstr "Restore"
 
 msgid "Restore VM ..."
-msgstr ""
+msgstr "Restore VM ..."
 
 msgid "Resume"
-msgstr ""
+msgstr "Resume"
 
 msgid "Revert"
-msgstr ""
+msgstr "Revert"
 
 msgid "Run"
-msgstr ""
+msgstr "Run"
 
 msgid "Running"
-msgstr ""
+msgstr "Running"
 
 msgid "Same Format"
-msgstr ""
+msgstr "Same Format"
 
 msgid "Schedule"
-msgstr ""
+msgstr "Schedule"
 
 msgid "Select a snapshot ..."
-msgstr ""
+msgstr "Select a snapshot ..."
 
 msgid "Settings"
-msgstr ""
+msgstr "Settings"
 
 msgid "Show advanced options"
-msgstr ""
+msgstr "Show advanced options"
 
 msgid "Size"
-msgstr ""
+msgstr "Size"
 
 msgid "Snapshot"
-msgstr ""
+msgstr "Snapshot"
 
 msgid "Snapshots"
-msgstr ""
+msgstr "Snapshots"
 
 msgid "Source VM"
-msgstr ""
+msgstr "Source VM"
 
 msgid "Source path"
-msgstr ""
+msgstr "Source path"
 
 msgid "Space Used"
-msgstr ""
+msgstr "Space Used"
 
 msgid "Spice"
-msgstr ""
+msgstr "Spice"
 
 msgid "Spice port"
-msgstr ""
+msgstr "Spice port"
 
 msgid "Start"
-msgstr ""
+msgstr "Start"
 
 msgid "State"
-msgstr ""
+msgstr "State"
 
 msgid "Stop"
-msgstr ""
+msgstr "Stop"
 
 msgid "Storage Volume"
-msgstr ""
+msgstr "Storage Volume"
 
 msgid "Subnet mask"
-msgstr ""
+msgstr "Subnet mask"
 
 msgid "TPM"
-msgstr ""
+msgstr "TPM"
 
 msgid "Terabytes"
-msgstr ""
+msgstr "Terabytes"
 
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 msgid "UEFI"
-msgstr ""
+msgstr "UEFI"
 
 msgid "USB"
-msgstr ""
+msgstr "USB"
 
 msgid "UUID"
-msgstr ""
+msgstr "UUID"
 
 msgid "Unable to - "
-msgstr ""
+msgstr "Unable to - "
 
 msgid "Unable to add network adapter to VM - "
-msgstr ""
+msgstr "Unable to add network adapter to VM - "
 
 msgid "Unable to change notes for VM - "
-msgstr ""
+msgstr "Unable to change notes for VM - "
 
 msgid "Unable to change topolgy cores for VM - "
-msgstr ""
+msgstr "Unable to change topolgy cores for VM - "
 
 msgid "Unable to create Macvap - "
-msgstr ""
+msgstr "Unable to create Macvap - "
 
 msgid "Unable to create network - "
-msgstr ""
+msgstr "Unable to create network - "
 
 msgid "Unable to create pool - "
-msgstr ""
+msgstr "Unable to create pool - "
 
 msgid "Unable to create snapshot - "
-msgstr ""
+msgstr "Unable to create snapshot - "
 
 msgid "Unable to create volume - "
-msgstr ""
+msgstr "Unable to create volume - "
 
 msgid "Unable to delete disk(s) from VM - "
-msgstr ""
+msgstr "Unable to delete disk(s) from VM - "
 
 msgid "Unable to delete network - "
-msgstr ""
+msgstr "Unable to delete network - "
 
 msgid "Unable to delete pool - "
-msgstr ""
+msgstr "Unable to delete pool - "
 
 msgid "Unable to delete snapshot - "
-msgstr ""
+msgstr "Unable to delete snapshot - "
 
 msgid "Unable to delete volume - "
-msgstr ""
+msgstr "Unable to delete volume - "
 
 msgid "Unable to get network adapter type - "
-msgstr ""
+msgstr "Unable to get network adapter type - "
 
 msgid "Unable to revert to snapshot - "
-msgstr ""
+msgstr "Unable to revert to snapshot - "
 
 msgid "Unable to set VM XML - "
-msgstr ""
+msgstr "Unable to set VM XML - "
 
 msgid "Unable to start network - "
-msgstr ""
+msgstr "Unable to start network - "
 
 msgid "Unable to stop network - "
-msgstr ""
+msgstr "Unable to stop network - "
 
 msgid "Unit"
-msgstr ""
+msgstr "Unit"
 
 msgid "VM Name"
-msgstr ""
+msgstr "VM Name"
 
 msgid "VM info"
-msgstr ""
+msgstr "VM info"
 
 msgid "VM name"
-msgstr ""
+msgstr "VM name"
 
 msgid "VM name for restored VM"
-msgstr ""
+msgstr "VM name for restored VM"
 
 msgid "VMs"
-msgstr ""
+msgstr "VMs"
 
 msgid "VNC"
-msgstr ""
+msgstr "VNC"
 
 msgid "VNC port"
-msgstr ""
+msgstr "VNC port"
 
 msgid "Volume Count"
-msgstr ""
+msgstr "Volume Count"
 
 msgid "Volume group"
-msgstr ""
+msgstr "Volume group"
 
 msgid "Volume info ..."
-msgstr ""
+msgstr "Volume info ..."
 
 msgid "Volumes"
-msgstr ""
+msgstr "Volumes"
 
 msgid "XML"
-msgstr ""
+msgstr "XML"
 
 msgid "ZFS"
-msgstr ""
+msgstr "ZFS"
 
 msgid "bridge"
-msgstr ""
+msgstr "bridge"
 
 msgid "e1000"
-msgstr ""
+msgstr "e1000"
 
 msgid "iSCSI"
-msgstr ""
+msgstr "iSCSI"
 
 msgid "ide"
-msgstr ""
+msgstr "ide"
 
 msgid "lxc service"
-msgstr ""
+msgstr "lxc service"
 
 msgid "lxc-net service"
-msgstr ""
+msgstr "lxc-net service"
 
 msgid "ne2k_pci"
-msgstr ""
+msgstr "ne2k_pci"
 
 msgid "noVNC URL"
-msgstr ""
+msgstr "noVNC URL"
 
 msgid "noVNC port"
-msgstr ""
+msgstr "noVNC port"
 
 msgid "pcnet"
-msgstr ""
+msgstr "pcnet"
 
 msgid "qcow2"
-msgstr ""
+msgstr "qcow2"
 
 msgid "raw"
-msgstr ""
+msgstr "raw"
 
 msgid "rtl8139"
-msgstr ""
+msgstr "rtl8139"
 
 msgid "sata"
-msgstr ""
+msgstr "sata"
 
 msgid "scsi"
-msgstr ""
+msgstr "scsi"
 
 msgid "spice-html5 URL"
-msgstr ""
+msgstr "spice-html5 URL"
 
 msgid "spice-html5 port"
-msgstr ""
+msgstr "spice-html5 port"
 
 msgid "vCPU"
-msgstr ""
+msgstr "vCPU"
 
 msgid "vCPUs"
-msgstr ""
+msgstr "vCPUs"
 
 msgid "virtio"
-msgstr ""
+msgstr "virtio"
 
 msgid "vmxnet3"
-msgstr ""
+msgstr "vmxnet3"
 
 msgid "zPool name"
-msgstr ""
+msgstr "zPool name"

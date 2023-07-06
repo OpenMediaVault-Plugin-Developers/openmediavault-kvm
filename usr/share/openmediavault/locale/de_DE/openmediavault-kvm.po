@@ -6,6 +6,7 @@
 # Translators:
 # Thomas Melka, 2022
 # Ettore Atalan <atalanttore@googlemail.com>, 2022
+# Dampflok_HD, 2023
 # 
 #, fuzzy
 msgid ""
@@ -14,8 +15,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-08 18:14-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
-"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>, 2022\n"
-"Language-Team: German (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/de/)\n"
+"Last-Translator: Dampflok_HD, 2023\n"
+"Language-Team: German (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -26,7 +27,7 @@ msgid " already exists!"
 msgstr "ist bereits vorhanden!"
 
 msgid " the network!"
-msgstr ""
+msgstr "Das Netzwerk!"
 
 msgid "Action"
 msgstr "Aktion"
@@ -182,7 +183,7 @@ msgid "Create"
 msgstr "Erstellen"
 
 msgid "Create LXC"
-msgstr ""
+msgstr "Erstelle LXC"
 
 msgid "Create VM"
 msgstr "Erstelle VM"
@@ -191,7 +192,7 @@ msgid "Create backing file"
 msgstr ""
 
 msgid "Created LXC."
-msgstr ""
+msgstr "LXC erstellt."
 
 msgid "Created VM."
 msgstr "VM erstellt."
@@ -266,19 +267,19 @@ msgid "Edit Notes"
 msgstr ""
 
 msgid "Edit VM xml"
-msgstr ""
+msgstr "VM xml bearbeiten"
 
 msgid "Edit VM xml."
-msgstr ""
+msgstr "VM xml bearbeiten."
 
 msgid "Edit XML"
 msgstr "XML bearbeiten"
 
 msgid "Edit scheduled job."
-msgstr ""
+msgstr "Geplante Aufgabe bearbeiten."
 
 msgid "Edit settings."
-msgstr ""
+msgstr "Einstellungen bearbeiten."
 
 msgid "Enable"
 msgstr "Aktivieren"
@@ -329,19 +330,19 @@ msgid "Failed to create VM XML."
 msgstr "Fehler beim Erstellen der VM XML."
 
 msgid "Failed to create VM."
-msgstr ""
+msgstr "Fehler beim Erstellen der VM."
 
 msgid "Failed to create new disk :: "
 msgstr ""
 
 msgid "Failed to delete VM."
-msgstr ""
+msgstr "Fehler beim Löschen der VM."
 
 msgid "Failed to remove USB device."
-msgstr ""
+msgstr "USB-Gerät konnte nicht entfernt werden."
 
 msgid "Failed to remove VNC device."
-msgstr ""
+msgstr "VNC-Gerät konnte nicht entfernt werden."
 
 msgid "Failed to remove disk."
 msgstr ""
@@ -465,10 +466,10 @@ msgid "Keep the most recent number of backups. 0 = keep all backups"
 msgstr ""
 
 msgid "LXC"
-msgstr ""
+msgstr "LXC"
 
 msgid "LXC name"
-msgstr ""
+msgstr "LXC Name"
 
 msgid "Leave blank for random address."
 msgstr "Für eine zufällige Adresse leer lassen."
@@ -654,7 +655,7 @@ msgid "Subnet mask"
 msgstr "Subnetzmaske"
 
 msgid "TPM"
-msgstr ""
+msgstr "TPM"
 
 msgid "Terabytes"
 msgstr ""
@@ -669,7 +670,7 @@ msgid "USB"
 msgstr "USB"
 
 msgid "UUID"
-msgstr ""
+msgstr "UUID"
 
 msgid "Unable to - "
 msgstr ""
@@ -738,7 +739,7 @@ msgid "VM info"
 msgstr ""
 
 msgid "VM name"
-msgstr ""
+msgstr "VM Name"
 
 msgid "VM name for restored VM"
 msgstr ""
@@ -780,7 +781,7 @@ msgid "iSCSI"
 msgstr "iSCSI"
 
 msgid "ide"
-msgstr "Leerlauf"
+msgstr "ide"
 
 msgid "lxc service"
 msgstr ""
@@ -789,7 +790,7 @@ msgid "lxc-net service"
 msgstr ""
 
 msgid "ne2k_pci"
-msgstr ""
+msgstr "ne2k_pci"
 
 msgid "noVNC URL"
 msgstr ""
@@ -801,19 +802,19 @@ msgid "pcnet"
 msgstr ""
 
 msgid "qcow2"
-msgstr ""
+msgstr "qcow2"
 
 msgid "raw"
 msgstr ""
 
 msgid "rtl8139"
-msgstr ""
+msgstr "rtl8139"
 
 msgid "sata"
-msgstr ""
+msgstr "sata"
 
 msgid "scsi"
-msgstr ""
+msgstr "scsi"
 
 msgid "spice-html5 URL"
 msgstr ""
@@ -822,16 +823,16 @@ msgid "spice-html5 port"
 msgstr ""
 
 msgid "vCPU"
-msgstr ""
+msgstr "vCPU"
 
 msgid "vCPUs"
-msgstr ""
+msgstr "vCPUs"
 
 msgid "virtio"
-msgstr ""
+msgstr "virtio"
 
 msgid "vmxnet3"
-msgstr ""
+msgstr "vmxnet3"
 
 msgid "zPool name"
-msgstr ""
+msgstr "zPool Name"

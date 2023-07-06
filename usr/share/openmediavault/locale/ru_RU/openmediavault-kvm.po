@@ -3,6 +3,9 @@
 # This file is distributed under the same license as the openmediavault-kvm package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
+# Translators:
+# Дмитрий <bardimnik@rambler.ru>, 2023
+# 
 #, fuzzy
 msgid ""
 msgstr ""
@@ -10,7 +13,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-08 18:14-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
-"Language-Team: Russian (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/ru/)\n"
+"Last-Translator: Дмитрий <bardimnik@rambler.ru>, 2023\n"
+"Language-Team: Russian (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 msgid " already exists!"
-msgstr ""
+msgstr "уже существует!"
 
 msgid " the network!"
 msgstr ""
@@ -30,16 +34,16 @@ msgid "Activity"
 msgstr ""
 
 msgid "Add"
-msgstr ""
+msgstr "Добавить"
 
 msgid "Add Spice"
 msgstr ""
 
 msgid "Add USB"
-msgstr ""
+msgstr "Добавить USB"
 
 msgid "Add VNC"
-msgstr ""
+msgstr "Добавить VNC"
 
 msgid "Add disc"
 msgstr ""
@@ -60,265 +64,269 @@ msgid "Add new"
 msgstr ""
 
 msgid "Add new VM"
-msgstr ""
+msgstr "Добавить новую VM"
 
 msgid "Add new container"
-msgstr ""
+msgstr "Добавить новый контейнер"
 
 msgid "Add new pool"
-msgstr ""
+msgstr "Добавить новый пул"
 
 msgid "Add passthrough"
 msgstr ""
 
 msgid "Add virtual TPM 2.0 device"
-msgstr ""
+msgstr "Добавить новое TPM 2.0 устройство"
 
 msgid "Advanced"
-msgstr ""
+msgstr "Дополнительно"
 
 msgid "Allocation"
-msgstr ""
+msgstr "Размещение"
 
 msgid "Amount"
-msgstr ""
+msgstr "Размер"
 
 msgid "Arch"
 msgstr ""
 
 msgid "Architecture"
-msgstr ""
+msgstr "Архитектура"
 
 msgid "Are you sure you want to delete?"
-msgstr ""
+msgstr "Вы уверены, что хотите удалить?"
 
 msgid "Audio"
-msgstr ""
+msgstr "Аудио"
 
 msgid "AutoStart"
-msgstr ""
+msgstr "Автостарт"
 
 msgid "Available"
-msgstr ""
+msgstr "Доступность"
 
 msgid "Backing file"
-msgstr ""
+msgstr "Резервный файл"
 
 msgid "Backup"
-msgstr ""
+msgstr "Резервное копирование"
 
 msgid "Backup with Compression"
-msgstr ""
+msgstr "Резервное копирование со сжатием"
 
 msgid "Base image"
-msgstr ""
+msgstr "Базовое изображение"
 
 msgid "Bus"
-msgstr ""
+msgstr "Шина"
 
 msgid "CPU"
-msgstr ""
+msgstr "Процессор"
 
 msgid "CPUs"
-msgstr ""
+msgstr "Процессоры"
 
 msgid "Call"
 msgstr ""
 
 msgid "Cannot remove / from a container."
-msgstr ""
+msgstr "Невозможно удалить / из контейнера."
 
 msgid "Cannot use / for mount point."
-msgstr ""
+msgstr "Невозможно использовать / для точки монтирования."
 
 msgid "Capacity"
-msgstr ""
+msgstr "Объём"
 
 msgid "Change memory"
-msgstr ""
+msgstr "Изменить память"
 
 msgid "Change vCPU"
-msgstr ""
+msgstr "Изменить виртуальный процессор"
 
 msgid "Check"
-msgstr ""
+msgstr "Проверка"
 
 msgid "Check volume ..."
-msgstr ""
+msgstr "Проверка объёма ..."
 
 msgid "Clone"
-msgstr ""
+msgstr "Клонирование"
 
 msgid "Clone name"
-msgstr ""
+msgstr "Имя клона"
 
 msgid "Component"
-msgstr ""
+msgstr "Компонент"
 
 msgid "Compression"
-msgstr ""
+msgstr "Сжатие"
 
 msgid "Console"
-msgstr ""
+msgstr "Консоль"
 
 msgid "Convert to qcow2"
-msgstr ""
+msgstr "Преобразовать в qcow2"
 
 msgid "Convert to raw"
-msgstr ""
+msgstr "Преобразовать в raw"
 
 msgid "Converting to qcow2 ..."
-msgstr ""
+msgstr "Преобразование в qcow2 ..."
 
 msgid "Converting to raw ..."
-msgstr ""
+msgstr "Преобразование в raw ..."
 
 msgid "Create"
-msgstr ""
+msgstr "Создать"
 
 msgid "Create LXC"
-msgstr ""
+msgstr "Создать LXC"
 
 msgid "Create VM"
-msgstr ""
+msgstr "Создать VM"
 
 msgid "Create backing file"
-msgstr ""
+msgstr "Создать резервный файл"
 
 msgid "Created LXC."
-msgstr ""
+msgstr "Создан LXC."
 
 msgid "Created VM."
-msgstr ""
+msgstr "Создана VM."
 
 msgid "Created scheduled job."
-msgstr ""
+msgstr "Создано плановое задание."
 
 msgid "Current size"
-msgstr ""
+msgstr "Текущий размер"
 
 msgid "DHCP"
 msgstr ""
 
 msgid "DHCP Range"
-msgstr ""
+msgstr "DHCP диапазон"
 
 msgid "DHCP ending address"
-msgstr ""
+msgstr "Конечный адрес DHCP"
 
 msgid "DHCP starting address"
-msgstr ""
+msgstr "Начальный адрес DHCP"
 
 msgid "Date"
-msgstr ""
+msgstr "Дата"
 
 msgid "Date & Time"
-msgstr ""
+msgstr "Дата и Время"
 
 msgid "Delete"
-msgstr ""
+msgstr "Удалить"
 
 msgid "Delete + storage"
-msgstr ""
+msgstr "Удалить + хранилище"
 
 msgid "Details"
-msgstr ""
+msgstr "Детали"
 
 msgid "Directory"
-msgstr ""
+msgstr "Каталог"
 
 msgid "Directory is not empty!"
-msgstr ""
+msgstr "Каталог не пуст!"
 
 msgid "Disable"
-msgstr ""
+msgstr "Отключить"
 
 msgid "Disk"
-msgstr ""
+msgstr "Диск"
 
 msgid "Disk info"
-msgstr ""
+msgstr "Информация о диске"
 
 msgid "Disk list"
-msgstr ""
+msgstr "Список дисков"
 
 msgid "Disk stats"
-msgstr ""
+msgstr "Статистика диска"
 
 msgid "Disk(s)"
-msgstr ""
+msgstr "Диск(и)"
 
 msgid "Download virtio iso"
-msgstr ""
+msgstr "Скачать virtio iso"
 
 msgid "Download virtio iso ..."
-msgstr ""
+msgstr "Загрузка virtio iso ..."
 
 msgid "Edit"
-msgstr ""
+msgstr "Редактировать"
 
 msgid "Edit Notes"
-msgstr ""
+msgstr "Редактировать примечания"
 
 msgid "Edit VM xml"
-msgstr ""
+msgstr "Изменить XML-файл виртуальной машины"
 
 msgid "Edit VM xml."
-msgstr ""
+msgstr "Изменение XML-файла виртуальной машины."
 
 msgid "Edit XML"
-msgstr ""
+msgstr "Изменить XML-файл"
 
 msgid "Edit scheduled job."
-msgstr ""
+msgstr "Изменение запланированного задания."
 
 msgid "Edit settings."
-msgstr ""
+msgstr "Изменение настроек."
 
 msgid "Enable"
-msgstr ""
+msgstr "Включить"
 
 msgid "Execute backup using selected VM name and path ..."
 msgstr ""
+"Выполнение резервного копирования, используя выбранное имя и путь "
+"виртуальной машины..."
 
 msgid "Execute backup with compression using selected VM name and path ..."
 msgstr ""
+"Выполнение резервного копирования со сжатием, используя выбранное имя и путь"
+" виртуальной машины ..."
 
 msgid "Execute scheduled job ..."
-msgstr ""
+msgstr "Выполнение запланированного задания ..."
 
 msgid "Extend"
-msgstr ""
+msgstr "Продление"
 
 msgid "Extension"
-msgstr ""
+msgstr "Расширение"
 
 msgid "Failed to "
-msgstr ""
+msgstr "Не удалось "
 
 msgid "Failed to add USB device."
-msgstr ""
+msgstr "Не удалось добавить USB-устройство."
 
 msgid "Failed to add VNC device."
-msgstr ""
+msgstr "Не удалось добавить устройство VNC."
 
 msgid "Failed to add disk."
-msgstr ""
+msgstr "Не удалось добавить диск."
 
 msgid "Failed to add filesystem passthrough."
-msgstr ""
+msgstr "Не удалось добавить сквозную передачу файловой системы."
 
 msgid "Failed to add host optical."
-msgstr ""
+msgstr "Не удалось добавить оптический диск хоста."
 
 msgid "Failed to add optical."
-msgstr ""
+msgstr "Не удалось добавить оптический диск."
 
 msgid "Failed to add spice device."
-msgstr ""
+msgstr "Не удалось добавить spice-устройство."
 
 msgid "Failed to add spicevmc channel."
-msgstr ""
+msgstr "Не удалось добавить канал spicevmc."
 
 msgid "Failed to create VM XML."
 msgstr ""

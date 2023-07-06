@@ -3,6 +3,9 @@
 # This file is distributed under the same license as the openmediavault-kvm package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
+# Translators:
+# Jonatan Nyberg, 2023
+# 
 #, fuzzy
 msgid ""
 msgstr ""
@@ -10,7 +13,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-08 18:14-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
-"Language-Team: Swedish (https://www.transifex.com/openmediavault-plugin-developers/teams/1854/sv/)\n"
+"Last-Translator: Jonatan Nyberg, 2023\n"
+"Language-Team: Swedish (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,265 +22,265 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid " already exists!"
-msgstr ""
+msgstr "existerar redan!"
 
 msgid " the network!"
-msgstr ""
+msgstr "nätverket!"
 
 msgid "Action"
-msgstr ""
+msgstr "Åtgärd"
 
 msgid "Activity"
-msgstr ""
+msgstr "Aktivitet"
 
 msgid "Add"
-msgstr ""
+msgstr "Lägg till"
 
 msgid "Add Spice"
-msgstr ""
+msgstr "Lägg till Spice"
 
 msgid "Add USB"
-msgstr ""
+msgstr "Lägg till USB"
 
 msgid "Add VNC"
-msgstr ""
+msgstr "Lägg till VNC"
 
 msgid "Add disc"
-msgstr ""
+msgstr "Lägg till skiva"
 
 msgid "Add disk"
-msgstr ""
+msgstr "Lägg till disk"
 
 msgid "Add host drive"
-msgstr ""
+msgstr "Lägg till värdenhet"
 
 msgid "Add macvtap network"
-msgstr ""
+msgstr "Lägg till macvtap-nätverk"
 
 msgid "Add network"
-msgstr ""
+msgstr "Lägg till nätverk"
 
 msgid "Add new"
-msgstr ""
+msgstr "Lägg till ny"
 
 msgid "Add new VM"
-msgstr ""
+msgstr "Lägg till ny VM"
 
 msgid "Add new container"
-msgstr ""
+msgstr "Lägg till ny behållare"
 
 msgid "Add new pool"
-msgstr ""
+msgstr "Lägg till ny pool"
 
 msgid "Add passthrough"
-msgstr ""
+msgstr "Lägg till passthrough"
 
 msgid "Add virtual TPM 2.0 device"
-msgstr ""
+msgstr "Lägg till virtuell TPM 2.0-enhet"
 
 msgid "Advanced"
-msgstr ""
+msgstr "Avancerad"
 
 msgid "Allocation"
-msgstr ""
+msgstr "Allokation"
 
 msgid "Amount"
-msgstr ""
+msgstr "Mängd"
 
 msgid "Arch"
 msgstr ""
 
 msgid "Architecture"
-msgstr ""
+msgstr "Arkitektur"
 
 msgid "Are you sure you want to delete?"
-msgstr ""
+msgstr "Är du säker att du vill ta bort?"
 
 msgid "Audio"
-msgstr ""
+msgstr "Ljud"
 
 msgid "AutoStart"
-msgstr ""
+msgstr "AutoStart"
 
 msgid "Available"
-msgstr ""
+msgstr "Tillgängliga"
 
 msgid "Backing file"
-msgstr ""
+msgstr "Säkerhetskopiera fil"
 
 msgid "Backup"
-msgstr ""
+msgstr "Säkerhetskopiering"
 
 msgid "Backup with Compression"
-msgstr ""
+msgstr "Säkerhetskopiera med komprimering"
 
 msgid "Base image"
-msgstr ""
+msgstr "Basbild"
 
 msgid "Bus"
-msgstr ""
+msgstr "Bus"
 
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 msgid "CPUs"
-msgstr ""
+msgstr "CPU:er"
 
 msgid "Call"
-msgstr ""
+msgstr "Anropa"
 
 msgid "Cannot remove / from a container."
-msgstr ""
+msgstr "Kan inte ta bort / från en behållare."
 
 msgid "Cannot use / for mount point."
-msgstr ""
+msgstr "Kan inte använda / för monteringspunkt."
 
 msgid "Capacity"
-msgstr ""
+msgstr "Kapacitet"
 
 msgid "Change memory"
-msgstr ""
+msgstr "Byt minne"
 
 msgid "Change vCPU"
-msgstr ""
+msgstr "Byt vCPU"
 
 msgid "Check"
-msgstr ""
+msgstr "Kontrollera"
 
 msgid "Check volume ..."
-msgstr ""
+msgstr "Kontrollera volym ..."
 
 msgid "Clone"
-msgstr ""
+msgstr "Klona"
 
 msgid "Clone name"
-msgstr ""
+msgstr "Klonnamn"
 
 msgid "Component"
-msgstr ""
+msgstr "Komponent"
 
 msgid "Compression"
-msgstr ""
+msgstr "Kompression"
 
 msgid "Console"
-msgstr ""
+msgstr "Konsol"
 
 msgid "Convert to qcow2"
-msgstr ""
+msgstr "Konvertera till qcow2"
 
 msgid "Convert to raw"
-msgstr ""
+msgstr "Konvertera till raw"
 
 msgid "Converting to qcow2 ..."
-msgstr ""
+msgstr "Konverterar till qcow2 ..."
 
 msgid "Converting to raw ..."
-msgstr ""
+msgstr "Konverterar till raw ..."
 
 msgid "Create"
-msgstr ""
+msgstr "Skapa"
 
 msgid "Create LXC"
-msgstr ""
+msgstr "Skapa LXC"
 
 msgid "Create VM"
-msgstr ""
+msgstr "Skapa VM"
 
 msgid "Create backing file"
-msgstr ""
+msgstr "Skapa säkerhetskopieringsfil"
 
 msgid "Created LXC."
-msgstr ""
+msgstr "Skapade LXC."
 
 msgid "Created VM."
-msgstr ""
+msgstr "Skapade VM."
 
 msgid "Created scheduled job."
-msgstr ""
+msgstr "Skapat schemalagt jobb."
 
 msgid "Current size"
-msgstr ""
+msgstr "Aktuell storlek"
 
 msgid "DHCP"
-msgstr ""
+msgstr "DHCP"
 
 msgid "DHCP Range"
-msgstr ""
+msgstr "DHCP-intervall"
 
 msgid "DHCP ending address"
-msgstr ""
+msgstr "DHCP-slutadress"
 
 msgid "DHCP starting address"
-msgstr ""
+msgstr "DHCP-startadress"
 
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 msgid "Date & Time"
-msgstr ""
+msgstr "Datum & tid"
 
 msgid "Delete"
-msgstr ""
+msgstr "Ta bort"
 
 msgid "Delete + storage"
-msgstr ""
+msgstr "Ta bort + lagring"
 
 msgid "Details"
-msgstr ""
+msgstr "Detaljer"
 
 msgid "Directory"
-msgstr ""
+msgstr "Mapp"
 
 msgid "Directory is not empty!"
-msgstr ""
+msgstr "Mappen är inte tom!"
 
 msgid "Disable"
-msgstr ""
+msgstr "Inaktivera"
 
 msgid "Disk"
-msgstr ""
+msgstr "Disk"
 
 msgid "Disk info"
-msgstr ""
+msgstr "Diskinfo"
 
 msgid "Disk list"
-msgstr ""
+msgstr "Disklista"
 
 msgid "Disk stats"
-msgstr ""
+msgstr "Diskstatistik"
 
 msgid "Disk(s)"
-msgstr ""
+msgstr "Disk(ar)"
 
 msgid "Download virtio iso"
-msgstr ""
+msgstr "Hämta virtio iso"
 
 msgid "Download virtio iso ..."
-msgstr ""
+msgstr "Hämta virtio iso ..."
 
 msgid "Edit"
-msgstr ""
+msgstr "Redigera"
 
 msgid "Edit Notes"
-msgstr ""
+msgstr "Redigera anteckningar"
 
 msgid "Edit VM xml"
-msgstr ""
+msgstr "Redigera VM xml"
 
 msgid "Edit VM xml."
-msgstr ""
+msgstr "Redigera VM xml."
 
 msgid "Edit XML"
-msgstr ""
+msgstr "Redigera XML"
 
 msgid "Edit scheduled job."
-msgstr ""
+msgstr "Redigera schemalagt jobb."
 
 msgid "Edit settings."
-msgstr ""
+msgstr "Redigera inställningar."
 
 msgid "Enable"
-msgstr ""
+msgstr "Aktivera"
 
 msgid "Execute backup using selected VM name and path ..."
 msgstr ""
@@ -321,7 +325,7 @@ msgid "Failed to add spicevmc channel."
 msgstr ""
 
 msgid "Failed to create VM XML."
-msgstr ""
+msgstr "Det gick inte att skapa VM XML."
 
 msgid "Failed to create VM."
 msgstr ""
@@ -372,410 +376,416 @@ msgid "Failed to set pool autostart."
 msgstr ""
 
 msgid "Failed to start pool."
-msgstr ""
+msgstr "Det gick inte att starta poolen."
 
 msgid "Failed to start websockify for noVNC."
-msgstr ""
+msgstr "Det gick inte att starta websockify för noVNC."
 
 msgid "Failed to start websockify for spice-html5."
-msgstr ""
+msgstr "Det gick inte att starta websockify för spice-html5."
 
 msgid "File will be place in same directory as the base image."
-msgstr ""
+msgstr "Filen kommer att placeras i samma mapp som basbilden."
 
 msgid "Filesystem"
-msgstr ""
+msgstr "Filsystem"
 
 msgid ""
 "For description of each type and how to configure <a "
 "href='https://libvirt.org/storage.html' "
 "target='_blank'>libvirt.org/storage.html</a>"
 msgstr ""
+"För beskrivning av varje typ och hur man konfigurerar <a "
+"href='https://libvirt.org/storage.html' "
+"target='_blank'>libvirt.org/storage.html</a>"
 
 msgid "Force"
-msgstr ""
+msgstr "Tvinga"
 
 msgid "Format"
-msgstr ""
+msgstr "Formatera"
 
 msgid "Forwarding"
-msgstr ""
+msgstr "Vidarebefordring"
 
 msgid "Gateway IP"
-msgstr ""
+msgstr "Gateway IP"
 
 msgid "Gateway IP address"
-msgstr ""
+msgstr "Gateway IP-adress"
 
 msgid "GiB"
-msgstr ""
+msgstr "GiB"
 
 msgid "Gigabytes"
-msgstr ""
+msgstr "Gigabyte"
 
 msgid "Hard disk"
-msgstr ""
+msgstr "Hårddisk"
 
 msgid "Host VNC port"
-msgstr ""
+msgstr "Värd VNC-port"
 
 msgid "Host name"
-msgstr ""
+msgstr "Värdnamn"
 
 msgid "Host spice port"
-msgstr ""
+msgstr "Värd spice-port"
 
 msgid "IP Range"
-msgstr ""
+msgstr "IP-intervall"
 
 msgid "ISOs"
-msgstr ""
+msgstr "ISO:er"
 
 msgid ""
 "If unchecked, LXC Container Initialization and Autoboot will be disabled."
 msgstr ""
+"Om avmarkerat kommer LXC Container Initialization och Autoboot att "
+"inaktiveras."
 
 msgid "If unchecked, LXC network bridge will be disabled."
-msgstr ""
+msgstr "Om avmarkerat kommer LXC-nätverksbryggan att inaktiveras."
 
 msgid "Image"
-msgstr ""
+msgstr "Bild"
 
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 msgid "KVM"
-msgstr ""
+msgstr "KVM"
 
 msgid "KVM Backup"
-msgstr ""
+msgstr "KVM-säkerhetskopiering"
 
 msgid "Keep"
-msgstr ""
+msgstr "Behåll"
 
 msgid "Keep Recent"
-msgstr ""
+msgstr "Behåll senaste"
 
 msgid "Keep the most recent number of backups. 0 = keep all backups"
 msgstr ""
+"Behåll det senaste antalet säkerhetskopior. 0 = behåll alla säkerhetskopior"
 
 msgid "LXC"
-msgstr ""
+msgstr "LXC"
 
 msgid "LXC name"
-msgstr ""
+msgstr "LXC namn"
 
 msgid "Leave blank for random address."
-msgstr ""
+msgstr "Lämna tomt för slumpmässig adress."
 
 msgid "Leave blank to use VM name."
-msgstr ""
+msgstr "Lämna tomt för att använda VM-namn."
 
 msgid "Linked Clone"
-msgstr ""
+msgstr "Länkad klon"
 
 msgid "Logical"
-msgstr ""
+msgstr "Logisk"
 
 msgid "MAC address"
-msgstr ""
+msgstr "MAC-adress"
 
 msgid "Megabytes"
-msgstr ""
+msgstr "Megabyte"
 
 msgid "Memory"
-msgstr ""
+msgstr "Minne"
 
 msgid "Message"
-msgstr ""
+msgstr "Meddelande"
 
 msgid "MiB"
-msgstr ""
+msgstr "MiB"
 
 msgid "Model"
-msgstr ""
+msgstr "Modell"
 
 msgid "Name"
-msgstr ""
+msgstr "Namn"
 
 msgid "Network"
-msgstr ""
+msgstr "Nätverk"
 
 msgid "Network Filesystem"
-msgstr ""
+msgstr "Nätverksfilsystem"
 
 msgid "Network Name"
-msgstr ""
+msgstr "Nätverksnamn"
 
 msgid "Network State"
-msgstr ""
+msgstr "Nätverkets tillstånd"
 
 msgid "Networks"
-msgstr ""
+msgstr "Nätverk"
 
 msgid "New name"
-msgstr ""
+msgstr "Nytt namn"
 
 msgid "No image - use existing image path"
-msgstr ""
+msgstr "Ingen bild - använd befintlig bildsökväg"
 
 msgid "Notes"
-msgstr ""
+msgstr "Anteckningar"
 
 msgid "OS"
-msgstr ""
+msgstr "OS"
 
 msgid "Optical"
-msgstr ""
+msgstr "Optisk"
 
 msgid "Optical Drive"
-msgstr ""
+msgstr "Optisk enhet"
 
 msgid "Other CPU"
-msgstr ""
+msgstr "Annan CPU"
 
 msgid "Passthrough Filesystem"
-msgstr ""
+msgstr "Passthrough filsystem"
 
 msgid "Path"
-msgstr ""
+msgstr "Sökväg"
 
 msgid "Pause"
-msgstr ""
+msgstr "Pausa"
 
 msgid "Pool"
-msgstr ""
+msgstr "Pool"
 
 msgid "Pools"
-msgstr ""
+msgstr "Pooler"
 
 msgid "Reboot"
-msgstr ""
+msgstr "Starta om"
 
 msgid "Remove Spice"
-msgstr ""
+msgstr "Ta bort Spice"
 
 msgid "Remove USB"
-msgstr ""
+msgstr "Ta bort USB"
 
 msgid "Remove VNC"
-msgstr ""
+msgstr "Ta bort VNC"
 
 msgid "Remove disc"
-msgstr ""
+msgstr "Ta bort skivan"
 
 msgid "Remove disk"
-msgstr ""
+msgstr "Ta bort disken"
 
 msgid "Remove network"
-msgstr ""
+msgstr "Ta bort nätverk"
 
 msgid "Remove passthrough"
-msgstr ""
+msgstr "Ta bort passthrough"
 
 msgid "Reset"
-msgstr ""
+msgstr "Återställ"
 
 msgid "Restore"
-msgstr ""
+msgstr "Återställ"
 
 msgid "Restore VM ..."
-msgstr ""
+msgstr "Återställ VM..."
 
 msgid "Resume"
-msgstr ""
+msgstr "Återuppta"
 
 msgid "Revert"
-msgstr ""
+msgstr "Återgå"
 
 msgid "Run"
-msgstr ""
+msgstr "Kör"
 
 msgid "Running"
-msgstr ""
+msgstr "Körs"
 
 msgid "Same Format"
-msgstr ""
+msgstr "Samma format"
 
 msgid "Schedule"
-msgstr ""
+msgstr "Schema"
 
 msgid "Select a snapshot ..."
-msgstr ""
+msgstr "Välj en ögonblicksbild ..."
 
 msgid "Settings"
-msgstr ""
+msgstr "Inställningar"
 
 msgid "Show advanced options"
-msgstr ""
+msgstr "Visa avancerade alternativ"
 
 msgid "Size"
-msgstr ""
+msgstr "Storlek"
 
 msgid "Snapshot"
-msgstr ""
+msgstr "Ögonblicksbild"
 
 msgid "Snapshots"
-msgstr ""
+msgstr "Ögonblicksbilder"
 
 msgid "Source VM"
-msgstr ""
+msgstr "Käll-VM"
 
 msgid "Source path"
-msgstr ""
+msgstr "Källsökväg"
 
 msgid "Space Used"
-msgstr ""
+msgstr "Använt utrymme"
 
 msgid "Spice"
-msgstr ""
+msgstr "Spice"
 
 msgid "Spice port"
-msgstr ""
+msgstr "Spice-port"
 
 msgid "Start"
-msgstr ""
+msgstr "Starta"
 
 msgid "State"
-msgstr ""
+msgstr "Tillstånd"
 
 msgid "Stop"
-msgstr ""
+msgstr "Stoppa"
 
 msgid "Storage Volume"
-msgstr ""
+msgstr "Lagringsvolym"
 
 msgid "Subnet mask"
-msgstr ""
+msgstr "Subnätmask"
 
 msgid "TPM"
-msgstr ""
+msgstr "TPM"
 
 msgid "Terabytes"
-msgstr ""
+msgstr "Terabyte"
 
 msgid "Type"
-msgstr ""
+msgstr "Typ"
 
 msgid "UEFI"
-msgstr ""
+msgstr "UEFI"
 
 msgid "USB"
-msgstr ""
+msgstr "USB"
 
 msgid "UUID"
-msgstr ""
+msgstr "UUID"
 
 msgid "Unable to - "
-msgstr ""
+msgstr "Går inte - "
 
 msgid "Unable to add network adapter to VM - "
-msgstr ""
+msgstr "Det går inte att lägga till nätverkskort till VM - "
 
 msgid "Unable to change notes for VM - "
-msgstr ""
+msgstr "Det går inte att ändra anteckningar för VM - "
 
 msgid "Unable to change topolgy cores for VM - "
-msgstr ""
+msgstr "Det går inte att ändra topolgy-kärnor för VM - "
 
 msgid "Unable to create Macvap - "
-msgstr ""
+msgstr "Det går inte att skapa Macvap - "
 
 msgid "Unable to create network - "
-msgstr ""
+msgstr "Det går inte att skapa nätverk - "
 
 msgid "Unable to create pool - "
-msgstr ""
+msgstr "Det går inte att skapa pool - "
 
 msgid "Unable to create snapshot - "
-msgstr ""
+msgstr "Det går inte att skapa ögonblicksbild - "
 
 msgid "Unable to create volume - "
-msgstr ""
+msgstr "Det går inte att skapa volym - "
 
 msgid "Unable to delete disk(s) from VM - "
-msgstr ""
+msgstr "Det går inte att ta bort disk(ar) från VM - "
 
 msgid "Unable to delete network - "
-msgstr ""
+msgstr "Det går inte att ta bort nätverk - "
 
 msgid "Unable to delete pool - "
-msgstr ""
+msgstr "Det går inte att ta bort pool - "
 
 msgid "Unable to delete snapshot - "
-msgstr ""
+msgstr "Det gick inte att ta bort ögonblicksbild - "
 
 msgid "Unable to delete volume - "
-msgstr ""
+msgstr "Det går inte att ta bort volym - "
 
 msgid "Unable to get network adapter type - "
-msgstr ""
+msgstr "Det går inte att hämta nätverksadaptertyp -"
 
 msgid "Unable to revert to snapshot - "
-msgstr ""
+msgstr "Det går inte att återgå till ögonblicksbild - "
 
 msgid "Unable to set VM XML - "
-msgstr ""
+msgstr "Det går inte att ställa in VM XML - "
 
 msgid "Unable to start network - "
-msgstr ""
+msgstr "Det går inte att starta nätverk - "
 
 msgid "Unable to stop network - "
-msgstr ""
+msgstr "Det gick inte att stoppa nätverk - "
 
 msgid "Unit"
-msgstr ""
+msgstr "Enhet"
 
 msgid "VM Name"
-msgstr ""
+msgstr "VM-namn"
 
 msgid "VM info"
-msgstr ""
+msgstr "VM-info"
 
 msgid "VM name"
-msgstr ""
+msgstr "VM-namn"
 
 msgid "VM name for restored VM"
-msgstr ""
+msgstr "VM-namn för återställd VM"
 
 msgid "VMs"
-msgstr ""
+msgstr "VM:er"
 
 msgid "VNC"
-msgstr ""
+msgstr "VNC"
 
 msgid "VNC port"
-msgstr ""
+msgstr "VNC-port"
 
 msgid "Volume Count"
-msgstr ""
+msgstr "Volymantal"
 
 msgid "Volume group"
-msgstr ""
+msgstr "Volymgrupp"
 
 msgid "Volume info ..."
-msgstr ""
+msgstr "Volyminfo ..."
 
 msgid "Volumes"
-msgstr ""
+msgstr "Volymer"
 
 msgid "XML"
-msgstr ""
+msgstr "XML"
 
 msgid "ZFS"
-msgstr ""
+msgstr "ZFS"
 
 msgid "bridge"
 msgstr ""
 
 msgid "e1000"
-msgstr ""
+msgstr "e1000"
 
 msgid "iSCSI"
-msgstr ""
+msgstr "iSCSI"
 
 msgid "ide"
-msgstr ""
+msgstr "ide"
 
 msgid "lxc service"
 msgstr ""
@@ -784,49 +794,49 @@ msgid "lxc-net service"
 msgstr ""
 
 msgid "ne2k_pci"
-msgstr ""
+msgstr "ne2k_pci"
 
 msgid "noVNC URL"
-msgstr ""
+msgstr "noVNC-URL"
 
 msgid "noVNC port"
-msgstr ""
+msgstr "noVNC-port"
 
 msgid "pcnet"
-msgstr ""
+msgstr "pcnet"
 
 msgid "qcow2"
-msgstr ""
+msgstr "qcow2"
 
 msgid "raw"
-msgstr ""
+msgstr "raw"
 
 msgid "rtl8139"
-msgstr ""
+msgstr "rtl8139"
 
 msgid "sata"
-msgstr ""
+msgstr "sata"
 
 msgid "scsi"
-msgstr ""
+msgstr "scsi"
 
 msgid "spice-html5 URL"
-msgstr ""
+msgstr "spice-html5-URL"
 
 msgid "spice-html5 port"
-msgstr ""
+msgstr "spice-html5-port"
 
 msgid "vCPU"
-msgstr ""
+msgstr "vCPU"
 
 msgid "vCPUs"
-msgstr ""
+msgstr "vCPU:er"
 
 msgid "virtio"
-msgstr ""
+msgstr "virtio"
 
 msgid "vmxnet3"
-msgstr ""
+msgstr "vmxnet3"
 
 msgid "zPool name"
-msgstr ""
+msgstr "zPool-namn"
