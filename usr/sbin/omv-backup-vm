@@ -8,7 +8,7 @@
 # License version 2. This program is licensed "as is" without any
 # warranty of any kind, whether express or implied.
 #
-# version: 0.2.1
+# version: 0.2.2
 #
 
 if [[ $(id -u) -ne 0 ]]; then
@@ -50,7 +50,7 @@ while getopts "cd:hk:sv:" opt; do
       _log "compression :: enabled"
       ;;
     d)
-      backupDir=${OPTARG}
+      backupDir="${OPTARG}"
       _log "Backup dir :: ${backupDir}"
       ;;
     h)
@@ -209,7 +209,7 @@ else
 fi
 
 # add entry to list file
-used=$(du --block-size=1 ${backupVmDir} | awk '{ print $1 }')
+used=$(du --block-size=1 "${backupVmDir}" | awk '{ print $1 }')
 _log "Adding entry to list file '${listFile}'"
 echo "$(uuid),${backupDir},${backupVm},${date},${used}" >> ${listFile}
 
@@ -225,7 +225,7 @@ if [ ${keep} -gt 0 ]; then
 
   OFS=$IFS
   IFS=$'\n'
-  delDirs=$(find ${keepDir} -mindepth 1 -maxdepth 1 -type d | sort -r | awk "NR>${keep}")
+  delDirs=$(find "${keepDir}" -mindepth 1 -maxdepth 1 -type d | sort -r | awk "NR>${keep}")
   for d in ${delDirs}; do
     delDate="$(basename "${d}")"
     _log "delete date :: ${delDate}"
