@@ -2622,6 +2622,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 if ($object->get('compression') === true) {
                     $cmdArgs[] = '-c';
                 }
+                if ($object->get('poweroff') === true) {
+                    $cmdArgs[] = '-p';
+                }
                 if ($object->get('samefmt') === true) {
                     $cmdArgs[] = '-s';
                 }

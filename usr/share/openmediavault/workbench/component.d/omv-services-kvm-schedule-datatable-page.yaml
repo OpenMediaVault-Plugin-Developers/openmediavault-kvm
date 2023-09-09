@@ -56,6 +56,11 @@ data:
         flexGrow: 1
         sortable: true
         cellTemplateName: checkIcon
+      - name: _('Power off')
+        prop: poweroff
+        flexGrow: 1
+        sortable: true
+        cellTemplateName: checkIcon
     actions:
       - template: create
         execute:

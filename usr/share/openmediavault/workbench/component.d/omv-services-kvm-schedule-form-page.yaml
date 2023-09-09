@@ -44,14 +44,19 @@ data:
         dirRefIdField: rootfsref
         validators:
           required: true
+      - type: checkbox
+        name: poweroff
+        label: _('Power off')
+        value: false
+        hint: _('Power off the VM before backup if powered on. Power on after backup is complete.')
       - type: numberInput
         name: keep
-        label: _("Keep")
+        label: _('Keep')
         value: 0
         validators:
           min: 0
           max: 65535
-        hint: _("Keep the most recent number of backups. 0 = keep all backups")
+        hint: _('Keep the most recent number of backups. 0 = keep all backups')
       - type: checkbox
         name: samefmt
         label: _('Same format')

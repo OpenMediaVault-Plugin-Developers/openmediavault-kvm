@@ -24,6 +24,10 @@
       "type": "string",
       "default": ""
     },
+    "poweroff": {
+      "type": "boolean",
+      "default": false
+    },
     "keep": {
       "type": "integer",
       "minimum": 0,

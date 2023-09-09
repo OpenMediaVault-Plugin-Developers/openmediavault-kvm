@@ -854,6 +854,10 @@
           "type": "string",
           "required": true
         },
+        "poweroff": {
+          "type": "boolean",
+          "required": true
+        },
         "keep": {
           "type": "integer",
           "required": true
