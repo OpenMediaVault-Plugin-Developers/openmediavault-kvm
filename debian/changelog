@@ -1,3 +1,11 @@
+openmediavault-kvm (6.2.16) stable; urgency=low
+
+  * Skip backup if pflash vm and poweroff not enabled
+  * Add poweroff option to backup
+  * Handle spaces in paths for backup better
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Wed, 13 Sep 2023 06:29:34 -0500
+
 openmediavault-kvm (6.2.15) stable; urgency=low
 
   * Add messages for actions
