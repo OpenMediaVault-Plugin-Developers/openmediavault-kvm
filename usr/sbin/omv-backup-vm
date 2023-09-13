@@ -161,11 +161,6 @@ fi
 # get list of disks for VM
 disks=$(virsh domblklist ${backupVm} --details | sed 1,2d | awk NF | awk '$2 == "disk" { print $3","$4 }')
 
-for disk in ${disks}; do
-  _log "Adding disk to snapshot :: ${disk%%,*}"
-  diskSpecs="${diskSpecs} --diskspec ${disk%%,*},snapshot=external"
-done
-
 # power off VM if poweroff flag passed
 if [ ${poweroff} -eq 1 ] && [ ${vmId} -gt 0 ]; then
   _log "Shutting down ${backupVm}..."
@@ -175,11 +170,16 @@ if [ ${poweroff} -eq 1 ] && [ ${vmId} -gt 0 ]; then
 fi
 
 # skip snapshot if the VM is not powered on
-if [ ${vmId} -gt 0 ]; then
+if [ ${poweredoff} -ne 1 ] && [ ${vmId} -gt 0 ]; then
   if [ ${poweroff} -ne 1 ] && [ ${pflash} -eq 1 ]; then
     _log "VM is using pflash but poweroff was not enabled.  Unable to backup."
     exit 9
   else
+    # create disk spec
+    for disk in ${disks}; do
+      _log "Adding disk to snapshot :: ${disk%%,*}"
+      diskSpecs="${diskSpecs} --diskspec ${disk%%,*},snapshot=external"
+    done
     _log "Creating snapshot..."
     virsh snapshot-create-as \
       --domain ${vmId} \
@@ -189,8 +189,8 @@ if [ ${vmId} -gt 0 ]; then
       --no-metadata \
       $diskSpecs
     if [ $? -ne 0 ]; then
-        _log "Failed to create snapshot!"
-        exit 7
+      _log "Failed to create snapshot!"
+      exit 7
     fi
     snap=1
   fi
