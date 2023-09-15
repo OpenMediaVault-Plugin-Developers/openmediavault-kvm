@@ -8,7 +8,7 @@
 # License version 2. This program is licensed "as is" without any
 # warranty of any kind, whether express or implied.
 #
-# version: 0.3.0
+# version: 0.3.1
 #
 
 if [[ $(id -u) -ne 0 ]]; then
@@ -20,7 +20,6 @@ export LANG=C.UTF-8
 
 # declare/initialize
 declare -i keep=0
-declare -i pflash=0
 declare -i poweroff=0
 declare -i poweredoff=0
 declare -i samefmt=0
@@ -151,11 +150,9 @@ backupXml="${backupVm}_${date}.xml"
 _log "Dump XML for backup :: ${backupXml}"
 virsh dumpxml ${backupVm} > "${backupVmDir}/${backupXml}"
 
-# if vm is using pflash, set pflash
 grep -i 'loader.*pflash' "${backupVmDir}/${backupXml}"
 if [ $? -eq 0 ]; then
   _log "VM is using pflash"
-  pflash=1
 fi
 
 # get list of disks for VM
@@ -171,29 +168,24 @@ fi
 
 # skip snapshot if the VM is not powered on
 if [ ${poweredoff} -ne 1 ] && [ ${vmId} -gt 0 ]; then
-  if [ ${poweroff} -ne 1 ] && [ ${pflash} -eq 1 ]; then
-    _log "VM is using pflash but poweroff was not enabled.  Unable to backup."
-    exit 9
-  else
-    # create disk spec
-    for disk in ${disks}; do
-      _log "Adding disk to snapshot :: ${disk%%,*}"
-      diskSpecs="${diskSpecs} --diskspec ${disk%%,*},snapshot=external"
-    done
-    _log "Creating snapshot..."
-    virsh snapshot-create-as \
-      --domain ${vmId} \
-      --atomic \
-      --disk-only \
-      --name "backup-snapshot_${date}" \
-      --no-metadata \
-      $diskSpecs
-    if [ $? -ne 0 ]; then
-      _log "Failed to create snapshot!"
-      exit 7
-    fi
-    snap=1
+  # create disk spec
+  for disk in ${disks}; do
+    _log "Adding disk to snapshot :: ${disk%%,*}"
+    diskSpecs="${diskSpecs} --diskspec ${disk%%,*},snapshot=external"
+  done
+  _log "Creating snapshot..."
+  virsh snapshot-create-as \
+    --domain ${vmId} \
+    --atomic \
+    --disk-only \
+    --name "backup-snapshot_${date}" \
+    --no-metadata \
+    ${diskSpecs}
+  if [ $? -ne 0 ]; then
+    _log "Failed to create snapshot!"
+    exit 7
   fi
+  snap=1
 else
   _log "Skip snapshot - VM is not powered on"
 fi
