@@ -4,8 +4,6 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Thomas Melka, 2022
-# Ettore Atalan <atalanttore@googlemail.com>, 2022
 # Dampflok_HD, 2023
 # 
 #, fuzzy
@@ -13,14 +11,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-08 18:14-0600\n"
+"POT-Creation-Date: 2023-10-23 19:47-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Dampflok_HD, 2023\n"
-"Language-Team: German (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/de/)\n"
+"Language-Team: German (Germany) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
+"Language: de_DE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid " already exists!"
@@ -42,7 +40,7 @@ msgid "Add Spice"
 msgstr "Spice hinzufügen"
 
 msgid "Add USB"
-msgstr "USB hinzufügen"
+msgstr "USB-Stick hinzufügen"
 
 msgid "Add VNC"
 msgstr "VNC hinzufügen"
@@ -80,6 +78,39 @@ msgstr ""
 msgid "Add virtual TPM 2.0 device"
 msgstr ""
 
+msgid "Adding USB device ..."
+msgstr ""
+
+msgid "Adding VNC viewer ..."
+msgstr ""
+
+msgid "Adding a disk ..."
+msgstr ""
+
+msgid "Adding a macvtap network ..."
+msgstr ""
+
+msgid "Adding a network ..."
+msgstr ""
+
+msgid "Adding a pool ..."
+msgstr ""
+
+msgid "Adding host drive ..."
+msgstr ""
+
+msgid "Adding network adapter ..."
+msgstr ""
+
+msgid "Adding optical disk ..."
+msgstr ""
+
+msgid "Adding passthrough filesystem ..."
+msgstr ""
+
+msgid "Adding spice viewer ..."
+msgstr ""
+
 msgid "Advanced"
 msgstr "Erweitert"
 
@@ -104,6 +135,12 @@ msgstr "Audio"
 msgid "AutoStart"
 msgstr "AutoStart"
 
+msgid "Autostart has been disabled."
+msgstr ""
+
+msgid "Autostart has been enabled."
+msgstr ""
+
 msgid "Available"
 msgstr "Verfügbar"
 
@@ -124,6 +161,9 @@ msgstr "Bus"
 
 msgid "CPU"
 msgstr "CPU"
+
+msgid "CPU count has been changed."
+msgstr ""
 
 msgid "CPUs"
 msgstr "CPUs"
@@ -146,6 +186,12 @@ msgstr "Speicher ändern"
 msgid "Change vCPU"
 msgstr "vCPU ändern"
 
+msgid "Changing memory amount ..."
+msgstr ""
+
+msgid "Changing number of CPUs ..."
+msgstr ""
+
 msgid "Check"
 msgstr "überprüfen"
 
@@ -158,6 +204,12 @@ msgstr ""
 msgid "Clone name"
 msgstr ""
 
+msgid "Cloning ..."
+msgstr ""
+
+msgid "Cloning complete."
+msgstr ""
+
 msgid "Component"
 msgstr "Komponente"
 
@@ -167,11 +219,17 @@ msgstr "Kompression"
 msgid "Console"
 msgstr "Konsole"
 
+msgid "Consoles have been started."
+msgstr ""
+
+msgid "Consoles have been stopped."
+msgstr ""
+
 msgid "Convert to qcow2"
 msgstr "Konvertieren zu qcow2"
 
 msgid "Convert to raw"
-msgstr "Konvertieren zu raw"
+msgstr "Konvertieren zu roh"
 
 msgid "Converting to qcow2 ..."
 msgstr "Konvertiere zu qcow2 ..."
@@ -200,6 +258,12 @@ msgstr "VM erstellt."
 msgid "Created scheduled job."
 msgstr "Geplante Aufgabe erstellt."
 
+msgid "Creating linked clone ..."
+msgstr ""
+
+msgid "Creating snapshot ..."
+msgstr ""
+
 msgid "Current size"
 msgstr "Momentane Größe"
 
@@ -227,6 +291,21 @@ msgstr "Löschen"
 msgid "Delete + storage"
 msgstr ""
 
+msgid "Deleted."
+msgstr ""
+
+msgid "Deleting ..."
+msgstr ""
+
+msgid "Deleting a network ..."
+msgstr ""
+
+msgid "Deleting a pool ..."
+msgstr ""
+
+msgid "Deleting snapshot ..."
+msgstr ""
+
 msgid "Details"
 msgstr "Details"
 
@@ -239,8 +318,14 @@ msgstr ""
 msgid "Disable"
 msgstr "deaktivieren"
 
+msgid "Disabling autostart ..."
+msgstr ""
+
 msgid "Disk"
 msgstr "Festplatte"
+
+msgid "Disk has been added."
+msgstr ""
 
 msgid "Disk info"
 msgstr ""
@@ -255,10 +340,10 @@ msgid "Disk(s)"
 msgstr "Festplatte(n)"
 
 msgid "Download virtio iso"
-msgstr "virtio iso herunterladen"
+msgstr "virtio-ISO herunterladen"
 
 msgid "Download virtio iso ..."
-msgstr "Lade virtio iso ..."
+msgstr "virtio-ISO herunterladen ..."
 
 msgid "Edit"
 msgstr "Bearbeiten"
@@ -283,6 +368,9 @@ msgstr "Einstellungen bearbeiten."
 
 msgid "Enable"
 msgstr "Aktivieren"
+
+msgid "Enabling autostart ..."
+msgstr ""
 
 msgid "Execute backup using selected VM name and path ..."
 msgstr ""
@@ -401,6 +489,15 @@ msgstr ""
 msgid "Force"
 msgstr "Erzwingen"
 
+msgid "Force image list refresh"
+msgstr ""
+
+msgid "Forced down."
+msgstr ""
+
+msgid "Forcing down ..."
+msgstr ""
+
 msgid "Format"
 msgstr ""
 
@@ -423,6 +520,9 @@ msgid "Hard disk"
 msgstr ""
 
 msgid "Host VNC port"
+msgstr ""
+
+msgid "Host drive has been added."
 msgstr ""
 
 msgid "Host name"
@@ -456,13 +556,7 @@ msgstr "KVM"
 msgid "KVM Backup"
 msgstr ""
 
-msgid "Keep"
-msgstr "Behalten"
-
 msgid "Keep Recent"
-msgstr ""
-
-msgid "Keep the most recent number of backups. 0 = keep all backups"
 msgstr ""
 
 msgid "LXC"
@@ -480,6 +574,9 @@ msgstr ""
 msgid "Linked Clone"
 msgstr ""
 
+msgid "Linked clone complete."
+msgstr ""
+
 msgid "Logical"
 msgstr "Logisch"
 
@@ -491,6 +588,9 @@ msgstr ""
 
 msgid "Memory"
 msgstr "Speicher"
+
+msgid "Memory amount has been changed."
+msgstr ""
 
 msgid "Message"
 msgstr "Nachricht"
@@ -516,6 +616,24 @@ msgstr "Netzwerkname"
 msgid "Network State"
 msgstr "Netzwerkstatus"
 
+msgid "Network adapter has been added."
+msgstr ""
+
+msgid "Network adapter has been removed."
+msgstr ""
+
+msgid "Network has been added."
+msgstr ""
+
+msgid "Network has been deleted."
+msgstr ""
+
+msgid "Network has been started."
+msgstr ""
+
+msgid "Network has been stopped."
+msgstr ""
+
 msgid "Networks"
 msgstr "Netzwerke"
 
@@ -537,10 +655,25 @@ msgstr "Optisch"
 msgid "Optical Drive"
 msgstr "Optisches Laufwerk"
 
+msgid "Optical disc has been removed."
+msgstr ""
+
+msgid "Optical has been added."
+msgstr ""
+
 msgid "Other CPU"
 msgstr ""
 
 msgid "Passthrough Filesystem"
+msgstr ""
+
+msgid "Passthrough by address instead of using vendor and product IDs"
+msgstr ""
+
+msgid "Passthrough filesystem has been added."
+msgstr ""
+
+msgid "Passthrough filesystem has been removed."
 msgstr ""
 
 msgid "Path"
@@ -549,7 +682,25 @@ msgstr "Pfad"
 msgid "Pause"
 msgstr "Pause"
 
+msgid "Paused."
+msgstr ""
+
+msgid "Pausing ..."
+msgstr ""
+
 msgid "Pool"
+msgstr ""
+
+msgid "Pool has been added."
+msgstr ""
+
+msgid "Pool has been deleted."
+msgstr ""
+
+msgid "Pool has been started."
+msgstr ""
+
+msgid "Pool has been stopped."
 msgstr ""
 
 msgid "Pools"
@@ -557,6 +708,12 @@ msgstr ""
 
 msgid "Reboot"
 msgstr "Neustart"
+
+msgid "Rebooted."
+msgstr ""
+
+msgid "Rebooting ..."
+msgstr ""
 
 msgid "Remove Spice"
 msgstr ""
@@ -579,8 +736,35 @@ msgstr "Netzwerk entfernen"
 msgid "Remove passthrough"
 msgstr ""
 
+msgid "Removing USB device ..."
+msgstr ""
+
+msgid "Removing VNC viewer ..."
+msgstr ""
+
+msgid "Removing disk ..."
+msgstr ""
+
+msgid "Removing network adapter ..."
+msgstr ""
+
+msgid "Removing optical disc ..."
+msgstr ""
+
+msgid "Removing passthrough filesystem ..."
+msgstr ""
+
+msgid "Removing spice viewer ..."
+msgstr ""
+
 msgid "Reset"
 msgstr "Zurücksetzen"
+
+msgid "Reset."
+msgstr ""
+
+msgid "Resetting ..."
+msgstr ""
 
 msgid "Restore"
 msgstr "Wiederherstellen"
@@ -591,8 +775,17 @@ msgstr "VM wiederherstellen ..."
 msgid "Resume"
 msgstr "Fortsetzen"
 
+msgid "Resumed."
+msgstr ""
+
+msgid "Resuming ..."
+msgstr ""
+
 msgid "Revert"
 msgstr "Zurückkehren"
+
+msgid "Reverting to snapshot ..."
+msgstr ""
 
 msgid "Run"
 msgstr "Ausführen"
@@ -604,6 +797,9 @@ msgid "Same Format"
 msgstr "Gleiches Format"
 
 msgid "Schedule"
+msgstr ""
+
+msgid "Secure boot"
 msgstr ""
 
 msgid "Select a snapshot ..."
@@ -620,6 +816,15 @@ msgstr "Größe"
 
 msgid "Snapshot"
 msgstr "Schnappschuss"
+
+msgid "Snapshot has been created."
+msgstr ""
+
+msgid "Snapshot has been deleted."
+msgstr ""
+
+msgid "Snapshot has been reverted."
+msgstr ""
 
 msgid "Snapshots"
 msgstr "Schnappschüsse"
@@ -639,14 +844,50 @@ msgstr ""
 msgid "Spice port"
 msgstr ""
 
+msgid "Spice viewer has been added."
+msgstr ""
+
+msgid "Spice viewer has been removed."
+msgstr ""
+
 msgid "Start"
 msgstr "Start"
+
+msgid "Started."
+msgstr ""
+
+msgid "Starting ..."
+msgstr ""
+
+msgid "Starting a pool ..."
+msgstr ""
+
+msgid "Starting consoles ..."
+msgstr ""
+
+msgid "Starting network ..."
+msgstr ""
 
 msgid "State"
 msgstr "Status"
 
 msgid "Stop"
 msgstr "Stopp"
+
+msgid "Stopped."
+msgstr ""
+
+msgid "Stopping ..."
+msgstr ""
+
+msgid "Stopping a pool ..."
+msgstr ""
+
+msgid "Stopping consoles ..."
+msgstr ""
+
+msgid "Stopping network ..."
+msgstr ""
 
 msgid "Storage Volume"
 msgstr "Speichervolumen"
@@ -661,13 +902,19 @@ msgid "Terabytes"
 msgstr ""
 
 msgid "Type"
-msgstr "Typ"
+msgstr ""
 
 msgid "UEFI"
 msgstr "UEFI"
 
 msgid "USB"
 msgstr "USB"
+
+msgid "USB device has been added."
+msgstr ""
+
+msgid "USB device has been removed."
+msgstr ""
 
 msgid "UUID"
 msgstr "UUID"
@@ -733,7 +980,7 @@ msgid "Unit"
 msgstr ""
 
 msgid "VM Name"
-msgstr "VM-Name"
+msgstr "VM Name"
 
 msgid "VM info"
 msgstr ""
@@ -753,6 +1000,12 @@ msgstr "VNC"
 msgid "VNC port"
 msgstr "VNC-Port"
 
+msgid "VNC viewer has been added."
+msgstr ""
+
+msgid "VNC viewer has been removed."
+msgstr ""
+
 msgid "Volume Count"
 msgstr ""
 
@@ -763,6 +1016,12 @@ msgid "Volume info ..."
 msgstr ""
 
 msgid "Volumes"
+msgstr ""
+
+msgid ""
+"Warning! Address can change after VM reboot breaking the passthrough!<br "
+"/>Useful when the host system has two or more devices with duplicate vendor "
+"and product IDs."
 msgstr ""
 
 msgid "XML"
@@ -787,6 +1046,9 @@ msgid "lxc service"
 msgstr ""
 
 msgid "lxc-net service"
+msgstr ""
+
+msgid "macvtap network has been added."
 msgstr ""
 
 msgid "ne2k_pci"

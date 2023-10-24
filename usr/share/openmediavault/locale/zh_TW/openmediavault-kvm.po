@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-08 18:14-0600\n"
+"POT-Creation-Date: 2023-10-23 19:47-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: kochin <kochinc@outlook.com>, 2023\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_TW/)\n"
@@ -78,6 +78,39 @@ msgstr "新增直通"
 msgid "Add virtual TPM 2.0 device"
 msgstr "新增虛擬 TPM 2.0 裝置"
 
+msgid "Adding USB device ..."
+msgstr ""
+
+msgid "Adding VNC viewer ..."
+msgstr ""
+
+msgid "Adding a disk ..."
+msgstr ""
+
+msgid "Adding a macvtap network ..."
+msgstr ""
+
+msgid "Adding a network ..."
+msgstr ""
+
+msgid "Adding a pool ..."
+msgstr ""
+
+msgid "Adding host drive ..."
+msgstr ""
+
+msgid "Adding network adapter ..."
+msgstr ""
+
+msgid "Adding optical disk ..."
+msgstr ""
+
+msgid "Adding passthrough filesystem ..."
+msgstr ""
+
+msgid "Adding spice viewer ..."
+msgstr ""
+
 msgid "Advanced"
 msgstr "進階"
 
@@ -102,6 +135,12 @@ msgstr "聲頻"
 msgid "AutoStart"
 msgstr "自動啟動"
 
+msgid "Autostart has been disabled."
+msgstr ""
+
+msgid "Autostart has been enabled."
+msgstr ""
+
 msgid "Available"
 msgstr "可用"
 
@@ -122,6 +161,9 @@ msgstr "匯流排"
 
 msgid "CPU"
 msgstr "CPU"
+
+msgid "CPU count has been changed."
+msgstr ""
 
 msgid "CPUs"
 msgstr "CPUs"
@@ -144,6 +186,12 @@ msgstr "改變記憶體"
 msgid "Change vCPU"
 msgstr "改變 vCPU"
 
+msgid "Changing memory amount ..."
+msgstr ""
+
+msgid "Changing number of CPUs ..."
+msgstr ""
+
 msgid "Check"
 msgstr "檢查"
 
@@ -156,6 +204,12 @@ msgstr "複製"
 msgid "Clone name"
 msgstr "複製名稱"
 
+msgid "Cloning ..."
+msgstr ""
+
+msgid "Cloning complete."
+msgstr ""
+
 msgid "Component"
 msgstr "組件"
 
@@ -164,6 +218,12 @@ msgstr "壓縮"
 
 msgid "Console"
 msgstr "控制台"
+
+msgid "Consoles have been started."
+msgstr ""
+
+msgid "Consoles have been stopped."
+msgstr ""
 
 msgid "Convert to qcow2"
 msgstr "轉換成 qcow2"
@@ -198,6 +258,12 @@ msgstr "已建立 VM。"
 msgid "Created scheduled job."
 msgstr "已建立預定工作。"
 
+msgid "Creating linked clone ..."
+msgstr ""
+
+msgid "Creating snapshot ..."
+msgstr ""
+
 msgid "Current size"
 msgstr "目前大小"
 
@@ -225,6 +291,21 @@ msgstr "刪除"
 msgid "Delete + storage"
 msgstr "刪除 + 儲存"
 
+msgid "Deleted."
+msgstr ""
+
+msgid "Deleting ..."
+msgstr ""
+
+msgid "Deleting a network ..."
+msgstr ""
+
+msgid "Deleting a pool ..."
+msgstr ""
+
+msgid "Deleting snapshot ..."
+msgstr ""
+
 msgid "Details"
 msgstr "詳情"
 
@@ -237,8 +318,14 @@ msgstr "目錄並非空白！"
 msgid "Disable"
 msgstr "停用"
 
+msgid "Disabling autostart ..."
+msgstr ""
+
 msgid "Disk"
 msgstr "磁碟"
+
+msgid "Disk has been added."
+msgstr ""
 
 msgid "Disk info"
 msgstr "磁碟資訊"
@@ -281,6 +368,9 @@ msgstr "編輯設定。"
 
 msgid "Enable"
 msgstr "啟用"
+
+msgid "Enabling autostart ..."
+msgstr ""
 
 msgid "Execute backup using selected VM name and path ..."
 msgstr "使用所選的 VM 名稱與路徑來執行備份 ..."
@@ -401,6 +491,15 @@ msgstr ""
 msgid "Force"
 msgstr "強制"
 
+msgid "Force image list refresh"
+msgstr ""
+
+msgid "Forced down."
+msgstr ""
+
+msgid "Forcing down ..."
+msgstr ""
+
 msgid "Format"
 msgstr "格式"
 
@@ -424,6 +523,9 @@ msgstr "硬碟"
 
 msgid "Host VNC port"
 msgstr "主機 VNC 連接埠"
+
+msgid "Host drive has been added."
+msgstr ""
 
 msgid "Host name"
 msgstr "主機名稱"
@@ -456,14 +558,8 @@ msgstr "KVM"
 msgid "KVM Backup"
 msgstr "KVM 備份"
 
-msgid "Keep"
-msgstr "保留"
-
 msgid "Keep Recent"
 msgstr "保留最近"
-
-msgid "Keep the most recent number of backups. 0 = keep all backups"
-msgstr "保留最近備份的數目。0 = 保留全部備份"
 
 msgid "LXC"
 msgstr "LXC"
@@ -480,6 +576,9 @@ msgstr "保留空白則使用 VM 名稱。"
 msgid "Linked Clone"
 msgstr "鍊接複製"
 
+msgid "Linked clone complete."
+msgstr ""
+
 msgid "Logical"
 msgstr "邏輯"
 
@@ -491,6 +590,9 @@ msgstr "MB"
 
 msgid "Memory"
 msgstr "記憶體"
+
+msgid "Memory amount has been changed."
+msgstr ""
 
 msgid "Message"
 msgstr "訊息"
@@ -516,6 +618,24 @@ msgstr "網路名稱"
 msgid "Network State"
 msgstr "網路狀態"
 
+msgid "Network adapter has been added."
+msgstr ""
+
+msgid "Network adapter has been removed."
+msgstr ""
+
+msgid "Network has been added."
+msgstr ""
+
+msgid "Network has been deleted."
+msgstr ""
+
+msgid "Network has been started."
+msgstr ""
+
+msgid "Network has been stopped."
+msgstr ""
+
 msgid "Networks"
 msgstr "網路"
 
@@ -537,11 +657,26 @@ msgstr "光碟"
 msgid "Optical Drive"
 msgstr "光碟機"
 
+msgid "Optical disc has been removed."
+msgstr ""
+
+msgid "Optical has been added."
+msgstr ""
+
 msgid "Other CPU"
 msgstr "其它 CPU"
 
 msgid "Passthrough Filesystem"
 msgstr "直通檔案系統"
+
+msgid "Passthrough by address instead of using vendor and product IDs"
+msgstr ""
+
+msgid "Passthrough filesystem has been added."
+msgstr ""
+
+msgid "Passthrough filesystem has been removed."
+msgstr ""
 
 msgid "Path"
 msgstr "路徑"
@@ -549,14 +684,38 @@ msgstr "路徑"
 msgid "Pause"
 msgstr "暫停"
 
+msgid "Paused."
+msgstr ""
+
+msgid "Pausing ..."
+msgstr ""
+
 msgid "Pool"
 msgstr "集用場"
+
+msgid "Pool has been added."
+msgstr ""
+
+msgid "Pool has been deleted."
+msgstr ""
+
+msgid "Pool has been started."
+msgstr ""
+
+msgid "Pool has been stopped."
+msgstr ""
 
 msgid "Pools"
 msgstr "集用場"
 
 msgid "Reboot"
 msgstr "重新啟動"
+
+msgid "Rebooted."
+msgstr ""
+
+msgid "Rebooting ..."
+msgstr ""
 
 msgid "Remove Spice"
 msgstr "移除 Spice"
@@ -579,8 +738,35 @@ msgstr "移除網路"
 msgid "Remove passthrough"
 msgstr "移除直通"
 
+msgid "Removing USB device ..."
+msgstr ""
+
+msgid "Removing VNC viewer ..."
+msgstr ""
+
+msgid "Removing disk ..."
+msgstr ""
+
+msgid "Removing network adapter ..."
+msgstr ""
+
+msgid "Removing optical disc ..."
+msgstr ""
+
+msgid "Removing passthrough filesystem ..."
+msgstr ""
+
+msgid "Removing spice viewer ..."
+msgstr ""
+
 msgid "Reset"
 msgstr "重置"
+
+msgid "Reset."
+msgstr ""
+
+msgid "Resetting ..."
+msgstr ""
 
 msgid "Restore"
 msgstr "復原"
@@ -591,8 +777,17 @@ msgstr "復原 VM ..."
 msgid "Resume"
 msgstr "恢復"
 
+msgid "Resumed."
+msgstr ""
+
+msgid "Resuming ..."
+msgstr ""
+
 msgid "Revert"
 msgstr "還原"
+
+msgid "Reverting to snapshot ..."
+msgstr ""
 
 msgid "Run"
 msgstr "執行"
@@ -605,6 +800,9 @@ msgstr "相同格式"
 
 msgid "Schedule"
 msgstr "預定"
+
+msgid "Secure boot"
+msgstr ""
 
 msgid "Select a snapshot ..."
 msgstr "選擇一個快照 ..."
@@ -620,6 +818,15 @@ msgstr "大小"
 
 msgid "Snapshot"
 msgstr "快照"
+
+msgid "Snapshot has been created."
+msgstr ""
+
+msgid "Snapshot has been deleted."
+msgstr ""
+
+msgid "Snapshot has been reverted."
+msgstr ""
 
 msgid "Snapshots"
 msgstr "快照"
@@ -639,14 +846,50 @@ msgstr "Spice"
 msgid "Spice port"
 msgstr "Spice 連接埠"
 
+msgid "Spice viewer has been added."
+msgstr ""
+
+msgid "Spice viewer has been removed."
+msgstr ""
+
 msgid "Start"
 msgstr "啟動"
+
+msgid "Started."
+msgstr ""
+
+msgid "Starting ..."
+msgstr ""
+
+msgid "Starting a pool ..."
+msgstr ""
+
+msgid "Starting consoles ..."
+msgstr ""
+
+msgid "Starting network ..."
+msgstr ""
 
 msgid "State"
 msgstr "狀態"
 
 msgid "Stop"
 msgstr "停止"
+
+msgid "Stopped."
+msgstr ""
+
+msgid "Stopping ..."
+msgstr ""
+
+msgid "Stopping a pool ..."
+msgstr ""
+
+msgid "Stopping consoles ..."
+msgstr ""
+
+msgid "Stopping network ..."
+msgstr ""
 
 msgid "Storage Volume"
 msgstr "儲存卷"
@@ -668,6 +911,12 @@ msgstr "UEFI"
 
 msgid "USB"
 msgstr "USB"
+
+msgid "USB device has been added."
+msgstr ""
+
+msgid "USB device has been removed."
+msgstr ""
 
 msgid "UUID"
 msgstr "UUID"
@@ -753,6 +1002,12 @@ msgstr "VNC"
 msgid "VNC port"
 msgstr "VNC 連接埠"
 
+msgid "VNC viewer has been added."
+msgstr ""
+
+msgid "VNC viewer has been removed."
+msgstr ""
+
 msgid "Volume Count"
 msgstr "儲存卷數目"
 
@@ -764,6 +1019,12 @@ msgstr "儲存卷資訊 ..."
 
 msgid "Volumes"
 msgstr "儲存卷"
+
+msgid ""
+"Warning! Address can change after VM reboot breaking the passthrough!<br "
+"/>Useful when the host system has two or more devices with duplicate vendor "
+"and product IDs."
+msgstr ""
 
 msgid "XML"
 msgstr "XML"
@@ -788,6 +1049,9 @@ msgstr "lxc 服務"
 
 msgid "lxc-net service"
 msgstr "lxc-net 服務"
+
+msgid "macvtap network has been added."
+msgstr ""
 
 msgid "ne2k_pci"
 msgstr "ne2k_pci"

@@ -3,13 +3,17 @@
 # This file is distributed under the same license as the openmediavault-kvm package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
+# Translators:
+# Rysiek Jurczy, 2023
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-08 18:14-0600\n"
+"POT-Creation-Date: 2023-10-23 19:47-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
+"Last-Translator: Rysiek Jurczy, 2023\n"
 "Language-Team: Polish (Poland) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/pl_PL/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,64 +22,97 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
 msgid " already exists!"
-msgstr ""
+msgstr "istnieje"
 
 msgid " the network!"
-msgstr ""
+msgstr "Sieć"
 
 msgid "Action"
-msgstr ""
+msgstr "Akcja"
 
 msgid "Activity"
-msgstr ""
+msgstr "Aktywność"
 
 msgid "Add"
-msgstr ""
+msgstr "Dodaj"
 
 msgid "Add Spice"
-msgstr ""
+msgstr "Dodaj Spice"
 
 msgid "Add USB"
-msgstr ""
+msgstr "Dodaj USB"
 
 msgid "Add VNC"
-msgstr ""
+msgstr "Dodaj VNC"
 
 msgid "Add disc"
-msgstr ""
+msgstr "Dodaj dysk"
 
 msgid "Add disk"
-msgstr ""
+msgstr "Dodaj dysk"
 
 msgid "Add host drive"
-msgstr ""
+msgstr "Dodaj napęd hosta"
 
 msgid "Add macvtap network"
-msgstr ""
+msgstr "Dodaj sieć MacVTap "
 
 msgid "Add network"
-msgstr ""
+msgstr "Dodaj sieć"
 
 msgid "Add new"
-msgstr ""
+msgstr "Dodaj nowy"
 
 msgid "Add new VM"
-msgstr ""
+msgstr "Dodaj nową maszynę VM"
 
 msgid "Add new container"
-msgstr ""
+msgstr "Dodaj nowy kontener"
 
 msgid "Add new pool"
-msgstr ""
+msgstr "Dodaj nową pulę"
 
 msgid "Add passthrough"
-msgstr ""
+msgstr "Dodaj passthrough"
 
 msgid "Add virtual TPM 2.0 device"
+msgstr "Dodaj wirtualne urządzenie TPM 2.0"
+
+msgid "Adding USB device ..."
+msgstr ""
+
+msgid "Adding VNC viewer ..."
+msgstr ""
+
+msgid "Adding a disk ..."
+msgstr ""
+
+msgid "Adding a macvtap network ..."
+msgstr ""
+
+msgid "Adding a network ..."
+msgstr ""
+
+msgid "Adding a pool ..."
+msgstr ""
+
+msgid "Adding host drive ..."
+msgstr ""
+
+msgid "Adding network adapter ..."
+msgstr ""
+
+msgid "Adding optical disk ..."
+msgstr ""
+
+msgid "Adding passthrough filesystem ..."
+msgstr ""
+
+msgid "Adding spice viewer ..."
 msgstr ""
 
 msgid "Advanced"
-msgstr ""
+msgstr "Zaawansowane"
 
 msgid "Allocation"
 msgstr ""
@@ -87,28 +124,34 @@ msgid "Arch"
 msgstr ""
 
 msgid "Architecture"
-msgstr ""
+msgstr "Architektura"
 
 msgid "Are you sure you want to delete?"
-msgstr ""
+msgstr "Czy na pewno chcesz usunąć?"
 
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 msgid "AutoStart"
+msgstr "Auto start"
+
+msgid "Autostart has been disabled."
+msgstr ""
+
+msgid "Autostart has been enabled."
 msgstr ""
 
 msgid "Available"
-msgstr ""
+msgstr "Dostępny"
 
 msgid "Backing file"
 msgstr ""
 
 msgid "Backup"
-msgstr ""
+msgstr "Kopia zapasowa"
 
 msgid "Backup with Compression"
-msgstr ""
+msgstr "Skompresowana kopia zapasowa"
 
 msgid "Base image"
 msgstr ""
@@ -117,184 +160,237 @@ msgid "Bus"
 msgstr ""
 
 msgid "CPU"
+msgstr "CPU"
+
+msgid "CPU count has been changed."
 msgstr ""
 
 msgid "CPUs"
-msgstr ""
+msgstr "CPUs"
 
 msgid "Call"
-msgstr ""
+msgstr "Połącz"
 
 msgid "Cannot remove / from a container."
-msgstr ""
+msgstr "Nie można usunąć '/' z kontenera"
 
 msgid "Cannot use / for mount point."
-msgstr ""
+msgstr "Nie można użyć '/' dla punktu montowania"
 
 msgid "Capacity"
-msgstr ""
+msgstr "Pojemność"
 
 msgid "Change memory"
-msgstr ""
+msgstr "Zmień pamięć"
 
 msgid "Change vCPU"
+msgstr "Zmień vCPU"
+
+msgid "Changing memory amount ..."
+msgstr ""
+
+msgid "Changing number of CPUs ..."
 msgstr ""
 
 msgid "Check"
-msgstr ""
+msgstr "Sprawdź"
 
 msgid "Check volume ..."
-msgstr ""
+msgstr "Sprawdź wolumin ..."
 
 msgid "Clone"
-msgstr ""
+msgstr "Klonuj"
 
 msgid "Clone name"
+msgstr "Klonuj nazwę"
+
+msgid "Cloning ..."
+msgstr ""
+
+msgid "Cloning complete."
 msgstr ""
 
 msgid "Component"
-msgstr ""
+msgstr "Kompunent"
 
 msgid "Compression"
-msgstr ""
+msgstr "Kompresja"
 
 msgid "Console"
+msgstr "Konsola"
+
+msgid "Consoles have been started."
+msgstr ""
+
+msgid "Consoles have been stopped."
 msgstr ""
 
 msgid "Convert to qcow2"
-msgstr ""
+msgstr "Konwertuj do qcow2"
 
 msgid "Convert to raw"
-msgstr ""
+msgstr "Konwertuj do raw"
 
 msgid "Converting to qcow2 ..."
-msgstr ""
+msgstr "Konwersja do qcow2 ..."
 
 msgid "Converting to raw ..."
-msgstr ""
+msgstr "Konwersja do raw"
 
 msgid "Create"
-msgstr ""
+msgstr "Utwórz"
 
 msgid "Create LXC"
-msgstr ""
+msgstr "Utwórz LXC"
 
 msgid "Create VM"
-msgstr ""
+msgstr "Utwórz VM"
 
 msgid "Create backing file"
-msgstr ""
+msgstr "Utwórz plik zapasowy"
 
 msgid "Created LXC."
-msgstr ""
+msgstr "Utworzono LXC."
 
 msgid "Created VM."
-msgstr ""
+msgstr "Utworzono VM."
 
 msgid "Created scheduled job."
+msgstr "Utworzono zaplanowane zadanie."
+
+msgid "Creating linked clone ..."
+msgstr ""
+
+msgid "Creating snapshot ..."
 msgstr ""
 
 msgid "Current size"
-msgstr ""
+msgstr "Obecny roziar"
 
 msgid "DHCP"
-msgstr ""
+msgstr "DHCP"
 
 msgid "DHCP Range"
-msgstr ""
+msgstr "Zakres DHCP"
 
 msgid "DHCP ending address"
-msgstr ""
+msgstr "Końcowy adres DHCP"
 
 msgid "DHCP starting address"
-msgstr ""
+msgstr "Początkowy adres DHCP"
 
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 msgid "Date & Time"
-msgstr ""
+msgstr "Data i czas"
 
 msgid "Delete"
-msgstr ""
+msgstr "Usuń"
 
 msgid "Delete + storage"
+msgstr ""
+
+msgid "Deleted."
+msgstr ""
+
+msgid "Deleting ..."
+msgstr ""
+
+msgid "Deleting a network ..."
+msgstr ""
+
+msgid "Deleting a pool ..."
+msgstr ""
+
+msgid "Deleting snapshot ..."
 msgstr ""
 
 msgid "Details"
 msgstr ""
 
 msgid "Directory"
-msgstr ""
+msgstr "Katalog"
 
 msgid "Directory is not empty!"
-msgstr ""
+msgstr "Katalog nie jest pusty!"
 
 msgid "Disable"
+msgstr "Dezaktywuj"
+
+msgid "Disabling autostart ..."
 msgstr ""
 
 msgid "Disk"
+msgstr "Dysk"
+
+msgid "Disk has been added."
 msgstr ""
 
 msgid "Disk info"
-msgstr ""
+msgstr "Informacja o dysku"
 
 msgid "Disk list"
-msgstr ""
+msgstr "Lista dysków"
 
 msgid "Disk stats"
-msgstr ""
+msgstr "Statystyki dysku"
 
 msgid "Disk(s)"
-msgstr ""
+msgstr "Dysk(i)"
 
 msgid "Download virtio iso"
-msgstr ""
+msgstr "Pobierz obraz virtio ISO "
 
 msgid "Download virtio iso ..."
-msgstr ""
+msgstr "Pobierz obraz virtio ISO ..."
 
 msgid "Edit"
-msgstr ""
+msgstr "Edycja"
 
 msgid "Edit Notes"
-msgstr ""
+msgstr "Edytuj Notatki"
 
 msgid "Edit VM xml"
-msgstr ""
+msgstr "Edytuj VM xml"
 
 msgid "Edit VM xml."
-msgstr ""
+msgstr "Edytuj VM xml."
 
 msgid "Edit XML"
-msgstr ""
+msgstr "Edytuj XML"
 
 msgid "Edit scheduled job."
-msgstr ""
+msgstr "Edytuj zaplanowane zadanie."
 
 msgid "Edit settings."
-msgstr ""
+msgstr "Edytuj ustawienia."
 
 msgid "Enable"
+msgstr "Aktywuj"
+
+msgid "Enabling autostart ..."
 msgstr ""
 
 msgid "Execute backup using selected VM name and path ..."
-msgstr ""
+msgstr "Wykonaj kopię zapasową, używając wybranej nazwy maszyny i ścieżki ..."
 
 msgid "Execute backup with compression using selected VM name and path ..."
 msgstr ""
+"Wykonaj skompresowaną kopię zapasową, używając wybranej nazwy maszyny i "
+"ścieżki ..."
 
 msgid "Execute scheduled job ..."
-msgstr ""
+msgstr "Wykonaj zaplanowane zadanie ..."
 
 msgid "Extend"
-msgstr ""
+msgstr "Rozszerzyć"
 
 msgid "Extension"
-msgstr ""
+msgstr "Rozszerzenie"
 
 msgid "Failed to "
-msgstr ""
+msgstr "Zakończono niepowodzeniem"
 
 msgid "Failed to add USB device."
 msgstr ""
@@ -315,10 +411,10 @@ msgid "Failed to add optical."
 msgstr ""
 
 msgid "Failed to add spice device."
-msgstr ""
+msgstr "Urządzenie Spice nie zostało dodane."
 
 msgid "Failed to add spicevmc channel."
-msgstr ""
+msgstr "Kanał Spice VMC nie został dodany."
 
 msgid "Failed to create VM XML."
 msgstr ""
@@ -348,13 +444,13 @@ msgid "Failed to remove network."
 msgstr ""
 
 msgid "Failed to remove spice device."
-msgstr ""
+msgstr "Urządzenie Spice nie zostało usunięte"
 
 msgid "Failed to remove spicevmc channel."
-msgstr ""
+msgstr "Kanał Spice VMC nie została usunięty."
 
 msgid "Failed to remove spicevmc redirdev."
-msgstr ""
+msgstr "Spicevmc redirdev nie został usunięty"
 
 msgid "Failed to reset VM."
 msgstr ""
@@ -378,13 +474,13 @@ msgid "Failed to start websockify for noVNC."
 msgstr ""
 
 msgid "Failed to start websockify for spice-html5."
-msgstr ""
+msgstr "Nie udało się uruchomić websockify dla spice-html5."
 
 msgid "File will be place in same directory as the base image."
 msgstr ""
 
 msgid "Filesystem"
-msgstr ""
+msgstr "System plików"
 
 msgid ""
 "For description of each type and how to configure <a "
@@ -395,6 +491,15 @@ msgstr ""
 msgid "Force"
 msgstr ""
 
+msgid "Force image list refresh"
+msgstr ""
+
+msgid "Forced down."
+msgstr ""
+
+msgid "Forcing down ..."
+msgstr ""
+
 msgid "Format"
 msgstr ""
 
@@ -402,10 +507,10 @@ msgid "Forwarding"
 msgstr ""
 
 msgid "Gateway IP"
-msgstr ""
+msgstr "Brama IP"
 
 msgid "Gateway IP address"
-msgstr ""
+msgstr "Adres IP bramy"
 
 msgid "GiB"
 msgstr ""
@@ -414,56 +519,55 @@ msgid "Gigabytes"
 msgstr ""
 
 msgid "Hard disk"
-msgstr ""
+msgstr "Dysk twardy"
 
 msgid "Host VNC port"
 msgstr ""
 
-msgid "Host name"
+msgid "Host drive has been added."
 msgstr ""
+
+msgid "Host name"
+msgstr "Nazwa hosta"
 
 msgid "Host spice port"
-msgstr ""
+msgstr "Port Spice hosta"
 
 msgid "IP Range"
-msgstr ""
+msgstr "Zakres IP"
 
 msgid "ISOs"
-msgstr ""
+msgstr "Obrazy ISO"
 
 msgid ""
 "If unchecked, LXC Container Initialization and Autoboot will be disabled."
 msgstr ""
+"Jeśli ta opcja nie jest zaznaczona, inicjowanie kontenera LXC i automatyczne"
+" uruchamianie zostaną wyłączone."
 
 msgid "If unchecked, LXC network bridge will be disabled."
-msgstr ""
+msgstr "Jeśli odznaczone, most sieciowy LXC zostanie wyłączony."
 
 msgid "Image"
-msgstr ""
+msgstr "Obraz"
 
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 msgid "KVM"
-msgstr ""
+msgstr "KVM"
 
 msgid "KVM Backup"
-msgstr ""
-
-msgid "Keep"
-msgstr ""
+msgstr "Kopia zapasowa KVM"
 
 msgid "Keep Recent"
-msgstr ""
-
-msgid "Keep the most recent number of backups. 0 = keep all backups"
-msgstr ""
+msgstr "Zachowaj nowsze"
 
 msgid "LXC"
-msgstr ""
+msgstr "LXC"
 
 msgid "LXC name"
-msgstr ""
+msgstr "LXC nazwa"
 
 msgid "Leave blank for random address."
 msgstr ""
@@ -474,149 +578,260 @@ msgstr ""
 msgid "Linked Clone"
 msgstr ""
 
+msgid "Linked clone complete."
+msgstr ""
+
 msgid "Logical"
 msgstr ""
 
 msgid "MAC address"
-msgstr ""
+msgstr "MAC adres"
 
 msgid "Megabytes"
 msgstr ""
 
 msgid "Memory"
+msgstr "Pamięć"
+
+msgid "Memory amount has been changed."
 msgstr ""
 
 msgid "Message"
-msgstr ""
+msgstr "Wiadomość"
 
 msgid "MiB"
-msgstr ""
+msgstr "MiB"
 
 msgid "Model"
-msgstr ""
+msgstr "Model"
 
 msgid "Name"
-msgstr ""
+msgstr "Nazwa"
 
 msgid "Network"
-msgstr ""
+msgstr "Sieć"
 
 msgid "Network Filesystem"
-msgstr ""
+msgstr "Sieciowy system plików"
 
 msgid "Network Name"
-msgstr ""
+msgstr "Nazwa sieci"
 
 msgid "Network State"
+msgstr "Stan sieci"
+
+msgid "Network adapter has been added."
+msgstr ""
+
+msgid "Network adapter has been removed."
+msgstr ""
+
+msgid "Network has been added."
+msgstr ""
+
+msgid "Network has been deleted."
+msgstr ""
+
+msgid "Network has been started."
+msgstr ""
+
+msgid "Network has been stopped."
 msgstr ""
 
 msgid "Networks"
-msgstr ""
+msgstr "Sieci"
 
 msgid "New name"
-msgstr ""
+msgstr "Nowa nazwa"
 
 msgid "No image - use existing image path"
-msgstr ""
+msgstr "Brak obrazu — użyj istniejącego obrazu"
 
 msgid "Notes"
-msgstr ""
+msgstr "Notatki"
 
 msgid "OS"
-msgstr ""
+msgstr "OS"
 
 msgid "Optical"
-msgstr ""
+msgstr "Optyczny"
 
 msgid "Optical Drive"
+msgstr "Napęd optyczny"
+
+msgid "Optical disc has been removed."
+msgstr ""
+
+msgid "Optical has been added."
 msgstr ""
 
 msgid "Other CPU"
-msgstr ""
+msgstr "Inne CPU"
 
 msgid "Passthrough Filesystem"
+msgstr "Passthrough system plików"
+
+msgid "Passthrough by address instead of using vendor and product IDs"
+msgstr ""
+
+msgid "Passthrough filesystem has been added."
+msgstr ""
+
+msgid "Passthrough filesystem has been removed."
 msgstr ""
 
 msgid "Path"
-msgstr ""
+msgstr "Ścieżka"
 
 msgid "Pause"
+msgstr "Wstrzymaj"
+
+msgid "Paused."
+msgstr ""
+
+msgid "Pausing ..."
 msgstr ""
 
 msgid "Pool"
+msgstr "Pula"
+
+msgid "Pool has been added."
+msgstr ""
+
+msgid "Pool has been deleted."
+msgstr ""
+
+msgid "Pool has been started."
+msgstr ""
+
+msgid "Pool has been stopped."
 msgstr ""
 
 msgid "Pools"
-msgstr ""
+msgstr "Pule"
 
 msgid "Reboot"
+msgstr "Restart"
+
+msgid "Rebooted."
+msgstr ""
+
+msgid "Rebooting ..."
 msgstr ""
 
 msgid "Remove Spice"
-msgstr ""
+msgstr "Usuń Spice"
 
 msgid "Remove USB"
-msgstr ""
+msgstr "Usuń USB"
 
 msgid "Remove VNC"
-msgstr ""
+msgstr "Usuń VNC"
 
 msgid "Remove disc"
-msgstr ""
+msgstr "Usuń dysk"
 
 msgid "Remove disk"
-msgstr ""
+msgstr "Usuń dysk"
 
 msgid "Remove network"
-msgstr ""
+msgstr "Usuń sieć"
 
 msgid "Remove passthrough"
+msgstr "Usuń passthrough"
+
+msgid "Removing USB device ..."
+msgstr ""
+
+msgid "Removing VNC viewer ..."
+msgstr ""
+
+msgid "Removing disk ..."
+msgstr ""
+
+msgid "Removing network adapter ..."
+msgstr ""
+
+msgid "Removing optical disc ..."
+msgstr ""
+
+msgid "Removing passthrough filesystem ..."
+msgstr ""
+
+msgid "Removing spice viewer ..."
 msgstr ""
 
 msgid "Reset"
+msgstr "Reset"
+
+msgid "Reset."
+msgstr ""
+
+msgid "Resetting ..."
 msgstr ""
 
 msgid "Restore"
-msgstr ""
+msgstr "Przywróć"
 
 msgid "Restore VM ..."
-msgstr ""
+msgstr "Przywróć VM ..."
 
 msgid "Resume"
+msgstr "Wznów"
+
+msgid "Resumed."
+msgstr ""
+
+msgid "Resuming ..."
 msgstr ""
 
 msgid "Revert"
+msgstr "Odwróć"
+
+msgid "Reverting to snapshot ..."
 msgstr ""
 
 msgid "Run"
-msgstr ""
+msgstr "Uruchom"
 
 msgid "Running"
-msgstr ""
+msgstr "Uruchomiony"
 
 msgid "Same Format"
 msgstr ""
 
 msgid "Schedule"
+msgstr "Harmonogram"
+
+msgid "Secure boot"
 msgstr ""
 
 msgid "Select a snapshot ..."
-msgstr ""
+msgstr "Wybierz migawkę ..."
 
 msgid "Settings"
-msgstr ""
+msgstr "Ustawienia"
 
 msgid "Show advanced options"
-msgstr ""
+msgstr "Pokaż zaawansowane ustawienia"
 
 msgid "Size"
-msgstr ""
+msgstr "Rozmiar"
 
 msgid "Snapshot"
+msgstr "Migawka"
+
+msgid "Snapshot has been created."
+msgstr ""
+
+msgid "Snapshot has been deleted."
+msgstr ""
+
+msgid "Snapshot has been reverted."
 msgstr ""
 
 msgid "Snapshots"
-msgstr ""
+msgstr "Migawki"
 
 msgid "Source VM"
 msgstr ""
@@ -628,28 +843,64 @@ msgid "Space Used"
 msgstr ""
 
 msgid "Spice"
-msgstr ""
+msgstr "Spice"
 
 msgid "Spice port"
+msgstr "Port Spice"
+
+msgid "Spice viewer has been added."
+msgstr ""
+
+msgid "Spice viewer has been removed."
 msgstr ""
 
 msgid "Start"
+msgstr "Start"
+
+msgid "Started."
+msgstr ""
+
+msgid "Starting ..."
+msgstr ""
+
+msgid "Starting a pool ..."
+msgstr ""
+
+msgid "Starting consoles ..."
+msgstr ""
+
+msgid "Starting network ..."
 msgstr ""
 
 msgid "State"
-msgstr ""
+msgstr "Stan"
 
 msgid "Stop"
+msgstr "Stop"
+
+msgid "Stopped."
+msgstr ""
+
+msgid "Stopping ..."
+msgstr ""
+
+msgid "Stopping a pool ..."
+msgstr ""
+
+msgid "Stopping consoles ..."
+msgstr ""
+
+msgid "Stopping network ..."
 msgstr ""
 
 msgid "Storage Volume"
 msgstr ""
 
 msgid "Subnet mask"
-msgstr ""
+msgstr "Maska podsieci"
 
 msgid "TPM"
-msgstr ""
+msgstr "TPM"
 
 msgid "Terabytes"
 msgstr ""
@@ -658,13 +909,19 @@ msgid "Type"
 msgstr ""
 
 msgid "UEFI"
-msgstr ""
+msgstr "UEFI"
 
 msgid "USB"
+msgstr "USB"
+
+msgid "USB device has been added."
+msgstr ""
+
+msgid "USB device has been removed."
 msgstr ""
 
 msgid "UUID"
-msgstr ""
+msgstr "UUID"
 
 msgid "Unable to - "
 msgstr ""
@@ -742,9 +999,15 @@ msgid "VMs"
 msgstr ""
 
 msgid "VNC"
-msgstr ""
+msgstr "VNC"
 
 msgid "VNC port"
+msgstr "Port VNC"
+
+msgid "VNC viewer has been added."
+msgstr ""
+
+msgid "VNC viewer has been removed."
 msgstr ""
 
 msgid "Volume Count"
@@ -759,28 +1022,37 @@ msgstr ""
 msgid "Volumes"
 msgstr ""
 
-msgid "XML"
+msgid ""
+"Warning! Address can change after VM reboot breaking the passthrough!<br "
+"/>Useful when the host system has two or more devices with duplicate vendor "
+"and product IDs."
 msgstr ""
+
+msgid "XML"
+msgstr "XML"
 
 msgid "ZFS"
-msgstr ""
+msgstr "ZFS"
 
 msgid "bridge"
-msgstr ""
+msgstr "bridge"
 
 msgid "e1000"
-msgstr ""
+msgstr "e1000"
 
 msgid "iSCSI"
-msgstr ""
+msgstr "iSCSI"
 
 msgid "ide"
-msgstr ""
+msgstr "ide"
 
 msgid "lxc service"
-msgstr ""
+msgstr "usługa LXC"
 
 msgid "lxc-net service"
+msgstr "Usługa LXC-NET"
+
+msgid "macvtap network has been added."
 msgstr ""
 
 msgid "ne2k_pci"
@@ -799,28 +1071,28 @@ msgid "qcow2"
 msgstr ""
 
 msgid "raw"
-msgstr ""
+msgstr "raw"
 
 msgid "rtl8139"
-msgstr ""
+msgstr "rtl8139"
 
 msgid "sata"
-msgstr ""
+msgstr "sata"
 
 msgid "scsi"
-msgstr ""
+msgstr "scsi"
 
 msgid "spice-html5 URL"
-msgstr ""
+msgstr "Spice-html5 URL"
 
 msgid "spice-html5 port"
-msgstr ""
+msgstr "Spice-html5 port"
 
 msgid "vCPU"
-msgstr ""
+msgstr "vCPU"
 
 msgid "vCPUs"
-msgstr ""
+msgstr "vCPUs"
 
 msgid "virtio"
 msgstr ""
