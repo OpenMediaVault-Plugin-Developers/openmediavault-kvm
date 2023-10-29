@@ -3,7 +3,7 @@ Section: net
 XB-Plugin-Section: utilities
 Priority: optional
 Maintainer: OpenMediaVault Plugin Developers <plugins@omv-extras.org>
-Build-Depends: debhelper (>= 12)
+Build-Depends: debhelper (>= 13)
 Standards-Version: 4.3.0
 Homepage: http://omv-extras.org/
 
@@ -23,7 +23,7 @@ Depends: distro-info,
          lxc-templates,
          netcat-openbsd,
          novnc,
-         openmediavault (>= 6.0.46),
+         openmediavault (>= 7),
          openmediavault-sharerootfs,
          osinfo-db,
          osinfo-db-tools,
