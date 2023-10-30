@@ -2797,7 +2797,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmd = new \OMV\System\Process('virsh', 'capabilities');
         $cmd->setQuiet(true);
         $cmd->execute($output, $exitStatus);
-        $virshXml = implode($output, PHP_EOL);
+        $virshXml = implode(PHP_EOL, $output);
         $xml = new SimpleXMLElement($virshXml);
         $xpath = $xml->xpath('/capabilities/guest');
         $xpathSize = sizeof($xpath);
