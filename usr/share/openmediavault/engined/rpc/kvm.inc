@@ -968,7 +968,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         } else {
             $result = $lv->domain_define($params['vmxml']);
         }
-        if (!results) {
+        if (!$result) {
             throw new \OMV\Exception( gettext("Unable to set VM XML - ") . $lv->get_last_error());
         }
     }
