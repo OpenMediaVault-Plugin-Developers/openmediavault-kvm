@@ -2398,13 +2398,16 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
     {
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
-        // Validate the parameters of the RPC service method.
-        //$this->validateMethodParams($params, 'rpc.kvm.vmname');
-        // create new libvirt object
-        $lv = ($params['virttype'] == 'lxc' ? $this->connectLxc() : $this->connectQemu());
-        $notes = "";
-        $dom = $lv->get_domain_object($params['vmname']);
-        $notes = $lv->domain_get_description($dom);
+        // virsh desc
+        $cmdArgs = [];
+        if ($params['virttype'] == 'lxc') {
+            $cmdArgs[] = '--connect lxc:///';
+        }
+        $cmdArgs[] = 'desc';
+        $cmdArgs[] = sprintf('--domain %s', $this->escapeName($params['vmname']));
+        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
+        $cmd->execute($output, $exitStatus);
+        $notes = trim(implode('', array_filter($output)));
         return ["notes" => $notes];
     }
 
@@ -2414,16 +2417,16 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.setnotes');
-        // create new libvirt object
-        $lv = ($params['virttype'] == 'lxc' ? $this->connectLxc() : $this->connectQemu());
-        $vmname = $params['vmname'];
-        $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
-        $domXml->description = htmlspecialchars($params['notes'], ENT_XML1);
-        $newXml = $domXml->asXML();
-        $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
-        if (!$lv->domain_change_xml($vmname, $newXml)) {
-            throw new \OMV\Exception( gettext("Unable to change notes for VM - ") . $lv->get_last_error());
+        // virsh desc
+        $cmdArgs = [];
+        if ($params['virttype'] == 'lxc') {
+            $cmdArgs[] = '--connect lxc:///';
         }
+        $cmdArgs[] = 'desc';
+        $cmdArgs[] = sprintf('--domain %s', $this->escapeName($params['vmname']));
+        $cmdArgs[] = sprintf("--new-desc '%s'", $this->escapeName($params['notes']));
+        $err = gettext("Unable to change notes for VM.");
+        $remove = $this->virshCommand($cmdArgs, $err);
     }
 
     public function getBackupList($params, $context)
