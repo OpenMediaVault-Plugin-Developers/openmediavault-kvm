@@ -1,3 +1,9 @@
+openmediavault-kvm (6.2.18) stable; urgency=low
+
+  * Use virsh to view or set VM note
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Tue, 14 Nov 2023 18:12:56 -0600
+
 openmediavault-kvm (6.2.17) stable; urgency=low
 
   * Fix typo in vm xml edit
