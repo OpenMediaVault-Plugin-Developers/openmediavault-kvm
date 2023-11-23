@@ -1,0 +1,164 @@
+#!/bin/bash
+#
+# shellcheck disable=
+#
+# Copyright (c) 2023 OpenMediaVault Plugin Developers
+#
+# This file is licensed under the terms of the GNU General Public
+# License version 2. This program is licensed "as is" without any
+# warranty of any kind, whether express or implied.
+#
+# version: 0.0.1
+#
+
+if [[ $(id -u) -ne 0 ]]; then
+  echo "This script must be executed as root or using sudo."
+  exit 99
+fi
+
+export LANG=C.UTF-8
+
+# declare/initialize
+action=""
+cntrName=""
+snapDir=""
+snapName=""
+virshCmd="virsh --connect lxc:///"
+
+# logging location
+logDir="/var/log/"
+logFile="${logDir}/omv-lxc-snapshot.log"
+
+_log()
+{
+  msg=${1}
+  echo "[$(date +'%Y-%m-%d %H:%M:%S%z')] [lxcsnapshot] ${msg}" | tee -a ${logFile} >&2
+}
+
+# loop through options
+while getopts "a:c:d:hs:" opt; do
+  case "${opt}" in
+    a)
+      action="${OPTARG}"
+      ;;
+    c)
+      cntrName="${OPTARG}"
+      ;;
+    d)
+      snapDir="${OPTARG}"
+      ;;
+    h)
+      echo "Use the following flags:"
+      echo "  -a action"
+      echo "    action can be be 'create', 'revert', 'list', or 'delete'"
+      echo "  -c name"
+      echo "    container name"
+      echo "  -d 'dir'"
+      echo "    set snapshot directory"
+      echo "    A subdirectory named after container name will be created if it does not exist."
+      echo "  -h"
+      echo "    show this help"
+      echo "  -s 'snapshot name'"
+      echo ""
+      echo "Examples:"
+      echo "  omv-lxc-snapshot -c testlxc1 -a create -d '/srv/lxc/snapshots/' -s '20231123100102'"
+      echo ""
+      exit 100
+      ;;
+    s)
+      snapName="${OPTARG}"
+      ;;
+    \?)
+      echo "Invalid option: -${OPTARG}"
+      ;;
+  esac
+done
+
+if [ ! -f "/usr/bin/virsh" ]; then
+  _log "virsh command not found!"
+  exit 2
+fi
+
+# check if VM name was specified
+if [ -z "${cntrName}" ]; then
+  _log "No container specified!"
+  exit 3
+fi
+
+# check if VM is defined by libvirt
+if ! ${virshCmd} dominfo "${cntrName}" > /dev/null 2>&1; then
+  _log "VM '${cntrName}' not defined!"
+  exit 4
+fi
+
+cntrDir="$(${virshCmd} dumpxml "${cntrName}" | xmlstarlet sel -t -m "/domain/devices/filesystem/target[@dir='/']" -v "/domain/devices/filesystem/source/@dir")"
+
+# if container path doesn't exist, exit
+if [ ! -d "${cntrDir}" ]; then
+  _log "${cntrDir} does not exist.  Exiting."
+  exit 5
+fi
+
+# if snapshot directory doesn't exist, exit
+if [ -z "${snapDir}" ]; then
+  _log "No snapshot directory specified!"
+  exit 6
+fi
+
+# make sure snapshot directory for container exists
+cntrSnapDir="${snapDir}/${cntrName}"
+mkdir -p "${cntrSnapDir}"
+
+
+case "${action}" in
+  create)
+    # create snapshot name if none specified
+    if [ -z "${snapName}" ]; then
+      snapName="$(date +'%Y%m%d_%H%M%S')"
+    fi
+    snapFile="${cntrSnapDir}/${snapName}.tar.gz"
+    _log "Starting snapshot '${snapName}' for container '${cntrName}'"
+    ${virshCmd} shutdown "${cntrName}"
+    _log "Creating ${snapFile} ..." 
+    tar czf "${snapFile}" -C "${cntrDir}" .
+    ${virshCmd} --connect lxc:/// start "${cntrName}"
+    _log "Snapshot '${snapName}' complete."
+    ;;
+
+  revert)
+    if [ -z "${snapName}" ]; then
+      _log "No snapshot name specified!"
+      exit 7
+    fi
+    snapFile="${cntrSnapDir}/${snapName}.tar.gz"
+    _log "Reverting to snapshot '${snapName}' for container '${cntrName}'"
+    ${virshCmd} --connect lxc:/// shutdown "${cntrName}"
+    _log "Removing files ..."
+    rm -rf "${cntrDir}"
+    _log "Reverting to ${snapFile} ..." 
+    tar xzf "${snapFile}" -C "${cntrDir}"
+    ${virshCmd} --connect lxc:/// start "${cntrName}"
+    _log "Snapshot '${snapName}' revert complete."
+    ;;
+
+  list)
+    find "${cntrSnapDir}" -type f -name "*.tar.gz" -printf "%f\n" | sed 's/.tar.gz$//' | sort
+    ;;
+
+  delete)
+    if [ -z "${snapName}" ]; then
+      _log "No snapshot name specified!"
+      exit 8
+    fi
+    _log "Deleting snapshot '${snapName}' for container '${cntrName}'"
+    rm -fv "${cntrSnapDir}/${snapName}.tar.gz"
+    _log "Snapshot '${snapName}' delete complete."
+    ;;
+
+  *)
+    echo "Error: Invalid action. Should be 'create', 'revert', 'list', or 'delete'."
+    exit 1
+    ;;
+esac
+
+exit 0
