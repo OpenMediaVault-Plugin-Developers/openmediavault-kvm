@@ -1,3 +1,10 @@
+openmediavault-kvm (7.0.1) UNRELEASED; urgency=medium
+
+  * Add LXC snapshot support using omv-lxc-snapshot script
+  * Use virsh to change VM or container description
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Thu, 23 Nov 2023 15:52:01 -0600
+
 openmediavault-kvm (7.0) stable; urgency=low
 
   * Update for OMV 7.x
