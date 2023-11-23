@@ -301,7 +301,7 @@ data:
                         service: Kvm
                         method: removeDisk
                         progressMessage: _("Removing disk ...")
-                        successNotification: _("Snapshot has been reverted.")
+                        successNotification: _("Disk has been removed.")
                     successUrl: /services/kvm/vm
             enabledConstraints:
               minSelected: 1
@@ -1072,11 +1072,6 @@ data:
         enabledConstraints:
           minSelected: 1
           maxSelected: 1
-          constraint:
-            - operator: ne
-              arg0:
-                prop: virttype
-              arg1: "lxc"
         actions:
           - text: _("Create")
             icon: mdi:file-cog-outline

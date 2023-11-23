@@ -842,7 +842,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                     $spicehtml5url = sprintf('<a href="http://%s:%d/spice_auto.html?resize=remote" target="_blank">link</a>', $fqdn, $spicehtml5port);
                 }
             }
-            $snaps = 0;
+            $snaps = count($this->doLxcSnapshot($name, 'list', ''));
             $notes = $lv2->domain_get_description($dom);
             $objects[] = [
                 'vmname' => $name,
@@ -944,14 +944,16 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
     {
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
-        // Validate the parameters of the RPC service method.
-        //$this->validateMethodParams($params, 'rpc.kvm.vmname');
-        // create new libvirt object
-        $lv = ($params['virttype'] == 'lxc' ? $this->connectLxc() : $this->connectQemu());
-        $vmxml = "";
-        if ($params['vmname']) {
-            $vmxml = $lv->domain_get_xml($params['vmname']);
+        // virsh dumpxml
+        $cmdArgs = [];
+        if ($params['virttype'] == 'lxc') {
+            $cmdArgs[] = '--connect lxc:///';
         }
+        $cmdArgs[] = 'dumpxml';
+        $cmdArgs[] = sprintf('--domain %s', $this->escapeName($params['vmname']));
+        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
+        $cmd->execute($output, $exitStatus);
+        $vmxml = implode(PHP_EOL, array_filter($output));
         return ["vmxml" => $vmxml];
     }
 
@@ -968,7 +970,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         } else {
             $result = $lv->domain_define($params['vmxml']);
         }
-        if (!results) {
+        if (!$result) {
             throw new \OMV\Exception( gettext("Unable to set VM XML - ") . $lv->get_last_error());
         }
     }
@@ -1873,28 +1875,52 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         return (false);
     }
 
+    private function doLxcSnapshot($cntr, $action, $snapname)
+    {
+        $cmdArgs = [];
+        $cmdArgs[] = sprintf("-c '%s'", $cntr);
+        $cmdArgs[] = sprintf("-a '%s'", $action);
+        if ($action == 'revert' || $action == 'delete') {
+            $cmdArgs[] = sprintf("-s '%s'", $snapname);
+        }
+        $cmd = new \OMV\System\Process('omv-lxc-snapshot', $cmdArgs);
+        $cmd->execute($output, $exitStatus);
+        return (array_filter($output));
+    }
+
     public function enumerateSnapshots($params, $context)
     {
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.vmname');
-        // create new libvirt object
-        $lv = ($params['virttype'] == 'lxc' ? $this->connectLxc() : $this->connectQemu());
-        $dom = $lv->get_domain_object($params['vmname']);
-        $snaps = $lv->domain_snapshots_list($dom);
+        // get snapshots
         $objects= [];
-        foreach ($snaps as $key => $value) {
-            $xml = $lv->domain_snapshot_get_xml($dom, $value);
-            $tmpxml = simplexml_load_string($xml);
-            $name = $tmpxml->name[0];
-            $creationTime = $tmpxml->creationTime[0];
-            $ctime = date("Y.m.d H:i:s", $value);
-            $snapstate = $tmpxml->state[0];
-            $objects[] = [
-                'snapname' => strval($name),
-                'description' => sprintf("%s :: %s (%s)", $ctime, $snapstate, $name)
-            ];
+        if ($params['virttype'] == 'lxc') {
+            $output = $this->doLxcSnapshot($params['vmname'], 'list', '');
+            foreach ($output as $snap) {
+                $objects[] = [
+                    'snapname' => $snap,
+                    'description' => $snap
+                ];
+            }
+        } else {
+            // create new libvirt object
+            $lv = $this->connectQemu();
+            $dom = $lv->get_domain_object($params['vmname']);
+            $snaps = $lv->domain_snapshots_list($dom);
+            foreach ($snaps as $key => $value) {
+                $xml = $lv->domain_snapshot_get_xml($dom, $value);
+                $tmpxml = simplexml_load_string($xml);
+                $name = $tmpxml->name[0];
+                $creationTime = $tmpxml->creationTime[0];
+                $ctime = date("Y.m.d H:i:s", $value);
+                $snapstate = $tmpxml->state[0];
+                $objects[] = [
+                    'snapname' => strval($name),
+                    'description' => sprintf("%s :: %s (%s)", $ctime, $snapstate, $name)
+                ];
+            }
         }
         // Filter the result.
         return ($objects);
@@ -1906,11 +1932,16 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.vmname');
-        // create new libvirt object
-        $lv = ($params['virttype'] == 'lxc' ? $this->connectLxc() : $this->connectQemu());
-        $dom = $lv->get_domain_object($params['vmname']);
-        if (!$lv->domain_snapshot_create($dom)) {
-            throw new \OMV\Exception( gettext("Unable to create snapshot - ") . $lv->get_last_error());
+        // create snapshot
+        if ($params['virttype'] == 'lxc') {
+            $output = $this->doLxcSnapshot($params['vmname'], 'create', '');
+        } else {
+            // create new libvirt object
+            $lv = $this->connectQemu();
+            $dom = $lv->get_domain_object($params['vmname']);
+            if (!$lv->domain_snapshot_create($dom)) {
+                throw new \OMV\Exception( gettext("Unable to create snapshot - ") . $lv->get_last_error());
+            }
         }
     }
 
@@ -1920,10 +1951,15 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.snapshot');
-        // create new libvirt object
-        $lv = ($params['virttype'] == 'lxc' ? $this->connectLxc() : $this->connectQemu());
-        if (!$lv->domain_snapshot_delete($params['vmname'], $params['snapname'])) {
-            throw new \OMV\Exception( gettext("Unable to delete snapshot - ") . $lv->get_last_error());
+        // delete snapshot
+        if ($params['virttype'] == 'lxc') {
+            $output = $this->doLxcSnapshot($params['vmname'], 'delete', $params['snapname']);
+        } else {
+            // create new libvirt object
+            $lv = $this->connectQemu();
+            if (!$lv->domain_snapshot_delete($params['vmname'], $params['snapname'])) {
+                throw new \OMV\Exception( gettext("Unable to delete snapshot - ") . $lv->get_last_error());
+            }
         }
     }
 
@@ -1932,11 +1968,16 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
-        //$this->validateMethodParams($params, 'rpc.kvm.snapshot');
-        // create new libvirt object
-        $lv = ($params['virttype'] == 'lxc' ? $this->connectLxc() : $this->connectQemu());
-        if (!$lv->domain_snapshot_revert($params['vmname'], $params['snapname'])) {
-            throw new \OMV\Exception( gettext("Unable to revert to snapshot - ") . $lv->get_last_error());
+        $this->validateMethodParams($params, 'rpc.kvm.snapshot');
+        // revert snapshot
+        if ($params['virttype'] == 'lxc') {
+            $output = $this->doLxcSnapshot($params['vmname'], 'revert', $params['snapname']);
+        } else {
+            // create new libvirt object
+            $lv = $this->connectQemu();
+            if (!$lv->domain_snapshot_revert($params['vmname'], $params['snapname'])) {
+                throw new \OMV\Exception( gettext("Unable to revert to snapshot - ") . $lv->get_last_error());
+            }
         }
     }
 
@@ -2398,13 +2439,16 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
     {
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
-        // Validate the parameters of the RPC service method.
-        //$this->validateMethodParams($params, 'rpc.kvm.vmname');
-        // create new libvirt object
-        $lv = ($params['virttype'] == 'lxc' ? $this->connectLxc() : $this->connectQemu());
-        $notes = "";
-        $dom = $lv->get_domain_object($params['vmname']);
-        $notes = $lv->domain_get_description($dom);
+        // virsh desc
+        $cmdArgs = [];
+        if ($params['virttype'] == 'lxc') {
+            $cmdArgs[] = '--connect lxc:///';
+        }
+        $cmdArgs[] = 'desc';
+        $cmdArgs[] = sprintf('--domain %s', $this->escapeName($params['vmname']));
+        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
+        $cmd->execute($output, $exitStatus);
+        $notes = trim(implode('', array_filter($output)));
         return ["notes" => $notes];
     }
 
@@ -2414,16 +2458,16 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.setnotes');
-        // create new libvirt object
-        $lv = ($params['virttype'] == 'lxc' ? $this->connectLxc() : $this->connectQemu());
-        $vmname = $params['vmname'];
-        $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
-        $domXml->description = htmlspecialchars($params['notes'], ENT_XML1);
-        $newXml = $domXml->asXML();
-        $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
-        if (!$lv->domain_change_xml($vmname, $newXml)) {
-            throw new \OMV\Exception( gettext("Unable to change notes for VM - ") . $lv->get_last_error());
+        // virsh desc
+        $cmdArgs = [];
+        if ($params['virttype'] == 'lxc') {
+            $cmdArgs[] = '--connect lxc:///';
         }
+        $cmdArgs[] = 'desc';
+        $cmdArgs[] = sprintf('--domain %s', $this->escapeName($params['vmname']));
+        $cmdArgs[] = sprintf("--new-desc '%s'", $this->escapeName($params['notes']));
+        $err = gettext("Unable to change notes for VM.");
+        $this->virshCommand($cmdArgs, $err);
     }
 
     public function getBackupList($params, $context)
