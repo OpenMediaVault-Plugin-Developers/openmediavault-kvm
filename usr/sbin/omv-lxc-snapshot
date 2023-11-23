@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# shellcheck disable=
+# shellcheck disable=SC2181
 #
 # Copyright (c) 2023 OpenMediaVault Plugin Developers
 #
@@ -19,6 +19,8 @@ fi
 export LANG=C.UTF-8
 
 # declare/initialize
+declare -i poweredOn=0
+
 action=""
 cntrName=""
 snapDir=""
@@ -54,8 +56,10 @@ while getopts "a:c:d:hs:" opt; do
       echo "  -c name"
       echo "    container name"
       echo "  -d 'dir'"
-      echo "    set snapshot directory"
-      echo "    A subdirectory named after container name will be created if it does not exist."
+      echo "    set snapshot directory."
+      echo "    a subdirectory named after container name will be created if it does not exist."
+      echo "    if a directory is not specified, the container's parent directory will be used"
+      echo "    and a snapshots subdirectory will be created."
       echo "  -h"
       echo "    show this help"
       echo "  -s 'snapshot name'"
@@ -94,15 +98,18 @@ fi
 cntrDir="$(${virshCmd} dumpxml "${cntrName}" | xmlstarlet sel -t -m "/domain/devices/filesystem/target[@dir='/']" -v "/domain/devices/filesystem/source/@dir")"
 
 # if container path doesn't exist, exit
-if [ ! -d "${cntrDir}" ]; then
+if [ "${action}" = "create" ] && [ ! -d "${cntrDir}" ]; then
   _log "${cntrDir} does not exist.  Exiting."
   exit 5
 fi
 
-# if snapshot directory doesn't exist, exit
+# if snapshot directory doesn't exist, create a snapshots subdirectory in the container's parent directory
 if [ -z "${snapDir}" ]; then
-  _log "No snapshot directory specified!"
-  exit 6
+  parentDir="$(dirname "${cntrDir}")"
+  if [ "${parentDir}" = "/" ]; then
+    parentDir=""
+  fi
+  snapDir="${parentDir}/snapshots"
 fi
 
 # make sure snapshot directory for container exists
@@ -118,10 +125,21 @@ case "${action}" in
     fi
     snapFile="${cntrSnapDir}/${snapName}.tar.gz"
     _log "Starting snapshot '${snapName}' for container '${cntrName}'"
-    ${virshCmd} shutdown "${cntrName}"
+    if ${virshCmd} list | grep "${cntrName}"; then
+      _log "Shutdown ${cntrName} ..."
+      ${virshCmd} shutdown "${cntrName}"
+      poweredOn=1
+    fi
     _log "Creating ${snapFile} ..." 
     tar czf "${snapFile}" -C "${cntrDir}" .
-    ${virshCmd} --connect lxc:/// start "${cntrName}"
+    if [ $? -gt 0 ]; then
+      _log "extracting archive failed."
+      exit 10
+    fi
+    if [ ${poweredOn} -eq 1 ]; then
+      _log "Starting ${cntrName} ..."
+      ${virshCmd} --connect lxc:/// start "${cntrName}"
+    fi
     _log "Snapshot '${snapName}' complete."
     ;;
 
@@ -132,12 +150,25 @@ case "${action}" in
     fi
     snapFile="${cntrSnapDir}/${snapName}.tar.gz"
     _log "Reverting to snapshot '${snapName}' for container '${cntrName}'"
-    ${virshCmd} --connect lxc:/// shutdown "${cntrName}"
+    if ${virshCmd} list | grep "${cntrName}"; then
+      _log "Shutdown ${cntrName} ..."
+      ${virshCmd} --connect lxc:/// shutdown "${cntrName}"
+      poweredOn=1
+    fi
     _log "Removing files ..."
-    rm -rf "${cntrDir}"
+    rm -rf "${cntrDir}" 2>/dev/null
+    sleep 2
     _log "Reverting to ${snapFile} ..." 
+    mkdir -p "${cntrDir}"
     tar xzf "${snapFile}" -C "${cntrDir}"
-    ${virshCmd} --connect lxc:/// start "${cntrName}"
+    if [ $? -gt 0 ]; then
+      _log "extracting archive failed."
+      exit 11
+    fi
+    if [ ${poweredOn} -eq 1 ]; then
+      _log "Starting ${cntrName} ..."
+      ${virshCmd} --connect lxc:/// start "${cntrName}"
+    fi
     _log "Snapshot '${snapName}' revert complete."
     ;;
 
