@@ -666,6 +666,22 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if (strlen($dn) > 1) {
             $fqdn = sprintf('%s.%s', $fqdn, $dn);
         }
+        $webadmin = $db->get("conf.webadmin");
+        $ssl = boolval($webadmin->get("enablessl"));
+        $forcessl = boolval($webadmin->get("forcesslonly"));
+        $http = 'http';
+        $vncField = 7;
+        $remoteField = 6;
+        if ($ssl) {
+            $http = 'https';
+            if ($forcessl) {
+                $vncField = 13;
+                $remoteField = 12;
+            } else {
+                $vncField = 12;
+                $remoteField = 11;
+            }
+        }
         // create new libvirt object for VMs
         $lv = $this->connectQemu();
         $doms = $lv->get_domains();
@@ -703,13 +719,13 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $novncurl = 'n/a';
             if (intval($vncport) >= 1024) {
                 $output = [];
-                $cmdLine = sprintf('pgrep -u openmediavault-kvmweb -a websockify | awk \'$7 == "localhost:%d" { print $6 }\'', $vncport);
+                $cmdLine = sprintf('pgrep -u openmediavault-kvmweb,root -a websockify | awk \'$%d == "localhost:%d" { print $%d }\'', $vncField, $vncport, $remoteField);
                 $cmd = new \OMV\System\Process($cmdLine);
                 $cmd->setQuiet(true);
                 $cmd->execute($output, $exitStatus);
                 $novncport = intval($output[0]);
                 if ($novncport >= 1024) {
-                    $novncurl = sprintf('<a href="http://%s:%d/vnc.html?resize=remote&autoconnect=1" target="_blank">link</a>', $fqdn, $novncport);
+                    $novncurl = sprintf('<a href="%s://%s:%d/vnc.html?resize=remote&autoconnect=1" target="_blank">link</a>', $http, $fqdn, $novncport);
                 }
             }
             if (!$lv->domain_get_xml($name)) {
@@ -735,13 +751,13 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $spicehtml5url = 'n/a';
             if (intval($spiceport) >= 1024) {
                 $output = [];
-                $cmdLine = sprintf('pgrep -u openmediavault-kvmweb -a websockify | awk \'$7 == "localhost:%d" { print $6 }\'', $spiceport);
+                $cmdLine = sprintf('pgrep -u openmediavault-kvmweb,root -a websockify | awk \'$%d == "localhost:%d" { print $%d }\'', $vncField, $spiceport, $remoteField);
                 $cmd = new \OMV\System\Process($cmdLine);
                 $cmd->setQuiet(true);
                 $cmd->execute($output, $exitStatus);
                 $spicehtml5port = intval($output[0]);
                 if ($spicehtml5port >= 1024) {
-                    $spicehtml5url = sprintf('<a href="http://%s:%d/spice_auto.html?resize=remote" target="_blank">link</a>', $fqdn, $spicehtml5port);
+                    $spicehtml5url = sprintf('<a href="%s://%s:%d/spice_auto.html?resize=remote" target="_blank">link</a>', $http, $fqdn, $spicehtml5port);
                 }
             }
             $snaplist = $lv->domain_snapshots_list($dom);
@@ -801,7 +817,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $novncurl = 'n/a';
             if (intval($vncport) >= 1024) {
                 $output = [];
-                $cmdLine = sprintf('pgrep -u openmediavault-kvmweb -a websockify | awk \'$7 == "localhost:%d" { print $6 }\'', $vncport);
+                $cmdLine = sprintf('pgrep -u openmediavault-kvmweb,root -a websockify | awk \'$%d == "localhost:%d" { print $%d }\'', $vncField, $vncport, $remoteField);
                 $cmd = new \OMV\System\Process($cmdLine);
                 $cmd->setQuiet(true);
                 $cmd->execute($output, $exitStatus);
@@ -833,7 +849,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $spicehtml5url = 'n/a';
             if (intval($spiceport) >= 1024) {
                 $output = [];
-                $cmdLine = sprintf('pgrep -u openmediavault-kvmweb -a websockify | awk \'$7 == "localhost:%d" { print $6 }\'', $spiceport);
+                $cmdLine = sprintf('pgrep -u openmediavault-kvmweb,root -a websockify | awk \'$%d == "localhost:%d" { print $%d }\'', $vncField, $spiceport, $remoteField);
                 $cmd = new \OMV\System\Process($cmdLine);
                 $cmd->setQuiet(true);
                 $cmd->execute($output, $exitStatus);
@@ -2313,13 +2329,29 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $command = $params['command'];
         $hostport = intval($params['hostport']);
         $hostport2 = intval($params['hostport2']);
+        // Get configuration data.
+        $db = \OMV\Config\Database::getInstance();
+        $webadmin = $db->get("conf.webadmin");
+        $ssl = boolval($webadmin->get("enablessl"));
+        $forcessl = boolval($webadmin->get("forcesslonly"));
+        $remoteField = 6;
+        if ($ssl) {
+            $certref = $webadmin->get("sslcertificateref");
+            $crt = sprintf("/etc/ssl/certs/openmediavault-%s.crt", $certref);
+            $key = sprintf("/etc/ssl/private/openmediavault-%s.key", $certref);
+            if ($forcessl) {
+                $remoteField = 12;
+            } else {
+                $remoteField = 11;
+            }
+        }
         // remove existing websockify processes if they exist
         $output = [];
-        $cmdLine = sprintf('pgrep -u openmediavault-kvmweb -a websockify | awk \'$6 == %d { print $1 }\' | xargs kill', $hostport);
+        $cmdLine = sprintf('pgrep -u openmediavault-kvmweb,root -a websockify | awk \'$%d == %d { print $1 }\' | xargs kill', $remoteField, $hostport);
         $cmd = new \OMV\System\Process($cmdLine);
         $cmd->setQuiet(true);
         $cmd->execute($output, $exitStatus);
-        $cmdLine = sprintf('pgrep -u openmediavault-kvmweb -a websockify | awk \'$6 == %d { print $1 }\' | xargs kill', $hostport2);
+        $cmdLine = sprintf('pgrep -u openmediavault-kvmweb,root -a websockify | awk \'$%d == %d { print $1 }\' | xargs kill', $remoteField, $hostport2);
         $cmd = new \OMV\System\Process($cmdLine);
         $cmd->setQuiet(true);
         $cmd->execute($output, $exitStatus);
@@ -2330,11 +2362,20 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $cmdArgs[] = "sudo ";
             $cmdArgs[] = "--shell";
             $cmdArgs[] = "--non-interactive";
-            $cmdArgs[] = "--user=openmediavault-kvmweb";
+            if (!$ssl) {
+                $cmdArgs[] = "--user=openmediavault-kvmweb";
+            }
             $cmdArgs[] = "--";
             $cmdArgs[] = 'websockify';
-            $cmdArgs[] = '-D';
-            $cmdArgs[] = '--web=/usr/share/novnc/';
+            $cmdArgs[] = '--daemon';
+            if ($ssl) {
+                if ($forcessl) {
+                    $cmdArgs[] = '--ssl-only';
+                }
+                $cmdArgs[] = sprintf('--cert "%s"', $crt);
+                $cmdArgs[] = sprintf('--key "%s"', $key);
+            }
+            $cmdArgs[] = '--web /usr/share/novnc/';
             $cmdArgs[] = $hostport;
             $cmdArgs[] = sprintf('localhost:%d', $params['vncport']);
             $cmd = new \OMV\System\Process($cmdArgs);
@@ -2352,11 +2393,20 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $cmdArgs[] = "sudo ";
             $cmdArgs[] = "--shell";
             $cmdArgs[] = "--non-interactive";
-            $cmdArgs[] = "--user=openmediavault-kvmweb";
+            if (!$ssl) {
+                $cmdArgs[] = "--user=openmediavault-kvmweb";
+            }
             $cmdArgs[] = "--";
             $cmdArgs[] = 'websockify';
-            $cmdArgs[] = '-D';
-            $cmdArgs[] = '--web=/usr/share/spice-html5/';
+            $cmdArgs[] = '--daemon';
+            if ($ssl) {
+                if ($forcessl) {
+                    $cmdArgs[] = '--ssl-only';
+                }
+                $cmdArgs[] = sprintf('--cert "%s"', $crt);
+                $cmdArgs[] = sprintf('--key "%s"', $key);
+            }
+            $cmdArgs[] = '--web /usr/share/spice-html5/';
             $cmdArgs[] = $hostport2;
             $cmdArgs[] = sprintf('localhost:%d', $params['spiceport']);
             $cmd = new \OMV\System\Process($cmdArgs);
