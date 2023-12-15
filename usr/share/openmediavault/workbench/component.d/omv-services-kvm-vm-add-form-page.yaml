@@ -86,7 +86,7 @@ data:
       - type: select
         name: os
         label: _("OS")
-        value: 'debian11'
+        value: 'debian12'
         textField: name
         valueField: id
         store:
