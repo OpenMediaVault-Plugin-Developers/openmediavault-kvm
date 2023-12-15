@@ -979,16 +979,28 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.setvmxml');
-        // create new libvirt object
-        $lv = ($params['virttype'] == 'lxc' ? $this->connectLxc() : $this->connectQemu());
-        if ($params['vmname']) {
-            $result = $lv->domain_change_xml($params['vmname'], $params['vmxml']);
-        } else {
-            $result = $lv->domain_define($params['vmxml']);
+        $vmname = $params['vmname'];
+        // create temp xml file
+        $xml = tempnam(sys_get_temp_dir(), $vmname . '_');
+        file_put_contents($xml, $params['vmxml']);
+        // virsh undefine
+        $cmdArgs = [];
+        if ($params['virttype'] == 'lxc') {
+            $cmdArgs[] = '--connect lxc:///';
         }
-        if (!$result) {
-            throw new \OMV\Exception( gettext("Unable to set VM XML - ") . $lv->get_last_error());
+        $cmdArgs[] = 'undefine';
+        $cmdArgs[] = sprintf('--domain "%s"', $vmname);
+        $err = gettext("Unable to undefine VM :: ") . $vmname;
+        $this->virshCommand($cmdArgs, $err);
+        // virsh define
+        $cmdArgs = [];
+        if ($params['virttype'] == 'lxc') {
+            $cmdArgs[] = '--connect lxc:///';
         }
+        $cmdArgs[] = 'define';
+        $cmdArgs[] = sprintf('--file "%s"', $xml);
+        $err = gettext("Unable to set VM XML :: ") . $vmname;
+        $this->virshCommand($cmdArgs, $err);
     }
 
     public function getVmDetails($params, $context)
