@@ -1017,6 +1017,23 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmd = new \OMV\System\Process('virsh', $cmdArgs);
         $cmd->execute($output, $exitStatus);
         $vminfo = implode(PHP_EOL, array_filter($output));
+        // net info
+        $netinfo = gettext("VM is not running!");
+        if (preg_match("/State:\s+running/", $vminfo)) {
+            $output = [];
+            $cmdArgs = [];
+            $cmdArgs[] = 'domifaddr';
+            $cmdArgs[] = sprintf('--domain %s', $this->escapeName($params['vmname']));
+            $cmdArgs[] = '--source agent';
+            $cmd = new \OMV\System\Process('virsh', $cmdArgs);
+            $cmd->setQuiet(true);
+            $cmd->execute($output, $exitStatus);
+            if ($exitStatus > 0) {
+                $netinfo = gettext("VM does not have qemu guest agent installed!");
+            } else {
+                $netinfo = implode(PHP_EOL, array_filter($output));
+            }
+        }
         // disk list
         $output = [];
         $cmdArgs = [];
@@ -1049,6 +1066,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // return results
         return [
             "vminfo" => $vminfo,
+            "netinfo" => $netinfo,
             "disklist" => $disklist,
             "diskinfo" => $diskinfo,
             "diskstats" => $diskstats

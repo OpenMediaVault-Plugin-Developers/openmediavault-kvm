@@ -21,21 +21,31 @@ data:
         label: _("VM info")
         rows: 12
         readonly: true
+        monospace: true
+      - type: textarea
+        name: netinfo
+        label: _("Net info")
+        rows: 6
+        readonly: true
+        monospace: true
       - type: textarea
         name: disklist
         label: _("Disk list")
         rows: 5
         readonly: true
+        monospace: true
       - type: textarea
         name: diskinfo
         label: _("Disk info")
         rows: 5
         readonly: true
+        monospace: true
       - type: textarea
         name: diskstats
         label: _("Disk stats")
         rows: 9
         readonly: true
+        monospace: true
     buttons:
       - template: cancel
         execute:
