@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-23 19:47-0500\n"
+"POT-Creation-Date: 2023-12-29 11:53-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>, 2023\n"
 "Language-Team: Spanish (Spain) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/es_ES/)\n"
@@ -79,37 +79,37 @@ msgid "Add virtual TPM 2.0 device"
 msgstr "Añadir dispositivo TPM 2.0 virtual"
 
 msgid "Adding USB device ..."
-msgstr ""
+msgstr "Añadiendo dispositivo USB ..."
 
 msgid "Adding VNC viewer ..."
-msgstr ""
+msgstr "Añadiendo visor VNC ..."
 
 msgid "Adding a disk ..."
-msgstr ""
+msgstr "Añadiendo un disco ..."
 
 msgid "Adding a macvtap network ..."
-msgstr ""
+msgstr "Añadiendo una red macvtap ..."
 
 msgid "Adding a network ..."
-msgstr ""
+msgstr "Añadiendo una red ..."
 
 msgid "Adding a pool ..."
-msgstr ""
+msgstr "Añadiendo un pool ..."
 
 msgid "Adding host drive ..."
-msgstr ""
+msgstr "Añadiendo disco de host ..."
 
 msgid "Adding network adapter ..."
-msgstr ""
+msgstr "Añadiendo adaptador de red ..."
 
 msgid "Adding optical disk ..."
-msgstr ""
+msgstr "Añadiendo CD-ROM ..."
 
 msgid "Adding passthrough filesystem ..."
-msgstr ""
+msgstr "Añadiendo sistema de archivos passthrough  ..."
 
 msgid "Adding spice viewer ..."
-msgstr ""
+msgstr "Añadiendo visor spice ..."
 
 msgid "Advanced"
 msgstr "Avanzado"
@@ -136,10 +136,10 @@ msgid "AutoStart"
 msgstr "AutoArranque"
 
 msgid "Autostart has been disabled."
-msgstr ""
+msgstr "El autoarranque se ha deshabilitado"
 
 msgid "Autostart has been enabled."
-msgstr ""
+msgstr "El autoarranque se ha habilitado"
 
 msgid "Available"
 msgstr "Disponible"
@@ -163,7 +163,7 @@ msgid "CPU"
 msgstr "CPU"
 
 msgid "CPU count has been changed."
-msgstr ""
+msgstr "Cambiado el número de CPUs."
 
 msgid "CPUs"
 msgstr "CPUs"
@@ -187,10 +187,10 @@ msgid "Change vCPU"
 msgstr "Cambiar vCPU"
 
 msgid "Changing memory amount ..."
-msgstr ""
+msgstr "Cambiando la cantidad de RAM ..."
 
 msgid "Changing number of CPUs ..."
-msgstr ""
+msgstr "Cambiando el número de CPUs ..."
 
 msgid "Check"
 msgstr "comprobar"
@@ -205,10 +205,10 @@ msgid "Clone name"
 msgstr "Nombre del clon"
 
 msgid "Cloning ..."
-msgstr ""
+msgstr "Clonando ..."
 
 msgid "Cloning complete."
-msgstr ""
+msgstr "Clonado completo"
 
 msgid "Component"
 msgstr "Componente"
@@ -220,10 +220,10 @@ msgid "Console"
 msgstr "Consola"
 
 msgid "Consoles have been started."
-msgstr ""
+msgstr "Consolas inicializadas."
 
 msgid "Consoles have been stopped."
-msgstr ""
+msgstr "Consolas detenidas."
 
 msgid "Convert to qcow2"
 msgstr "convertir a qcow2"
@@ -259,10 +259,10 @@ msgid "Created scheduled job."
 msgstr "Trabajo programado creado."
 
 msgid "Creating linked clone ..."
-msgstr ""
+msgstr "Creando un clon enlazado ..."
 
 msgid "Creating snapshot ..."
-msgstr ""
+msgstr "Creando una instantánea ..."
 
 msgid "Current size"
 msgstr "Tamaño actual"
@@ -292,19 +292,19 @@ msgid "Delete + storage"
 msgstr "Borrado + almacenamiento"
 
 msgid "Deleted."
-msgstr ""
+msgstr "Borrado."
 
 msgid "Deleting ..."
-msgstr ""
+msgstr "Borrando ..."
 
 msgid "Deleting a network ..."
-msgstr ""
+msgstr "Borrando una red ..."
 
 msgid "Deleting a pool ..."
-msgstr ""
+msgstr "Borrando un pool ..."
 
 msgid "Deleting snapshot ..."
-msgstr ""
+msgstr "Borrando una instantánea ..."
 
 msgid "Details"
 msgstr "Detalles"
@@ -319,12 +319,15 @@ msgid "Disable"
 msgstr "Deshabilitar"
 
 msgid "Disabling autostart ..."
-msgstr ""
+msgstr "Deshabilitando el autoarranque ..."
 
 msgid "Disk"
 msgstr "Disco"
 
 msgid "Disk has been added."
+msgstr "El disco se ha añadido."
+
+msgid "Disk has been removed."
 msgstr ""
 
 msgid "Disk info"
@@ -370,7 +373,7 @@ msgid "Enable"
 msgstr "Habilitar"
 
 msgid "Enabling autostart ..."
-msgstr ""
+msgstr "Habilitando el autoarranque ..."
 
 msgid "Execute backup using selected VM name and path ..."
 msgstr "Ejecutar el Backup usando el nombre y ruta de VM ..."
@@ -494,13 +497,13 @@ msgid "Force"
 msgstr "Forzar"
 
 msgid "Force image list refresh"
-msgstr ""
+msgstr "Refrescar el listado de imágenes."
 
 msgid "Forced down."
-msgstr ""
+msgstr "Forzar apagado."
 
 msgid "Forcing down ..."
-msgstr ""
+msgstr "Forzando apagado ..."
 
 msgid "Format"
 msgstr "Formatear"
@@ -527,7 +530,7 @@ msgid "Host VNC port"
 msgstr "Puerto Host VNC"
 
 msgid "Host drive has been added."
-msgstr ""
+msgstr "El Disco de Host ha sido añadido."
 
 msgid "Host name"
 msgstr "Nombre de host"
@@ -581,7 +584,7 @@ msgid "Linked Clone"
 msgstr "Clon enlazado"
 
 msgid "Linked clone complete."
-msgstr ""
+msgstr "Clon enlazado completado."
 
 msgid "Logical"
 msgstr "Lógico"
@@ -596,7 +599,7 @@ msgid "Memory"
 msgstr "Memoria"
 
 msgid "Memory amount has been changed."
-msgstr ""
+msgstr "Cambiada la cantidad de RAM."
 
 msgid "Message"
 msgstr "Mensaje"
@@ -609,6 +612,9 @@ msgstr "Modelo"
 
 msgid "Name"
 msgstr "Nombre"
+
+msgid "Net info"
+msgstr ""
 
 msgid "Network"
 msgstr "Red"
@@ -623,22 +629,22 @@ msgid "Network State"
 msgstr "Estado de la Red"
 
 msgid "Network adapter has been added."
-msgstr ""
+msgstr "El adaptador de red ha sido añadido."
 
 msgid "Network adapter has been removed."
-msgstr ""
+msgstr "El adaptador de red ha sido eliminado."
 
 msgid "Network has been added."
-msgstr ""
+msgstr "La red ha sido añadida."
 
 msgid "Network has been deleted."
-msgstr ""
+msgstr "La red ha sido eliminada."
 
 msgid "Network has been started."
-msgstr ""
+msgstr "La red ha sido inicializada."
 
 msgid "Network has been stopped."
-msgstr ""
+msgstr "La red ha sido detenida."
 
 msgid "Networks"
 msgstr "Redes"
@@ -662,10 +668,10 @@ msgid "Optical Drive"
 msgstr "Optical Drive"
 
 msgid "Optical disc has been removed."
-msgstr ""
+msgstr "El CD-ROM ha sido eliminado."
 
 msgid "Optical has been added."
-msgstr ""
+msgstr "El CD-ROM ha sido añadido."
 
 msgid "Other CPU"
 msgstr "Otra CPU"
@@ -675,12 +681,13 @@ msgstr "Sistema de Archivos Passthrough "
 
 msgid "Passthrough by address instead of using vendor and product IDs"
 msgstr ""
+"Passthrough por dirección en lugar de utilizar ID de proveedor y producto"
 
 msgid "Passthrough filesystem has been added."
-msgstr ""
+msgstr "El sistema de archivos Passthrough ha sido añadido."
 
 msgid "Passthrough filesystem has been removed."
-msgstr ""
+msgstr "El sistema de archivos Passthrough ha sido eliminado."
 
 msgid "Path"
 msgstr "Ruta"
@@ -689,25 +696,25 @@ msgid "Pause"
 msgstr "Pausa"
 
 msgid "Paused."
-msgstr ""
+msgstr "Pausado."
 
 msgid "Pausing ..."
-msgstr ""
+msgstr "Pausando ..."
 
 msgid "Pool"
 msgstr "Pool"
 
 msgid "Pool has been added."
-msgstr ""
+msgstr "El Pool ha sido añadido."
 
 msgid "Pool has been deleted."
-msgstr ""
+msgstr "El Pool ha sido borrado."
 
 msgid "Pool has been started."
-msgstr ""
+msgstr "El Pool ha sido inicializado."
 
 msgid "Pool has been stopped."
-msgstr ""
+msgstr "El Pool ha sido detenido."
 
 msgid "Pools"
 msgstr "Pools"
@@ -716,10 +723,10 @@ msgid "Reboot"
 msgstr "Reinicio"
 
 msgid "Rebooted."
-msgstr ""
+msgstr "Reiniciado."
 
 msgid "Rebooting ..."
-msgstr ""
+msgstr "Reiniciando ..."
 
 msgid "Remove Spice"
 msgstr "Eliminar spice"
@@ -743,34 +750,34 @@ msgid "Remove passthrough"
 msgstr "Remover passthrough"
 
 msgid "Removing USB device ..."
-msgstr ""
+msgstr "Eliminando dispositivo USB ..."
 
 msgid "Removing VNC viewer ..."
-msgstr ""
+msgstr "Eliminando visor VNC ..."
 
 msgid "Removing disk ..."
-msgstr ""
+msgstr "Eliminando Disco ..."
 
 msgid "Removing network adapter ..."
-msgstr ""
+msgstr "Eliminando adaptador de Red ..."
 
 msgid "Removing optical disc ..."
-msgstr ""
+msgstr "Eliminando CD-ROM ..."
 
 msgid "Removing passthrough filesystem ..."
-msgstr ""
+msgstr "Eliminando Sistema de archivos passthrough ..."
 
 msgid "Removing spice viewer ..."
-msgstr ""
+msgstr "Eliminando visor spice ..."
 
 msgid "Reset"
 msgstr "Reset"
 
 msgid "Reset."
-msgstr ""
+msgstr "Reset."
 
 msgid "Resetting ..."
-msgstr ""
+msgstr "Reseteando ..."
 
 msgid "Restore"
 msgstr "Restaurar"
@@ -782,16 +789,16 @@ msgid "Resume"
 msgstr "Reanudar"
 
 msgid "Resumed."
-msgstr ""
+msgstr "Reanudado."
 
 msgid "Resuming ..."
-msgstr ""
+msgstr "Reanudando ..."
 
 msgid "Revert"
 msgstr "Revertir"
 
 msgid "Reverting to snapshot ..."
-msgstr ""
+msgstr "Volviendo a una instantánea ..."
 
 msgid "Run"
 msgstr "Ejecutar"
@@ -806,7 +813,7 @@ msgid "Schedule"
 msgstr "Tarea programada"
 
 msgid "Secure boot"
-msgstr ""
+msgstr "Arranque seguro"
 
 msgid "Select a snapshot ..."
 msgstr "Seleccionar una Instantánea ..."
@@ -824,13 +831,13 @@ msgid "Snapshot"
 msgstr "Instantánea"
 
 msgid "Snapshot has been created."
-msgstr ""
+msgstr "La instantánea ha sido creada."
 
 msgid "Snapshot has been deleted."
-msgstr ""
+msgstr "La instantánea ha sido borrada."
 
 msgid "Snapshot has been reverted."
-msgstr ""
+msgstr "La instantánea ha sido revertida."
 
 msgid "Snapshots"
 msgstr "Instantáneas "
@@ -851,28 +858,28 @@ msgid "Spice port"
 msgstr "Spice port"
 
 msgid "Spice viewer has been added."
-msgstr ""
+msgstr "El visor Spice ha sido añadido."
 
 msgid "Spice viewer has been removed."
-msgstr ""
+msgstr "El visor Spice ha sido eliminado."
 
 msgid "Start"
 msgstr "Inicio"
 
 msgid "Started."
-msgstr ""
+msgstr "Arrancado."
 
 msgid "Starting ..."
-msgstr ""
+msgstr "Arrancando ..."
 
 msgid "Starting a pool ..."
-msgstr ""
+msgstr "Inicializando el Pool ..."
 
 msgid "Starting consoles ..."
-msgstr ""
+msgstr "Inicializando consolas ..."
 
 msgid "Starting network ..."
-msgstr ""
+msgstr "Inicializando Red ..."
 
 msgid "State"
 msgstr "Estado"
@@ -881,19 +888,19 @@ msgid "Stop"
 msgstr "Parar"
 
 msgid "Stopped."
-msgstr ""
+msgstr "Detenido."
 
 msgid "Stopping ..."
-msgstr ""
+msgstr "Deteniendo ..."
 
 msgid "Stopping a pool ..."
-msgstr ""
+msgstr "Deteniendo el Pool ..."
 
 msgid "Stopping consoles ..."
-msgstr ""
+msgstr "Deteniendo la consola ..."
 
 msgid "Stopping network ..."
-msgstr ""
+msgstr "Deteniendo la red ..."
 
 msgid "Storage Volume"
 msgstr "Volumen de Almacenamiento"
@@ -917,10 +924,10 @@ msgid "USB"
 msgstr "USB"
 
 msgid "USB device has been added."
-msgstr ""
+msgstr "El dispositivo USB ha sido añadido."
 
 msgid "USB device has been removed."
-msgstr ""
+msgstr "El dispositivo USB ha sido eliminado."
 
 msgid "UUID"
 msgstr "UUID"
@@ -933,6 +940,9 @@ msgstr "Incapaz de añadir adaprtador de Red a la VM -"
 
 msgid "Unable to change notes for VM - "
 msgstr "No es posible cambiar las notas a la VM -"
+
+msgid "Unable to change notes for VM."
+msgstr ""
 
 msgid "Unable to change topolgy cores for VM - "
 msgstr "No es posible cambiar la topología de núcleos de la VM -"
@@ -976,11 +986,17 @@ msgstr "Incapaz de revertir a la instantánea -"
 msgid "Unable to set VM XML - "
 msgstr "Incapaz de configurar XML en la VM -"
 
+msgid "Unable to set VM XML :: "
+msgstr ""
+
 msgid "Unable to start network - "
 msgstr "Incapaz de arrancar la Red -"
 
 msgid "Unable to stop network - "
 msgstr "Incapaz de detener la Red -"
+
+msgid "Unable to undefine VM :: "
+msgstr ""
 
 msgid "Unit"
 msgstr "Unidad"
@@ -988,8 +1004,14 @@ msgstr "Unidad"
 msgid "VM Name"
 msgstr "Nombre de la VM"
 
+msgid "VM does not have qemu guest agent installed!"
+msgstr ""
+
 msgid "VM info"
 msgstr "VM info"
+
+msgid "VM is not running!"
+msgstr ""
 
 msgid "VM name"
 msgstr "Nombre de la VM"
@@ -1007,10 +1029,10 @@ msgid "VNC port"
 msgstr "Puerto VNC"
 
 msgid "VNC viewer has been added."
-msgstr ""
+msgstr "El visor VNC ha sido añadido."
 
 msgid "VNC viewer has been removed."
-msgstr ""
+msgstr "El visor VNC ha sido eliminado."
 
 msgid "Volume Count"
 msgstr "Recuento de Volumen"
@@ -1029,6 +1051,9 @@ msgid ""
 "/>Useful when the host system has two or more devices with duplicate vendor "
 "and product IDs."
 msgstr ""
+"¡Advertencia! La dirección puede cambiar después de que el reinicio de la VM"
+" rompa el passthrough!. <br />Es útil cuando el sistema host tiene dos o más"
+" dispositivos con ID de producto y proveedor duplicados."
 
 msgid "XML"
 msgstr "XML"
@@ -1055,7 +1080,7 @@ msgid "lxc-net service"
 msgstr "Servicio LCX-Net"
 
 msgid "macvtap network has been added."
-msgstr ""
+msgstr "La red macvtap ha sido añadida."
 
 msgid "ne2k_pci"
 msgstr "ne2k_pci"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-23 19:47-0500\n"
+"POT-Creation-Date: 2023-12-29 11:53-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>, 2021\n"
 "Language-Team: Galician (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/gl/)\n"
@@ -327,6 +327,9 @@ msgstr "Disco"
 msgid "Disk has been added."
 msgstr ""
 
+msgid "Disk has been removed."
+msgstr ""
+
 msgid "Disk info"
 msgstr ""
 
@@ -603,6 +606,9 @@ msgstr "Modelo"
 
 msgid "Name"
 msgstr "Nome"
+
+msgid "Net info"
+msgstr ""
 
 msgid "Network"
 msgstr "Rede"
@@ -928,6 +934,9 @@ msgstr "Non é posíbel engadir o adaptador de rede a máquina virtual -"
 msgid "Unable to change notes for VM - "
 msgstr ""
 
+msgid "Unable to change notes for VM."
+msgstr ""
+
 msgid "Unable to change topolgy cores for VM - "
 msgstr ""
 
@@ -970,11 +979,17 @@ msgstr "Non é posíbel  reverter á instantánea - "
 msgid "Unable to set VM XML - "
 msgstr "Non é posíbel estabelecer XML da máquina virtual -"
 
+msgid "Unable to set VM XML :: "
+msgstr ""
+
 msgid "Unable to start network - "
 msgstr "Non é posíbel  iniciar a rede - "
 
 msgid "Unable to stop network - "
 msgstr "Non é posíbel  deter a rede - "
+
+msgid "Unable to undefine VM :: "
+msgstr ""
 
 msgid "Unit"
 msgstr ""
@@ -982,7 +997,13 @@ msgstr ""
 msgid "VM Name"
 msgstr "Nome da MV"
 
+msgid "VM does not have qemu guest agent installed!"
+msgstr ""
+
 msgid "VM info"
+msgstr ""
+
+msgid "VM is not running!"
 msgstr ""
 
 msgid "VM name"
