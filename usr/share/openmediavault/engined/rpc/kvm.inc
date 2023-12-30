@@ -670,8 +670,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $ssl = boolval($webadmin->get("enablessl"));
         $forcessl = boolval($webadmin->get("forcesslonly"));
         $http = 'http';
-        $vncField = 7;
-        $remoteField = 6;
+        $vncField = 8;
+        $remoteField = 7;
         if ($ssl) {
             $http = 'https';
             if ($forcessl) {
