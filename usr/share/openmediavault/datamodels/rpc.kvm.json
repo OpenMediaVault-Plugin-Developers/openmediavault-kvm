@@ -573,6 +573,22 @@
         "name": {
           "type": "string",
           "required": true
+        },
+        "hostport": {
+          "type": "string",
+          "required": false
+        },
+        "hostport2": {
+          "type": "string",
+          "required": false
+        },
+        "vncport": {
+          "type": "string",
+          "required": false
+        },
+        "spiceport": {
+          "type": "string",
+          "required": false
         }
       }
     }
@@ -600,11 +616,11 @@
           "required": true
         },
         "vncport": {
-          "type": "string",
+          "type": "integer",
           "required": true
         },
         "spiceport": {
-          "type": "string",
+          "type": "integer",
           "required": true
         }
       }

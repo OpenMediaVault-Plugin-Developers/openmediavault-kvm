@@ -876,6 +876,10 @@ data:
                   name: "{{ _selected[0].vmname }}"
                   virttype: "{{ _selected[0].virttype }}"
                   command: "poweroff"
+                  hostport: "{{ _selected[0].novncport | int }}"
+                  hostport2: "{{ _selected[0].spicehtml5port | int }}"
+                  vncport: "{{ _selected[0].vncport | int }}"
+                  spiceport: "{{ _selected[0].spiceport | int }}"
                 progressMessage: _("Stopping ...")
                 successNotification: _("Stopped.")
                 task: false
@@ -920,6 +924,10 @@ data:
                   name: "{{ _selected[0].vmname }}"
                   virttype: "{{ _selected[0].virttype }}"
                   command: "force"
+                  hostport: "{{ _selected[0].novncport | int }}"
+                  hostport2: "{{ _selected[0].spicehtml5port | int }}"
+                  vncport: "{{ _selected[0].vncport | int }}"
+                  spiceport: "{{ _selected[0].spiceport | int }}"
                 progressMessage: _("Forcing down ...")
                 successNotification: _("Forced down.")
                 task: false
@@ -997,6 +1005,10 @@ data:
                   name: "{{ _selected[0].vmname }}"
                   virttype: "{{ _selected[0].virttype }}"
                   command: "undefine"
+                  hostport: "{{ _selected[0].novncport | int }}"
+                  hostport2: "{{ _selected[0].spicehtml5port | int }}"
+                  vncport: "{{ _selected[0].vncport | int }}"
+                  spiceport: "{{ _selected[0].spiceport | int }}"
                 progressMessage: _("Deleting ...")
                 successNotification: _("Deleted.")
                 task: false
@@ -1014,6 +1026,10 @@ data:
                   name: "{{ _selected[0].vmname }}"
                   virttype: "{{ _selected[0].virttype }}"
                   command: "undefineplus"
+                  hostport: "{{ _selected[0].novncport | int }}"
+                  hostport2: "{{ _selected[0].spicehtml5port | int }}"
+                  vncport: "{{ _selected[0].vncport | int }}"
+                  spiceport: "{{ _selected[0].spiceport | int }}"
                 progressMessage: _("Deleting ...")
                 successNotification: _("Deleted.")
                 task: false
@@ -1280,6 +1296,8 @@ data:
                   command: "stop"
                   hostport: "{{ _selected[0].novncport | int }}"
                   hostport2: "{{ _selected[0].spicehtml5port | int }}"
+                  vncport: "{{ _selected[0].vncport | int }}"
+                  spiceport: "{{ _selected[0].spiceport | int }}"
                 progressMessage: _("Stopping consoles ...")
                 successNotification: _("Consoles have been stopped.")
                 task: false

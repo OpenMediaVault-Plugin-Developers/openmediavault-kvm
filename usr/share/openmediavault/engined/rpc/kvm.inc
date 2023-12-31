@@ -674,13 +674,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $remoteField = 7;
         if ($ssl) {
             $http = 'https';
-            if ($forcessl) {
-                $vncField = 13;
-                $remoteField = 12;
-            } else {
-                $vncField = 12;
-                $remoteField = 11;
-            }
+            $vncField = $forcessl ? 13 : 12;
+            $remoteField = $forcessl ? 12 : 11;
         }
         // create new libvirt object for VMs
         $lv = $this->connectQemu();
@@ -2292,9 +2287,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $this->virshCommand($cmdArgs, $err);
                 break;
             case 'poweroff':
+                $this->shutdownWeb($params['vncport'], $params['spiceport'], $params['hostport'], $params['hostport2']);
                 $result = $lv->domain_shutdown($dom);
                 break;
             case 'force':
+                $this->shutdownWeb($params['vncport'], $params['spiceport'], $params['hostport'], $params['hostport2']);
                 $result = $lv->domain_destroy($dom);
                 break;
             case 'pause':
@@ -2304,6 +2301,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $result = $lv->domain_resume($dom);
                 break;
             case 'undefine':
+                $this->shutdownWeb($params['vncport'], $params['spiceport'], $params['hostport'], $params['hostport2']);
                 $cmdArgs = [];
                 if ($lxc) {
                     $cmdArgs[] = '--connect lxc:///';
@@ -2318,6 +2316,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $result = true;
                 break;
             case 'undefineplus':
+                $this->shutdownWeb($params['vncport'], $params['spiceport'], $params['hostport'], $params['hostport2']);
                 $undefine = false;
                 if ($this->deleteDisksByVm($vmname, $lxc)) {
                     $undefine = true;
@@ -2359,32 +2358,17 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $command = $params['command'];
         $hostport = intval($params['hostport']);
         $hostport2 = intval($params['hostport2']);
+        // shutdown existing consoles if running
+        $this->shutdownWeb($params['vncport'], $params['spiceport'], $hostport, $hostport2);
         // Get configuration data.
         $db = \OMV\Config\Database::getInstance();
         $webadmin = $db->get("conf.webadmin");
         $ssl = boolval($webadmin->get("enablessl"));
-        $forcessl = boolval($webadmin->get("forcesslonly"));
-        $remoteField = 7;
         if ($ssl) {
             $certref = $webadmin->get("sslcertificateref");
             $crt = sprintf("/etc/ssl/certs/openmediavault-%s.crt", $certref);
             $key = sprintf("/etc/ssl/private/openmediavault-%s.key", $certref);
-            if ($forcessl) {
-                $remoteField = 12;
-            } else {
-                $remoteField = 11;
-            }
         }
-        // remove existing websockify processes if they exist
-        $output = [];
-        $cmdLine = sprintf('pgrep -u openmediavault-kvmweb,root -a websockify | awk \'$%d == %d { print $1 }\' | xargs kill', $remoteField, $hostport);
-        $cmd = new \OMV\System\Process($cmdLine);
-        $cmd->setQuiet(true);
-        $cmd->execute($output, $exitStatus);
-        $cmdLine = sprintf('pgrep -u openmediavault-kvmweb,root -a websockify | awk \'$%d == %d { print $1 }\' | xargs kill', $remoteField, $hostport2);
-        $cmd = new \OMV\System\Process($cmdLine);
-        $cmd->setQuiet(true);
-        $cmd->execute($output, $exitStatus);
         // create websockify process for noVNC
         if ($command == "start" && $hostport >= 1024) {
             $output = [];
@@ -2446,6 +2430,48 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             if ((0 == $exitStatus) && (!empty($output))) {
                 throw new \OMV\Exception(gettext("Failed to start websockify for spice-html5.") . $cmdLine);
             }
+        }
+    }
+
+    private function shutdownWeb($vncport, $spiceport, $vnchostport, $spicehostport)
+    {
+        // Get configuration data.
+        $db = \OMV\Config\Database::getInstance();
+        $webadmin = $db->get("conf.webadmin");
+        $ssl = boolval($webadmin->get("enablessl"));
+        $forcessl = boolval($webadmin->get("forcesslonly"));
+        $remoteField = 7;
+        $localField = 8;
+        if ($ssl) {
+            $localField = $forcessl ? 13 : 12;
+            $remoteField = $forcessl ? 12 : 11;
+        }
+        // remove existing websockify processes if they exist
+        if (intval($vncport) > 1024) {
+            $output = [];
+            $cmdLine = sprintf('pgrep -u openmediavault-kvmweb,root -a websockify | awk \'$%d == "localhost:%d" { print $1 }\' | xargs kill', $localField, $vncport);
+            $cmd = new \OMV\System\Process($cmdLine);
+            $cmd->setQuiet(true);
+            $cmd->execute($output, $exitStatus);
+        }
+        if (intval($vnchostport) > 1024) {
+            $output = [];
+            $cmdLine = sprintf('pgrep -u openmediavault-kvmweb,root -a websockify | awk \'$%d == %d { print $1 }\' | xargs kill', $remoteField, $vnchostport);
+            $cmd = new \OMV\System\Process($cmdLine);
+            $cmd->setQuiet(true);
+            $cmd->execute($output, $exitStatus);
+        }
+        if (intval($spiceport) > 1024) {
+            $cmdLine = sprintf('pgrep -u openmediavault-kvmweb,root -a websockify | awk \'$%d == "localhost:%d" { print $1 }\' | xargs kill', $localField, $spiceport);
+            $cmd = new \OMV\System\Process($cmdLine);
+            $cmd->setQuiet(true);
+            $cmd->execute($output, $exitStatus);
+        }
+        if (intval($spicehostport) > 1024) {
+            $cmdLine = sprintf('pgrep -u openmediavault-kvmweb,root -a websockify | awk \'$%d == %d { print $1 }\' | xargs kill', $remoteField, $spicehostport);
+            $cmd = new \OMV\System\Process($cmdLine);
+            $cmd->setQuiet(true);
+            $cmd->execute($output, $exitStatus);
         }
     }
 
