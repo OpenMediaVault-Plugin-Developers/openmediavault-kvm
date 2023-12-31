@@ -1,3 +1,9 @@
+openmediavault-kvm (7.0.3) stable; urgency=low
+
+  * Shutdown console(s) when powering off or deleting VM
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sun, 31 Dec 2023 10:31:25 -0600
+
 openmediavault-kvm (7.0.2) stable; urgency=low
 
   * Add guest network info to vm info screen
