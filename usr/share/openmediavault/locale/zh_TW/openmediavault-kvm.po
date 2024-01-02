@@ -1000,7 +1000,7 @@ msgid "VM Name"
 msgstr "VM 名稱"
 
 msgid "VM does not have qemu guest agent installed!"
-msgstr ""
+msgstr "VM 中沒有安裝 qemu 客體代理程式！"
 
 msgid "VM info"
 msgstr "VM 資訊"
