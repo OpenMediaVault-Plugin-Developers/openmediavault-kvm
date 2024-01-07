@@ -23,6 +23,12 @@ data:
         readonly: true
         monospace: true
       - type: textarea
+        name: nicinfo
+        label: _("Network interface info")
+        rows: 4
+        readonly: true
+        monospace: true
+      - type: textarea
         name: netinfo
         label: _("Net info")
         rows: 6

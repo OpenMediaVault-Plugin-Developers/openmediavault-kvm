@@ -1012,6 +1012,14 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmd = new \OMV\System\Process('virsh', $cmdArgs);
         $cmd->execute($output, $exitStatus);
         $vminfo = implode(PHP_EOL, array_filter($output));
+        // nic info
+        $output = [];
+        $cmdArgs = [];
+        $cmdArgs[] = 'domiflist';
+        $cmdArgs[] = sprintf('--domain %s', $this->escapeName($params['vmname']));
+        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
+        $cmd->execute($output, $exitStatus);
+        $nicinfo = implode(PHP_EOL, array_filter($output));
         // net info
         $netinfo = gettext("VM is not running!");
         if (preg_match("/State:\s+running/", $vminfo)) {
@@ -1061,6 +1069,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // return results
         return [
             "vminfo" => $vminfo,
+            "nicinfo" => $nicinfo,
             "netinfo" => $netinfo,
             "disklist" => $disklist,
             "diskinfo" => $diskinfo,
