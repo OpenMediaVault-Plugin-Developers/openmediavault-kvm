@@ -373,7 +373,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         } else {
             $result = $lv->domain_nic_add($vm, $mac, $net, $model);
         }
-        if (!result) {
+        if (!$result) {
             throw new \OMV\Exception( gettext("Unable to add network adapter to VM - ") . $lv->get_last_error());
         }
     }
