@@ -162,10 +162,19 @@ disks=$(virsh domblklist ${backupVm} --details | sed 1,2d | awk NF | awk '$2 == 
 if [ ${poweroff} -eq 1 ] && [ ${vmId} -gt 0 ]; then
   _log "Shutting down ${backupVm}..."
   virsh shutdown --domain ${vmId}
-  until virsh domstate ${backupVm} | grep 'shut off'; do
-    sleep 5
+  countDown=300 # seconds, 5 minutes
+  while [ $countDown -gt 0 ]; do
+    if virsh domstate ${backupVm} | grep 'shut off' ; then
+      poweredoff=1
+      break
+    fi
+    sleepIntervalSeconds=5
+    sleep $sleepIntervalSeconds
+    countDown=$((countDown-sleepIntervalSeconds))
   done
-  poweredoff=1
+  if [ ${poweredoff} -ne 1 ]; then
+    _log "Unable to shut down ${backupVm}, will create a snapshot instead"
+  fi
 fi
 
 # skip snapshot if the VM is not powered on
