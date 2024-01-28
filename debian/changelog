@@ -1,8 +1,11 @@
-openmediavault-kvm (7.0.5) UNRELEASED; urgency=medium
+openmediavault-kvm (7.0.5) stable; urgency=low
 
   * Add domiflist output to vm details
+  * Poll for VMs to be shutdown for up to 5 mins instead of hard-coded 30 secs
+  * Add option to change iso
+  * Add option to eject iso
 
- -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sun, 07 Jan 2024 10:28:20 -0600
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sun, 28 Jan 2024 16:10:41 -0600
 
 openmediavault-kvm (7.0.4) stable; urgency=low
 
