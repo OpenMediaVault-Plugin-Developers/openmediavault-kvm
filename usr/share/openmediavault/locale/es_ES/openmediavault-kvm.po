@@ -4,16 +4,16 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Raul Fernandez Garcia <raulfg3@gmail.com>, 2023
+# Raul Fernandez Garcia <raulfg3@gmail.com>, 2024
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-29 11:53-0600\n"
+"POT-Creation-Date: 2024-01-28 16:15-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
-"Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>, 2023\n"
+"Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>, 2024\n"
 "Language-Team: Spanish (Spain) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/es_ES/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -180,6 +180,9 @@ msgstr "No se puede usar / como punto de montaje."
 msgid "Capacity"
 msgstr "Capacidad"
 
+msgid "Change disc"
+msgstr ""
+
 msgid "Change memory"
 msgstr "Cambiar memoria"
 
@@ -191,6 +194,9 @@ msgstr "Cambiando la cantidad de RAM ..."
 
 msgid "Changing number of CPUs ..."
 msgstr "Cambiando el número de CPUs ..."
+
+msgid "Changing optical disc ..."
+msgstr ""
 
 msgid "Check"
 msgstr "comprobar"
@@ -328,7 +334,7 @@ msgid "Disk has been added."
 msgstr "El disco se ha añadido."
 
 msgid "Disk has been removed."
-msgstr ""
+msgstr "Disco eliminado"
 
 msgid "Disk info"
 msgstr "Información del Disco"
@@ -368,6 +374,12 @@ msgstr "Editar trabajo programado"
 
 msgid "Edit settings."
 msgstr "Editar opciones."
+
+msgid "Eject disc"
+msgstr ""
+
+msgid "Ejecting optical disc ..."
+msgstr ""
 
 msgid "Enable"
 msgstr "Habilitar"
@@ -496,6 +508,9 @@ msgstr ""
 msgid "Force"
 msgstr "Forzar"
 
+msgid "Force eject"
+msgstr ""
+
 msgid "Force image list refresh"
 msgstr "Refrescar el listado de imágenes."
 
@@ -614,7 +629,7 @@ msgid "Name"
 msgstr "Nombre"
 
 msgid "Net info"
-msgstr ""
+msgstr "Informe de Red"
 
 msgid "Network"
 msgstr "Red"
@@ -646,6 +661,9 @@ msgstr "La red ha sido inicializada."
 msgid "Network has been stopped."
 msgstr "La red ha sido detenida."
 
+msgid "Network interface info"
+msgstr ""
+
 msgid "Networks"
 msgstr "Redes"
 
@@ -666,6 +684,12 @@ msgstr "Optical"
 
 msgid "Optical Drive"
 msgstr "Optical Drive"
+
+msgid "Optical disc has been changed."
+msgstr ""
+
+msgid "Optical disc has been ejected."
+msgstr ""
 
 msgid "Optical disc has been removed."
 msgstr "El CD-ROM ha sido eliminado."
@@ -942,7 +966,7 @@ msgid "Unable to change notes for VM - "
 msgstr "No es posible cambiar las notas a la VM -"
 
 msgid "Unable to change notes for VM."
-msgstr ""
+msgstr "No es posible cambiar la nota de la MV"
 
 msgid "Unable to change topolgy cores for VM - "
 msgstr "No es posible cambiar la topología de núcleos de la VM -"
@@ -987,7 +1011,7 @@ msgid "Unable to set VM XML - "
 msgstr "Incapaz de configurar XML en la VM -"
 
 msgid "Unable to set VM XML :: "
-msgstr ""
+msgstr "No es posible VM XML :: "
 
 msgid "Unable to start network - "
 msgstr "Incapaz de arrancar la Red -"
@@ -996,7 +1020,7 @@ msgid "Unable to stop network - "
 msgstr "Incapaz de detener la Red -"
 
 msgid "Unable to undefine VM :: "
-msgstr ""
+msgstr "No es posible indefinir VM :: "
 
 msgid "Unit"
 msgstr "Unidad"
@@ -1005,13 +1029,13 @@ msgid "VM Name"
 msgstr "Nombre de la VM"
 
 msgid "VM does not have qemu guest agent installed!"
-msgstr ""
+msgstr "¡La MV no tiene instalado el agente qemu!"
 
 msgid "VM info"
 msgstr "VM info"
 
 msgid "VM is not running!"
-msgstr ""
+msgstr "¡ No está corriendo la MV!"
 
 msgid "VM name"
 msgstr "Nombre de la VM"

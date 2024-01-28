@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-29 11:53-0600\n"
+"POT-Creation-Date: 2024-01-28 16:15-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: kochin <kochinc@outlook.com>, 2023\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_TW/)\n"
@@ -180,6 +180,9 @@ msgstr "無法使用 / 做為掛載點。"
 msgid "Capacity"
 msgstr "容量"
 
+msgid "Change disc"
+msgstr ""
+
 msgid "Change memory"
 msgstr "改變記憶體"
 
@@ -191,6 +194,9 @@ msgstr "改變記憶體大小中 ..."
 
 msgid "Changing number of CPUs ..."
 msgstr "改變 CPU 數目中 ..."
+
+msgid "Changing optical disc ..."
+msgstr ""
 
 msgid "Check"
 msgstr "檢查"
@@ -369,6 +375,12 @@ msgstr "編輯預定工作。"
 msgid "Edit settings."
 msgstr "編輯設定。"
 
+msgid "Eject disc"
+msgstr ""
+
+msgid "Ejecting optical disc ..."
+msgstr ""
+
 msgid "Enable"
 msgstr "啟用"
 
@@ -493,6 +505,9 @@ msgstr ""
 
 msgid "Force"
 msgstr "強制"
+
+msgid "Force eject"
+msgstr ""
 
 msgid "Force image list refresh"
 msgstr "強迫影像列表刷新"
@@ -642,6 +657,9 @@ msgstr "網路已被啟動。"
 msgid "Network has been stopped."
 msgstr "網路已被停止。"
 
+msgid "Network interface info"
+msgstr ""
+
 msgid "Networks"
 msgstr "網路"
 
@@ -662,6 +680,12 @@ msgstr "光碟"
 
 msgid "Optical Drive"
 msgstr "光碟機"
+
+msgid "Optical disc has been changed."
+msgstr ""
+
+msgid "Optical disc has been ejected."
+msgstr ""
 
 msgid "Optical disc has been removed."
 msgstr "光碟已被移除。"

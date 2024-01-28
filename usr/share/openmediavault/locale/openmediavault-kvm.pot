@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-29 11:53-0600\n"
+"POT-Creation-Date: 2024-01-28 16:15-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -176,6 +176,9 @@ msgstr ""
 msgid "Capacity"
 msgstr ""
 
+msgid "Change disc"
+msgstr ""
+
 msgid "Change memory"
 msgstr ""
 
@@ -186,6 +189,9 @@ msgid "Changing memory amount ..."
 msgstr ""
 
 msgid "Changing number of CPUs ..."
+msgstr ""
+
+msgid "Changing optical disc ..."
 msgstr ""
 
 msgid "Check"
@@ -365,6 +371,12 @@ msgstr ""
 msgid "Edit settings."
 msgstr ""
 
+msgid "Eject disc"
+msgstr ""
+
+msgid "Ejecting optical disc ..."
+msgstr ""
+
 msgid "Enable"
 msgstr ""
 
@@ -483,6 +495,9 @@ msgid "For description of each type and how to configure <a href='https://libvir
 msgstr ""
 
 msgid "Force"
+msgstr ""
+
+msgid "Force eject"
 msgstr ""
 
 msgid "Force image list refresh"
@@ -632,6 +647,9 @@ msgstr ""
 msgid "Network has been stopped."
 msgstr ""
 
+msgid "Network interface info"
+msgstr ""
+
 msgid "Networks"
 msgstr ""
 
@@ -651,6 +669,12 @@ msgid "Optical"
 msgstr ""
 
 msgid "Optical Drive"
+msgstr ""
+
+msgid "Optical disc has been changed."
+msgstr ""
+
+msgid "Optical disc has been ejected."
 msgstr ""
 
 msgid "Optical disc has been removed."

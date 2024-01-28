@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-29 11:53-0600\n"
+"POT-Creation-Date: 2024-01-28 16:15-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Jonatan Nyberg, 2023\n"
 "Language-Team: Swedish (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/sv/)\n"
@@ -180,6 +180,9 @@ msgstr "Kan inte använda / för monteringspunkt."
 msgid "Capacity"
 msgstr "Kapacitet"
 
+msgid "Change disc"
+msgstr ""
+
 msgid "Change memory"
 msgstr "Byt minne"
 
@@ -190,6 +193,9 @@ msgid "Changing memory amount ..."
 msgstr ""
 
 msgid "Changing number of CPUs ..."
+msgstr ""
+
+msgid "Changing optical disc ..."
 msgstr ""
 
 msgid "Check"
@@ -369,6 +375,12 @@ msgstr "Redigera schemalagt jobb."
 msgid "Edit settings."
 msgstr "Redigera inställningar."
 
+msgid "Eject disc"
+msgstr ""
+
+msgid "Ejecting optical disc ..."
+msgstr ""
+
 msgid "Enable"
 msgstr "Aktivera"
 
@@ -494,6 +506,9 @@ msgstr ""
 
 msgid "Force"
 msgstr "Tvinga"
+
+msgid "Force eject"
+msgstr ""
 
 msgid "Force image list refresh"
 msgstr ""
@@ -645,6 +660,9 @@ msgstr ""
 msgid "Network has been stopped."
 msgstr ""
 
+msgid "Network interface info"
+msgstr ""
+
 msgid "Networks"
 msgstr "Nätverk"
 
@@ -665,6 +683,12 @@ msgstr "Optisk"
 
 msgid "Optical Drive"
 msgstr "Optisk enhet"
+
+msgid "Optical disc has been changed."
+msgstr ""
+
+msgid "Optical disc has been ejected."
+msgstr ""
 
 msgid "Optical disc has been removed."
 msgstr ""

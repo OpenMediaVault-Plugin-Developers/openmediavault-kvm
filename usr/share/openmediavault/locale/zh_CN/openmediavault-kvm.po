@@ -4,16 +4,16 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# songming <by@songming.me>, 2023
+# songming <by@songming.me>, 2024
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-29 11:53-0600\n"
+"POT-Creation-Date: 2024-01-28 16:15-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
-"Last-Translator: songming <by@songming.me>, 2023\n"
+"Last-Translator: songming <by@songming.me>, 2024\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -180,6 +180,9 @@ msgstr "不能使用挂载点。"
 msgid "Capacity"
 msgstr "容量"
 
+msgid "Change disc"
+msgstr ""
+
 msgid "Change memory"
 msgstr "改变内存"
 
@@ -191,6 +194,9 @@ msgstr "改变内存大小中 ..."
 
 msgid "Changing number of CPUs ..."
 msgstr "改变 CPU 核心数中 ..."
+
+msgid "Changing optical disc ..."
+msgstr ""
 
 msgid "Check"
 msgstr "检查"
@@ -328,7 +334,7 @@ msgid "Disk has been added."
 msgstr "磁盘已添加。"
 
 msgid "Disk has been removed."
-msgstr ""
+msgstr "磁盘已删除。"
 
 msgid "Disk info"
 msgstr "磁盘信息"
@@ -368,6 +374,12 @@ msgstr "编辑计划任务。"
 
 msgid "Edit settings."
 msgstr "编辑设置。"
+
+msgid "Eject disc"
+msgstr ""
+
+msgid "Ejecting optical disc ..."
+msgstr ""
 
 msgid "Enable"
 msgstr "启用"
@@ -494,6 +506,9 @@ msgstr ""
 msgid "Force"
 msgstr "强制"
 
+msgid "Force eject"
+msgstr ""
+
 msgid "Force image list refresh"
 msgstr "强制刷新镜像列表"
 
@@ -610,7 +625,7 @@ msgid "Name"
 msgstr "名称"
 
 msgid "Net info"
-msgstr ""
+msgstr "网络信息"
 
 msgid "Network"
 msgstr "网络"
@@ -642,6 +657,9 @@ msgstr "网络已启动。"
 msgid "Network has been stopped."
 msgstr "网络已停止。"
 
+msgid "Network interface info"
+msgstr ""
+
 msgid "Networks"
 msgstr "网络"
 
@@ -662,6 +680,12 @@ msgstr "光盘"
 
 msgid "Optical Drive"
 msgstr "光驱"
+
+msgid "Optical disc has been changed."
+msgstr ""
+
+msgid "Optical disc has been ejected."
+msgstr ""
 
 msgid "Optical disc has been removed."
 msgstr "光盘已移除。"
@@ -937,7 +961,7 @@ msgid "Unable to change notes for VM - "
 msgstr "无法改变 VM 注释-"
 
 msgid "Unable to change notes for VM."
-msgstr ""
+msgstr "无法改变 VM 注释。"
 
 msgid "Unable to change topolgy cores for VM - "
 msgstr "无法改变 VM 的拓扑内核-"
@@ -982,7 +1006,7 @@ msgid "Unable to set VM XML - "
 msgstr "无法设置 VM XML - "
 
 msgid "Unable to set VM XML :: "
-msgstr ""
+msgstr "无法设置 VM XML :: "
 
 msgid "Unable to start network - "
 msgstr "无法启用网络 -"
@@ -991,7 +1015,7 @@ msgid "Unable to stop network - "
 msgstr "无法停止网络 -"
 
 msgid "Unable to undefine VM :: "
-msgstr ""
+msgstr "无法定义 VM :: "
 
 msgid "Unit"
 msgstr "单位"
@@ -1000,13 +1024,13 @@ msgid "VM Name"
 msgstr "VM 名称"
 
 msgid "VM does not have qemu guest agent installed!"
-msgstr ""
+msgstr "VM 没有安装 qemu 代理程序！"
 
 msgid "VM info"
 msgstr "VM 信息"
 
 msgid "VM is not running!"
-msgstr ""
+msgstr "VM 未运行！"
 
 msgid "VM name"
 msgstr "VM 名称"

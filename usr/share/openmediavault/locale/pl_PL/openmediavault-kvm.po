@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-29 11:53-0600\n"
+"POT-Creation-Date: 2024-01-28 16:15-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Rysiek Jurczy, 2023\n"
 "Language-Team: Polish (Poland) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/pl_PL/)\n"
@@ -180,6 +180,9 @@ msgstr "Nie można użyć '/' dla punktu montowania"
 msgid "Capacity"
 msgstr "Pojemność"
 
+msgid "Change disc"
+msgstr ""
+
 msgid "Change memory"
 msgstr "Zmień pamięć"
 
@@ -191,6 +194,9 @@ msgstr "Zmiana ilości pamięci ..."
 
 msgid "Changing number of CPUs ..."
 msgstr "Zmiana ilości procesorów ..."
+
+msgid "Changing optical disc ..."
+msgstr ""
 
 msgid "Check"
 msgstr "Sprawdź"
@@ -369,6 +375,12 @@ msgstr "Edytuj zaplanowane zadanie."
 msgid "Edit settings."
 msgstr "Edytuj ustawienia."
 
+msgid "Eject disc"
+msgstr ""
+
+msgid "Ejecting optical disc ..."
+msgstr ""
+
 msgid "Enable"
 msgstr "Aktywuj"
 
@@ -496,6 +508,9 @@ msgstr ""
 
 msgid "Force"
 msgstr "Wymuś"
+
+msgid "Force eject"
+msgstr ""
 
 msgid "Force image list refresh"
 msgstr "Wymuś odświeżenie listy obrazów"
@@ -647,6 +662,9 @@ msgstr "Sieć uruchomiona."
 msgid "Network has been stopped."
 msgstr "Sieć zatrzymana."
 
+msgid "Network interface info"
+msgstr ""
+
 msgid "Networks"
 msgstr "Sieci"
 
@@ -667,6 +685,12 @@ msgstr "Optyczny"
 
 msgid "Optical Drive"
 msgstr "Napęd optyczny"
+
+msgid "Optical disc has been changed."
+msgstr ""
+
+msgid "Optical disc has been ejected."
+msgstr ""
 
 msgid "Optical disc has been removed."
 msgstr "Dysk optyczny został usunięty. "
