@@ -347,6 +347,56 @@
   },
   {
     "type": "rpc",
+    "id": "rpc.kvm.changedisc",
+    "params": {
+      "type": "object",
+      "properties": {
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "state": {
+          "type": "string",
+          "required": true
+        },
+        "disk": {
+          "type": "string",
+          "required": true
+        },
+        "voliso": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.ejectdisc",
+    "params": {
+      "type": "object",
+      "properties": {
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "state": {
+          "type": "string",
+          "required": true
+        },
+        "disk": {
+          "type": "string",
+          "required": true
+        },
+        "force": {
+          "type": "boolean",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
     "id": "rpc.kvm.removedisk",
     "params": {
       "type": "object",

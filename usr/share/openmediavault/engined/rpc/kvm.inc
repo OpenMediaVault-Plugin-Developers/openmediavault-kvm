@@ -72,6 +72,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('addOptical');
         $this->registerMethod('addHostOptical');
         $this->registerMethod('resizeDisk');
+        $this->registerMethod('changeDisc');
+        $this->registerMethod('ejectDisc');
         $this->registerMethod('removeDisk');
         $this->registerMethod('enumerateHostOptical');
 
@@ -1471,6 +1473,50 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->virshCommand($cmdArgs, $err, 'virt-xml');
     }
 
+    public function changeDisc($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.changedisc');
+        // virsh change-media --update
+        $cmdArgs = [];
+        $cmdArgs[] = 'change-media';
+        $cmdArgs[] = sprintf('--domain %s', $this->escapeName($params['vmname']));
+        $cmdArgs[] = sprintf("--path '%s'", $params['disk']);
+        $cmdArgs[] = sprintf("--source '%s'", $params['voliso']);
+        $cmdArgs[] = '--update';
+        $cmdArgs[] = '--config';
+        if ($params['state'] == 'running') {
+            $cmdArgs[] = '--live';
+        }
+        $err = gettext("Failed to remove disk.");
+        $this->virshCommand($cmdArgs, $err);
+    }
+
+    public function ejectDisc($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.ejectdisc');
+        // virsh change-media --eject
+        $cmdArgs = [];
+        $cmdArgs[] = 'change-media';
+        $cmdArgs[] = sprintf('--domain %s', $this->escapeName($params['vmname']));
+        $cmdArgs[] = sprintf("--path '%s'", $params['disk']);
+        $cmdArgs[] = '--eject';
+        if ($params['force']) {
+            $cmdArgs[] = '--force';
+        }
+        $cmdArgs[] = '--config';
+        if ($params['state'] == 'running') {
+            $cmdArgs[] = '--live';
+        }
+        $err = gettext("Failed to remove disk.");
+        $this->virshCommand($cmdArgs, $err);
+    }
+
     public function removeDisk($params, $context)
     {
         // Validate the RPC caller context.
@@ -1760,7 +1806,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $objects[] = [
                 'device' => $dev,
                 'description' => sprintf('[%s] %s :: %s (%s)', $dev, $tgt, $src, $cap),
-                'path' => $src
+                'path' => $src,
+                'devname' => $tgt
             ];
         }
         // Filter the result.
@@ -2518,6 +2565,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $cmdLine2 = sprintf('%ssetvcpus %s %d --config ', $conn, $this->escapeName($vmname), $vcpu);
             $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
             if (isset($domXml->cpu->topology)) {
+                $domXml->cpu->topology['dies'] = 1;
+                $domXml->cpu->topology['sockets'] = 1;
+                $domXml->cpu->topology['threads'] = 1;
                 $domXml->cpu->topology['cores'] = $vcpu;
                 $domXml->vcpu = $vcpu;
                 $newXml = $domXml->asXML();

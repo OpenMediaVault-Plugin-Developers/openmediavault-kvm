@@ -396,6 +396,119 @@ data:
                         progressMessage: _("Adding host drive ...")
                         successNotification: _("Host drive has been added.")
                     successUrl: /services/kvm/vm
+          - text: _("Change disc")
+            icon: mdi:pencil-circle-outline
+            execute:
+              type: formDialog
+              formDialog:
+                title: _('Change optical disc ...')
+                fields:
+                  - type: textInput
+                    name: vmname
+                    label: _('VM Name')
+                    value: '{{ _selected[0].vmname }}'
+                    readonly: true
+                  - type: select
+                    name: disk
+                    label: _('Optical drive')
+                    textField: description
+                    valueField: devname
+                    store:
+                      proxy:
+                        service: 'Kvm'
+                        get:
+                          method: 'enumerateVolumesByVm'
+                          params:
+                            optical: true
+                            vmname: '{{ _selected[0].vmname }}'
+                  - type: select
+                    name: voliso
+                    label: _('Optical disc')
+                    textField: name
+                    valueField: path
+                    store:
+                      proxy:
+                        service: 'Kvm'
+                        get:
+                          method: 'enumerateVolumes'
+                          params:
+                            optical: true
+                            opticalNone: false
+                  - type: hidden
+                    name: state
+                    value: '{{ _selected[0].state }}'
+                    readonly: true
+                buttons:
+                  submit:
+                    text: _('Change')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: changeDisc
+                        progressMessage: _("Changing optical disc ...")
+                        successNotification: _("Optical disc has been changed.")
+                    successUrl: /services/kvm/vm
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: eq
+                  arg0:
+                    prop: snaps
+                  arg1: 0
+          - text: _("Eject disc")
+            icon: mdi:eject-circle-outline
+            execute:
+              type: formDialog
+              formDialog:
+                title: _('Eject optical disc ...')
+                fields:
+                  - type: textInput
+                    name: vmname
+                    label: _('VM Name')
+                    value: '{{ _selected[0].vmname }}'
+                    readonly: true
+                  - type: select
+                    name: disk
+                    label: _('Optical disc')
+                    textField: description
+                    valueField: devname
+                    store:
+                      proxy:
+                        service: 'Kvm'
+                        get:
+                          method: 'enumerateVolumesByVm'
+                          params:
+                            optical: true
+                            vmname: '{{ _selected[0].vmname }}'
+                  - type: checkbox
+                    name: force
+                    value: false
+                    label: _("Force eject")
+                  - type: hidden
+                    name: state
+                    value: '{{ _selected[0].state }}'
+                    readonly: true
+                buttons:
+                  submit:
+                    text: _('Eject')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: ejectDisc
+                        progressMessage: _("Ejecting optical disc ...")
+                        successNotification: _("Optical disc has been ejected.")
+                    successUrl: /services/kvm/vm
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: eq
+                  arg0:
+                    prop: snaps
+                  arg1: 0
           - text: _("Remove disc")
             icon: mdi:minus-circle-outline
             execute:
@@ -412,7 +525,7 @@ data:
                     name: disk
                     label: _('Optical disc')
                     textField: description
-                    valueField: path
+                    valueField: devname
                     store:
                       proxy:
                         service: 'Kvm'
