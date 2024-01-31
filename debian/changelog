@@ -1,3 +1,9 @@
+openmediavault-kvm (7.0.6) UNRELEASED; urgency=medium
+
+  * Add PCI device passthrough
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Wed, 31 Jan 2024 09:29:19 -0600
+
 openmediavault-kvm (7.0.5) stable; urgency=low
 
   * Add domiflist output to vm details
