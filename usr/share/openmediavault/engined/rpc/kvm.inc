@@ -100,6 +100,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('enumerateUsbByHost');
         $this->registerMethod('enumerateUsbByVm');
 
+        $this->registerMethod('addPci');
+        $this->registerMethod('removePci');
+        $this->registerMethod('enumeratePciByHost');
+        $this->registerMethod('enumeratePciByVm');
+
         $this->registerMethod('addVnc');
         $this->registerMethod('removeVnc');
 
@@ -2119,6 +2124,10 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $objects = [];
         $xpathSize = sizeof($xpath);
         for ($i = 0; $i < $xpathSize; $i++) {
+            $hostdev = $domXml->devices->hostdev[$i];
+            if ($hostdev['type'] !== 'usb') {
+                continue;
+            }
             $dev = $domXml->devices->hostdev[$i]->source;
             if (isset($dev->address)) {
                 $device = sprintf('Bus %03d Device %03d', $dev->address['bus'], $dev->address['device']);
@@ -2219,6 +2228,140 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
         // create xml file
         $temp = tempnam(sys_get_temp_dir(), 'virsh_usb');
+        $newXml = $hostDevXml->asXML();
+        $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
+        file_put_contents($temp, $newXml);
+        // return filename
+        return ($temp);
+    }
+
+    public function enumeratePciByHost($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        $output = [];
+        $cmdLine = 'lspci';
+        $cmd = new \OMV\System\Process($cmdLine);
+        $cmd->setQuiet(true);
+        $cmd->execute($output, $exitStatus);
+        $objects = [];
+        $pciCount = count($output);
+        for ($i = 0; $i < $pciCount; $i++) {
+            $objects[] = [
+                'description' => $output[$i],
+                'device' => $output[$i]
+            ];
+        }
+        return ($objects);
+    }
+
+    public function enumeratePciByVm($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.vmname');
+        // create new libvirt object
+        $lv = $this->connectQemu();
+        $domXml = new SimpleXMLElement($lv->domain_get_xml($params['vmname']));
+        $xpath = $domXml->xpath('//hostdev');
+        // get list of current pci devices from host
+        $output = [];
+        $cmdLine = 'lspci';
+        $cmd = new \OMV\System\Process($cmdLine);
+        $cmd->setQuiet(true);
+        $cmd->execute($output, $exitStatus);
+        $pciCount = count($output);
+        // get list of pci devices from VM
+        $objects = [];
+        $xpathSize = sizeof($xpath);
+        for ($i = 0; $i < $xpathSize; $i++) {
+            $hostdev = $domXml->devices->hostdev[$i];
+            if ($hostdev['type'] !== 'pci') {
+                continue;
+            }
+            $dev = $domXml->devices->hostdev[$i]->source;
+            $device = sprintf('%s:%s.%s', $dev->address['bus'], $dev->address['slot'], $dev->address['function']);
+            $check = str_replace('0x', '', $device);
+            $description = $device;
+            for ($j = 0; $j < $pciCount; $j++) {
+                if (strpos($output[$j], $check)) {
+                    $description = $output[$j];
+                    break;
+                }
+            }
+            $objects[] = [
+                'device' => $device,
+                'description' => $description
+            ];
+        }
+        return ($objects);
+    }
+
+    public function addPci($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.pci');
+        // get parameters
+        $vmname = $this->escapeName($params['vmname']);
+        $state = $params['state'];
+        $dev = $params['device'];
+        $hostdev = explode(' ', $dev)[0];
+        // detach device from host
+        $cmdArgs = [];
+        $cmdArgs[] = 'nodedev-detach';
+        $cmdArgs[] = sprintf('pci_0000_%s', str_replace([':', '.'], '_', $hostdev));
+        $err = gettext("Failed to detach PCI device from host.");
+        $this->virshCommand($cmdArgs, $err);
+        // create xml
+        $xml = $this->createPciXml($dev);
+        // add with virsh
+        $cmdArgs = $this->deviceArgs('attach-device', $vmname, $xml, $state);
+        $err = gettext("Failed to add PCI device.");
+        $this->virshCommand($cmdArgs, $err);
+        // remove temp xml file
+        unlink($xml);
+    }
+
+    public function removePci($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.pci');
+        // get parameters
+        $vmname = $this->escapeName($params['vmname']);
+        $state = $params['state'];
+        // create xml
+        $xml = $this->createPciXml($params['device']);
+        // remove with virsh
+        $cmdArgs = $this->deviceArgs('detach-device', $vmname, $xml, $state);
+        $err = gettext("Failed to remove PCI device.");
+        $this->virshCommand($cmdArgs, $err);
+        // remove temp xml file
+        unlink($xml);
+    }
+
+    private function createPciXml($device)
+    {
+        // create pci xml
+        $dev = explode(' ', $device)[0];
+        $devid = explode(':', str_replace('.', ':', $dev));
+        // create xml structure
+        $hostDevXml = new SimpleXMLElement('<hostdev/>');
+        $hostDevXml->addAttribute('mode', 'subsystem');
+        $hostDevXml->addAttribute('type', 'pci');
+        $hostDevXml->addAttribute('managed', 'yes');
+        $sourceXml = $hostDevXml->addChild('source');
+        $addressXml = $sourceXml->addChild('address');
+        $addressXml->addAttribute('domain', '0x0');
+        $addressXml->addAttribute('bus', '0x'.$devid[0]);
+        $addressXml->addAttribute('slot', '0x'.$devid[1]);
+        $addressXml->addAttribute('function', '0x'.$devid[2]);
+        // create xml file
+        $temp = tempnam(sys_get_temp_dir(), 'virsh_pci');
         $newXml = $hostDevXml->asXML();
         $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
         file_put_contents($temp, $newXml);

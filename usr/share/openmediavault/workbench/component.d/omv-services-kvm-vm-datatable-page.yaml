@@ -813,6 +813,98 @@ data:
                         successNotification: _("Network adapter has been removed.")
                     successUrl: /services/kvm/vm
       - type: menu
+        icon: mdi:expansion-card-variant
+        tooltip: _("PCI")
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+          constraint:
+            - operator: ne
+              arg0:
+                prop: virttype
+              arg1: "lxc"
+            - operator: eq
+              arg0:
+                prop: state
+              arg1: "shutoff"
+        actions:
+          - text: _("Add PCI")
+            icon: mdi:plus-box-outline
+            execute:
+              type: formDialog
+              formDialog:
+                title: _('Add PCI device ...')
+                fields:
+                  - type: textInput
+                    name: vmname
+                    label: _('VM Name')
+                    value: '{{ _selected[0].vmname }}'
+                    readonly: true
+                  - type: select
+                    name: device
+                    label: _('PCI device')
+                    textField: description
+                    valueField: device
+                    store:
+                      proxy:
+                        service: 'Kvm'
+                        get:
+                          method: 'enumeratePciByHost'
+                  - type: hidden
+                    name: state
+                    value: '{{ _selected[0].state }}'
+                    readonly: true
+                buttons:
+                  submit:
+                    text: _('Add')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: addPci
+                        progressMessage: _("Passing through PCI device ...")
+                        successNotification: _("PCI device has been added.")
+                    successUrl: /services/kvm/vm
+          - text: _("Remove PCI")
+            icon: mdi:minus-box-outline
+            execute:
+              type: formDialog
+              formDialog:
+                title: _('Remove PCI device ...')
+                fields:
+                  - type: textInput
+                    name: vmname
+                    label: _('VM Name')
+                    value: '{{ _selected[0].vmname }}'
+                    readonly: true
+                  - type: select
+                    name: device
+                    label: _('PCI device')
+                    textField: description
+                    valueField: device
+                    store:
+                      proxy:
+                        service: 'Kvm'
+                        get:
+                          method: 'enumeratePciByVm'
+                          params:
+                            vmname: '{{ _selected[0].vmname }}'
+                  - type: hidden
+                    name: state
+                    value: '{{ _selected[0].state }}'
+                    readonly: true
+                buttons:
+                  submit:
+                    text: _('Remove')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: removePci
+                        progressMessage: _("Removing PCI device ...")
+                        successNotification: _("PCI device has been removed.")
+                    successUrl: /services/kvm/vm
+      - type: menu
         icon: mdi:usb
         tooltip: _("USB")
         enabledConstraints:
