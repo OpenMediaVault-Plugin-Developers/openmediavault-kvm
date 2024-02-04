@@ -835,6 +835,9 @@ data:
               formDialog:
                 title: _('Add PCI device ...')
                 fields:
+                  - type: hint
+                    hintType: info
+                    text: "This is an experimental feature.<br/>Be very careful not to passthrough a device being used by the host operating system.<br/>IOMMU and other settings must be enabled outside of the plugin.<br/><a href='https://wiki.debian.org/VGAPassthrough' target='_blank'>Helpful link #1</a><br/><a href='https://www.server-world.info/en/note?os=Debian_12&p=kvm&f=13' target='_blank'>Helpful link #2</a><br/><a href='https://wiki.gentoo.org/wiki/GPU_passthrough_with_libvirt_qemu_kvm' target='_blank'>Helpful link #3</a>"
                   - type: textInput
                     name: vmname
                     label: _('VM Name')
