@@ -2314,7 +2314,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmdArgs[] = 'nodedev-detach';
         $cmdArgs[] = sprintf('pci_0000_%s', str_replace([':', '.'], '_', $hostdev));
         $err = gettext("Failed to detach PCI device from host.");
-        $this->virshCommand($cmdArgs, $err);
+        $this->virshCommand($cmdArgs, $err, 'virsh', true);
         // create xml
         $xml = $this->createPciXml($dev);
         // add with virsh
