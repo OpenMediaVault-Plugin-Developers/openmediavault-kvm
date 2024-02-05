@@ -2563,6 +2563,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $db = \OMV\Config\Database::getInstance();
         $webadmin = $db->get("conf.webadmin");
         $ssl = boolval($webadmin->get("enablessl"));
+        $forcessl = boolval($webadmin->get("forcesslonly"));
         if ($ssl) {
             $certref = $webadmin->get("sslcertificateref");
             $crt = sprintf("/etc/ssl/certs/openmediavault-%s.crt", $certref);
