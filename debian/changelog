@@ -1,3 +1,9 @@
+openmediavault-kvm (7.0.7) stable; urgency=low
+
+  * Fix remove pci
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Mon, 05 Feb 2024 19:22:35 -0600
+
 openmediavault-kvm (7.0.6) stable; urgency=low
 
   * Add PCI device passthrough
