@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-28 16:15-0600\n"
+"POT-Creation-Date: 2024-02-05 19:22-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,6 +30,9 @@ msgid "Activity"
 msgstr ""
 
 msgid "Add"
+msgstr ""
+
+msgid "Add PCI"
 msgstr ""
 
 msgid "Add Spice"
@@ -401,6 +404,9 @@ msgstr ""
 msgid "Failed to "
 msgstr ""
 
+msgid "Failed to add PCI device."
+msgstr ""
+
 msgid "Failed to add USB device."
 msgstr ""
 
@@ -435,6 +441,12 @@ msgid "Failed to create new disk :: "
 msgstr ""
 
 msgid "Failed to delete VM."
+msgstr ""
+
+msgid "Failed to detach PCI device from host."
+msgstr ""
+
+msgid "Failed to remove PCI device."
 msgstr ""
 
 msgid "Failed to remove USB device."
@@ -686,6 +698,18 @@ msgstr ""
 msgid "Other CPU"
 msgstr ""
 
+msgid "PCI"
+msgstr ""
+
+msgid "PCI device has been added."
+msgstr ""
+
+msgid "PCI device has been removed."
+msgstr ""
+
+msgid "Passing through PCI device ..."
+msgstr ""
+
 msgid "Passthrough Filesystem"
 msgstr ""
 
@@ -737,6 +761,9 @@ msgstr ""
 msgid "Rebooting ..."
 msgstr ""
 
+msgid "Remove PCI"
+msgstr ""
+
 msgid "Remove Spice"
 msgstr ""
 
@@ -756,6 +783,9 @@ msgid "Remove network"
 msgstr ""
 
 msgid "Remove passthrough"
+msgstr ""
+
+msgid "Removing PCI device ..."
 msgstr ""
 
 msgid "Removing USB device ..."

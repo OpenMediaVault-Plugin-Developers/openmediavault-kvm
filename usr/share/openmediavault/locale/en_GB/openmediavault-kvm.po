@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-28 16:15-0600\n"
+"POT-Creation-Date: 2024-02-05 19:22-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Andi Chandler <andi@gowling.com>, 2024\n"
 "Language-Team: English (United Kingdom) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/en_GB/)\n"
@@ -35,6 +35,9 @@ msgstr "Activity"
 
 msgid "Add"
 msgstr "Add"
+
+msgid "Add PCI"
+msgstr ""
 
 msgid "Add Spice"
 msgstr "Add Spice"
@@ -405,6 +408,9 @@ msgstr "Extension"
 msgid "Failed to "
 msgstr "Failed to "
 
+msgid "Failed to add PCI device."
+msgstr ""
+
 msgid "Failed to add USB device."
 msgstr "Failed to add USB device."
 
@@ -440,6 +446,12 @@ msgstr "Failed to create new disk :: "
 
 msgid "Failed to delete VM."
 msgstr "Failed to delete VM."
+
+msgid "Failed to detach PCI device from host."
+msgstr ""
+
+msgid "Failed to remove PCI device."
+msgstr ""
 
 msgid "Failed to remove USB device."
 msgstr "Failed to remove USB device."
@@ -698,6 +710,18 @@ msgstr "Optical has been added."
 msgid "Other CPU"
 msgstr "Other CPU"
 
+msgid "PCI"
+msgstr ""
+
+msgid "PCI device has been added."
+msgstr ""
+
+msgid "PCI device has been removed."
+msgstr ""
+
+msgid "Passing through PCI device ..."
+msgstr ""
+
 msgid "Passthrough Filesystem"
 msgstr "Passthrough Filesystem"
 
@@ -749,6 +773,9 @@ msgstr "Rebooted."
 msgid "Rebooting ..."
 msgstr "Rebooting ..."
 
+msgid "Remove PCI"
+msgstr ""
+
 msgid "Remove Spice"
 msgstr "Remove Spice"
 
@@ -769,6 +796,9 @@ msgstr "Remove network"
 
 msgid "Remove passthrough"
 msgstr "Remove passthrough"
+
+msgid "Removing PCI device ..."
+msgstr ""
 
 msgid "Removing USB device ..."
 msgstr "Removing USB device ..."

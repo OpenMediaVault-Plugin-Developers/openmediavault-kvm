@@ -4,8 +4,6 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Thomas Melka, 2022
-# Ettore Atalan <atalanttore@googlemail.com>, 2022
 # Dampflok_HD, 2023
 # 
 #, fuzzy
@@ -13,14 +11,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-28 16:15-0600\n"
+"POT-Creation-Date: 2024-02-05 19:22-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Dampflok_HD, 2023\n"
-"Language-Team: German (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/de/)\n"
+"Language-Team: German (Germany) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
+"Language: de_DE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid " already exists!"
@@ -38,11 +36,14 @@ msgstr "Aktivität"
 msgid "Add"
 msgstr "Hinzufügen"
 
+msgid "Add PCI"
+msgstr ""
+
 msgid "Add Spice"
 msgstr "Spice hinzufügen"
 
 msgid "Add USB"
-msgstr "USB hinzufügen"
+msgstr "USB-Stick hinzufügen"
 
 msgid "Add VNC"
 msgstr "VNC hinzufügen"
@@ -237,7 +238,7 @@ msgid "Convert to qcow2"
 msgstr "Konvertieren zu qcow2"
 
 msgid "Convert to raw"
-msgstr "Konvertieren zu raw"
+msgstr "Konvertieren zu roh"
 
 msgid "Converting to qcow2 ..."
 msgstr "Konvertiere zu qcow2 ..."
@@ -351,10 +352,10 @@ msgid "Disk(s)"
 msgstr "Festplatte(n)"
 
 msgid "Download virtio iso"
-msgstr "virtio iso herunterladen"
+msgstr "virtio-ISO herunterladen"
 
 msgid "Download virtio iso ..."
-msgstr "Lade virtio iso ..."
+msgstr "virtio-ISO herunterladen ..."
 
 msgid "Edit"
 msgstr "Bearbeiten"
@@ -407,6 +408,9 @@ msgstr ""
 msgid "Failed to "
 msgstr ""
 
+msgid "Failed to add PCI device."
+msgstr ""
+
 msgid "Failed to add USB device."
 msgstr "USB-Gerät konnte nicht hinzugefügt werden."
 
@@ -442,6 +446,12 @@ msgstr ""
 
 msgid "Failed to delete VM."
 msgstr "Fehler beim Löschen der VM."
+
+msgid "Failed to detach PCI device from host."
+msgstr ""
+
+msgid "Failed to remove PCI device."
+msgstr ""
 
 msgid "Failed to remove USB device."
 msgstr "USB-Gerät konnte nicht entfernt werden."
@@ -696,6 +706,18 @@ msgstr ""
 msgid "Other CPU"
 msgstr ""
 
+msgid "PCI"
+msgstr ""
+
+msgid "PCI device has been added."
+msgstr ""
+
+msgid "PCI device has been removed."
+msgstr ""
+
+msgid "Passing through PCI device ..."
+msgstr ""
+
 msgid "Passthrough Filesystem"
 msgstr ""
 
@@ -747,6 +769,9 @@ msgstr ""
 msgid "Rebooting ..."
 msgstr ""
 
+msgid "Remove PCI"
+msgstr ""
+
 msgid "Remove Spice"
 msgstr ""
 
@@ -766,6 +791,9 @@ msgid "Remove network"
 msgstr "Netzwerk entfernen"
 
 msgid "Remove passthrough"
+msgstr ""
+
+msgid "Removing PCI device ..."
 msgstr ""
 
 msgid "Removing USB device ..."
@@ -934,7 +962,7 @@ msgid "Terabytes"
 msgstr ""
 
 msgid "Type"
-msgstr "Typ"
+msgstr ""
 
 msgid "UEFI"
 msgstr "UEFI"
@@ -1021,7 +1049,7 @@ msgid "Unit"
 msgstr ""
 
 msgid "VM Name"
-msgstr "VM-Name"
+msgstr "VM Name"
 
 msgid "VM does not have qemu guest agent installed!"
 msgstr ""

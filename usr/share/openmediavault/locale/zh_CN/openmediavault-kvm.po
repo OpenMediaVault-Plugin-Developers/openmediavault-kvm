@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-28 16:15-0600\n"
+"POT-Creation-Date: 2024-02-05 19:22-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: songming <by@songming.me>, 2024\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_CN/)\n"
@@ -35,6 +35,9 @@ msgstr "激活"
 
 msgid "Add"
 msgstr "添加"
+
+msgid "Add PCI"
+msgstr ""
 
 msgid "Add Spice"
 msgstr "添加 Spice"
@@ -405,6 +408,9 @@ msgstr "扩展"
 msgid "Failed to "
 msgstr "失败"
 
+msgid "Failed to add PCI device."
+msgstr ""
+
 msgid "Failed to add USB device."
 msgstr "添加 USB 设备失败。"
 
@@ -440,6 +446,12 @@ msgstr "创建新磁盘失败 :: "
 
 msgid "Failed to delete VM."
 msgstr "删除 VM 失败。"
+
+msgid "Failed to detach PCI device from host."
+msgstr ""
+
+msgid "Failed to remove PCI device."
+msgstr ""
 
 msgid "Failed to remove USB device."
 msgstr "移除 USB 设备失败。"
@@ -696,6 +708,18 @@ msgstr "光盘已添加。"
 msgid "Other CPU"
 msgstr "其它 CPU"
 
+msgid "PCI"
+msgstr ""
+
+msgid "PCI device has been added."
+msgstr ""
+
+msgid "PCI device has been removed."
+msgstr ""
+
+msgid "Passing through PCI device ..."
+msgstr ""
+
 msgid "Passthrough Filesystem"
 msgstr "直通文件系统"
 
@@ -747,6 +771,9 @@ msgstr "重启。"
 msgid "Rebooting ..."
 msgstr "重启中 ..."
 
+msgid "Remove PCI"
+msgstr ""
+
 msgid "Remove Spice"
 msgstr "移除 Spice"
 
@@ -767,6 +794,9 @@ msgstr "删除网络"
 
 msgid "Remove passthrough"
 msgstr "移除直通"
+
+msgid "Removing PCI device ..."
+msgstr ""
 
 msgid "Removing USB device ..."
 msgstr "移除 USB 设备中 ..."

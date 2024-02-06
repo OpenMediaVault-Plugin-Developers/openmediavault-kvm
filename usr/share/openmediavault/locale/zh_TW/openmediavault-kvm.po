@@ -4,16 +4,16 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# kochin <kochinc@outlook.com>, 2023
+# kochin <kochinc@outlook.com>, 2024
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-28 16:15-0600\n"
+"POT-Creation-Date: 2024-02-05 19:22-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
-"Last-Translator: kochin <kochinc@outlook.com>, 2023\n"
+"Last-Translator: kochin <kochinc@outlook.com>, 2024\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,6 +35,9 @@ msgstr "活動"
 
 msgid "Add"
 msgstr "新增"
+
+msgid "Add PCI"
+msgstr ""
 
 msgid "Add Spice"
 msgstr "新增 Spice"
@@ -181,7 +184,7 @@ msgid "Capacity"
 msgstr "容量"
 
 msgid "Change disc"
-msgstr ""
+msgstr "變更磁碟"
 
 msgid "Change memory"
 msgstr "改變記憶體"
@@ -196,7 +199,7 @@ msgid "Changing number of CPUs ..."
 msgstr "改變 CPU 數目中 ..."
 
 msgid "Changing optical disc ..."
-msgstr ""
+msgstr "變更光碟中 ..."
 
 msgid "Check"
 msgstr "檢查"
@@ -376,10 +379,10 @@ msgid "Edit settings."
 msgstr "編輯設定。"
 
 msgid "Eject disc"
-msgstr ""
+msgstr "退出磁碟"
 
 msgid "Ejecting optical disc ..."
-msgstr ""
+msgstr "退出光碟中 ..."
 
 msgid "Enable"
 msgstr "啟用"
@@ -404,6 +407,9 @@ msgstr "延伸"
 
 msgid "Failed to "
 msgstr "失敗"
+
+msgid "Failed to add PCI device."
+msgstr ""
 
 msgid "Failed to add USB device."
 msgstr "添加 USB 裝置失敗。"
@@ -440,6 +446,12 @@ msgstr "建立新磁碟失敗 :: "
 
 msgid "Failed to delete VM."
 msgstr "刪除 VM 失敗。"
+
+msgid "Failed to detach PCI device from host."
+msgstr ""
+
+msgid "Failed to remove PCI device."
+msgstr ""
 
 msgid "Failed to remove USB device."
 msgstr "移除 USB 裝置失敗。"
@@ -507,7 +519,7 @@ msgid "Force"
 msgstr "強制"
 
 msgid "Force eject"
-msgstr ""
+msgstr "強迫退出"
 
 msgid "Force image list refresh"
 msgstr "強迫影像列表刷新"
@@ -658,7 +670,7 @@ msgid "Network has been stopped."
 msgstr "網路已被停止。"
 
 msgid "Network interface info"
-msgstr ""
+msgstr "網路介面資訊"
 
 msgid "Networks"
 msgstr "網路"
@@ -682,10 +694,10 @@ msgid "Optical Drive"
 msgstr "光碟機"
 
 msgid "Optical disc has been changed."
-msgstr ""
+msgstr "光碟已被變更。"
 
 msgid "Optical disc has been ejected."
-msgstr ""
+msgstr "光碟已被退出。"
 
 msgid "Optical disc has been removed."
 msgstr "光碟已被移除。"
@@ -695,6 +707,18 @@ msgstr "光碟已被加入。"
 
 msgid "Other CPU"
 msgstr "其它 CPU"
+
+msgid "PCI"
+msgstr ""
+
+msgid "PCI device has been added."
+msgstr ""
+
+msgid "PCI device has been removed."
+msgstr ""
+
+msgid "Passing through PCI device ..."
+msgstr ""
 
 msgid "Passthrough Filesystem"
 msgstr "直通檔案系統"
@@ -747,6 +771,9 @@ msgstr "已重新啟動。"
 msgid "Rebooting ..."
 msgstr "重新啟動中 ..."
 
+msgid "Remove PCI"
+msgstr ""
+
 msgid "Remove Spice"
 msgstr "移除 Spice"
 
@@ -767,6 +794,9 @@ msgstr "移除網路"
 
 msgid "Remove passthrough"
 msgstr "移除直通"
+
+msgid "Removing PCI device ..."
+msgstr ""
 
 msgid "Removing USB device ..."
 msgstr "移除 USB 裝置中 ..."

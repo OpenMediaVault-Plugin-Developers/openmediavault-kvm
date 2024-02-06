@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-28 16:15-0600\n"
+"POT-Creation-Date: 2024-02-05 19:22-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Jonatan Nyberg, 2023\n"
 "Language-Team: Swedish (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/sv/)\n"
@@ -35,6 +35,9 @@ msgstr "Aktivitet"
 
 msgid "Add"
 msgstr "Lägg till"
+
+msgid "Add PCI"
+msgstr ""
 
 msgid "Add Spice"
 msgstr "Lägg till Spice"
@@ -405,6 +408,9 @@ msgstr ""
 msgid "Failed to "
 msgstr ""
 
+msgid "Failed to add PCI device."
+msgstr ""
+
 msgid "Failed to add USB device."
 msgstr ""
 
@@ -439,6 +445,12 @@ msgid "Failed to create new disk :: "
 msgstr ""
 
 msgid "Failed to delete VM."
+msgstr ""
+
+msgid "Failed to detach PCI device from host."
+msgstr ""
+
+msgid "Failed to remove PCI device."
 msgstr ""
 
 msgid "Failed to remove USB device."
@@ -699,6 +711,18 @@ msgstr ""
 msgid "Other CPU"
 msgstr "Annan CPU"
 
+msgid "PCI"
+msgstr ""
+
+msgid "PCI device has been added."
+msgstr ""
+
+msgid "PCI device has been removed."
+msgstr ""
+
+msgid "Passing through PCI device ..."
+msgstr ""
+
 msgid "Passthrough Filesystem"
 msgstr "Passthrough filsystem"
 
@@ -750,6 +774,9 @@ msgstr ""
 msgid "Rebooting ..."
 msgstr ""
 
+msgid "Remove PCI"
+msgstr ""
+
 msgid "Remove Spice"
 msgstr "Ta bort Spice"
 
@@ -770,6 +797,9 @@ msgstr "Ta bort nätverk"
 
 msgid "Remove passthrough"
 msgstr "Ta bort passthrough"
+
+msgid "Removing PCI device ..."
+msgstr ""
 
 msgid "Removing USB device ..."
 msgstr ""
