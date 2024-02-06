@@ -2276,19 +2276,17 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $objects = [];
         $xpathSize = sizeof($xpath);
         for ($i = 0; $i < $xpathSize; $i++) {
-            $hostdev = $domXml->devices->hostdev[$i];
-            if ($hostdev['type'] !== 'pci') {
+            $hostdev = $xpath[$i];
+            if (trim($hostdev['type']) != 'pci') {
                 continue;
             }
-            $dev = $domXml->devices->hostdev[$i]->source;
+            $dev = $hostdev->source;
             $device = sprintf('%s:%s.%s', $dev->address['bus'], $dev->address['slot'], $dev->address['function']);
-            $check = str_replace('0x', '', $device);
+            $device = str_replace('0x', '', $device);
             $description = $device;
-            for ($j = 0; $j < $pciCount; $j++) {
-                if (strpos($output[$j], $check)) {
-                    $description = $output[$j];
-                    break;
-                }
+            $fulldesc = preg_grep('/^' . $device . '\s+.*/', $output);
+            if (count($fulldesc) == 1) {
+                $description = trim(implode('', $fulldesc));
             }
             $objects[] = [
                 'device' => $device,
