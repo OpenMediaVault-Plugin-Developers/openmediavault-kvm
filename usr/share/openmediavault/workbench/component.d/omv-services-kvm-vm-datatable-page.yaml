@@ -280,7 +280,7 @@ data:
                     readonly: true
                   - type: select
                     name: voldisk
-                    label: _('Volume')
+                    label: _('Disk')
                     textField: description
                     valueField: device
                     value: 'Select host disk'
