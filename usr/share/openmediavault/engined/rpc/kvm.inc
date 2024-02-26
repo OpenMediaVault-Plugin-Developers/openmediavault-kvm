@@ -69,12 +69,14 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('createLinkedClone');
 
         $this->registerMethod('addDisk');
+        $this->registerMethod('addHostDisk');
         $this->registerMethod('addOptical');
         $this->registerMethod('addHostOptical');
         $this->registerMethod('resizeDisk');
         $this->registerMethod('changeDisc');
         $this->registerMethod('ejectDisc');
         $this->registerMethod('removeDisk');
+        $this->registerMethod('enumerateHostDisk');
         $this->registerMethod('enumerateHostOptical');
 
         $this->registerMethod('getVolumeList');
@@ -1435,6 +1437,21 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->virshCommand($cmdArgs, $err, 'virt-xml');
     }
 
+    public function addHostDisk($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.addhostdisk');
+        // add host disk
+        $cmdArgs = [];
+        $cmdArgs[] = $this->escapeName($params['vmname']);
+        $cmdArgs[] = '--add-device';
+        $cmdArgs[] = sprintf("--disk '%s',device=disk,bus=%s,cache=none,io=native", $params['voldisk'], $params['volbus']);
+        $err = gettext("Failed to add host disk.");
+        $this->virshCommand($cmdArgs, $err, 'virt-xml');
+    }
+
     public function addOptical($params, $context)
     {
         // Validate the RPC caller context.
@@ -1557,6 +1574,32 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmdArgs[] = sprintf('%s%d%s', $sign, $params['amount'], $params['amountunit']);
         $err = gettext("Failed to resize disk!");
         $this->virshCommand($cmdArgs, $err, 'qemu-img');
+    }
+
+    public function enumerateHostDisk($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // enumerate host optical devices with lsscsi
+        $cmdArgs = [];
+        $cmdArgs[] = 'lsblk';
+        $cmdArgs[] = '--json';
+        $cmdArgs[] = '| jq -r \'.blockdevices[] | select(.type == "disk") | .name\'';
+        $cmdArgs[] = '| awk NF';
+        $cmd = new \OMV\System\Process($cmdArgs);
+        $cmd->execute($output, $exitStatus);
+        $objects = [];
+        foreach ($output as $dev) {
+            if (empty($dev)) {
+                continue;
+            }
+            $objects[] = [
+                'device' => sprintf('/dev/%s', $dev),
+                'description' => sprintf('[host] /dev/%s', $dev)
+            ];
+        }
+        // Filter the result.
+        return ($objects);
     }
 
     public function enumerateHostOptical($params, $context)

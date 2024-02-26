@@ -347,6 +347,27 @@
   },
   {
     "type": "rpc",
+    "id": "rpc.kvm.addhostdisk",
+    "params": {
+      "type": "object",
+      "properties": {
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "voldisk": {
+          "type": "string",
+          "required": true
+        },
+        "volbus": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
     "id": "rpc.kvm.changedisc",
     "params": {
       "type": "object",

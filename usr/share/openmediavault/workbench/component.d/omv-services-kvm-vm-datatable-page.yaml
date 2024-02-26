@@ -263,6 +263,57 @@ data:
                         progressMessage: _("Adding a disk ...")
                         successNotification: _("Disk has been added.")
                     successUrl: /services/kvm/vm
+          - text: _("Add host disk")
+            icon: mdi:harddisk-plus
+            execute:
+              type: formDialog
+              formDialog:
+                title: _('Add host disk ...')
+                fields:
+                  - type: hint
+                    hintType: info
+                    text: _("Be very careful not to passthrough a device being used by the host operating system!")
+                  - type: textInput
+                    name: vmname
+                    label: _('VM Name')
+                    value: '{{ _selected[0].vmname }}'
+                    readonly: true
+                  - type: select
+                    name: voldisk
+                    label: _('Volume')
+                    textField: description
+                    valueField: device
+                    value: 'Select host disk'
+                    store:
+                      proxy:
+                        service: Kvm
+                        get:
+                          method: enumerateHostDisk
+                  - type: select
+                    name: volbus
+                    label: _("Bus")
+                    value: "virtio"
+                    store:
+                      data:
+                        - ["virtio", _("virtio")]
+                        - ["scsi", _("scsi")]
+                        - ["sata", _("sata")]
+                        - ["ide", _("ide")]
+                  - type: hidden
+                    name: state
+                    value: '{{ _selected[0].state }}'
+                    readonly: true
+                buttons:
+                  submit:
+                    text: _('Add')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: addHostDisk
+                        progressMessage: _("Adding a host disk ...")
+                        successNotification: _("Host disk has been added.")
+                    successUrl: /services/kvm/vm
           - text: _("Remove disk")
             icon: mdi:harddisk-remove
             execute:
