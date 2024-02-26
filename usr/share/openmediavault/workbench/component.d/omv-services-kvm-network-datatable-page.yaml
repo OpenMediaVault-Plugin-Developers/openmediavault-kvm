@@ -134,9 +134,9 @@ data:
                     valueField: devicename
                     store:
                       proxy:
-                        service: 'Network'
+                        service: Network
                         get:
-                          method: 'enumerateDevices'
+                          method: enumerateDevices
                 buttons:
                   submit:
                     text: _('Add')

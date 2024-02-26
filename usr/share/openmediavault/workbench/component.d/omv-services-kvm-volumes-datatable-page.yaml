@@ -66,9 +66,9 @@ data:
                 valueField: name
                 store:
                   proxy:
-                    service: 'Kvm'
+                    service: Kvm
                     get:
-                      method: 'enumeratePools'
+                      method: enumeratePools
               - type: textInput
                 name: name
                 label: _("Name")

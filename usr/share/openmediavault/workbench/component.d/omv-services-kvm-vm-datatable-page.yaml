@@ -138,9 +138,9 @@ data:
                     value: 'Create new disk'
                     store:
                       proxy:
-                        service: 'Kvm'
+                        service: Kvm
                         get:
-                          method: 'enumerateVolumes'
+                          method: enumerateVolumes
                           params:
                             optical: false
                             opticalNone: false
@@ -152,9 +152,9 @@ data:
                     value: ''
                     store:
                       proxy:
-                        service: 'Kvm'
+                        service: Kvm
                         get:
-                          method: 'enumeratePools'
+                          method: enumeratePools
                     modifiers:
                       - type: visible
                         constraint:
@@ -333,9 +333,9 @@ data:
                     valueField: path
                     store:
                       proxy:
-                        service: 'Kvm'
+                        service: Kvm
                         get:
-                          method: 'enumerateVolumesByVm'
+                          method: enumerateVolumesByVm
                           params:
                             optical: false
                             vmname: '{{ _selected[0].vmname }}'
@@ -393,9 +393,9 @@ data:
                     valueField: path
                     store:
                       proxy:
-                        service: 'Kvm'
+                        service: Kvm
                         get:
-                          method: 'enumerateVolumes'
+                          method: enumerateVolumes
                           params:
                             optical: true
                             opticalNone: false
@@ -433,9 +433,9 @@ data:
                     valueField: device
                     store:
                       proxy:
-                        service: 'Kvm'
+                        service: Kvm
                         get:
-                          method: 'enumerateHostOptical'
+                          method: enumerateHostOptical
                 buttons:
                   submit:
                     text: _('Add')
@@ -466,9 +466,9 @@ data:
                     valueField: devname
                     store:
                       proxy:
-                        service: 'Kvm'
+                        service: Kvm
                         get:
-                          method: 'enumerateVolumesByVm'
+                          method: enumerateVolumesByVm
                           params:
                             optical: true
                             vmname: '{{ _selected[0].vmname }}'
@@ -479,9 +479,9 @@ data:
                     valueField: path
                     store:
                       proxy:
-                        service: 'Kvm'
+                        service: Kvm
                         get:
-                          method: 'enumerateVolumes'
+                          method: enumerateVolumes
                           params:
                             optical: true
                             opticalNone: false
@@ -527,9 +527,9 @@ data:
                     valueField: devname
                     store:
                       proxy:
-                        service: 'Kvm'
+                        service: Kvm
                         get:
-                          method: 'enumerateVolumesByVm'
+                          method: enumerateVolumesByVm
                           params:
                             optical: true
                             vmname: '{{ _selected[0].vmname }}'
@@ -579,9 +579,9 @@ data:
                     valueField: devname
                     store:
                       proxy:
-                        service: 'Kvm'
+                        service: Kvm
                         get:
-                          method: 'enumerateVolumesByVm'
+                          method: enumerateVolumesByVm
                           params:
                             optical: true
                             vmname: '{{ _selected[0].vmname }}'
@@ -769,9 +769,9 @@ data:
                     valueField: bridge
                     store:
                       proxy:
-                        service: 'Kvm'
+                        service: Kvm
                         get:
-                          method: 'enumerateBridges'
+                          method: enumerateBridges
                     modifiers:
                       - type: hidden
                         constraint:
@@ -786,9 +786,9 @@ data:
                     valueField: netname
                     store:
                       proxy:
-                        service: 'Kvm'
+                        service: Kvm
                         get:
-                          method: 'enumerateNetworks'
+                          method: enumerateNetworks
                     modifiers:
                       - type: hidden
                         constraint:
@@ -838,9 +838,9 @@ data:
                     valueField: mac
                     store:
                       proxy:
-                        service: 'Kvm'
+                        service: Kvm
                         get:
-                          method: 'enumerateVmNic'
+                          method: enumerateVmNic
                           params:
                             vmname: '{{ _selected[0].vmname }}'
                             virttype: '{{ _selected[0].virttype }}'
@@ -901,9 +901,9 @@ data:
                     valueField: device
                     store:
                       proxy:
-                        service: 'Kvm'
+                        service: Kvm
                         get:
-                          method: 'enumeratePciByHost'
+                          method: enumeratePciByHost
                   - type: hidden
                     name: state
                     value: '{{ _selected[0].state }}'
@@ -938,9 +938,9 @@ data:
                     valueField: device
                     store:
                       proxy:
-                        service: 'Kvm'
+                        service: Kvm
                         get:
-                          method: 'enumeratePciByVm'
+                          method: enumeratePciByVm
                           params:
                             vmname: '{{ _selected[0].vmname }}'
                   - type: hidden
@@ -989,9 +989,9 @@ data:
                     valueField: device
                     store:
                       proxy:
-                        service: 'Kvm'
+                        service: Kvm
                         get:
-                          method: 'enumerateUsbByHost'
+                          method: enumerateUsbByHost
                   - type: checkbox
                     name: byaddress
                     value: false
@@ -1031,9 +1031,9 @@ data:
                     valueField: device
                     store:
                       proxy:
-                        service: 'Kvm'
+                        service: Kvm
                         get:
-                          method: 'enumerateUsbByVm'
+                          method: enumerateUsbByVm
                           params:
                             vmname: '{{ _selected[0].vmname }}'
                   - type: hidden
