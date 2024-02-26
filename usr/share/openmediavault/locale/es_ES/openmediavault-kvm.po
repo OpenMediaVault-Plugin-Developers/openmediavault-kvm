@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-05 19:22-0600\n"
+"POT-Creation-Date: 2024-02-25 18:30-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>, 2024\n"
 "Language-Team: Spanish (Spain) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/es_ES/)\n"
@@ -37,7 +37,7 @@ msgid "Add"
 msgstr "Añadir"
 
 msgid "Add PCI"
-msgstr ""
+msgstr "Añadir PCI"
 
 msgid "Add Spice"
 msgstr "Añadir Spice"
@@ -53,6 +53,9 @@ msgstr "Añadir Disco"
 
 msgid "Add disk"
 msgstr "Añadir disco"
+
+msgid "Add host disk"
+msgstr ""
 
 msgid "Add host drive"
 msgstr "Añadir Disco de host"
@@ -89,6 +92,9 @@ msgstr "Añadiendo visor VNC ..."
 
 msgid "Adding a disk ..."
 msgstr "Añadiendo un disco ..."
+
+msgid "Adding a host disk ..."
+msgstr ""
 
 msgid "Adding a macvtap network ..."
 msgstr "Añadiendo una red macvtap ..."
@@ -159,6 +165,11 @@ msgstr "Backup con Compresión"
 msgid "Base image"
 msgstr "Imagen Base"
 
+msgid ""
+"Be very careful not to passthrough a device being used by the host operating"
+" system!"
+msgstr ""
+
 msgid "Bus"
 msgstr "Bus"
 
@@ -184,7 +195,7 @@ msgid "Capacity"
 msgstr "Capacidad"
 
 msgid "Change disc"
-msgstr ""
+msgstr "Cambiar Disco"
 
 msgid "Change memory"
 msgstr "Cambiar memoria"
@@ -199,7 +210,7 @@ msgid "Changing number of CPUs ..."
 msgstr "Cambiando el número de CPUs ..."
 
 msgid "Changing optical disc ..."
-msgstr ""
+msgstr "Cambiando CD-ROM ..."
 
 msgid "Check"
 msgstr "comprobar"
@@ -379,10 +390,10 @@ msgid "Edit settings."
 msgstr "Editar opciones."
 
 msgid "Eject disc"
-msgstr ""
+msgstr "Expulsar disco"
 
 msgid "Ejecting optical disc ..."
-msgstr ""
+msgstr "Expulsando CD-ROM ..."
 
 msgid "Enable"
 msgstr "Habilitar"
@@ -410,7 +421,7 @@ msgid "Failed to "
 msgstr "Fallo el "
 
 msgid "Failed to add PCI device."
-msgstr ""
+msgstr "Error al añadir dispositivo PCI"
 
 msgid "Failed to add USB device."
 msgstr "Fallo el añadir dispositivo USB"
@@ -423,6 +434,9 @@ msgstr "Error al añadir el disco."
 
 msgid "Failed to add filesystem passthrough."
 msgstr "Fallo el añadir un sistema de archivos passthrough."
+
+msgid "Failed to add host disk."
+msgstr ""
 
 msgid "Failed to add host optical."
 msgstr "Fallo al añadir CD al host"
@@ -449,10 +463,10 @@ msgid "Failed to delete VM."
 msgstr "Falló el borrar una VM."
 
 msgid "Failed to detach PCI device from host."
-msgstr ""
+msgstr "Error al expulsar un dispositivo PCI del host."
 
 msgid "Failed to remove PCI device."
-msgstr ""
+msgstr "Error al eliminar el dispositivo PCI."
 
 msgid "Failed to remove USB device."
 msgstr "Falló el remover un dispositivo USB."
@@ -521,7 +535,7 @@ msgid "Force"
 msgstr "Forzar"
 
 msgid "Force eject"
-msgstr ""
+msgstr "Forzar expulsión"
 
 msgid "Force image list refresh"
 msgstr "Refrescar el listado de imágenes."
@@ -555,6 +569,9 @@ msgstr "Disco Duro"
 
 msgid "Host VNC port"
 msgstr "Puerto Host VNC"
+
+msgid "Host disk has been added."
+msgstr ""
 
 msgid "Host drive has been added."
 msgstr "El Disco de Host ha sido añadido."
@@ -674,7 +691,7 @@ msgid "Network has been stopped."
 msgstr "La red ha sido detenida."
 
 msgid "Network interface info"
-msgstr ""
+msgstr "Información del interfaz de Red"
 
 msgid "Networks"
 msgstr "Redes"
@@ -698,10 +715,10 @@ msgid "Optical Drive"
 msgstr "Optical Drive"
 
 msgid "Optical disc has been changed."
-msgstr ""
+msgstr "El CD ha sido cambiado."
 
 msgid "Optical disc has been ejected."
-msgstr ""
+msgstr "El CD ha sido expulsado."
 
 msgid "Optical disc has been removed."
 msgstr "El CD-ROM ha sido eliminado."
@@ -713,16 +730,16 @@ msgid "Other CPU"
 msgstr "Otra CPU"
 
 msgid "PCI"
-msgstr ""
+msgstr "PCI"
 
 msgid "PCI device has been added."
-msgstr ""
+msgstr "El dispositivo PCI ha sido añadido."
 
 msgid "PCI device has been removed."
-msgstr ""
+msgstr "El dispositivo PCI ha sido eliminado."
 
 msgid "Passing through PCI device ..."
-msgstr ""
+msgstr "Pasando a través del dispositivo PCI..."
 
 msgid "Passthrough Filesystem"
 msgstr "Sistema de Archivos Passthrough "
@@ -777,7 +794,7 @@ msgid "Rebooting ..."
 msgstr "Reiniciando ..."
 
 msgid "Remove PCI"
-msgstr ""
+msgstr "Eliminar PCI"
 
 msgid "Remove Spice"
 msgstr "Eliminar spice"
@@ -801,7 +818,7 @@ msgid "Remove passthrough"
 msgstr "Remover passthrough"
 
 msgid "Removing PCI device ..."
-msgstr ""
+msgstr "Eliminando dispositivo PCI ..."
 
 msgid "Removing USB device ..."
 msgstr "Eliminando dispositivo USB ..."

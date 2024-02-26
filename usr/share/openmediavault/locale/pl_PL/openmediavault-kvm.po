@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-05 19:22-0600\n"
+"POT-Creation-Date: 2024-02-25 18:30-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Rysiek Jurczy, 2023\n"
 "Language-Team: Polish (Poland) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/pl_PL/)\n"
@@ -54,6 +54,9 @@ msgstr "Dodaj dysk"
 msgid "Add disk"
 msgstr "Dodaj dysk"
 
+msgid "Add host disk"
+msgstr ""
+
 msgid "Add host drive"
 msgstr "Dodaj napęd hosta"
 
@@ -89,6 +92,9 @@ msgstr "Dodawanie przeglądarki VNC ..."
 
 msgid "Adding a disk ..."
 msgstr "Dodawanie dysku ..."
+
+msgid "Adding a host disk ..."
+msgstr ""
 
 msgid "Adding a macvtap network ..."
 msgstr "Dodawanie sieci macvtap ..."
@@ -158,6 +164,11 @@ msgstr "Skompresowana kopia zapasowa"
 
 msgid "Base image"
 msgstr "Obraz podstawowy"
+
+msgid ""
+"Be very careful not to passthrough a device being used by the host operating"
+" system!"
+msgstr ""
 
 msgid "Bus"
 msgstr "Magistrala"
@@ -425,6 +436,9 @@ msgstr "Dysk nie został dodany."
 msgid "Failed to add filesystem passthrough."
 msgstr "Nie dodano przekazywanego systemu plików"
 
+msgid "Failed to add host disk."
+msgstr ""
+
 msgid "Failed to add host optical."
 msgstr "Lokalny dysk optyczny nie został dodany"
 
@@ -556,6 +570,9 @@ msgstr "Dysk twardy"
 
 msgid "Host VNC port"
 msgstr "Port VNC hosta"
+
+msgid "Host disk has been added."
+msgstr ""
 
 msgid "Host drive has been added."
 msgstr "Dodano dysk hosta."

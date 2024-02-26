@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-05 19:22-0600\n"
+"POT-Creation-Date: 2024-02-25 18:30-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: kochin <kochinc@outlook.com>, 2024\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_TW/)\n"
@@ -37,7 +37,7 @@ msgid "Add"
 msgstr "新增"
 
 msgid "Add PCI"
-msgstr ""
+msgstr "新增 PCI"
 
 msgid "Add Spice"
 msgstr "新增 Spice"
@@ -53,6 +53,9 @@ msgstr "新增光碟"
 
 msgid "Add disk"
 msgstr "新增磁碟"
+
+msgid "Add host disk"
+msgstr ""
 
 msgid "Add host drive"
 msgstr "新增主機驅動器"
@@ -89,6 +92,9 @@ msgstr "新增 VNC 檢視器中 ..."
 
 msgid "Adding a disk ..."
 msgstr "新增磁碟中 ..."
+
+msgid "Adding a host disk ..."
+msgstr ""
 
 msgid "Adding a macvtap network ..."
 msgstr "新增 macvtap 網路中 ..."
@@ -158,6 +164,11 @@ msgstr "備份並壓縮"
 
 msgid "Base image"
 msgstr "基礎影像"
+
+msgid ""
+"Be very careful not to passthrough a device being used by the host operating"
+" system!"
+msgstr ""
 
 msgid "Bus"
 msgstr "匯流排"
@@ -409,7 +420,7 @@ msgid "Failed to "
 msgstr "失敗"
 
 msgid "Failed to add PCI device."
-msgstr ""
+msgstr "添加 PCI 裝置失敗。"
 
 msgid "Failed to add USB device."
 msgstr "添加 USB 裝置失敗。"
@@ -422,6 +433,9 @@ msgstr "添加磁碟失敗。"
 
 msgid "Failed to add filesystem passthrough."
 msgstr "添加檔案系統直通失敗。"
+
+msgid "Failed to add host disk."
+msgstr ""
 
 msgid "Failed to add host optical."
 msgstr "添加主機光碟失敗。"
@@ -448,10 +462,10 @@ msgid "Failed to delete VM."
 msgstr "刪除 VM 失敗。"
 
 msgid "Failed to detach PCI device from host."
-msgstr ""
+msgstr "從主機拆離 PCI 裝置失敗。"
 
 msgid "Failed to remove PCI device."
-msgstr ""
+msgstr "移除 PCI 裝置失敗。"
 
 msgid "Failed to remove USB device."
 msgstr "移除 USB 裝置失敗。"
@@ -553,6 +567,9 @@ msgstr "硬碟"
 
 msgid "Host VNC port"
 msgstr "主機 VNC 連接埠"
+
+msgid "Host disk has been added."
+msgstr ""
 
 msgid "Host drive has been added."
 msgstr "主機已被加入。"
@@ -709,16 +726,16 @@ msgid "Other CPU"
 msgstr "其它 CPU"
 
 msgid "PCI"
-msgstr ""
+msgstr "PCI"
 
 msgid "PCI device has been added."
-msgstr ""
+msgstr "PCI 裝置已被加入。"
 
 msgid "PCI device has been removed."
-msgstr ""
+msgstr "PCI 裝置已被移除。"
 
 msgid "Passing through PCI device ..."
-msgstr ""
+msgstr "透通 PCI 裝置中 ...."
 
 msgid "Passthrough Filesystem"
 msgstr "直通檔案系統"
@@ -772,7 +789,7 @@ msgid "Rebooting ..."
 msgstr "重新啟動中 ..."
 
 msgid "Remove PCI"
-msgstr ""
+msgstr "移除 PCI"
 
 msgid "Remove Spice"
 msgstr "移除 Spice"
@@ -796,7 +813,7 @@ msgid "Remove passthrough"
 msgstr "移除直通"
 
 msgid "Removing PCI device ..."
-msgstr ""
+msgstr "移除 PCI 裝置中 ..."
 
 msgid "Removing USB device ..."
 msgstr "移除 USB 裝置中 ..."

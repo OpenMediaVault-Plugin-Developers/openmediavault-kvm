@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-05 19:22-0600\n"
+"POT-Creation-Date: 2024-02-25 18:30-0600\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: songming <by@songming.me>, 2024\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_CN/)\n"
@@ -37,7 +37,7 @@ msgid "Add"
 msgstr "添加"
 
 msgid "Add PCI"
-msgstr ""
+msgstr "添加 PCI"
 
 msgid "Add Spice"
 msgstr "添加 Spice"
@@ -53,6 +53,9 @@ msgstr "添加 光盘"
 
 msgid "Add disk"
 msgstr "添加磁盘"
+
+msgid "Add host disk"
+msgstr ""
 
 msgid "Add host drive"
 msgstr "添加磁盘"
@@ -89,6 +92,9 @@ msgstr "添加 VNC 监视器中 ..."
 
 msgid "Adding a disk ..."
 msgstr "添加磁盘中 ..."
+
+msgid "Adding a host disk ..."
+msgstr ""
 
 msgid "Adding a macvtap network ..."
 msgstr "添加 mactap 网络中 ..."
@@ -159,6 +165,11 @@ msgstr "压缩备份"
 msgid "Base image"
 msgstr "基础镜像"
 
+msgid ""
+"Be very careful not to passthrough a device being used by the host operating"
+" system!"
+msgstr ""
+
 msgid "Bus"
 msgstr "Bus"
 
@@ -184,7 +195,7 @@ msgid "Capacity"
 msgstr "容量"
 
 msgid "Change disc"
-msgstr ""
+msgstr "变更光盘"
 
 msgid "Change memory"
 msgstr "改变内存"
@@ -199,7 +210,7 @@ msgid "Changing number of CPUs ..."
 msgstr "改变 CPU 核心数中 ..."
 
 msgid "Changing optical disc ..."
-msgstr ""
+msgstr "改变光盘中 ..."
 
 msgid "Check"
 msgstr "检查"
@@ -379,10 +390,10 @@ msgid "Edit settings."
 msgstr "编辑设置。"
 
 msgid "Eject disc"
-msgstr ""
+msgstr "弹出光盘"
 
 msgid "Ejecting optical disc ..."
-msgstr ""
+msgstr "弹出光盘中 ..."
 
 msgid "Enable"
 msgstr "启用"
@@ -409,7 +420,7 @@ msgid "Failed to "
 msgstr "失败"
 
 msgid "Failed to add PCI device."
-msgstr ""
+msgstr "添加 PCI 设备失败。"
 
 msgid "Failed to add USB device."
 msgstr "添加 USB 设备失败。"
@@ -422,6 +433,9 @@ msgstr "添加磁盘失败。"
 
 msgid "Failed to add filesystem passthrough."
 msgstr "添加直通文件系统失败。"
+
+msgid "Failed to add host disk."
+msgstr ""
 
 msgid "Failed to add host optical."
 msgstr "添加光驱失败。"
@@ -448,10 +462,10 @@ msgid "Failed to delete VM."
 msgstr "删除 VM 失败。"
 
 msgid "Failed to detach PCI device from host."
-msgstr ""
+msgstr "从主机分离 PCI 设备失败。"
 
 msgid "Failed to remove PCI device."
-msgstr ""
+msgstr "移除 PCI 设备失败。"
 
 msgid "Failed to remove USB device."
 msgstr "移除 USB 设备失败。"
@@ -519,7 +533,7 @@ msgid "Force"
 msgstr "强制"
 
 msgid "Force eject"
-msgstr ""
+msgstr "强制弹出"
 
 msgid "Force image list refresh"
 msgstr "强制刷新镜像列表"
@@ -553,6 +567,9 @@ msgstr "硬盘"
 
 msgid "Host VNC port"
 msgstr "VNC 主机端口"
+
+msgid "Host disk has been added."
+msgstr ""
 
 msgid "Host drive has been added."
 msgstr "主机驱动已添加。"
@@ -670,7 +687,7 @@ msgid "Network has been stopped."
 msgstr "网络已停止。"
 
 msgid "Network interface info"
-msgstr ""
+msgstr "网卡信息"
 
 msgid "Networks"
 msgstr "网络"
@@ -694,10 +711,10 @@ msgid "Optical Drive"
 msgstr "光驱"
 
 msgid "Optical disc has been changed."
-msgstr ""
+msgstr "光盘已变更。"
 
 msgid "Optical disc has been ejected."
-msgstr ""
+msgstr "光盘已弹出。"
 
 msgid "Optical disc has been removed."
 msgstr "光盘已移除。"
@@ -709,16 +726,16 @@ msgid "Other CPU"
 msgstr "其它 CPU"
 
 msgid "PCI"
-msgstr ""
+msgstr "PCI"
 
 msgid "PCI device has been added."
-msgstr ""
+msgstr "PCI 设备已添加。"
 
 msgid "PCI device has been removed."
-msgstr ""
+msgstr "PCI 设备已移除。"
 
 msgid "Passing through PCI device ..."
-msgstr ""
+msgstr "直通 PCI 设备中 ..."
 
 msgid "Passthrough Filesystem"
 msgstr "直通文件系统"
@@ -772,7 +789,7 @@ msgid "Rebooting ..."
 msgstr "重启中 ..."
 
 msgid "Remove PCI"
-msgstr ""
+msgstr "移除 PCI"
 
 msgid "Remove Spice"
 msgstr "移除 Spice"
@@ -796,7 +813,7 @@ msgid "Remove passthrough"
 msgstr "移除直通"
 
 msgid "Removing PCI device ..."
-msgstr ""
+msgstr "移除 PCI 设备中 ..."
 
 msgid "Removing USB device ..."
 msgstr "移除 USB 设备中 ..."
