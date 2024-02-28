@@ -55,7 +55,7 @@ msgid "Add disk"
 msgstr "新增磁碟"
 
 msgid "Add host disk"
-msgstr ""
+msgstr "新增主機磁碟"
 
 msgid "Add host drive"
 msgstr "新增主機驅動器"
@@ -94,7 +94,7 @@ msgid "Adding a disk ..."
 msgstr "新增磁碟中 ..."
 
 msgid "Adding a host disk ..."
-msgstr ""
+msgstr "新增主機磁碟中 ..."
 
 msgid "Adding a macvtap network ..."
 msgstr "新增 macvtap 網路中 ..."
@@ -168,7 +168,7 @@ msgstr "基礎影像"
 msgid ""
 "Be very careful not to passthrough a device being used by the host operating"
 " system!"
-msgstr ""
+msgstr "請小心別將主機作業系統所使用中的裝置做直通！"
 
 msgid "Bus"
 msgstr "匯流排"
@@ -435,7 +435,7 @@ msgid "Failed to add filesystem passthrough."
 msgstr "添加檔案系統直通失敗。"
 
 msgid "Failed to add host disk."
-msgstr ""
+msgstr "添加主機磁碟失敗。"
 
 msgid "Failed to add host optical."
 msgstr "添加主機光碟失敗。"
@@ -569,7 +569,7 @@ msgid "Host VNC port"
 msgstr "主機 VNC 連接埠"
 
 msgid "Host disk has been added."
-msgstr ""
+msgstr "主機磁碟已被加入。"
 
 msgid "Host drive has been added."
 msgstr "主機已被加入。"
