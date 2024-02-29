@@ -1580,13 +1580,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
     {
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
-        // enumerate host optical devices with lsscsi
-        $cmdArgs = [];
-        $cmdArgs[] = 'lsblk';
-        $cmdArgs[] = '--json';
-        $cmdArgs[] = '| jq -r \'.blockdevices[] | select(.type == "disk") | .name\'';
-        $cmdArgs[] = '| awk NF';
-        $cmd = new \OMV\System\Process($cmdArgs);
+        // enumerate host disks
+        $cmd = new \OMV\System\Process('omv-disk-list.sh');
         $cmd->execute($output, $exitStatus);
         $objects = [];
         foreach ($output as $dev) {
@@ -1594,8 +1589,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 continue;
             }
             $objects[] = [
-                'device' => sprintf('/dev/%s', $dev),
-                'description' => sprintf('[host] /dev/%s', $dev)
+                'device' => $dev,
+                'description' => sprintf('[host] %s', $dev)
             ];
         }
         // Filter the result.
