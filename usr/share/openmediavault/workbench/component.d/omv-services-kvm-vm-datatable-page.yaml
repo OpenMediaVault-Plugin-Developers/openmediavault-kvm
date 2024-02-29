@@ -272,7 +272,7 @@ data:
                 fields:
                   - type: hint
                     hintType: info
-                    text: _("Be very careful not to passthrough a device being used by the host operating system!")
+                    text: _("Be very careful not to passthrough a device being used by the host operating system!<br/>Using /dev/sd* is known to be less reliable because they can change between reboots.<br/>It is recommended to use /dev/disk/by-id device names.")
                   - type: textInput
                     name: vmname
                     label: _('VM Name')
