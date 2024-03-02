@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-25 18:30-0600\n"
+"POT-Creation-Date: 2024-03-02 08:05-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -162,6 +162,9 @@ msgid "Base image"
 msgstr ""
 
 msgid "Be very careful not to passthrough a device being used by the host operating system!"
+msgstr ""
+
+msgid "Be very careful not to passthrough a device being used by the host operating system!<br/>Using /dev/sd* is known to be less reliable because they can change between reboots.<br/>It is recommended to use /dev/disk/by-id device names."
 msgstr ""
 
 msgid "Bus"
