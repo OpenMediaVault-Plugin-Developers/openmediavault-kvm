@@ -1,3 +1,9 @@
+openmediavault-kvm (7.0.9) stable; urgency=low
+
+  * Use omv-disk-list script to enumerate host disks
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sat, 02 Mar 2024 08:04:08 -0600
+
 openmediavault-kvm (7.0.8) stable; urgency=low
 
   * Add host disk passthrough
