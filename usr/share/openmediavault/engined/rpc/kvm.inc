@@ -2167,12 +2167,12 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 continue;
             }
             $dev = $hostdev->source;
-            if (isset($dev->address)) {
-                $device = sprintf('Bus %03d Device %03d', $dev->address['bus'], $dev->address['device']);
-                $check = $device;
-            } else {
+            if (isset($dev->vendor)) {
                 $device = sprintf('%s:%s', $dev->vendor['id'], $dev->product['id']);
                 $check = str_replace('0x', '', $device);
+	    } else {
+                $device = sprintf('Bus %03d Device %03d', $dev->address['bus'], $dev->address['device']);
+                $check = $device;
             }
             $description = $device;
             for ($j = 0; $j < $usbCount; $j++) {
