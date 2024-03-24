@@ -1,3 +1,9 @@
+openmediavault-kvm (7.0.10) stable; urgency=low
+
+  * Fix vm usb passthrough device enumeration
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sun, 24 Mar 2024 11:22:37 -0500
+
 openmediavault-kvm (7.0.9) stable; urgency=low
 
   * Use omv-disk-list script to enumerate host disks
