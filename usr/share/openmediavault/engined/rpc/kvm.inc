@@ -2162,11 +2162,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $objects = [];
         $xpathSize = sizeof($xpath);
         for ($i = 0; $i < $xpathSize; $i++) {
-            $hostdev = $domXml->devices->hostdev[$i];
-            if ($hostdev['type'] !== 'usb') {
+            $hostdev = $xpath[$i];
+            if (trim($hostdev['type']) != 'usb') {
                 continue;
             }
-            $dev = $domXml->devices->hostdev[$i]->source;
+            $dev = $hostdev->source;
             if (isset($dev->address)) {
                 $device = sprintf('Bus %03d Device %03d', $dev->address['bus'], $dev->address['device']);
                 $check = $device;
