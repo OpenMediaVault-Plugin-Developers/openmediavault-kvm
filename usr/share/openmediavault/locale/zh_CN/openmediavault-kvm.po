@@ -55,7 +55,7 @@ msgid "Add disk"
 msgstr "添加磁盘"
 
 msgid "Add host disk"
-msgstr ""
+msgstr "添加主机磁盘"
 
 msgid "Add host drive"
 msgstr "添加磁盘"
@@ -94,7 +94,7 @@ msgid "Adding a disk ..."
 msgstr "添加磁盘中 ..."
 
 msgid "Adding a host disk ..."
-msgstr ""
+msgstr "添加主机磁盘中 ..."
 
 msgid "Adding a macvtap network ..."
 msgstr "添加 mactap 网络中 ..."
@@ -168,7 +168,7 @@ msgstr "基础镜像"
 msgid ""
 "Be very careful not to passthrough a device being used by the host operating"
 " system!"
-msgstr ""
+msgstr "请注意不要将宿主机操作系统使用的设备做直通！"
 
 msgid ""
 "Be very careful not to passthrough a device being used by the host operating"
@@ -176,6 +176,8 @@ msgid ""
 "change between reboots.<br/>It is recommended to use /dev/disk/by-id device "
 "names."
 msgstr ""
+"请注意不要将宿主机操作系统使用的设备做直通！<br/>不推荐使用 /dev/sd* 格式，因为重启时检查会变。<br/>建议使用 "
+"/dev/disk/by-id 这种设备名称直通。"
 
 msgid "Bus"
 msgstr "Bus"
@@ -442,7 +444,7 @@ msgid "Failed to add filesystem passthrough."
 msgstr "添加直通文件系统失败。"
 
 msgid "Failed to add host disk."
-msgstr ""
+msgstr "添加主机磁盘失败。"
 
 msgid "Failed to add host optical."
 msgstr "添加光驱失败。"
@@ -576,7 +578,7 @@ msgid "Host VNC port"
 msgstr "VNC 主机端口"
 
 msgid "Host disk has been added."
-msgstr ""
+msgstr "主机磁盘已添加。"
 
 msgid "Host drive has been added."
 msgstr "主机驱动已添加。"
