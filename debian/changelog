@@ -1,3 +1,10 @@
+openmediavault-kvm (7.0.12) stable; urgency=low
+
+  * Improve backup and restore tabs if backup vm list file does not
+    exist
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Mon, 08 Apr 2024 17:12:21 -0500
+
 openmediavault-kvm (7.0.11) stable; urgency=low
 
   * Fix vm usb passthrough device enumeration
