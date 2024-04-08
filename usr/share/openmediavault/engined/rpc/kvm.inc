@@ -2822,11 +2822,17 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.common.getlist');
         // get backup list from list file
-        $rows = array_map('str_getcsv', file('/etc/omv-backup-vm.list'));
-        $header = ['uuid','path','vmname','date','used'];
         $objects = [];
-        foreach($rows as $row) {
-            $objects[] = array_combine($header, $row);
+        $backuplist = '/etc/omv-backup-vm.list';
+        if (file_exists($backuplist)) {
+            $backuplistarray = file($backuplist);
+	    if ($backuplistarray !== false) {
+                $rows = array_map('str_getcsv', file($backuplist));
+                $header = ['uuid','path','vmname','date','used'];
+                foreach($rows as $row) {
+                    $objects[] = array_combine($header, $row);
+                }
+            }
         }
         return ($objects);
     }
@@ -2893,12 +2899,18 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // get backup list from list file
-        $rows = array_map('str_getcsv', file('/etc/omv-backup-vm.list'));
         $objects = [];
-        foreach($rows as $row) {
-            $desc = sprintf('%s | %s | %s', $row[2], $row[3], $row[1]);
-            $objects[] = [ 'description' => $desc ];
-        }
+        $backuplist = '/etc/omv-backup-vm.list';
+        if (file_exists($backuplist)) {
+            $backuplistarray = file($backuplist);
+            if ($backuplistarray !== false) {
+                $rows = array_map('str_getcsv', file($backuplist));
+                foreach($rows as $row) {
+                    $desc = sprintf('%s | %s | %s', $row[2], $row[3], $row[1]);
+                    $objects[] = [ 'description' => $desc ];
+                }
+            }
+         }
         return ($objects);
     }
 
