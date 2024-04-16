@@ -1,3 +1,9 @@
+openmediavault-kvm (7.0.13) stable; urgency=low
+
+  * Fix backup cron jobs for paths with spaces
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Tue, 16 Apr 2024 05:51:56 -0500
+
 openmediavault-kvm (7.0.12) stable; urgency=low
 
   * Improve backup and restore tabs if backup vm list file does not
