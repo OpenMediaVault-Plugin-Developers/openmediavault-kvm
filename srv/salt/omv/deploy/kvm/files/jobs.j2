@@ -16,7 +16,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 {%- if job.keep > 0 -%}
 {%- set keep = ' -k ' ~ job.keep -%}
 {%- endif -%}
-{{ separator }}root omv-backup-vm -v {{ job.vmname }} -d {{ job.path }}{{ keep }}{{ ' -p' if job.poweroff | to_bool }}{{ ' -s' if job.samefmt | to_bool }}{{ ' -c' if job.compression | to_bool }}
+{{ separator }}root omv-backup-vm -v {{ job.vmname }} -d "{{ job.path }}"{{ keep }}{{ ' -p' if job.poweroff | to_bool }}{{ ' -s' if job.samefmt | to_bool }}{{ ' -c' if job.compression | to_bool }}
 {%- if not job.sendemail | to_bool -%}
 {{ separator }}>/dev/null 2>&1
 {%- else -%}
