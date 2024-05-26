@@ -274,7 +274,7 @@ if [ ${keep} -gt 0 ]; then
     _log "Removing ${d}..."
     rm -rv "${d}"
     grep "${delDir},${backupVm},${delDate}" ${listFile}
-    sed -i "\|${delDir},${backupVm},${delDate}|d" ${listFile}
+    sed -i "\|${delDir%/}/\?,${backupVm},${delDate}|d" "${listFile}"
   done
   IFS=$OFS
 fi
