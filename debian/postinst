@@ -12,7 +12,9 @@ case "$1" in
 
         # create and load system settings
         echo "net.ipv4.ip_forward=1" > /etc/sysctl.d/ip_forward.conf 
-        echo "net.ipv6.conf.all.forwarding=1" >> /etc/sysctl.d/ip_forward.conf
+        if ip -6 route | grep -q "default"; then
+            echo "net.ipv6.conf.all.forwarding=1" >> /etc/sysctl.d/ip_forward.conf
+        fi
         sysctl -p /etc/sysctl.d/ip_forward.conf
 
         # add and load macvlan module
