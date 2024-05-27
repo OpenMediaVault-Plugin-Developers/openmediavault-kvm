@@ -37,7 +37,7 @@ msgid "Add"
 msgstr "Add"
 
 msgid "Add PCI"
-msgstr ""
+msgstr "Add PCI"
 
 msgid "Add Spice"
 msgstr "Add Spice"
@@ -55,7 +55,7 @@ msgid "Add disk"
 msgstr "Add disk"
 
 msgid "Add host disk"
-msgstr ""
+msgstr "Add host disk"
 
 msgid "Add host drive"
 msgstr "Add host drive"
@@ -94,7 +94,7 @@ msgid "Adding a disk ..."
 msgstr "Adding a disk ..."
 
 msgid "Adding a host disk ..."
-msgstr ""
+msgstr "Adding a host disk ..."
 
 msgid "Adding a macvtap network ..."
 msgstr "Adding a macvtap network ..."
@@ -169,6 +169,8 @@ msgid ""
 "Be very careful not to passthrough a device being used by the host operating"
 " system!"
 msgstr ""
+"Be very careful not to passthrough a device being used by the host operating"
+" system!"
 
 msgid ""
 "Be very careful not to passthrough a device being used by the host operating"
@@ -176,6 +178,10 @@ msgid ""
 "change between reboots.<br/>It is recommended to use /dev/disk/by-id device "
 "names."
 msgstr ""
+"Be very careful not to passthrough a device being used by the host operating"
+" system!<br/>Using /dev/sd* is known to be less reliable because they can "
+"change between reboots.<br/>It is recommended to use /dev/disk/by-id device "
+"names."
 
 msgid "Bus"
 msgstr "Bus"
@@ -202,7 +208,7 @@ msgid "Capacity"
 msgstr "Capacity"
 
 msgid "Change disc"
-msgstr ""
+msgstr "Change disc"
 
 msgid "Change memory"
 msgstr "Change memory"
@@ -217,7 +223,7 @@ msgid "Changing number of CPUs ..."
 msgstr "Changing number of CPUs ..."
 
 msgid "Changing optical disc ..."
-msgstr ""
+msgstr "Changing optical disc ..."
 
 msgid "Check"
 msgstr "Check"
@@ -397,10 +403,10 @@ msgid "Edit settings."
 msgstr "Edit settings."
 
 msgid "Eject disc"
-msgstr ""
+msgstr "Eject disc"
 
 msgid "Ejecting optical disc ..."
-msgstr ""
+msgstr "Ejecting optical disc ..."
 
 msgid "Enable"
 msgstr "Enable"
@@ -427,7 +433,7 @@ msgid "Failed to "
 msgstr "Failed to "
 
 msgid "Failed to add PCI device."
-msgstr ""
+msgstr "Failed to add PCI device."
 
 msgid "Failed to add USB device."
 msgstr "Failed to add USB device."
@@ -442,7 +448,7 @@ msgid "Failed to add filesystem passthrough."
 msgstr "Failed to add filesystem passthrough."
 
 msgid "Failed to add host disk."
-msgstr ""
+msgstr "Failed to add host disk."
 
 msgid "Failed to add host optical."
 msgstr "Failed to add host optical."
@@ -469,10 +475,10 @@ msgid "Failed to delete VM."
 msgstr "Failed to delete VM."
 
 msgid "Failed to detach PCI device from host."
-msgstr ""
+msgstr "Failed to detach PCI device from host."
 
 msgid "Failed to remove PCI device."
-msgstr ""
+msgstr "Failed to remove PCI device."
 
 msgid "Failed to remove USB device."
 msgstr "Failed to remove USB device."
@@ -541,7 +547,7 @@ msgid "Force"
 msgstr "Force"
 
 msgid "Force eject"
-msgstr ""
+msgstr "Force eject"
 
 msgid "Force image list refresh"
 msgstr "Force image list refresh"
@@ -577,7 +583,7 @@ msgid "Host VNC port"
 msgstr "Host VNC port"
 
 msgid "Host disk has been added."
-msgstr ""
+msgstr "Host disk has been added."
 
 msgid "Host drive has been added."
 msgstr "Host drive has been added."
@@ -696,7 +702,7 @@ msgid "Network has been stopped."
 msgstr "Network has been stopped."
 
 msgid "Network interface info"
-msgstr ""
+msgstr "Network interface info"
 
 msgid "Networks"
 msgstr "Networks"
@@ -720,10 +726,10 @@ msgid "Optical Drive"
 msgstr "Optical Drive"
 
 msgid "Optical disc has been changed."
-msgstr ""
+msgstr "Optical disc has been changed."
 
 msgid "Optical disc has been ejected."
-msgstr ""
+msgstr "Optical disc has been ejected."
 
 msgid "Optical disc has been removed."
 msgstr "Optical disc has been removed."
@@ -735,16 +741,16 @@ msgid "Other CPU"
 msgstr "Other CPU"
 
 msgid "PCI"
-msgstr ""
+msgstr "PCI"
 
 msgid "PCI device has been added."
-msgstr ""
+msgstr "PCI device has been added."
 
 msgid "PCI device has been removed."
-msgstr ""
+msgstr "PCI device has been removed."
 
 msgid "Passing through PCI device ..."
-msgstr ""
+msgstr "Passing through PCI device ..."
 
 msgid "Passthrough Filesystem"
 msgstr "Passthrough Filesystem"
@@ -798,7 +804,7 @@ msgid "Rebooting ..."
 msgstr "Rebooting ..."
 
 msgid "Remove PCI"
-msgstr ""
+msgstr "Remove PCI"
 
 msgid "Remove Spice"
 msgstr "Remove Spice"
@@ -822,7 +828,7 @@ msgid "Remove passthrough"
 msgstr "Remove passthrough"
 
 msgid "Removing PCI device ..."
-msgstr ""
+msgstr "Removing PCI device ..."
 
 msgid "Removing USB device ..."
 msgstr "Removing USB device ..."
