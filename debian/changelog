@@ -1,3 +1,10 @@
+openmediavault-kvm (7.0.14) stable; urgency=low
+
+  * Allow trailing slash to be optional in backup script
+  * Check for ipv6 support to determine if ipv6 forwarding is needed
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Mon, 27 May 2024 08:08:07 -0500
+
 openmediavault-kvm (7.0.13) stable; urgency=low
 
   * Fix backup cron jobs for paths with spaces
