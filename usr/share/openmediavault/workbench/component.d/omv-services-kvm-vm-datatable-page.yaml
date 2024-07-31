@@ -411,8 +411,8 @@ data:
                       request:
                         service: Kvm
                         method: addOptical
-                        progressMessage: _("Adding optical disk ...")
-                        successNotification: _("Optical has been added.")
+                        progressMessage: _("Adding optical disc ...")
+                        successNotification: _("Optical disc has been added.")
                     successUrl: /services/kvm/vm
           - text: _("Add host drive")
             icon: mdi:plus-circle
