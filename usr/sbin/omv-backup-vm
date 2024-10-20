@@ -163,13 +163,13 @@ if [ ${poweroff} -eq 1 ] && [ ${vmId} -gt 0 ]; then
   _log "Shutting down ${backupVm}..."
   virsh shutdown --domain ${vmId}
   countDown=300 # seconds, 5 minutes
-  while [ $countDown -gt 0 ]; do
+  while [ ${countDown} -gt 0 ]; do
     if virsh domstate ${backupVm} | grep 'shut off' ; then
       poweredoff=1
       break
     fi
     sleepIntervalSeconds=5
-    sleep $sleepIntervalSeconds
+    sleep ${sleepIntervalSeconds}
     countDown=$((countDown-sleepIntervalSeconds))
   done
   if [ ${poweredoff} -ne 1 ]; then
