@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-02 08:05-0600\n"
+"POT-Creation-Date: 2024-07-31 11:37-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Etienne V, 2021\n"
 "Language-Team: French (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/fr/)\n"
@@ -111,7 +111,7 @@ msgstr ""
 msgid "Adding network adapter ..."
 msgstr ""
 
-msgid "Adding optical disk ..."
+msgid "Adding optical disc ..."
 msgstr ""
 
 msgid "Adding passthrough filesystem ..."
@@ -163,11 +163,6 @@ msgid "Backup with Compression"
 msgstr ""
 
 msgid "Base image"
-msgstr ""
-
-msgid ""
-"Be very careful not to passthrough a device being used by the host operating"
-" system!"
 msgstr ""
 
 msgid ""
@@ -715,6 +710,9 @@ msgstr "Optique"
 msgid "Optical Drive"
 msgstr "Lecteur de disque optique"
 
+msgid "Optical disc has been added."
+msgstr ""
+
 msgid "Optical disc has been changed."
 msgstr ""
 
@@ -722,9 +720,6 @@ msgid "Optical disc has been ejected."
 msgstr ""
 
 msgid "Optical disc has been removed."
-msgstr ""
-
-msgid "Optical has been added."
 msgstr ""
 
 msgid "Other CPU"
@@ -1009,9 +1004,6 @@ msgstr "Impossible de ..."
 msgid "Unable to add network adapter to VM - "
 msgstr "Impossible d'ajouter l'adaptateur réseau à la VM - "
 
-msgid "Unable to change notes for VM - "
-msgstr ""
-
 msgid "Unable to change notes for VM."
 msgstr ""
 
@@ -1053,9 +1045,6 @@ msgstr ""
 
 msgid "Unable to revert to snapshot - "
 msgstr "Impossible de revenir au snapshot - "
-
-msgid "Unable to set VM XML - "
-msgstr "Impossible de régler VM XML -"
 
 msgid "Unable to set VM XML :: "
 msgstr ""

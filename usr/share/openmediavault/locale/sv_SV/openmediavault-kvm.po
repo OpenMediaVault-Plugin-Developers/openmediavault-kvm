@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-02 08:05-0600\n"
+"POT-Creation-Date: 2024-07-31 11:37-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Jonatan Nyberg, 2023\n"
 "Language-Team: Swedish (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/sv/)\n"
@@ -111,7 +111,7 @@ msgstr ""
 msgid "Adding network adapter ..."
 msgstr ""
 
-msgid "Adding optical disk ..."
+msgid "Adding optical disc ..."
 msgstr ""
 
 msgid "Adding passthrough filesystem ..."
@@ -164,11 +164,6 @@ msgstr "Säkerhetskopiera med komprimering"
 
 msgid "Base image"
 msgstr "Basbild"
-
-msgid ""
-"Be very careful not to passthrough a device being used by the host operating"
-" system!"
-msgstr ""
 
 msgid ""
 "Be very careful not to passthrough a device being used by the host operating"
@@ -720,6 +715,9 @@ msgstr "Optisk"
 msgid "Optical Drive"
 msgstr "Optisk enhet"
 
+msgid "Optical disc has been added."
+msgstr ""
+
 msgid "Optical disc has been changed."
 msgstr ""
 
@@ -727,9 +725,6 @@ msgid "Optical disc has been ejected."
 msgstr ""
 
 msgid "Optical disc has been removed."
-msgstr ""
-
-msgid "Optical has been added."
 msgstr ""
 
 msgid "Other CPU"
@@ -1014,9 +1009,6 @@ msgstr "Går inte - "
 msgid "Unable to add network adapter to VM - "
 msgstr "Det går inte att lägga till nätverkskort till VM - "
 
-msgid "Unable to change notes for VM - "
-msgstr "Det går inte att ändra anteckningar för VM - "
-
 msgid "Unable to change notes for VM."
 msgstr ""
 
@@ -1058,9 +1050,6 @@ msgstr "Det går inte att hämta nätverksadaptertyp -"
 
 msgid "Unable to revert to snapshot - "
 msgstr "Det går inte att återgå till ögonblicksbild - "
-
-msgid "Unable to set VM XML - "
-msgstr "Det går inte att ställa in VM XML - "
 
 msgid "Unable to set VM XML :: "
 msgstr ""

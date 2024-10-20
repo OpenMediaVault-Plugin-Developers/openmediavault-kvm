@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-02 08:05-0600\n"
+"POT-Creation-Date: 2024-07-31 11:37-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Rysiek Jurczy, 2023\n"
 "Language-Team: Polish (Poland) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/pl_PL/)\n"
@@ -111,8 +111,8 @@ msgstr "Dodawanie dysku lokalnego ..."
 msgid "Adding network adapter ..."
 msgstr "Dodawanie karty sieciowej ..."
 
-msgid "Adding optical disk ..."
-msgstr "Dodawanie dysku optycznego ..."
+msgid "Adding optical disc ..."
+msgstr ""
 
 msgid "Adding passthrough filesystem ..."
 msgstr "Dodawanie przekazywanego systemu plików ..."
@@ -164,11 +164,6 @@ msgstr "Skompresowana kopia zapasowa"
 
 msgid "Base image"
 msgstr "Obraz podstawowy"
-
-msgid ""
-"Be very careful not to passthrough a device being used by the host operating"
-" system!"
-msgstr ""
 
 msgid ""
 "Be very careful not to passthrough a device being used by the host operating"
@@ -722,6 +717,9 @@ msgstr "Optyczny"
 msgid "Optical Drive"
 msgstr "Napęd optyczny"
 
+msgid "Optical disc has been added."
+msgstr ""
+
 msgid "Optical disc has been changed."
 msgstr ""
 
@@ -730,9 +728,6 @@ msgstr ""
 
 msgid "Optical disc has been removed."
 msgstr "Dysk optyczny został usunięty. "
-
-msgid "Optical has been added."
-msgstr "Dysk optyczny został dodany."
 
 msgid "Other CPU"
 msgstr "Inne CPU"
@@ -1017,9 +1012,6 @@ msgstr "Niedozwolony"
 msgid "Unable to add network adapter to VM - "
 msgstr "Nie można dodać karty sieciowej do maszyny wirtualnej -"
 
-msgid "Unable to change notes for VM - "
-msgstr "Nie można zmienić notatek dla maszyny wirtualnej -"
-
 msgid "Unable to change notes for VM."
 msgstr ""
 
@@ -1061,9 +1053,6 @@ msgstr "Nie można odczytać typu karty sieciowej -"
 
 msgid "Unable to revert to snapshot - "
 msgstr "Nie można przywrócić migawki -"
-
-msgid "Unable to set VM XML - "
-msgstr "Nie można ustawić XML maszyny wirtualnej -"
 
 msgid "Unable to set VM XML :: "
 msgstr ""

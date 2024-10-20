@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-02 08:05-0600\n"
+"POT-Creation-Date: 2024-07-31 11:37-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -107,7 +107,7 @@ msgstr ""
 msgid "Adding network adapter ..."
 msgstr ""
 
-msgid "Adding optical disk ..."
+msgid "Adding optical disc ..."
 msgstr ""
 
 msgid "Adding passthrough filesystem ..."
@@ -159,9 +159,6 @@ msgid "Backup with Compression"
 msgstr ""
 
 msgid "Base image"
-msgstr ""
-
-msgid "Be very careful not to passthrough a device being used by the host operating system!"
 msgstr ""
 
 msgid "Be very careful not to passthrough a device being used by the host operating system!<br/>Using /dev/sd* is known to be less reliable because they can change between reboots.<br/>It is recommended to use /dev/disk/by-id device names."
@@ -701,6 +698,9 @@ msgstr ""
 msgid "Optical Drive"
 msgstr ""
 
+msgid "Optical disc has been added."
+msgstr ""
+
 msgid "Optical disc has been changed."
 msgstr ""
 
@@ -708,9 +708,6 @@ msgid "Optical disc has been ejected."
 msgstr ""
 
 msgid "Optical disc has been removed."
-msgstr ""
-
-msgid "Optical has been added."
 msgstr ""
 
 msgid "Other CPU"
@@ -995,9 +992,6 @@ msgstr ""
 msgid "Unable to add network adapter to VM - "
 msgstr ""
 
-msgid "Unable to change notes for VM - "
-msgstr ""
-
 msgid "Unable to change notes for VM."
 msgstr ""
 
@@ -1038,9 +1032,6 @@ msgid "Unable to get network adapter type - "
 msgstr ""
 
 msgid "Unable to revert to snapshot - "
-msgstr ""
-
-msgid "Unable to set VM XML - "
 msgstr ""
 
 msgid "Unable to set VM XML :: "

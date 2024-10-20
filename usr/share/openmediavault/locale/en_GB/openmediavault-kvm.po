@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-02 08:05-0600\n"
+"POT-Creation-Date: 2024-07-31 11:37-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Andi Chandler <andi@gowling.com>, 2024\n"
 "Language-Team: English (United Kingdom) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/en_GB/)\n"
@@ -111,8 +111,8 @@ msgstr "Adding host drive ..."
 msgid "Adding network adapter ..."
 msgstr "Adding network adapter ..."
 
-msgid "Adding optical disk ..."
-msgstr "Adding optical disk ..."
+msgid "Adding optical disc ..."
+msgstr "Adding optical disc ..."
 
 msgid "Adding passthrough filesystem ..."
 msgstr "Adding passthrough filesystem ..."
@@ -164,13 +164,6 @@ msgstr "Backup with Compression"
 
 msgid "Base image"
 msgstr "Base image"
-
-msgid ""
-"Be very careful not to passthrough a device being used by the host operating"
-" system!"
-msgstr ""
-"Be very careful not to passthrough a device being used by the host operating"
-" system!"
 
 msgid ""
 "Be very careful not to passthrough a device being used by the host operating"
@@ -725,6 +718,9 @@ msgstr "Optical"
 msgid "Optical Drive"
 msgstr "Optical Drive"
 
+msgid "Optical disc has been added."
+msgstr "Optical disc has been added."
+
 msgid "Optical disc has been changed."
 msgstr "Optical disc has been changed."
 
@@ -733,9 +729,6 @@ msgstr "Optical disc has been ejected."
 
 msgid "Optical disc has been removed."
 msgstr "Optical disc has been removed."
-
-msgid "Optical has been added."
-msgstr "Optical has been added."
 
 msgid "Other CPU"
 msgstr "Other CPU"
@@ -1019,9 +1012,6 @@ msgstr "Unable to - "
 msgid "Unable to add network adapter to VM - "
 msgstr "Unable to add network adapter to VM - "
 
-msgid "Unable to change notes for VM - "
-msgstr "Unable to change notes for VM - "
-
 msgid "Unable to change notes for VM."
 msgstr "Unable to change notes for VM."
 
@@ -1063,9 +1053,6 @@ msgstr "Unable to get network adapter type - "
 
 msgid "Unable to revert to snapshot - "
 msgstr "Unable to revert to snapshot - "
-
-msgid "Unable to set VM XML - "
-msgstr "Unable to set VM XML - "
 
 msgid "Unable to set VM XML :: "
 msgstr "Unable to set VM XML :: "

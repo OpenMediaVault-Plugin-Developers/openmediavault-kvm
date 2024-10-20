@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-02 08:05-0600\n"
+"POT-Creation-Date: 2024-07-31 11:37-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>, 2024\n"
 "Language-Team: Spanish (Spain) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/es_ES/)\n"
@@ -55,7 +55,7 @@ msgid "Add disk"
 msgstr "Añadir disco"
 
 msgid "Add host disk"
-msgstr ""
+msgstr "Añadir disco de host"
 
 msgid "Add host drive"
 msgstr "Añadir Disco de host"
@@ -94,7 +94,7 @@ msgid "Adding a disk ..."
 msgstr "Añadiendo un disco ..."
 
 msgid "Adding a host disk ..."
-msgstr ""
+msgstr "Añadiendo disco de host ..."
 
 msgid "Adding a macvtap network ..."
 msgstr "Añadiendo una red macvtap ..."
@@ -111,8 +111,8 @@ msgstr "Añadiendo disco de host ..."
 msgid "Adding network adapter ..."
 msgstr "Añadiendo adaptador de red ..."
 
-msgid "Adding optical disk ..."
-msgstr "Añadiendo CD-ROM ..."
+msgid "Adding optical disc ..."
+msgstr "Añadiendo CD-ROM"
 
 msgid "Adding passthrough filesystem ..."
 msgstr "Añadiendo sistema de archivos passthrough  ..."
@@ -167,15 +167,14 @@ msgstr "Imagen Base"
 
 msgid ""
 "Be very careful not to passthrough a device being used by the host operating"
-" system!"
-msgstr ""
-
-msgid ""
-"Be very careful not to passthrough a device being used by the host operating"
 " system!<br/>Using /dev/sd* is known to be less reliable because they can "
 "change between reboots.<br/>It is recommended to use /dev/disk/by-id device "
 "names."
 msgstr ""
+"¡Tenga mucho cuidado de no hacer passthrought de un dispositivo utilizado "
+"por el sistema operativo host! <br/>Se sabe que el uso de /dev/sd* es menos "
+"confiable porque puede cambiar entre reinicios. <br/>Se recomienda usar "
+"nombres de dispositivo /dev/disk/by-id ."
 
 msgid "Bus"
 msgstr "Bus"
@@ -443,7 +442,7 @@ msgid "Failed to add filesystem passthrough."
 msgstr "Fallo el añadir un sistema de archivos passthrough."
 
 msgid "Failed to add host disk."
-msgstr ""
+msgstr "error al añadir disco del host."
 
 msgid "Failed to add host optical."
 msgstr "Fallo al añadir CD al host"
@@ -578,7 +577,7 @@ msgid "Host VNC port"
 msgstr "Puerto Host VNC"
 
 msgid "Host disk has been added."
-msgstr ""
+msgstr "El disco del host ha sido añadido."
 
 msgid "Host drive has been added."
 msgstr "El Disco de Host ha sido añadido."
@@ -721,6 +720,9 @@ msgstr "Optical"
 msgid "Optical Drive"
 msgstr "Optical Drive"
 
+msgid "Optical disc has been added."
+msgstr "El CD-ROM ha sido añadido."
+
 msgid "Optical disc has been changed."
 msgstr "El CD ha sido cambiado."
 
@@ -729,9 +731,6 @@ msgstr "El CD ha sido expulsado."
 
 msgid "Optical disc has been removed."
 msgstr "El CD-ROM ha sido eliminado."
-
-msgid "Optical has been added."
-msgstr "El CD-ROM ha sido añadido."
 
 msgid "Other CPU"
 msgstr "Otra CPU"
@@ -1016,9 +1015,6 @@ msgstr "Incapaz de -"
 msgid "Unable to add network adapter to VM - "
 msgstr "Incapaz de añadir adaprtador de Red a la VM -"
 
-msgid "Unable to change notes for VM - "
-msgstr "No es posible cambiar las notas a la VM -"
-
 msgid "Unable to change notes for VM."
 msgstr "No es posible cambiar la nota de la MV"
 
@@ -1060,9 +1056,6 @@ msgstr "No es posible usar ese tipo de adaptador -"
 
 msgid "Unable to revert to snapshot - "
 msgstr "Incapaz de revertir a la instantánea -"
-
-msgid "Unable to set VM XML - "
-msgstr "Incapaz de configurar XML en la VM -"
 
 msgid "Unable to set VM XML :: "
 msgstr "No es posible VM XML :: "

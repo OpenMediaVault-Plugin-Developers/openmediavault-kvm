@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-02 08:05-0600\n"
+"POT-Creation-Date: 2024-07-31 11:37-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: songming <by@songming.me>, 2024\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_CN/)\n"
@@ -111,8 +111,8 @@ msgstr "添加主机驱动器中 ..."
 msgid "Adding network adapter ..."
 msgstr "添加网卡中 ..."
 
-msgid "Adding optical disk ..."
-msgstr "添加光盘中 ..."
+msgid "Adding optical disc ..."
+msgstr ""
 
 msgid "Adding passthrough filesystem ..."
 msgstr "添加直通文件系统中 ..."
@@ -164,11 +164,6 @@ msgstr "压缩备份"
 
 msgid "Base image"
 msgstr "基础镜像"
-
-msgid ""
-"Be very careful not to passthrough a device being used by the host operating"
-" system!"
-msgstr "请注意不要将宿主机操作系统使用的设备做直通！"
 
 msgid ""
 "Be very careful not to passthrough a device being used by the host operating"
@@ -719,6 +714,9 @@ msgstr "光盘"
 msgid "Optical Drive"
 msgstr "光驱"
 
+msgid "Optical disc has been added."
+msgstr ""
+
 msgid "Optical disc has been changed."
 msgstr "光盘已变更。"
 
@@ -727,9 +725,6 @@ msgstr "光盘已弹出。"
 
 msgid "Optical disc has been removed."
 msgstr "光盘已移除。"
-
-msgid "Optical has been added."
-msgstr "光盘已添加。"
 
 msgid "Other CPU"
 msgstr "其它 CPU"
@@ -1013,9 +1008,6 @@ msgstr "无法 - "
 msgid "Unable to add network adapter to VM - "
 msgstr "无法添加网络适配器到 VM - "
 
-msgid "Unable to change notes for VM - "
-msgstr "无法改变 VM 注释-"
-
 msgid "Unable to change notes for VM."
 msgstr "无法改变 VM 注释。"
 
@@ -1057,9 +1049,6 @@ msgstr "不能设置网卡类型 -"
 
 msgid "Unable to revert to snapshot - "
 msgstr "无法还原快照 -"
-
-msgid "Unable to set VM XML - "
-msgstr "无法设置 VM XML - "
 
 msgid "Unable to set VM XML :: "
 msgstr "无法设置 VM XML :: "
