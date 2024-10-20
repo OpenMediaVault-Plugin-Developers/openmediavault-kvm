@@ -543,6 +543,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         switch ($type) {
             case 'dir':
                 $path = (substr($path,0) == '/' ? $path : '/' . $path);
+                $path = str_replace('//', '/', $path);
                 mkdir($path, 0755, true);
 
                 $fsType = \OMV\System\Filesystem\Filesystem::getTypeByPath($path);
@@ -1249,6 +1250,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmdArgs[] = sprintf('--name %s', $vmname);
         $cmdArgs[] = sprintf('--network %s', $netArgs);
         $cmdArgs[] = sprintf('--vcpus %s', $vcpuArgs);
+        $cmdArgs[] = '--channel unix,target_type=virtio';
 
         if ($lxc) {
             $cmdArgs[] = sprintf('--filesystem %s,/', $path);
