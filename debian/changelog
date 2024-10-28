@@ -1,3 +1,9 @@
+openmediavault-kvm (7.0.15) stable; urgency=low
+
+  * Add guest agent channel
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Mon, 28 Oct 2024 15:55:33 -0500
+
 openmediavault-kvm (7.0.14) stable; urgency=low
 
   * Allow trailing slash to be optional in backup script
