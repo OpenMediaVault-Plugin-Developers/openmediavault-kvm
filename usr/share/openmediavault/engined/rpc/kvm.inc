@@ -1254,8 +1254,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if ($lxc) {
             $cmdArgs[] = sprintf('--filesystem %s,/', $path);
         } else {
-            if ($params['audio']) {
-                $cmdArgs[] = '--sound default';
+            // Since version 3.1.0 of virt-manager, a sound device is
+            // being added unconditionally. Therefore, we just have to
+            // use --sound in case we want no sound device at all.
+            if (!$params['audio']) {
+                $cmdArgs[] = '--sound none';
             }
 
             if ($params['uefi']) {
