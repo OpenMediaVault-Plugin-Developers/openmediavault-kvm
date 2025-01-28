@@ -1277,6 +1277,12 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $printStep = '';
             }
 
+            // Since version 4.0.0 of virt-manager, a TPM is
+            // being created automatically when using UEFI.
+            if($params['uefi'] && !$params['tpm']) {
+                $cmdArgs[] = '--tpm none';
+            }
+
             if ($params['tpm']) {
                 $cmdArgs[] = '--tpm backend.type=emulator,backend.version=2.0,model=tpm-tis';
             }
