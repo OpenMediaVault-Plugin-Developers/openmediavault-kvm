@@ -1294,6 +1294,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             if ($params['spice']) {
                 $cmdArgs[] = '--graphics spice,listen=0.0.0.0';
             }
+            $cmdArgs[] = '--channel unix,target_type=virtio';
         }
 
         $cmdArgs[] = sprintf('--print-xml%s', $printStep);
