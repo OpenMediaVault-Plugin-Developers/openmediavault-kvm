@@ -1134,7 +1134,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                     break;
             }
             if($archOk !== true) {
-                throw(gettext('Incompatible cpu and architecture!'));
+                throw new \OMV\Exception( gettext('Incompatible cpu and architecture!'));
             }
         }
         $vcpu = $params['vcpu'];
