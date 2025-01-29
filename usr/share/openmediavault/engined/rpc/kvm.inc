@@ -1134,7 +1134,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                     break;
             }
             if($archOk !== true) {
-                throw(gettext('Incompatible cpu and architecture!'));
+                throw new \OMV\Exception( gettext('Incompatible cpu and architecture!'));
             }
         }
         $vcpu = $params['vcpu'];
@@ -1254,8 +1254,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if ($lxc) {
             $cmdArgs[] = sprintf('--filesystem %s,/', $path);
         } else {
-            if ($params['audio']) {
-                $cmdArgs[] = '--sound default';
+            // Since version 3.1.0 of virt-installer, a sound device is
+            // being added unconditionally. Therefore, we just have to
+            // use --sound in case we want no sound device at all.
+            if (!$params['audio']) {
+                $cmdArgs[] = '--sound none';
             }
 
             if ($params['uefi']) {
@@ -1272,6 +1275,12 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $printStep = ' 1';
             } else {
                 $printStep = '';
+            }
+
+            // Since version 4.0.0 of virt-installer, a TPM is
+            // being created automatically when using UEFI.
+            if($params['uefi'] && !$params['tpm']) {
+                $cmdArgs[] = '--tpm none';
             }
 
             if ($params['tpm']) {
