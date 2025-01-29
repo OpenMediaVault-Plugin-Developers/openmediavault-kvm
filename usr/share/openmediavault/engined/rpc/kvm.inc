@@ -1254,7 +1254,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if ($lxc) {
             $cmdArgs[] = sprintf('--filesystem %s,/', $path);
         } else {
-            // Since version 3.1.0 of virt-manager, a sound device is
+            // Since version 3.1.0 of virt-installer, a sound device is
             // being added unconditionally. Therefore, we just have to
             // use --sound in case we want no sound device at all.
             if (!$params['audio']) {
@@ -1277,7 +1277,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $printStep = '';
             }
 
-            // Since version 4.0.0 of virt-manager, a TPM is
+            // Since version 4.0.0 of virt-installer, a TPM is
             // being created automatically when using UEFI.
             if($params['uefi'] && !$params['tpm']) {
                 $cmdArgs[] = '--tpm none';
