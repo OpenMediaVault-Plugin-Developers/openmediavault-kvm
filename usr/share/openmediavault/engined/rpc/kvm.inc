@@ -1285,7 +1285,6 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             if ($params['spice']) {
                 $cmdArgs[] = '--graphics spice,listen=0.0.0.0';
             }
-            $cmdArgs[] = '--channel unix,target_type=virtio';
         }
 
         $cmdArgs[] = sprintf('--print-xml%s', $printStep);
@@ -1305,11 +1304,6 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             }
         }
 
-        // add guest agent name
-        if (!$lxc) {
-            $this->addNameToUnixChannel($xmlFile);
-        }
-
         // import newly created xml file
         $cmdArgs = [];
         if ($lxc) {
@@ -1323,20 +1317,6 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
 
         // remove temporary xml file
         unlink($xmlFile);
-    }
-
-    private function addNameToUnixChannel($path)
-    {
-        $xml = new SimpleXMLElement(file_get_contents($path));
-        $channel = $xml->xpath("//channel[@type='unix']");
-        $guest = 'org.qemu.guest_agent.0'; // The new name for the target
-        if ($channel) {
-            $target = $channel[0]->target;
-            if (!$target->attributes()->name) {
-                $target->addAttribute('name', $guest);
-            }
-        }
-        $xml->asXML($path);
     }
 
     private function addVmBridgeNic($vmname, $mac, $net)
