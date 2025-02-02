@@ -1,3 +1,11 @@
+openmediavault-kvm (7.0.16) stable; urgency=low
+
+  * Fix unwanted creation of sound devices
+  * Fix unwanted creation of a tpm module when using uefi
+  * Remove qemu-system-mips dependency. Manually install if mips vm is needed.
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sun, 02 Feb 2025 09:48:11 -0600
+
 openmediavault-kvm (7.0.15) stable; urgency=low
 
   * Add guest agent channel
