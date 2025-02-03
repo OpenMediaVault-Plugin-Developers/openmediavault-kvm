@@ -2156,8 +2156,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         $output = [];
-        $cmdLine = 'lsusb | sort -h';
-        $cmd = new \OMV\System\Process($cmdLine);
+        $cmdArgs = [];
+        $cmdArgs[] = "lsusb -v 2>/dev/null";
+        $cmdArgs[] = "| awk '/^Bus/{bus=\$2; dev=\$4; sub(/:/, \"\", dev); line=\$0}";
+        $cmdArgs[] = "/iSerial/{print line, \"Serial:\", \$3}'";
+        $cmd = new \OMV\System\Process($cmdArgs);
         $cmd->setQuiet(true);
         $cmd->execute($output, $exitStatus);
         $objects = [];
