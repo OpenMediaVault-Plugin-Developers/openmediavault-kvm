@@ -1936,7 +1936,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if ($ext == '') {
             $newPath = sprintf('%s.%s', $path, $format);
         } else {
-            $newPath = str_replace($ext, $format, $path);
+            $newPath = preg_replace('/\.' . preg_quote($ext, '/') . '$/', '.' . $format, $path);
         }
         if (file_exists($newPath)) {
             throw new \OMV\Exception($newPath . gettext(" already exists!"));
