@@ -1,6 +1,4 @@
-#!/bin/bash
-#
-# shellcheck disable=SC2086,SC2181
+#!/usr/bin/env python3
 #
 # Copyright (c) 2022-2025 openmediavault plugin developers
 #
@@ -8,147 +6,160 @@
 # License version 2. This program is licensed "as is" without any
 # warranty of any kind, whether express or implied.
 #
-# version: 0.0.2
+# version: 0.1.0
 #
+import argparse
+import os
+import re
+import shutil
+import subprocess
+import sys
+import time
+import xml.etree.ElementTree as ET
+from datetime import datetime, timezone, timedelta
+from uuid import uuid4
 
-if [[ $(id -u) -ne 0 ]]; then
-  echo "This script must be executed as root or using sudo."
-  exit 99
-fi
+LOG_FILE = "/var/log/omv-backup-vm.log"
 
-export LC_ALL=C.UTF-8
+def log(message):
+    utc_offset = -time.timezone
+    if time.localtime().tm_isdst:
+        utc_offset += 3600
+    tz_info = timezone(timedelta(seconds=utc_offset))
+    now = datetime.now(tz_info).strftime('%Y-%m-%d %H:%M:%S%z')
+    log_message = f"[{now}] [restore] {message}"
+    print(log_message)
+    with open(LOG_FILE, "a") as f:
+        f.write(log_message + "\n")
 
-# declare/initialize
-backupDir=""
-backupVm=""
-date=""
-restoreVm=""
+def check_requirements():
+    if os.geteuid() != 0:
+        log("This script must be executed as root or using sudo.")
+        sys.exit(99)
+    if not shutil.which("virsh"):
+        log("virsh command not found!")
+        sys.exit(2)
 
-# logging location
-logDir="/var/log/"
-logFile="${logDir}/omv-backup-vm.log"
+def parse_args():
+    parser = argparse.ArgumentParser(description="Restore a virtual machine from backup.")
+    parser.add_argument("-d", dest="restore_from_dir", required=True, help="Set restore directory")
+    parser.add_argument("-r", dest="restore_vm", required=True, help="VM name to restore TO")
+    parser.add_argument("-t", dest="date", required=True, help="Datetime to restore from (YYYY-MM-DD_HH-MM-SS)")
+    parser.add_argument("-v", dest="backup_vm", required=True, help="VM name to restore FROM")
+    parser.add_argument("-l", dest="restore_to_dir", required=False, help="Optional restore location")
+    return parser.parse_args()
 
+def validate_inputs(restore_from_dir, backup_vm, restore_vm, date):
+    return restore_from_dir
 
-_log()
-{
-  msg=${1}
-  echo "[$(date +'%Y-%m-%d %H:%M:%S%z')] [restore] ${msg}" | tee -a ${logFile} >&2
-}
+def modify_xml(restore_from_dir, restore_to_dir, backup_vm, restore_vm, date):
+    restore_xml = os.path.join(restore_from_dir, f"{backup_vm}_{date}.xml")
 
-# loop through options
-while getopts "d:hr:t:v:" opt; do
-  case "${opt}" in
-    d)
-      backupDir="${OPTARG}"
-      _log "Backup dir :: ${backupDir}"
-      ;;
-    h)
-      echo "Use the following flags:"
-      echo "  -d dir"
-      echo "    set restore directory"
-      echo "  -h"
-      echo "    show this help"
-      echo "  -r vm-name"
-      echo "    VM name to restore TO"
-      echo "  -t datetime"
-      echo "    datetime to restore from (in YYYY-MM-DD_HH-MM-SS format)"
-      echo "  -v vm-name"
-      echo "    VM name to restore FROM"
-      echo ""
-      echo "Examples:"
-      echo "  omv-restore-vm -d /srv/backup/ -t 2022-02-16_10-00-01 -r testvm1res -v testvm1"
-      echo ""
-      exit 100
-      ;;
-    r)
-      restoreVm=${OPTARG}
-      _log "Restore VM :: ${restoreVm}"
-      ;;
-    t)
-      date=${OPTARG}
-      _log "Date :: ${date}"
-      ;;
-    v)
-      backupVm=${OPTARG}
-      _log "Backup VM :: ${backupVm}"
-      ;;
-    \?)
-      echo "Invalid option: -${OPTARG}"
-      ;;
-  esac
-done
+    # create temp VM xml
+    temp_xml = f"/tmp/{uuid4()}.xml"
+    shutil.copy(restore_xml, temp_xml)
 
-if [ ! -f "/usr/bin/virsh" ]; then
-  _log "virsh command not found!"
-  exit 2
-fi
+    # load VM xml
+    tree = ET.parse(temp_xml)
+    root = tree.getroot()
 
-# check if directory exists
-if [ ! -d "${backupDir}" ]; then
-  _log "Backup directory '${backupDir}' does not exist!"
-  exit 3
-fi
+    # Modify VM name and UUID
+    root.find("./name").text = restore_vm
+    root.find("./uuid").text = str(uuid4())
 
-# check if VM name was specified
-if [ -z "${backupVm}" ]; then
-  _log "No VM name to restore FROM specified!"
-  exit 4
-fi
+    # remove mac address if restoring to different VM name
+    if restore_vm != backup_vm:
+        for interface in root.findall(".//interface"):
+            mac = interface.find("mac")
+            if mac is not None:
+                interface.remove(mac)
 
-# check if VM name was specified
-if [ -z "${restoreVm}" ]; then
-  _log "No VM name to restore TO specified!"
-  exit 5
-fi
+    # change disk paths to new restore location if specified
+    if restore_to_dir:
+        for disk in root.findall(".//disk[@type='file']/source"):
+            old_path = disk.attrib["file"]
+            new_path = os.path.join(restore_to_dir, os.path.basename(old_path))
+            disk.attrib["file"] = new_path
 
-# check if datetime was specified
-if [ -z "${date}" ]; then
-  _log "No date specified!"
-  exit 6
-fi
+    # rewrite VM xml with changes
+    tree.write(temp_xml)
 
-# restore FROM directory
-restoreFromDir="${backupDir}/${backupVm}/${date}"
-if [ ! -d "${restoreFromDir}" ]; then
-  _log "No restore directory '${restoreFromDir}' found!"
-  exit 7
-fi
-_log "Restore from :: ${restoreFromDir}"
+    return temp_xml
 
-# create temp domain xml file
-restoreXml="${restoreFromDir}/${backupVm}_${date}.xml"
-tempXml="$(mktemp)"
-cp -fv "${restoreXml}" "${tempXml}"
+def get_qemu_img_format(filename):
+    try:
+        result = subprocess.run(
+            ["qemu-img", "info", filename], 
+            capture_output=True, 
+            text=True, 
+            check=True
+        )
+        match = re.search(r"file format:\s+(\w+)", result.stdout)
+        if match:
+            return match.group(1)
+    except subprocess.CalledProcessError as e:
+        print(f"Error running qemu-img: {e}")
+    except Exception as e:
+        print(f"Unexpected error: {e}")
 
-# change name,uuid,mac address in temp xml file to restore VM name
-xmlstarlet edit --inplace --update "/domain/name" -v "${restoreVm}" "${tempXml}"
-xmlstarlet edit --inplace --update "/domain/uuid" -v "$(uuid)" "${tempXml}"
-if [ ! "${restoreVm}" = "${backupVm}" ]; then
-  sed -i "/mac address/d" "${tempXml}"
-fi
+    return "qcow2"
 
-# define restore VM
-_log "Creating new VM :: ${tempXml}"
-virsh define --file "${tempXml}"
+def restore_disks(restore_from_dir, restore_to_dir, temp_xml, restore_vm):
+    tree = ET.parse(temp_xml)
+    root = tree.getroot()
+    disk_mapping = {}
 
-# get list of disks in backup
-_log "Restoring disks ..."
-for bak in "${restoreFromDir}"/*.bak; do
-  diskfile="$(basename ${bak})"
-  disk="${diskfile%%_*}" 
-  copyTo="$(grep ${disk} "${tempXml}" | awk -F'"' '{ print $2 }')"
-  fmt="$(qemu-img info ${bak} | grep '^file format:' | awk '{ print $3 }')"
-  _log "Copy from :: ${bak}"
-  _log "Copy to :: ${copyTo}"
-  _log "Format :: ${fmt}"
-  if [ -n "${copyTo}" ]; then
-    qemu-img dd if="${bak}" of="${copyTo}" -O ${fmt} bs=1M
-  fi
-done
+    for idx, disk in enumerate(root.findall(".//disk[@type='file']/source"), start=1):
+        old_path = disk.attrib["file"]
+        backup_path = next((os.path.join(restore_from_dir, f) for f in os.listdir(restore_from_dir) if f.startswith(os.path.basename(old_path))), None)
+        new_ext = get_qemu_img_format(backup_path)
+        new_path = os.path.join(restore_to_dir if restore_to_dir else os.path.dirname(old_path), f"{restore_vm}_{idx:03d}.{new_ext}")
+        disk.attrib["file"] = new_path
+        disk_mapping[old_path] = new_path
 
-# remove temp file
-rm -f "${tempXml}"
+    tree.write(temp_xml)
 
-_log "Done."
+    for old_path, new_path in disk_mapping.items():
+        backup_path = next((os.path.join(restore_from_dir, f) for f in os.listdir(restore_from_dir) if f.startswith(os.path.basename(old_path))), None)
+        if backup_path:
+            log(f"Restoring {backup_path} to {new_path}")
+            fmt = get_qemu_img_format(backup_path)
+            if fmt == "qcow2":
+                subprocess.run(["qemu-img", "convert", "-O", "qcow2", backup_path, new_path], check=True)
+            else:
+                subprocess.run(["qemu-img", "dd", f"if={backup_path}", f"of={new_path}", "bs=1M"], check=True)
 
-exit 0
+    return temp_xml
+
+def define_vm(temp_xml):
+    subprocess.run(["virsh", "define", temp_xml], check=True)
+
+def main():
+    check_requirements()
+    args = parse_args()
+    log(f"Restore FROM dir :: {args.restore_from_dir}")
+    restore_to_dir = None
+    if args.restore_to_dir:
+        log(f"Restore TO dir :: {args.restore_to_dir}")
+        restore_to_dir = args.restore_to_dir
+    log(f"Date :: {args.date}")
+    log(f"Backup VM :: {args.backup_vm}")
+    log(f"Restore VM :: {args.restore_vm}")
+
+    # check if directories exist
+    restore_from_path = os.path.join(args.restore_from_dir, args.backup_vm, args.date)
+    if not os.path.isdir(restore_from_path):
+        log(f"Backup directory '{restore_from_path}' does not exist!")
+        sys.exit(10)
+    if args.restore_to_dir and not os.path.isdir(restore_to_dir):
+        log(f"No restore directory '{restore_to_dir}' found!")
+        sys.exit(11)
+
+    temp_xml = modify_xml(restore_from_path, restore_to_dir, args.backup_vm, args.restore_vm, args.date)
+    temp_xml = restore_disks(restore_from_path, restore_to_dir, temp_xml, args.restore_vm)
+    define_vm(temp_xml)
+    os.remove(temp_xml)
+    log("Done.")
+
+if __name__ == "__main__":
+    main()
