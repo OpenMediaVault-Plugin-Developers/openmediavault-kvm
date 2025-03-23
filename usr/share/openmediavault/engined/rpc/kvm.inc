@@ -1424,6 +1424,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $formatArg = '';
         // create new disk (if specified)
         if ($voldisk == "Create new disk") {
+            if (strlen($volname) < 1) {
+                throw new \OMV\Exception(gettext("No disk name specified!"));
+            }
             $volpooltype = $this->getPoolType($volpool);
             $block = true;
             if ($volpooltype != 'logical') {
@@ -2955,7 +2958,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             use ($params) {
                 $backup = explode('|', $params['backup']);
                 $date = trim($backup[1]);
-                if (len($params['newpath']) > 1) {
+                if (strlen($params['newpath']) > 1) {
                     $path = $params['newpath'];
                 } else {
                     $path = trim($backup[2]);
