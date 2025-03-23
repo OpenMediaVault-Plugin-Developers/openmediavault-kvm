@@ -1,0 +1,75 @@
+#!/bin/bash
+#
+# shellcheck disable=
+#
+# Copyright (c) 2025 openmediavault plugin developers
+#
+# This file is licensed under the terms of the GNU General Public
+# License version 2. This program is licensed "as is" without any
+# warranty of any kind, whether express or implied.
+#
+# version: 0.0.1
+#
+
+if [[ $(id -u) -ne 0 ]]; then
+  echo "This script must be executed as root or using sudo."
+  exit 99
+fi
+
+export LC_ALL=C.UTF-8
+
+# logging location
+logDir="/var/log/"
+logFile="${logDir}/omv-shrink-disk.log"
+
+_log()
+{
+  msg=${1}
+  echo "[$(date +'%Y-%m-%d %H:%M:%S%z')] [backup] ${msg}" | tee -a ${logFile} >&2
+}
+
+disk="${1}"
+
+# Check if file exists
+if [ ! -f "${disk}" ]; then
+    _log "Error: File '${disk}' not found!"
+    exit 1
+fi
+
+vm_running=$(pgrep -u libvirt-qemu -f "${disk}")
+if [ -n "${vm_running}" ]; then
+    _log "Error: VM is running! Please shut it down before proceeding."
+    exit 2
+fi
+
+disk_dir=$(dirname "${disk}")
+avail_space=$(df --output=avail "${disk_dir}" | tail -n 1)
+avail_space=$((avail_space * 1024))  # Convert to bytes
+disk_size=$(du -b "${disk}" | cut -f1)
+
+if [ "${avail_space}" -lt "${disk_size}" ]; then
+    _log "Error: Not enough free space to create a temporary copy!"
+    _log "Required: ${disk_size} bytes, Available: ${avail_space} bytes"
+    exit 3
+fi
+
+tmp_disk="${disk}.tmp"
+
+disk_size=$(du -h "${disk}" | cut -f1)
+_log "Current size:  ${disk_size}"
+
+_log "Optimizing QCOW2 disk: ${disk}"
+if ! qemu-img convert -O qcow2 "${disk}" "${tmp_disk}"; then
+  _log "Error: qemu-img conversion failed!"
+  exit 4
+fi
+
+disk_size=$(du -h "${tmp_disk}" | cut -f1)
+_log "New size:  ${disk_size}"
+
+_log "Renaming temporary disk..."
+mv -v "${tmp_disk}" "${disk}"
+
+_log "Done."
+
+exit 0
