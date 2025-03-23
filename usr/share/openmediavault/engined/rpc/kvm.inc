@@ -87,6 +87,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('deleteVolume');
         $this->registerMethod('convertVolume');
         $this->registerMethod('volumeCommand');
+        $this->registerMethod('volumeShrink');
         $this->registerMethod('downloadIso');
         $this->registerMethod('addFsPass');
         $this->registerMethod('removeFsPass');
@@ -1975,6 +1976,28 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 if ($params['command'] == 'info') {
                     $cmdArgs[] = '--backing-chain';
                 }
+                $cmd = new \OMV\System\Process($cmdArgs);
+                $cmd->setRedirect2to1();
+                $cmdLine = $cmd->getCommandLine();
+                if (0 !== $this->exec($cmdLine, $output, $bgOutputFilename)) {
+                    throw new \OMV\ExecException($cmdLine, $output);
+                }
+                return $output;
+            }
+        );
+    }
+
+    public function volumeShrink($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ["role" => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, "rpc.kvm.volumeshrink");
+        return $this->execBgProc(function($bgStatusFilename, $bgOutputFilename)
+            use ($params) {
+                $cmdArgs = [];
+                $cmdArgs[] = '/usr/sbin/omv-shrink-disk';
+                $cmdArgs[] = sprintf("'%s'", $params['path']);
                 $cmd = new \OMV\System\Process($cmdArgs);
                 $cmd->setRedirect2to1();
                 $cmdLine = $cmd->getCommandLine();

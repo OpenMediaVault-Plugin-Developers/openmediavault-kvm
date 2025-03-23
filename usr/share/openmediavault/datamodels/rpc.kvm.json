@@ -561,6 +561,19 @@
   },
   {
     "type": "rpc",
+    "id": "rpc.kvm.volumeshrink",
+    "params": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
     "id": "rpc.kvm.name",
     "params": {
       "type": "object",

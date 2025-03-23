@@ -230,6 +230,29 @@ data:
                   command: info
             successUrl: /services/kvm/volume
       - type: iconButton
+        tooltip: _("Optimize/Shrink")
+        icon: mdi:arrow-down-bold-box-outline
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+          constraint:
+            - operator: eq
+              arg0:
+                prop: ext
+              arg1: "qcow2"
+        execute:
+          type: taskDialog
+          taskDialog:
+            config:
+              title: _("Optimizing/shrinking qcow2 ...")
+              startOnInit: true
+              request:
+                service: Kvm
+                method: volumeShrink
+                params:
+                  path: "{{ _selected[0].path }}"
+            successUrl: /services/kvm/volume
+      - type: iconButton
         tooltip: _("Convert to qcow2")
         icon: mdi:content-save-edit-outline
         enabledConstraints:
