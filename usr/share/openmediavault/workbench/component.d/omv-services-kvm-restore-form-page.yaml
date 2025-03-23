@@ -25,6 +25,11 @@ data:
         label: _("VM name")
         value: ""
         hint: _("VM name for restored VM")
+      - type: textInput
+        name: newpath
+        label: _("Restore path")
+        value: ""
+        hint: _("Optional. Enter path to restore VM to a different location")
     buttons:
       - text: _("Restore")
         enabledConstraints:
@@ -42,3 +47,4 @@ data:
                 params:
                   backup: "{{ backup }}"
                   newname: "{{ newname }}"
+                  newpath: "{{ newpath }}"

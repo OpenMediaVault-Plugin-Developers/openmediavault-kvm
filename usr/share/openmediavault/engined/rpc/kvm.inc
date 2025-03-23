@@ -660,8 +660,6 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->virshCommand($cmdArgs, $err);
     }
 
-
-
     public function getVmList($params, $context)
     {
         // Validate the RPC caller context.
@@ -2957,7 +2955,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             use ($params) {
                 $backup = explode('|', $params['backup']);
                 $date = trim($backup[1]);
-                $path = trim($backup[2]);
+                if (len($params['newpath']) > 1) {
+                    $path = $params['newpath'];
+                } else {
+                    $path = trim($backup[2]);
+                }
                 $vmname = trim($backup[0]);
                 $cmdArgs = [];
                 $cmdArgs[] = '/usr/sbin/omv-restore-vm';
