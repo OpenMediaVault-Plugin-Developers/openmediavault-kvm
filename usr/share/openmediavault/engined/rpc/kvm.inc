@@ -379,7 +379,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $model = $params['model'];
         $net = $params['network'];
         if ($model == "bridge") {
-            $result = $this->addVmBridgeNic($vmname, $mac, $params['bridge']);
+            $result = $this->addVmBridgeNic($lv, $vmname, $mac, $params['bridge']);
         } else {
             $result = $lv->domain_nic_add($vm, $mac, $net, $model);
         }
@@ -1347,11 +1347,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $xml->asXML($path);
     }
 
-    private function addVmBridgeNic($vmname, $mac, $net)
+    private function addVmBridgeNic($lv, $vmname, $mac, $net)
     {
-        // create new libvirt object
-        $lv = ($params['virttype'] == 'lxc' ? $this->connectLxc() : $this->connectQemu());
-
         // add a new bridge nic XML
         $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
 
