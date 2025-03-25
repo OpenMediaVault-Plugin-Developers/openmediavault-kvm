@@ -3,6 +3,7 @@ openmediavault-kvm (7.1.0) UNRELEASED; urgency=medium
   * Add ability to restore VM to different path
   * Convert restore script to python
   * Rename disks with prefix of restored VM name
+  * Fix adding bridge nic to VM
 
  -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sun, 23 Mar 2025 09:10:45 -0500
 
