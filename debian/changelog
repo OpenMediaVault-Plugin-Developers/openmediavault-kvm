@@ -1,3 +1,9 @@
+openmediavault-kvm (7.1.1) stable; urgency=low
+
+  * Use pool selection instead of path on restore form
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Wed, 26 Mar 2025 16:03:37 -0500
+
 openmediavault-kvm (7.1.0) stable; urgency=low
 
   * Add ability to restore VM to different path
