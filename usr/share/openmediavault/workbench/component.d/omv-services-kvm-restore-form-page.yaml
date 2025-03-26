@@ -25,11 +25,17 @@ data:
         label: _("VM name")
         value: ""
         hint: _("VM name for restored VM")
-      - type: textInput
-        name: newpath
-        label: _("Restore path")
-        value: ""
-        hint: _("Optional. Enter path to restore VM to a different location")
+      - type: select
+        name: pool
+        label: _('Pool')
+        textField: name
+        valueField: path
+        store:
+          proxy:
+            service: Kvm
+            get:
+              method: enumeratePools
+        hint: _("Optional. Choose pool to restore VM to a different location. Leave blank for original location.")
     buttons:
       - text: _("Restore")
         enabledConstraints:
@@ -47,4 +53,4 @@ data:
                 params:
                   backup: "{{ backup }}"
                   newname: "{{ newname }}"
-                  newpath: "{{ newpath }}"
+                  newpath: "{{ pool }}"
