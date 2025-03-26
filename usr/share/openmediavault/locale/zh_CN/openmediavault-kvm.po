@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-31 11:37-0500\n"
+"POT-Creation-Date: 2025-03-26 16:03-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: songming <by@songming.me>, 2024\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_CN/)\n"
@@ -112,7 +112,7 @@ msgid "Adding network adapter ..."
 msgstr "添加网卡中 ..."
 
 msgid "Adding optical disc ..."
-msgstr ""
+msgstr "添加光盘镜像中 ..."
 
 msgid "Adding passthrough filesystem ..."
 msgstr "添加直通文件系统中 ..."
@@ -699,6 +699,9 @@ msgstr "网络"
 msgid "New name"
 msgstr "新名称"
 
+msgid "No disk name specified!"
+msgstr ""
+
 msgid "No image - use existing image path"
 msgstr "无镜像 - 使用已有的镜像路径"
 
@@ -715,7 +718,7 @@ msgid "Optical Drive"
 msgstr "光驱"
 
 msgid "Optical disc has been added."
-msgstr ""
+msgstr "光盘已添加。"
 
 msgid "Optical disc has been changed."
 msgstr "光盘已变更。"
@@ -725,6 +728,20 @@ msgstr "光盘已弹出。"
 
 msgid "Optical disc has been removed."
 msgstr "光盘已移除。"
+
+msgid "Optimize/Shrink"
+msgstr ""
+
+msgid "Optimizing/shrinking qcow2 ..."
+msgstr ""
+
+msgid ""
+"Optional. Choose pool to restore VM to a different location. Leave blank for"
+" original location."
+msgstr ""
+
+msgid "Optional. Enter path to restore VM to a different location"
+msgstr ""
 
 msgid "Other CPU"
 msgstr "其它 CPU"
@@ -854,6 +871,9 @@ msgstr "恢复"
 
 msgid "Restore VM ..."
 msgstr "恢复 VM中 ..."
+
+msgid "Restore path"
+msgstr ""
 
 msgid "Resume"
 msgstr "恢复`"

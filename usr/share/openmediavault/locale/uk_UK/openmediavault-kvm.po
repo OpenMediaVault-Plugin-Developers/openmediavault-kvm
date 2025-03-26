@@ -5,15 +5,16 @@
 # 
 # Translators:
 # dsafsadf <heneral@gmail.com>, 2021
+# zubr139, 2025
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-31 11:37-0500\n"
+"POT-Creation-Date: 2025-03-26 16:03-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
-"Last-Translator: dsafsadf <heneral@gmail.com>, 2021\n"
+"Last-Translator: zubr139, 2025\n"
 "Language-Team: Ukrainian (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -73,7 +74,7 @@ msgid "Add new VM"
 msgstr ""
 
 msgid "Add new container"
-msgstr ""
+msgstr "Додати новий контейнер"
 
 msgid "Add new pool"
 msgstr ""
@@ -695,6 +696,9 @@ msgstr ""
 msgid "New name"
 msgstr ""
 
+msgid "No disk name specified!"
+msgstr ""
+
 msgid "No image - use existing image path"
 msgstr ""
 
@@ -720,6 +724,20 @@ msgid "Optical disc has been ejected."
 msgstr ""
 
 msgid "Optical disc has been removed."
+msgstr ""
+
+msgid "Optimize/Shrink"
+msgstr ""
+
+msgid "Optimizing/shrinking qcow2 ..."
+msgstr ""
+
+msgid ""
+"Optional. Choose pool to restore VM to a different location. Leave blank for"
+" original location."
+msgstr ""
+
+msgid "Optional. Enter path to restore VM to a different location"
 msgstr ""
 
 msgid "Other CPU"
@@ -849,6 +867,9 @@ msgid "Restore"
 msgstr ""
 
 msgid "Restore VM ..."
+msgstr ""
+
+msgid "Restore path"
 msgstr ""
 
 msgid "Resume"

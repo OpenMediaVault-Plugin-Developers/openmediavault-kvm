@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-31 11:37-0500\n"
+"POT-Creation-Date: 2025-03-26 16:03-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: kochin <kochinc@outlook.com>, 2024\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_TW/)\n"
@@ -699,6 +699,9 @@ msgstr "網路"
 msgid "New name"
 msgstr "新名稱"
 
+msgid "No disk name specified!"
+msgstr ""
+
 msgid "No image - use existing image path"
 msgstr "無影像 - 使用現存的影像路徑"
 
@@ -725,6 +728,20 @@ msgstr "光碟已被退出。"
 
 msgid "Optical disc has been removed."
 msgstr "光碟已被移除。"
+
+msgid "Optimize/Shrink"
+msgstr ""
+
+msgid "Optimizing/shrinking qcow2 ..."
+msgstr ""
+
+msgid ""
+"Optional. Choose pool to restore VM to a different location. Leave blank for"
+" original location."
+msgstr ""
+
+msgid "Optional. Enter path to restore VM to a different location"
+msgstr ""
 
 msgid "Other CPU"
 msgstr "其它 CPU"
@@ -854,6 +871,9 @@ msgstr "復原"
 
 msgid "Restore VM ..."
 msgstr "復原 VM ..."
+
+msgid "Restore path"
+msgstr ""
 
 msgid "Resume"
 msgstr "恢復"
