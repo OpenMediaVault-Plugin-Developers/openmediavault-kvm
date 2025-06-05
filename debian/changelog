@@ -1,3 +1,10 @@
+openmediavault-kvm (7.1.3) UNRELEASED; urgency=medium
+
+  * Add openmediavault-cterm dependency and Terminal Link column
+    for web terminal for LXC containers
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Wed, 04 Jun 2025 19:47:50 -0500
+
 openmediavault-kvm (7.1.2) stable; urgency=low
 
   * Fix dependency
