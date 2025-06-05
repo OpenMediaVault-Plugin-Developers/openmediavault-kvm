@@ -203,6 +203,16 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         return $sizes;
     }
 
+    private function getExecUrl($context, $db, $fqdn)
+    {
+        $settings = $db->get("conf.service.cterm");
+        $port = $settings->get("port");
+        $webadmin = $db->get("conf.webadmin");
+        $protocol = boolval($webadmin->get("enablessl")) ? "https" : "http";
+        $url = sprintf('%s://%s:%d/terminal', $protocol, $fqdn, $port);
+        return ($url);
+    }
+
     public function getNetworkList($params, $context)
     {
         // Validate the RPC caller context.
@@ -670,11 +680,14 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // get hostname and domain name
         $db = \OMV\Config\Database::getInstance();
         $dns = $db->get('conf.system.network.dns');
+        $cterm = $db->get("conf.service.cterm");
         $fqdn = $dns->get('hostname');
         $dn = $dns->get('domainname');
         if (strlen($dn) > 1) {
             $fqdn = sprintf('%s.%s', $fqdn, $dn);
         }
+        // get exec url
+        $execurl = $this->getExecUrl($context, $db, $fqdn);
         $webadmin = $db->get("conf.webadmin");
         $ssl = boolval($webadmin->get("enablessl"));
         $forcessl = boolval($webadmin->get("forcesslonly"));
@@ -787,6 +800,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 'novncurl' => $novncurl,
                 'spicehtml5port' => $spicehtml5port,
                 'spicehtml5url' => $spicehtml5url,
+                'termurl' => '-',
                 'snaps' => $snaps,
                 'notes' => str_replace(PHP_EOL,'<br/>',$notes)
             ];
@@ -864,6 +878,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             }
             $snaps = count($this->doLxcSnapshot($name, 'list', ''));
             $notes = $lv2->domain_get_description($dom);
+            if ($cterm->get("enable") == 0) {
+                $termurl = gettext("disabled");
+            } else {
+                $termurl = sprintf('<a href="%s/%s/lxc" target="_blank">exec terminal</a>', $execurl, $name);
+            }
             $objects[] = [
                 'vmname' => $name,
                 'virttype' => 'lxc',
@@ -881,6 +900,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 'novncurl' => $novncurl,
                 'spicehtml5port' => $spicehtml5port,
                 'spicehtml5url' => $spicehtml5url,
+                'termurl' => $termurl,
                 'snaps' => $snaps,
                 'notes' => str_replace(PHP_EOL,'<br/>',$notes)
             ];

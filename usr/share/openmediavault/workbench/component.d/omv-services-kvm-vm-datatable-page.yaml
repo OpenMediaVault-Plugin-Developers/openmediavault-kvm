@@ -77,6 +77,11 @@ data:
         flexGrow: 1
         sortable: true
         hidden: true
+      - name: _("Terminal Link")
+        prop: termurl
+        flexGrow: 1
+        sortable: true
+        hidden: true
       - name: _("Arch")
         prop: arch
         flexGrow: 1
