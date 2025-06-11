@@ -1,4 +1,10 @@
-openmediavault-kvm (7.1.3) UNRELEASED; urgency=medium
+openmediavault-kvm (7.1.4) stable; urgency=low
+
+  * Add auto-login to cterm url
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Wed, 11 Jun 2025 09:12:08 -0500
+
+openmediavault-kvm (7.1.3) stable; urgency=low
 
   * Add openmediavault-cterm dependency and Terminal Link column
     for web terminal for LXC containers
