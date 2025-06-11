@@ -688,6 +688,10 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
         // get exec url
         $execurl = $this->getExecUrl($context, $db, $fqdn);
+        // hmac
+        $secret = trim(file_get_contents('/etc/omv_cterm.secret'));
+        $hmac = hash_hmac('sha256', $context['username'], $secret);
+        // ssl
         $webadmin = $db->get("conf.webadmin");
         $ssl = boolval($webadmin->get("enablessl"));
         $forcessl = boolval($webadmin->get("forcesslonly"));
@@ -881,7 +885,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             if ($cterm->get("enable") == 0) {
                 $termurl = gettext("disabled");
             } else {
-                $termurl = sprintf('<a href="%s/%s/lxc" target="_blank">exec terminal</a>', $execurl, $name);
+                $termurl = sprintf('<a href="%s/%s/lxc?user=%s&hmac=%s" target="_blank">exec terminal</a>',
+                  $execurl, $name, $context['username'], $hmac);
             }
             $objects[] = [
                 'vmname' => $name,
