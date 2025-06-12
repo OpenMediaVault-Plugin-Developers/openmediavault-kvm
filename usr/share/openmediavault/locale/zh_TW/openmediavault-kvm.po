@@ -4,7 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# kochin <kochinc@outlook.com>, 2024
+# kochin <kochinc@outlook.com>, 2025
 # 
 #, fuzzy
 msgid ""
@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-26 16:03-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
-"Last-Translator: kochin <kochinc@outlook.com>, 2024\n"
+"Last-Translator: kochin <kochinc@outlook.com>, 2025\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -700,7 +700,7 @@ msgid "New name"
 msgstr "新名稱"
 
 msgid "No disk name specified!"
-msgstr ""
+msgstr "未指定磁碟名稱！"
 
 msgid "No image - use existing image path"
 msgstr "無影像 - 使用現存的影像路徑"
@@ -730,18 +730,18 @@ msgid "Optical disc has been removed."
 msgstr "光碟已被移除。"
 
 msgid "Optimize/Shrink"
-msgstr ""
+msgstr "最佳化/缩減"
 
 msgid "Optimizing/shrinking qcow2 ..."
-msgstr ""
+msgstr "正在最佳化/缩減 qcow2 中 …"
 
 msgid ""
 "Optional. Choose pool to restore VM to a different location. Leave blank for"
 " original location."
-msgstr ""
+msgstr "選擇性。選擇集用場來將 VM 復原到不同位置。留空白則代表原始位置。"
 
 msgid "Optional. Enter path to restore VM to a different location"
-msgstr ""
+msgstr "選擇性。輸入路徑來將 VM 復原到不同位置。"
 
 msgid "Other CPU"
 msgstr "其它 CPU"
@@ -873,7 +873,7 @@ msgid "Restore VM ..."
 msgstr "復原 VM ..."
 
 msgid "Restore path"
-msgstr ""
+msgstr "復原路徑"
 
 msgid "Resume"
 msgstr "恢復"
