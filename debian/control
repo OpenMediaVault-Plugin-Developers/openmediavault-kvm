@@ -23,8 +23,8 @@ Depends: distro-info,
          lxc-templates,
          netcat-openbsd,
          novnc,
-         openmediavault (>= 7.6),
-         openmediavault-cterm (>= 7.8),
+         openmediavault (>= 7.7.9),
+         openmediavault-cterm (>= 7.8.1),
          openmediavault-sharerootfs,
          osinfo-db,
          osinfo-db-tools,
@@ -50,3 +50,5 @@ Depends: distro-info,
          whois,
          xz-utils
 Description: kvm plugin for OpenMediaVault.
+ .
+ The openmediavault-cterm plugin is a mandatory requirement of this plugin.
