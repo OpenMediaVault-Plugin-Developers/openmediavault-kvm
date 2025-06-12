@@ -692,7 +692,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // hmac
         $autouser = $cterm->get('autouser') ?: $context['username'];
         $secret = trim(file_get_contents('/etc/omv_cterm.secret'));
-        $hmac = hash_hmac('sha256', $autouser, $secret);
+        $ts = sprintf('%s', microtime(true));
+        $userts = sprintf('%s:%s', $autouser, $ts);
+        $hmac = hash_hmac('sha256', $userts, $secret);
         // ssl
         $webadmin = $db->get("conf.webadmin");
         $ssl = boolval($webadmin->get("enablessl"));
@@ -887,8 +889,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             if ($cterm->get("enable") == 0) {
                 $termurl = gettext("disabled");
             } else {
-                $termurl = sprintf('<a href="%s/%s/lxc?user=%s&hmac=%s" target="_blank">exec terminal</a>',
-                  $execurl, $name, $autouser, $hmac);
+                $termurl = sprintf('<a href="%s/%s/lxc?user=%s&hmac=%s&ts=%s" target="_blank">exec terminal</a>',
+                  $execurl, $name, $autouser, $hmac, $ts);
             }
             $objects[] = [
                 'vmname' => $name,
