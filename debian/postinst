@@ -69,6 +69,14 @@ case "$1" in
             index=$(( ${index} + 1 ))
         done;
 
+        # mark dirty if cterm isn't installed
+        cterm=$(dpkg -l | awk '$2 == "openmediavault-cterm" { print $1 }')
+        if [ ! "${cterm}" = "ii" ]; then
+            echo "openmediavault-cterm is not installed."
+            echo "Marking kvm saltstack module dirty."
+            omv_module_set_dirty kvm
+        fi
+
         omv-salt deploy run --no-color kvm || :
     ;;
 

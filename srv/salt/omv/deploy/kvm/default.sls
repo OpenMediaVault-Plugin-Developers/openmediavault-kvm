@@ -58,3 +58,8 @@ configure_omv_virsh_command_logrotate:
     - user: root
     - group: root
     - mode: 644
+
+kvm_install_packages:
+  pkg.installed:
+    - pkgs:
+      - openmediavault-cterm: '>= 7.8.5'

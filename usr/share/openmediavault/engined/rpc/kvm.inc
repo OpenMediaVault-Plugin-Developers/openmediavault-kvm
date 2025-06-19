@@ -205,13 +205,17 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
 
     private function getExecUrl($context, $db, $fqdn)
     {
-        $settings = $db->get("conf.service.cterm");
-        $basepath = $settings->get("basepath");
-        $port = $settings->get("port");
-        $webadmin = $db->get("conf.webadmin");
-        $protocol = boolval($webadmin->get("enablessl")) ? "https" : "http";
-        $url = sprintf('%s://%s:%d%s/terminal', $protocol, $fqdn, $port, $basepath);
-        return ($url);
+        try {
+            $settings = $db->get("conf.service.cterm");
+            $basepath = $settings->get("basepath");
+            $port = $settings->get("port");
+            $webadmin = $db->get("conf.webadmin");
+            $protocol = boolval($webadmin->get("enablessl")) ? "https" : "http";
+            return sprintf('%s://%s:%d%s/terminal', $protocol, $fqdn, $port, $basepath);
+        } catch (Exception $e) {
+            // cterm not installed
+            return "";
+        }
     }
 
     public function getNetworkList($params, $context)
@@ -681,20 +685,26 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // get hostname and domain name
         $db = \OMV\Config\Database::getInstance();
         $dns = $db->get('conf.system.network.dns');
-        $cterm = $db->get("conf.service.cterm");
         $fqdn = $dns->get('hostname');
         $dn = $dns->get('domainname');
         if (strlen($dn) > 1) {
             $fqdn = sprintf('%s.%s', $fqdn, $dn);
         }
-        // get exec url
-        $execurl = $this->getExecUrl($context, $db, $fqdn);
-        // hmac
-        $autouser = $cterm->get('autouser') ?: $context['username'];
-        $secret = trim(file_get_contents('/etc/omv_cterm.secret'));
-        $ts = sprintf('%s', microtime(true));
-        $userts = sprintf('%s:%s', $autouser, $ts);
-        $hmac = hash_hmac('sha256', $userts, $secret);
+        // get cterm settings
+        try {
+            $cterm = $db->get("conf.service.cterm");
+            // hmac
+            $autouser = $cterm->get('autouser') ?: $context['username'];
+            $secret = trim(file_get_contents('/etc/omv_cterm.secret'));
+            $ts = sprintf('%s', microtime(true));
+            $userts = sprintf('%s:%s', $autouser, $ts);
+            $hmac = hash_hmac('sha256', $userts, $secret);
+            // get exec url
+            $execurl = $this->getExecUrl($context, $db, $fqdn);
+        } catch (Exception $e) {
+            // cterm not installed
+            $cterm = false;
+        }
         // ssl
         $webadmin = $db->get("conf.webadmin");
         $ssl = boolval($webadmin->get("enablessl"));
@@ -886,7 +896,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             }
             $snaps = count($this->doLxcSnapshot($name, 'list', ''));
             $notes = $lv2->domain_get_description($dom);
-            if ($cterm->get("enable") == 0) {
+            if (!$cterm || ($cterm && $cterm->get("enable") == 0)) {
                 $termurl = gettext("disabled");
             } else {
                 $termurl = sprintf('<a href="%s/%s/lxc?user=%s&hmac=%s&ts=%s" target="_blank">exec terminal</a>',
@@ -3316,7 +3326,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 if (strpos($cpu, $bad) !== false) {
                     $skip = true;
                     break;
-                } 
+                }
             }
             if ($skip) {
                 continue;
