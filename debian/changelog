@@ -1,3 +1,9 @@
+openmediavault-kvm (7.1.8) stable; urgency=low
+
+  * Disable link if container isn't running
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sun, 22 Jun 2025 17:49:57 -0500
+
 openmediavault-kvm (7.1.7) stable; urgency=low
 
   * Remove openmediavault-cterm as a hard dependency to prevent
