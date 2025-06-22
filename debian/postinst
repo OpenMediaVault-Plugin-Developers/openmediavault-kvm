@@ -76,8 +76,6 @@ case "$1" in
             echo "Marking kvm saltstack module dirty."
             omv_module_set_dirty kvm
         fi
-
-        omv-salt deploy run --no-color kvm || :
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
