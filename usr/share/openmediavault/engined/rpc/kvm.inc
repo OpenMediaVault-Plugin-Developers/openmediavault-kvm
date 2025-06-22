@@ -896,7 +896,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             }
             $snaps = count($this->doLxcSnapshot($name, 'list', ''));
             $notes = $lv2->domain_get_description($dom);
-            if (!$cterm || ($cterm && $cterm->get("enable") == 0)) {
+            $tstate = $lv2->domain_state_translate($info['state']);
+            if (!$cterm || $tstate !== 'running' || ($cterm && $cterm->get("enable") == 0)) {
                 $termurl = gettext("disabled");
             } else {
                 $termurl = sprintf('<a href="%s/%s/lxc?user=%s&hmac=%s&ts=%s" target="_blank">exec terminal</a>',
@@ -907,7 +908,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 'virttype' => 'lxc',
                 'mem' => $info['memory'] * 1024,
                 'cpu' => $info['nrVirtCpu'],
-                'state' => $lv2->domain_state_translate($info['state']),
+                'state' => $tstate,
                 'disks' => $disks,
                 'arch' => $lv2->domain_get_arch($dom),
                 'autostart' => $lv2->domain_get_autostart($dom),
