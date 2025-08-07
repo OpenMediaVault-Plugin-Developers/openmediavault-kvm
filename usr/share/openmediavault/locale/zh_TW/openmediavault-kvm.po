@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-26 16:03-0500\n"
+"POT-Creation-Date: 2025-08-07 10:18-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: kochin <kochinc@outlook.com>, 2025\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_TW/)\n"
@@ -453,6 +453,9 @@ msgstr "添加 spice 裝置失敗。"
 msgid "Failed to add spicevmc channel."
 msgstr "添加 spicevmc 通道失敗。"
 
+msgid "Failed to apply new XML, and unable to restore backup :: "
+msgstr ""
+
 msgid "Failed to create VM XML."
 msgstr "建立 VM XML 失敗。"
 
@@ -740,9 +743,6 @@ msgid ""
 " original location."
 msgstr "選擇性。選擇集用場來將 VM 復原到不同位置。留空白則代表原始位置。"
 
-msgid "Optional. Enter path to restore VM to a different location"
-msgstr "選擇性。輸入路徑來將 VM 復原到不同位置。"
-
 msgid "Other CPU"
 msgstr "其它 CPU"
 
@@ -871,9 +871,6 @@ msgstr "復原"
 
 msgid "Restore VM ..."
 msgstr "復原 VM ..."
-
-msgid "Restore path"
-msgstr "復原路徑"
 
 msgid "Resume"
 msgstr "恢復"
@@ -1004,6 +1001,9 @@ msgstr "TPM"
 msgid "Terabytes"
 msgstr "TB"
 
+msgid "Terminal Link"
+msgstr ""
+
 msgid "Type"
 msgstr "型式"
 
@@ -1027,6 +1027,9 @@ msgstr "無法 -"
 
 msgid "Unable to add network adapter to VM - "
 msgstr "無法新增網路卡到 VM -"
+
+msgid "Unable to backup existing XML for VM :: "
+msgstr ""
 
 msgid "Unable to change notes for VM."
 msgstr "無法改變 VM 的註釋。"
@@ -1145,6 +1148,9 @@ msgstr "ZFS"
 
 msgid "bridge"
 msgstr "橋接器"
+
+msgid "disabled"
+msgstr ""
 
 msgid "e1000"
 msgstr "e1000"

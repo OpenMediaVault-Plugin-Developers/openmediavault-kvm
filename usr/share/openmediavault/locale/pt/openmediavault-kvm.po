@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-26 16:03-0500\n"
+"POT-Creation-Date: 2025-08-07 10:18-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Language-Team: Portuguese (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/pt/)\n"
 "MIME-Version: 1.0\n"
@@ -447,6 +447,9 @@ msgstr ""
 msgid "Failed to add spicevmc channel."
 msgstr ""
 
+msgid "Failed to apply new XML, and unable to restore backup :: "
+msgstr ""
+
 msgid "Failed to create VM XML."
 msgstr ""
 
@@ -732,9 +735,6 @@ msgid ""
 " original location."
 msgstr ""
 
-msgid "Optional. Enter path to restore VM to a different location"
-msgstr ""
-
 msgid "Other CPU"
 msgstr ""
 
@@ -862,9 +862,6 @@ msgid "Restore"
 msgstr ""
 
 msgid "Restore VM ..."
-msgstr ""
-
-msgid "Restore path"
 msgstr ""
 
 msgid "Resume"
@@ -996,6 +993,9 @@ msgstr ""
 msgid "Terabytes"
 msgstr ""
 
+msgid "Terminal Link"
+msgstr ""
+
 msgid "Type"
 msgstr ""
 
@@ -1018,6 +1018,9 @@ msgid "Unable to - "
 msgstr ""
 
 msgid "Unable to add network adapter to VM - "
+msgstr ""
+
+msgid "Unable to backup existing XML for VM :: "
 msgstr ""
 
 msgid "Unable to change notes for VM."
@@ -1135,6 +1138,9 @@ msgid "ZFS"
 msgstr ""
 
 msgid "bridge"
+msgstr ""
+
+msgid "disabled"
 msgstr ""
 
 msgid "e1000"

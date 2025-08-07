@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-26 16:03-0500\n"
+"POT-Creation-Date: 2025-08-07 10:18-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>, 2024\n"
 "Language-Team: Spanish (Spain) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/es_ES/)\n"
@@ -456,6 +456,9 @@ msgstr "Falló el añadir dispositivo spice"
 msgid "Failed to add spicevmc channel."
 msgstr "Falló el añadir canal SpiceVNC"
 
+msgid "Failed to apply new XML, and unable to restore backup :: "
+msgstr ""
+
 msgid "Failed to create VM XML."
 msgstr "Falló al crear XML VM."
 
@@ -746,9 +749,6 @@ msgid ""
 " original location."
 msgstr ""
 
-msgid "Optional. Enter path to restore VM to a different location"
-msgstr ""
-
 msgid "Other CPU"
 msgstr "Otra CPU"
 
@@ -879,9 +879,6 @@ msgstr "Restaurar"
 msgid "Restore VM ..."
 msgstr "Restaurar una VM..."
 
-msgid "Restore path"
-msgstr ""
-
 msgid "Resume"
 msgstr "Reanudar"
 
@@ -1011,6 +1008,9 @@ msgstr "TPM"
 msgid "Terabytes"
 msgstr "Terabytes"
 
+msgid "Terminal Link"
+msgstr ""
+
 msgid "Type"
 msgstr "Tipo"
 
@@ -1034,6 +1034,9 @@ msgstr "Incapaz de -"
 
 msgid "Unable to add network adapter to VM - "
 msgstr "Incapaz de añadir adaprtador de Red a la VM -"
+
+msgid "Unable to backup existing XML for VM :: "
+msgstr ""
 
 msgid "Unable to change notes for VM."
 msgstr "No es posible cambiar la nota de la MV"
@@ -1154,6 +1157,9 @@ msgstr "ZFS"
 
 msgid "bridge"
 msgstr "Puente"
+
+msgid "disabled"
+msgstr ""
 
 msgid "e1000"
 msgstr "e1000"
