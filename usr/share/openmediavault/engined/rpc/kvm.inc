@@ -1024,27 +1024,59 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.setvmxml');
         $vmname = $params['vmname'];
-        // create temp xml file
-        $xml = tempnam(sys_get_temp_dir(), $vmname . '_');
-        file_put_contents($xml, $params['vmxml']);
-        // virsh undefine
+        // backup old xml using virsh dumpxml
+        $backup = tempnam(sys_get_temp_dir(), $vmname . '_backup_');
         $cmdArgs = [];
         if ($params['virttype'] == 'lxc') {
             $cmdArgs[] = '--connect lxc:///';
         }
-        $cmdArgs[] = 'undefine';
+        $cmdArgs[] = 'dumpxml';
         $cmdArgs[] = sprintf('--domain "%s"', $vmname);
-        $err = gettext("Unable to undefine VM :: ") . $vmname;
-        $this->virshCommand($cmdArgs, $err);
-        // virsh define
-        $cmdArgs = [];
-        if ($params['virttype'] == 'lxc') {
-            $cmdArgs[] = '--connect lxc:///';
+        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
+        $cmd->setRedirect1toFile($backup);
+        $cmd->setQuiet(true);
+        $cmd->execute($output, $exitStatus);
+        if ($exitStatus > 0) {
+            throw new \OMV\Exception(
+              gettext("Unable to backup existing XML for VM :: ") . $vmname
+            );
         }
-        $cmdArgs[] = 'define';
-        $cmdArgs[] = sprintf('--file "%s"', $xml);
-        $err = gettext("Unable to set VM XML :: ") . $vmname;
-        $this->virshCommand($cmdArgs, $err);
+        // create temp xml file
+        $xml = tempnam(sys_get_temp_dir(), $vmname . '_new_');
+        file_put_contents($xml, $params['vmxml']);
+        try {
+            // virsh undefine
+            $cmdArgs = [];
+            if ($params['virttype'] == 'lxc') {
+                $cmdArgs[] = '--connect lxc:///';
+            }
+            $cmdArgs[] = 'undefine';
+            $cmdArgs[] = sprintf('--domain "%s"', $vmname);
+            $err = gettext("Unable to undefine VM :: ") . $vmname;
+            $this->virshCommand($cmdArgs, $err);
+            // virsh define
+            $cmdArgs = [];
+            if ($params['virttype'] == 'lxc') {
+                $cmdArgs[] = '--connect lxc:///';
+            }
+            $cmdArgs[] = 'define';
+            $cmdArgs[] = sprintf('--file "%s"', $xml);
+            $err = gettext("Unable to set VM XML :: ") . $vmname;
+            $this->virshCommand($cmdArgs, $err);
+        } catch (\Exception $e) {
+            // On any failure, restore the old definition
+            $cmdArgs = [];
+            if ($params['virttype'] == 'lxc') {
+                $cmdArgs[] = '--connect lxc:///';
+            }
+            $cmdArgs[] = 'define';
+            $cmdArgs[] = sprintf('--file "%s"', $backup);
+            $err = gettext("Failed to apply new XML, and unable to restore backup :: ") . $vmname;
+            $this->virshCommand($cmdArgs, $err);
+            throw new \OMV\Exception($e);
+        }
+        unlink($xml);
+        unlink($backup);
     }
 
     public function getVmDetails($params, $context)
