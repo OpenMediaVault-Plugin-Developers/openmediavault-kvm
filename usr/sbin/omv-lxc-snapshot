@@ -2,13 +2,13 @@
 #
 # shellcheck disable=SC2181
 #
-# Copyright (c) 2024 OpenMediaVault Plugin Developers
+# Copyright (c) 2024-2025 OpenMediaVault Plugin Developers
 #
 # This file is licensed under the terms of the GNU General Public
 # License version 2. This program is licensed "as is" without any
 # warranty of any kind, whether express or implied.
 #
-# version: 0.0.1
+# version: 0.1.0
 #
 
 if [[ $(id -u) -ne 0 ]]; then
@@ -33,8 +33,51 @@ logFile="${logDir}/omv-lxc-snapshot.log"
 
 _log()
 {
-  msg=${1}
-  echo "[$(date +'%Y-%m-%d %H:%M:%S%z')] [lxcsnapshot] ${msg}" | tee -a ${logFile} >&2
+  local msg=${1}
+  echo "[$(date +'%Y-%m-%d %H:%M:%S%z')] [lxcsnapshot] ${msg}" | tee -a "${logFile}" >&2
+}
+
+# Filesystem helpers
+_fs_type()
+{
+  findmnt -no FSTYPE --target "${1}" 2>/dev/null
+}
+
+_mount_uuid()
+{
+  findmnt -no UUID --target "${1}" 2>/dev/null
+}
+
+_is_btrfs_fs()
+{
+  [[ "$(_fs_type "${1}")" == "btrfs" ]]
+}
+
+_is_btrfs_subvol()
+{
+  btrfs subvolume show "${1}" >/dev/null 2>&1
+}
+
+_same_fs()
+{
+  # same filesystem (UUID) requirement for btrfs snapshot source/target
+  local a_uuid b_uuid
+  a_uuid="$(_mount_uuid "${1}")"
+  b_uuid="$(_mount_uuid "${2}")"
+  [[ -n "${a_uuid}" && -n "${b_uuid}" && "${a_uuid}" == "${b_uuid}" ]]
+}
+
+_btrfs_revert_snapshot()
+{
+  local src_snap="${1}" dest_subvol="${2}"
+  # Replace dest_subvol with a RW snapshot of src_snap
+  # Ensure dest is currently a subvolume (or remove dir and create)
+  if _is_btrfs_subvol "${dest_subvol}"; then
+    btrfs subvolume delete "${dest_subvol}" || return 1
+  else
+    rm -rf "${dest_subvol}" || return 1
+  fi
+  btrfs subvolume snapshot "${src_snap}" "${dest_subvol}"
 }
 
 # loop through options
@@ -52,11 +95,11 @@ while getopts "a:c:d:hs:" opt; do
     h)
       echo "Use the following flags:"
       echo "  -a action"
-      echo "    action can be be 'create', 'revert', 'list', or 'delete'"
+      echo "    action can be 'create', 'revert', 'list', or 'delete'"
       echo "  -c name"
       echo "    container name"
       echo "  -d 'dir'"
-      echo "    set snapshot directory."
+      echo "    set snapshot directory (must be btrfs subvolume to use btrfs snapshots)."
       echo "    a subdirectory named after container name will be created if it does not exist."
       echo "    if a directory is not specified, the container's parent directory will be used"
       echo "    and a snapshots subdirectory will be created."
@@ -83,16 +126,21 @@ if [ ! -f "/usr/bin/virsh" ]; then
   exit 2
 fi
 
-# check if VM name was specified
+if [ ! -f "/usr/bin/btrfs" ]; then
+  _log "btrfs command not found!"
+  exit 3
+fi
+
+# check if container name was specified
 if [ -z "${cntrName}" ]; then
   _log "No container specified!"
-  exit 3
+  exit 4
 fi
 
 # check if VM is defined by libvirt
 if ! ${virshCmd} dominfo "${cntrName}" > /dev/null 2>&1; then
   _log "VM '${cntrName}' not defined!"
-  exit 4
+  exit 5
 fi
 
 cntrDir="$(${virshCmd} dumpxml "${cntrName}" | xmlstarlet sel -t -m "/domain/devices/filesystem/target[@dir='/']" -v "/domain/devices/filesystem/source/@dir")"
@@ -100,10 +148,10 @@ cntrDir="$(${virshCmd} dumpxml "${cntrName}" | xmlstarlet sel -t -m "/domain/dev
 # if container path doesn't exist, exit
 if [ "${action}" = "create" ] && [ ! -d "${cntrDir}" ]; then
   _log "${cntrDir} does not exist.  Exiting."
-  exit 5
+  exit 6
 fi
 
-# if snapshot directory doesn't exist, create a snapshots subdirectory in the container's parent directory
+# choose snapshot directory default
 if [ -z "${snapDir}" ]; then
   parentDir="$(dirname "${cntrDir}")"
   if [ "${parentDir}" = "/" ]; then
@@ -112,10 +160,37 @@ if [ -z "${snapDir}" ]; then
   snapDir="${parentDir}/snapshots"
 fi
 
-# make sure snapshot directory for container exists
+# ensure snapshot dir for container exists
 cntrSnapDir="${snapDir}/${cntrName}"
 mkdir -p "${cntrSnapDir}"
 
+# Decide snapshot mode
+use_btrfs="no"
+snap_mode="tar"
+if _is_btrfs_fs "${cntrDir}" && _is_btrfs_subvol "${cntrDir}" && _same_fs "${cntrDir}" "${cntrSnapDir}"; then
+  use_btrfs="yes"
+  snap_mode="btrfs snapshot"
+fi
+
+# Helper to stop/start container if running
+_stop_if_running()
+{
+  if ${virshCmd} list --name | grep -qx "${cntrName}"; then
+    _log "Shutdown ${cntrName} ..."
+    ${virshCmd} shutdown "${cntrName}"
+    poweredOn=1
+    # give it a few seconds to settle
+    sleep 2
+  fi
+}
+
+_start_if_needed()
+{
+  if [ ${poweredOn} -eq 1 ]; then
+    _log "Starting ${cntrName} ..."
+    ${virshCmd} start "${cntrName}"
+  fi
+}
 
 case "${action}" in
   create)
@@ -123,66 +198,105 @@ case "${action}" in
     if [ -z "${snapName}" ]; then
       snapName="$(date +'%Y%m%d_%H%M%S')"
     fi
-    snapFile="${cntrSnapDir}/${snapName}.tar.gz"
-    _log "Starting snapshot '${snapName}' for container '${cntrName}'"
-    if ${virshCmd} list | grep "${cntrName}"; then
-      _log "Shutdown ${cntrName} ..."
-      ${virshCmd} shutdown "${cntrName}"
-      poweredOn=1
+
+    _log "Starting snapshot '${snapName}' for container '${cntrName}' (mode: ${snap_mode})"
+    _stop_if_running
+
+    if [ "${use_btrfs}" = "yes" ]; then
+      # store btrfs snapshots in a subdir to avoid mixing files and subvols
+      # e.g. <snapDir>/<container>/<snapshotName>
+      dst="${cntrSnapDir}/${snapName}"
+      _log "Creating Btrfs readonly snapshot at ${dst} ..."
+      if ! btrfs subvolume snapshot -r "${cntrDir}" "${dst}"; then
+        _log "Btrfs snapshot failed; falling back to tar.gz"
+        use_btrfs="no"
+        snap_mode="tar"
+      fi
     fi
-    _log "Creating ${snapFile} ..." 
-    tar czf "${snapFile}" -C "${cntrDir}" .
-    if [ $? -gt 0 ]; then
-      _log "extracting archive failed."
-      exit 10
+
+    if [ "${use_btrfs}" != "yes" ]; then
+      snapFile="${cntrSnapDir}/${snapName}.tar.gz"
+      _log "Creating ${snapFile} ..."
+      tar czf "${snapFile}" -C "${cntrDir}" .
+      if [ $? -gt 0 ]; then
+        _log "creating archive failed."
+        exit 10
+      fi
     fi
-    if [ ${poweredOn} -eq 1 ]; then
-      _log "Starting ${cntrName} ..."
-      ${virshCmd} --connect lxc:/// start "${cntrName}"
-    fi
+
+    _start_if_needed
     _log "Snapshot '${snapName}' complete."
     ;;
 
   revert)
     if [ -z "${snapName}" ]; then
       _log "No snapshot name specified!"
-      exit 7
-    fi
-    snapFile="${cntrSnapDir}/${snapName}.tar.gz"
-    _log "Reverting to snapshot '${snapName}' for container '${cntrName}'"
-    if ${virshCmd} list | grep "${cntrName}"; then
-      _log "Shutdown ${cntrName} ..."
-      ${virshCmd} --connect lxc:/// shutdown "${cntrName}"
-      poweredOn=1
-    fi
-    _log "Removing files ..."
-    rm -rf "${cntrDir}" 2>/dev/null
-    sleep 2
-    _log "Reverting to ${snapFile} ..." 
-    mkdir -p "${cntrDir}"
-    tar xzf "${snapFile}" -C "${cntrDir}"
-    if [ $? -gt 0 ]; then
-      _log "extracting archive failed."
       exit 11
     fi
-    if [ ${poweredOn} -eq 1 ]; then
-      _log "Starting ${cntrName} ..."
-      ${virshCmd} --connect lxc:/// start "${cntrName}"
+    _log "Reverting to snapshot '${snapName}' for container '${cntrName}'"
+
+    _stop_if_running
+
+    if [ "${use_btrfs}" = "yes" ] && [ -d "${cntrSnapDir}/${snapName}" ]; then
+      # Btrfs subvolume snapshot exists
+      src="${cntrSnapDir}/${snapName}"
+      _log "Reverting using Btrfs snapshot ${src} -> ${cntrDir} ..."
+      if ! _btrfs_revert_snapshot "${src}" "${cntrDir}"; then
+        _log "Btrfs revert failed."
+        exit 12
+      fi
+    else
+      # tar.gz fallback
+      snapFile="${cntrSnapDir}/${snapName}.tar.gz"
+      if [ ! -f "${snapFile}" ]; then
+        _log "Snapshot not found: ${snapFile}"
+        exit 13
+      fi
+      _log "Removing files in ${cntrDir} ..."
+      rm -rf "${cntrDir}" 2>/dev/null
+      sleep 2
+      _log "Reverting from ${snapFile} ..."
+      mkdir -p "${cntrDir}"
+      tar xzf "${snapFile}" -C "${cntrDir}"
+      if [ $? -gt 0 ]; then
+        _log "extracting archive failed."
+        exit 14
+      fi
     fi
+
+    _start_if_needed
     _log "Snapshot '${snapName}' revert complete."
     ;;
 
   list)
-    find "${cntrSnapDir}" -type f -name "*.tar.gz" -printf "%f\n" | sed 's/.tar.gz$//' | sort
+    # show btrfs and tar snapshots distinctly
+    if [ -d "${cntrSnapDir}" ]; then
+      # Btrfs snapshots = subdirectories that are subvolumes
+      while IFS= read -r d; do
+        _is_btrfs_subvol "${d}" && echo "$(basename "${d}") (btrfs)"
+      done < <(find "${cntrSnapDir}" -mindepth 1 -maxdepth 1 -type d | sort)
+      # tar snapshots
+      find "${cntrSnapDir}" -type f -name "*.tar.gz" -printf "%f\n" | sed 's/.tar.gz$//' | sed 's/$/ (tar)/' | sort
+    fi
     ;;
 
   delete)
     if [ -z "${snapName}" ]; then
       _log "No snapshot name specified!"
-      exit 8
+      exit 15
     fi
     _log "Deleting snapshot '${snapName}' for container '${cntrName}'"
-    rm -fv "${cntrSnapDir}/${snapName}.tar.gz"
+    if [ -d "${cntrSnapDir}/${snapName}" ] && _is_btrfs_subvol "${cntrSnapDir}/${snapName}"; then
+      _log "Deleting Btrfs snapshot ${cntrSnapDir}/${snapName} ..."
+      if ! btrfs subvolume delete "${cntrSnapDir}/${snapName}"; then
+        _log "Failed to delete btrfs snapshot."
+        exit 16
+      fi
+    else
+      _log "Deleting tar snapshot ${cntrSnapDir}/${snapName}.tar.gz ..."
+      rm -fv "${cntrSnapDir}/${snapName}.tar.gz"
+    fi
+
     _log "Snapshot '${snapName}' delete complete."
     ;;
 
