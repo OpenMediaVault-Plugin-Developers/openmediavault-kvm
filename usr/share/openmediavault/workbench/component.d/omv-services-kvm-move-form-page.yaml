@@ -1,0 +1,62 @@
+version: "1.0"
+type: component
+data:
+  name: omv-services-kvm-move-form-page
+  type: formPage
+  config:
+    request:
+      service: Kvm
+    fields:
+      - type: select
+        name: vmname
+        label: _("VM Name")
+        textField: vmname
+        valueField: vmname
+        store:
+          proxy:
+            service: Kvm
+            get:
+              method: getVmNameList
+        validators:
+          required: true
+      - type: select
+        name: pool
+        label: _('New pool')
+        textField: name
+        valueField: name
+        store:
+          proxy:
+            service: Kvm
+            get:
+              method: enumeratePools
+        validators:
+          required: true
+    buttons:
+      - text: _("Move")
+        execute:
+          type: taskDialog
+          taskDialog:
+            config:
+              title: _("Move VM ...")
+              startOnInit: false
+              request:
+                service: Kvm
+                method: doMove
+                params:
+                  vmname: "{{ vmname }}"
+                  pool: "{{ pool }}"
+                  poweroff: False
+      - text: _("Power off + Move")
+        execute:
+          type: taskDialog
+          taskDialog:
+            config:
+              title: _("Power off VM and move ...")
+              startOnInit: false
+              request:
+                service: Kvm
+                method: doMove
+                params:
+                  vmname: "{{ vmname }}"
+                  pool: "{{ pool }}"
+                  poweroff: True

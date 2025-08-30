@@ -1,0 +1,6 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/kvm/move"
+  title: _("Move")
+  component: omv-services-kvm-move-form-page

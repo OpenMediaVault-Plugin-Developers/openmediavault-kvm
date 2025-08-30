@@ -123,6 +123,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('deleteBackup');
         $this->registerMethod('doBackup');
 
+        $this->registerMethod('doMove');
+
         $this->registerMethod('getRestoreList');
         $this->registerMethod('doRestore');
 
@@ -3038,6 +3040,33 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             }
          }
         return ($objects);
+    }
+
+    public function doMove($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.domove');
+        return $this->execBgProc(function($bgStatusFilename, $bgOutputFilename)
+            use ($params) {
+                $cmdArgs = [];
+                $cmdArgs[] = '/usr/sbin/omv-move-vm';
+                $cmdArgs[] = sprintf("-v '%s'", $params['vmname']);
+                $cmdArgs[] = sprintf("-d '%s'", $params['pool']);
+                if ($params['poweroff']) {
+                    $cmdArgs[] = '--force-off';
+                }
+                $cmd = new \OMV\System\Process($cmdArgs);
+                $cmd->setRedirect2to1();
+                $cmdLine = $cmd->getCommandLine();
+                file_put_contents($bgOutputFilename, $cmdLine . PHP_EOL . PHP_EOL, FILE_APPEND);
+                $cmd->setQuiet(true);
+                $cmd->execute($output, $exitStatus);
+                file_put_contents($bgOutputFilename, implode(PHP_EOL, $output), FILE_APPEND);
+                return $output;
+            }
+        );
     }
 
     public function doRestore($params, $context)

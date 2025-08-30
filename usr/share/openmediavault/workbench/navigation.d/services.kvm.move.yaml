@@ -1,0 +1,8 @@
+version: "1.0"
+type: navigation-item
+data:
+  path: "services.kvm.move"
+  text: _("Move")
+  position: 65
+  icon: mdi:folder-move-outline
+  url: "/services/kvm/move"
