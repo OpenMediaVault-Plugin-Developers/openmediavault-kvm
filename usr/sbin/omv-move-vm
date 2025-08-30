@@ -1,0 +1,254 @@
+#!/usr/bin/env python3
+#
+# Copyright (c) 2025 openmediavault plugin developers
+#
+# This file is licensed under the terms of the GNU General Public
+# License version 2. This program is licensed "as is" without any
+# warranty of any kind, whether express or implied.
+#
+# version: 0.0.1
+#
+import argparse
+import json
+import libvirt
+import logging
+import os
+import shutil
+import subprocess
+import sys
+import time
+import xml.etree.ElementTree as ET
+
+LOG_PATH = "/var/log/omv-move-vm.log"
+
+
+# ---------- logging ----------
+def setup_logging():
+    logger = logging.getLogger("omv-move-vm")
+    logger.setLevel(logging.INFO)
+    fmt = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+    fh = logging.FileHandler(LOG_PATH)
+    fh.setFormatter(fmt)
+    sh = logging.StreamHandler(sys.stdout)
+    sh.setFormatter(fmt)
+    # Avoid duplicate handlers if script is reloaded
+    if not logger.handlers:
+        logger.addHandler(fh)
+        logger.addHandler(sh)
+    return logger
+
+
+# ---------- helpers ----------
+def _norm(p: str) -> str:
+    return os.path.normpath(p)
+
+
+def qemu_img_info(path: str) -> dict:
+    out = subprocess.check_output(
+        ["qemu-img", "info", "--output=json", "--force-share", path],
+        text=True, stderr=subprocess.STDOUT
+    )
+    return json.loads(out)
+
+
+def has_backing_chain(path: str) -> bool:
+    try:
+        info = qemu_img_info(path)
+        return bool(info.get("backing-filename"))
+    except Exception:
+        # If we can't detect it, be permissive (return False).
+        return False
+
+
+def get_pool_dir(conn: libvirt.virConnect, pool_name: str) -> str:
+    """Return directory path for <pool type='dir'>."""
+    pool = conn.storagePoolLookupByName(pool_name)
+    root = ET.fromstring(pool.XMLDesc())
+    ptype = root.get("type")
+    if ptype != "dir":
+        raise RuntimeError(
+            f"Pool '{pool_name}' is type '{ptype}', but only 'dir' pools are supported."
+        )
+    target = root.find("./target")
+    if target is None:
+        raise RuntimeError(f"Pool '{pool_name}': <target> missing")
+    path_el = target.find("path")
+    if path_el is None or not path_el.text:
+        raise RuntimeError(f"Pool '{pool_name}': <target><path> missing")
+    path = path_el.text
+    if not os.path.isdir(path):
+        raise RuntimeError(f"Pool '{pool_name}': path '{path}' not found or not a directory")
+    return path
+
+
+def parse_file_disks(dom: libvirt.virDomain):
+    """Return list of {'target','path','driver'} for file-backed <disk device='disk'/>."""
+    out = []
+    root = ET.fromstring(dom.XMLDesc())
+    for d in root.findall(".//devices/disk"):
+        if d.get("device") != "disk" or d.get("type") != "file":
+            continue
+        tgt_el = d.find("target")
+        src_el = d.find("source")
+        if tgt_el is None or src_el is None or "file" not in src_el.attrib:
+            continue
+        driver = "raw"
+        dr_el = d.find("driver")
+        if dr_el is not None and "type" in dr_el.attrib:
+            driver = dr_el.get("type")
+        out.append({
+            "target": tgt_el.get("dev"),
+            "path": src_el.get("file"),
+            "driver": driver
+        })
+    return out
+
+
+def build_disk_xml(driver: str, new_path: str, target: str) -> str:
+    disk = ET.Element("disk", type="file", device="disk")
+    ET.SubElement(disk, "driver", name="qemu", type=driver)
+    ET.SubElement(disk, "source", file=new_path)
+    ET.SubElement(disk, "target", dev=target)
+    return ET.tostring(disk, encoding="unicode")
+
+
+# ---------- shutdown handling ----------
+def wait_for_shutdown(dom: libvirt.virDomain, timeout: int) -> bool:
+    end = time.time() + timeout
+    while time.time() < end:
+        state, _ = dom.state()
+        if state == libvirt.VIR_DOMAIN_SHUTOFF:
+            return True
+        time.sleep(1)
+    return False
+
+
+def graceful_shutdown(dom: libvirt.virDomain, timeout: int, logger: logging.Logger, force: bool = False) -> None:
+    try:
+        dom.shutdownFlags(libvirt.VIR_DOMAIN_SHUTDOWN_ACPI_POWER_BTN)
+        logger.info(f"Sent ACPI shutdown to {dom.name()} (shutdownFlags).")
+    except AttributeError:
+        dom.shutdown()
+        logger.info(f"Sent ACPI shutdown to {dom.name()} (shutdown).")
+
+    if wait_for_shutdown(dom, timeout):
+        return
+
+    if force:
+        logger.warning(f"{dom.name()}: graceful shutdown timed out; forcing power off.")
+        dom.destroy()
+        if not wait_for_shutdown(dom, 15):
+            raise RuntimeError(f"{dom.name()}: failed to power off after destroy().")
+    else:
+        st, _ = dom.state()
+        raise RuntimeError(f"{dom.name()}: failed to shut down in {timeout}s (state={st}). Use --force-off to force shutdown.")
+
+
+# ---------- move function ----------
+def move_vm_disks(conn, dom, disks, dest_dir, was_running, timeout, force_off, keep_old, logger):
+    AFFECT_CONFIG = libvirt.VIR_DOMAIN_AFFECT_CONFIG
+
+    state, _ = dom.state()
+    if state == libvirt.VIR_DOMAIN_RUNNING:
+        if not force_off:
+            raise RuntimeError(f"{dom.name()} is running. Either shut it down manually or use --force-off to shutdown automatically.")
+        logger.info(f"Shutting down {dom.name()}...")
+        graceful_shutdown(dom, timeout, logger, force=True)
+
+    for d in disks:
+        src = d["path"]
+        tgt = d["target"]
+        drv = d["driver"]
+        dst = _norm(os.path.join(dest_dir, os.path.basename(src)))
+
+        if src == dst:
+            logger.info(f"{tgt}: already in destination, skipping")
+            continue
+
+        if has_backing_chain(src):
+            raise RuntimeError(f"{tgt}: backing chain detected for {src}. Rebase/copy the chain before moving.")
+
+        logger.info(f"{tgt}: moving {src} -> {dst}")
+
+        # Create destination directory if it doesn't exist
+        try:
+            os.makedirs(os.path.dirname(dst), exist_ok=True)
+            
+            if keep_old:
+                # Copy the file, keeping the original
+                shutil.copy2(src, dst)
+                logger.info(f"{tgt}: copied {src} to {dst} (keeping original)")
+            else:
+                # Move the file (default behavior)
+                try:
+                    os.rename(src, dst)
+                    logger.info(f"{tgt}: moved {src} to {dst}")
+                except OSError:
+                    # Fall back to copy+delete if rename fails (different filesystems)
+                    shutil.move(src, dst)
+                    logger.info(f"{tgt}: moved {src} to {dst} (cross-filesystem)")
+                
+        except Exception as e:
+            raise RuntimeError(f"{tgt}: failed to move {src} to {dst}: {e}")
+
+        # Persist new path in inactive XML
+        diskxml = build_disk_xml(drv, dst, tgt)
+        dom.updateDeviceFlags(diskxml, AFFECT_CONFIG)
+        logger.info(f"{tgt}: updated persistent XML to {dst}")
+
+
+# ---------- main ----------
+def main():
+    parser = argparse.ArgumentParser(description="Move a libvirt VM's disks between directory-backed pools (shutdown mode only).")
+    parser.add_argument("-v", "--vm", required=True, help="VM name")
+    parser.add_argument("-d", "--dest-pool", required=True, help="Destination storage pool (type=dir)")
+    parser.add_argument("--keep-old", action="store_true", help="Keep original files after move (default is to delete them)")
+    parser.add_argument("--timeout", type=int, default=300, help="Shutdown wait seconds")
+    parser.add_argument("--force-off", action="store_true", help="Shutdown VM if running, otherwise fail if VM is running")
+    parser.add_argument("--connect", default="qemu:///system", help="libvirt URI")
+
+    args = parser.parse_args()
+    logger = setup_logging()
+    logger.info(f"Starting move: vm={args.vm} dest_pool={args.dest_pool}")
+
+    conn = libvirt.open(args.connect)
+    if conn is None:
+        logger.error("Failed to open libvirt connection")
+        sys.exit(2)
+
+    try:
+        dom = conn.lookupByName(args.vm)
+    except libvirt.libvirtError:
+        logger.error(f"VM '{args.vm}' not found")
+        sys.exit(3)
+
+    try:
+        dest_dir = get_pool_dir(conn, args.dest_pool)
+    except Exception as e:
+        logger.error(str(e))
+        sys.exit(4)
+
+    disks = parse_file_disks(dom)
+    if not disks:
+        logger.error(f"No file-backed disks found on {args.vm}")
+        sys.exit(5)
+
+    state, _ = dom.state()
+    was_running = (state == libvirt.VIR_DOMAIN_RUNNING)
+
+    try:
+        move_vm_disks(conn, dom, disks, dest_dir, was_running, args.timeout, args.force_off, args.keep_old, logger)
+        logger.info("Move completed successfully.")
+        
+        if was_running:
+            logger.info(f"VM {args.vm} was running before the move. You may want to start it again.")
+            
+    except Exception as e:
+        logger.error(f"Move failed: {e}")
+        sys.exit(1)
+    finally:
+        conn.close()
+
+
+if __name__ == "__main__":
+    main()
