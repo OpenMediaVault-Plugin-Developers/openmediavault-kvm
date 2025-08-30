@@ -3062,8 +3062,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmdLine = $cmd->getCommandLine();
                 file_put_contents($bgOutputFilename, $cmdLine . PHP_EOL . PHP_EOL, FILE_APPEND);
                 $cmd->setQuiet(true);
-                $cmd->execute($output, $exitStatus);
-                file_put_contents($bgOutputFilename, implode(PHP_EOL, $output), FILE_APPEND);
+                $this->exec($cmdLine, $output, $bgOutputFilename);
                 return $output;
             }
         );

@@ -14,6 +14,7 @@ import libvirt
 import logging
 import os
 import shutil
+import stat
 import subprocess
 import sys
 import time
@@ -145,6 +146,32 @@ def graceful_shutdown(dom: libvirt.virDomain, timeout: int, logger: logging.Logg
 
 
 # ---------- move function ----------
+def _same_fs(a, b):
+    return os.stat(os.path.dirname(a)).st_dev == os.stat(os.path.dirname(b)).st_dev
+
+def _convert_preserving_thin(src, dst, fmt, logger, qcow_opts=None):
+    os.makedirs(os.path.dirname(dst), exist_ok=True)
+    if fmt == "raw":
+        # Keep sparse holes (thin) with -S
+        cmd = ["qemu-img", "convert", "-p", "-O", "raw", "-S", "4k", src, dst]
+    elif fmt == "qcow2":
+        # Keep it thin with preallocation=off; carry over useful attrs if present
+        opts = ["preallocation=off"]
+        if qcow_opts:
+            if "compat" in qcow_opts:
+                opts.append(f"compat={qcow_opts['compat']}")
+            if "cluster-size" in qcow_opts:
+                opts.append(f"cluster_size={qcow_opts['cluster-size']}")
+            if qcow_opts.get("lazy-refcounts"):
+                opts.append("lazy_refcounts=on")
+        cmd = ["qemu-img", "convert", "-p", "-O", "qcow2", "-o", ",".join(opts), src, dst]
+    else:
+        # Fall back: just convert same->same without preallocation
+        cmd = ["qemu-img", "convert", "-p", "-O", fmt, src, dst]
+
+    logger.info("Running: %s", " ".join(cmd))
+    subprocess.check_call(cmd)
+
 def move_vm_disks(conn, dom, disks, dest_dir, was_running, timeout, force_off, keep_old, logger):
     AFFECT_CONFIG = libvirt.VIR_DOMAIN_AFFECT_CONFIG
 
@@ -158,7 +185,7 @@ def move_vm_disks(conn, dom, disks, dest_dir, was_running, timeout, force_off, k
     for d in disks:
         src = d["path"]
         tgt = d["target"]
-        drv = d["driver"]
+        drv = d["driver"]  # may be 'qcow2' or 'raw', but we’ll verify on disk
         dst = _norm(os.path.join(dest_dir, os.path.basename(src)))
 
         if src == dst:
@@ -170,29 +197,35 @@ def move_vm_disks(conn, dom, disks, dest_dir, was_running, timeout, force_off, k
 
         logger.info(f"{tgt}: moving {src} -> {dst}")
 
-        # Create destination directory if it doesn't exist
         try:
-            os.makedirs(os.path.dirname(dst), exist_ok=True)
-            
-            if keep_old:
-                # Copy the file, keeping the original
-                shutil.copy2(src, dst)
-                logger.info(f"{tgt}: copied {src} to {dst} (keeping original)")
+            # Determine true on-disk format (don’t rely solely on XML)
+            info = qemu_img_info(src)
+            fmt = info.get("format", drv)
+            qcow_opts = {}
+            if fmt == "qcow2":
+                # carry over useful characteristics when possible
+                if "compat" in info: qcow_opts["compat"] = info["compat"]
+                if "cluster-size" in info: qcow_opts["cluster-size"] = info["cluster-size"]
+                if info.get("lazy-refcounts"): qcow_opts["lazy-refcounts"] = True
+
+            # Fast path: same filesystem and not keeping a copy -> rename (preserves thin)
+            if _same_fs(src, dst) and not keep_old:
+                os.makedirs(os.path.dirname(dst), exist_ok=True)
+                os.rename(src, dst)
+                logger.info(f"{tgt}: moved (rename) {src} -> {dst}")
             else:
-                # Move the file (default behavior)
-                try:
-                    os.rename(src, dst)
-                    logger.info(f"{tgt}: moved {src} to {dst}")
-                except OSError:
-                    # Fall back to copy+delete if rename fails (different filesystems)
-                    shutil.move(src, dst)
-                    logger.info(f"{tgt}: moved {src} to {dst} (cross-filesystem)")
-                
+                # Cross-FS move or keep_old copy -> use qemu-img to preserve thin format
+                _convert_preserving_thin(src, dst, fmt, logger, qcow_opts)
+                logger.info(f"{tgt}: converted {src} -> {dst} (format preserved: {fmt})")
+                if not keep_old:
+                    os.remove(src)
+                    logger.info(f"{tgt}: removed original {src}")
+
         except Exception as e:
             raise RuntimeError(f"{tgt}: failed to move {src} to {dst}: {e}")
 
         # Persist new path in inactive XML
-        diskxml = build_disk_xml(drv, dst, tgt)
+        diskxml = build_disk_xml(fmt, dst, tgt)
         dom.updateDeviceFlags(diskxml, AFFECT_CONFIG)
         logger.info(f"{tgt}: updated persistent XML to {dst}")
 
