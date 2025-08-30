@@ -143,7 +143,7 @@ if ! ${virshCmd} dominfo "${cntrName}" > /dev/null 2>&1; then
   exit 5
 fi
 
-cntrDir="$(${virshCmd} dumpxml "${cntrName}" | xmlstarlet sel -t -m "/domain/devices/filesystem/target[@dir='/']" -v "/domain/devices/filesystem/source/@dir")"
+cntrDir="$(${virshCmd} dumpxml "${cntrName}" | xmlstarlet sel -t -m "/domain/devices/filesystem[target/@dir='/']" -v "source/@dir" -n)"
 
 # if container path doesn't exist, exit
 if [ "${action}" = "create" ] && [ ! -d "${cntrDir}" ]; then
