@@ -1,3 +1,9 @@
+openmediavault-kvm (8.0) stable; urgency=low
+
+  * Update for omv 8.x
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sun, 28 Sep 2025 09:39:38 -0500
+
 openmediavault-kvm (7.2.0) stable; urgency=low
 
   * Add support for btrfs snapshots in omv-lxc-snapshot
