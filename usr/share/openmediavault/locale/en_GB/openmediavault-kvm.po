@@ -456,7 +456,7 @@ msgid "Failed to add spicevmc channel."
 msgstr "Failed to add spicevmc channel."
 
 msgid "Failed to apply new XML, and unable to restore backup :: "
-msgstr ""
+msgstr "Failed to apply new XML, and unable to restore backup :: "
 
 msgid "Failed to create VM XML."
 msgstr "Failed to create VM XML."
@@ -1008,7 +1008,7 @@ msgid "Terabytes"
 msgstr "Terabytes"
 
 msgid "Terminal Link"
-msgstr ""
+msgstr "Terminal Link"
 
 msgid "Type"
 msgstr "Type"
@@ -1035,7 +1035,7 @@ msgid "Unable to add network adapter to VM - "
 msgstr "Unable to add network adapter to VM - "
 
 msgid "Unable to backup existing XML for VM :: "
-msgstr ""
+msgstr "Unable to backup existing XML for VM :: "
 
 msgid "Unable to change notes for VM."
 msgstr "Unable to change notes for VM."
@@ -1158,7 +1158,7 @@ msgid "bridge"
 msgstr "bridge"
 
 msgid "disabled"
-msgstr ""
+msgstr "disabled"
 
 msgid "e1000"
 msgstr "e1000"

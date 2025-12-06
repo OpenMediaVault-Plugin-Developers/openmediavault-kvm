@@ -3,9 +3,6 @@
 # This file is distributed under the same license as the openmediavault-kvm package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
-# Translators:
-# songming <by@songming.me>, 2025
-# 
 #, fuzzy
 msgid ""
 msgstr ""
@@ -13,157 +10,156 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-07 10:18-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
-"Last-Translator: songming <by@songming.me>, 2025\n"
-"Language-Team: Chinese (China) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_CN/)\n"
+"Language-Team: Lao (Laos) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/lo_LA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_CN\n"
+"Language: lo_LA\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 msgid " already exists!"
-msgstr "已经存在！"
+msgstr ""
 
 msgid " the network!"
-msgstr "网络"
+msgstr ""
 
 msgid "Action"
-msgstr "动作"
+msgstr ""
 
 msgid "Activity"
-msgstr "激活"
+msgstr ""
 
 msgid "Add"
-msgstr "添加"
+msgstr ""
 
 msgid "Add PCI"
-msgstr "添加 PCI"
+msgstr ""
 
 msgid "Add Spice"
-msgstr "添加 Spice"
+msgstr ""
 
 msgid "Add USB"
-msgstr "添加 USB"
+msgstr ""
 
 msgid "Add VNC"
-msgstr "添加 VNC"
+msgstr ""
 
 msgid "Add disc"
-msgstr "添加 光盘"
+msgstr ""
 
 msgid "Add disk"
-msgstr "添加磁盘"
+msgstr ""
 
 msgid "Add host disk"
-msgstr "添加主机磁盘"
+msgstr ""
 
 msgid "Add host drive"
-msgstr "添加磁盘"
+msgstr ""
 
 msgid "Add macvtap network"
-msgstr "添加 macvtap 网络"
+msgstr ""
 
 msgid "Add network"
-msgstr "添加网络"
+msgstr ""
 
 msgid "Add new"
-msgstr "添加新的"
+msgstr ""
 
 msgid "Add new VM"
-msgstr "添加新  VM"
+msgstr ""
 
 msgid "Add new container"
-msgstr "添加新容器"
+msgstr ""
 
 msgid "Add new pool"
-msgstr "添加新池"
+msgstr ""
 
 msgid "Add passthrough"
-msgstr "添加直通"
+msgstr ""
 
 msgid "Add virtual TPM 2.0 device"
-msgstr "添加虚拟 TPM 2.0 设备"
+msgstr ""
 
 msgid "Adding USB device ..."
-msgstr "添加 USB 设备中 ..."
+msgstr ""
 
 msgid "Adding VNC viewer ..."
-msgstr "添加 VNC 监视器中 ..."
+msgstr ""
 
 msgid "Adding a disk ..."
-msgstr "添加磁盘中 ..."
+msgstr ""
 
 msgid "Adding a host disk ..."
-msgstr "添加主机磁盘中 ..."
+msgstr ""
 
 msgid "Adding a macvtap network ..."
-msgstr "添加 mactap 网络中 ..."
+msgstr ""
 
 msgid "Adding a network ..."
-msgstr "添加网络中 ..."
+msgstr ""
 
 msgid "Adding a pool ..."
-msgstr "添加池中 ..."
+msgstr ""
 
 msgid "Adding host drive ..."
-msgstr "添加主机驱动器中 ..."
+msgstr ""
 
 msgid "Adding network adapter ..."
-msgstr "添加网卡中 ..."
+msgstr ""
 
 msgid "Adding optical disc ..."
-msgstr "添加光盘镜像中 ..."
+msgstr ""
 
 msgid "Adding passthrough filesystem ..."
-msgstr "添加直通文件系统中 ..."
+msgstr ""
 
 msgid "Adding spice viewer ..."
-msgstr "添加 spice 监视器中 ..."
+msgstr ""
 
 msgid "Advanced"
-msgstr "高级"
+msgstr ""
 
 msgid "Allocation"
-msgstr "划分"
+msgstr ""
 
 msgid "Amount"
-msgstr "数量"
+msgstr ""
 
 msgid "Arch"
-msgstr "Arch"
+msgstr ""
 
 msgid "Architecture"
-msgstr "架构"
+msgstr ""
 
 msgid "Are you sure you want to delete?"
-msgstr "您确定删除吗？"
+msgstr ""
 
 msgid "Audio"
-msgstr "音频"
+msgstr ""
 
 msgid "AutoStart"
-msgstr "自启动"
+msgstr ""
 
 msgid "Autostart has been disabled."
-msgstr "自启动已关闭。"
+msgstr ""
 
 msgid "Autostart has been enabled."
-msgstr "自启动已启用。"
+msgstr ""
 
 msgid "Available"
-msgstr "空闲"
+msgstr ""
 
 msgid "Backing file"
-msgstr "备份文件"
+msgstr ""
 
 msgid "Backup"
-msgstr "备份"
+msgstr ""
 
 msgid "Backup with Compression"
-msgstr "压缩备份"
+msgstr ""
 
 msgid "Base image"
-msgstr "基础镜像"
+msgstr ""
 
 msgid ""
 "Be very careful not to passthrough a device being used by the host operating"
@@ -171,1048 +167,1044 @@ msgid ""
 "change between reboots.<br/>It is recommended to use /dev/disk/by-id device "
 "names."
 msgstr ""
-"请注意不要将宿主机操作系统使用的设备做直通！<br/>不推荐使用 /dev/sd* 格式，因为重启时检查会变。<br/>建议使用 "
-"/dev/disk/by-id 这种设备名称直通。"
 
 msgid "Bus"
-msgstr "Bus"
+msgstr ""
 
 msgid "CPU"
-msgstr "CPU"
+msgstr ""
 
 msgid "CPU count has been changed."
-msgstr "CPU 数量已改变。"
+msgstr ""
 
 msgid "CPUs"
-msgstr "CPUs"
+msgstr ""
 
 msgid "Call"
-msgstr "Call"
+msgstr ""
 
 msgid "Cannot remove / from a container."
-msgstr "不能移除容器。"
+msgstr ""
 
 msgid "Cannot use / for mount point."
-msgstr "不能使用挂载点。"
+msgstr ""
 
 msgid "Capacity"
-msgstr "容量"
+msgstr ""
 
 msgid "Change disc"
-msgstr "变更光盘"
+msgstr ""
 
 msgid "Change memory"
-msgstr "改变内存"
+msgstr ""
 
 msgid "Change vCPU"
-msgstr "改变 vCPU"
+msgstr ""
 
 msgid "Changing memory amount ..."
-msgstr "改变内存大小中 ..."
+msgstr ""
 
 msgid "Changing number of CPUs ..."
-msgstr "改变 CPU 核心数中 ..."
+msgstr ""
 
 msgid "Changing optical disc ..."
-msgstr "改变光盘中 ..."
+msgstr ""
 
 msgid "Check"
-msgstr "检查"
+msgstr ""
 
 msgid "Check volume ..."
-msgstr "检查卷中 ..."
+msgstr ""
 
 msgid "Clone"
-msgstr "克隆"
+msgstr ""
 
 msgid "Clone name"
-msgstr "克隆名称"
+msgstr ""
 
 msgid "Cloning ..."
-msgstr "克隆中 ..."
+msgstr ""
 
 msgid "Cloning complete."
-msgstr "克隆完成。"
+msgstr ""
 
 msgid "Component"
-msgstr "组件"
+msgstr ""
 
 msgid "Compression"
-msgstr "压缩"
+msgstr ""
 
 msgid "Console"
-msgstr "控制台"
+msgstr ""
 
 msgid "Consoles have been started."
-msgstr "控制台已启动。"
+msgstr ""
 
 msgid "Consoles have been stopped."
-msgstr "控制台已停止。"
+msgstr ""
 
 msgid "Convert to qcow2"
-msgstr "转换成 qcow2"
+msgstr ""
 
 msgid "Convert to raw"
-msgstr "转换成 raw"
+msgstr ""
 
 msgid "Converting to qcow2 ..."
-msgstr "转换为 qcow2 中 ..."
+msgstr ""
 
 msgid "Converting to raw ..."
-msgstr "转换为  raw 中 ..."
+msgstr ""
 
 msgid "Create"
-msgstr "创建"
+msgstr ""
 
 msgid "Create LXC"
-msgstr "创建 LXC"
+msgstr ""
 
 msgid "Create VM"
-msgstr "创建 VM"
+msgstr ""
 
 msgid "Create backing file"
-msgstr "创建备份文件"
+msgstr ""
 
 msgid "Created LXC."
-msgstr "创建 LXC。"
+msgstr ""
 
 msgid "Created VM."
-msgstr "已创建 VM。"
+msgstr ""
 
 msgid "Created scheduled job."
-msgstr "创建计划任务。"
+msgstr ""
 
 msgid "Creating linked clone ..."
-msgstr "创建链接克隆中 ..."
+msgstr ""
 
 msgid "Creating snapshot ..."
-msgstr "创建快照中 ..."
+msgstr ""
 
 msgid "Current size"
-msgstr "当前大小"
+msgstr ""
 
 msgid "DHCP"
-msgstr "DHCP"
+msgstr ""
 
 msgid "DHCP Range"
-msgstr "DHCP 范围"
+msgstr ""
 
 msgid "DHCP ending address"
-msgstr "DHCP 结束地址"
+msgstr ""
 
 msgid "DHCP starting address"
-msgstr "DHCP 开始地址"
+msgstr ""
 
 msgid "Date"
-msgstr "日期"
+msgstr ""
 
 msgid "Date & Time"
-msgstr "日期 & 时间"
+msgstr ""
 
 msgid "Delete"
-msgstr "删除"
+msgstr ""
 
 msgid "Delete + storage"
-msgstr "删除 + 存储"
+msgstr ""
 
 msgid "Deleted."
-msgstr "删除。"
+msgstr ""
 
 msgid "Deleting ..."
-msgstr "删除中 ..."
+msgstr ""
 
 msgid "Deleting a network ..."
-msgstr "删除网络中 ..."
+msgstr ""
 
 msgid "Deleting a pool ..."
-msgstr "删除池中 ..."
+msgstr ""
 
 msgid "Deleting snapshot ..."
-msgstr "删除快照中 ..."
+msgstr ""
 
 msgid "Details"
-msgstr "详情"
+msgstr ""
 
 msgid "Directory"
-msgstr "路径"
+msgstr ""
 
 msgid "Directory is not empty!"
-msgstr "目录不为空！"
+msgstr ""
 
 msgid "Disable"
-msgstr "关闭"
+msgstr ""
 
 msgid "Disabling autostart ..."
-msgstr "关闭自启动中 ..."
+msgstr ""
 
 msgid "Disk"
-msgstr "磁盘"
+msgstr ""
 
 msgid "Disk has been added."
-msgstr "磁盘已添加。"
+msgstr ""
 
 msgid "Disk has been removed."
-msgstr "磁盘已删除。"
+msgstr ""
 
 msgid "Disk info"
-msgstr "磁盘信息"
+msgstr ""
 
 msgid "Disk list"
-msgstr "磁盘列表"
+msgstr ""
 
 msgid "Disk stats"
-msgstr "磁盘状态"
+msgstr ""
 
 msgid "Disk(s)"
-msgstr "磁盘"
+msgstr ""
 
 msgid "Download virtio iso"
-msgstr "下载  virtio iso"
+msgstr ""
 
 msgid "Download virtio iso ..."
-msgstr " 下载 virtio iso 中 ..."
+msgstr ""
 
 msgid "Edit"
-msgstr "编辑"
+msgstr ""
 
 msgid "Edit Notes"
-msgstr "编辑注释"
+msgstr ""
 
 msgid "Edit VM xml"
-msgstr "编辑 VM xml"
+msgstr ""
 
 msgid "Edit VM xml."
-msgstr "编辑 VM xml。"
+msgstr ""
 
 msgid "Edit XML"
-msgstr "编辑 XML"
+msgstr ""
 
 msgid "Edit scheduled job."
-msgstr "编辑计划任务。"
+msgstr ""
 
 msgid "Edit settings."
-msgstr "编辑设置。"
+msgstr ""
 
 msgid "Eject disc"
-msgstr "弹出光盘"
+msgstr ""
 
 msgid "Ejecting optical disc ..."
-msgstr "弹出光盘中 ..."
+msgstr ""
 
 msgid "Enable"
-msgstr "启用"
+msgstr ""
 
 msgid "Enabling autostart ..."
-msgstr "启用自启动中 ..."
+msgstr ""
 
 msgid "Execute backup using selected VM name and path ..."
-msgstr "使用选定的 VM 名称和路径执行备份中 ..."
+msgstr ""
 
 msgid "Execute backup with compression using selected VM name and path ..."
-msgstr "使用选定的 VM 名称和路径执行压缩备份中 ..."
+msgstr ""
 
 msgid "Execute scheduled job ..."
-msgstr "执行计划任务中 ..."
+msgstr ""
 
 msgid "Extend"
-msgstr "扩展"
+msgstr ""
 
 msgid "Extension"
-msgstr "扩展"
+msgstr ""
 
 msgid "Failed to "
-msgstr "失败"
+msgstr ""
 
 msgid "Failed to add PCI device."
-msgstr "添加 PCI 设备失败。"
+msgstr ""
 
 msgid "Failed to add USB device."
-msgstr "添加 USB 设备失败。"
+msgstr ""
 
 msgid "Failed to add VNC device."
-msgstr "添加 VNC 设备失败。"
+msgstr ""
 
 msgid "Failed to add disk."
-msgstr "添加磁盘失败。"
+msgstr ""
 
 msgid "Failed to add filesystem passthrough."
-msgstr "添加直通文件系统失败。"
+msgstr ""
 
 msgid "Failed to add host disk."
-msgstr "添加主机磁盘失败。"
+msgstr ""
 
 msgid "Failed to add host optical."
-msgstr "添加光驱失败。"
+msgstr ""
 
 msgid "Failed to add optical."
-msgstr "添加光盘失败。"
+msgstr ""
 
 msgid "Failed to add spice device."
-msgstr "添加 spice 设备失败。"
+msgstr ""
 
 msgid "Failed to add spicevmc channel."
-msgstr "添加 spicevmc 通道失败。"
+msgstr ""
 
 msgid "Failed to apply new XML, and unable to restore backup :: "
-msgstr "应用新 XML 失败，并且不能恢复备份 ::"
+msgstr ""
 
 msgid "Failed to create VM XML."
-msgstr "创建 VM XML 失败。"
+msgstr ""
 
 msgid "Failed to create VM."
-msgstr "创建 VM 失败。"
+msgstr ""
 
 msgid "Failed to create new disk :: "
-msgstr "创建新磁盘失败 :: "
+msgstr ""
 
 msgid "Failed to delete VM."
-msgstr "删除 VM 失败。"
+msgstr ""
 
 msgid "Failed to detach PCI device from host."
-msgstr "从主机分离 PCI 设备失败。"
+msgstr ""
 
 msgid "Failed to remove PCI device."
-msgstr "移除 PCI 设备失败。"
+msgstr ""
 
 msgid "Failed to remove USB device."
-msgstr "移除 USB 设备失败。"
+msgstr ""
 
 msgid "Failed to remove VNC device."
-msgstr "移除 VNC 设备失败。"
+msgstr ""
 
 msgid "Failed to remove disk."
-msgstr "移除磁盘失败。"
+msgstr ""
 
 msgid "Failed to remove filesystem passthrough."
-msgstr "移除直通文件系统失败。"
+msgstr ""
 
 msgid "Failed to remove network."
-msgstr "移除网络失败。"
+msgstr ""
 
 msgid "Failed to remove spice device."
-msgstr "移除 spice 设备失败。"
+msgstr ""
 
 msgid "Failed to remove spicevmc channel."
-msgstr "移除 spicevmc 通道失败。"
+msgstr ""
 
 msgid "Failed to remove spicevmc redirdev."
-msgstr "移除 spicevmc redirdev 失败。"
+msgstr ""
 
 msgid "Failed to reset VM."
-msgstr "重置 VM 失败。"
+msgstr ""
 
 msgid "Failed to resize disk!"
-msgstr "调整磁盘大小失败！"
+msgstr ""
 
 msgid "Failed to set change."
-msgstr "改变设置失败。"
+msgstr ""
 
 msgid "Failed to set maximum."
-msgstr "设置最大值失败。"
+msgstr ""
 
 msgid "Failed to set pool autostart."
-msgstr "设置池自启动失败。"
+msgstr ""
 
 msgid "Failed to start pool."
-msgstr "启动池失败。"
+msgstr ""
 
 msgid "Failed to start websockify for noVNC."
-msgstr "为 noVNC 启动  websockify 失败。"
+msgstr ""
 
 msgid "Failed to start websockify for spice-html5."
-msgstr "为 spice-html5 启动 websockify 失败。"
+msgstr ""
 
 msgid "File will be place in same directory as the base image."
-msgstr "文件将和基础镜像放在同一目录中。"
+msgstr ""
 
 msgid "Filesystem"
-msgstr "文件系统"
+msgstr ""
 
 msgid ""
 "For description of each type and how to configure <a "
 "href='https://libvirt.org/storage.html' "
 "target='_blank'>libvirt.org/storage.html</a>"
 msgstr ""
-"每种类型的描述和配置详情见<a href='https://libvirt.org/storage.html' "
-"target='_blank'>libvirt.org/storage.html</a>"
 
 msgid "Force"
-msgstr "强制"
+msgstr ""
 
 msgid "Force eject"
-msgstr "强制弹出"
+msgstr ""
 
 msgid "Force image list refresh"
-msgstr "强制刷新镜像列表"
+msgstr ""
 
 msgid "Forced down."
-msgstr "强制下线。"
+msgstr ""
 
 msgid "Forcing down ..."
-msgstr "强制下线中中 ..."
+msgstr ""
 
 msgid "Format"
-msgstr "格式化"
+msgstr ""
 
 msgid "Forwarding"
-msgstr "转发"
+msgstr ""
 
 msgid "Gateway IP"
-msgstr "网关"
+msgstr ""
 
 msgid "Gateway IP address"
-msgstr "网关 IP 地址"
+msgstr ""
 
 msgid "GiB"
-msgstr "GiB"
+msgstr ""
 
 msgid "Gigabytes"
-msgstr "GB"
+msgstr ""
 
 msgid "Hard disk"
-msgstr "硬盘"
+msgstr ""
 
 msgid "Host VNC port"
-msgstr "VNC 主机端口"
+msgstr ""
 
 msgid "Host disk has been added."
-msgstr "主机磁盘已添加。"
+msgstr ""
 
 msgid "Host drive has been added."
-msgstr "主机驱动已添加。"
+msgstr ""
 
 msgid "Host name"
-msgstr "主机名"
+msgstr ""
 
 msgid "Host spice port"
-msgstr "spice 主机端口"
+msgstr ""
 
 msgid "IP Range"
-msgstr "IP 范围"
+msgstr ""
 
 msgid "ISOs"
-msgstr "ISOs"
+msgstr ""
 
 msgid ""
 "If unchecked, LXC Container Initialization and Autoboot will be disabled."
-msgstr "如果不检查，LXC 容器初始化和自动启动将关闭。"
+msgstr ""
 
 msgid "If unchecked, LXC network bridge will be disabled."
-msgstr "如果不检查，LXC 网桥将关闭。"
+msgstr ""
 
 msgid "Image"
-msgstr "镜像"
+msgstr ""
 
 msgid "Info"
-msgstr "信息"
+msgstr ""
 
 msgid "KVM"
-msgstr "KVM"
+msgstr ""
 
 msgid "KVM Backup"
-msgstr "KVM 备份"
+msgstr ""
 
 msgid "Keep Recent"
-msgstr "保留最近"
+msgstr ""
 
 msgid "LXC"
-msgstr "LXC"
+msgstr ""
 
 msgid "LXC name"
-msgstr "LXC 名称"
+msgstr ""
 
 msgid "Leave blank for random address."
-msgstr "留空则使用随机地址。"
+msgstr ""
 
 msgid "Leave blank to use VM name."
-msgstr "留空则使用 VM 名称。"
+msgstr ""
 
 msgid "Linked Clone"
-msgstr "链接克隆"
+msgstr ""
 
 msgid "Linked clone complete."
-msgstr "链接克隆已完成。"
+msgstr ""
 
 msgid "Logical"
-msgstr "逻辑"
+msgstr ""
 
 msgid "MAC address"
-msgstr "MAC 地址"
+msgstr ""
 
 msgid "Megabytes"
-msgstr "MB"
+msgstr ""
 
 msgid "Memory"
-msgstr "内存"
+msgstr ""
 
 msgid "Memory amount has been changed."
-msgstr "内存大小已改变。"
+msgstr ""
 
 msgid "Message"
-msgstr "消息"
+msgstr ""
 
 msgid "MiB"
-msgstr "MiB"
+msgstr ""
 
 msgid "Model"
-msgstr "型号"
+msgstr ""
 
 msgid "Name"
-msgstr "名称"
+msgstr ""
 
 msgid "Net info"
-msgstr "网络信息"
+msgstr ""
 
 msgid "Network"
-msgstr "网络"
+msgstr ""
 
 msgid "Network Filesystem"
-msgstr "网络文件系统"
+msgstr ""
 
 msgid "Network Name"
-msgstr "网络名称"
+msgstr ""
 
 msgid "Network State"
-msgstr "网络状态"
+msgstr ""
 
 msgid "Network adapter has been added."
-msgstr "网卡已添加。"
+msgstr ""
 
 msgid "Network adapter has been removed."
-msgstr "网卡已移除。"
+msgstr ""
 
 msgid "Network has been added."
-msgstr "网络已添加。"
+msgstr ""
 
 msgid "Network has been deleted."
-msgstr "网络已删除。"
+msgstr ""
 
 msgid "Network has been started."
-msgstr "网络已启动。"
+msgstr ""
 
 msgid "Network has been stopped."
-msgstr "网络已停止。"
+msgstr ""
 
 msgid "Network interface info"
-msgstr "网卡信息"
+msgstr ""
 
 msgid "Networks"
-msgstr "网络"
+msgstr ""
 
 msgid "New name"
-msgstr "新名称"
+msgstr ""
 
 msgid "No disk name specified!"
-msgstr "没有填入磁盘名称！"
+msgstr ""
 
 msgid "No image - use existing image path"
-msgstr "无镜像 - 使用已有的镜像路径"
+msgstr ""
 
 msgid "Notes"
-msgstr "注意"
+msgstr ""
 
 msgid "OS"
-msgstr "OS"
+msgstr ""
 
 msgid "Optical"
-msgstr "光盘"
+msgstr ""
 
 msgid "Optical Drive"
-msgstr "光驱"
+msgstr ""
 
 msgid "Optical disc has been added."
-msgstr "光盘已添加。"
+msgstr ""
 
 msgid "Optical disc has been changed."
-msgstr "光盘已变更。"
+msgstr ""
 
 msgid "Optical disc has been ejected."
-msgstr "光盘已弹出。"
+msgstr ""
 
 msgid "Optical disc has been removed."
-msgstr "光盘已移除。"
+msgstr ""
 
 msgid "Optimize/Shrink"
-msgstr "优化/缩小"
+msgstr ""
 
 msgid "Optimizing/shrinking qcow2 ..."
-msgstr "优化/缩小 qcow2 ..."
+msgstr ""
 
 msgid ""
 "Optional. Choose pool to restore VM to a different location. Leave blank for"
 " original location."
-msgstr "可选项，选择池以恢复 VM 到不同的位置，留空则恢复到原来的位置。"
+msgstr ""
 
 msgid "Other CPU"
-msgstr "其它 CPU"
+msgstr ""
 
 msgid "PCI"
-msgstr "PCI"
+msgstr ""
 
 msgid "PCI device has been added."
-msgstr "PCI 设备已添加。"
+msgstr ""
 
 msgid "PCI device has been removed."
-msgstr "PCI 设备已移除。"
+msgstr ""
 
 msgid "Passing through PCI device ..."
-msgstr "直通 PCI 设备中 ..."
+msgstr ""
 
 msgid "Passthrough Filesystem"
-msgstr "直通文件系统"
+msgstr ""
 
 msgid "Passthrough by address instead of using vendor and product IDs"
-msgstr "使用地址来直通，而不是厂商或产品 ID。"
+msgstr ""
 
 msgid "Passthrough filesystem has been added."
-msgstr "直通文件系统已添加。"
+msgstr ""
 
 msgid "Passthrough filesystem has been removed."
-msgstr "直通文件系统已移除。"
+msgstr ""
 
 msgid "Path"
-msgstr "路径"
+msgstr ""
 
 msgid "Pause"
-msgstr "暂停"
+msgstr ""
 
 msgid "Paused."
-msgstr "已暂停。"
+msgstr ""
 
 msgid "Pausing ..."
-msgstr "暂停中 ..."
+msgstr ""
 
 msgid "Pool"
-msgstr "池"
+msgstr ""
 
 msgid "Pool has been added."
-msgstr "池已添加。"
+msgstr ""
 
 msgid "Pool has been deleted."
-msgstr "池已删除。"
+msgstr ""
 
 msgid "Pool has been started."
-msgstr "池已启动。"
+msgstr ""
 
 msgid "Pool has been stopped."
-msgstr "池已停止。"
+msgstr ""
 
 msgid "Pools"
-msgstr "池"
+msgstr ""
 
 msgid "Reboot"
-msgstr "重启"
+msgstr ""
 
 msgid "Rebooted."
-msgstr "重启。"
+msgstr ""
 
 msgid "Rebooting ..."
-msgstr "重启中 ..."
+msgstr ""
 
 msgid "Remove PCI"
-msgstr "移除 PCI"
+msgstr ""
 
 msgid "Remove Spice"
-msgstr "移除 Spice"
+msgstr ""
 
 msgid "Remove USB"
-msgstr "移除 USB"
+msgstr ""
 
 msgid "Remove VNC"
-msgstr "移除 VNC"
+msgstr ""
 
 msgid "Remove disc"
-msgstr "移除光盘"
+msgstr ""
 
 msgid "Remove disk"
-msgstr "删除磁盘"
+msgstr ""
 
 msgid "Remove network"
-msgstr "删除网络"
+msgstr ""
 
 msgid "Remove passthrough"
-msgstr "移除直通"
+msgstr ""
 
 msgid "Removing PCI device ..."
-msgstr "移除 PCI 设备中 ..."
+msgstr ""
 
 msgid "Removing USB device ..."
-msgstr "移除 USB 设备中 ..."
+msgstr ""
 
 msgid "Removing VNC viewer ..."
-msgstr "移除 VNC 监视器中 ..."
+msgstr ""
 
 msgid "Removing disk ..."
-msgstr "移除磁盘中 ..."
+msgstr ""
 
 msgid "Removing network adapter ..."
-msgstr "移除网卡中 ..."
+msgstr ""
 
 msgid "Removing optical disc ..."
-msgstr "移除光盘中 ..."
+msgstr ""
 
 msgid "Removing passthrough filesystem ..."
-msgstr "移除直通文件系统中 ..."
+msgstr ""
 
 msgid "Removing spice viewer ..."
-msgstr "移除 spice 监视器中 ..."
+msgstr ""
 
 msgid "Reset"
-msgstr "重置"
+msgstr ""
 
 msgid "Reset."
-msgstr "重置。"
+msgstr ""
 
 msgid "Resetting ..."
-msgstr "重置中 ..."
+msgstr ""
 
 msgid "Restore"
-msgstr "恢复"
+msgstr ""
 
 msgid "Restore VM ..."
-msgstr "恢复 VM中 ..."
+msgstr ""
 
 msgid "Resume"
-msgstr "恢复`"
+msgstr ""
 
 msgid "Resumed."
-msgstr "已恢复。"
+msgstr ""
 
 msgid "Resuming ..."
-msgstr "恢复中 ..."
+msgstr ""
 
 msgid "Revert"
-msgstr "还原"
+msgstr ""
 
 msgid "Reverting to snapshot ..."
-msgstr "还原快照中 ..."
+msgstr ""
 
 msgid "Run"
-msgstr "运行"
+msgstr ""
 
 msgid "Running"
-msgstr "运行中"
+msgstr ""
 
 msgid "Same Format"
-msgstr "相同格式"
+msgstr ""
 
 msgid "Schedule"
-msgstr "计划"
+msgstr ""
 
 msgid "Secure boot"
-msgstr "安全启动"
+msgstr ""
 
 msgid "Select a snapshot ..."
-msgstr "选择快照中 ..."
+msgstr ""
 
 msgid "Settings"
-msgstr "设置"
+msgstr ""
 
 msgid "Show advanced options"
-msgstr "显示高级选项"
+msgstr ""
 
 msgid "Size"
-msgstr "大小"
+msgstr ""
 
 msgid "Snapshot"
-msgstr "快照"
+msgstr ""
 
 msgid "Snapshot has been created."
-msgstr "快照已创建。"
+msgstr ""
 
 msgid "Snapshot has been deleted."
-msgstr "快照已删除。"
+msgstr ""
 
 msgid "Snapshot has been reverted."
-msgstr "快照已还原。"
+msgstr ""
 
 msgid "Snapshots"
-msgstr "快照"
+msgstr ""
 
 msgid "Source VM"
-msgstr "VM 源"
+msgstr ""
 
 msgid "Source path"
-msgstr "路径源"
+msgstr ""
 
 msgid "Space Used"
-msgstr "空间使用"
+msgstr ""
 
 msgid "Spice"
-msgstr "Spice"
+msgstr ""
 
 msgid "Spice port"
-msgstr "Spice 端口"
+msgstr ""
 
 msgid "Spice viewer has been added."
-msgstr "Spice 监视器已添加。"
+msgstr ""
 
 msgid "Spice viewer has been removed."
-msgstr "Spice 监视器已移除。"
+msgstr ""
 
 msgid "Start"
-msgstr "运行"
+msgstr ""
 
 msgid "Started."
-msgstr "已启动。"
+msgstr ""
 
 msgid "Starting ..."
-msgstr "启动中 ..."
+msgstr ""
 
 msgid "Starting a pool ..."
-msgstr "启用池中 ..."
+msgstr ""
 
 msgid "Starting consoles ..."
-msgstr "启动控制台中 ..."
+msgstr ""
 
 msgid "Starting network ..."
-msgstr "启动网络中 ..."
+msgstr ""
 
 msgid "State"
-msgstr "状态"
+msgstr ""
 
 msgid "Stop"
-msgstr "停止"
+msgstr ""
 
 msgid "Stopped."
-msgstr "停止。"
+msgstr ""
 
 msgid "Stopping ..."
-msgstr "停止中 ..."
+msgstr ""
 
 msgid "Stopping a pool ..."
-msgstr "停止池中 ..."
+msgstr ""
 
 msgid "Stopping consoles ..."
-msgstr "停止控制台中 ..."
+msgstr ""
 
 msgid "Stopping network ..."
-msgstr "停止网络中 ..."
+msgstr ""
 
 msgid "Storage Volume"
-msgstr "存储卷"
+msgstr ""
 
 msgid "Subnet mask"
-msgstr "子掩码"
+msgstr ""
 
 msgid "TPM"
-msgstr "TPM"
+msgstr ""
 
 msgid "Terabytes"
-msgstr "TB"
+msgstr ""
 
 msgid "Terminal Link"
-msgstr "终端链接"
+msgstr ""
 
 msgid "Type"
-msgstr "类型"
+msgstr ""
 
 msgid "UEFI"
-msgstr "UEFI"
+msgstr ""
 
 msgid "USB"
-msgstr "USB"
+msgstr ""
 
 msgid "USB device has been added."
-msgstr "USB 设备已添加。"
+msgstr ""
 
 msgid "USB device has been removed."
-msgstr "USB 设备已移除。"
+msgstr ""
 
 msgid "UUID"
-msgstr "UUID"
+msgstr ""
 
 msgid "Unable to - "
-msgstr "无法 - "
+msgstr ""
 
 msgid "Unable to add network adapter to VM - "
-msgstr "无法添加网络适配器到 VM - "
+msgstr ""
 
 msgid "Unable to backup existing XML for VM :: "
-msgstr "不能备份已存在的虚拟机 XML :: "
+msgstr ""
 
 msgid "Unable to change notes for VM."
-msgstr "无法改变 VM 注释。"
+msgstr ""
 
 msgid "Unable to change topolgy cores for VM - "
-msgstr "无法改变 VM 的拓扑内核-"
+msgstr ""
 
 msgid "Unable to create Macvap - "
-msgstr "无法创建 Macvap - "
+msgstr ""
 
 msgid "Unable to create network - "
-msgstr "无法创建网络 -"
+msgstr ""
 
 msgid "Unable to create pool - "
-msgstr "无法创建池 -"
+msgstr ""
 
 msgid "Unable to create snapshot - "
-msgstr "无法创建快照 -"
+msgstr ""
 
 msgid "Unable to create volume - "
-msgstr "无法创建卷 -"
+msgstr ""
 
 msgid "Unable to delete disk(s) from VM - "
-msgstr "无法删除 VM 的磁盘-"
+msgstr ""
 
 msgid "Unable to delete network - "
-msgstr "无法删除网络 -"
+msgstr ""
 
 msgid "Unable to delete pool - "
-msgstr "无法删除池 -"
+msgstr ""
 
 msgid "Unable to delete snapshot - "
-msgstr "无法删除快照 -"
+msgstr ""
 
 msgid "Unable to delete volume - "
-msgstr "无法删除卷 -"
+msgstr ""
 
 msgid "Unable to get network adapter type - "
-msgstr "不能设置网卡类型 -"
+msgstr ""
 
 msgid "Unable to revert to snapshot - "
-msgstr "无法还原快照 -"
+msgstr ""
 
 msgid "Unable to set VM XML :: "
-msgstr "无法设置 VM XML :: "
+msgstr ""
 
 msgid "Unable to start network - "
-msgstr "无法启用网络 -"
+msgstr ""
 
 msgid "Unable to stop network - "
-msgstr "无法停止网络 -"
+msgstr ""
 
 msgid "Unable to undefine VM :: "
-msgstr "无法定义 VM :: "
+msgstr ""
 
 msgid "Unit"
-msgstr "单位"
+msgstr ""
 
 msgid "VM Name"
-msgstr "VM 名称"
+msgstr ""
 
 msgid "VM does not have qemu guest agent installed!"
-msgstr "VM 没有安装 qemu 代理程序！"
+msgstr ""
 
 msgid "VM info"
-msgstr "VM 信息"
+msgstr ""
 
 msgid "VM is not running!"
-msgstr "VM 未运行！"
+msgstr ""
 
 msgid "VM name"
-msgstr "VM 名称"
+msgstr ""
 
 msgid "VM name for restored VM"
-msgstr "恢复 VM 名称"
+msgstr ""
 
 msgid "VMs"
-msgstr "VMs"
+msgstr ""
 
 msgid "VNC"
-msgstr "VNC"
+msgstr ""
 
 msgid "VNC port"
-msgstr "VNC 端口"
+msgstr ""
 
 msgid "VNC viewer has been added."
-msgstr "VNC 监视器已添加。"
+msgstr ""
 
 msgid "VNC viewer has been removed."
-msgstr "VNC 监视器已移除。"
+msgstr ""
 
 msgid "Volume Count"
-msgstr "卷数量"
+msgstr ""
 
 msgid "Volume group"
-msgstr "卷组"
+msgstr ""
 
 msgid "Volume info ..."
-msgstr "卷信息 ..."
+msgstr ""
 
 msgid "Volumes"
-msgstr "卷"
+msgstr ""
 
 msgid ""
 "Warning! Address can change after VM reboot breaking the passthrough!<br "
 "/>Useful when the host system has two or more devices with duplicate vendor "
 "and product IDs."
-msgstr "警告！VM 重启后地址可能改变而影响直通！<br />当主机系统两个以上相同厂家和型号的硬件 ID 时会很有用。"
+msgstr ""
 
 msgid "XML"
-msgstr "XML"
+msgstr ""
 
 msgid "ZFS"
-msgstr "ZFS"
+msgstr ""
 
 msgid "bridge"
-msgstr "桥"
+msgstr ""
 
 msgid "disabled"
-msgstr "停用"
+msgstr ""
 
 msgid "e1000"
-msgstr "e1000"
+msgstr ""
 
 msgid "iSCSI"
-msgstr "iSCSI"
+msgstr ""
 
 msgid "ide"
-msgstr "ide"
+msgstr ""
 
 msgid "lxc service"
-msgstr "lxc 服务"
+msgstr ""
 
 msgid "lxc-net service"
-msgstr "lxc-net 服务"
+msgstr ""
 
 msgid "macvtap network has been added."
-msgstr "macvtap 网络已添加。"
+msgstr ""
 
 msgid "ne2k_pci"
-msgstr "ne2k_pci"
+msgstr ""
 
 msgid "noVNC URL"
-msgstr "noVNC 地址"
+msgstr ""
 
 msgid "noVNC port"
-msgstr "noVNC 端口"
+msgstr ""
 
 msgid "pcnet"
-msgstr "pcnet"
+msgstr ""
 
 msgid "qcow2"
-msgstr "qcow2"
+msgstr ""
 
 msgid "raw"
-msgstr "raw"
+msgstr ""
 
 msgid "rtl8139"
-msgstr "rtl8139"
+msgstr ""
 
 msgid "sata"
-msgstr "sata"
+msgstr ""
 
 msgid "scsi"
-msgstr "scsi"
+msgstr ""
 
 msgid "spice-html5 URL"
-msgstr "spice-html5 地址"
+msgstr ""
 
 msgid "spice-html5 port"
-msgstr "spice-html5 地址"
+msgstr ""
 
 msgid "vCPU"
-msgstr "vCPU"
+msgstr ""
 
 msgid "vCPUs"
-msgstr "vCPUs"
+msgstr ""
 
 msgid "virtio"
-msgstr "virtio"
+msgstr ""
 
 msgid "vmxnet3"
-msgstr "vmxnet3"
+msgstr ""
 
 msgid "zPool name"
-msgstr "zPool 名称"
+msgstr ""

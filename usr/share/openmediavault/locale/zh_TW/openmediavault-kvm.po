@@ -454,7 +454,7 @@ msgid "Failed to add spicevmc channel."
 msgstr "添加 spicevmc 通道失敗。"
 
 msgid "Failed to apply new XML, and unable to restore backup :: "
-msgstr ""
+msgstr "套用新的 XML 失敗，並且無法從備份復原 ::"
 
 msgid "Failed to create VM XML."
 msgstr "建立 VM XML 失敗。"
@@ -1002,7 +1002,7 @@ msgid "Terabytes"
 msgstr "TB"
 
 msgid "Terminal Link"
-msgstr ""
+msgstr "終端機連結"
 
 msgid "Type"
 msgstr "型式"
@@ -1029,7 +1029,7 @@ msgid "Unable to add network adapter to VM - "
 msgstr "無法新增網路卡到 VM -"
 
 msgid "Unable to backup existing XML for VM :: "
-msgstr ""
+msgstr "無法備份 VM 的現存 XML ::"
 
 msgid "Unable to change notes for VM."
 msgstr "無法改變 VM 的註釋。"
@@ -1150,7 +1150,7 @@ msgid "bridge"
 msgstr "橋接器"
 
 msgid "disabled"
-msgstr ""
+msgstr "已停用"
 
 msgid "e1000"
 msgstr "e1000"

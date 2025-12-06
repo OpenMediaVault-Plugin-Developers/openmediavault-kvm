@@ -5,6 +5,7 @@
 # 
 # Translators:
 # Varkentjes, 2021
+# Stephan Paternotte <stephan@paternottes.net>, 2025
 # 
 #, fuzzy
 msgid ""
@@ -13,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-07 10:18-0500\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
-"Last-Translator: Varkentjes, 2021\n"
+"Last-Translator: Stephan Paternotte <stephan@paternottes.net>, 2025\n"
 "Language-Team: Dutch (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,13 +23,13 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid " already exists!"
-msgstr ""
+msgstr "bestaat al!"
 
 msgid " the network!"
-msgstr ""
+msgstr "het netwerk!"
 
 msgid "Action"
-msgstr ""
+msgstr "Actie"
 
 msgid "Activity"
 msgstr "Activiteit"
@@ -37,88 +38,88 @@ msgid "Add"
 msgstr "Toevoegen"
 
 msgid "Add PCI"
-msgstr ""
+msgstr "PCI toevoegen"
 
 msgid "Add Spice"
-msgstr ""
+msgstr "Spice toevoegen"
 
 msgid "Add USB"
-msgstr ""
+msgstr "USB toevoegen"
 
 msgid "Add VNC"
-msgstr ""
+msgstr "VNC toevoegen"
 
 msgid "Add disc"
-msgstr ""
+msgstr "Schijf toevoegen"
 
 msgid "Add disk"
-msgstr ""
+msgstr "Schijf toevoegen"
 
 msgid "Add host disk"
-msgstr ""
+msgstr "Hostschijf toevoegen"
 
 msgid "Add host drive"
-msgstr ""
+msgstr "Hoststation toevoegen"
 
 msgid "Add macvtap network"
-msgstr ""
+msgstr "Macvtap-netwerk toevoegen"
 
 msgid "Add network"
 msgstr "Netwerk toevoegen"
 
 msgid "Add new"
-msgstr ""
+msgstr "Nieuw toevoegen"
 
 msgid "Add new VM"
-msgstr ""
+msgstr "Nieuwe VM toevoegen"
 
 msgid "Add new container"
-msgstr ""
+msgstr "Nieuwe container toevoegen"
 
 msgid "Add new pool"
-msgstr ""
+msgstr "Nieuwe pool toevoegen"
 
 msgid "Add passthrough"
-msgstr ""
+msgstr "Passthrough toevoegen"
 
 msgid "Add virtual TPM 2.0 device"
-msgstr ""
+msgstr "Virtueel TPM 2.0-apparaat toevoegen"
 
 msgid "Adding USB device ..."
-msgstr ""
+msgstr "USB-apparaat toevoegen…"
 
 msgid "Adding VNC viewer ..."
-msgstr ""
+msgstr "VNC-viewer toevoegen…"
 
 msgid "Adding a disk ..."
-msgstr ""
+msgstr "Een schijf toevoegen…"
 
 msgid "Adding a host disk ..."
-msgstr ""
+msgstr "Een hostschijf toevoegen…"
 
 msgid "Adding a macvtap network ..."
-msgstr ""
+msgstr "Een macvtap-netwerk toevoegen…"
 
 msgid "Adding a network ..."
-msgstr ""
+msgstr "Een netwerk toevoegen…"
 
 msgid "Adding a pool ..."
-msgstr ""
+msgstr "Een pool toevoegen…"
 
 msgid "Adding host drive ..."
-msgstr ""
+msgstr "Hoststation toevoegen…"
 
 msgid "Adding network adapter ..."
-msgstr ""
+msgstr "Netwerkadapter toevoegen…"
 
 msgid "Adding optical disc ..."
-msgstr ""
+msgstr "Optische schijf toevoegen…"
 
 msgid "Adding passthrough filesystem ..."
-msgstr ""
+msgstr "Passthrough-bestandssysteem toevoegen…"
 
 msgid "Adding spice viewer ..."
-msgstr ""
+msgstr "Spice-weergave toevoegen…"
 
 msgid "Advanced"
 msgstr "Geavanceerd "
@@ -127,43 +128,43 @@ msgid "Allocation"
 msgstr "Toewijzing"
 
 msgid "Amount"
-msgstr ""
+msgstr "Hoeveelheid"
 
 msgid "Arch"
-msgstr ""
+msgstr "Arch"
 
 msgid "Architecture"
-msgstr ""
+msgstr "Architectuur"
 
 msgid "Are you sure you want to delete?"
-msgstr ""
+msgstr "Weet u zeker dat u wilt verwijderen?"
 
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 msgid "AutoStart"
-msgstr "Automatische start"
+msgstr "Autom. start"
 
 msgid "Autostart has been disabled."
-msgstr ""
+msgstr "Autom. start is uitgeschakeld."
 
 msgid "Autostart has been enabled."
-msgstr ""
+msgstr "Autom. start is ingeschakeld."
 
 msgid "Available"
 msgstr "Beschikbaar"
 
 msgid "Backing file"
-msgstr ""
+msgstr "Backing-bestand"
 
 msgid "Backup"
-msgstr ""
+msgstr "Back-up"
 
 msgid "Backup with Compression"
-msgstr ""
+msgstr "Back-up met compressie"
 
 msgid "Base image"
-msgstr ""
+msgstr "Basis-image"
 
 msgid ""
 "Be very careful not to passthrough a device being used by the host operating"
@@ -171,123 +172,127 @@ msgid ""
 "change between reboots.<br/>It is recommended to use /dev/disk/by-id device "
 "names."
 msgstr ""
+"Zorg ervoor geen apparaat passthrough te maken dat gebruikt wordt door het "
+"besturingssysteem van de host!<br/>Het gebruik van /dev/sd* staat bekend als"
+" minder betrouwbaar omdat ze kunnen wijzigen bij opnieuw opstarten.<br/>Het "
+"wordt aanbevolen om /dev/disk/by-id apparaatnamen te gebruiken."
 
 msgid "Bus"
 msgstr "Bus"
 
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 msgid "CPU count has been changed."
-msgstr ""
+msgstr "CPU-telling is gewijzigd."
 
 msgid "CPUs"
-msgstr "Processors"
+msgstr "CPU's"
 
 msgid "Call"
-msgstr ""
+msgstr "Aanroep"
 
 msgid "Cannot remove / from a container."
-msgstr ""
+msgstr "Kan / niet van een container verwijderen."
 
 msgid "Cannot use / for mount point."
-msgstr ""
+msgstr "Kan / niet gebruiken als aankoppelpunt."
 
 msgid "Capacity"
 msgstr "Capaciteit"
 
 msgid "Change disc"
-msgstr ""
+msgstr "Schijf wijzigen"
 
 msgid "Change memory"
-msgstr ""
+msgstr "Geheugen wijzigen"
 
 msgid "Change vCPU"
-msgstr ""
+msgstr "vCPU wijzigen"
 
 msgid "Changing memory amount ..."
-msgstr ""
+msgstr "Hoeveelheid geheugen wijzigen…"
 
 msgid "Changing number of CPUs ..."
-msgstr ""
+msgstr "Aantal CPU's wijzigen…"
 
 msgid "Changing optical disc ..."
-msgstr ""
+msgstr "Optiche schijf wijzigen…"
 
 msgid "Check"
-msgstr ""
+msgstr "Controleren"
 
 msgid "Check volume ..."
-msgstr ""
+msgstr "Volume controleren…"
 
 msgid "Clone"
-msgstr ""
+msgstr "Klonen"
 
 msgid "Clone name"
-msgstr ""
+msgstr "Naam klonen"
 
 msgid "Cloning ..."
-msgstr ""
+msgstr "Klonen…"
 
 msgid "Cloning complete."
-msgstr ""
+msgstr "Klonen voltooid."
 
 msgid "Component"
-msgstr ""
+msgstr "Component"
 
 msgid "Compression"
-msgstr ""
+msgstr "Compressie"
 
 msgid "Console"
 msgstr "Console"
 
 msgid "Consoles have been started."
-msgstr ""
+msgstr "Consoles zijn gestart"
 
 msgid "Consoles have been stopped."
-msgstr ""
+msgstr "Consoles zijn gestopt."
 
 msgid "Convert to qcow2"
-msgstr ""
+msgstr "Converteren naar qcow2"
 
 msgid "Convert to raw"
-msgstr ""
+msgstr "Converteren naar raw"
 
 msgid "Converting to qcow2 ..."
-msgstr ""
+msgstr "Converteren naar qcow2…"
 
 msgid "Converting to raw ..."
-msgstr ""
+msgstr "Converteren naar raw…"
 
 msgid "Create"
-msgstr ""
+msgstr "Aanmaken"
 
 msgid "Create LXC"
-msgstr ""
+msgstr "LXC aanmaken"
 
 msgid "Create VM"
-msgstr ""
+msgstr "VM aanmaken"
 
 msgid "Create backing file"
-msgstr ""
+msgstr "Backing-bestand aanmaken"
 
 msgid "Created LXC."
-msgstr ""
+msgstr "LXC aangemaakt."
 
 msgid "Created VM."
-msgstr ""
+msgstr "VM aangemaakt."
 
 msgid "Created scheduled job."
-msgstr ""
+msgstr "Geplande taak aangemaakt."
 
 msgid "Creating linked clone ..."
-msgstr ""
+msgstr "Gelinkte kloon aanmaken…"
 
 msgid "Creating snapshot ..."
-msgstr ""
+msgstr "Snapshot aanmaken…"
 
 msgid "Current size"
-msgstr ""
+msgstr "Huidige grootte"
 
 msgid "DHCP"
 msgstr "DHCP"
@@ -296,70 +301,70 @@ msgid "DHCP Range"
 msgstr "DHCP-bereik"
 
 msgid "DHCP ending address"
-msgstr ""
+msgstr "DHCP eindadres"
 
 msgid "DHCP starting address"
-msgstr ""
+msgstr "DHCP startadres"
 
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 msgid "Date & Time"
-msgstr ""
+msgstr "Datum & Tijd"
 
 msgid "Delete"
 msgstr "Verwijderen"
 
 msgid "Delete + storage"
-msgstr ""
+msgstr "Verwijderen + opslag"
 
 msgid "Deleted."
-msgstr ""
+msgstr "Verwijderd."
 
 msgid "Deleting ..."
-msgstr ""
+msgstr "Verwijderen…"
 
 msgid "Deleting a network ..."
-msgstr ""
+msgstr "Netwerk verwijderen…"
 
 msgid "Deleting a pool ..."
-msgstr ""
+msgstr "Pool verwijderen…"
 
 msgid "Deleting snapshot ..."
-msgstr ""
+msgstr "Snapshot verwijderen…"
 
 msgid "Details"
-msgstr ""
+msgstr "Details"
 
 msgid "Directory"
-msgstr ""
+msgstr "Map"
 
 msgid "Directory is not empty!"
-msgstr ""
+msgstr "Map is niet leeg!"
 
 msgid "Disable"
-msgstr ""
+msgstr "Uitschakelen"
 
 msgid "Disabling autostart ..."
-msgstr ""
+msgstr "Autom. start uitschakelen…"
 
 msgid "Disk"
 msgstr "Schijf"
 
 msgid "Disk has been added."
-msgstr ""
+msgstr "Schijf is toegevoegd."
 
 msgid "Disk has been removed."
-msgstr ""
+msgstr "Schijf is verwijderd."
 
 msgid "Disk info"
-msgstr ""
+msgstr "Schijfinfo"
 
 msgid "Disk list"
-msgstr ""
+msgstr "Schijvenlijst"
 
 msgid "Disk stats"
-msgstr ""
+msgstr "Schifstats"
 
 msgid "Disk(s)"
 msgstr "Schijven"
@@ -368,88 +373,90 @@ msgid "Download virtio iso"
 msgstr "VirtIO ISO-bestand downloaden"
 
 msgid "Download virtio iso ..."
-msgstr "VirtIO ISO-bestand downloaden ..."
+msgstr "VirtIO ISO-bestand downloaden…"
 
 msgid "Edit"
-msgstr ""
+msgstr "Bewerken"
 
 msgid "Edit Notes"
-msgstr ""
+msgstr "Notities bewerken"
 
 msgid "Edit VM xml"
-msgstr ""
+msgstr "VM-xml bewerken"
 
 msgid "Edit VM xml."
-msgstr ""
+msgstr "VM-xml bewerken."
 
 msgid "Edit XML"
 msgstr "XML bewerken"
 
 msgid "Edit scheduled job."
-msgstr ""
+msgstr "Geplande taak bewerken."
 
 msgid "Edit settings."
-msgstr ""
+msgstr "Instellingen bewerken."
 
 msgid "Eject disc"
-msgstr ""
+msgstr "Schijf uitwerpen"
 
 msgid "Ejecting optical disc ..."
-msgstr ""
+msgstr "Optische schijf uitwerpen…"
 
 msgid "Enable"
-msgstr ""
+msgstr "Inschakelen"
 
 msgid "Enabling autostart ..."
-msgstr ""
+msgstr "Autom. start inschakelen…"
 
 msgid "Execute backup using selected VM name and path ..."
-msgstr ""
+msgstr "Back-up uitvoeren met behulp van de geselecteerde VM-naam en -pad…"
 
 msgid "Execute backup with compression using selected VM name and path ..."
 msgstr ""
+"Back-up uitvoeren met compressie met behulp van de geselecteerde VM-naam en "
+"-pad…"
 
 msgid "Execute scheduled job ..."
-msgstr ""
+msgstr "Geplande taak uitvoeren…"
 
 msgid "Extend"
-msgstr ""
+msgstr "Uitbreiden"
 
 msgid "Extension"
-msgstr ""
+msgstr "Uitbreiding"
 
 msgid "Failed to "
-msgstr ""
+msgstr "Mislukt"
 
 msgid "Failed to add PCI device."
-msgstr ""
+msgstr "Toevoegen van PCI-apparaat is mislukt."
 
 msgid "Failed to add USB device."
-msgstr ""
+msgstr "Toevoegen van USB-apparaat is mislukt."
 
 msgid "Failed to add VNC device."
-msgstr ""
+msgstr "Toevoegen van VNC-apparaat is mislukt."
 
 msgid "Failed to add disk."
-msgstr ""
+msgstr "Toevoegen van schijf is mislukt."
 
 msgid "Failed to add filesystem passthrough."
-msgstr ""
+msgstr "Toevoegen van passthrough-bestandssysteem is mislukt."
 
 msgid "Failed to add host disk."
-msgstr ""
+msgstr "Toevoegen van hostschijf is mislukt."
 
 msgid "Failed to add host optical."
-msgstr ""
+msgstr "Toevoegen van host optisch is mislukt."
 
 msgid "Failed to add optical."
-msgstr ""
+msgstr "Toevoegen van optisch is mislukt."
 
 msgid "Failed to add spice device."
-msgstr ""
+msgstr "Toevoegen van spice apparaat is mislukt."
 
 msgid "Failed to add spicevmc channel."
-msgstr ""
+msgstr "Toevoegen van spice vmc-kanaal is mislukt."
 
 msgid "Failed to apply new XML, and unable to restore backup :: "
 msgstr ""
@@ -482,19 +489,19 @@ msgid "Failed to remove disk."
 msgstr ""
 
 msgid "Failed to remove filesystem passthrough."
-msgstr ""
+msgstr "Verwijderen van passthrough-bestandssysteem is mislukt."
 
 msgid "Failed to remove network."
 msgstr ""
 
 msgid "Failed to remove spice device."
-msgstr ""
+msgstr "Verwijderen van spice apparaat is mislukt."
 
 msgid "Failed to remove spicevmc channel."
-msgstr ""
+msgstr "Verwijderen van spice vmc-kanaal is mislukt."
 
 msgid "Failed to remove spicevmc redirdev."
-msgstr ""
+msgstr "Verwijderen van spice vmc-redirdev is mislukt."
 
 msgid "Failed to reset VM."
 msgstr ""
@@ -518,7 +525,7 @@ msgid "Failed to start websockify for noVNC."
 msgstr ""
 
 msgid "Failed to start websockify for spice-html5."
-msgstr ""
+msgstr "Start websockify voor spice-html5 is mislukt."
 
 msgid "File will be place in same directory as the base image."
 msgstr ""
@@ -581,7 +588,7 @@ msgid "Host name"
 msgstr ""
 
 msgid "Host spice port"
-msgstr ""
+msgstr "Host spice-poort"
 
 msgid "IP Range"
 msgstr "IP range"
@@ -705,7 +712,7 @@ msgid "No image - use existing image path"
 msgstr ""
 
 msgid "Notes"
-msgstr ""
+msgstr "Notities"
 
 msgid "OS"
 msgstr "besturingssysteem"
@@ -755,16 +762,18 @@ msgid "Passing through PCI device ..."
 msgstr ""
 
 msgid "Passthrough Filesystem"
-msgstr ""
+msgstr "Passthrough-bestandssysteem"
 
 msgid "Passthrough by address instead of using vendor and product IDs"
 msgstr ""
+"Passthrough op basis van adres gebruiken in plaats van fabrikant- en "
+"product-ID's."
 
 msgid "Passthrough filesystem has been added."
-msgstr ""
+msgstr "Passthrough-bestandssysteem is toegevoegd."
 
 msgid "Passthrough filesystem has been removed."
-msgstr ""
+msgstr "Passthrough-bestandssysteem is verwijderd."
 
 msgid "Path"
 msgstr "Pad"
@@ -809,7 +818,7 @@ msgid "Remove PCI"
 msgstr ""
 
 msgid "Remove Spice"
-msgstr ""
+msgstr "Spice verwijderen"
 
 msgid "Remove USB"
 msgstr ""
@@ -827,7 +836,7 @@ msgid "Remove network"
 msgstr ""
 
 msgid "Remove passthrough"
-msgstr ""
+msgstr "Passthrough verwijderen"
 
 msgid "Removing PCI device ..."
 msgstr ""
@@ -848,10 +857,10 @@ msgid "Removing optical disc ..."
 msgstr ""
 
 msgid "Removing passthrough filesystem ..."
-msgstr ""
+msgstr "Passthrough-bestandssysteem verwijderen…"
 
 msgid "Removing spice viewer ..."
-msgstr ""
+msgstr "Spice-weergave verwijderen…"
 
 msgid "Reset"
 msgstr ""
@@ -935,16 +944,16 @@ msgid "Space Used"
 msgstr ""
 
 msgid "Spice"
-msgstr ""
+msgstr "Spice"
 
 msgid "Spice port"
-msgstr ""
+msgstr "Spice-poort"
 
 msgid "Spice viewer has been added."
-msgstr ""
+msgstr "Spice-weergave is toegevoegd."
 
 msgid "Spice viewer has been removed."
-msgstr ""
+msgstr "Spice-weergave is verwijderd."
 
 msgid "Start"
 msgstr "Start"
@@ -1028,7 +1037,7 @@ msgid "Unable to backup existing XML for VM :: "
 msgstr ""
 
 msgid "Unable to change notes for VM."
-msgstr ""
+msgstr "Kan notities voor VM niet wijzigen."
 
 msgid "Unable to change topolgy cores for VM - "
 msgstr ""
@@ -1134,6 +1143,9 @@ msgid ""
 "/>Useful when the host system has two or more devices with duplicate vendor "
 "and product IDs."
 msgstr ""
+"Waarschuwing! Adres kan veranderen nadat VM de passthrough opnieuw heeft "
+"opgestart!<br />Handig wanneer het hostsysteem twee of meer apparaten heeft "
+"met dubbele fabrikant- en product-ID's."
 
 msgid "XML"
 msgstr "XML"
@@ -1193,10 +1205,10 @@ msgid "scsi"
 msgstr "SCSI"
 
 msgid "spice-html5 URL"
-msgstr ""
+msgstr "spice-html5 URL"
 
 msgid "spice-html5 port"
-msgstr ""
+msgstr "spice-html5 poort"
 
 msgid "vCPU"
 msgstr "vCPU"
