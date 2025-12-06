@@ -1,3 +1,9 @@
+openmediavault-kvm (8.0.1) stable; urgency=low
+
+  * Fix bios path
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sat, 06 Dec 2025 22:32:38 +0000
+
 openmediavault-kvm (8.0) stable; urgency=low
 
   * Update for omv 8.x
