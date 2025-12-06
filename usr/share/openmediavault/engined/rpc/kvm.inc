@@ -1237,13 +1237,6 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             // arch-based arguments
             switch ($arch) {
                 case 'aarch64':
-                    $fd = '/usr/share/AAVMF/AAVMF_CODE.fd';
-                    if (($hostArch == 'arm64') || ($hostArch == 'armhf')) {
-                        $native_graphics = true;
-                    } else {
-                        $native_graphics = false;
-                    }
-                    break;
                 case 'arm':
                     $fd = '/usr/share/AAVMF/AAVMF_CODE.fd';
                     if (($hostArch == 'arm64') || ($hostArch == 'armhf')) {
@@ -1259,7 +1252,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                     if ($secure) {
                         $fd = '/usr/share/OVMF/OVMF_CODE_4M.ms.fd';
                     } else {
-                        $fd = '/usr/share/OVMF/OVMF_CODE.fd';
+                        $fd = '/usr/share/OVMF/OVMF_CODE_4M.fd';
                     }
                     $native_graphics = true;
                     break;
