@@ -1165,6 +1165,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         $lxc = $params['lxc'];
+        $os = '';
         if ($lxc) {
             // Validate the parameters of the RPC service method.
             $this->validateMethodParams($params, 'rpc.kvm.setlxc');
@@ -1175,12 +1176,12 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             // Validate the parameters of the RPC service method.
             $this->validateMethodParams($params, 'rpc.kvm.setvm');
             $arch = $params['arch'];
-            $cpu = explode(' ', $params['cpu']);
-            $cpuArch = $cpu[0];
-            if ($cpuArch == 'other') {
+            $cpu = explode(' ', trim($params['cpu']));
+            $cpuArch = $cpu[0] ?? 'host';
+            if ($cpuArch === 'other') {
                 $cpuModel = $params['otherCpu'];
             } else {
-                $cpuModel = $cpu[1];
+                $cpuModel = $cpu[1] ?? $cpuArch; // fallback
             }
             $hostArch = $this->getArch();
             $os = strtolower($params['os']);
@@ -1223,7 +1224,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // OS-based arguments
         $vcpuArgs = '';
         $clockArgs = '';
-        if (strpos($os, 'win') == 0) {
+        if (strpos($os, 'win') === 0) {
             $vcpuArgs = sprintf('%d,sockets=1,cores=%d,threads=1', $vcpu, $vcpu);
             $clockArgs = 'offset=localtime';
         } else {
@@ -1231,22 +1232,12 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $clockArgs = 'offset=utc';
         }
 
-        if ($lxc) {
-            $native_graphics = false;
-        } else {
+        if (!$lxc) {
             // arch-based arguments
             switch ($arch) {
                 case 'aarch64':
                 case 'arm':
                     $fd = '/usr/share/AAVMF/AAVMF_CODE.fd';
-                    if (($hostArch == 'arm64') || ($hostArch == 'armhf')) {
-                        $native_graphics = true;
-                    } else {
-                        $native_graphics = false;
-                    }
-                    break;
-                case 'i386':
-                    $native_graphics = true;
                     break;
                 case 'x86_64':
                     if ($secure) {
@@ -1254,7 +1245,6 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                     } else {
                         $fd = '/usr/share/OVMF/OVMF_CODE_4M.fd';
                     }
-                    $native_graphics = true;
                     break;
             }
 
@@ -1265,6 +1255,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $voliso = $params['voliso'];
             $volname = $params['volname'];
             $volsize = $params['volsize'];
+            $volunit = $params['volunit'];
             if (($volname == "") || (empty($volname))) {
                 $volname = $vmname;
             }
@@ -1305,7 +1296,16 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $cmdArgs[] = '--connect lxc:///';
             $cmdArgs[] = '--container';
         } else {
-            $cmdArgs[] = '--boot hd,cdrom';
+            if ($params['uefi']) {
+                if ($secure) {
+                    $cmdArgs[] = sprintf('--boot hd,cdrom,uefi,loader_secure=yes,loader=%s,loader_type=pflash', $fd);
+                    $cmdArgs[] = '--features smm=on';
+                } else {
+                    $cmdArgs[] = sprintf('--boot hd,cdrom,loader=%s,loader_type=pflash', $fd);
+                }
+            } else {
+                $cmdArgs[] = '--boot hd,cdrom';
+            }
             $cmdArgs[] = sprintf('--arch %s', $arch);
             $cmdArgs[] = sprintf('--cpu %s', $cpuModel);
             $cmdArgs[] = sprintf('--disk %s', $diskArgs);
@@ -1316,7 +1316,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmdArgs[] = sprintf('--name %s', $vmname);
         $cmdArgs[] = sprintf('--network %s', $netArgs);
         $cmdArgs[] = sprintf('--vcpus %s', $vcpuArgs);
+        $cmdArgs[] = sprintf('--clock %s', $clockArgs);
 
+        $printStep = '';
         if ($lxc) {
             $cmdArgs[] = sprintf('--filesystem %s,/', $path);
         } else {
@@ -1327,20 +1329,10 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmdArgs[] = '--sound none';
             }
 
-            if ($params['uefi']) {
-                if ($secure) {
-                    $cmdArgs[] = '--boot uefi,loader_secure=yes';
-                    $cmdArgs[] = '--features smm=on';
-                } else {
-                    $cmdArgs[] = sprintf('--boot loader=%s', $fd);
-                }
-            }
 
             if ($voliso != 'none') {
                 $cmdArgs[] = sprintf("--cdrom '%s' --install no_install=yes", $params['voliso']);
                 $printStep = ' 1';
-            } else {
-                $printStep = '';
             }
 
             // Since version 4.0.0 of virt-installer, a TPM is
@@ -2109,9 +2101,10 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 if ($dst == "/") {
                     $src = $domXml->devices->filesystem[$i]->source['dir'];
                     if ($src !== "/" && file_exists($src)) {
-                        $cmdLine = sprintf('rm -rf %s', $src);
+                        $cmdLine = sprintf('rm -rf %s', escapeshellarg($src));
                         $cmd = new \OMV\System\Process($cmdLine);
                         $cmd->execute($output, $exitStatus);
+                        return ($exitStatus === 0);
                     }
                     return (true);
                 }
@@ -2119,16 +2112,22 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         } else {
             $xpath = $domXml->xpath('//disk');
             $xpathSize = sizeof($xpath);
-            for ($i = 0; $i < $xpathSize; $i++) {
+            for ($i = $xpathSize - 1; $i >= 0; $i--) {
                 $disk = $domXml->devices->disk[$i];
-                if ($disk['device'] == "disk") {
-                    unlink($disk->source['file']);
+                if ((string)$disk['device'] === 'disk') {
+                    $file = (string)$disk->source['file'];
+                    if ($file !== '' && file_exists($file)) {
+                        @unlink($file);
+                    }
                     unset($domXml->devices->disk[$i]);
                 }
             }
             $newXml = $domXml->asXML();
             $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
-            return ($lv->domain_change_xml($vmname, $newXml));
+            if (!$lv->domain_change_xml($vmname, $newXml)) {
+                throw new \OMV\Exception( gettext("Unable to delete disk(s) from VM - ") . $lv->get_last_error());
+            }
+            return (true);
         }
         return (false);
     }
@@ -2617,14 +2616,12 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.docommand');
         // create new libvirt object
-        $lxc = false;
-        if ($params['virttype'] == 'lxc') {
-            $lxc = true;
-        }
+        $lxc = ($params['virttype'] === 'lxc');
         $lv = ($lxc ? $this->connectLxc() : $this->connectQemu());
         $vmname = $params['name'];
         $dom = $lv->get_domain_object($vmname);
         $undefine = false;
+        $result = false;
         switch ($params['command']) {
             case 'poweron':
                 $result = $lv->domain_start($dom);
@@ -2641,6 +2638,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmdArgs[] = $this->escapeName($vmname);
                 $err = gettext("Failed to reset VM.");
                 $this->virshCommand($cmdArgs, $err);
+                $result = true;
                 break;
             case 'poweroff':
                 $this->shutdownWeb($params['vncport'], $params['spiceport'], $params['hostport'], $params['hostport2']);
@@ -2673,26 +2671,20 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 break;
             case 'undefineplus':
                 $this->shutdownWeb($params['vncport'], $params['spiceport'], $params['hostport'], $params['hostport2']);
-                $undefine = false;
-                if ($this->deleteDisksByVm($vmname, $lxc)) {
-                    $undefine = true;
-                } else {
-                    $undefine = false;
+                if (!$this->deleteDisksByVm($vmname, $lxc)) {
                     throw new \OMV\Exception( gettext("Unable to delete disk(s) from VM - ") . $lv->get_last_error());
                 }
-                if ($undefine) {
-                    $cmdArgs = [];
-                    if ($lxc) {
-                        $cmdArgs[] = '--connect lxc:///';
-                    }
-                    $cmdArgs[] = 'undefine';
-                    if (!$lxc) {
-                        $cmdArgs[] = '--nvram';
-                    }
-                    $cmdArgs[] = $this->escapeName($vmname);
-                    $err = gettext("Failed to create VM.");
-                    $this->virshCommand($cmdArgs, $err);
+                $cmdArgs = [];
+                if ($lxc) {
+                    $cmdArgs[] = '--connect lxc:///';
                 }
+                $cmdArgs[] = 'undefine';
+                if (!$lxc) {
+                    $cmdArgs[] = '--nvram';
+                }
+                $cmdArgs[] = $this->escapeName($vmname);
+                $err = gettext("Failed to delete VM.");
+                $this->virshCommand($cmdArgs, $err);
                 $result = true;
                 break;
             case 'autostartdisable':
@@ -2703,7 +2695,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 break;
         }
         if (!$result) {
-            throw new \OMV\Exception( gettext("Unable to - ") . $params['command'] . $lv->get_last_error());
+            throw new \OMV\Exception(
+                sprintf( '%s %s - %s', gettext('Unable to'), $params['command'], $lv->get_last_error())
+            );
         }
     }
 
