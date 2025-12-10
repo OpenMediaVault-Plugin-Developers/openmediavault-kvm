@@ -2076,7 +2076,12 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
     private function deleteDisksByVm($vmname, $lxc)
     {
         $lv = ($lxc ? $this->connectLxc() : $this->connectQemu());
-
+        // Get current XML (inactive config)
+        $xmlStr = $lv->domain_get_xml($vmname, true);
+        if ($xmlStr === false) {
+            return false;
+        }
+        $domXml = new \SimpleXMLElement($xmlStr);
         if ($lxc) {
             $xpath = $domXml->xpath('//filesystem');
             $xpathSize = sizeof($xpath);
@@ -2101,12 +2106,6 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                     gettext("VM must be powered off before deleting disks.")
                 );
             }
-            // Get current XML (inactive config)
-            $xmlStr = $lv->domain_get_xml($vmname, true);
-            if ($xmlStr === false) {
-                return false;
-            }
-            $domXml = new \SimpleXMLElement($xmlStr);
             // Remove disk devices + unlink backing files
             $xpath = $domXml->xpath('//devices/disk');
             foreach ($xpath as $idx => $disk) {
