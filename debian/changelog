@@ -1,10 +1,10 @@
-openmediavault-kvm (8.0.2) UNRELEASED; urgency=medium
+openmediavault-kvm (8.0.2) stable; urgency=low
 
   * Fix loader type and other small tweaks
   * Add domstats to VM info
   * Improve delete VM+storage
 
- -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Tue, 09 Dec 2025 22:22:06 +0000
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Wed, 10 Dec 2025 22:11:29 +0000
 
 openmediavault-kvm (8.0.1) stable; urgency=low
 
