@@ -1087,31 +1087,22 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.vmname');
+        $vmname = $this->escapeName($params['vmname']);
         // vm info
         $output = [];
-        $cmdArgs = [];
-        $cmdArgs[] = 'dominfo';
-        $cmdArgs[] = sprintf('--domain %s', $this->escapeName($params['vmname']));
-        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
+        $cmd = new \OMV\System\Process('virsh', 'dominfo', $vmname);
         $cmd->execute($output, $exitStatus);
         $vminfo = implode(PHP_EOL, array_filter($output));
         // nic info
         $output = [];
-        $cmdArgs = [];
-        $cmdArgs[] = 'domiflist';
-        $cmdArgs[] = sprintf('--domain %s', $this->escapeName($params['vmname']));
-        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
+        $cmd = new \OMV\System\Process('virsh', 'domiflist', $vmname);
         $cmd->execute($output, $exitStatus);
         $nicinfo = implode(PHP_EOL, array_filter($output));
         // net info
         $netinfo = gettext("VM is not running!");
         if (preg_match("/State:\s+running/", $vminfo)) {
             $output = [];
-            $cmdArgs = [];
-            $cmdArgs[] = 'domifaddr';
-            $cmdArgs[] = sprintf('--domain %s', $this->escapeName($params['vmname']));
-            $cmdArgs[] = '--source agent';
-            $cmd = new \OMV\System\Process('virsh', $cmdArgs);
+            $cmd = new \OMV\System\Process('virsh', 'domifaddr', $vmname, '--source agent');
             $cmd->setQuiet(true);
             $cmd->execute($output, $exitStatus);
             if ($exitStatus > 0) {
@@ -1122,33 +1113,26 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
         // disk list
         $output = [];
-        $cmdArgs = [];
-        $cmdArgs[] = 'domblklist';
-        $cmdArgs[] = sprintf('--domain %s', $this->escapeName($params['vmname']));
-        $cmdArgs[] = '--details';
-        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
+        $cmd = new \OMV\System\Process('virsh', 'domblklist', $vmname, '--details');
         $cmd->execute($output, $exitStatus);
         $disklist = implode(PHP_EOL, array_filter($output));
         // disk info
         $output = [];
-        $cmdArgs = [];
-        $cmdArgs[] = 'domblkinfo';
-        $cmdArgs[] = sprintf('--domain %s', $this->escapeName($params['vmname']));
-        $cmdArgs[] = '--all';
-        $cmdArgs[] = '--human';
-        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
+        $cmd = new \OMV\System\Process('virsh', 'domblkinfo', $vmname, '--all', '--human');
         $cmd->execute($output, $exitStatus);
         $diskinfo = implode(PHP_EOL, array_filter($output));
         // disk stats
         $output = [];
-        $cmdArgs = [];
-        $cmdArgs[] = 'domblkstat';
-        $cmdArgs[] = sprintf('--domain %s', $this->escapeName($params['vmname']));
-        $cmdArgs[] = '--human';
-        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
+        $cmd = new \OMV\System\Process('virsh', 'domblkstat', $vmname, '--human');
         $cmd->setQuiet(true);
         $cmd->execute($output, $exitStatus);
         $diskstats = implode(PHP_EOL, array_filter($output));
+        // dom stats
+        $output = [];
+        $cmd = new \OMV\System\Process('virsh', 'domstats', $vmname);
+        $cmd->setQuiet(true);
+        $cmd->execute($output, $exitStatus);
+        $domstats = ($exitStatus === 0) ? implode(PHP_EOL, array_filter($output)) : '';
         // return results
         return [
             "vminfo" => $vminfo,
@@ -1156,7 +1140,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             "netinfo" => $netinfo,
             "disklist" => $disklist,
             "diskinfo" => $diskinfo,
-            "diskstats" => $diskstats
+            "diskstats" => $diskstats,
+            "domstats" => $domstats
         ];
     }
 
@@ -2090,9 +2075,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
 
     private function deleteDisksByVm($vmname, $lxc)
     {
-        // create new libvirt object
         $lv = ($lxc ? $this->connectLxc() : $this->connectQemu());
-        $domXml = new SimpleXMLElement($lv->domain_get_xml($vmname));
+
         if ($lxc) {
             $xpath = $domXml->xpath('//filesystem');
             $xpathSize = sizeof($xpath);
@@ -2110,26 +2094,42 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 }
             }
         } else {
-            $xpath = $domXml->xpath('//disk');
-            $xpathSize = sizeof($xpath);
-            for ($i = $xpathSize - 1; $i >= 0; $i--) {
-                $disk = $domXml->devices->disk[$i];
-                if ((string)$disk['device'] === 'disk') {
-                    $file = (string)$disk->source['file'];
-                    if ($file !== '' && file_exists($file)) {
-                        @unlink($file);
-                    }
-                    unset($domXml->devices->disk[$i]);
+            // Make sure VM is shut off – disk removal on running VM is asking for pain.
+            if ($lv->domain_is_active($vmname)) {
+                // Either throw, or auto-shut down/destroy
+                throw new \OMV\Exception(
+                    gettext("VM must be powered off before deleting disks.")
+                );
+            }
+            // Get current XML (inactive config)
+            $xmlStr = $lv->domain_get_xml($vmname, true);
+            if ($xmlStr === false) {
+                return false;
+            }
+            $domXml = new \SimpleXMLElement($xmlStr);
+            // Remove disk devices + unlink backing files
+            $xpath = $domXml->xpath('//devices/disk');
+            foreach ($xpath as $idx => $disk) {
+                if ((string)$disk['device'] !== 'disk') {
+                    continue;
                 }
+                $file = (string)$disk->source['file'];
+                if ($file !== '' && file_exists($file)) {
+                    @unlink($file);
+                }
+                // Remove this disk element from XML
+                unset($domXml->devices->disk[$idx]);
             }
             $newXml = $domXml->asXML();
-            $newXml = str_replace('<?xml version="1.0"?>', '', $newXml);
-            if (!$lv->domain_change_xml($vmname, $newXml)) {
-                throw new \OMV\Exception( gettext("Unable to delete disk(s) from VM - ") . $lv->get_last_error());
+            // Strip XML header because libvirt doesn't need it; harmless if left.
+            $newXml = preg_replace('/<\?xml[^>]+>\s*/', '', $newXml);
+            // Redefine domain with updated XML (no undefine)
+            if (!$lv->domain_define($newXml)) {
+                return false;
             }
-            return (true);
+            return true;
         }
-        return (false);
+        return false;
     }
 
     private function doLxcSnapshot($cntr, $action, $snapname)
@@ -2622,6 +2622,10 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $dom = $lv->get_domain_object($vmname);
         $undefine = false;
         $result = false;
+        // check for nvram
+        $xmldump = $lv->domain_get_xml($vmname);
+        $domXml = new SimpleXMLElement($xmldump);
+        $hasNvram = isset($domXml->os->nvram) && file_exists((string) $domXml->os->nvram);
         switch ($params['command']) {
             case 'poweron':
                 $result = $lv->domain_start($dom);
@@ -2661,7 +2665,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                     $cmdArgs[] = '--connect lxc:///';
                 }
                 $cmdArgs[] = 'undefine';
-                if (!$lxc) {
+                if (!$lxc && $hasNvram) {
                     $cmdArgs[] = '--nvram';
                 }
                 $cmdArgs[] = $this->escapeName($vmname);
@@ -2679,7 +2683,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                     $cmdArgs[] = '--connect lxc:///';
                 }
                 $cmdArgs[] = 'undefine';
-                if (!$lxc) {
+                if (!$lxc && $hasNvram) {
                     $cmdArgs[] = '--nvram';
                 }
                 $cmdArgs[] = $this->escapeName($vmname);

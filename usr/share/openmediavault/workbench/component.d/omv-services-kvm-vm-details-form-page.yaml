@@ -52,6 +52,12 @@ data:
         rows: 9
         readonly: true
         monospace: true
+      - type: textarea
+        name: domstats
+        label: _("Dom stats")
+        rows: 9
+        readonly: true
+        monospace: true
     buttons:
       - template: cancel
         execute:
