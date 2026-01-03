@@ -1,7 +1,7 @@
 <?php
 /*
  * @author    OpenMediaVault Plugin Developers <plugins@omv-extras.org>
- * @copyright Copyright (c) 2021-2025 openmediavault plugin developers
+ * @copyright Copyright (c) 2021-2026 openmediavault plugin developers
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
