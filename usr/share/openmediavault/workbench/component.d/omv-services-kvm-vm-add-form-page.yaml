@@ -363,13 +363,13 @@ data:
         value: "virtio"
         store:
           data:
+            - ["bridge", _("bridge")]
             - ["virtio", _("virtio")]
             - ["e1000", _("e1000")]
             - ["vmxnet3", _("vmxnet3")]
             - ["rtl8139", _("rtl8139")]
             - ["ne2k_pci", _("ne2k_pci")]
             - ["pcnet", _("pcnet")]
-            - ["bridge", _("bridge")]
         modifiers:
           - type: value
             typeConfig: "virtio"
