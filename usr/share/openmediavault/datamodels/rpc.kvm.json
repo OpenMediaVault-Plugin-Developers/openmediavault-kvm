@@ -216,6 +216,9 @@
         "bridge": {
           "type": "string"
         },
+        "brmodel": {
+          "type": "string"
+        },
         "notes": {
           "type": "string"
         }

@@ -1247,19 +1247,37 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $volpool = $params['volpool'];
 
             if ($voldisk == 'Create new disk') {
-                if ($volunit == "T") {
-                    $volsize *= 1024;
-                }
                 $volpooltype = $this->getPoolType($volpool);
-                $formatArg = '';
+                $block = true;
                 if ($volpooltype != 'logical') {
+                    $block = false;
                     $formatArg = sprintf(',format=%s', $volformat);
                 }
-                $diskArgs = sprintf('size=%d,bus=%s,pool="%s",cache=none,io=native%s', $volsize, $volbus, $this->escapeName($volpool), $formatArg);
-            } else {
-                $diskArgs = sprintf("'%s',bus=%s,cache=none,io=native", $voldisk, $volbus);
-                $volformat = pathinfo($voldisk, PATHINFO_EXTENSION);
+                if ($block) {
+                    $cmdArgs = [];
+                    $cmdArgs[] = sprintf('-L %d%s', $volsize, $volunit);
+                    $cmdArgs[] = sprintf('-n %s', $this->escapeName($volname));
+                    $cmdArgs[] = $vg;
+                    $err = gettext("Failed to create new disk :: ") . $params['command'];
+                    $this->virshCommand($cmdArgs, $err, 'lvcreate');
+                    $diskpath = sprintf("'/dev/%s/%s'", $vg, $this->escapeName($volname));
+                } else {
+                    // create new libvirt object
+                    $lv = $this->connectQemu();
+                    $pool = $lv->get_storagepool_info($volpool);
+                    $diskpath = sprintf("'%s/%s.%s'", $pool['path'], $volname, $volformat);
+                    $cmdArgs = [];
+                    $cmdArgs[] = 'create';
+                    $cmdArgs[] = sprintf('-f %s', $volformat);
+                    $cmdArgs[] = $diskpath;
+                    $cmdArgs[] = sprintf('%d%s', $volsize, $volunit);
+                    $err = gettext("Failed to create new disk :: ") . $params['command'];
+                    $this->virshCommand($cmdArgs, $err, 'qemu-img');
+                }
+                $voldisk = $diskpath;
             }
+            $diskArgs = sprintf("'%s',bus=%s,cache=none,io=native", $voldisk, $volbus);
+            $volformat = pathinfo($voldisk, PATHINFO_EXTENSION);
         }
 
         // add network
@@ -1270,7 +1288,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
         $model = $params['model'];
         if ($model == "bridge") {
-            $netArgs = sprintf('bridge=%s,mac=%s', $params['bridge'], $mac);
+            $brname = $params['bridge'];
+            $brmodel = $params['brmodel'];
+            $netArgs = sprintf('bridge=%s,model=%s,mac=%s', $brname, $brmodel, $mac);
         } else {
             $netArgs = sprintf('network=%s,model=%s,mac=%s', $net, $model, $mac);
         }
@@ -1482,6 +1502,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmdArgs[] = $vg;
                 $err = gettext("Failed to create new disk :: ") . $params['command'];
                 $this->virshCommand($cmdArgs, $err, 'lvcreate');
+                $diskpath = sprintf("'/dev/%s/%s'", $vg, $this->escapeName($volname));
             } else {
                 $pool = $lv->get_storagepool_info($volpool);
                 $diskpath = sprintf("'%s/%s.%s'", $pool['path'], $volname, $volformat);

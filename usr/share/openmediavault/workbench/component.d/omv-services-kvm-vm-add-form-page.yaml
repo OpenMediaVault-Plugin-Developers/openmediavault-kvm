@@ -422,6 +422,35 @@ data:
               arg0:
                 prop: model
               arg1: "bridge"
+      - type: select
+        name: brmodel
+        label: _("Bridge Model")
+        value: "e1000e"
+        store:
+          data:
+            - ["virtio", _("virtio")]
+            - ["e1000e", _("e1000e")]
+        modifiers:
+          - type: value
+            typeConfig: "virtio"
+            constraint:
+              operator: regex
+              opposite: true
+              arg0:
+                prop: os
+              arg1: "^(?!win).*$"
+          - type: value
+            typeConfig: "e1000e"
+            constraint:
+              operator: regex
+              arg0:
+                prop: os
+              arg1: "^win.*$"
+          - type: visible
+            constraint:
+              operator: truthy
+              arg0:
+                prop: advanced
       - type: textInput
         name: macaddress
         label: _("MAC address")
