@@ -179,6 +179,10 @@
           "type": "string",
           "required": true
         },
+        "voliso2": {
+          "type": "string",
+          "required": false
+        },
         "volname": {
           "type": "string"
         },

@@ -1209,7 +1209,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // OS-based arguments
         $vcpuArgs = '';
         $clockArgs = '';
-        if (strpos($os, 'win') === 0) {
+        $isWindows = (preg_match('/^win/', $os) === 1);
+        if ($isWindows) {
             $vcpuArgs = sprintf('%d,sockets=1,cores=%d,threads=1', $vcpu, $vcpu);
             $clockArgs = 'offset=localtime';
         } else {
@@ -1238,6 +1239,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $voldisk = $params['voldisk'];
             $volformat = $params['volformat'];
             $voliso = $params['voliso'];
+            $voliso2 = $params['voliso2'];
             $volname = $params['volname'];
             $volsize = $params['volsize'];
             $volunit = $params['volunit'];
@@ -1334,10 +1336,23 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmdArgs[] = '--sound none';
             }
 
+            // treat Win7+ and Server 2008+ as modern
+            $isModernWindows = preg_match('/^win(7|8(\.1)?|10|11|2k8(r2)?|2k(12(r2)?|16|19|22|25))$/', $os) === 1;
+            $cdbus = ($isWindows && !$isModernWindows) ? 'ide' : 'sata';
 
-            if ($voliso != 'none') {
-                $cmdArgs[] = sprintf("--cdrom '%s' --install no_install=yes", $params['voliso']);
+            // drive 1 for OS install
+            if (!empty($voliso) && strtolower(trim($voliso)) !== 'none') {
+                $cmdArgs[] = sprintf(
+                    "--disk path='%s',device=cdrom,bus=%s,readonly=on,boot_order=1", $voliso, $cdbus
+                );
                 $printStep = ' 1';
+            }
+
+            // drive 2 for windows only - usually virtio-win.iso
+            if (!empty($voliso2) && strtolower(trim($voliso2)) !== 'none') {
+                $cmdArgs[] = sprintf(
+                    "--disk path='%s',device=cdrom,bus=%s,readonly=on", $voliso2, $cdbus
+                );
             }
 
             // Since version 4.0.0 of virt-installer, a TPM is

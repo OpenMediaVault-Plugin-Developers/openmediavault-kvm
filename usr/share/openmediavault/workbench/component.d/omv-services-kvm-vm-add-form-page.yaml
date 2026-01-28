@@ -355,6 +355,31 @@ data:
           sorters:
             - dir: asc
               prop: path
+      - type: select
+        name: voliso2
+        label: _('Optical disk 2')
+        textField: path
+        valueField: path
+        value: "none"
+        store:
+          proxy:
+            service: Kvm
+            get:
+              method: enumerateVolumes
+              params:
+                optical: true
+                opticalNone: true
+          sorters:
+            - dir: asc
+              prop: path
+        hint: _('This disk is usually used for virtio-win.iso containing Windows virtio drivers. There is a button to download the virtio-win iso on the Pools tab.")
+        modifiers:
+          - type: visible
+            constraint:
+              operator: regex
+              arg0:
+                prop: os
+              arg1: "^win.*$"
       - type: divider
         title: _("Network")
       - type: select
