@@ -1,3 +1,14 @@
+openmediavault-kvm (8.0.3) UNRELEASED; urgency=medium
+
+  * Fix custom disk name on new VM dialog
+  * Add second disc drive meant for virtio-win.iso on new
+    VM dialog
+  * Add bridge model (advanced property) on new VM dialog
+  * Move bridge to top of network model type on new VM
+    dialog
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Wed, 28 Jan 2026 23:27:09 +0000
+
 openmediavault-kvm (8.0.2) stable; urgency=low
 
   * Fix loader type and other small tweaks

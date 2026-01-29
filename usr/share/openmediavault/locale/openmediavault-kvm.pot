@@ -8,13 +8,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-07 10:18-0500\n"
+"POT-Creation-Date: 2026-01-28 23:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid " already exists!"
@@ -162,6 +162,9 @@ msgid "Base image"
 msgstr ""
 
 msgid "Be very careful not to passthrough a device being used by the host operating system!<br/>Using /dev/sd* is known to be less reliable because they can change between reboots.<br/>It is recommended to use /dev/disk/by-id device names."
+msgstr ""
+
+msgid "Bridge Model"
 msgstr ""
 
 msgid "Bus"
@@ -354,6 +357,9 @@ msgid "Disk stats"
 msgstr ""
 
 msgid "Disk(s)"
+msgstr ""
+
+msgid "Dom stats"
 msgstr ""
 
 msgid "Download virtio iso"
@@ -641,6 +647,12 @@ msgstr ""
 msgid "Model"
 msgstr ""
 
+msgid "Move"
+msgstr ""
+
+msgid "Move VM ..."
+msgstr ""
+
 msgid "Name"
 msgstr ""
 
@@ -780,6 +792,12 @@ msgid "Pool has been stopped."
 msgstr ""
 
 msgid "Pools"
+msgstr ""
+
+msgid "Power off + Move"
+msgstr ""
+
+msgid "Power off VM and move ..."
 msgstr ""
 
 msgid "Reboot"
@@ -1004,9 +1022,6 @@ msgstr ""
 msgid "UUID"
 msgstr ""
 
-msgid "Unable to - "
-msgstr ""
-
 msgid "Unable to add network adapter to VM - "
 msgstr ""
 
@@ -1082,6 +1097,9 @@ msgstr ""
 msgid "VM is not running!"
 msgstr ""
 
+msgid "VM must be powered off before deleting disks."
+msgstr ""
+
 msgid "VM name"
 msgstr ""
 
@@ -1124,6 +1142,9 @@ msgstr ""
 msgid "ZFS"
 msgstr ""
 
+msgid "^win.*$"
+msgstr ""
+
 msgid "bridge"
 msgstr ""
 
@@ -1131,6 +1152,9 @@ msgid "disabled"
 msgstr ""
 
 msgid "e1000"
+msgstr ""
+
+msgid "e1000e"
 msgstr ""
 
 msgid "iSCSI"

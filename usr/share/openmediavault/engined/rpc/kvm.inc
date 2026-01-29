@@ -1314,7 +1314,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmdArgs[] = '--boot hd,cdrom';
             }
             $cmdArgs[] = sprintf('--arch %s', $arch);
-            $cmdArgs[] = sprintf('--cpu %s', $cpuModel);
+            $cmdArgs[] = sprintf('--cpu %s,check=none,migratable=off', $cpuModel);
             $cmdArgs[] = sprintf('--disk %s', $diskArgs);
             $cmdArgs[] = sprintf('--os-variant name=%s', $params['os']);
         }
@@ -1324,6 +1324,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmdArgs[] = sprintf('--network %s', $netArgs);
         $cmdArgs[] = sprintf('--vcpus %s', $vcpuArgs);
         $cmdArgs[] = sprintf('--clock %s', $clockArgs);
+        $cmdArgs[] = '--memballoon none';
 
         $printStep = '';
         if ($lxc) {
