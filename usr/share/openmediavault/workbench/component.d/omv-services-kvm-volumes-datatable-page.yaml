@@ -325,7 +325,7 @@ data:
                 name: backing
                 label: _("Backing file")
                 value: ""
-                hint: _("File will be place in same directory as the base image.")
+                hint: _("File will be placed in same directory as the base image.")
             buttons:
               submit:
                 text: _('Create')
