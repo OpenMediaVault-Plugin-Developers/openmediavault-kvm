@@ -11,14 +11,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-07 10:18-0500\n"
+"POT-Creation-Date: 2026-01-29 13:20+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>, 2024\n"
-"Language-Team: Spanish (Spain) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/es_ES/)\n"
+"Language-Team: Spanish (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es_ES\n"
+"Language: es\n"
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 msgid " already exists!"
@@ -112,7 +112,7 @@ msgid "Adding network adapter ..."
 msgstr "Añadiendo adaptador de red ..."
 
 msgid "Adding optical disc ..."
-msgstr "Añadiendo CD-ROM"
+msgstr "Añadiendo CD-ROM ..."
 
 msgid "Adding passthrough filesystem ..."
 msgstr "Añadiendo sistema de archivos passthrough  ..."
@@ -175,6 +175,9 @@ msgstr ""
 "por el sistema operativo host! <br/>Se sabe que el uso de /dev/sd* es menos "
 "confiable porque puede cambiar entre reinicios. <br/>Se recomienda usar "
 "nombres de dispositivo /dev/disk/by-id ."
+
+msgid "Bridge Model"
+msgstr ""
 
 msgid "Bus"
 msgstr "Bus"
@@ -368,6 +371,9 @@ msgstr "Estadísticas del Disco"
 msgid "Disk(s)"
 msgstr "Disco(s)"
 
+msgid "Dom stats"
+msgstr ""
+
 msgid "Download virtio iso"
 msgstr "Descargar ISO virtio"
 
@@ -525,8 +531,8 @@ msgstr "Falló arrancar websockify para noVNC."
 msgid "Failed to start websockify for spice-html5."
 msgstr "Falló arrancar  websockify para spice-html5."
 
-msgid "File will be place in same directory as the base image."
-msgstr "El archivo debe estar en el mismo directorio que la imagen base."
+msgid "File will be placed in same directory as the base image."
+msgstr ""
 
 msgid "Filesystem"
 msgstr "Sistema de Archivos"
@@ -662,6 +668,12 @@ msgstr "MiB"
 
 msgid "Model"
 msgstr "Modelo"
+
+msgid "Move"
+msgstr ""
+
+msgid "Move VM ..."
+msgstr ""
 
 msgid "Name"
 msgstr "Nombre"
@@ -806,6 +818,12 @@ msgstr "El Pool ha sido detenido."
 
 msgid "Pools"
 msgstr "Pools"
+
+msgid "Power off + Move"
+msgstr ""
+
+msgid "Power off VM and move ..."
+msgstr ""
 
 msgid "Reboot"
 msgstr "Reinicio"
@@ -1029,9 +1047,6 @@ msgstr "El dispositivo USB ha sido eliminado."
 msgid "UUID"
 msgstr "UUID"
 
-msgid "Unable to - "
-msgstr "Incapaz de -"
-
 msgid "Unable to add network adapter to VM - "
 msgstr "Incapaz de añadir adaprtador de Red a la VM -"
 
@@ -1107,6 +1122,9 @@ msgstr "VM info"
 msgid "VM is not running!"
 msgstr "¡ No está corriendo la MV!"
 
+msgid "VM must be powered off before deleting disks."
+msgstr ""
+
 msgid "VM name"
 msgstr "Nombre de la VM"
 
@@ -1155,6 +1173,9 @@ msgstr "XML"
 msgid "ZFS"
 msgstr "ZFS"
 
+msgid "^win.*$"
+msgstr ""
+
 msgid "bridge"
 msgstr "Puente"
 
@@ -1163,6 +1184,9 @@ msgstr ""
 
 msgid "e1000"
 msgstr "e1000"
+
+msgid "e1000e"
+msgstr ""
 
 msgid "iSCSI"
 msgstr "iSCSI"

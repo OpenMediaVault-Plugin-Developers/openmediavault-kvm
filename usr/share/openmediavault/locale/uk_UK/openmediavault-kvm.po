@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-07 10:18-0500\n"
+"POT-Creation-Date: 2026-01-29 13:20+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: zubr139, 2025\n"
 "Language-Team: Ukrainian (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/uk/)\n"
@@ -171,6 +171,9 @@ msgid ""
 " system!<br/>Using /dev/sd* is known to be less reliable because they can "
 "change between reboots.<br/>It is recommended to use /dev/disk/by-id device "
 "names."
+msgstr ""
+
+msgid "Bridge Model"
 msgstr ""
 
 msgid "Bus"
@@ -365,6 +368,9 @@ msgstr ""
 msgid "Disk(s)"
 msgstr ""
 
+msgid "Dom stats"
+msgstr ""
+
 msgid "Download virtio iso"
 msgstr ""
 
@@ -521,7 +527,7 @@ msgstr ""
 msgid "Failed to start websockify for spice-html5."
 msgstr ""
 
-msgid "File will be place in same directory as the base image."
+msgid "File will be placed in same directory as the base image."
 msgstr ""
 
 msgid "Filesystem"
@@ -652,6 +658,12 @@ msgid "MiB"
 msgstr ""
 
 msgid "Model"
+msgstr ""
+
+msgid "Move"
+msgstr ""
+
+msgid "Move VM ..."
 msgstr ""
 
 msgid "Name"
@@ -795,6 +807,12 @@ msgid "Pool has been stopped."
 msgstr ""
 
 msgid "Pools"
+msgstr ""
+
+msgid "Power off + Move"
+msgstr ""
+
+msgid "Power off VM and move ..."
 msgstr ""
 
 msgid "Reboot"
@@ -1019,9 +1037,6 @@ msgstr ""
 msgid "UUID"
 msgstr ""
 
-msgid "Unable to - "
-msgstr ""
-
 msgid "Unable to add network adapter to VM - "
 msgstr ""
 
@@ -1097,6 +1112,9 @@ msgstr ""
 msgid "VM is not running!"
 msgstr ""
 
+msgid "VM must be powered off before deleting disks."
+msgstr ""
+
 msgid "VM name"
 msgstr ""
 
@@ -1142,6 +1160,9 @@ msgstr ""
 msgid "ZFS"
 msgstr ""
 
+msgid "^win.*$"
+msgstr ""
+
 msgid "bridge"
 msgstr ""
 
@@ -1149,6 +1170,9 @@ msgid "disabled"
 msgstr ""
 
 msgid "e1000"
+msgstr ""
+
+msgid "e1000e"
 msgstr ""
 
 msgid "iSCSI"

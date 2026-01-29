@@ -5,16 +5,16 @@
 # 
 # Translators:
 # Varkentjes, 2021
-# Stephan Paternotte <stephan@paternottes.net>, 2025
+# Stephan Paternotte <stephan@paternottes.net>, 2026
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-07 10:18-0500\n"
+"POT-Creation-Date: 2026-01-29 13:20+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
-"Last-Translator: Stephan Paternotte <stephan@paternottes.net>, 2025\n"
+"Last-Translator: Stephan Paternotte <stephan@paternottes.net>, 2026\n"
 "Language-Team: Dutch (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -155,7 +155,7 @@ msgid "Available"
 msgstr "Beschikbaar"
 
 msgid "Backing file"
-msgstr "Backing-bestand"
+msgstr "Onderliggen bestand"
 
 msgid "Backup"
 msgstr "Back-up"
@@ -177,6 +177,9 @@ msgstr ""
 " minder betrouwbaar omdat ze kunnen wijzigen bij opnieuw opstarten.<br/>Het "
 "wordt aanbevolen om /dev/disk/by-id apparaatnamen te gebruiken."
 
+msgid "Bridge Model"
+msgstr "Bridge-model"
+
 msgid "Bus"
 msgstr "Bus"
 
@@ -184,7 +187,7 @@ msgid "CPU"
 msgstr "CPU"
 
 msgid "CPU count has been changed."
-msgstr "CPU-telling is gewijzigd."
+msgstr "Aantal CPU's is gewijzigd."
 
 msgid "CPUs"
 msgstr "CPU's"
@@ -226,10 +229,10 @@ msgid "Check volume ..."
 msgstr "Volume controleren…"
 
 msgid "Clone"
-msgstr "Klonen"
+msgstr "Kloon"
 
 msgid "Clone name"
-msgstr "Naam klonen"
+msgstr "Kloon-naam"
 
 msgid "Cloning ..."
 msgstr "Klonen…"
@@ -289,7 +292,7 @@ msgid "Creating linked clone ..."
 msgstr "Gelinkte kloon aanmaken…"
 
 msgid "Creating snapshot ..."
-msgstr "Snapshot aanmaken…"
+msgstr "Momentopname aanmaken…"
 
 msgid "Current size"
 msgstr "Huidige grootte"
@@ -331,7 +334,7 @@ msgid "Deleting a pool ..."
 msgstr "Pool verwijderen…"
 
 msgid "Deleting snapshot ..."
-msgstr "Snapshot verwijderen…"
+msgstr "Momentopname verwijderen…"
 
 msgid "Details"
 msgstr "Details"
@@ -367,7 +370,10 @@ msgid "Disk stats"
 msgstr "Schifstats"
 
 msgid "Disk(s)"
-msgstr "Schijven"
+msgstr "Schijf/schijven"
+
+msgid "Dom stats"
+msgstr "Dom-stats"
 
 msgid "Download virtio iso"
 msgstr "VirtIO ISO-bestand downloaden"
@@ -426,7 +432,7 @@ msgid "Extension"
 msgstr "Uitbreiding"
 
 msgid "Failed to "
-msgstr "Mislukt"
+msgstr "Het is mislukt om "
 
 msgid "Failed to add PCI device."
 msgstr "Toevoegen van PCI-apparaat is mislukt."
@@ -460,39 +466,40 @@ msgstr "Toevoegen van spice vmc-kanaal is mislukt."
 
 msgid "Failed to apply new XML, and unable to restore backup :: "
 msgstr ""
+"Toepassen van nieuwe XML is mislukt, en back-up niet kunnen herstellen ::"
 
 msgid "Failed to create VM XML."
-msgstr ""
+msgstr "Aanmaken van VM-XML is mislukt."
 
 msgid "Failed to create VM."
-msgstr ""
+msgstr "Aanmaken van VM is mislukt."
 
 msgid "Failed to create new disk :: "
-msgstr ""
+msgstr "Aanmelden van nieuwe schijf is mislukt ::"
 
 msgid "Failed to delete VM."
-msgstr ""
+msgstr "Verwijderen van VM is mislukt."
 
 msgid "Failed to detach PCI device from host."
-msgstr ""
+msgstr "Losmaken van PCI-apparaat van host is mislukt."
 
 msgid "Failed to remove PCI device."
-msgstr ""
+msgstr "Verwijderen van PCI-apparaat is mislukt."
 
 msgid "Failed to remove USB device."
-msgstr ""
+msgstr "Verwijderen van USB-apparaat is mislukt."
 
 msgid "Failed to remove VNC device."
-msgstr ""
+msgstr "Verwijderen van VNC-apparaat is mislukt."
 
 msgid "Failed to remove disk."
-msgstr ""
+msgstr "Verwijderen van schijf is mislukt."
 
 msgid "Failed to remove filesystem passthrough."
 msgstr "Verwijderen van passthrough-bestandssysteem is mislukt."
 
 msgid "Failed to remove network."
-msgstr ""
+msgstr "Verwijderen van netwerk is mislukt."
 
 msgid "Failed to remove spice device."
 msgstr "Verwijderen van spice apparaat is mislukt."
@@ -504,94 +511,97 @@ msgid "Failed to remove spicevmc redirdev."
 msgstr "Verwijderen van spice vmc-redirdev is mislukt."
 
 msgid "Failed to reset VM."
-msgstr ""
+msgstr "Resetten van VM is mislukt."
 
 msgid "Failed to resize disk!"
-msgstr ""
+msgstr "Schijfgrootte wijzigen is mislukt!"
 
 msgid "Failed to set change."
-msgstr ""
+msgstr "Wijziging instellen is mislukt."
 
 msgid "Failed to set maximum."
-msgstr ""
+msgstr "Maximum instellen is mislukt."
 
 msgid "Failed to set pool autostart."
-msgstr ""
+msgstr "Instellen van pool autostart is mislukt."
 
 msgid "Failed to start pool."
-msgstr ""
+msgstr "Starten van pool is mislukt."
 
 msgid "Failed to start websockify for noVNC."
-msgstr ""
+msgstr "Starten van websockify voor noVNC is mislukt,"
 
 msgid "Failed to start websockify for spice-html5."
 msgstr "Start websockify voor spice-html5 is mislukt."
 
-msgid "File will be place in same directory as the base image."
+msgid "File will be placed in same directory as the base image."
 msgstr ""
 
 msgid "Filesystem"
-msgstr ""
+msgstr "Bestandssysteem"
 
 msgid ""
 "For description of each type and how to configure <a "
 "href='https://libvirt.org/storage.html' "
 "target='_blank'>libvirt.org/storage.html</a>"
 msgstr ""
+"Voor de beschrijving van elk type en configuratie <a "
+"href='https://libvirt.org/storage.html' "
+"target='_blank'>libvirt.org/storage.html</a>"
 
 msgid "Force"
-msgstr "Forceer"
+msgstr "Forceren"
 
 msgid "Force eject"
-msgstr ""
+msgstr "Uitwerpen forceren"
 
 msgid "Force image list refresh"
-msgstr ""
+msgstr "Vernieuwing van image-lijst forceren"
 
 msgid "Forced down."
-msgstr ""
+msgstr "Geforceerd neer."
 
 msgid "Forcing down ..."
-msgstr ""
+msgstr "Neer forceren…"
 
 msgid "Format"
 msgstr "Formatteren"
 
 msgid "Forwarding"
-msgstr ""
+msgstr "Doorsturen"
 
 msgid "Gateway IP"
 msgstr "Gateway IP-adres"
 
 msgid "Gateway IP address"
-msgstr ""
+msgstr "Gateway IP-adres"
 
 msgid "GiB"
 msgstr "GiB"
 
 msgid "Gigabytes"
-msgstr ""
+msgstr "Gigabytes"
 
 msgid "Hard disk"
-msgstr ""
+msgstr "Harde schijf"
 
 msgid "Host VNC port"
-msgstr ""
+msgstr "Host VNC-poort"
 
 msgid "Host disk has been added."
-msgstr ""
+msgstr "Hostschijf is toegevoegd."
 
 msgid "Host drive has been added."
-msgstr ""
+msgstr "Host-schijfstation is toegevoegd."
 
 msgid "Host name"
-msgstr ""
+msgstr "Hostnaam"
 
 msgid "Host spice port"
 msgstr "Host spice-poort"
 
 msgid "IP Range"
-msgstr "IP range"
+msgstr "IP-bereik"
 
 msgid "ISOs"
 msgstr "ISO-bestanden"
@@ -599,60 +609,62 @@ msgstr "ISO-bestanden"
 msgid ""
 "If unchecked, LXC Container Initialization and Autoboot will be disabled."
 msgstr ""
+"Indien niet aangevinkt, worden LXC Container Initialization en Autoboot "
+"uitgeschakeld."
 
 msgid "If unchecked, LXC network bridge will be disabled."
-msgstr ""
+msgstr "Indien niet aangevinkt, wordt de LXC-netwerkbrug uitgeschakeld."
 
 msgid "Image"
-msgstr ""
+msgstr "Image"
 
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 msgid "KVM"
 msgstr "KVM"
 
 msgid "KVM Backup"
-msgstr ""
+msgstr "KVM Backup"
 
 msgid "Keep Recent"
-msgstr ""
+msgstr "Recent behouden"
 
 msgid "LXC"
-msgstr ""
+msgstr "LXC"
 
 msgid "LXC name"
-msgstr ""
+msgstr "LXC-naam"
 
 msgid "Leave blank for random address."
 msgstr "Laat leeg voor willekeurig adres."
 
 msgid "Leave blank to use VM name."
-msgstr ""
+msgstr "Leeglaten om VM-naam te gebruiken."
 
 msgid "Linked Clone"
-msgstr ""
+msgstr "Gelinkte kloon"
 
 msgid "Linked clone complete."
-msgstr ""
+msgstr "Gelinkte kloon voltooid."
 
 msgid "Logical"
-msgstr ""
+msgstr "Logisch"
 
 msgid "MAC address"
 msgstr "MAC-adres"
 
 msgid "Megabytes"
-msgstr ""
+msgstr "Megabytes"
 
 msgid "Memory"
 msgstr "Geheugen"
 
 msgid "Memory amount has been changed."
-msgstr ""
+msgstr "Geheugenhoeveelheid is gewijzigd."
 
 msgid "Message"
-msgstr ""
+msgstr "Bericht"
 
 msgid "MiB"
 msgstr "MiB"
@@ -660,17 +672,23 @@ msgstr "MiB"
 msgid "Model"
 msgstr "Model"
 
+msgid "Move"
+msgstr "Verplaatsen"
+
+msgid "Move VM ..."
+msgstr "VM verplaatsen …"
+
 msgid "Name"
 msgstr "Naam"
 
 msgid "Net info"
-msgstr ""
+msgstr "Net info"
 
 msgid "Network"
 msgstr "Netwerk"
 
 msgid "Network Filesystem"
-msgstr ""
+msgstr "Netwerk-bestandssysteem"
 
 msgid "Network Name"
 msgstr "Netwerknaam"
@@ -679,87 +697,89 @@ msgid "Network State"
 msgstr "Netwerkstatus"
 
 msgid "Network adapter has been added."
-msgstr ""
+msgstr "Netwerkadapter is toegevoegd."
 
 msgid "Network adapter has been removed."
-msgstr ""
+msgstr "Netwerkadapter is verwijderd."
 
 msgid "Network has been added."
-msgstr ""
+msgstr "Netwerk is toegevoegd."
 
 msgid "Network has been deleted."
-msgstr ""
+msgstr "Netwerk is verwijderd."
 
 msgid "Network has been started."
-msgstr ""
+msgstr "Netwerk is gestart."
 
 msgid "Network has been stopped."
-msgstr ""
+msgstr "Netwerk is gestopt."
 
 msgid "Network interface info"
-msgstr ""
+msgstr "Info over netwerkinterface"
 
 msgid "Networks"
 msgstr "Netwerken"
 
 msgid "New name"
-msgstr ""
+msgstr "Nieuwe naam"
 
 msgid "No disk name specified!"
-msgstr ""
+msgstr "Geen schijfnaam gespecificeerd!"
 
 msgid "No image - use existing image path"
-msgstr ""
+msgstr "Geen image - bestaand image-pad gebruiken"
 
 msgid "Notes"
 msgstr "Notities"
 
 msgid "OS"
-msgstr "besturingssysteem"
+msgstr "Besturingssysteem"
 
 msgid "Optical"
 msgstr "Optisch"
 
 msgid "Optical Drive"
-msgstr ""
+msgstr "Optische schijfstation"
 
 msgid "Optical disc has been added."
-msgstr ""
+msgstr "Optische schijf is toegevoegd."
 
 msgid "Optical disc has been changed."
-msgstr ""
+msgstr "Optische schijf is gewijzigd."
 
 msgid "Optical disc has been ejected."
-msgstr ""
+msgstr "Optische schijf is uitgeworpen."
 
 msgid "Optical disc has been removed."
-msgstr ""
+msgstr "Optische schijf is verwijderd."
 
 msgid "Optimize/Shrink"
-msgstr ""
+msgstr "Optimaliseren/krimpen"
 
 msgid "Optimizing/shrinking qcow2 ..."
-msgstr ""
+msgstr "Optimaliseren/krimpen qcow2 ..."
 
 msgid ""
 "Optional. Choose pool to restore VM to a different location. Leave blank for"
 " original location."
 msgstr ""
+"Optioneel. Kies pool om VM te herstellen naar een andere locatie. Leeglaten "
+"voor originele locatie."
 
 msgid "Other CPU"
-msgstr ""
+msgstr "Overig CPU"
 
 msgid "PCI"
-msgstr ""
+msgstr "PCI"
 
 msgid "PCI device has been added."
-msgstr ""
+msgstr "PCI-apparaat is toegevoegd."
 
 msgid "PCI device has been removed."
-msgstr ""
+msgstr "PCI-apparaat is verwijderd."
 
 msgid "Passing through PCI device ..."
-msgstr ""
+msgstr "Door PCI-apparaat gaan..."
 
 msgid "Passthrough Filesystem"
 msgstr "Passthrough-bestandssysteem"
@@ -779,82 +799,88 @@ msgid "Path"
 msgstr "Pad"
 
 msgid "Pause"
-msgstr "Pauzeer"
+msgstr "Pauzeren"
 
 msgid "Paused."
-msgstr ""
+msgstr "Gepauzeerd."
 
 msgid "Pausing ..."
-msgstr ""
+msgstr "Pauzeren…"
 
 msgid "Pool"
 msgstr "Pool"
 
 msgid "Pool has been added."
-msgstr ""
+msgstr "Pool is toegevoegd."
 
 msgid "Pool has been deleted."
-msgstr ""
+msgstr "Pool is verwijderd."
 
 msgid "Pool has been started."
-msgstr ""
+msgstr "Pool is gestart."
 
 msgid "Pool has been stopped."
-msgstr ""
+msgstr "Pool is gestopt."
 
 msgid "Pools"
 msgstr "Pools"
+
+msgid "Power off + Move"
+msgstr "Uitschakelen + Verplaatsen"
+
+msgid "Power off VM and move ..."
+msgstr "VM uitschakelen en verplaatsen…"
 
 msgid "Reboot"
 msgstr "Herstart"
 
 msgid "Rebooted."
-msgstr ""
+msgstr "Opnieuw opgestart."
 
 msgid "Rebooting ..."
-msgstr ""
+msgstr "Opnieuw opstarten…"
 
 msgid "Remove PCI"
-msgstr ""
+msgstr "PCI verwijderen"
 
 msgid "Remove Spice"
 msgstr "Spice verwijderen"
 
 msgid "Remove USB"
-msgstr ""
+msgstr "USB verwijderen"
 
 msgid "Remove VNC"
-msgstr ""
+msgstr "VNC verwijderen"
 
 msgid "Remove disc"
-msgstr ""
+msgstr "Schijf verwijderen"
 
 msgid "Remove disk"
-msgstr ""
+msgstr "Schijfstation verwijderen"
 
 msgid "Remove network"
-msgstr ""
+msgstr "Netwerk verwijderen"
 
 msgid "Remove passthrough"
 msgstr "Passthrough verwijderen"
 
 msgid "Removing PCI device ..."
-msgstr ""
+msgstr "PCI-apparaat verwijderen…"
 
 msgid "Removing USB device ..."
-msgstr ""
+msgstr "USB-apparaat verwijderen…"
 
 msgid "Removing VNC viewer ..."
-msgstr ""
+msgstr "VNC-viewer verwijderen…"
 
 msgid "Removing disk ..."
-msgstr ""
+msgstr "Schijf verwijderen…"
 
 msgid "Removing network adapter ..."
-msgstr ""
+msgstr "Netwerkadapter verwijderen…"
 
 msgid "Removing optical disc ..."
-msgstr ""
+msgstr "Optische schijf verwijderen…"
 
 msgid "Removing passthrough filesystem ..."
 msgstr "Passthrough-bestandssysteem verwijderen…"
@@ -863,85 +889,85 @@ msgid "Removing spice viewer ..."
 msgstr "Spice-weergave verwijderen…"
 
 msgid "Reset"
-msgstr ""
+msgstr "Herstellen"
 
 msgid "Reset."
-msgstr ""
+msgstr "Hersteld."
 
 msgid "Resetting ..."
-msgstr ""
+msgstr "Herstellen…"
 
 msgid "Restore"
-msgstr ""
+msgstr "Terugzetten"
 
 msgid "Restore VM ..."
-msgstr ""
+msgstr "VM terugzetten…"
 
 msgid "Resume"
 msgstr "Hervatten"
 
 msgid "Resumed."
-msgstr ""
+msgstr "Hervat."
 
 msgid "Resuming ..."
-msgstr ""
+msgstr "Hervatten…"
 
 msgid "Revert"
 msgstr "Terugdraaien"
 
 msgid "Reverting to snapshot ..."
-msgstr ""
+msgstr "Terugkeren naar momentopname..."
 
 msgid "Run"
-msgstr ""
+msgstr "Uitvoeren"
 
 msgid "Running"
-msgstr ""
+msgstr "Uitvoeren"
 
 msgid "Same Format"
-msgstr ""
+msgstr "Zelfde formaat"
 
 msgid "Schedule"
-msgstr ""
+msgstr "Planning"
 
 msgid "Secure boot"
-msgstr ""
+msgstr "Secure boot"
 
 msgid "Select a snapshot ..."
-msgstr "Selecteer een snapshot ..."
+msgstr "Momentopname selecteren..."
 
 msgid "Settings"
 msgstr "Instellingen"
 
 msgid "Show advanced options"
-msgstr ""
+msgstr "Geavanceerde opties tonen"
 
 msgid "Size"
 msgstr "Grootte"
 
 msgid "Snapshot"
-msgstr "Snapshot"
+msgstr "Momentopname"
 
 msgid "Snapshot has been created."
-msgstr ""
+msgstr "Momentopname is aangemaakt."
 
 msgid "Snapshot has been deleted."
-msgstr ""
+msgstr "Momentopname is verwijderd."
 
 msgid "Snapshot has been reverted."
-msgstr ""
+msgstr "Momentopname is teruggezet."
 
 msgid "Snapshots"
-msgstr "Snapshots"
+msgstr "Momentopnames"
 
 msgid "Source VM"
-msgstr ""
+msgstr "Bron VM"
 
 msgid "Source path"
-msgstr ""
+msgstr "Bronpad"
 
 msgid "Space Used"
-msgstr ""
+msgstr "Gebruikte ruimte"
 
 msgid "Spice"
 msgstr "Spice"
@@ -959,40 +985,40 @@ msgid "Start"
 msgstr "Start"
 
 msgid "Started."
-msgstr ""
+msgstr "Gestart."
 
 msgid "Starting ..."
-msgstr ""
+msgstr "Starten…"
 
 msgid "Starting a pool ..."
-msgstr ""
+msgstr "Een pool starten…"
 
 msgid "Starting consoles ..."
-msgstr ""
+msgstr "Consoles starten…"
 
 msgid "Starting network ..."
-msgstr ""
+msgstr "Netwerk starten…"
 
 msgid "State"
 msgstr "Toestand"
 
 msgid "Stop"
-msgstr "Stop"
+msgstr "Stoppen"
 
 msgid "Stopped."
-msgstr ""
+msgstr "Gestopt."
 
 msgid "Stopping ..."
-msgstr ""
+msgstr "Stoppen…"
 
 msgid "Stopping a pool ..."
-msgstr ""
+msgstr "Een pool stoppen…"
 
 msgid "Stopping consoles ..."
-msgstr ""
+msgstr "Consoles stoppen…"
 
 msgid "Stopping network ..."
-msgstr ""
+msgstr "Netwerk stoppen…"
 
 msgid "Storage Volume"
 msgstr "Opslagvolume"
@@ -1001,142 +1027,142 @@ msgid "Subnet mask"
 msgstr "Subnetmasker"
 
 msgid "TPM"
-msgstr ""
+msgstr "TPM"
 
 msgid "Terabytes"
-msgstr ""
+msgstr "Terabytes"
 
 msgid "Terminal Link"
-msgstr ""
+msgstr "Terminal Link"
 
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 msgid "UEFI"
 msgstr "UEFI"
 
 msgid "USB"
-msgstr ""
+msgstr "USB"
 
 msgid "USB device has been added."
-msgstr ""
+msgstr "USB-apparaat is toegevoegd."
 
 msgid "USB device has been removed."
-msgstr ""
+msgstr "USB-apparaat is verwijderd."
 
 msgid "UUID"
-msgstr ""
-
-msgid "Unable to - "
-msgstr ""
+msgstr "UUID"
 
 msgid "Unable to add network adapter to VM - "
-msgstr ""
+msgstr "Kan netwerkadapter niet toevoegen aan VM - "
 
 msgid "Unable to backup existing XML for VM :: "
-msgstr ""
+msgstr "Kan geen back-up maken van bestaande XML voor VM ::"
 
 msgid "Unable to change notes for VM."
 msgstr "Kan notities voor VM niet wijzigen."
 
 msgid "Unable to change topolgy cores for VM - "
-msgstr ""
+msgstr "Kan topolgiekernen voor VM niet wijzigen - "
 
 msgid "Unable to create Macvap - "
-msgstr ""
+msgstr "Kan Macvap niet aanmaken - "
 
 msgid "Unable to create network - "
-msgstr ""
+msgstr "Kan netwerk niet aanmaken - "
 
 msgid "Unable to create pool - "
-msgstr ""
+msgstr "Kan pool niet aanmaken - "
 
 msgid "Unable to create snapshot - "
-msgstr ""
+msgstr "Kan momentopname niet aanmaken - "
 
 msgid "Unable to create volume - "
-msgstr ""
+msgstr "Kan volume niet aanmaken - "
 
 msgid "Unable to delete disk(s) from VM - "
-msgstr ""
+msgstr "Kan schijf/schijven niet verwijderen uit VM - "
 
 msgid "Unable to delete network - "
-msgstr ""
+msgstr "Kan netwerk niet verwijderen - "
 
 msgid "Unable to delete pool - "
-msgstr ""
+msgstr "Kan pool niet verwijderen - "
 
 msgid "Unable to delete snapshot - "
-msgstr ""
+msgstr "Kan momentopname niet verwijderen - "
 
 msgid "Unable to delete volume - "
-msgstr ""
+msgstr "Kan volume niet verwijderen - "
 
 msgid "Unable to get network adapter type - "
-msgstr ""
+msgstr "Kan het type netwerkadapter niet krijgen - "
 
 msgid "Unable to revert to snapshot - "
-msgstr ""
+msgstr "Kan niet terugzetten naar momentopname - "
 
 msgid "Unable to set VM XML :: "
-msgstr ""
+msgstr "Kan VM-XML niet instellen :: "
 
 msgid "Unable to start network - "
-msgstr ""
+msgstr "Kan netwerk niet starten - "
 
 msgid "Unable to stop network - "
-msgstr ""
+msgstr "Kan netwerk niet stoppen - "
 
 msgid "Unable to undefine VM :: "
-msgstr ""
+msgstr "Kan definitie van VM niet ongedaan maken :: "
 
 msgid "Unit"
-msgstr ""
+msgstr "Eenheid"
 
 msgid "VM Name"
-msgstr ""
+msgstr "VM-naam"
 
 msgid "VM does not have qemu guest agent installed!"
-msgstr ""
+msgstr "VM heeft geen qemu guest agent geïnstalleerd!"
 
 msgid "VM info"
-msgstr ""
+msgstr "VM-info"
 
 msgid "VM is not running!"
-msgstr ""
+msgstr "VM draait niet!"
+
+msgid "VM must be powered off before deleting disks."
+msgstr "VM moet worden uitgeschakeld voordat schijven worden verwijderd."
 
 msgid "VM name"
-msgstr ""
+msgstr "VM-naam"
 
 msgid "VM name for restored VM"
-msgstr ""
+msgstr "VM-naam voor herstelde VM"
 
 msgid "VMs"
-msgstr ""
+msgstr "VM's"
 
 msgid "VNC"
-msgstr ""
+msgstr "VNC"
 
 msgid "VNC port"
 msgstr "VNC-poort"
 
 msgid "VNC viewer has been added."
-msgstr ""
+msgstr "VNC-viewer is toegevoegd."
 
 msgid "VNC viewer has been removed."
-msgstr ""
+msgstr "VNC-viewer is verwijderd."
 
 msgid "Volume Count"
-msgstr ""
+msgstr "Aantal volumes"
 
 msgid "Volume group"
-msgstr ""
+msgstr "Volume-groep"
 
 msgid "Volume info ..."
-msgstr ""
+msgstr "Volume-info…"
 
 msgid "Volumes"
-msgstr ""
+msgstr "Volumes"
 
 msgid ""
 "Warning! Address can change after VM reboot breaking the passthrough!<br "
@@ -1151,40 +1177,46 @@ msgid "XML"
 msgstr "XML"
 
 msgid "ZFS"
-msgstr ""
+msgstr "ZFS"
+
+msgid "^win.*$"
+msgstr "^win.*$"
 
 msgid "bridge"
-msgstr ""
+msgstr "bridge"
 
 msgid "disabled"
-msgstr ""
+msgstr "uitgeschakeld"
 
 msgid "e1000"
 msgstr "e1000"
 
+msgid "e1000e"
+msgstr "e1000e"
+
 msgid "iSCSI"
-msgstr ""
+msgstr "iSCSI"
 
 msgid "ide"
 msgstr "IDE"
 
 msgid "lxc service"
-msgstr ""
+msgstr "lxc service"
 
 msgid "lxc-net service"
-msgstr ""
+msgstr "lxc-net service"
 
 msgid "macvtap network has been added."
-msgstr ""
+msgstr "macvtap-netwerk is toegevoegd."
 
 msgid "ne2k_pci"
-msgstr ""
+msgstr "ne2k_pci"
 
 msgid "noVNC URL"
-msgstr ""
+msgstr "noVNC-URL"
 
 msgid "noVNC port"
-msgstr ""
+msgstr "noVNC-poort"
 
 msgid "pcnet"
 msgstr "PCnet"
@@ -1214,13 +1246,13 @@ msgid "vCPU"
 msgstr "vCPU"
 
 msgid "vCPUs"
-msgstr ""
+msgstr "vCPU's"
 
 msgid "virtio"
 msgstr "VirtIO"
 
 msgid "vmxnet3"
-msgstr ""
+msgstr "vmxnet3"
 
 msgid "zPool name"
-msgstr ""
+msgstr "zPool-naam"

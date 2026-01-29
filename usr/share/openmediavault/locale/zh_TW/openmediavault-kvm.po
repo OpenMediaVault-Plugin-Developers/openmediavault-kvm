@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-07 10:18-0500\n"
+"POT-Creation-Date: 2026-01-29 13:20+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: kochin <kochinc@outlook.com>, 2025\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_TW/)\n"
@@ -173,6 +173,9 @@ msgid ""
 msgstr ""
 "請要非常小心，不要直通一個被主機作業系統使用的裝置！<br/>使用 /dev/sd* 是已知較為不可靠，因為它們可能在重新啟動間改變。<br/>建議使用"
 " /dev/disk/by-id 裝置名稱。"
+
+msgid "Bridge Model"
+msgstr ""
 
 msgid "Bus"
 msgstr "匯流排"
@@ -366,6 +369,9 @@ msgstr "磁碟狀態"
 msgid "Disk(s)"
 msgstr "磁碟"
 
+msgid "Dom stats"
+msgstr ""
+
 msgid "Download virtio iso"
 msgstr "下載 virtio iso"
 
@@ -522,8 +528,8 @@ msgstr "為 noVNC 啟動 websockify 失敗。"
 msgid "Failed to start websockify for spice-html5."
 msgstr "為 spice-html5 啟動 websockify 失敗。"
 
-msgid "File will be place in same directory as the base image."
-msgstr "檔案將被放置於基礎影像的相同目錄中。"
+msgid "File will be placed in same directory as the base image."
+msgstr ""
 
 msgid "Filesystem"
 msgstr "檔案系統"
@@ -656,6 +662,12 @@ msgstr "MiB"
 
 msgid "Model"
 msgstr "型號"
+
+msgid "Move"
+msgstr ""
+
+msgid "Move VM ..."
+msgstr ""
 
 msgid "Name"
 msgstr "名稱"
@@ -799,6 +811,12 @@ msgstr "集用場已被停止。"
 
 msgid "Pools"
 msgstr "集用場"
+
+msgid "Power off + Move"
+msgstr ""
+
+msgid "Power off VM and move ..."
+msgstr ""
 
 msgid "Reboot"
 msgstr "重新啟動"
@@ -1022,9 +1040,6 @@ msgstr "USB 裝置已被移除。"
 msgid "UUID"
 msgstr "UUID"
 
-msgid "Unable to - "
-msgstr "無法 -"
-
 msgid "Unable to add network adapter to VM - "
 msgstr "無法新增網路卡到 VM -"
 
@@ -1100,6 +1115,9 @@ msgstr "VM 資訊"
 msgid "VM is not running!"
 msgstr "VM 現非執行中！"
 
+msgid "VM must be powered off before deleting disks."
+msgstr ""
+
 msgid "VM name"
 msgstr "VM 名稱"
 
@@ -1146,6 +1164,9 @@ msgstr "XML"
 msgid "ZFS"
 msgstr "ZFS"
 
+msgid "^win.*$"
+msgstr ""
+
 msgid "bridge"
 msgstr "橋接器"
 
@@ -1154,6 +1175,9 @@ msgstr "已停用"
 
 msgid "e1000"
 msgstr "e1000"
+
+msgid "e1000e"
+msgstr ""
 
 msgid "iSCSI"
 msgstr "iSCSI"

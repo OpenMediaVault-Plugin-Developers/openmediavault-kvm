@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-07 10:18-0500\n"
+"POT-Creation-Date: 2026-01-29 13:20+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Rysiek Jurczy, 2023\n"
 "Language-Team: Polish (Poland) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/pl_PL/)\n"
@@ -170,6 +170,9 @@ msgid ""
 " system!<br/>Using /dev/sd* is known to be less reliable because they can "
 "change between reboots.<br/>It is recommended to use /dev/disk/by-id device "
 "names."
+msgstr ""
+
+msgid "Bridge Model"
 msgstr ""
 
 msgid "Bus"
@@ -364,6 +367,9 @@ msgstr "Statystyki dysku"
 msgid "Disk(s)"
 msgstr "Dysk(i)"
 
+msgid "Dom stats"
+msgstr ""
+
 msgid "Download virtio iso"
 msgstr "Pobierz obraz virtio ISO "
 
@@ -522,8 +528,8 @@ msgstr "nie udało się uruchomić websockify dla noVNC."
 msgid "Failed to start websockify for spice-html5."
 msgstr "Nie udało się uruchomić websockify dla spice-html5."
 
-msgid "File will be place in same directory as the base image."
-msgstr "Plik zostanie umieszczony w tym samym katalogu co obraz bazowy."
+msgid "File will be placed in same directory as the base image."
+msgstr ""
 
 msgid "Filesystem"
 msgstr "System plików"
@@ -659,6 +665,12 @@ msgstr "MiB"
 
 msgid "Model"
 msgstr "Model"
+
+msgid "Move"
+msgstr ""
+
+msgid "Move VM ..."
+msgstr ""
 
 msgid "Name"
 msgstr "Nazwa"
@@ -803,6 +815,12 @@ msgstr "Pula zatrzymana."
 
 msgid "Pools"
 msgstr "Pule"
+
+msgid "Power off + Move"
+msgstr ""
+
+msgid "Power off VM and move ..."
+msgstr ""
 
 msgid "Reboot"
 msgstr "Restart"
@@ -1026,9 +1044,6 @@ msgstr "Usunięto urządzenie USB."
 msgid "UUID"
 msgstr "UUID"
 
-msgid "Unable to - "
-msgstr "Niedozwolony"
-
 msgid "Unable to add network adapter to VM - "
 msgstr "Nie można dodać karty sieciowej do maszyny wirtualnej -"
 
@@ -1104,6 +1119,9 @@ msgstr "Informacja o maszynie wirtualnej"
 msgid "VM is not running!"
 msgstr ""
 
+msgid "VM must be powered off before deleting disks."
+msgstr ""
+
 msgid "VM name"
 msgstr "Nazwa maszyny wirtualnej"
 
@@ -1153,6 +1171,9 @@ msgstr "XML"
 msgid "ZFS"
 msgstr "ZFS"
 
+msgid "^win.*$"
+msgstr ""
+
 msgid "bridge"
 msgstr "bridge"
 
@@ -1161,6 +1182,9 @@ msgstr ""
 
 msgid "e1000"
 msgstr "e1000"
+
+msgid "e1000e"
+msgstr ""
 
 msgid "iSCSI"
 msgstr "iSCSI"

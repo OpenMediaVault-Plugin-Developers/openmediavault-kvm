@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-07 10:18-0500\n"
+"POT-Creation-Date: 2026-01-29 13:20+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Daniel, 2023\n"
 "Language-Team: Swedish (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/sv/)\n"
@@ -170,6 +170,9 @@ msgid ""
 " system!<br/>Using /dev/sd* is known to be less reliable because they can "
 "change between reboots.<br/>It is recommended to use /dev/disk/by-id device "
 "names."
+msgstr ""
+
+msgid "Bridge Model"
 msgstr ""
 
 msgid "Bus"
@@ -364,6 +367,9 @@ msgstr "Diskstatistik"
 msgid "Disk(s)"
 msgstr "Disk(ar)"
 
+msgid "Dom stats"
+msgstr ""
+
 msgid "Download virtio iso"
 msgstr "Hämta virtio iso"
 
@@ -520,8 +526,8 @@ msgstr "Det gick inte att starta websockify för noVNC."
 msgid "Failed to start websockify for spice-html5."
 msgstr "Det gick inte att starta websockify för spice-html5."
 
-msgid "File will be place in same directory as the base image."
-msgstr "Filen kommer att placeras i samma mapp som basbilden."
+msgid "File will be placed in same directory as the base image."
+msgstr ""
 
 msgid "Filesystem"
 msgstr "Filsystem"
@@ -657,6 +663,12 @@ msgstr "MiB"
 
 msgid "Model"
 msgstr "Modell"
+
+msgid "Move"
+msgstr ""
+
+msgid "Move VM ..."
+msgstr ""
 
 msgid "Name"
 msgstr "Namn"
@@ -800,6 +812,12 @@ msgstr ""
 
 msgid "Pools"
 msgstr "Pooler"
+
+msgid "Power off + Move"
+msgstr ""
+
+msgid "Power off VM and move ..."
+msgstr ""
 
 msgid "Reboot"
 msgstr "Starta om"
@@ -1023,9 +1041,6 @@ msgstr ""
 msgid "UUID"
 msgstr "UUID"
 
-msgid "Unable to - "
-msgstr "Går inte - "
-
 msgid "Unable to add network adapter to VM - "
 msgstr "Det går inte att lägga till nätverkskort till VM - "
 
@@ -1101,6 +1116,9 @@ msgstr "VM-info"
 msgid "VM is not running!"
 msgstr ""
 
+msgid "VM must be powered off before deleting disks."
+msgstr ""
+
 msgid "VM name"
 msgstr "VM-namn"
 
@@ -1146,6 +1164,9 @@ msgstr "XML"
 msgid "ZFS"
 msgstr "ZFS"
 
+msgid "^win.*$"
+msgstr ""
+
 msgid "bridge"
 msgstr ""
 
@@ -1154,6 +1175,9 @@ msgstr ""
 
 msgid "e1000"
 msgstr "e1000"
+
+msgid "e1000e"
+msgstr ""
 
 msgid "iSCSI"
 msgstr "iSCSI"
