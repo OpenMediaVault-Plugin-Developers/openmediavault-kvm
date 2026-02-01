@@ -2192,9 +2192,10 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if ($params['virttype'] == 'lxc') {
             $output = $this->doLxcSnapshot($params['vmname'], 'list', '');
             foreach ($output as $snap) {
+                $snap_short = trim(preg_replace('/\s*\(.*\)$/', '', $snap));
                 $objects[] = [
-                    'snapname' => $snap,
-                    'description' => $snap
+                    'snapname' => $snap_short,
+                    'description'=> $snap
                 ];
             }
         } else {
