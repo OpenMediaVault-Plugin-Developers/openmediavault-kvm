@@ -1,3 +1,9 @@
+openmediavault-kvm (8.0.5) stable; urgency=low
+
+  * Use virsh to delete snapshot
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sun, 01 Feb 2026 23:08:48 +0000
+
 openmediavault-kvm (8.0.4) stable; urgency=low
 
   * Fix lxc snapshot revert and delete
