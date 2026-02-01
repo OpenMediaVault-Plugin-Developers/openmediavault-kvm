@@ -535,7 +535,7 @@ msgid "Failed to start websockify for spice-html5."
 msgstr "Start websockify voor spice-html5 is mislukt."
 
 msgid "File will be placed in same directory as the base image."
-msgstr ""
+msgstr "Bestand wordt in dezelfde map geplaatst als de basis-image."
 
 msgid "Filesystem"
 msgstr "Bestandssysteem"
