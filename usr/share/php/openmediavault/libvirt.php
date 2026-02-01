@@ -1242,13 +1242,6 @@ class Libvirt {
         return $var;
     }
 
-    // delete snapshot and metadata
-    function domain_snapshot_delete($domain, $name) {
-        $dom = $this->domain_snapshot_lookup_by_name($domain, $name);
-        $tmp = libvirt_domain_snapshot_delete($dom);
-        return ($tmp) ? $tmp : $this->_set_last_error();
-    }
-
     // get resource number of snapshot
     function domain_snapshot_lookup_by_name($domain, $name) {
         $dom = $this->get_domain_object($domain);
@@ -1315,7 +1308,7 @@ class Libvirt {
 
     function resize_storagevolume_by_path($path, $addcapacity) {
         $res = $this->get_storagevolume_by_path($this->conn, $path);
-        $tmp = libvirt_storagevolume_resize($res, $capacity, VIR_STORAGE_VOL_RESIZE_DELTA); 
+        $tmp = libvirt_storagevolume_resize($res, $capacity, VIR_STORAGE_VOL_RESIZE_DELTA);
         return ($tmp) ? $tmp : $this->_set_last_error();
     }
 }

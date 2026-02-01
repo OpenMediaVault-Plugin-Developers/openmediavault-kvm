@@ -2249,11 +2249,13 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if ($params['virttype'] == 'lxc') {
             $output = $this->doLxcSnapshot($params['vmname'], 'delete', $params['snapname']);
         } else {
-            // create new libvirt object
-            $lv = $this->connectQemu();
-            if (!$lv->domain_snapshot_delete($params['vmname'], $params['snapname'])) {
-                throw new \OMV\Exception( gettext("Unable to delete snapshot - ") . $lv->get_last_error());
-            }
+            $cmdArgs = [];
+            $cmdArgs[] = 'snapshot-delete';
+            $cmdArgs[] = $this->escapeName($params['vmname']);
+            $cmdArgs[] = $this->escapeName($params['snapname']);
+            $cmdArgs[] = '--metadata';
+            $err = gettext("Failed to delete the snapshot!");
+            $this->virshCommand($cmdArgs, $err);
         }
     }
 
