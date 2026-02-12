@@ -1344,7 +1344,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             // drive 1 for OS install
             if (!empty($voliso) && strtolower(trim($voliso)) !== 'none') {
                 $cmdArgs[] = sprintf(
-                    "--disk path='%s',device=cdrom,bus=%s,readonly=on,boot_order=1", $voliso, $cdbus
+                    "--disk path='%s',device=cdrom,bus=%s,readonly=on", $voliso, $cdbus
                 );
                 $printStep = ' 1';
             }
