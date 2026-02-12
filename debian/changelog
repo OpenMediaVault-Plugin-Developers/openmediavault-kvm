@@ -1,3 +1,10 @@
+openmediavault-kvm (8.0.6) stable; urgency=low
+
+  * List bridge first on network adapter add dialog
+  * Remove virt-install boot_order parameter from VM creation
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Thu, 12 Feb 2026 23:21:23 +0000
+
 openmediavault-kvm (8.0.5) stable; urgency=low
 
   * Use virsh to delete snapshot
