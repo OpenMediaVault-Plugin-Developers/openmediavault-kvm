@@ -1486,60 +1486,21 @@ data:
                     prop: novncurl
                   arg1: "n/a"
             execute:
-              type: formDialog
-              formDialog:
-                title: _('Create consoles')
-                fields:
-                  - type: textInput
-                    name: vmname
-                    label: _("Source VM")
-                    value: "{{ _selected[0].vmname }}"
-                    readonly: true
-                  - type: numberInput
-                    name: vncport
-                    label: _("VNC port")
-                    value: "{{ _selected[0].vncport }}"
-                    readonly: true
-                  - type: numberInput
-                    name: hostport
-                    label: _("Host VNC port")
-                    value: 8081
-                    validators:
-                      min: 1024
-                      max: 65536
-                      patternType: port
-                      required: true
-                  - type: numberInput
-                    name: spiceport
-                    label: _("Spice port")
-                    value: "{{ _selected[0].spiceport }}"
-                    readonly: true
-                  - type: numberInput
-                    name: hostport2
-                    label: _("Host spice port")
-                    value: 8091
-                    validators:
-                      min: 1024
-                      max: 65536
-                      patternType: port
-                      required: true
-                  - type: hidden
-                    name: command
-                    value: "start"
-                  - type: hidden
-                    name: virttype
-                    value: '{{ _selected[0].virttype }}'
-                    readonly: true
-                buttons:
-                  submit:
-                    text: _('Start')
-                    execute:
-                      type: request
-                      request:
-                        service: Kvm
-                        method: doWeb
-                        progressMessage: _("Starting consoles ...")
-                        successNotification: _("Consoles have been started.")
+              type: request
+              request:
+                service: Kvm
+                method: doWeb
+                params:
+                  vmname: "{{ _selected[0].vmname }}"
+                  virttype: "{{ _selected[0].virttype }}"
+                  command: "start"
+                  hostport: 0
+                  hostport2: 0
+                  vncport: "{{ _selected[0].vncport | int }}"
+                  spiceport: "{{ _selected[0].spiceport | int }}"
+                progressMessage: _("Starting consoles ...")
+                successNotification: _("Consoles have been started.")
+                task: false
           - text: _("Stop")
             icon: mdi:television-stop
             enabledConstraints:

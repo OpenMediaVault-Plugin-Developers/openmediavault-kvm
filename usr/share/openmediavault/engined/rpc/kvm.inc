@@ -2728,13 +2728,44 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
     }
 
+    private function findFreePort($startPort)
+    {
+        for ($port = $startPort; $port <= 65535; $port++) {
+            $errno = 0;
+            $errstr = '';
+            $sock = @stream_socket_server(
+                sprintf('tcp://0.0.0.0:%d', $port),
+                $errno,
+                $errstr,
+                STREAM_SERVER_BIND | STREAM_SERVER_LISTEN
+            );
+            if ($sock !== false) {
+                fclose($sock);
+                return $port;
+            }
+        }
+        return -1;
+    }
+
     public function doWeb($params, $context)
     {
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         $command = $params['command'];
         $hostport = intval($params['hostport']);
+        if ($hostport < 1024) {
+            $hostport = $this->findFreePort(8081);
+            if ($hostport == -1) {
+                throw new \OMV\Exception("Failed to find an open port");
+            }
+        }
         $hostport2 = intval($params['hostport2']);
+        if ($hostport2 < 1024) {
+            $hostport2 = $this->findFreePort(8091);
+            if ($hostport2 == -1) {
+                throw new \OMV\Exception("Failed to find an open port");
+            }
+        }
         // shutdown existing consoles if running
         $this->shutdownWeb($params['vncport'], $params['spiceport'], $hostport, $hostport2);
         if ($command != "start") {
