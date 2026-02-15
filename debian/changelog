@@ -2,6 +2,8 @@ openmediavault-kvm (8.0.7) UNRELEASED; urgency=medium
 
   * Auto-select ports for VNC and Spice consoles
   * Improve VM list population
+  * Auto-generate disk name based on VM name when adding disk and volume name
+    not specified.
 
  -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sun, 15 Feb 2026 21:55:10 +0000
 
