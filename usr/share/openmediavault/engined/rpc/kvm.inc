@@ -710,15 +710,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // ssl
         $webadmin = $db->get("conf.webadmin");
         $ssl = boolval($webadmin->get("enablessl"));
-        $forcessl = boolval($webadmin->get("forcesslonly"));
-        $http = 'http';
-        $vncField = 8;
-        $remoteField = 7;
-        if ($ssl) {
-            $http = 'https';
-            $vncField = $forcessl ? 13 : 12;
-            $remoteField = $forcessl ? 12 : 11;
-        }
+        $http = $ssl ? 'https' : 'http';
         // create new libvirt object for VMs
         $lv = $this->connectQemu();
         $doms = $lv->get_domains();
@@ -755,13 +747,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $novncport = 'n/a';
             $novncurl = 'n/a';
             if (intval($vncport) >= 1024) {
-                $output = [];
-                $cmdLine = sprintf('pgrep -u openmediavault-kvmweb,root -a websockify | awk \'$%d == "localhost:%d" { print $%d }\'', $vncField, $vncport, $remoteField);
-                $cmd = new \OMV\System\Process($cmdLine);
-                $cmd->setQuiet(true);
-                $cmd->execute($output, $exitStatus);
-                $novncport = intval($output[0]);
-                if ($novncport >= 1024) {
+                $wsInfo = $this->getWebsockifyInfo($vncport);
+                if ($wsInfo) {
+                    $novncport = $wsInfo['hostport'];
                     $novncurl = sprintf('<a href="%s://%s:%d/vnc.html?resize=remote&autoconnect=1" target="_blank">link</a>', $http, $fqdn, $novncport);
                 }
             }
@@ -787,13 +775,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $spicehtml5port = 'n/a';
             $spicehtml5url = 'n/a';
             if (intval($spiceport) >= 1024) {
-                $output = [];
-                $cmdLine = sprintf('pgrep -u openmediavault-kvmweb,root -a websockify | awk \'$%d == "localhost:%d" { print $%d }\'', $vncField, $spiceport, $remoteField);
-                $cmd = new \OMV\System\Process($cmdLine);
-                $cmd->setQuiet(true);
-                $cmd->execute($output, $exitStatus);
-                $spicehtml5port = intval($output[0]);
-                if ($spicehtml5port >= 1024) {
+                $wsInfo = $this->getWebsockifyInfo($spiceport);
+                if ($wsInfo) {
+                    $spicehtml5port = $wsInfo['hostport'];
                     $spicehtml5url = sprintf('<a href="%s://%s:%d/spice_auto.html?resize=remote" target="_blank">link</a>', $http, $fqdn, $spicehtml5port);
                 }
             }
@@ -2753,120 +2737,169 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $hostport2 = intval($params['hostport2']);
         // shutdown existing consoles if running
         $this->shutdownWeb($params['vncport'], $params['spiceport'], $hostport, $hostport2);
+        if ($command != "start") {
+            return;
+        }
         // Get configuration data.
         $db = \OMV\Config\Database::getInstance();
         $webadmin = $db->get("conf.webadmin");
         $ssl = boolval($webadmin->get("enablessl"));
         $forcessl = boolval($webadmin->get("forcesslonly"));
+        $crt = '';
+        $key = '';
         if ($ssl) {
             $certref = $webadmin->get("sslcertificateref");
             $crt = sprintf("/etc/ssl/certs/openmediavault-%s.crt", $certref);
             $key = sprintf("/etc/ssl/private/openmediavault-%s.key", $certref);
         }
         // create websockify process for noVNC
-        if ($command == "start" && $hostport >= 1024) {
-            $output = [];
-            $cmdArgs = [];
-            $cmdArgs[] = "sudo ";
-            $cmdArgs[] = "--shell";
-            $cmdArgs[] = "--non-interactive";
-            if (!$ssl) {
-                $cmdArgs[] = "--user=openmediavault-kvmweb";
-            }
-            $cmdArgs[] = "--";
-            $cmdArgs[] = 'websockify';
-            $cmdArgs[] = '--daemon';
-            if ($ssl) {
-                if ($forcessl) {
-                    $cmdArgs[] = '--ssl-only';
-                }
-                $cmdArgs[] = sprintf('--cert "%s"', $crt);
-                $cmdArgs[] = sprintf('--key "%s"', $key);
-            }
-            $cmdArgs[] = '--web /usr/share/novnc/';
-            $cmdArgs[] = $hostport;
-            $cmdArgs[] = sprintf('localhost:%d', $params['vncport']);
-            $cmd = new \OMV\System\Process($cmdArgs);
-            $cmd->setQuiet(true);
-            $cmd->execute($output, $exitStatus);
-            $cmdLine = $cmd->getCommandLine();
-            if ((0 == $exitStatus) && (!empty($output))) {
-                throw new \OMV\Exception(gettext("Failed to start websockify for noVNC.") . $cmdLine);
-            }
-        }
+        $this->startWebsockify($hostport, $params['vncport'],
+            '/usr/share/novnc/', $ssl, $forcessl, $crt, $key, 'noVNC');
         // create websockify process for spice html5
-        if ($command == "start" && $hostport2 >= 1024) {
-            $output = [];
-            $cmdArgs = [];
-            $cmdArgs[] = "sudo ";
-            $cmdArgs[] = "--shell";
-            $cmdArgs[] = "--non-interactive";
-            if (!$ssl) {
-                $cmdArgs[] = "--user=openmediavault-kvmweb";
-            }
-            $cmdArgs[] = "--";
-            $cmdArgs[] = 'websockify';
-            $cmdArgs[] = '--daemon';
-            if ($ssl) {
-                if ($forcessl) {
-                    $cmdArgs[] = '--ssl-only';
-                }
-                $cmdArgs[] = sprintf('--cert "%s"', $crt);
-                $cmdArgs[] = sprintf('--key "%s"', $key);
-            }
-            $cmdArgs[] = '--web /usr/share/spice-html5/';
-            $cmdArgs[] = $hostport2;
-            $cmdArgs[] = sprintf('localhost:%d', $params['spiceport']);
-            $cmd = new \OMV\System\Process($cmdArgs);
-            $cmd->setQuiet(true);
-            $cmd->execute($output, $exitStatus);
-            $cmdLine = $cmd->getCommandLine();
-            if ((0 == $exitStatus) && (!empty($output))) {
-                throw new \OMV\Exception(gettext("Failed to start websockify for spice-html5.") . $cmdLine);
-            }
+        $this->startWebsockify($hostport2, $params['spiceport'],
+            '/usr/share/spice-html5/', $ssl, $forcessl, $crt, $key, 'spice-html5');
+    }
+
+    private function startWebsockify($hostport, $vmport, $webRoot, $ssl, $forcessl, $crt, $key, $label)
+    {
+        if ($hostport < 1024) {
+            return;
         }
+        $vmport = intval($vmport);
+        $runDir = '/run/kvmweb';
+        if (!is_dir($runDir)) {
+            mkdir($runDir, 0755, true);
+            chown($runDir, 'openmediavault-kvmweb');
+        }
+        $output = [];
+        $cmdArgs = [];
+        $cmdArgs[] = "sudo ";
+        $cmdArgs[] = "--shell";
+        $cmdArgs[] = "--non-interactive";
+        if (!$ssl) {
+            $cmdArgs[] = "--user=openmediavault-kvmweb";
+        }
+        $cmdArgs[] = "--";
+        $cmdArgs[] = 'websockify';
+        $cmdArgs[] = '--daemon';
+        if ($ssl) {
+            if ($forcessl) {
+                $cmdArgs[] = '--ssl-only';
+            }
+            $cmdArgs[] = sprintf('--cert "%s"', $crt);
+            $cmdArgs[] = sprintf('--key "%s"', $key);
+        }
+        $cmdArgs[] = sprintf('--web %s', $webRoot);
+        $cmdArgs[] = $hostport;
+        $cmdArgs[] = sprintf('localhost:%d', $vmport);
+        $cmd = new \OMV\System\Process($cmdArgs);
+        $cmd->setQuiet(true);
+        $cmd->execute($output, $exitStatus);
+        if (0 !== $exitStatus) {
+            throw new \OMV\Exception(
+                gettext("Failed to start websockify for ") . $label
+            );
+        }
+        // Find the PID and write tracking file for this VM port
+        $pidOutput = [];
+        $pidCmd = new \OMV\System\Process(
+            sprintf('pgrep -u openmediavault-kvmweb,root -f "websockify.*localhost:%d"', $vmport)
+        );
+        $pidCmd->setQuiet(true);
+        $pidCmd->execute($pidOutput, $pidExit);
+        $pid = intval($pidOutput[0] ?? 0);
+        if ($pid > 0) {
+            file_put_contents(
+                sprintf('%s/ws-%d', $runDir, $vmport),
+                sprintf("%d\n%d", $pid, $hostport)
+            );
+        }
+    }
+
+    private function getWebsockifyInfo($vmport)
+    {
+        $trackFile = sprintf('/run/kvmweb/ws-%d', $vmport);
+        if (!file_exists($trackFile)) {
+            return null;
+        }
+        $lines = file($trackFile, FILE_IGNORE_NEW_LINES);
+        $pid = intval($lines[0] ?? 0);
+        $hostport = intval($lines[1] ?? 0);
+        if ($pid > 0 && file_exists(sprintf('/proc/%d', $pid)) && $hostport >= 1024) {
+            return ['pid' => $pid, 'hostport' => $hostport];
+        }
+        return null;
     }
 
     private function shutdownWeb($vncport, $spiceport, $vnchostport, $spicehostport)
     {
-        // Get configuration data.
-        $db = \OMV\Config\Database::getInstance();
-        $webadmin = $db->get("conf.webadmin");
-        $ssl = boolval($webadmin->get("enablessl"));
-        $forcessl = boolval($webadmin->get("forcesslonly"));
-        $remoteField = 7;
-        $localField = 8;
-        if ($ssl) {
-            $localField = $forcessl ? 13 : 12;
-            $remoteField = $forcessl ? 12 : 11;
+        // kill by VM port (the port websockify bridges to)
+        $this->killWebsockifyByPort($vncport);
+        $this->killWebsockifyByPort($spiceport);
+        // kill by host port (the port websockify listens on)
+        $this->killWebsockifyByHostPort($vnchostport);
+        $this->killWebsockifyByHostPort($spicehostport);
+    }
+
+    private function killWebsockifyByPort($vmport)
+    {
+        if (intval($vmport) < 1024) {
+            return;
         }
-        // remove existing websockify processes if they exist
-        if (intval($vncport) > 1024) {
-            $output = [];
-            $cmdLine = sprintf('pgrep -u openmediavault-kvmweb,root -a websockify | awk \'$%d == "localhost:%d" { print $1 }\' | xargs kill', $localField, $vncport);
-            $cmd = new \OMV\System\Process($cmdLine);
-            $cmd->setQuiet(true);
-            $cmd->execute($output, $exitStatus);
+        // Try tracking file first
+        $trackFile = sprintf('/run/kvmweb/ws-%d', $vmport);
+        if (file_exists($trackFile)) {
+            $lines = file($trackFile, FILE_IGNORE_NEW_LINES);
+            $pid = intval($lines[0] ?? 0);
+            if ($pid > 0) {
+                $cmd = new \OMV\System\Process(sprintf('kill %d 2>/dev/null', $pid));
+                $cmd->setQuiet(true);
+                $cmd->execute($output, $exitStatus);
+            }
+            @unlink($trackFile);
         }
-        if (intval($vnchostport) > 1024) {
-            $output = [];
-            $cmdLine = sprintf('pgrep -u openmediavault-kvmweb,root -a websockify | awk \'$%d == %d { print $1 }\' | xargs kill', $remoteField, $vnchostport);
-            $cmd = new \OMV\System\Process($cmdLine);
-            $cmd->setQuiet(true);
-            $cmd->execute($output, $exitStatus);
+        // Fallback: kill by pattern match (handles processes without tracking files)
+        $output = [];
+        $cmdLine = sprintf(
+            'pgrep -u openmediavault-kvmweb,root -f "websockify.*localhost:%d" | xargs -r kill 2>/dev/null',
+            intval($vmport)
+        );
+        $cmd = new \OMV\System\Process($cmdLine);
+        $cmd->setQuiet(true);
+        $cmd->execute($output, $exitStatus);
+    }
+
+    private function killWebsockifyByHostPort($hostport)
+    {
+        if (intval($hostport) < 1024) {
+            return;
         }
-        if (intval($spiceport) > 1024) {
-            $cmdLine = sprintf('pgrep -u openmediavault-kvmweb,root -a websockify | awk \'$%d == "localhost:%d" { print $1 }\' | xargs kill', $localField, $spiceport);
-            $cmd = new \OMV\System\Process($cmdLine);
-            $cmd->setQuiet(true);
-            $cmd->execute($output, $exitStatus);
+        // Scan tracking files for matching host port
+        $runDir = '/run/kvmweb';
+        if (is_dir($runDir)) {
+            foreach (glob(sprintf('%s/ws-*', $runDir)) as $trackFile) {
+                $lines = file($trackFile, FILE_IGNORE_NEW_LINES);
+                $storedHostport = intval($lines[1] ?? 0);
+                if ($storedHostport === intval($hostport)) {
+                    $pid = intval($lines[0] ?? 0);
+                    if ($pid > 0) {
+                        $cmd = new \OMV\System\Process(sprintf('kill %d 2>/dev/null', $pid));
+                        $cmd->setQuiet(true);
+                        $cmd->execute($output, $exitStatus);
+                    }
+                    @unlink($trackFile);
+                }
+            }
         }
-        if (intval($spicehostport) > 1024) {
-            $cmdLine = sprintf('pgrep -u openmediavault-kvmweb,root -a websockify | awk \'$%d == %d { print $1 }\' | xargs kill', $remoteField, $spicehostport);
-            $cmd = new \OMV\System\Process($cmdLine);
-            $cmd->setQuiet(true);
-            $cmd->execute($output, $exitStatus);
-        }
+        // Fallback: kill by pattern match (handles processes without tracking files)
+        $output = [];
+        $cmdLine = sprintf(
+            'pgrep -u openmediavault-kvmweb,root -f "websockify.* %d localhost:" | xargs -r kill 2>/dev/null',
+            intval($hostport)
+        );
+        $cmd = new \OMV\System\Process($cmdLine);
+        $cmd->setQuiet(true);
+        $cmd->execute($output, $exitStatus);
     }
 
     public function doChangeCpuMemory($params, $context)
