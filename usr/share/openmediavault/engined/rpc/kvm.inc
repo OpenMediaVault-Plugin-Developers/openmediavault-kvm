@@ -678,6 +678,58 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->virshCommand($cmdArgs, $err);
     }
 
+    private function normalizePort($port)
+    {
+        if ($port === null || $port === '' || $port === false) {
+            return null;
+        }
+        $p = intval($port);
+        if ($p < 1024 || $p > 65535) {
+            return null;
+        }
+        return $p;
+    }
+
+    private function fmtPort($port)
+    {
+        return $port === null ? 'n/a' : $port;
+    }
+
+    private function graphicsInfo($domXml, $type)
+    {
+        // First match only
+        $node = $domXml->xpath("//devices/graphics[@type='{$type}'][1]");
+        $node = $node[0] ?? null;
+        if ($node === null) {
+            return [false, null];
+        }
+        $port = null;
+        if (isset($node['port'])) {
+            $port = $this->normalizePort($node['port']);
+        }
+        return [true, $port];
+    }
+
+    private function webUrlFor($backendPort, $http, $fqdn, $path)
+    {
+        if ($backendPort === null) {
+            return ['port' => 'n/a', 'url' => 'n/a'];
+        }
+        $wsInfo = $this->getWebsockifyInfo($backendPort);
+        if (!$wsInfo || empty($wsInfo['hostport'])) {
+            return ['port' => 'n/a', 'url' => 'n/a'];
+        }
+        $hostport = $wsInfo['hostport'];
+        if ($hostport < 1024 || $hostport > 65535) {
+            return ['port' => 'n/a', 'url' => 'n/a'];
+        }
+        $url = sprintf(
+            '<a href="%s://%s:%d/%s" target="_blank">link</a>',
+            $http, $fqdn, $hostport, ltrim($path, '/')
+        );
+        return ['port' => $hostport, 'url' => $url];
+    }
+
     public function getVmList($params, $context)
     {
         // Validate the RPC caller context.
@@ -692,101 +744,61 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if (strlen($dn) > 1) {
             $fqdn = sprintf('%s.%s', $fqdn, $dn);
         }
-        // get cterm settings
+        // cterm settings (optional)
+        $cterm = false;
+        $autouser = $context['username'];
+        $hmac = '';
+        $ts = '';
+        $execurl = '';
         try {
             $cterm = $db->get("conf.service.cterm");
-            // hmac
             $autouser = $cterm->get('autouser') ?: $context['username'];
-            $secret = trim(file_get_contents('/etc/omv_cterm.secret'));
+            $secret = trim(@file_get_contents('/etc/omv_cterm.secret'));
             $ts = sprintf('%s', microtime(true));
             $userts = sprintf('%s:%s', $autouser, $ts);
             $hmac = hash_hmac('sha256', $userts, $secret);
-            // get exec url
             $execurl = $this->getExecUrl($context, $db, $fqdn);
-        } catch (Exception $e) {
-            // cterm not installed
+        } catch (\Exception $e) {
             $cterm = false;
         }
         // ssl
         $webadmin = $db->get("conf.webadmin");
         $ssl = boolval($webadmin->get("enablessl"));
         $http = $ssl ? 'https' : 'http';
-        // create new libvirt object for VMs
+        // VMs
+        $objects = [];
         $lv = $this->connectQemu();
-        $doms = $lv->get_domains();
-        $objects= [];
-        foreach ($doms as $name) {
-            if (!$lv->domain_get_xml($name)) {
+        foreach ($lv->get_domains() as $name) {
+            $xml = $lv->domain_get_xml($name);
+            if (!$xml) {
                 continue;
             }
             $dom = $lv->get_domain_object($name);
-            $domXml = new SimpleXMLElement($lv->domain_get_xml($name));
+            $domXml = new SimpleXMLElement($xml);
             $info = $lv->domain_get_info($dom);
             $diskcnt = $lv->get_disk_count($dom);
-            if ($diskcnt > 0) {
-                $dSize = $lv->get_disk_capacity($dom);
-                $disks = sprintf('%d / %s', $diskcnt, $dSize);
-            } else {
-                $disks = 'n/a';
-            }
-            // vnc and novnc
-            $vncexists = false;
-            $xpath = $domXml->xpath('//graphics');
-            $xpathSize = sizeof($xpath);
-            for ($i = 0; $i < $xpathSize; $i++) {
-                $graphics = $domXml->devices->graphics[$i];
-                if ($graphics['type'] == 'vnc') {
-                    $vncexists = true;
-                    break;
-                }
-            }
-            $vncport = $lv->domain_get_vnc_port($dom);
-            if (! $vncport || $vncport < 1024 || $vncport == '') {
-                $vncport = 'n/a';
-            }
-            $novncport = 'n/a';
-            $novncurl = 'n/a';
-            if (intval($vncport) >= 1024) {
-                $wsInfo = $this->getWebsockifyInfo($vncport);
-                if ($wsInfo) {
-                    $novncport = $wsInfo['hostport'];
-                    $novncurl = sprintf('<a href="%s://%s:%d/vnc.html?resize=remote&autoconnect=1" target="_blank">link</a>', $http, $fqdn, $novncport);
-                }
-            }
-            if (!$lv->domain_get_xml($name)) {
-                continue;
-            }
-            // spice and spice_html5
-            $spiceport = '';
-            $spiceexists = false;
-            $xpath = $domXml->xpath('//graphics');
-            $xpathSize = sizeof($xpath);
-            for ($i = 0; $i < $xpathSize; $i++) {
-                $graphics = $domXml->devices->graphics[$i];
-                if ($graphics['type'] == 'spice') {
-                    $spiceport = $graphics['port'];
-                    $spiceexists = true;
-                    break;
-                }
-            }
-            if (!$spiceport || $spiceport < 1024 || $spiceport == '') {
-                $spiceport = 'n/a';
-            }
-            $spicehtml5port = 'n/a';
-            $spicehtml5url = 'n/a';
-            if (intval($spiceport) >= 1024) {
-                $wsInfo = $this->getWebsockifyInfo($spiceport);
-                if ($wsInfo) {
-                    $spicehtml5port = $wsInfo['hostport'];
-                    $spicehtml5url = sprintf('<a href="%s://%s:%d/spice_auto.html?resize=remote" target="_blank">link</a>', $http, $fqdn, $spicehtml5port);
-                }
-            }
+            $disks = ($diskcnt > 0)
+                ? sprintf('%d / %s', $diskcnt, $lv->get_disk_capacity($dom))
+                : 'n/a';
+            // vnc
+            $vncexists = !empty($domXml->xpath("//devices/graphics[@type='vnc']"));
+            $vncportInt = $this->normalizePort($lv->domain_get_vnc_port($dom));
+            $vncport = $this->fmtPort($vncportInt);
+            $novnc = $this->webUrlFor($vncportInt, $http, $fqdn, 'vnc.html?resize=remote&autoconnect=1');
+            $novncport = $novnc['port'];
+            $novncurl  = $novnc['url'];
+            // spice
+            [$spiceexists, $spiceportInt] = $this->graphicsInfo($domXml, 'spice');
+            $spiceport = $this->fmtPort($spiceportInt);
+            $spicehtml5 = $this->webUrlFor($spiceportInt, $http, $fqdn, 'spice_auto.html?resize=remote');
+            $spicehtml5port = $spicehtml5['port'];
+            $spicehtml5url  = $spicehtml5['url'];
+            // snapshots
             $snaplist = $lv->domain_snapshots_list($dom);
-            $snaps = 0;
-            if ($snaplist) {
-                $snaps = count($snaplist);
-            }
+            $snaps = $snaplist ? count($snaplist) : 0;
+            // notes
             $notes = $lv->domain_get_description($dom);
+            // object to return
             $objects[] = [
                 'vmname' => $name,
                 'virttype' => 'vm',
@@ -806,89 +818,47 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 'spicehtml5url' => $spicehtml5url,
                 'termurl' => '-',
                 'snaps' => $snaps,
-                'notes' => str_replace(PHP_EOL,'<br/>',$notes)
+                'notes' => str_replace(PHP_EOL, '<br/>', $notes),
             ];
         }
-        // create new libvirt object for LXC containers
+        // lxc
         $lv2 = $this->connectLxc();
-        $doms = $lv2->get_domains();
-        foreach ($doms as $name) {
-            if (!$lv2->domain_get_xml($name)) {
+        foreach ($lv2->get_domains() as $name) {
+            $xml = $lv2->domain_get_xml($name);
+            if (!$xml) {
                 continue;
             }
             $dom = $lv2->get_domain_object($name);
-            $domXml = new SimpleXMLElement($lv2->domain_get_xml($name));
+            $domXml = new SimpleXMLElement($xml);
             $info = $lv2->domain_get_info($dom);
             $disks = 'n/a';
-            // vnc and novnc
-            $vncexists = false;
-            $xpath = $domXml->xpath('//graphics');
-            $xpathSize = sizeof($xpath);
-            for ($i = 0; $i < $xpathSize; $i++) {
-                $graphics = $domXml->devices->graphics[$i];
-                if ($graphics['type'] == 'vnc') {
-                    $vncexists = true;
-                    break;
-                }
-            }
-            $vncport = $lv2->domain_get_vnc_port($dom);
-            if (! $vncport || $vncport < 1024 || $vncport == '') {
-                $vncport = 'n/a';
-            }
-            $novncport = 'n/a';
-            $novncurl = 'n/a';
-            if (intval($vncport) >= 1024) {
-                $output = [];
-                $cmdLine = sprintf('pgrep -u openmediavault-kvmweb,root -a websockify | awk \'$%d == "localhost:%d" { print $%d }\'', $vncField, $vncport, $remoteField);
-                $cmd = new \OMV\System\Process($cmdLine);
-                $cmd->setQuiet(true);
-                $cmd->execute($output, $exitStatus);
-                $novncport = intval($output[0]);
-                if ($novncport >= 1024) {
-                    $novncurl = sprintf('<a href="http://%s:%d/vnc.html?resize=remote&autoconnect=1" target="_blank">link</a>', $fqdn, $novncport);
-                }
-            }
-            if (!$lv2->domain_get_xml($name)) {
-                continue;
-            }
-            // spice and spice_html5
-            $spiceport = '';
-            $spiceexists = false;
-            $xpath = $domXml->xpath('//graphics');
-            $xpathSize = sizeof($xpath);
-            for ($i = 0; $i < $xpathSize; $i++) {
-                $graphics = $domXml->devices->graphics[$i];
-                if ($graphics['type'] == 'spice') {
-                    $spiceport = $graphics['port'];
-                    $spiceexists = true;
-                    break;
-                }
-            }
-            if (!$spiceport || $spiceport < 1024 || $spiceport == '') {
-                $spiceport = 'n/a';
-            }
-            $spicehtml5port = 'n/a';
-            $spicehtml5url = 'n/a';
-            if (intval($spiceport) >= 1024) {
-                $output = [];
-                $cmdLine = sprintf('pgrep -u openmediavault-kvmweb,root -a websockify | awk \'$%d == "localhost:%d" { print $%d }\'', $vncField, $spiceport, $remoteField);
-                $cmd = new \OMV\System\Process($cmdLine);
-                $cmd->setQuiet(true);
-                $cmd->execute($output, $exitStatus);
-                $spicehtml5port = intval($output[0]);
-                if ($spicehtml5port >= 1024) {
-                    $spicehtml5url = sprintf('<a href="http://%s:%d/spice_auto.html?resize=remote" target="_blank">link</a>', $fqdn, $spicehtml5port);
-                }
-            }
+            // vnc
+            $vncexists = !empty($domXml->xpath("//devices/graphics[@type='vnc']"));
+            $vncportInt = $this->normalizePort($lv2->domain_get_vnc_port($dom));
+            $vncport = $this->fmtPort($vncportInt);
+            $novnc = $this->webUrlFor($vncportInt, $http, $fqdn, 'vnc.html?resize=remote&autoconnect=1');
+            $novncport = $novnc['port'];
+            $novncurl  = $novnc['url'];
+            // spice
+            [$spiceexists, $spiceportInt] = $this->graphicsInfo($domXml, 'spice');
+            $spiceport = $this->fmtPort($spiceportInt);
+            $spicehtml5 = $this->webUrlFor($spiceportInt, $http, $fqdn, 'spice_auto.html?resize=remote');
+            $spicehtml5port = $spicehtml5['port'];
+            $spicehtml5url  = $spicehtml5['url'];
+            // snapshots
             $snaps = count($this->doLxcSnapshot($name, 'list', ''));
             $notes = $lv2->domain_get_description($dom);
+            // terminal
             $tstate = $lv2->domain_state_translate($info['state']);
-            if (!$cterm || $tstate !== 'running' || ($cterm && $cterm->get("enable") == 0)) {
+            if (!$cterm || $tstate !== 'running' || ($cterm && (int)$cterm->get("enable") === 0)) {
                 $termurl = gettext("disabled");
             } else {
-                $termurl = sprintf('<a href="%s/%s/lxc?user=%s&hmac=%s&ts=%s" target="_blank">exec terminal</a>',
-                  $execurl, $name, $autouser, $hmac, $ts);
+                $termurl = sprintf(
+                    '<a href="%s/%s/lxc?user=%s&hmac=%s&ts=%s" target="_blank">exec terminal</a>',
+                    $execurl, $name, $autouser, $hmac, $ts
+                );
             }
+            // object to return
             $objects[] = [
                 'vmname' => $name,
                 'virttype' => 'lxc',
@@ -908,7 +878,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 'spicehtml5url' => $spicehtml5url,
                 'termurl' => $termurl,
                 'snaps' => $snaps,
-                'notes' => str_replace(PHP_EOL,'<br/>',$notes)
+                'notes' => str_replace(PHP_EOL, '<br/>', $notes),
             ];
         }
         // Filter the result.
