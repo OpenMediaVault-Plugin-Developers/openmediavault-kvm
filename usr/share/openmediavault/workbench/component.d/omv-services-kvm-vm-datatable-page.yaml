@@ -187,6 +187,7 @@ data:
                               arg0:
                                 prop: voldisk
                               arg1: "Create new disk"
+                        hint: _("Auto-generate a unique name based on the VM name.")
                       - type: select
                         name: volformat
                         label: _("Format")

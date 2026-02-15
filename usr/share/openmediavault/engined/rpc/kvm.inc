@@ -1195,12 +1195,17 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $voliso = $params['voliso'];
             $voliso2 = $params['voliso2'];
             $volname = $params['volname'];
+            $volpool = $params['volpool'];
             $volsize = $params['volsize'];
             $volunit = $params['volunit'];
-            if (($volname == "") || (empty($volname))) {
-                $volname = $vmname;
+
+            if (strlen($volname) < 1) {
+                $lv = $this->connectQemu();
+                $volname = $this->generateDiskName($lv, $vmname, $volpool, $volformat);
+                if (!$volname) {
+                    throw new \OMV\Exception(gettext("Failed to generate a disk name!"));
+                }
             }
-            $volpool = $params['volpool'];
 
             if ($voldisk == 'Create new disk') {
                 $volpooltype = $this->getPoolType($volpool);
@@ -1430,6 +1435,35 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $params['sortfield'], $params['sortdir']);
     }
 
+    private function generateDiskName($lv, $vmname, $volpool, $volformat)
+    {
+        $base = $this->escapeName($vmname) . '_d';
+        $poolType = $this->getPoolType($volpool);
+        // Precompute path parts
+        $isLogical = ($poolType === 'logical');
+        if ($isLogical) {
+            $vg = $volpool;
+            $dir = null;
+            $fmt = null;
+        } else {
+            $pool = $lv->get_storagepool_info($volpool);
+            $dir = rtrim($pool['path'], '/');
+            $vg = null;
+            $fmt = ltrim($volformat, '.');
+        }
+        for ($i = 1; $i < 999; $i++) {
+            if ($isLogical) {
+                $path = sprintf('/dev/%s/%s%d', $vg, $base, $i);
+            } else {
+                $path = sprintf('%s/%s%d.%s', $dir, $base, $i, $fmt);
+            }
+            if (!file_exists($path)) {
+                return $base . $i;
+            }
+        }
+        return null;
+    }
+
     public function addDisk($params, $context)
     {
         // Validate the RPC caller context.
@@ -1452,13 +1486,16 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
         // get VM object
         $vm = $lv->get_domain_by_name($vmname);
-
         $formatArg = '';
         // create new disk (if specified)
         if ($voldisk == "Create new disk") {
             if (strlen($volname) < 1) {
-                throw new \OMV\Exception(gettext("No disk name specified!"));
+                $volname = $this->generateDiskName($lv, $vmname, $volpool, $volformat);
+                if (!$volname) {
+                    throw new \OMV\Exception(gettext("Failed to generate a disk name!"));
+                }
             }
+            $volname = str_replace(['.qcow2', '.raw'], '', $volname);
             $volpooltype = $this->getPoolType($volpool);
             $block = true;
             if ($volpooltype != 'logical') {
