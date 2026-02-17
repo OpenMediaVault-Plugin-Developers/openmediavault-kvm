@@ -4,7 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# kochin <kochinc@outlook.com>, 2025
+# kochin <kochinc@outlook.com>, 2026
 # 
 #, fuzzy
 msgid ""
@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-29 13:20+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
-"Last-Translator: kochin <kochinc@outlook.com>, 2025\n"
+"Last-Translator: kochin <kochinc@outlook.com>, 2026\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -163,7 +163,7 @@ msgid "Backup with Compression"
 msgstr "備份並壓縮"
 
 msgid "Base image"
-msgstr "基礎影像"
+msgstr "基礎映像"
 
 msgid ""
 "Be very careful not to passthrough a device being used by the host operating"
@@ -175,7 +175,7 @@ msgstr ""
 " /dev/disk/by-id 裝置名稱。"
 
 msgid "Bridge Model"
-msgstr ""
+msgstr "橋接模式"
 
 msgid "Bus"
 msgstr "匯流排"
@@ -370,7 +370,7 @@ msgid "Disk(s)"
 msgstr "磁碟"
 
 msgid "Dom stats"
-msgstr ""
+msgstr "Dom 狀態"
 
 msgid "Download virtio iso"
 msgstr "下載 virtio iso"
@@ -529,7 +529,7 @@ msgid "Failed to start websockify for spice-html5."
 msgstr "為 spice-html5 啟動 websockify 失敗。"
 
 msgid "File will be placed in same directory as the base image."
-msgstr ""
+msgstr "檔案將被放置於基礎映像的相同目錄中。"
 
 msgid "Filesystem"
 msgstr "檔案系統"
@@ -549,7 +549,7 @@ msgid "Force eject"
 msgstr "強迫退出"
 
 msgid "Force image list refresh"
-msgstr "強迫影像列表刷新"
+msgstr "強迫映像列表刷新"
 
 msgid "Forced down."
 msgstr "已強迫停止。"
@@ -607,7 +607,7 @@ msgid "If unchecked, LXC network bridge will be disabled."
 msgstr "若未勾選，LXC 網路橋接將被停用。"
 
 msgid "Image"
-msgstr "影像"
+msgstr "映像"
 
 msgid "Info"
 msgstr "資訊"
@@ -664,10 +664,10 @@ msgid "Model"
 msgstr "型號"
 
 msgid "Move"
-msgstr ""
+msgstr "搬移"
 
 msgid "Move VM ..."
-msgstr ""
+msgstr "搬移 VM ..."
 
 msgid "Name"
 msgstr "名稱"
@@ -718,7 +718,7 @@ msgid "No disk name specified!"
 msgstr "未指定磁碟名稱！"
 
 msgid "No image - use existing image path"
-msgstr "無影像 - 使用現存的影像路徑"
+msgstr "無映像 - 使用現存的映像路徑"
 
 msgid "Notes"
 msgstr "註釋"
@@ -813,10 +813,10 @@ msgid "Pools"
 msgstr "集用場"
 
 msgid "Power off + Move"
-msgstr ""
+msgstr "關閉 + 搬移"
 
 msgid "Power off VM and move ..."
-msgstr ""
+msgstr "關閉 VM 並搬移 ..."
 
 msgid "Reboot"
 msgstr "重新啟動"
@@ -1116,7 +1116,7 @@ msgid "VM is not running!"
 msgstr "VM 現非執行中！"
 
 msgid "VM must be powered off before deleting disks."
-msgstr ""
+msgstr "VM 必須先被關閉才能刪除硬碟。"
 
 msgid "VM name"
 msgstr "VM 名稱"
@@ -1165,7 +1165,7 @@ msgid "ZFS"
 msgstr "ZFS"
 
 msgid "^win.*$"
-msgstr ""
+msgstr "^win.*$"
 
 msgid "bridge"
 msgstr "橋接器"
@@ -1177,7 +1177,7 @@ msgid "e1000"
 msgstr "e1000"
 
 msgid "e1000e"
-msgstr ""
+msgstr "e1000e"
 
 msgid "iSCSI"
 msgstr "iSCSI"
