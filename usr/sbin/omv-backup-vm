@@ -207,7 +207,7 @@ for disk in ${disks}; do
   _log "Copying disk :: ${disk#*,}"
   filename="$(basename ${disk#*,})"
   if [ ${samefmt} -eq 1 ]; then
-    cp -v "${disk#*,}" "${backupVmDir}/${filename}_${date}.bak"
+    cp --reflink=auto -v "${disk#*,}" "${backupVmDir}/${filename}_${date}.bak"
   else
     qemu-img convert -O qcow2 ${compress} "${disk#*,}" "${backupVmDir}/${filename}_${date}.bak"
   fi
@@ -217,7 +217,7 @@ done
 if [ ${vmId} -gt 0 ] && [ ${snap} -eq 1 ]; then
   # get list of disks
   disks=$(virsh domblklist ${vmId} --details | sed 1,2d | awk NF | awk '$2 == "disk" { print $3","$4 }')
-  
+
   # commit changes
   _log "Commit changes back to original disks..."
   for disk in ${disks}; do
@@ -228,10 +228,10 @@ if [ ${vmId} -gt 0 ] && [ ${snap} -eq 1 ]; then
     fi
     sync
   done
-  
-  # wait 5 secs before removing files 
+
+  # wait 5 secs before removing files
   sleep 5
-  
+
   # remove temp files
   _log "Remove temp files..."
   for disk in ${disks}; do
