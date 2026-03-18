@@ -46,6 +46,10 @@
       "type": "boolean",
       "default": false
     },
+    "emailonerror": {
+      "type": "boolean",
+      "default": false
+    },
     "comment": {
       "type": "string",
       "default": ""

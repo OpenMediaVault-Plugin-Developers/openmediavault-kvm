@@ -32,6 +32,8 @@ backupVm=""
 backupVmDir=""
 compress=""
 diskSpecs=""
+email_comment=""
+email_mode=""
 
 # logging location
 logDir="/var/log/"
@@ -46,22 +48,32 @@ _log()
 }
 
 # loop through options
-while getopts "cd:hk:psv:" opt; do
+while getopts "cC:d:e:hk:psv:" opt; do
   case "${opt}" in
     c)
       compress=" -c -o compression_type=zstd"
       _log "compression :: enabled"
       ;;
+    C)
+      email_comment="${OPTARG}"
+      ;;
     d)
       backupDir="${OPTARG}"
       _log "Backup dir :: ${backupDir}"
+      ;;
+    e)
+      email_mode="${OPTARG}"
       ;;
     h)
       echo "Use the following flags:"
       echo "  -c"
       echo "    compress backup (slower)"
+      echo "  -C comment"
+      echo "    comment for email subject"
       echo "  -d dir"
       echo "    set backup directory"
+      echo "  -e onerror|always"
+      echo "    send email on error only or always"
       echo "  -h"
       echo "    show this help"
       echo "  -k #"
@@ -102,6 +114,23 @@ while getopts "cd:hk:psv:" opt; do
       ;;
   esac
 done
+
+tmpfile=""
+if [ -n "${email_mode}" ]; then
+  tmpfile=$(mktemp)
+  exec > "${tmpfile}" 2>&1
+fi
+
+_send_email() {
+  local rc="$1"
+  if [ -n "${tmpfile}" ] && [ -f "${tmpfile}" ]; then
+    if [ "${email_mode}" = "always" ] || { [ "${email_mode}" = "onerror" ] && [ "${rc}" -ne 0 ]; }; then
+      mail -E -s "Cron${email_comment:+ - ${email_comment}}" -a "From: Cron Daemon <root>" root < "${tmpfile}" > /dev/null 2>&1
+    fi
+    rm -f "${tmpfile}"
+  fi
+}
+trap '_send_email $?' EXIT
 
 if [ ! -f "/usr/bin/virsh" ]; then
   _log "virsh command not found!"
