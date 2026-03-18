@@ -16,6 +16,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 {% set config = salt['omv_conf.get']('conf.service.kvm.job') %}
+{% set has_ipv6_default = salt['cmd.retcode']('ip -6 route | grep -q "default"', python_shell=True) == 0 %}
 
 configure_kvm_scheduled_jobs:
   file.managed:
@@ -59,7 +60,78 @@ configure_omv_virsh_command_logrotate:
     - group: root
     - mode: 644
 
+{% if not salt['environ.get']('DPKG_MAINTSCRIPT_PACKAGE', '') %}
 kvm_install_packages:
   pkg.installed:
     - pkgs:
       - openmediavault-cterm: '>= 7.8.5'
+{% endif %}
+
+configure_ip_forward:
+  file.managed:
+    - name: /etc/sysctl.d/ip_forward.conf
+    - contents: |
+        net.ipv4.ip_forward=1
+        {% if has_ipv6_default %}
+        net.ipv6.conf.all.forwarding=1
+        {% endif %}
+    - user: root
+    - group: root
+    - mode: 644
+
+apply_ip_forward:
+  cmd.run:
+    - name: sysctl -p /etc/sysctl.d/ip_forward.conf
+    - onchanges:
+      - file: configure_ip_forward
+
+configure_macvlan_module:
+  file.managed:
+    - name: /etc/modules-load.d/macvlan.conf
+    - contents: |
+        macvlan
+    - user: root
+    - group: root
+    - mode: 644
+
+load_macvlan_module:
+  cmd.run:
+    - name: modprobe macvlan
+    - unless: lsmod | grep -q macvlan
+
+configure_qemu_vnc_listen:
+  file.replace:
+    - name: /etc/libvirt/qemu.conf
+    - pattern: '#vnc_listen = .*'
+    - repl: 'vnc_listen = "0.0.0.0"'
+    - onlyif: test -f /etc/libvirt/qemu.conf
+
+configure_qemu_nvram:
+  cmd.run:
+    - name: |
+        line=$(grep -n 'nvram = \[' /etc/libvirt/qemu.conf | cut -d":" -f1)
+        line2=$((line+6))
+        sed -i "${line},${line2} s/#//" /etc/libvirt/qemu.conf
+    - onlyif: grep -q '^#nvram = \[' /etc/libvirt/qemu.conf
+
+disable_ksm_service:
+  service.dead:
+    - name: ksm
+    - enable: False
+    - onlyif: test ! -f /sys/kernel/mm/ksm/run
+
+libvirtd_service:
+  service.running:
+    - name: libvirtd
+    - enable: True
+    - watch:
+      - file: configure_qemu_vnc_listen
+      - cmd: configure_qemu_nvram
+
+kvm_web_user:
+  user.present:
+    - name: openmediavault-kvmweb
+    - system: True
+    - createhome: False
+    - shell: /usr/sbin/nologin
+    - usergroup: True
