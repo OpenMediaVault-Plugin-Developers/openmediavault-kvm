@@ -10,6 +10,12 @@ case "$1" in
         # Activate package triggers.
         dpkg-trigger update-workbench
 
+        # Initialize configuration database.
+        omv-confdbadm create "conf.service.kvm"
+        if [ -n "$2" ]; then
+          omv-confdbadm migrate "conf.service.kvm" "${2}"
+        fi
+
         # run salt to apply configuration
         omv-salt deploy run kvm
     ;;

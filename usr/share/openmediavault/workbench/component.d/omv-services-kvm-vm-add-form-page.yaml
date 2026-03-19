@@ -218,6 +218,8 @@ data:
         textField: name
         valueField: name
         value: 'default'
+        validators:
+          required: true
         store:
           proxy:
             service: Kvm

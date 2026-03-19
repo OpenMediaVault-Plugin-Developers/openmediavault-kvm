@@ -16,7 +16,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 {% set config = salt['omv_conf.get']('conf.service.kvm.job') %}
-{% set has_ipv6_default = salt['cmd.retcode']('ip -6 route | grep -q "default"', python_shell=True) == 0 %}
+{% set has_ipv6_default = 'default' in salt['cmd.run']('ip -6 route') %}
 
 configure_kvm_scheduled_jobs:
   file.managed:
