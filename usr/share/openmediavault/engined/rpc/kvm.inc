@@ -381,11 +381,16 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
         $cmdArgs[] = 'domiflist';
         $cmdArgs[] = sprintf('--domain %s', $this->escapeName($vmname));
-        $cmdArgs[] = sprintf('| awk \'$5 == "%s" { print $2 }\'', $mac);
-        $cmdArgs[] = '| awk NF';
         $cmd = new \OMV\System\Process('virsh', $cmdArgs);
         $cmd->execute($output, $exitStatus);
-        $type = $output[0];
+        $type = '';
+        foreach (array_slice($output, 2) as $line) {
+            $parts = preg_split('/\s+/', trim($line), -1, PREG_SPLIT_NO_EMPTY);
+            if (isset($parts[4]) && $parts[4] === $mac) {
+                $type = $parts[1];
+                break;
+            }
+        }
         if (empty($type)) {
             throw new \OMV\Exception( gettext("Unable to get network adapter type - ") . $cmd->getCommandLine());
         }
@@ -420,10 +425,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
         $cmdArgs[] = 'domiflist';
         $cmdArgs[] = sprintf('--domain %s', $this->escapeName($vmname));
-        $cmdArgs[] = '| sed 1,2d';
-        $cmdArgs[] = '| awk NF';
         $cmd = new \OMV\System\Process('virsh', $cmdArgs);
         $cmd->execute($output, $exitStatus);
+        $output = array_slice($output, 2);
         $objects = [];
         foreach ($output as $nic) {
             if (empty($nic)) {
@@ -611,7 +615,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmdArgs = [];
                 $cmdArgs[] = 'pool-destroy';
                 $cmdArgs[] = $this->escapeName($pool);
-                $err = gettext("Failed to start pool.");
+                $err = gettext("Failed to stop pool.");
                 $this->virshCommand($cmdArgs, $err);
                 $disable = ' --disable';
                 break;
@@ -620,7 +624,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmdArgs = [];
         $cmdArgs[] = 'pool-autostart';
         $cmdArgs[] = $this->escapeName($pool);
-        $cmdArgs[] = $disable;
+        if ($disable !== '') $cmdArgs[] = $disable;
         $err = gettext("Failed to set pool autostart.");
         $this->virshCommand($cmdArgs, $err);
     }
@@ -1723,12 +1727,20 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodParams($params, 'rpc.common.getlist');
         // get list of disks on running VMs
         $disks = [];
-        $cmdArgs = [];
-        $cmdArgs[] = 'list --name';
-        $cmdArgs[] = '| xargs -I@ virsh domblklist --details @';
-        $cmdArgs[] = '| awk \'$2 == "disk" { $1="";$2="";$3="";sub(/^[ \t]+/,"");print $0 }\'';
-        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
-        $cmd->execute($disks, $exitStatus);
+        $listCmd = new \OMV\System\Process('virsh', ['list', '--name']);
+        $listCmd->setQuiet(true);
+        $listCmd->execute($vmNames, $exitStatus);
+        foreach (array_filter(array_map('trim', $vmNames)) as $runningVm) {
+            $blkCmd = new \OMV\System\Process('virsh', ['domblklist', '--details', $this->escapeName($runningVm)]);
+            $blkCmd->setQuiet(true);
+            $blkCmd->execute($blkOutput, $exitStatus);
+            foreach (array_slice($blkOutput, 2) as $line) {
+                $parts = preg_split('/\s+/', trim($line), -1, PREG_SPLIT_NO_EMPTY);
+                if (isset($parts[1]) && $parts[1] === 'disk' && isset($parts[3])) {
+                    $disks[] = $parts[3];
+                }
+            }
+        }
         $pools = $this->virshListPools();
         $optical = $params["optical"];
         $objects= [];
@@ -2172,21 +2184,19 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
     {
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
-        $output = [];
-        $cmdArgs = [];
-        $cmdArgs[] = "lsusb -v 2>/dev/null";
-        $cmdArgs[] = "| awk '/^Bus/{bus=\$2; dev=\$4; sub(/:/, \"\", dev); line=\$0}";
-        $cmdArgs[] = "/iSerial/{print line, \"Serial:\", \$3}'";
-        $cmd = new \OMV\System\Process($cmdArgs);
+        $cmd = new \OMV\System\Process('lsusb', ['-v']);
         $cmd->setQuiet(true);
         $cmd->execute($output, $exitStatus);
         $objects = [];
-        $usbCount = count($output);
-        for ($i = 0; $i < $usbCount; $i++) {
-            $objects[] = [
-                'description' => $output[$i],
-                'device' => $output[$i]
-            ];
+        $busLine = '';
+        foreach ($output as $line) {
+            if (preg_match('/^Bus\s/', $line)) {
+                $busLine = $line;
+            } elseif (!empty($busLine) && preg_match('/iSerial\s+\d+\s+(\S+)/', $line, $m)) {
+                $desc = $busLine . ' Serial: ' . $m[1];
+                $objects[] = ['description' => $desc, 'device' => $desc];
+                $busLine = '';
+            }
         }
         return ($objects);
     }
@@ -2823,11 +2833,12 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.dochangecpumemory');
         $lxc = ($params['virttype'] == 'lxc');
-        $conn = $lxc ? '--connect lxc:/// ' : '';
+        $conn = $lxc ? ['--connect', 'lxc:///'] : [];
         $memory = $params['memory'];
         $memoryunit = $params['memoryunit'];
         $vcpu = $params['vcpu'];
         $vmname = $params['vmname'];
+        $vmname_esc = $this->escapeName($vmname);
         $skip = false;
         if ($vcpu == -1) {
             switch ($memoryunit) {
@@ -2835,11 +2846,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 case 'MiB':  $multi = 1024; break;
             }
             $newMem = $memory * $multi;
-            $cmdLine = sprintf('%ssetmaxmem %s %s --config', $conn, $this->escapeName($vmname), $newMem);
-            $cmdLine2 = sprintf('%ssetmem %s %s --config', $conn, $this->escapeName($vmname), $newMem);
+            $cmdLine = array_merge($conn, ['setmaxmem', $vmname_esc, $newMem, '--config']);
+            $cmdLine2 = array_merge($conn, ['setmem', $vmname_esc, $newMem, '--config']);
         } else if ($memory == -1) {
-            $cmdLine = sprintf('%ssetvcpus %s %d --config --maximum', $conn, $this->escapeName($vmname), $vcpu);
-            $cmdLine2 = sprintf('%ssetvcpus %s %d --config ', $conn, $this->escapeName($vmname), $vcpu);
+            $cmdLine = array_merge($conn, ['setvcpus', $vmname_esc, $vcpu, '--config', '--maximum']);
+            $cmdLine2 = array_merge($conn, ['setvcpus', $vmname_esc, $vcpu, '--config']);
             $domXml = new SimpleXMLElement($this->virshDumpXml($vmname, $lxc));
             if (isset($domXml->cpu->topology)) {
                 $domXml->cpu->topology['dies'] = 1;
@@ -2903,7 +2914,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
         $cmdArgs[] = 'desc';
         $cmdArgs[] = sprintf('--domain %s', $this->escapeName($params['vmname']));
-        $cmdArgs[] = sprintf("--new-desc '%s'", $this->escapeName($params['notes']));
+        $cmdArgs[] = '--new-desc';
+        $cmdArgs[] = escapeshellarg($params['notes']);
         $err = gettext("Unable to change notes for VM.");
         $this->virshCommand($cmdArgs, $err);
     }
@@ -3635,13 +3647,13 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
     private function virshGetVolumeList(string $pool): array
     {
         // vol-list outputs "  Name   Path" with 2 header lines then data
-        $cmdArgs = ['vol-list', $this->escapeName($pool), '| sed 1,2d', '| awk NF'];
+        $cmdArgs = ['vol-list', $this->escapeName($pool)];
         $cmd = new \OMV\System\Process('virsh', $cmdArgs);
         $cmd->setQuiet(true);
         $cmd->execute($output, $exitStatus);
         if ($exitStatus !== 0) return [];
         $volumes = [];
-        foreach (array_filter(array_map('trim', $output)) as $line) {
+        foreach (array_filter(array_slice($output, 2), 'strlen') as $line) {
             // split on 2+ spaces to separate Name and Path columns
             $parts = preg_split('/\s{2,}/', $line, 2);
             $name = trim($parts[0] ?? '');
@@ -3840,9 +3852,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // if failure
         if (0 != $exitStatus) {
             $outMsg = implode(PHP_EOL, array_filter($output));
-            $cmdMsg = implode(' ', array_filter($cmdArgs));
-            $errMsg = sprintf('%s%s%s%s%s %s',
-                $msg, PHP_EOL, $outMsg, PHP_EOL, $virsh, $cmdMsg
+            $errMsg = sprintf('%s%s%s',
+                gettext("Failed to download image."), PHP_EOL, $outMsg
             );
             file_put_contents("/var/log/omv-virsh-command.log",
                 $today . $errMsg . PHP_EOL,
