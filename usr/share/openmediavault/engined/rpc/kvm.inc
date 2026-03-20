@@ -3646,44 +3646,28 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
 
     private function virshGetVolumeList(string $pool): array
     {
-        // vol-list outputs "  Name   Path" with 2 header lines then data
-        $cmdArgs = ['vol-list', $this->escapeName($pool)];
+        // vol-list --details returns Name, Path, Type, Capacity, Allocation in one shot,
+        // avoiding a separate vol-dumpxml call per volume.
+        $cmdArgs = ['vol-list', '--details', $this->escapeName($pool)];
         $cmd = new \OMV\System\Process('virsh', $cmdArgs);
         $cmd->setQuiet(true);
         $cmd->execute($output, $exitStatus);
         if ($exitStatus !== 0) return [];
         $volumes = [];
         foreach (array_filter(array_slice($output, 2), 'strlen') as $line) {
-            // split on 2+ spaces to separate Name and Path columns
-            $parts = preg_split('/\s{2,}/', $line, 2);
-            $name = trim($parts[0] ?? '');
-            $path = trim($parts[1] ?? '');
-            if (empty($name)) continue;
-            // try vol-dumpxml by path (more reliable than by name)
-            $capacity = 0;
-            $alloc    = 0;
-            $type     = '';
-            $lookupArg = $path ?: $this->escapeName($name);
-            $xmlCmd = new \OMV\System\Process('virsh', ['vol-dumpxml', $lookupArg]);
-            $xmlCmd->setQuiet(true);
-            $xmlCmd->execute($xmlOutput, $xmlExit);
-            if ($xmlExit === 0 && !empty($xmlOutput)) {
-                try {
-                    $xml      = new SimpleXMLElement(implode(PHP_EOL, $xmlOutput));
-                    $capacity = (int)(string)($xml->capacity ?? 0);
-                    $alloc    = (int)(string)($xml->allocation ?? 0);
-                    $type     = (string)($xml->target->format['type'] ?? '');
-                    if (empty($path)) {
-                        $path = (string)($xml->target->path ?? '');
-                    }
-                } catch (\Exception $e) {}
+            $parts = preg_split('/\s{2,}/', trim($line), -1, PREG_SPLIT_NO_EMPTY);
+            if (count($parts) < 5) continue;
+            $name     = trim($parts[0]);
+            $path     = trim($parts[1]);
+            $type     = trim($parts[2]);
+            $capacity = $this->parseVirshSize($parts[3]);
+            $alloc    = $this->parseVirshSize($parts[4]);
+            if (empty($name) || empty($path)) continue;
+            // fall back to filesize for allocation if virsh reported zero;
+            // filesize() returns actual on-disk usage, not virtual capacity
+            if ($alloc <= 0 && file_exists($path)) {
+                $alloc = filesize($path);
             }
-            // fall back to filesize if vol-dumpxml gave us nothing
-            if ($capacity <= 0 && !empty($path) && file_exists($path)) {
-                $capacity = filesize($path);
-                $alloc    = $capacity;
-            }
-            if (empty($path)) continue;
             $volumes[$name] = [
                 'path'       => $path,
                 'capacity'   => $capacity,
@@ -3693,6 +3677,24 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             ];
         }
         return $volumes;
+    }
+
+    private function parseVirshSize(string $size): int
+    {
+        $size = trim($size);
+        if (!preg_match('/^([\d.]+)\s*(\w+)$/', $size, $m)) return 0;
+        $multipliers = [
+            'B'   => 1,
+            'KIB' => 1024,
+            'MIB' => 1024 ** 2,
+            'GIB' => 1024 ** 3,
+            'TIB' => 1024 ** 4,
+            'KB'  => 1000,
+            'MB'  => 1000 ** 2,
+            'GB'  => 1000 ** 3,
+            'TB'  => 1000 ** 4,
+        ];
+        return (int)((float)$m[1] * ($multipliers[strtoupper($m[2])] ?? 1));
     }
 
     private function virshGetDiskInfo(string $vmname): array
