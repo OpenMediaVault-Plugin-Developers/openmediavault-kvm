@@ -164,26 +164,13 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         return (trim($poolXml['type']));
     }
 
-    private function getVolumeSizes($path)
+    private function formatBytes(int $bytes): string
     {
-        $sizes = 'n/a';
-        if (file_exists($path)) {
-            $output = [];
-            $cmdArgs = [];
-            $cmdArgs[] = '/usr/bin/qemu-img';
-            $cmdArgs[] = 'info';
-            $cmdArgs[] = sprintf("'%s'", $path);
-            $cmdArgs[] = '| grep -E \'virtual size|disk size\'';
-            $cmdArgs[] = '| awk \'{ print $3" "$4 }\'';
-            $cmd = new \OMV\System\Process($cmdArgs);
-            $cmd->execute($output);
-            if (empty($output[0])) {
-                $sizes = '(n/a)';
-            } else {
-                $sizes = sprintf('(%s :: %s)', $output[1], $output[0]);
-            }
-        }
-        return $sizes;
+        if ($bytes >= 1024 ** 4) return round($bytes / 1024 ** 4, 2) . ' TiB';
+        if ($bytes >= 1024 ** 3) return round($bytes / 1024 ** 3, 2) . ' GiB';
+        if ($bytes >= 1024 ** 2) return round($bytes / 1024 ** 2, 2) . ' MiB';
+        if ($bytes >= 1024)      return round($bytes / 1024, 2) . ' KiB';
+        return $bytes . ' B';
     }
 
     private function getExecUrl($context, $db, $fqdn)
@@ -255,16 +242,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
     {
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
-        $output = [];
-        $cmdLine = 'ls /sys/class/net | grep ^br';
-        $cmd = new \OMV\System\Process($cmdLine);
-        $cmd->setQuiet(true);
-        $cmd->execute($output, $exitStatus);
         $objects = [];
-        foreach ($output as $net) {
-            $objects[] = [
-                'bridge' => $net
-            ];
+        foreach (glob('/sys/class/net/br*', GLOB_ONLYDIR) as $path) {
+            $objects[] = ['bridge' => basename($path)];
         }
         // Filter the result.
         return ($objects);
@@ -1630,21 +1610,16 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
     {
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
-        // enumerate host optical devices with lsscsi
-        $cmdArgs = [];
-        $cmdArgs[] = '| awk \'$2 ~ "cd" { print $7 }\'';
-        $cmdArgs[] = '| awk NF';
-        $cmd = new \OMV\System\Process('lsscsi', $cmdArgs);
-        $cmd->execute($output, $exitStatus);
+        // enumerate host optical devices via sysfs
         $objects = [];
-        foreach ($output as $dev) {
-            if (empty($dev)) {
-                continue;
+        foreach (glob('/sys/class/block/sr*', GLOB_ONLYDIR) as $path) {
+            $dev = '/dev/' . basename($path);
+            if (file_exists($dev)) {
+                $objects[] = [
+                    'device' => $dev,
+                    'description' => sprintf('[host] %s', $dev)
+                ];
             }
-            $objects[] = [
-                'device' => $dev,
-                'description' => sprintf('[host] %s', $dev)
-            ];
         }
         // Filter the result.
         return ($objects);
@@ -1804,36 +1779,19 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             }
         }
         foreach ($pools as $pool) {
-            $output = [];
-            $cmdArgs = [];
-            $cmdArgs[] = 'vol-list';
-            $cmdArgs[] = $this->escapeName($pool);
-            $cmdArgs[] = '--details';
-            $cmdArgs[] = '| sed 1,2d';
-            $cmdArgs[] = '| awk NF';
-            $cmdArgs[] = '| awk -F ';
-            $cmdArgs[] = '\'[[:space:]][[:space:]]+\'';
-            $cmdArgs[] = '\'{ print $1","$2","$4 }\'';
-            $cmd = new \OMV\System\Process('virsh', $cmdArgs);
-            $cmd->execute($output, $exitStatus);
-            foreach ($output as $vol) {
-                if (empty($vol)) {
-                    continue;
-                }
-                $parts = explode(',', $vol);
-                $name = $parts[0];
-                $path = $parts[1];
-                $cap = $this->getVolumeSizes($path);
-                $ext = pathinfo($path, PATHINFO_EXTENSION);
-                $add = false;
-                if (((strtolower($ext) != 'iso') && (!$optical)) || ((strtolower($ext) == 'iso') && ($optical))) {
-                    $add = true;
-                }
-                if ($add) {
+            $volumes = $this->virshGetVolumeList($pool);
+            foreach ($volumes as $name => $volume) {
+                if (is_dir($volume['path'])) continue;
+                $ext = strtolower(pathinfo($volume['path'], PATHINFO_EXTENSION));
+                if (((($ext != 'iso') && (!$optical)) || (($ext == 'iso') && ($optical)))) {
+                    $cap = sprintf('(%s :: %s)',
+                        $this->formatBytes($volume['capacity']),
+                        $this->formatBytes($volume['allocation'])
+                    );
                     $objects[] = [
                         'name' => sprintf('[%s] %s %s', $pool, $name, $cap),
-                        'capacity' => $cap,
-                        'path' => $path
+                        'capacity' => $volume['capacity'],
+                        'path' => $volume['path']
                     ];
                 }
             }
@@ -1850,28 +1808,20 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodParams($params, 'rpc.kvm.enumeratevolumesbyvm');
         // enumerate volumes with virsh
         $optical = $params["optical"];
-        $cmdArgs = [];
-        $cmdArgs[] = 'domblklist';
-        $cmdArgs[] = $this->escapeName($params['vmname']);
-        $cmdArgs[] = '--details';
-        $cmdArgs[] = '| sed 1,2d';
-        $cmdArgs[] = '| awk NF';
-        if ($optical) {
-            $cmdArgs[] = '| awk \'$2 == "cdrom" { printf $2","$3",";$1="";$2="";$3="";sub(/^[ \t]+/,"");print $0 }\'';
-        } else {
-            $cmdArgs[] = '| awk \'$2 != "cdrom" { printf $2","$3",";$1="";$2="";$3="";sub(/^[ \t]+/,"");print $0 }\'';
-        }
+        $cmdArgs = ['domblklist', $this->escapeName($params['vmname']), '--details'];
         $cmd = new \OMV\System\Process('virsh', $cmdArgs);
         $cmd->execute($output, $exitStatus);
         $objects = [];
-        foreach ($output as $vol) {
-            if (empty($vol)) {
-                continue;
-            }
-            $parts = explode(',', $vol);
-            $dev = $parts[0];
-            $tgt = $parts[1];
-            $src = $parts[2];
+        foreach (array_slice($output, 2) as $line) {
+            if (empty(trim($line))) continue;
+            $parts = preg_split('/\s+/', trim($line), 4, PREG_SPLIT_NO_EMPTY);
+            if (count($parts) < 3) continue;
+            $dev = $parts[1]; // disk or cdrom
+            $tgt = $parts[2]; // target device name (vda, sda, ...)
+            $src = trim($parts[3] ?? ''); // source path (may be empty for empty cdroms)
+            if ($optical && $dev !== 'cdrom') continue;
+            if (!$optical && $dev === 'cdrom') continue;
+            if (empty($src)) continue;
             $cap = binary_format(filesize($src));
             $objects[] = [
                 'device' => $dev,
