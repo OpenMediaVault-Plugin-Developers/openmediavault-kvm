@@ -995,8 +995,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // disk info
         $output = [];
         $cmd = new \OMV\System\Process('virsh', 'domblkinfo', $vmname, '--all', '--human');
+        $cmd->setQuiet(true);
         $cmd->execute($output, $exitStatus);
-        $diskinfo = implode(PHP_EOL, array_filter($output));
+        $diskinfo = ($exitStatus === 0) ? implode(PHP_EOL, array_filter($output)) : '';
         // disk stats
         $output = [];
         $cmd = new \OMV\System\Process('virsh', 'domblkstat', $vmname, '--human');
