@@ -16,6 +16,4 @@ xmlstarlet sel -t -m "${xpath}" -v "uuid" -n ${OMV_CONFIG_FILE} |
     fi
   done
 
-omv_module_set_dirty kvm
-
 exit 0
