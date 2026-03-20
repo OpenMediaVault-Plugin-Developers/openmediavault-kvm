@@ -91,6 +91,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('enumerateSnapshots');
         $this->registerMethod('addSnapshot');
         $this->registerMethod('deleteSnapshot');
+        $this->registerMethod('deleteAllSnapshots');
         $this->registerMethod('revertSnapshot');
 
         $this->registerMethod('addUsb');
@@ -2110,6 +2111,31 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $cmdArgs[] = '--metadata';
             $err = gettext("Failed to delete the snapshot!");
             $this->virshCommand($cmdArgs, $err);
+        }
+    }
+
+    public function deleteAllSnapshots($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.vmname');
+        if ($params['virttype'] == 'lxc') {
+            $snaps = $this->doLxcSnapshot($params['vmname'], 'list', '');
+            foreach (array_reverse($snaps) as $snap) {
+                $this->doLxcSnapshot($params['vmname'], 'delete', $snap);
+            }
+        } else {
+            $snaps = $this->virshGetSnapshotList($params['vmname']);
+            // delete in reverse order so children are removed before parents
+            foreach (array_reverse($snaps) as $snap) {
+                $this->virshCommand(
+                    ['snapshot-delete', $this->escapeName($params['vmname']), $this->escapeName($snap['name']), '--metadata'],
+                    gettext("Failed to delete snapshot: ") . $snap['name'],
+                    'virsh',
+                    true
+                );
+            }
         }
     }
 

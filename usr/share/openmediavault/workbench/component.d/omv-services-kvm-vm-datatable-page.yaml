@@ -1448,6 +1448,30 @@ data:
                         method: deleteSnapshot
                         progressMessage: _("Deleting snapshot ...")
                         successNotification: _("Snapshot has been deleted.")
+          - text: _("Delete All")
+            icon: mdi:delete-sweep-outline
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: gt
+                  arg0:
+                    prop: snaps
+                  arg1: 0
+            confirmationDialogConfig:
+              template: confirmation-critical
+              message: _("Are you sure you want to delete all snapshots?")
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: deleteAllSnapshots
+                params:
+                  vmname: "{{ _selected[0].vmname }}"
+                  virttype: "{{ _selected[0].virttype }}"
+                progressMessage: _("Deleting all snapshots ...")
+                successNotification: _("All snapshots have been deleted.")
+                task: false
       - type: menu
         icon: mdi:remote-desktop
         tooltip: _("Console")
