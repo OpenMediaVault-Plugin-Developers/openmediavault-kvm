@@ -160,7 +160,6 @@ data:
                     method: setPool
                     progressMessage: _("Adding a pool ...")
                     successNotification: _("Pool has been added.")
-                successUrl: /services/kvm/pool
       - type: iconButton
         icon: delete
         tooltip: _("Delete")
@@ -201,7 +200,6 @@ data:
                 progressMessage: _("Starting a pool ...")
                 successNotification: _("Pool has been started.")
                 task: false
-                successUrl: /services/kvm/pool
             enabledConstraints:
               minSelected: 1
               maxSelected: 1
@@ -223,7 +221,6 @@ data:
                 progressMessage: _("Stopping a pool ...")
                 successNotification: _("Pool has been stopped.")
                 task: false
-                successUrl: /services/kvm/pool
             enabledConstraints:
               minSelected: 1
               maxSelected: 1

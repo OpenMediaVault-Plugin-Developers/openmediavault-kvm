@@ -268,7 +268,6 @@ data:
                         method: addDisk
                         progressMessage: _("Adding a disk ...")
                         successNotification: _("Disk has been added.")
-                    successUrl: /services/kvm/vm
           - text: _("Add host disk")
             icon: mdi:harddisk-plus
             execute:
@@ -319,7 +318,6 @@ data:
                         method: addHostDisk
                         progressMessage: _("Adding a host disk ...")
                         successNotification: _("Host disk has been added.")
-                    successUrl: /services/kvm/vm
           - text: _("Remove disk")
             icon: mdi:harddisk-remove
             execute:
@@ -359,7 +357,6 @@ data:
                         method: removeDisk
                         progressMessage: _("Removing disk ...")
                         successNotification: _("Disk has been removed.")
-                    successUrl: /services/kvm/vm
             enabledConstraints:
               minSelected: 1
               maxSelected: 1
@@ -419,7 +416,6 @@ data:
                         method: addOptical
                         progressMessage: _("Adding optical disc ...")
                         successNotification: _("Optical disc has been added.")
-                    successUrl: /services/kvm/vm
           - text: _("Add host drive")
             icon: mdi:plus-circle
             execute:
@@ -452,7 +448,6 @@ data:
                         method: addHostOptical
                         progressMessage: _("Adding host drive ...")
                         successNotification: _("Host drive has been added.")
-                    successUrl: /services/kvm/vm
           - text: _("Change disc")
             icon: mdi:pencil-circle-outline
             execute:
@@ -505,7 +500,6 @@ data:
                         method: changeDisc
                         progressMessage: _("Changing optical disc ...")
                         successNotification: _("Optical disc has been changed.")
-                    successUrl: /services/kvm/vm
             enabledConstraints:
               minSelected: 1
               maxSelected: 1
@@ -557,7 +551,6 @@ data:
                         method: ejectDisc
                         progressMessage: _("Ejecting optical disc ...")
                         successNotification: _("Optical disc has been ejected.")
-                    successUrl: /services/kvm/vm
             enabledConstraints:
               minSelected: 1
               maxSelected: 1
@@ -605,7 +598,6 @@ data:
                         method: removeDisk
                         progressMessage: _("Removing optical disc ...")
                         successNotification: _("Optical disc has been removed.")
-                    successUrl: /services/kvm/vm
             enabledConstraints:
               minSelected: 1
               maxSelected: 1
@@ -683,7 +675,6 @@ data:
                         method: addFsPass
                         progressMessage: _("Adding passthrough filesystem ...")
                         successNotification: _("Passthrough filesystem has been added.")
-                    successUrl: /services/kvm/vm
           - text: _("Remove passthrough")
             icon: mdi:file-download-outline
             execute:
@@ -727,7 +718,6 @@ data:
                         method: removeFsPass
                         progressMessage: _("Removing passthrough filesystem ...")
                         successNotification: _("Passthrough filesystem has been removed.")
-                    successUrl: /services/kvm/vm
             enabledConstraints:
               minSelected: 1
               maxSelected: 1
@@ -825,7 +815,6 @@ data:
                         method: addVmNic
                         progressMessage: _("Adding network adapter ...")
                         successNotification: _("Network adapter has been added.")
-                    successUrl: /services/kvm/vm
           - text: _("Remove network")
             icon: mdi:minus-network-outline
             execute:
@@ -869,7 +858,6 @@ data:
                         method: removeVmNic
                         progressMessage: _("Removing network adapter ...")
                         successNotification: _("Network adapter has been removed.")
-                    successUrl: /services/kvm/vm
       - type: menu
         icon: mdi:expansion-card-variant
         tooltip: _("PCI")
@@ -925,7 +913,6 @@ data:
                         method: addPci
                         progressMessage: _("Passing through PCI device ...")
                         successNotification: _("PCI device has been added.")
-                    successUrl: /services/kvm/vm
           - text: _("Remove PCI")
             icon: mdi:minus-box-outline
             execute:
@@ -964,7 +951,6 @@ data:
                         method: removePci
                         progressMessage: _("Removing PCI device ...")
                         successNotification: _("PCI device has been removed.")
-                    successUrl: /services/kvm/vm
       - type: menu
         icon: mdi:usb
         tooltip: _("USB")
@@ -1018,7 +1004,6 @@ data:
                         method: addUsb
                         progressMessage: _("Adding USB device ...")
                         successNotification: _("USB device has been added.")
-                    successUrl: /services/kvm/vm
           - text: _("Remove USB")
             icon: mdi:minus-box-outline
             execute:
@@ -1057,7 +1042,6 @@ data:
                         method: removeUsb
                         progressMessage: _("Removing USB device ...")
                         successNotification: _("USB device has been removed.")
-                    successUrl: /services/kvm/vm
             enabledConstraints:
               minSelected: 1
               maxSelected: 1

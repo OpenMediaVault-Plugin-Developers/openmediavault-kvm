@@ -116,7 +116,6 @@ data:
                         method: setNetwork
                         progressMessage: _("Adding a network ...")
                         successNotification: _("Network has been added.")
-                    successUrl: /services/kvm/network
           - text: _("Add macvtap network")
             icon: mdi:plus-network-outline
             execute:
@@ -147,7 +146,6 @@ data:
                         method: setMacvtap
                         progressMessage: _("Adding a macvtap network ...")
                         successNotification: _("macvtap network has been added.")
-                    successUrl: /services/kvm/network
       - type: iconButton
         icon: delete
         tooltip: _("Delete")
@@ -189,7 +187,6 @@ data:
                 progressMessage: _("Starting network ...")
                 successNotification: _("Network has been started.")
                 task: false
-                successUrl: /services/kvm/network
             enabledConstraints:
               minSelected: 1
               maxSelected: 1
@@ -211,7 +208,6 @@ data:
                 progressMessage: _("Stopping network ...")
                 successNotification: _("Network has been stopped.")
                 task: false
-                successUrl: /services/kvm/network
             enabledConstraints:
               minSelected: 1
               maxSelected: 1

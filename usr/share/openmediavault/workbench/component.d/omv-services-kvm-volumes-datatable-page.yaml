@@ -111,7 +111,8 @@ data:
                   request:
                     service: Kvm
                     method: setVolume
-                successUrl: /services/kvm/volume
+                    progressMessage: _("Creating volume ...")
+                    successNotification: _("Volume has been created.")
       - type: iconButton
         icon: mdi:arrow-split-horizontal
         tooltip: _("Extend")
@@ -165,7 +166,8 @@ data:
                   request:
                     service: Kvm
                     method: resizeDisk
-                successUrl: /services/kvm/volume
+                    progressMessage: _("Extending volume ...")
+                    successNotification: _("Volume has been extended.")
       - type: iconButton
         icon: mdi:delete-forever
         tooltip: _("Delete")
@@ -209,7 +211,7 @@ data:
                 params:
                   path: "{{ _selected[0].path }}"
                   command: check
-            successUrl: /services/kvm/volume
+            successNotification: _("Volume check complete.")
       - type: iconButton
         icon: mdi:information-outline
         tooltip: _("Info")
@@ -228,7 +230,6 @@ data:
                 params:
                   path: "{{ _selected[0].path }}"
                   command: info
-            successUrl: /services/kvm/volume
       - type: iconButton
         tooltip: _("Optimize/Shrink")
         icon: mdi:arrow-down-bold-box-outline
@@ -251,7 +252,7 @@ data:
                 method: volumeShrink
                 params:
                   path: "{{ _selected[0].path }}"
-            successUrl: /services/kvm/volume
+            successNotification: _("Volume has been optimized.")
       - type: iconButton
         tooltip: _("Convert to qcow2")
         icon: mdi:content-save-edit-outline
@@ -275,7 +276,7 @@ data:
                 params:
                   path: "{{ _selected[0].path }}"
                   format: qcow2
-            successUrl: /services/kvm/volume
+            successNotification: _("Volume has been converted to qcow2.")
       - type: iconButton
         tooltip: _("Convert to raw")
         icon: mdi:content-save-edit
@@ -299,7 +300,7 @@ data:
                 params:
                   path: "{{ _selected[0].path }}"
                   format: raw
-            successUrl: /services/kvm/volume
+            successNotification: _("Volume has been converted to raw.")
       - type: iconButton
         icon: mdi:file-link-outline
         tooltip: _("Create backing file")
@@ -334,4 +335,5 @@ data:
                   request:
                     service: Kvm
                     method: createBacking
-                successUrl: /services/kvm/volume
+                    progressMessage: _("Creating backing file ...")
+                    successNotification: _("Backing file has been created.")
