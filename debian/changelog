@@ -1,9 +1,14 @@
-openmediavault-kvm (8.1) UNRELEASED; urgency=medium
+openmediavault-kvm (8.1) stable; urgency=low
 
-  * Remove libvirt-php dependency and use virsh for all calls
   * Set reflink to auto to speed up copies on CoW filesystems and xfs
+  * Add email on error only option to backup job
+  * Remove libvirt-php dependency and use virsh for all calls
+  * Move config to salt
+  * Move database creation/migration to confdb
+  * Replace piped shell commands with PHP processing
+  * Add delete all snapshots menu item
 
- -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sun, 01 Mar 2026 16:49:15 +0000
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Tue, 24 Mar 2026 20:58:04 +0000
 
 openmediavault-kvm (8.0.7) stable; urgency=low
 
