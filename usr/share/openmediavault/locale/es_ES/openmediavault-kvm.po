@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-29 13:20+0000\n"
+"POT-Creation-Date: 2026-03-20 13:54+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>, 2024\n"
 "Language-Team: Spanish (Spain) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/es_ES/)\n"
@@ -123,6 +123,9 @@ msgstr "Añadiendo visor spice ..."
 msgid "Advanced"
 msgstr "Avanzado"
 
+msgid "All snapshots have been deleted."
+msgstr ""
+
 msgid "Allocation"
 msgstr "Distribición"
 
@@ -135,11 +138,17 @@ msgstr "Arch"
 msgid "Architecture"
 msgstr "Arquitectura"
 
+msgid "Are you sure you want to delete all snapshots?"
+msgstr ""
+
 msgid "Are you sure you want to delete?"
 msgstr "¿Esta seguro de que desea borrar?"
 
 msgid "Audio"
 msgstr "Sonido"
+
+msgid "Auto-generate a unique name based on the VM name."
+msgstr ""
 
 msgid "AutoStart"
 msgstr "AutoArranque"
@@ -155,6 +164,9 @@ msgstr "Disponible"
 
 msgid "Backing file"
 msgstr "respaldando archivo"
+
+msgid "Backing file has been created."
+msgstr ""
 
 msgid "Backup"
 msgstr "Backup"
@@ -287,11 +299,17 @@ msgstr "VM Creada."
 msgid "Created scheduled job."
 msgstr "Trabajo programado creado."
 
+msgid "Creating backing file ..."
+msgstr ""
+
 msgid "Creating linked clone ..."
 msgstr "Creando un clon enlazado ..."
 
 msgid "Creating snapshot ..."
 msgstr "Creando una instantánea ..."
+
+msgid "Creating volume ..."
+msgstr ""
 
 msgid "Current size"
 msgstr "Tamaño actual"
@@ -320,6 +338,9 @@ msgstr "Borrar"
 msgid "Delete + storage"
 msgstr "Borrado + almacenamiento"
 
+msgid "Delete All"
+msgstr ""
+
 msgid "Deleted."
 msgstr "Borrado."
 
@@ -331,6 +352,9 @@ msgstr "Borrando una red ..."
 
 msgid "Deleting a pool ..."
 msgstr "Borrando un pool ..."
+
+msgid "Deleting all snapshots ..."
+msgstr ""
 
 msgid "Deleting snapshot ..."
 msgstr "Borrando una instantánea ..."
@@ -426,6 +450,9 @@ msgstr "Ejecute el trabajo programado ..."
 msgid "Extend"
 msgstr "Extendido"
 
+msgid "Extending volume ..."
+msgstr ""
+
 msgid "Extension"
 msgstr "Extension"
 
@@ -477,8 +504,41 @@ msgstr "Falló el crear un  nuevo disco."
 msgid "Failed to delete VM."
 msgstr "Falló el borrar una VM."
 
+msgid "Failed to delete snapshot: "
+msgstr ""
+
+msgid "Failed to delete the snapshot!"
+msgstr ""
+
 msgid "Failed to detach PCI device from host."
 msgstr "Error al expulsar un dispositivo PCI del host."
+
+msgid "Failed to disable autostart."
+msgstr ""
+
+msgid "Failed to download image."
+msgstr ""
+
+msgid "Failed to enable autostart."
+msgstr ""
+
+msgid "Failed to force stop VM."
+msgstr ""
+
+msgid "Failed to generate a disk name!"
+msgstr ""
+
+msgid "Failed to pause VM."
+msgstr ""
+
+msgid "Failed to power off VM."
+msgstr ""
+
+msgid "Failed to power on VM."
+msgstr ""
+
+msgid "Failed to reboot VM."
+msgstr ""
 
 msgid "Failed to remove PCI device."
 msgstr "Error al eliminar el dispositivo PCI."
@@ -513,6 +573,9 @@ msgstr "Falló el reiniciar una VM."
 msgid "Failed to resize disk!"
 msgstr "Falló el redimensionar un disco!"
 
+msgid "Failed to resume VM."
+msgstr ""
+
 msgid "Failed to set change."
 msgstr "Falló aplicar el cambio."
 
@@ -525,11 +588,11 @@ msgstr "Error al habilitar el autoarranque del pool."
 msgid "Failed to start pool."
 msgstr "Error al arrancar el pool."
 
-msgid "Failed to start websockify for noVNC."
-msgstr "Falló arrancar websockify para noVNC."
+msgid "Failed to start websockify for "
+msgstr ""
 
-msgid "Failed to start websockify for spice-html5."
-msgstr "Falló arrancar  websockify para spice-html5."
+msgid "Failed to stop pool."
+msgstr ""
 
 msgid "File will be placed in same directory as the base image."
 msgstr ""
@@ -582,9 +645,6 @@ msgstr "Gigabytes"
 msgid "Hard disk"
 msgstr "Disco Duro"
 
-msgid "Host VNC port"
-msgstr "Puerto Host VNC"
-
 msgid "Host disk has been added."
 msgstr "El disco del host ha sido añadido."
 
@@ -593,9 +653,6 @@ msgstr "El Disco de Host ha sido añadido."
 
 msgid "Host name"
 msgstr "Nombre de host"
-
-msgid "Host spice port"
-msgstr "Puerto Host spice"
 
 msgid "IP Range"
 msgstr "Rango IP"
@@ -635,9 +692,6 @@ msgstr "Nombre LCX"
 
 msgid "Leave blank for random address."
 msgstr "Dejar en blanco para dirección aleatoria."
-
-msgid "Leave blank to use VM name."
-msgstr "Dejar en blanco para usar el nombre de la VM."
 
 msgid "Linked Clone"
 msgstr "Clon enlazado"
@@ -719,9 +773,6 @@ msgstr "Redes"
 
 msgid "New name"
 msgstr "Nuevo Nombre"
-
-msgid "No disk name specified!"
-msgstr ""
 
 msgid "No image - use existing image path"
 msgstr "Sin Imagen - Usar la ruta a la imagen existente."
@@ -1047,8 +1098,8 @@ msgstr "El dispositivo USB ha sido eliminado."
 msgid "UUID"
 msgstr "UUID"
 
-msgid "Unable to add network adapter to VM - "
-msgstr "Incapaz de añadir adaprtador de Red a la VM -"
+msgid "Unable to add network adapter to VM"
+msgstr ""
 
 msgid "Unable to backup existing XML for VM :: "
 msgstr ""
@@ -1056,35 +1107,26 @@ msgstr ""
 msgid "Unable to change notes for VM."
 msgstr "No es posible cambiar la nota de la MV"
 
-msgid "Unable to change topolgy cores for VM - "
-msgstr "No es posible cambiar la topología de núcleos de la VM -"
-
-msgid "Unable to create Macvap - "
-msgstr "Incapaz de crear MacVap -"
-
-msgid "Unable to create network - "
-msgstr "Incapaz de crear la Red -"
-
-msgid "Unable to create pool - "
-msgstr "Incapaz de crear el pool -"
-
-msgid "Unable to create snapshot - "
-msgstr "Incapaz de crear una instantánea -"
+msgid "Unable to create snapshot"
+msgstr ""
 
 msgid "Unable to create volume - "
 msgstr "Incapaz de crear un volumen -"
 
-msgid "Unable to delete disk(s) from VM - "
-msgstr "No es posible borrar los disco(s) de la VM -"
+msgid "Unable to define network"
+msgstr ""
 
-msgid "Unable to delete network - "
-msgstr "Incapaz de borrar una Red -"
+msgid "Unable to define storage pool"
+msgstr ""
 
-msgid "Unable to delete pool - "
-msgstr "Incapaz de borrar un pool -"
+msgid "Unable to delete disk(s) from VM."
+msgstr ""
 
-msgid "Unable to delete snapshot - "
-msgstr "Incapaz de borrar una instantánea -"
+msgid "Unable to delete network"
+msgstr ""
+
+msgid "Unable to delete pool"
+msgstr ""
 
 msgid "Unable to delete volume - "
 msgstr "Incapaz de de borrar un volumen -"
@@ -1092,20 +1134,23 @@ msgstr "Incapaz de de borrar un volumen -"
 msgid "Unable to get network adapter type - "
 msgstr "No es posible usar ese tipo de adaptador -"
 
-msgid "Unable to revert to snapshot - "
-msgstr "Incapaz de revertir a la instantánea -"
+msgid "Unable to revert to snapshot"
+msgstr ""
 
 msgid "Unable to set VM XML :: "
 msgstr "No es posible VM XML :: "
 
-msgid "Unable to start network - "
-msgstr "Incapaz de arrancar la Red -"
+msgid "Unable to start network"
+msgstr ""
 
-msgid "Unable to stop network - "
-msgstr "Incapaz de detener la Red -"
+msgid "Unable to stop network"
+msgstr ""
 
 msgid "Unable to undefine VM :: "
 msgstr "No es posible indefinir VM :: "
+
+msgid "Unable to update domain XML"
+msgstr ""
 
 msgid "Unit"
 msgstr "Unidad"
@@ -1149,8 +1194,26 @@ msgstr "El visor VNC ha sido eliminado."
 msgid "Volume Count"
 msgstr "Recuento de Volumen"
 
+msgid "Volume check complete."
+msgstr ""
+
 msgid "Volume group"
 msgstr "Grupo del Volumen"
+
+msgid "Volume has been converted to qcow2."
+msgstr ""
+
+msgid "Volume has been converted to raw."
+msgstr ""
+
+msgid "Volume has been created."
+msgstr ""
+
+msgid "Volume has been extended."
+msgstr ""
+
+msgid "Volume has been optimized."
+msgstr ""
 
 msgid "Volume info ..."
 msgstr "Información del volumen ..."

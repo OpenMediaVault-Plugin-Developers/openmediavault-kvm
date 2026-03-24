@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-29 13:20+0000\n"
+"POT-Creation-Date: 2026-03-20 13:54+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Stephan Paternotte <stephan@paternottes.net>, 2026\n"
 "Language-Team: Dutch (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/nl/)\n"
@@ -124,6 +124,9 @@ msgstr "Spice-weergave toevoegen…"
 msgid "Advanced"
 msgstr "Geavanceerd "
 
+msgid "All snapshots have been deleted."
+msgstr "Alle momentopnames zijn verwijderd."
+
 msgid "Allocation"
 msgstr "Toewijzing"
 
@@ -136,11 +139,17 @@ msgstr "Arch"
 msgid "Architecture"
 msgstr "Architectuur"
 
+msgid "Are you sure you want to delete all snapshots?"
+msgstr "Weet je zeker dat je alle momentopnames wilt verwijderen?"
+
 msgid "Are you sure you want to delete?"
 msgstr "Weet u zeker dat u wilt verwijderen?"
 
 msgid "Audio"
 msgstr "Audio"
+
+msgid "Auto-generate a unique name based on the VM name."
+msgstr "Automatisch een unieke naam genereren op basis van de VM-naam."
 
 msgid "AutoStart"
 msgstr "Autom. start"
@@ -156,6 +165,9 @@ msgstr "Beschikbaar"
 
 msgid "Backing file"
 msgstr "Onderliggen bestand"
+
+msgid "Backing file has been created."
+msgstr "Backing-bestand is aangemaakt."
 
 msgid "Backup"
 msgstr "Back-up"
@@ -288,11 +300,17 @@ msgstr "VM aangemaakt."
 msgid "Created scheduled job."
 msgstr "Geplande taak aangemaakt."
 
+msgid "Creating backing file ..."
+msgstr "Backing-bestand aanmaken…"
+
 msgid "Creating linked clone ..."
 msgstr "Gelinkte kloon aanmaken…"
 
 msgid "Creating snapshot ..."
 msgstr "Momentopname aanmaken…"
+
+msgid "Creating volume ..."
+msgstr "Volume aanmaken…"
 
 msgid "Current size"
 msgstr "Huidige grootte"
@@ -321,6 +339,9 @@ msgstr "Verwijderen"
 msgid "Delete + storage"
 msgstr "Verwijderen + opslag"
 
+msgid "Delete All"
+msgstr "Alles verwijderen"
+
 msgid "Deleted."
 msgstr "Verwijderd."
 
@@ -332,6 +353,9 @@ msgstr "Netwerk verwijderen…"
 
 msgid "Deleting a pool ..."
 msgstr "Pool verwijderen…"
+
+msgid "Deleting all snapshots ..."
+msgstr "Alle momentopnames verwijderen…"
 
 msgid "Deleting snapshot ..."
 msgstr "Momentopname verwijderen…"
@@ -428,6 +452,9 @@ msgstr "Geplande taak uitvoeren…"
 msgid "Extend"
 msgstr "Uitbreiden"
 
+msgid "Extending volume ..."
+msgstr "Volume uitbreiden…"
+
 msgid "Extension"
 msgstr "Uitbreiding"
 
@@ -480,8 +507,41 @@ msgstr "Aanmelden van nieuwe schijf is mislukt ::"
 msgid "Failed to delete VM."
 msgstr "Verwijderen van VM is mislukt."
 
+msgid "Failed to delete snapshot: "
+msgstr "Momentopname verwijderen mislukt:"
+
+msgid "Failed to delete the snapshot!"
+msgstr "Momentopname verwijderen is mislukt!"
+
 msgid "Failed to detach PCI device from host."
 msgstr "Losmaken van PCI-apparaat van host is mislukt."
+
+msgid "Failed to disable autostart."
+msgstr "Autostart uitschakelen is mislukt."
+
+msgid "Failed to download image."
+msgstr "Image downloaden is mislukt."
+
+msgid "Failed to enable autostart."
+msgstr "Autostart inschakelen is mislukt."
+
+msgid "Failed to force stop VM."
+msgstr "Geforceerd stoppen van VM is mislukt."
+
+msgid "Failed to generate a disk name!"
+msgstr "Genereren van een schijfnaam is mislukt!"
+
+msgid "Failed to pause VM."
+msgstr "Pauseren van VM is mislukt."
+
+msgid "Failed to power off VM."
+msgstr "Uitschakelen van VM is mislukt."
+
+msgid "Failed to power on VM."
+msgstr "Inschakelen van VM is mislukt."
+
+msgid "Failed to reboot VM."
+msgstr "Opnieuw starten van VM is mislukt."
 
 msgid "Failed to remove PCI device."
 msgstr "Verwijderen van PCI-apparaat is mislukt."
@@ -516,6 +576,9 @@ msgstr "Resetten van VM is mislukt."
 msgid "Failed to resize disk!"
 msgstr "Schijfgrootte wijzigen is mislukt!"
 
+msgid "Failed to resume VM."
+msgstr "Hervatten van VM is mislukt."
+
 msgid "Failed to set change."
 msgstr "Wijziging instellen is mislukt."
 
@@ -528,11 +591,11 @@ msgstr "Instellen van pool autostart is mislukt."
 msgid "Failed to start pool."
 msgstr "Starten van pool is mislukt."
 
-msgid "Failed to start websockify for noVNC."
-msgstr "Starten van websockify voor noVNC is mislukt,"
+msgid "Failed to start websockify for "
+msgstr "Websockify starten is mislukt voor "
 
-msgid "Failed to start websockify for spice-html5."
-msgstr "Start websockify voor spice-html5 is mislukt."
+msgid "Failed to stop pool."
+msgstr "Pool stoppen is mislukt."
 
 msgid "File will be placed in same directory as the base image."
 msgstr "Bestand wordt in dezelfde map geplaatst als de basis-image."
@@ -585,9 +648,6 @@ msgstr "Gigabytes"
 msgid "Hard disk"
 msgstr "Harde schijf"
 
-msgid "Host VNC port"
-msgstr "Host VNC-poort"
-
 msgid "Host disk has been added."
 msgstr "Hostschijf is toegevoegd."
 
@@ -596,9 +656,6 @@ msgstr "Host-schijfstation is toegevoegd."
 
 msgid "Host name"
 msgstr "Hostnaam"
-
-msgid "Host spice port"
-msgstr "Host spice-poort"
 
 msgid "IP Range"
 msgstr "IP-bereik"
@@ -638,9 +695,6 @@ msgstr "LXC-naam"
 
 msgid "Leave blank for random address."
 msgstr "Laat leeg voor willekeurig adres."
-
-msgid "Leave blank to use VM name."
-msgstr "Leeglaten om VM-naam te gebruiken."
 
 msgid "Linked Clone"
 msgstr "Gelinkte kloon"
@@ -722,9 +776,6 @@ msgstr "Netwerken"
 
 msgid "New name"
 msgstr "Nieuwe naam"
-
-msgid "No disk name specified!"
-msgstr "Geen schijfnaam gespecificeerd!"
 
 msgid "No image - use existing image path"
 msgstr "Geen image - bestaand image-pad gebruiken"
@@ -1053,8 +1104,8 @@ msgstr "USB-apparaat is verwijderd."
 msgid "UUID"
 msgstr "UUID"
 
-msgid "Unable to add network adapter to VM - "
-msgstr "Kan netwerkadapter niet toevoegen aan VM - "
+msgid "Unable to add network adapter to VM"
+msgstr "Kan netwerkadapter niet toevoegen aan VM"
 
 msgid "Unable to backup existing XML for VM :: "
 msgstr "Kan geen back-up maken van bestaande XML voor VM ::"
@@ -1062,35 +1113,26 @@ msgstr "Kan geen back-up maken van bestaande XML voor VM ::"
 msgid "Unable to change notes for VM."
 msgstr "Kan notities voor VM niet wijzigen."
 
-msgid "Unable to change topolgy cores for VM - "
-msgstr "Kan topolgiekernen voor VM niet wijzigen - "
-
-msgid "Unable to create Macvap - "
-msgstr "Kan Macvap niet aanmaken - "
-
-msgid "Unable to create network - "
-msgstr "Kan netwerk niet aanmaken - "
-
-msgid "Unable to create pool - "
-msgstr "Kan pool niet aanmaken - "
-
-msgid "Unable to create snapshot - "
-msgstr "Kan momentopname niet aanmaken - "
+msgid "Unable to create snapshot"
+msgstr "Kan momentopname niet aanmaken"
 
 msgid "Unable to create volume - "
 msgstr "Kan volume niet aanmaken - "
 
-msgid "Unable to delete disk(s) from VM - "
-msgstr "Kan schijf/schijven niet verwijderen uit VM - "
+msgid "Unable to define network"
+msgstr "Kan netwerk niet definiëren"
 
-msgid "Unable to delete network - "
-msgstr "Kan netwerk niet verwijderen - "
+msgid "Unable to define storage pool"
+msgstr "Kan opslagpool niet definiëren"
 
-msgid "Unable to delete pool - "
-msgstr "Kan pool niet verwijderen - "
+msgid "Unable to delete disk(s) from VM."
+msgstr "Kan schijf/schijven niet verwijderen van VM."
 
-msgid "Unable to delete snapshot - "
-msgstr "Kan momentopname niet verwijderen - "
+msgid "Unable to delete network"
+msgstr "Kan netwerk niet verwijderen"
+
+msgid "Unable to delete pool"
+msgstr "Kan pool niet verwijderen"
 
 msgid "Unable to delete volume - "
 msgstr "Kan volume niet verwijderen - "
@@ -1098,20 +1140,23 @@ msgstr "Kan volume niet verwijderen - "
 msgid "Unable to get network adapter type - "
 msgstr "Kan het type netwerkadapter niet krijgen - "
 
-msgid "Unable to revert to snapshot - "
-msgstr "Kan niet terugzetten naar momentopname - "
+msgid "Unable to revert to snapshot"
+msgstr "Kan mmentopname niet terugzetten"
 
 msgid "Unable to set VM XML :: "
 msgstr "Kan VM-XML niet instellen :: "
 
-msgid "Unable to start network - "
-msgstr "Kan netwerk niet starten - "
+msgid "Unable to start network"
+msgstr "Kan netwerk niet starten"
 
-msgid "Unable to stop network - "
-msgstr "Kan netwerk niet stoppen - "
+msgid "Unable to stop network"
+msgstr "Kan netwerk niet stoppen"
 
 msgid "Unable to undefine VM :: "
 msgstr "Kan definitie van VM niet ongedaan maken :: "
+
+msgid "Unable to update domain XML"
+msgstr "Kan domein XML niet bijwerken"
 
 msgid "Unit"
 msgstr "Eenheid"
@@ -1155,8 +1200,26 @@ msgstr "VNC-viewer is verwijderd."
 msgid "Volume Count"
 msgstr "Aantal volumes"
 
+msgid "Volume check complete."
+msgstr "Volumecontrole voltooid."
+
 msgid "Volume group"
 msgstr "Volume-groep"
+
+msgid "Volume has been converted to qcow2."
+msgstr "Volume is omgezet naar qcow2."
+
+msgid "Volume has been converted to raw."
+msgstr "Volume is omgezet naar raw."
+
+msgid "Volume has been created."
+msgstr "Volume is aangemaakt."
+
+msgid "Volume has been extended."
+msgstr "Volume is uitgebreid."
+
+msgid "Volume has been optimized."
+msgstr "Volume is geoptimaliseerd."
 
 msgid "Volume info ..."
 msgstr "Volume-info…"

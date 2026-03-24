@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-29 13:20+0000\n"
+"POT-Creation-Date: 2026-03-20 13:54+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Rysiek Jurczy, 2023\n"
 "Language-Team: Polish (Poland) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/pl_PL/)\n"
@@ -123,6 +123,9 @@ msgstr "Dodawanie przeglądarki spice ..."
 msgid "Advanced"
 msgstr "Zaawansowane"
 
+msgid "All snapshots have been deleted."
+msgstr ""
+
 msgid "Allocation"
 msgstr "Przydział"
 
@@ -135,11 +138,17 @@ msgstr "Architektura"
 msgid "Architecture"
 msgstr "Architektura"
 
+msgid "Are you sure you want to delete all snapshots?"
+msgstr ""
+
 msgid "Are you sure you want to delete?"
 msgstr "Czy na pewno chcesz usunąć?"
 
 msgid "Audio"
 msgstr "Audio"
+
+msgid "Auto-generate a unique name based on the VM name."
+msgstr ""
 
 msgid "AutoStart"
 msgstr "Auto start"
@@ -155,6 +164,9 @@ msgstr "Dostępny"
 
 msgid "Backing file"
 msgstr "Plik kopii zapasowej"
+
+msgid "Backing file has been created."
+msgstr ""
 
 msgid "Backup"
 msgstr "Kopia zapasowa"
@@ -283,11 +295,17 @@ msgstr "Utworzono VM."
 msgid "Created scheduled job."
 msgstr "Utworzono zaplanowane zadanie."
 
+msgid "Creating backing file ..."
+msgstr ""
+
 msgid "Creating linked clone ..."
 msgstr "Tworzenie połączonego klonu"
 
 msgid "Creating snapshot ..."
 msgstr "Tworzenie migawki ..."
+
+msgid "Creating volume ..."
+msgstr ""
 
 msgid "Current size"
 msgstr "Obecny roziar"
@@ -316,6 +334,9 @@ msgstr "Usuń"
 msgid "Delete + storage"
 msgstr "Usunięcie + przestrzeń dyskowa"
 
+msgid "Delete All"
+msgstr ""
+
 msgid "Deleted."
 msgstr "Usuwanie"
 
@@ -327,6 +348,9 @@ msgstr "Usuwanie sieci ..."
 
 msgid "Deleting a pool ..."
 msgstr "Usuwanie puli ..."
+
+msgid "Deleting all snapshots ..."
+msgstr ""
 
 msgid "Deleting snapshot ..."
 msgstr "Usuwanie migawki ..."
@@ -423,6 +447,9 @@ msgstr "Wykonaj zaplanowane zadanie ..."
 msgid "Extend"
 msgstr "Rozszerzyć"
 
+msgid "Extending volume ..."
+msgstr ""
+
 msgid "Extension"
 msgstr "Rozszerzenie"
 
@@ -474,7 +501,40 @@ msgstr "Nowy dysk nie został utworzony ::"
 msgid "Failed to delete VM."
 msgstr "Maszyna wirtualna nie została usunięta"
 
+msgid "Failed to delete snapshot: "
+msgstr ""
+
+msgid "Failed to delete the snapshot!"
+msgstr ""
+
 msgid "Failed to detach PCI device from host."
+msgstr ""
+
+msgid "Failed to disable autostart."
+msgstr ""
+
+msgid "Failed to download image."
+msgstr ""
+
+msgid "Failed to enable autostart."
+msgstr ""
+
+msgid "Failed to force stop VM."
+msgstr ""
+
+msgid "Failed to generate a disk name!"
+msgstr ""
+
+msgid "Failed to pause VM."
+msgstr ""
+
+msgid "Failed to power off VM."
+msgstr ""
+
+msgid "Failed to power on VM."
+msgstr ""
+
+msgid "Failed to reboot VM."
 msgstr ""
 
 msgid "Failed to remove PCI device."
@@ -510,6 +570,9 @@ msgstr "Maszyna nie została zresetowana"
 msgid "Failed to resize disk!"
 msgstr "Rozmiar dysku nie został zmieniony!"
 
+msgid "Failed to resume VM."
+msgstr ""
+
 msgid "Failed to set change."
 msgstr "Zmiany nie wprowadzone"
 
@@ -522,11 +585,11 @@ msgstr "Pula autostartu nie ustawiona."
 msgid "Failed to start pool."
 msgstr "Nie udało się uruchomić puli."
 
-msgid "Failed to start websockify for noVNC."
-msgstr "nie udało się uruchomić websockify dla noVNC."
+msgid "Failed to start websockify for "
+msgstr ""
 
-msgid "Failed to start websockify for spice-html5."
-msgstr "Nie udało się uruchomić websockify dla spice-html5."
+msgid "Failed to stop pool."
+msgstr ""
 
 msgid "File will be placed in same directory as the base image."
 msgstr ""
@@ -579,9 +642,6 @@ msgstr "Gigabajty"
 msgid "Hard disk"
 msgstr "Dysk twardy"
 
-msgid "Host VNC port"
-msgstr "Port VNC hosta"
-
 msgid "Host disk has been added."
 msgstr ""
 
@@ -590,9 +650,6 @@ msgstr "Dodano dysk hosta."
 
 msgid "Host name"
 msgstr "Nazwa hosta"
-
-msgid "Host spice port"
-msgstr "Port Spice hosta"
 
 msgid "IP Range"
 msgstr "Zakres IP"
@@ -632,9 +689,6 @@ msgstr "LXC nazwa"
 
 msgid "Leave blank for random address."
 msgstr "Pozostaw puste dla losowego adresu."
-
-msgid "Leave blank to use VM name."
-msgstr "Pozostaw puste, aby użyć nazwy maszyny wirtualnej."
 
 msgid "Linked Clone"
 msgstr "Połączony klon"
@@ -716,9 +770,6 @@ msgstr "Sieci"
 
 msgid "New name"
 msgstr "Nowa nazwa"
-
-msgid "No disk name specified!"
-msgstr ""
 
 msgid "No image - use existing image path"
 msgstr "Brak obrazu — użyj istniejącego obrazu"
@@ -1044,8 +1095,8 @@ msgstr "Usunięto urządzenie USB."
 msgid "UUID"
 msgstr "UUID"
 
-msgid "Unable to add network adapter to VM - "
-msgstr "Nie można dodać karty sieciowej do maszyny wirtualnej -"
+msgid "Unable to add network adapter to VM"
+msgstr ""
 
 msgid "Unable to backup existing XML for VM :: "
 msgstr ""
@@ -1053,35 +1104,26 @@ msgstr ""
 msgid "Unable to change notes for VM."
 msgstr ""
 
-msgid "Unable to change topolgy cores for VM - "
-msgstr "Nie można zmienić topologii rdzeni dla maszyny wirtualnej -"
-
-msgid "Unable to create Macvap - "
-msgstr "Nie można utworzyć Macvap -"
-
-msgid "Unable to create network - "
-msgstr "Nie można utworzyć sieci -"
-
-msgid "Unable to create pool - "
-msgstr "Nie można utworzyć uli -"
-
-msgid "Unable to create snapshot - "
-msgstr "Nie można utworzyć migawki -"
+msgid "Unable to create snapshot"
+msgstr ""
 
 msgid "Unable to create volume - "
 msgstr "Ne można utworzyć woluminu -"
 
-msgid "Unable to delete disk(s) from VM - "
-msgstr "Nie można usunąć dysk(ów) z maszyny wirtualnej"
+msgid "Unable to define network"
+msgstr ""
 
-msgid "Unable to delete network - "
-msgstr "Nie można usunąć sieci -"
+msgid "Unable to define storage pool"
+msgstr ""
 
-msgid "Unable to delete pool - "
-msgstr "Nie można usunąć puli -"
+msgid "Unable to delete disk(s) from VM."
+msgstr ""
 
-msgid "Unable to delete snapshot - "
-msgstr "Nie można usunąć migawki -"
+msgid "Unable to delete network"
+msgstr ""
+
+msgid "Unable to delete pool"
+msgstr ""
 
 msgid "Unable to delete volume - "
 msgstr "Nie można usunąć woluminu -"
@@ -1089,19 +1131,22 @@ msgstr "Nie można usunąć woluminu -"
 msgid "Unable to get network adapter type - "
 msgstr "Nie można odczytać typu karty sieciowej -"
 
-msgid "Unable to revert to snapshot - "
-msgstr "Nie można przywrócić migawki -"
+msgid "Unable to revert to snapshot"
+msgstr ""
 
 msgid "Unable to set VM XML :: "
 msgstr ""
 
-msgid "Unable to start network - "
-msgstr "Nie można uruchomić sieci -"
+msgid "Unable to start network"
+msgstr ""
 
-msgid "Unable to stop network - "
-msgstr "Nie można zatrzymać sieci -"
+msgid "Unable to stop network"
+msgstr ""
 
 msgid "Unable to undefine VM :: "
+msgstr ""
+
+msgid "Unable to update domain XML"
 msgstr ""
 
 msgid "Unit"
@@ -1146,8 +1191,26 @@ msgstr "Przeglądarka VNC została usunięta."
 msgid "Volume Count"
 msgstr "Liczba woluminów"
 
+msgid "Volume check complete."
+msgstr ""
+
 msgid "Volume group"
 msgstr "Grupa woluminów"
+
+msgid "Volume has been converted to qcow2."
+msgstr ""
+
+msgid "Volume has been converted to raw."
+msgstr ""
+
+msgid "Volume has been created."
+msgstr ""
+
+msgid "Volume has been extended."
+msgstr ""
+
+msgid "Volume has been optimized."
+msgstr ""
 
 msgid "Volume info ..."
 msgstr "Wolumin info"

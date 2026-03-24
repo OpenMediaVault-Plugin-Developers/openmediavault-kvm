@@ -4,16 +4,16 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Andi Chandler <andi@gowling.com>, 2025
+# Andi Chandler <andi@gowling.com>, 2026
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-29 13:20+0000\n"
+"POT-Creation-Date: 2026-03-20 13:54+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
-"Last-Translator: Andi Chandler <andi@gowling.com>, 2025\n"
+"Last-Translator: Andi Chandler <andi@gowling.com>, 2026\n"
 "Language-Team: English (United Kingdom) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -123,6 +123,9 @@ msgstr "Adding spice viewer ..."
 msgid "Advanced"
 msgstr "Advanced"
 
+msgid "All snapshots have been deleted."
+msgstr ""
+
 msgid "Allocation"
 msgstr "Allocation"
 
@@ -135,11 +138,17 @@ msgstr "Arch"
 msgid "Architecture"
 msgstr "Architecture"
 
+msgid "Are you sure you want to delete all snapshots?"
+msgstr ""
+
 msgid "Are you sure you want to delete?"
 msgstr "Are you sure you want to delete?"
 
 msgid "Audio"
 msgstr "Audio"
+
+msgid "Auto-generate a unique name based on the VM name."
+msgstr ""
 
 msgid "AutoStart"
 msgstr "AutoStart"
@@ -155,6 +164,9 @@ msgstr "Available"
 
 msgid "Backing file"
 msgstr "Backing file"
+
+msgid "Backing file has been created."
+msgstr ""
 
 msgid "Backup"
 msgstr "Backup"
@@ -177,7 +189,7 @@ msgstr ""
 "names."
 
 msgid "Bridge Model"
-msgstr ""
+msgstr "Bridge Model"
 
 msgid "Bus"
 msgstr "Bus"
@@ -287,11 +299,17 @@ msgstr "Created VM."
 msgid "Created scheduled job."
 msgstr "Created scheduled job."
 
+msgid "Creating backing file ..."
+msgstr ""
+
 msgid "Creating linked clone ..."
 msgstr "Creating linked clone ..."
 
 msgid "Creating snapshot ..."
 msgstr "Creating snapshot ..."
+
+msgid "Creating volume ..."
+msgstr ""
 
 msgid "Current size"
 msgstr "Current size"
@@ -320,6 +338,9 @@ msgstr "Delete"
 msgid "Delete + storage"
 msgstr "Delete + storage"
 
+msgid "Delete All"
+msgstr ""
+
 msgid "Deleted."
 msgstr "Deleted."
 
@@ -331,6 +352,9 @@ msgstr "Deleting a network ..."
 
 msgid "Deleting a pool ..."
 msgstr "Deleting a pool ..."
+
+msgid "Deleting all snapshots ..."
+msgstr ""
 
 msgid "Deleting snapshot ..."
 msgstr "Deleting snapshot ..."
@@ -372,7 +396,7 @@ msgid "Disk(s)"
 msgstr "Disk(s)"
 
 msgid "Dom stats"
-msgstr ""
+msgstr "Dom stats"
 
 msgid "Download virtio iso"
 msgstr "Download VirtIO ISO"
@@ -425,6 +449,9 @@ msgstr "Execute scheduled job ..."
 msgid "Extend"
 msgstr "Extend"
 
+msgid "Extending volume ..."
+msgstr ""
+
 msgid "Extension"
 msgstr "Extension"
 
@@ -476,8 +503,41 @@ msgstr "Failed to create new disk :: "
 msgid "Failed to delete VM."
 msgstr "Failed to delete VM."
 
+msgid "Failed to delete snapshot: "
+msgstr ""
+
+msgid "Failed to delete the snapshot!"
+msgstr ""
+
 msgid "Failed to detach PCI device from host."
 msgstr "Failed to detach PCI device from host."
+
+msgid "Failed to disable autostart."
+msgstr ""
+
+msgid "Failed to download image."
+msgstr ""
+
+msgid "Failed to enable autostart."
+msgstr ""
+
+msgid "Failed to force stop VM."
+msgstr ""
+
+msgid "Failed to generate a disk name!"
+msgstr ""
+
+msgid "Failed to pause VM."
+msgstr ""
+
+msgid "Failed to power off VM."
+msgstr ""
+
+msgid "Failed to power on VM."
+msgstr ""
+
+msgid "Failed to reboot VM."
+msgstr ""
 
 msgid "Failed to remove PCI device."
 msgstr "Failed to remove PCI device."
@@ -512,6 +572,9 @@ msgstr "Failed to reset VM."
 msgid "Failed to resize disk!"
 msgstr "Failed to resize disk!"
 
+msgid "Failed to resume VM."
+msgstr ""
+
 msgid "Failed to set change."
 msgstr "Failed to set change."
 
@@ -524,14 +587,14 @@ msgstr "Failed to set pool autostart."
 msgid "Failed to start pool."
 msgstr "Failed to start pool."
 
-msgid "Failed to start websockify for noVNC."
-msgstr "Failed to start websockify for noVNC."
+msgid "Failed to start websockify for "
+msgstr ""
 
-msgid "Failed to start websockify for spice-html5."
-msgstr "Failed to start websockify for spice-html5."
+msgid "Failed to stop pool."
+msgstr ""
 
 msgid "File will be placed in same directory as the base image."
-msgstr ""
+msgstr "File will be placed in same directory as the base image."
 
 msgid "Filesystem"
 msgstr "Filesystem"
@@ -581,9 +644,6 @@ msgstr "Gigabytes"
 msgid "Hard disk"
 msgstr "Hard disk"
 
-msgid "Host VNC port"
-msgstr "Host VNC port"
-
 msgid "Host disk has been added."
 msgstr "Host disk has been added."
 
@@ -592,9 +652,6 @@ msgstr "Host drive has been added."
 
 msgid "Host name"
 msgstr "Host name"
-
-msgid "Host spice port"
-msgstr "Host spice port"
 
 msgid "IP Range"
 msgstr "IP Range"
@@ -634,9 +691,6 @@ msgstr "LXC name"
 msgid "Leave blank for random address."
 msgstr "Leave blank for random address."
 
-msgid "Leave blank to use VM name."
-msgstr "Leave blank to use VM name."
-
 msgid "Linked Clone"
 msgstr "Linked Clone"
 
@@ -668,10 +722,10 @@ msgid "Model"
 msgstr "Model"
 
 msgid "Move"
-msgstr ""
+msgstr "Move"
 
 msgid "Move VM ..."
-msgstr ""
+msgstr "Move VM ..."
 
 msgid "Name"
 msgstr "Name"
@@ -717,9 +771,6 @@ msgstr "Networks"
 
 msgid "New name"
 msgstr "New name"
-
-msgid "No disk name specified!"
-msgstr "No disk name specified!"
 
 msgid "No image - use existing image path"
 msgstr "No image - use existing image path"
@@ -819,10 +870,10 @@ msgid "Pools"
 msgstr "Pools"
 
 msgid "Power off + Move"
-msgstr ""
+msgstr "Power off + Move"
 
 msgid "Power off VM and move ..."
-msgstr ""
+msgstr "Power off VM and move ..."
 
 msgid "Reboot"
 msgstr "Reboot"
@@ -1046,8 +1097,8 @@ msgstr "USB device has been removed."
 msgid "UUID"
 msgstr "UUID"
 
-msgid "Unable to add network adapter to VM - "
-msgstr "Unable to add network adapter to VM - "
+msgid "Unable to add network adapter to VM"
+msgstr ""
 
 msgid "Unable to backup existing XML for VM :: "
 msgstr "Unable to backup existing XML for VM :: "
@@ -1055,35 +1106,26 @@ msgstr "Unable to backup existing XML for VM :: "
 msgid "Unable to change notes for VM."
 msgstr "Unable to change notes for VM."
 
-msgid "Unable to change topolgy cores for VM - "
-msgstr "Unable to change topolgy cores for VM - "
-
-msgid "Unable to create Macvap - "
-msgstr "Unable to create Macvap - "
-
-msgid "Unable to create network - "
-msgstr "Unable to create network - "
-
-msgid "Unable to create pool - "
-msgstr "Unable to create pool - "
-
-msgid "Unable to create snapshot - "
-msgstr "Unable to create snapshot - "
+msgid "Unable to create snapshot"
+msgstr ""
 
 msgid "Unable to create volume - "
 msgstr "Unable to create volume - "
 
-msgid "Unable to delete disk(s) from VM - "
-msgstr "Unable to delete disk(s) from VM - "
+msgid "Unable to define network"
+msgstr ""
 
-msgid "Unable to delete network - "
-msgstr "Unable to delete network - "
+msgid "Unable to define storage pool"
+msgstr ""
 
-msgid "Unable to delete pool - "
-msgstr "Unable to delete pool - "
+msgid "Unable to delete disk(s) from VM."
+msgstr ""
 
-msgid "Unable to delete snapshot - "
-msgstr "Unable to delete snapshot - "
+msgid "Unable to delete network"
+msgstr ""
+
+msgid "Unable to delete pool"
+msgstr ""
 
 msgid "Unable to delete volume - "
 msgstr "Unable to delete volume - "
@@ -1091,20 +1133,23 @@ msgstr "Unable to delete volume - "
 msgid "Unable to get network adapter type - "
 msgstr "Unable to get network adapter type - "
 
-msgid "Unable to revert to snapshot - "
-msgstr "Unable to revert to snapshot - "
+msgid "Unable to revert to snapshot"
+msgstr ""
 
 msgid "Unable to set VM XML :: "
 msgstr "Unable to set VM XML :: "
 
-msgid "Unable to start network - "
-msgstr "Unable to start network - "
+msgid "Unable to start network"
+msgstr ""
 
-msgid "Unable to stop network - "
-msgstr "Unable to stop network - "
+msgid "Unable to stop network"
+msgstr ""
 
 msgid "Unable to undefine VM :: "
 msgstr "Unable to undefine VM :: "
+
+msgid "Unable to update domain XML"
+msgstr ""
 
 msgid "Unit"
 msgstr "Unit"
@@ -1122,7 +1167,7 @@ msgid "VM is not running!"
 msgstr "VM is not running!"
 
 msgid "VM must be powered off before deleting disks."
-msgstr ""
+msgstr "VM must be powered off before deleting disks."
 
 msgid "VM name"
 msgstr "VM name"
@@ -1148,8 +1193,26 @@ msgstr "VNC viewer has been removed."
 msgid "Volume Count"
 msgstr "Volume Count"
 
+msgid "Volume check complete."
+msgstr ""
+
 msgid "Volume group"
 msgstr "Volume group"
+
+msgid "Volume has been converted to qcow2."
+msgstr ""
+
+msgid "Volume has been converted to raw."
+msgstr ""
+
+msgid "Volume has been created."
+msgstr ""
+
+msgid "Volume has been extended."
+msgstr ""
+
+msgid "Volume has been optimized."
+msgstr ""
 
 msgid "Volume info ..."
 msgstr "Volume info ..."
@@ -1173,7 +1236,7 @@ msgid "ZFS"
 msgstr "ZFS"
 
 msgid "^win.*$"
-msgstr ""
+msgstr "^win.*$"
 
 msgid "bridge"
 msgstr "bridge"
@@ -1185,7 +1248,7 @@ msgid "e1000"
 msgstr "e1000"
 
 msgid "e1000e"
-msgstr ""
+msgstr "e1000e"
 
 msgid "iSCSI"
 msgstr "iSCSI"

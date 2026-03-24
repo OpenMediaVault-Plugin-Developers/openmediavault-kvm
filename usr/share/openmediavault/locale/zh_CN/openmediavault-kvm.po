@@ -4,16 +4,16 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# songming <by@songming.me>, 2025
+# songming <by@songming.me>, 2026
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-29 13:20+0000\n"
+"POT-Creation-Date: 2026-03-20 13:54+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
-"Last-Translator: songming <by@songming.me>, 2025\n"
+"Last-Translator: songming <by@songming.me>, 2026\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -123,6 +123,9 @@ msgstr "添加 spice 监视器中 ..."
 msgid "Advanced"
 msgstr "高级"
 
+msgid "All snapshots have been deleted."
+msgstr ""
+
 msgid "Allocation"
 msgstr "划分"
 
@@ -135,11 +138,17 @@ msgstr "Arch"
 msgid "Architecture"
 msgstr "架构"
 
+msgid "Are you sure you want to delete all snapshots?"
+msgstr ""
+
 msgid "Are you sure you want to delete?"
 msgstr "您确定删除吗？"
 
 msgid "Audio"
 msgstr "音频"
+
+msgid "Auto-generate a unique name based on the VM name."
+msgstr ""
 
 msgid "AutoStart"
 msgstr "自启动"
@@ -155,6 +164,9 @@ msgstr "空闲"
 
 msgid "Backing file"
 msgstr "备份文件"
+
+msgid "Backing file has been created."
+msgstr ""
 
 msgid "Backup"
 msgstr "备份"
@@ -175,7 +187,7 @@ msgstr ""
 "/dev/disk/by-id 这种设备名称直通。"
 
 msgid "Bridge Model"
-msgstr ""
+msgstr "桥接模式"
 
 msgid "Bus"
 msgstr "Bus"
@@ -285,11 +297,17 @@ msgstr "已创建 VM。"
 msgid "Created scheduled job."
 msgstr "创建计划任务。"
 
+msgid "Creating backing file ..."
+msgstr ""
+
 msgid "Creating linked clone ..."
 msgstr "创建链接克隆中 ..."
 
 msgid "Creating snapshot ..."
 msgstr "创建快照中 ..."
+
+msgid "Creating volume ..."
+msgstr ""
 
 msgid "Current size"
 msgstr "当前大小"
@@ -318,6 +336,9 @@ msgstr "删除"
 msgid "Delete + storage"
 msgstr "删除 + 存储"
 
+msgid "Delete All"
+msgstr ""
+
 msgid "Deleted."
 msgstr "删除。"
 
@@ -329,6 +350,9 @@ msgstr "删除网络中 ..."
 
 msgid "Deleting a pool ..."
 msgstr "删除池中 ..."
+
+msgid "Deleting all snapshots ..."
+msgstr ""
 
 msgid "Deleting snapshot ..."
 msgstr "删除快照中 ..."
@@ -370,7 +394,7 @@ msgid "Disk(s)"
 msgstr "磁盘"
 
 msgid "Dom stats"
-msgstr ""
+msgstr "Dom 状态"
 
 msgid "Download virtio iso"
 msgstr "下载  virtio iso"
@@ -423,6 +447,9 @@ msgstr "执行计划任务中 ..."
 msgid "Extend"
 msgstr "扩展"
 
+msgid "Extending volume ..."
+msgstr ""
+
 msgid "Extension"
 msgstr "扩展"
 
@@ -474,8 +501,41 @@ msgstr "创建新磁盘失败 :: "
 msgid "Failed to delete VM."
 msgstr "删除 VM 失败。"
 
+msgid "Failed to delete snapshot: "
+msgstr ""
+
+msgid "Failed to delete the snapshot!"
+msgstr ""
+
 msgid "Failed to detach PCI device from host."
 msgstr "从主机分离 PCI 设备失败。"
+
+msgid "Failed to disable autostart."
+msgstr ""
+
+msgid "Failed to download image."
+msgstr ""
+
+msgid "Failed to enable autostart."
+msgstr ""
+
+msgid "Failed to force stop VM."
+msgstr ""
+
+msgid "Failed to generate a disk name!"
+msgstr ""
+
+msgid "Failed to pause VM."
+msgstr ""
+
+msgid "Failed to power off VM."
+msgstr ""
+
+msgid "Failed to power on VM."
+msgstr ""
+
+msgid "Failed to reboot VM."
+msgstr ""
 
 msgid "Failed to remove PCI device."
 msgstr "移除 PCI 设备失败。"
@@ -510,6 +570,9 @@ msgstr "重置 VM 失败。"
 msgid "Failed to resize disk!"
 msgstr "调整磁盘大小失败！"
 
+msgid "Failed to resume VM."
+msgstr ""
+
 msgid "Failed to set change."
 msgstr "改变设置失败。"
 
@@ -522,14 +585,14 @@ msgstr "设置池自启动失败。"
 msgid "Failed to start pool."
 msgstr "启动池失败。"
 
-msgid "Failed to start websockify for noVNC."
-msgstr "为 noVNC 启动  websockify 失败。"
+msgid "Failed to start websockify for "
+msgstr ""
 
-msgid "Failed to start websockify for spice-html5."
-msgstr "为 spice-html5 启动 websockify 失败。"
+msgid "Failed to stop pool."
+msgstr ""
 
 msgid "File will be placed in same directory as the base image."
-msgstr ""
+msgstr "文件将放在与基础镜像相同的目录。"
 
 msgid "Filesystem"
 msgstr "文件系统"
@@ -578,9 +641,6 @@ msgstr "GB"
 msgid "Hard disk"
 msgstr "硬盘"
 
-msgid "Host VNC port"
-msgstr "VNC 主机端口"
-
 msgid "Host disk has been added."
 msgstr "主机磁盘已添加。"
 
@@ -589,9 +649,6 @@ msgstr "主机驱动已添加。"
 
 msgid "Host name"
 msgstr "主机名"
-
-msgid "Host spice port"
-msgstr "spice 主机端口"
 
 msgid "IP Range"
 msgstr "IP 范围"
@@ -630,9 +687,6 @@ msgstr "LXC 名称"
 msgid "Leave blank for random address."
 msgstr "留空则使用随机地址。"
 
-msgid "Leave blank to use VM name."
-msgstr "留空则使用 VM 名称。"
-
 msgid "Linked Clone"
 msgstr "链接克隆"
 
@@ -664,10 +718,10 @@ msgid "Model"
 msgstr "型号"
 
 msgid "Move"
-msgstr ""
+msgstr "移动"
 
 msgid "Move VM ..."
-msgstr ""
+msgstr "移动 VM ..."
 
 msgid "Name"
 msgstr "名称"
@@ -713,9 +767,6 @@ msgstr "网络"
 
 msgid "New name"
 msgstr "新名称"
-
-msgid "No disk name specified!"
-msgstr "没有填入磁盘名称！"
 
 msgid "No image - use existing image path"
 msgstr "无镜像 - 使用已有的镜像路径"
@@ -813,10 +864,10 @@ msgid "Pools"
 msgstr "池"
 
 msgid "Power off + Move"
-msgstr ""
+msgstr "关闭 + 移动"
 
 msgid "Power off VM and move ..."
-msgstr ""
+msgstr "关闭 VM 并移动 ..."
 
 msgid "Reboot"
 msgstr "重启"
@@ -1040,8 +1091,8 @@ msgstr "USB 设备已移除。"
 msgid "UUID"
 msgstr "UUID"
 
-msgid "Unable to add network adapter to VM - "
-msgstr "无法添加网络适配器到 VM - "
+msgid "Unable to add network adapter to VM"
+msgstr ""
 
 msgid "Unable to backup existing XML for VM :: "
 msgstr "不能备份已存在的虚拟机 XML :: "
@@ -1049,35 +1100,26 @@ msgstr "不能备份已存在的虚拟机 XML :: "
 msgid "Unable to change notes for VM."
 msgstr "无法改变 VM 注释。"
 
-msgid "Unable to change topolgy cores for VM - "
-msgstr "无法改变 VM 的拓扑内核-"
-
-msgid "Unable to create Macvap - "
-msgstr "无法创建 Macvap - "
-
-msgid "Unable to create network - "
-msgstr "无法创建网络 -"
-
-msgid "Unable to create pool - "
-msgstr "无法创建池 -"
-
-msgid "Unable to create snapshot - "
-msgstr "无法创建快照 -"
+msgid "Unable to create snapshot"
+msgstr ""
 
 msgid "Unable to create volume - "
 msgstr "无法创建卷 -"
 
-msgid "Unable to delete disk(s) from VM - "
-msgstr "无法删除 VM 的磁盘-"
+msgid "Unable to define network"
+msgstr ""
 
-msgid "Unable to delete network - "
-msgstr "无法删除网络 -"
+msgid "Unable to define storage pool"
+msgstr ""
 
-msgid "Unable to delete pool - "
-msgstr "无法删除池 -"
+msgid "Unable to delete disk(s) from VM."
+msgstr ""
 
-msgid "Unable to delete snapshot - "
-msgstr "无法删除快照 -"
+msgid "Unable to delete network"
+msgstr ""
+
+msgid "Unable to delete pool"
+msgstr ""
 
 msgid "Unable to delete volume - "
 msgstr "无法删除卷 -"
@@ -1085,20 +1127,23 @@ msgstr "无法删除卷 -"
 msgid "Unable to get network adapter type - "
 msgstr "不能设置网卡类型 -"
 
-msgid "Unable to revert to snapshot - "
-msgstr "无法还原快照 -"
+msgid "Unable to revert to snapshot"
+msgstr ""
 
 msgid "Unable to set VM XML :: "
 msgstr "无法设置 VM XML :: "
 
-msgid "Unable to start network - "
-msgstr "无法启用网络 -"
+msgid "Unable to start network"
+msgstr ""
 
-msgid "Unable to stop network - "
-msgstr "无法停止网络 -"
+msgid "Unable to stop network"
+msgstr ""
 
 msgid "Unable to undefine VM :: "
 msgstr "无法定义 VM :: "
+
+msgid "Unable to update domain XML"
+msgstr ""
 
 msgid "Unit"
 msgstr "单位"
@@ -1116,7 +1161,7 @@ msgid "VM is not running!"
 msgstr "VM 未运行！"
 
 msgid "VM must be powered off before deleting disks."
-msgstr ""
+msgstr "删除磁盘前 VM 虚拟机必须关闭。"
 
 msgid "VM name"
 msgstr "VM 名称"
@@ -1142,8 +1187,26 @@ msgstr "VNC 监视器已移除。"
 msgid "Volume Count"
 msgstr "卷数量"
 
+msgid "Volume check complete."
+msgstr ""
+
 msgid "Volume group"
 msgstr "卷组"
+
+msgid "Volume has been converted to qcow2."
+msgstr ""
+
+msgid "Volume has been converted to raw."
+msgstr ""
+
+msgid "Volume has been created."
+msgstr ""
+
+msgid "Volume has been extended."
+msgstr ""
+
+msgid "Volume has been optimized."
+msgstr ""
 
 msgid "Volume info ..."
 msgstr "卷信息 ..."
@@ -1164,7 +1227,7 @@ msgid "ZFS"
 msgstr "ZFS"
 
 msgid "^win.*$"
-msgstr ""
+msgstr "^win.*$"
 
 msgid "bridge"
 msgstr "桥"
@@ -1176,7 +1239,7 @@ msgid "e1000"
 msgstr "e1000"
 
 msgid "e1000e"
-msgstr ""
+msgstr "e1000e"
 
 msgid "iSCSI"
 msgstr "iSCSI"
