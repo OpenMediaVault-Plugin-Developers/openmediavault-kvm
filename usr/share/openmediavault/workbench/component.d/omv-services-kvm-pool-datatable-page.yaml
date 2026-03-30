@@ -255,6 +255,7 @@ data:
                 params:
                   name: "{{ _selected[0].name }}"
                   recursive: false
+                  fixparents: false
                 progressMessage: _("Fixing directory permissions ...")
                 successNotification: _("Directory permissions have been fixed.")
             enabledConstraints:
@@ -270,8 +271,28 @@ data:
                 params:
                   name: "{{ _selected[0].name }}"
                   recursive: true
-                progressMessage: _("Fixing directory and file permissions ...")
-                successNotification: _("Directory and file permissions have been fixed.")
+                  fixparents: false
+                progressMessage: _("Fixing all permissions ...")
+                successNotification: _("All permissions have been fixed.")
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+          - text: _("Fix parent dir permissions")
+            icon: mdi:folder-arrow-up
+            confirmationDialogConfig:
+              template: confirmation-danger
+              message: _("This will run 'chmod o+x' on every parent directory of the pool path, allowing libvirt-qemu to traverse them. Existing permissions on those directories will be modified. Continue?")
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: fixPoolPermissions
+                params:
+                  name: "{{ _selected[0].name }}"
+                  recursive: false
+                  fixparents: true
+                progressMessage: _("Fixing parent directory permissions ...")
+                successNotification: _("Parent directory permissions have been fixed.")
             enabledConstraints:
               minSelected: 1
               maxSelected: 1

@@ -642,6 +642,10 @@
         "recursive": {
           "type": "boolean",
           "required": true
+        },
+        "fixparents": {
+          "type": "boolean",
+          "required": true
         }
       }
     }

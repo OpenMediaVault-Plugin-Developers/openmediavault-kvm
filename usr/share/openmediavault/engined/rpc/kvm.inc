@@ -625,15 +625,30 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if (empty($path)) {
             throw new \OMV\Exception(gettext("Unable to determine pool path."));
         }
-        $cmdArgs = ['libvirt-qemu:libvirt-qemu', $path];
-        if ($params['recursive']) {
-            array_unshift($cmdArgs, '-R');
-        }
-        $cmd = new \OMV\System\Process('chown', $cmdArgs);
-        $cmd->setQuiet(false);
-        $cmd->execute($output, $exitStatus);
-        if (0 != $exitStatus) {
-            throw new \OMV\Exception(gettext("Failed to fix pool permissions."));
+        if ($params['fixparents']) {
+            // chmod o+x on each ancestor directory so libvirt-qemu can traverse the path
+            $parent = dirname(rtrim($path, '/'));
+            while ($parent !== '/' && $parent !== '') {
+                $cmd = new \OMV\System\Process('chmod', ['o+x', $parent]);
+                $cmd->setQuiet(false);
+                $cmd->execute($output, $exitStatus);
+                if (0 != $exitStatus) {
+                    throw new \OMV\Exception(sprintf(
+                        gettext("Failed to fix permissions on parent directory: %s"), $parent));
+                }
+                $parent = dirname($parent);
+            }
+        } else {
+            $cmdArgs = ['libvirt-qemu:kvm', $path];
+            if ($params['recursive']) {
+                array_unshift($cmdArgs, '-R');
+            }
+            $cmd = new \OMV\System\Process('chown', $cmdArgs);
+            $cmd->setQuiet(false);
+            $cmd->execute($output, $exitStatus);
+            if (0 != $exitStatus) {
+                throw new \OMV\Exception(gettext("Failed to fix pool permissions."));
+            }
         }
     }
 
