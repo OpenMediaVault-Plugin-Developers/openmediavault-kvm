@@ -1,0 +1,79 @@
+version: "1.0"
+type: component
+data:
+  name: omv-services-kvm-monitor-datatable-page
+  type: datatablePage
+  config:
+    autoReload: 10000
+    hasSearchField: true
+    stateId: a3f7d182-1c4e-4b92-8e5f-2d9c0b3a7e61
+    rowId: vm_name
+    sorters:
+      - dir: desc
+        prop: cpu_percent
+    store:
+      proxy:
+        service: Kvm
+        get:
+          method: getMonitorStats
+    columns:
+      - name: _("Name")
+        prop: vm_name
+        flexGrow: 2
+        sortable: true
+      - name: _("Type")
+        prop: vm_type
+        flexGrow: 1
+        sortable: true
+        cellTemplateName: chip
+        cellTemplateConfig:
+          template: "{{ vm_type | upper }}"
+      - name: _("State")
+        prop: state_str
+        flexGrow: 1
+        sortable: true
+      - name: _("CPU %")
+        prop: cpu_percent
+        flexGrow: 1
+        sortable: true
+        cellTemplateName: progressBar
+        cellTemplateConfig:
+          text: "{{ cpu_percent | tofixed(1) }}"
+      - name: _("RAM")
+        prop: mem_percent
+        flexGrow: 1
+        sortable: true
+        cellTemplateName: progressBar
+        cellTemplateConfig:
+          text: "{{ mem_total | tobytes | binaryunit }}"
+      - name: _("Disk Read")
+        prop: disk_rd_bps
+        flexGrow: 1
+        sortable: true
+        cellTemplateName: template
+        cellTemplateConfig: '{{ disk_rd_bps | tobytes | binaryunit | notavailable("-") }}/s'
+      - name: _("Disk Write")
+        prop: disk_wr_bps
+        flexGrow: 1
+        sortable: true
+        cellTemplateName: template
+        cellTemplateConfig: '{{ disk_wr_bps | tobytes | binaryunit | notavailable("-") }}/s'
+      - name: _("Net In")
+        prop: net_rx_bps
+        flexGrow: 1
+        sortable: true
+        cellTemplateName: template
+        cellTemplateConfig: '{{ net_rx_bps | tobytes | binaryunit | notavailable("-") }}/s'
+      - name: _("Net Out")
+        prop: net_tx_bps
+        flexGrow: 1
+        sortable: true
+        cellTemplateName: template
+        cellTemplateConfig: '{{ net_tx_bps | tobytes | binaryunit | notavailable("-") }}/s'
+    actions:
+      - type: iconButton
+        icon: mdi:monitor-dashboard
+        tooltip: _("Open full monitoring dashboard")
+        execute:
+          type: url
+          url: /externalRedirect/%2Fkvm-monitor%2F

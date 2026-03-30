@@ -23,6 +23,47 @@ data:
         label: _("lxc-net service")
         value: true
         hint: _("If unchecked, LXC network bridge will be disabled.")
+      - type: divider
+        title: "Monitoring"
+      - type: checkbox
+        name: monitor_enable
+        label: _("Enable monitoring service")
+        value: true
+        hint: _("Collect host and VM/LXC metrics for the Monitor tab and dashboard.")
+      - type: textInput
+        name: monitor_dbpath
+        label: _("Database path")
+        value: "/var/lib/openmediavault/kvm/monitor.db"
+        hint: _("Path to the SQLite metrics database. Service will restart if this is changed.")
+      - type: numberInput
+        name: monitor_collect_interval
+        label: _("Collection interval (seconds)")
+        value: 10
+        validators:
+          min: 5
+          max: 300
+        hint: _("How often to collect metrics. Lower values increase CPU usage.")
+      - type: numberInput
+        name: monitor_detail_retention_hours
+        label: _("Raw data retention (hours)")
+        value: 24
+        validators:
+          min: 1
+          max: 168
+        hint: _("How long to keep 10-second raw samples.")
+      - type: numberInput
+        name: monitor_summary_retention_days
+        label: _("Summary data retention (days)")
+        value: 7
+        validators:
+          min: 1
+          max: 365
+        hint: _("How long to keep 1-minute summary samples.")
+      - type: textInput
+        name: monitor_db_size
+        label: _("Database size")
+        readonly: true
+        hint: _("Current size of the metrics database on disk.")
     buttons:
       - template: submit
       - text: _("Force image list refresh")
@@ -31,3 +72,14 @@ data:
           request:
             service: Kvm
             method: forceImageListRefresh
+      - text: _("Clear monitor database")
+        confirmationDialogConfig:
+          template: confirmation-danger
+          message: _("Are you sure you want to clear the monitor database? All collected metrics will be permanently deleted.")
+        execute:
+          type: request
+          request:
+            service: Kvm
+            method: clearMonitorDb
+            progressMessage: _("Clearing monitor database ...")
+            successNotification: _("Monitor database has been cleared.")

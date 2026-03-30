@@ -1,6 +1,43 @@
 [
   {
     "type": "rpc",
+    "id": "rpc.kvm.setsettings",
+    "params": {
+      "type": "object",
+      "properties": {
+        "lxc": {
+          "type": "boolean",
+          "required": true
+        },
+        "lxcnet": {
+          "type": "boolean",
+          "required": true
+        },
+        "monitor_enable": {
+          "type": "boolean",
+          "required": true
+        },
+        "monitor_dbpath": {
+          "type": "string",
+          "required": true
+        },
+        "monitor_collect_interval": {
+          "type": "integer",
+          "required": true
+        },
+        "monitor_detail_retention_hours": {
+          "type": "integer",
+          "required": true
+        },
+        "monitor_summary_retention_days": {
+          "type": "integer",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
     "id": "rpc.kvm.setnetwork",
     "params": {
       "type": "object",

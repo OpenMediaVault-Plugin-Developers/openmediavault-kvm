@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+{% set settings = salt['omv_conf.get']('conf.service.kvm') %}
 {% set config = salt['omv_conf.get']('conf.service.kvm.job') %}
 {% set has_ipv6_default = 'default' in salt['cmd.run']('ip -6 route') %}
 
@@ -135,3 +136,112 @@ kvm_web_user:
     - createhome: False
     - shell: /usr/sbin/nologin
     - usergroup: True
+
+kvm_monitor_db_dir:
+  file.directory:
+    - name: /var/lib/openmediavault/kvm
+    - makedirs: True
+    - user: root
+    - group: root
+    - mode: "0755"
+
+configure_kvm_monitor_service:
+  file.managed:
+    - name: /etc/systemd/system/omv-kvm-monitor.service
+    - contents: |
+        [Unit]
+        Description=OMV KVM Monitoring Daemon
+        After=network.target libvirtd.service
+        Wants=libvirtd.service
+
+        [Service]
+        Type=simple
+        ExecStart=/usr/sbin/omv-kvm-monitor
+        Restart=on-failure
+        RestartSec=10
+        StandardOutput=journal
+        StandardError=journal
+
+        [Install]
+        WantedBy=multi-user.target
+    - user: root
+    - group: root
+    - mode: "0644"
+
+omv_kvm_monitor_systemd_reload:
+  module.run:
+    - name: service.systemctl_reload
+    - onchanges:
+      - file: configure_kvm_monitor_service
+
+configure_kvm_monitor_config:
+  file.managed:
+    - name: /etc/omv-kvm-monitor.conf
+    - contents: |
+        {{ {
+          'db_path': settings.monitor_dbpath,
+          'collect_interval': settings.monitor_collect_interval,
+          'detail_retention_hours': settings.monitor_detail_retention_hours,
+          'summary_retention_days': settings.monitor_summary_retention_days
+        } | tojson }}
+    - user: root
+    - group: root
+    - mode: "0644"
+
+{% if settings.lxc %}
+lxc_service:
+  service.running:
+    - name: lxc
+    - enable: True
+{% else %}
+lxc_service:
+  service.dead:
+    - name: lxc
+    - enable: False
+{% endif %}
+
+{% if settings.lxcnet %}
+lxcnet_service:
+  service.running:
+    - name: lxc-net
+    - enable: True
+{% else %}
+lxcnet_service:
+  service.dead:
+    - name: lxc-net
+    - enable: False
+{% endif %}
+
+{% if settings.monitor_enable %}
+omv_kvm_monitor_service:
+  service.running:
+    - name: omv-kvm-monitor
+    - enable: True
+    - watch:
+      - file: configure_kvm_monitor_service
+      - file: configure_kvm_monitor_config
+{% else %}
+omv_kvm_monitor_service:
+  service.dead:
+    - name: omv-kvm-monitor
+    - enable: False
+{% endif %}
+
+configure_kvm_monitor_nginx:
+  file.managed:
+    - name: /etc/nginx/openmediavault-webgui.d/kvm-monitor.conf
+    - contents: |
+        location /kvm-monitor/ {
+            proxy_pass         http://127.0.0.1:8889/;
+            proxy_set_header   Host $host;
+            proxy_set_header   X-Real-IP $remote_addr;
+            proxy_read_timeout 30s;
+        }
+    - user: root
+    - group: root
+    - mode: "0644"
+
+reload_nginx_for_kvm_monitor:
+  cmd.run:
+    - name: systemctl reload nginx
+    - onlyif: systemctl is-active nginx

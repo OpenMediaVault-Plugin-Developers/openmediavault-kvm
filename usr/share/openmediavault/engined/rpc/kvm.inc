@@ -142,6 +142,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
 
         $this->registerMethod('getSettings');
         $this->registerMethod('setSettings');
+
+        $this->registerMethod('getMonitorStats');
+        $this->registerMethod('clearMonitorDb');
     }
 
     private function escapeName($name)
@@ -3248,16 +3251,22 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
     public function getSettings($params, $context)
     {
         // Validate the RPC caller context.
-        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
-        // lxc
-        $systemCtl = new \OMV\System\SystemCtl("lxc");
-        $lxc = $systemCtl->isActive();
-        // lxc-net
-        $systemCtl = new \OMV\System\SystemCtl("lxc-net");
-        $lxcnet = $systemCtl->isActive();
-        // return status
-        $svc = [ 'lxc' => $lxc, 'lxcnet' => $lxcnet ];
-        return ($svc);
+        $this->validateMethodContext($context, ["role" => OMV_ROLE_ADMINISTRATOR]);
+        // Get the configuration object.
+        $db = \OMV\Config\Database::getInstance();
+        $object = $db->get("conf.service.kvm");
+        $dbPath = $object->get('monitor_dbpath');
+        // Remove useless properties from the object.
+        $object->remove("jobs");
+        // get db size
+        if (file_exists($dbPath)) {
+            $dbSize = number_format(filesize($dbPath) / (1024 * 1024), 2) . ' MiB';
+        } else {
+            $dbSize = 'Not found';
+        }
+        $object->add('monitor_db_size', 'string', $dbSize);
+        // Return the configuration object.
+        return $object->getAssoc();
     }
 
     public function setSettings($params, $context)
@@ -3265,27 +3274,16 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
-        //$this->validateMethodParams($params, 'rpc.omvextras.set');
-        // lxc
-        $systemCtl = new \OMV\System\SystemCtl("lxc");
-        $lxc = $systemCtl->isActive();
-        if ($lxc !== $params['lxc']) {
-            if ($params['lxc']) {
-                $systemCtl->enable(true);
-            } else {
-                $systemCtl->disable(true);
-            }
-        }
-        // lxc-net
-        $systemCtl = new \OMV\System\SystemCtl("lxc-net");
-        $lxcnet = $systemCtl->isActive();
-        if ($lxcnet !== $params['lxcnet']) {
-            if ($params['lxcnet']) {
-                $systemCtl->enable(true);
-            } else {
-                $systemCtl->disable(true);
-            }
-        }
+        $this->validateMethodParams($params, "rpc.kvm.setsettings");
+        // Get the existing configuration object.
+        $db = \OMV\Config\Database::getInstance();
+        $object = $db->get("conf.service.kvm");
+        $object->setAssoc($params);
+        $db->set($object);
+        // Remove useless properties from the object.
+        $object->remove("jobs");
+        // Return the configuration object.
+        return $object->getAssoc();
     }
 
     public function getVirtTop($params, $context)
@@ -3881,5 +3879,42 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmd = new \OMV\System\Process($cmdArgs);
         $output = [];
         $cmd->execute($output, $exitStatus);
+    }
+
+    public function getMonitorStats($params, $context)
+    {
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        $ch = curl_init('http://127.0.0.1:8889/api/vms');
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CONNECTTIMEOUT => 2,
+            CURLOPT_TIMEOUT        => 5,
+        ]);
+        $json = curl_exec($ch);
+        $err  = curl_error($ch);
+        curl_close($ch);
+        if ($json === false || $json === '') {
+            return [];
+        }
+        $data = json_decode($json, true);
+        return is_array($data) ? $data : [];
+    }
+
+    public function clearMonitorDb($params, $context)
+    {
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        $ch = curl_init('http://127.0.0.1:8889/api/db/clear');
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST           => true,
+            CURLOPT_CONNECTTIMEOUT => 2,
+            CURLOPT_TIMEOUT        => 15,
+        ]);
+        $json = curl_exec($ch);
+        $err  = curl_error($ch);
+        curl_close($ch);
+        if ($json === false) {
+            throw new \OMV\Exception("Failed to clear monitor database: %s", $err);
+        }
     }
 }

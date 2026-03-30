@@ -18,6 +18,9 @@ case "$1" in
 
         # run salt to apply configuration
         omv-salt deploy run kvm
+
+        # Restart monitoring daemon to pick up any updated files
+        systemctl try-restart omv-kvm-monitor || :
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

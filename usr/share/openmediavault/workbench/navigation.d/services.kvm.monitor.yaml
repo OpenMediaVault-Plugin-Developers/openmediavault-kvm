@@ -1,0 +1,8 @@
+version: "1.0"
+type: navigation-item
+data:
+  path: "services.kvm.monitor"
+  text: _("Monitor")
+  position: 80
+  icon: mdi:monitor-dashboard
+  url: "/services/kvm/monitor"

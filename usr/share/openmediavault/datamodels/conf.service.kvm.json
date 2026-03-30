@@ -7,6 +7,34 @@
     "iterable": false
   },
   "properties": {
+    "lxc": {
+      "type": "boolean",
+      "default": true
+    },
+    "lxcnet": {
+      "type": "boolean",
+      "default": true
+    },
+    "monitor_enable": {
+      "type": "boolean",
+      "default": true
+    },
+    "monitor_dbpath": {
+      "type": "string",
+      "default": "/var/lib/openmediavault/kvm/monitor.db"
+    },
+    "monitor_collect_interval": {
+      "type": "integer",
+      "default": 10
+    },
+    "monitor_detail_retention_hours": {
+      "type": "integer",
+      "default": 24
+    },
+    "monitor_summary_retention_days": {
+      "type": "integer",
+      "default": 7
+    },
     "jobs": {
       "type": "object",
       "properties": {

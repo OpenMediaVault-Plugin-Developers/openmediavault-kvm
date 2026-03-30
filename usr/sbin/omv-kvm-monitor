@@ -1,0 +1,642 @@
+#!/usr/bin/env python3
+# @license   http://www.gnu.org/licenses/gpl.html GPL Version 3
+# @author    OpenMediaVault Plugin Developers <plugins@omv-extras.org>
+# @copyright Copyright (c) 2024-2026 openmediavault plugin developers
+#
+# KVM monitoring daemon for OpenMediaVault.
+# Collects host and VM/LXC metrics, stores in SQLite, serves JSON API + dashboard.
+
+import json
+import logging
+import os
+import sqlite3
+import threading
+import time
+import xml.etree.ElementTree as ET
+from contextlib import contextmanager
+
+import psutil
+import libvirt
+from flask import Flask, jsonify, request, send_from_directory, abort
+
+# ---------------------------------------------------------------------------
+# Configuration
+# ---------------------------------------------------------------------------
+
+CONFIG_FILE = '/etc/omv-kvm-monitor.conf'
+DB_PATH = '/var/lib/openmediavault/kvm/monitor.db'
+STATIC_DIR = '/usr/share/openmediavault-kvm/monitor'
+
+DEFAULT_CONFIG = {
+    'collect_interval': 10,           # seconds between collections
+    'detail_retention_hours': 24,     # keep 10-s raw rows for this long
+    'summary_retention_days': 7,      # keep 1-min summary rows for this long
+    'listen_host': '127.0.0.1',
+    'listen_port': 8889,
+    'db_path': '/var/lib/openmediavault/kvm/monitor.db',
+}
+
+# ---------------------------------------------------------------------------
+# Logging
+# ---------------------------------------------------------------------------
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s %(levelname)s %(message)s',
+    handlers=[
+        logging.FileHandler('/var/log/omv-kvm-monitor.log'),
+        logging.StreamHandler(),
+    ],
+)
+log = logging.getLogger(__name__)
+
+
+def load_config():
+    cfg = dict(DEFAULT_CONFIG)
+    if os.path.exists(CONFIG_FILE):
+        try:
+            with open(CONFIG_FILE) as f:
+                cfg.update(json.load(f))
+        except Exception as e:
+            log.warning('Failed to load %s: %s — using defaults', CONFIG_FILE, e)
+    return cfg
+
+
+# ---------------------------------------------------------------------------
+# Database
+# ---------------------------------------------------------------------------
+
+SCHEMA = '''
+PRAGMA journal_mode = WAL;
+PRAGMA synchronous  = NORMAL;
+
+CREATE TABLE IF NOT EXISTS host_raw (
+    ts          INTEGER PRIMARY KEY,
+    cpu_percent REAL,
+    mem_total   INTEGER,
+    mem_used    INTEGER,
+    disk_rd_bps REAL,
+    disk_wr_bps REAL,
+    net_rx_bps  REAL,
+    net_tx_bps  REAL
+);
+
+CREATE TABLE IF NOT EXISTS vm_raw (
+    ts          INTEGER  NOT NULL,
+    vm_name     TEXT     NOT NULL,
+    vm_type     TEXT,
+    state       INTEGER,
+    cpu_percent REAL,
+    mem_used    INTEGER,
+    mem_total   INTEGER,
+    disk_rd_bps REAL,
+    disk_wr_bps REAL,
+    net_rx_bps  REAL,
+    net_tx_bps  REAL,
+    PRIMARY KEY (ts, vm_name)
+);
+
+CREATE TABLE IF NOT EXISTS host_summary (
+    ts          INTEGER PRIMARY KEY,
+    cpu_percent REAL,
+    mem_total   INTEGER,
+    mem_used    INTEGER,
+    disk_rd_bps REAL,
+    disk_wr_bps REAL,
+    net_rx_bps  REAL,
+    net_tx_bps  REAL
+);
+
+CREATE TABLE IF NOT EXISTS vm_summary (
+    ts          INTEGER  NOT NULL,
+    vm_name     TEXT     NOT NULL,
+    vm_type     TEXT,
+    state       INTEGER,
+    cpu_percent REAL,
+    mem_used    INTEGER,
+    mem_total   INTEGER,
+    disk_rd_bps REAL,
+    disk_wr_bps REAL,
+    net_rx_bps  REAL,
+    net_tx_bps  REAL,
+    PRIMARY KEY (ts, vm_name)
+);
+
+CREATE INDEX IF NOT EXISTS idx_hr_ts   ON host_raw    (ts);
+CREATE INDEX IF NOT EXISTS idx_vr_ts   ON vm_raw      (ts);
+CREATE INDEX IF NOT EXISTS idx_vr_name ON vm_raw      (vm_name, ts);
+CREATE INDEX IF NOT EXISTS idx_hs_ts   ON host_summary(ts);
+CREATE INDEX IF NOT EXISTS idx_vs_ts   ON vm_summary  (ts);
+CREATE INDEX IF NOT EXISTS idx_vs_name ON vm_summary  (vm_name, ts);
+'''
+
+
+def init_db(path):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    conn = sqlite3.connect(path)
+    conn.executescript(SCHEMA)
+    conn.commit()
+    conn.close()
+
+
+@contextmanager
+def get_db(path):
+    conn = sqlite3.connect(path, timeout=10)
+    conn.row_factory = sqlite3.Row
+    try:
+        yield conn
+        conn.commit()
+    except Exception:
+        conn.rollback()
+        raise
+    finally:
+        conn.close()
+
+
+# ---------------------------------------------------------------------------
+# Collector
+# ---------------------------------------------------------------------------
+
+DOMAIN_STATES = {
+    0: 'nostate',
+    1: 'running',
+    2: 'blocked',
+    3: 'paused',
+    4: 'shutdown',
+    5: 'shutoff',
+    6: 'crashed',
+    7: 'suspended',
+}
+
+
+class KvmCollector:
+    def __init__(self, db_path, config):
+        self.db_path = db_path
+        self.config = config
+
+        # Previous-sample state for delta calculations
+        self._prev_host_disk = None   # (ts, DiskIOCounters)
+        self._prev_host_net  = None   # (ts, NetIOCounters)
+        self._prev_vm_cpu    = {}     # name -> (ts, cpu_time_ns, nr_vcpu)
+        self._prev_vm_disk   = {}     # name -> {'rd': int, 'wr': int, 'ts': int}
+        self._prev_vm_net    = {}     # name -> {'rx': int, 'tx': int, 'ts': int}
+
+        # Device name cache: name -> {'disks': [...], 'nics': [...], 'type': str, 'cached_at': int}
+        self._device_cache   = {}
+        self._device_ttl     = 300    # refresh device list every 5 min
+
+        self._last_cleanup   = 0
+
+    # ------------------------------------------------------------------
+    # Public entry point
+    # ------------------------------------------------------------------
+
+    def collect(self):
+        ts = int(time.time())
+        host = self._collect_host(ts)
+        vms  = self._collect_vms(ts)
+
+        with get_db(self.db_path) as conn:
+            if host:
+                conn.execute(
+                    'INSERT OR REPLACE INTO host_raw VALUES (?,?,?,?,?,?,?,?)',
+                    (ts, host['cpu_percent'], host['mem_total'], host['mem_used'],
+                     host['disk_rd_bps'], host['disk_wr_bps'],
+                     host['net_rx_bps'],  host['net_tx_bps']),
+                )
+            for vm in vms:
+                conn.execute(
+                    'INSERT OR REPLACE INTO vm_raw VALUES (?,?,?,?,?,?,?,?,?,?,?)',
+                    (ts, vm['vm_name'], vm['vm_type'], vm['state'],
+                     vm['cpu_percent'], vm['mem_used'], vm['mem_total'],
+                     vm['disk_rd_bps'], vm['disk_wr_bps'],
+                     vm['net_rx_bps'],  vm['net_tx_bps']),
+                )
+
+        if ts - self._last_cleanup > 3600:
+            self._cleanup(ts)
+            self._last_cleanup = ts
+
+    # ------------------------------------------------------------------
+    # Host metrics
+    # ------------------------------------------------------------------
+
+    def _collect_host(self, ts):
+        try:
+            cpu  = psutil.cpu_percent(interval=None)
+            mem  = psutil.virtual_memory()
+            disk_io = psutil.disk_io_counters()
+            net_io  = psutil.net_io_counters()
+
+            disk_rd_bps = disk_wr_bps = 0.0
+            if self._prev_host_disk and disk_io:
+                prev_ts, prev = self._prev_host_disk
+                dt = ts - prev_ts
+                if dt > 0:
+                    disk_rd_bps = max(0.0, (disk_io.read_bytes  - prev.read_bytes)  / dt)
+                    disk_wr_bps = max(0.0, (disk_io.write_bytes - prev.write_bytes) / dt)
+            self._prev_host_disk = (ts, disk_io)
+
+            net_rx_bps = net_tx_bps = 0.0
+            if self._prev_host_net and net_io:
+                prev_ts, prev = self._prev_host_net
+                dt = ts - prev_ts
+                if dt > 0:
+                    net_rx_bps = max(0.0, (net_io.bytes_recv - prev.bytes_recv) / dt)
+                    net_tx_bps = max(0.0, (net_io.bytes_sent - prev.bytes_sent) / dt)
+            self._prev_host_net = (ts, net_io)
+
+            return {
+                'cpu_percent': round(cpu, 2),
+                'mem_total':   mem.total,
+                'mem_used':    mem.used,
+                'disk_rd_bps': round(disk_rd_bps, 1),
+                'disk_wr_bps': round(disk_wr_bps, 1),
+                'net_rx_bps':  round(net_rx_bps,  1),
+                'net_tx_bps':  round(net_tx_bps,  1),
+            }
+        except Exception as e:
+            log.error('Host collection error: %s', e)
+            return None
+
+    # ------------------------------------------------------------------
+    # VM / LXC metrics
+    # ------------------------------------------------------------------
+
+    def _get_devices(self, dom, ts):
+        """Return cached {'disks': [...], 'nics': [...], 'type': str} for dom."""
+        name  = dom.name()
+        cache = self._device_cache.get(name)
+        if cache and (ts - cache['cached_at']) < self._device_ttl:
+            return cache
+
+        disks = []
+        nics  = []
+        vm_type = 'kvm'
+        try:
+            root = ET.fromstring(dom.XMLDesc(0))
+            if root.get('type') == 'lxc':
+                vm_type = 'lxc'
+            for t in root.findall('.//disk[@device="disk"]/target'):
+                dev = t.get('dev')
+                if dev:
+                    disks.append(dev)
+            for t in root.findall('.//interface/target'):
+                dev = t.get('dev')
+                if dev:
+                    nics.append(dev)
+        except Exception as e:
+            log.debug('Device parse error for %s: %s', name, e)
+
+        entry = {'disks': disks, 'nics': nics, 'type': vm_type, 'cached_at': ts}
+        self._device_cache[name] = entry
+        return entry
+
+    def _collect_vms(self, ts):
+        results = []
+        active_names = set()
+        for uri in ('qemu:///system', 'lxc:///'):
+            self._collect_vms_from_uri(uri, ts, results, active_names)
+
+        # Prune state dicts for domains that disappeared
+        for name in list(self._prev_vm_cpu.keys()):
+            if name not in active_names:
+                self._prev_vm_cpu.pop(name, None)
+                self._prev_vm_disk.pop(name, None)
+                self._prev_vm_net.pop(name, None)
+                self._device_cache.pop(name, None)
+
+        return results
+
+    def _collect_vms_from_uri(self, uri, ts, results, active_names):
+        try:
+            lv = libvirt.openReadOnly(uri)
+            if not lv:
+                return
+
+            for dom in lv.listAllDomains(0):
+                name = dom.name()
+                active_names.add(name)
+                try:
+                    info    = dom.info()
+                    # info: (state, maxMemKiB, memKiB, nrVcpu, cpuTimeNs)
+                    state   = info[0]
+                    max_mem = info[1] * 1024
+                    nr_cpu  = max(info[3], 1)
+                    cpu_ns  = info[4]
+                    devices = self._get_devices(dom, ts)
+                    running = (state == libvirt.VIR_DOMAIN_RUNNING)
+
+                    # Memory: use balloon stats for running VMs, 0 for shutoff
+                    if running:
+                        try:
+                            mstats   = dom.memoryStats()
+                            # actual_balloon (5) = memory assigned to VM in KiB
+                            # usable (8) or available (6) = free memory in guest in KiB
+                            actual   = mstats.get(5, info[2]) * 1024  # VIR_DOMAIN_MEMORY_STAT_ACTUAL_BALLOON
+                            usable   = mstats.get(8, mstats.get(6, 0)) * 1024  # usable or available
+                            max_mem  = actual
+                            cur_mem  = max(0, actual - usable)
+                        except Exception:
+                            cur_mem  = info[2] * 1024
+                    else:
+                        cur_mem = 0
+
+                    # CPU %
+                    cpu_pct = 0.0
+                    if running:
+                        prev = self._prev_vm_cpu.get(name)
+                        if prev:
+                            prev_ts, prev_ns, prev_cpu = prev
+                            dt = ts - prev_ts
+                            if dt > 0:
+                                cpu_pct = (cpu_ns - prev_ns) / (dt * nr_cpu * 1e9) * 100
+                                cpu_pct = round(min(100.0, max(0.0, cpu_pct)), 2)
+                        self._prev_vm_cpu[name] = (ts, cpu_ns, nr_cpu)
+
+                    # Disk I/O
+                    disk_rd = disk_wr = 0.0
+                    if running and devices['disks']:
+                        try:
+                            rd_tot = wr_tot = 0
+                            for dev in devices['disks']:
+                                try:
+                                    s = dom.blockStats(dev)
+                                    rd_tot += s[1]   # rd_bytes
+                                    wr_tot += s[3]   # wr_bytes
+                                except Exception:
+                                    pass
+                            prev = self._prev_vm_disk.get(name, {})
+                            dt   = ts - prev.get('ts', ts)
+                            if dt > 0:
+                                disk_rd = max(0.0, (rd_tot - prev.get('rd', rd_tot)) / dt)
+                                disk_wr = max(0.0, (wr_tot - prev.get('wr', wr_tot)) / dt)
+                            self._prev_vm_disk[name] = {'rd': rd_tot, 'wr': wr_tot, 'ts': ts}
+                        except Exception as e:
+                            log.debug('Disk stats error for %s: %s', name, e)
+
+                    # Network I/O
+                    net_rx = net_tx = 0.0
+                    if running and devices['nics']:
+                        try:
+                            rx_tot = tx_tot = 0
+                            for iface in devices['nics']:
+                                try:
+                                    s = dom.interfaceStats(iface)
+                                    rx_tot += s[0]   # rx_bytes
+                                    tx_tot += s[4]   # tx_bytes
+                                except Exception:
+                                    pass
+                            prev = self._prev_vm_net.get(name, {})
+                            dt   = ts - prev.get('ts', ts)
+                            if dt > 0:
+                                net_rx = max(0.0, (rx_tot - prev.get('rx', rx_tot)) / dt)
+                                net_tx = max(0.0, (tx_tot - prev.get('tx', tx_tot)) / dt)
+                            self._prev_vm_net[name] = {'rx': rx_tot, 'tx': tx_tot, 'ts': ts}
+                        except Exception as e:
+                            log.debug('Net stats error for %s: %s', name, e)
+
+                    results.append({
+                        'vm_name':     name,
+                        'vm_type':     devices['type'],
+                        'state':       state,
+                        'state_str':   DOMAIN_STATES.get(state, 'unknown'),
+                        'cpu_percent': cpu_pct,
+                        'mem_used':    cur_mem,
+                        'mem_total':   max_mem,
+                        'disk_rd_bps': round(disk_rd, 1),
+                        'disk_wr_bps': round(disk_wr, 1),
+                        'net_rx_bps':  round(net_rx, 1),
+                        'net_tx_bps':  round(net_tx, 1),
+                    })
+                except Exception as e:
+                    log.debug('VM stats error for %s: %s', name, e)
+
+            lv.close()
+        except Exception as e:
+            log.error('Collection error for %s: %s', uri, e)
+
+    # ------------------------------------------------------------------
+    # Retention / downsampling
+    # ------------------------------------------------------------------
+
+    def _cleanup(self, now_ts):
+        raw_secs     = self.config['detail_retention_hours'] * 3600
+        summary_secs = self.config['summary_retention_days'] * 86400
+        cutoff_raw     = now_ts - raw_secs
+        cutoff_summary = now_ts - summary_secs
+
+        try:
+            with get_db(self.db_path) as conn:
+                # Downsample host raw → summary (1-min buckets)
+                conn.execute('''
+                    INSERT OR IGNORE INTO host_summary
+                    SELECT
+                        (ts / 60) * 60,
+                        AVG(cpu_percent), AVG(mem_total), AVG(mem_used),
+                        AVG(disk_rd_bps), AVG(disk_wr_bps),
+                        AVG(net_rx_bps),  AVG(net_tx_bps)
+                    FROM host_raw
+                    WHERE ts < ?
+                    GROUP BY ts / 60
+                ''', (cutoff_raw,))
+
+                # Downsample VM raw → summary (1-min buckets)
+                conn.execute('''
+                    INSERT OR IGNORE INTO vm_summary
+                    SELECT
+                        (ts / 60) * 60, vm_name,
+                        MAX(vm_type), MAX(state),
+                        AVG(cpu_percent), AVG(mem_used), AVG(mem_total),
+                        AVG(disk_rd_bps), AVG(disk_wr_bps),
+                        AVG(net_rx_bps),  AVG(net_tx_bps)
+                    FROM vm_raw
+                    WHERE ts < ?
+                    GROUP BY ts / 60, vm_name
+                ''', (cutoff_raw,))
+
+                conn.execute('DELETE FROM host_raw     WHERE ts < ?', (cutoff_raw,))
+                conn.execute('DELETE FROM vm_raw       WHERE ts < ?', (cutoff_raw,))
+                conn.execute('DELETE FROM host_summary WHERE ts < ?', (cutoff_summary,))
+                conn.execute('DELETE FROM vm_summary   WHERE ts < ?', (cutoff_summary,))
+
+            log.info('Cleanup done (raw cutoff=%d, summary cutoff=%d)', cutoff_raw, cutoff_summary)
+        except Exception as e:
+            log.error('Cleanup error: %s', e)
+
+
+# ---------------------------------------------------------------------------
+# Collection loop (background thread)
+# ---------------------------------------------------------------------------
+
+def _collection_loop(collector, interval):
+    while True:
+        t0 = time.time()
+        try:
+            collector.collect()
+        except Exception as e:
+            log.error('Unexpected collection error: %s', e)
+        elapsed = time.time() - t0
+        time.sleep(max(0.0, interval - elapsed))
+
+
+# ---------------------------------------------------------------------------
+# Flask API
+# ---------------------------------------------------------------------------
+
+app = Flask(__name__)
+
+# Injected at startup
+_db_path = None
+_config  = None
+
+
+def _query_history(table, extra_where, params, minutes, config):
+    """Return time-series rows combining raw + summary tables as needed."""
+    now          = int(time.time())
+    cutoff       = now - minutes * 60
+    raw_boundary = now - config['detail_retention_hours'] * 3600
+    rows         = []
+
+    with get_db(_db_path) as conn:
+        # Summary part (if the requested range extends beyond raw retention)
+        if cutoff < raw_boundary:
+            summary_table = table.replace('_raw', '_summary')
+            q = (f'SELECT * FROM {summary_table} WHERE ts >= ? AND ts < ?'
+                 + (f' AND {extra_where}' if extra_where else '')
+                 + ' ORDER BY ts')
+            rows += [dict(r) for r in conn.execute(q, [cutoff, raw_boundary] + params).fetchall()]
+
+        # Raw part
+        raw_start = max(cutoff, raw_boundary)
+        q = (f'SELECT * FROM {table} WHERE ts >= ?'
+             + (f' AND {extra_where}' if extra_where else '')
+             + ' ORDER BY ts')
+        rows += [dict(r) for r in conn.execute(q, [raw_start] + params).fetchall()]
+
+    return rows
+
+
+@app.route('/')
+def index():
+    return send_from_directory(STATIC_DIR, 'index.html')
+
+
+@app.route('/<path:filename>')
+def static_files(filename):
+    return send_from_directory(STATIC_DIR, filename)
+
+
+@app.route('/api/config')
+def api_config():
+    safe = {k: v for k, v in _config.items() if k not in ('listen_host', 'listen_port')}
+    return jsonify(safe)
+
+
+@app.route('/api/host/current')
+def api_host_current():
+    with get_db(_db_path) as conn:
+        row = conn.execute('SELECT * FROM host_raw ORDER BY ts DESC LIMIT 1').fetchone()
+    return jsonify(dict(row) if row else {})
+
+
+@app.route('/api/host/history')
+def api_host_history():
+    minutes = int(request.args.get('minutes', 60))
+    return jsonify(_query_history('host_raw', '', [], minutes, _config))
+
+
+def _enrich_vm_rows(rows):
+    """Add derived fields to a list of vm row dicts."""
+    for r in rows:
+        r['state_str'] = DOMAIN_STATES.get(r.get('state', 0), 'unknown')
+        mem_total = r.get('mem_total') or 0
+        mem_used  = r.get('mem_used')  or 0
+        r['mem_percent'] = round(mem_used / mem_total * 100, 1) if mem_total > 0 else 0
+    return rows
+
+
+@app.route('/api/vms')
+def api_vms_current():
+    """Latest snapshot for every VM (one row per VM, newest available ts)."""
+    with get_db(_db_path) as conn:
+        rows = conn.execute('''
+            SELECT v.*
+            FROM vm_raw v
+            INNER JOIN (
+                SELECT vm_name, MAX(ts) AS max_ts FROM vm_raw GROUP BY vm_name
+            ) m ON v.vm_name = m.vm_name AND v.ts = m.max_ts
+            ORDER BY cpu_percent DESC
+        ''').fetchall()
+    return jsonify(_enrich_vm_rows([dict(r) for r in rows]))
+
+
+@app.route('/api/vms/<vm_name>/history')
+def api_vm_history(vm_name):
+    minutes = int(request.args.get('minutes', 60))
+    return jsonify(_enrich_vm_rows(_query_history('vm_raw', 'vm_name = ?', [vm_name], minutes, _config)))
+
+
+@app.route('/api/vms/names')
+def api_vm_names():
+    """List of all VM names seen in the last 7 days."""
+    with get_db(_db_path) as conn:
+        rows = conn.execute('''
+            SELECT vm_name, vm_type, MAX(ts) AS last_seen
+            FROM vm_raw GROUP BY vm_name
+            UNION
+            SELECT vm_name, vm_type, MAX(ts) AS last_seen
+            FROM vm_summary GROUP BY vm_name
+            ORDER BY vm_name
+        ''').fetchall()
+    return jsonify([dict(r) for r in rows])
+
+
+@app.route('/api/db/clear', methods=['POST'])
+def api_db_clear():
+    """Delete all collected metrics and reclaim disk space."""
+    with get_db(_db_path) as conn:
+        conn.execute('DELETE FROM host_raw')
+        conn.execute('DELETE FROM vm_raw')
+        conn.execute('DELETE FROM host_summary')
+        conn.execute('DELETE FROM vm_summary')
+        conn.execute('VACUUM')
+    log.info('Database cleared via API')
+    return jsonify({'ok': True})
+
+
+# ---------------------------------------------------------------------------
+# Entry point
+# ---------------------------------------------------------------------------
+
+def main():
+    global _db_path, _config
+    _config  = load_config()
+    _db_path = _config.get('db_path', DB_PATH)
+
+    init_db(_db_path)
+
+    collector = KvmCollector(_db_path, _config)
+
+    t = threading.Thread(
+        target=_collection_loop,
+        args=(collector, _config['collect_interval']),
+        daemon=True,
+    )
+    t.start()
+    log.info('Collector started (interval=%ds)', _config['collect_interval'])
+
+    # Suppress Flask/werkzeug request logs; we have our own
+    logging.getLogger('werkzeug').setLevel(logging.WARNING)
+
+    log.info('HTTP server on %s:%d', _config['listen_host'], _config['listen_port'])
+    app.run(
+        host=_config['listen_host'],
+        port=_config['listen_port'],
+        threaded=True,
+        use_reloader=False,
+    )
+
+
+if __name__ == '__main__':
+    main()

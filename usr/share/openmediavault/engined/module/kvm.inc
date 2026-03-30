@@ -29,6 +29,11 @@ class OMVModuleKvm extends \OMV\Engine\Module\ServiceAbstract
     public function bindListeners(\OMV\Engine\Notify\Dispatcher $dispatcher)
     {
         $dispatcher->addListener(
+            OMV_NOTIFY_MODIFY,
+            "org.openmediavault.conf.service.kvm",
+            [ $this, "setDirty" ]
+        );
+        $dispatcher->addListener(
             OMV_NOTIFY_CREATE | OMV_NOTIFY_MODIFY | OMV_NOTIFY_DELETE,
             "org.openmediavault.conf.service.kvm.job",
             [ $this, "setDirty" ]

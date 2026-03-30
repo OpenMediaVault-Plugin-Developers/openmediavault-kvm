@@ -11,6 +11,14 @@ remove_action() {
     if [ -f "${ipFwdConf}" ]; then
         rm ${ipFwdConf}
     fi
+    # Stop and disable the monitoring service
+    systemctl stop omv-kvm-monitor 2>/dev/null || true
+    systemctl disable omv-kvm-monitor 2>/dev/null || true
+    rm -f /etc/systemd/system/omv-kvm-monitor.service
+    rm -f /etc/nginx/openmediavault-webgui.d/kvm-monitor.conf
+    systemctl daemon-reload 2>/dev/null || true
+    # Reload nginx if running
+    systemctl reload nginx 2>/dev/null || true
     # Activate trigger to purge cached files.
     dpkg-trigger update-workbench
 }

@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KVM Monitor</title>
+<script src="chart.min.js"></script>
+<style>
+  :root {
+    --bg:       #1e1e2e;
+    --surface:  #2a2a3e;
+    --border:   #3a3a5a;
+    --text:     #cdd6f4;
+    --muted:    #6c7086;
+    --accent:   #89b4fa;
+    --green:    #a6e3a1;
+    --yellow:   #f9e2af;
+    --red:      #f38ba8;
+    --teal:     #94e2d5;
+    --mauve:    #cba6f7;
+    --radius:   8px;
+    --shadow:   0 2px 8px rgba(0,0,0,.4);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 14px;
+    min-height: 100vh;
+  }
+
+  /* ---- Header ---- */
+  header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 20px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  header h1 { font-size: 18px; font-weight: 600; color: var(--accent); flex-shrink: 0; }
+  .back-link {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .back-link:hover { color: var(--text); }
+  .header-spacer { flex: 1; }
+  .time-btns { display: flex; gap: 4px; }
+  .time-btn {
+    background: var(--bg);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all .15s;
+  }
+  .time-btn:hover, .time-btn.active {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+  }
+  .last-update { color: var(--muted); font-size: 12px; flex-shrink: 0; }
+  .auto-indicator { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 12px; }
+  .pulse {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
+
+  /* ---- Main layout ---- */
+  main { padding: 16px 20px; display: flex; flex-direction: column; gap: 16px; }
+
+  /* ---- Section headings ---- */
+  .section-title {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  /* ---- Overview cards ---- */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    box-shadow: var(--shadow);
+  }
+  .card-label { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 6px; }
+  .card-value { font-size: 28px; font-weight: 700; line-height: 1; }
+  .card-sub   { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .card-bar   { margin-top: 8px; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .card-bar-fill { height: 100%; border-radius: 2px; transition: width .4s; }
+  .io-row     { display: flex; justify-content: space-between; margin-top: 4px; }
+  .io-label   { font-size: 11px; color: var(--muted); }
+  .io-val     { font-size: 12px; font-weight: 600; }
+
+  /* ---- Host history charts ---- */
+  .chart-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 12px;
+  }
+  .chart-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    box-shadow: var(--shadow);
+  }
+  .chart-card h3 { font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: .05em; }
+  .chart-card canvas { max-height: 140px; }
+
+  /* ---- VM table ---- */
+  .vm-section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+  .vm-section-header {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+  }
+  .vm-section-header h2 { font-size: 14px; font-weight: 600; flex: 1; }
+  .vm-count { background: var(--accent); color: var(--bg); border-radius: 10px; padding: 1px 8px; font-size: 11px; font-weight: 700; }
+  .open-dashboard-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    border-radius: 4px;
+    padding: 5px 12px;
+    cursor: pointer;
+    font-size: 12px;
+    text-decoration: none;
+    transition: all .15s;
+  }
+  .open-dashboard-btn:hover { background: var(--accent); color: var(--bg); }
+
+  .vm-table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; }
+  th {
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+  }
+  th:hover { color: var(--text); }
+  th.sort-asc::after  { content: ' ↑'; color: var(--accent); }
+  th.sort-desc::after { content: ' ↓'; color: var(--accent); }
+  td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr.vm-row { cursor: pointer; transition: background .1s; }
+  tr.vm-row:hover { background: rgba(255,255,255,.03); }
+  tr.vm-row.selected { background: rgba(137,180,250,.08); }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .badge-kvm  { background: rgba(137,180,250,.15); color: var(--accent); }
+  .badge-lxc  { background: rgba(203,166,247,.15); color: var(--mauve); }
+  .state-dot  { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+  .state-running  { background: var(--green); }
+  .state-shutoff  { background: var(--muted); }
+  .state-paused   { background: var(--yellow); }
+  .state-other    { background: var(--red); }
+
+  .bar-cell { min-width: 100px; }
+  .mini-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin-top: 3px; }
+  .mini-bar-fill { height: 100%; border-radius: 3px; transition: width .3s; }
+  .val-label { font-size: 12px; font-weight: 600; }
+
+  .no-data { padding: 32px; text-align: center; color: var(--muted); }
+
+  /* ---- VM Detail Panel ---- */
+  .vm-detail {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .vm-detail-header {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+  }
+  .vm-detail-header h2 { font-size: 14px; font-weight: 600; flex: 1; }
+  .close-btn {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+  .close-btn:hover { color: var(--text); background: var(--border); }
+  .detail-chart-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+    padding: 14px 16px;
+  }
+  .detail-chart-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px;
+  }
+  .detail-chart-card h4 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 8px; }
+  .detail-chart-card canvas { max-height: 160px; }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 640px) {
+    main { padding: 12px; }
+    header { padding: 10px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>&#x1F5A5; KVM Monitor</h1>
+  <a class="back-link" href="/">&#x2190; Back to OMV</a>
+  <div class="header-spacer"></div>
+  <div class="time-btns" id="time-btns">
+    <button class="time-btn" data-m="30">30m</button>
+    <button class="time-btn active" data-m="60">1h</button>
+    <button class="time-btn" data-m="360">6h</button>
+    <button class="time-btn" data-m="1440">24h</button>
+    <button class="time-btn" data-m="10080">7d</button>
+  </div>
+  <div class="auto-indicator"><span class="pulse"></span><span id="last-update">updating…</span></div>
+</header>
+
+<main>
+
+  <!-- Host Overview -->
+  <div>
+    <div class="section-title">Host Overview</div>
+    <div class="overview-grid">
+
+      <div class="card">
+        <div class="card-label">CPU Usage</div>
+        <div class="card-value" id="host-cpu-val">—</div>
+        <div class="card-sub" id="host-cpu-cores">— cores</div>
+        <div class="card-bar"><div class="card-bar-fill" id="host-cpu-bar" style="background:var(--accent);width:0%"></div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-label">Memory</div>
+        <div class="card-value" id="host-mem-val">—</div>
+        <div class="card-sub" id="host-mem-sub">— / —</div>
+        <div class="card-bar"><div class="card-bar-fill" id="host-mem-bar" style="background:var(--green);width:0%"></div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-label">Disk I/O</div>
+        <div class="io-row"><span class="io-label">Read</span> <span class="io-val" id="host-disk-rd">—</span></div>
+        <div class="io-row"><span class="io-label">Write</span><span class="io-val" id="host-disk-wr">—</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-label">Network I/O</div>
+        <div class="io-row"><span class="io-label">&#x2193; In</span> <span class="io-val" id="host-net-rx">—</span></div>
+        <div class="io-row"><span class="io-label">&#x2191; Out</span><span class="io-val" id="host-net-tx">—</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Host Charts -->
+  <div>
+    <div class="section-title">Host History</div>
+    <div class="chart-grid">
+      <div class="chart-card"><h3>CPU %</h3><canvas id="chart-host-cpu"></canvas></div>
+      <div class="chart-card"><h3>Memory</h3><canvas id="chart-host-mem"></canvas></div>
+      <div class="chart-card"><h3>Disk I/O</h3><canvas id="chart-host-disk"></canvas></div>
+      <div class="chart-card"><h3>Network I/O</h3><canvas id="chart-host-net"></canvas></div>
+    </div>
+  </div>
+
+  <!-- VM Table -->
+  <div class="vm-section">
+    <div class="vm-section-header">
+      <h2>Virtual Machines &amp; Containers <span class="vm-count" id="vm-count">0</span></h2>
+      <a class="open-dashboard-btn" href="/kvm-monitor/" target="_self" id="dashboard-link" style="display:none">
+        &#x1F517; Full Dashboard
+      </a>
+    </div>
+    <div class="vm-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th data-col="vm_name">Name</th>
+            <th data-col="vm_type">Type</th>
+            <th data-col="state_str">State</th>
+            <th data-col="cpu_percent" class="sort-desc">CPU %</th>
+            <th data-col="mem_used">RAM Used</th>
+            <th data-col="mem_total" style="display:none"></th>
+            <th data-col="disk_rd_bps">Disk R</th>
+            <th data-col="disk_wr_bps">Disk W</th>
+            <th data-col="net_rx_bps">Net &#x2193;</th>
+            <th data-col="net_tx_bps">Net &#x2191;</th>
+          </tr>
+        </thead>
+        <tbody id="vm-tbody">
+          <tr><td colspan="9" class="no-data">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- VM Detail -->
+  <div class="vm-detail" id="vm-detail" style="display:none">
+    <div class="vm-detail-header">
+      <h2 id="detail-title">—</h2>
+      <button class="close-btn" id="detail-close" title="Close">&#x2715;</button>
+    </div>
+    <div class="detail-chart-grid">
+      <div class="detail-chart-card"><h4>CPU %</h4><canvas id="detail-cpu"></canvas></div>
+      <div class="detail-chart-card"><h4>Memory</h4><canvas id="detail-mem"></canvas></div>
+      <div class="detail-chart-card"><h4>Disk I/O</h4><canvas id="detail-disk"></canvas></div>
+      <div class="detail-chart-card"><h4>Network I/O</h4><canvas id="detail-net"></canvas></div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// ---------------------------------------------------------------------------
+// Utilities
+// ---------------------------------------------------------------------------
+function fmtBytes(b, decimals = 1) {
+  if (b == null || b === 0) return '0 B';
+  const units = ['B','KB','MB','GB','TB'];
+  let i = 0;
+  while (b >= 1024 && i < units.length - 1) { b /= 1024; i++; }
+  return b.toFixed(decimals) + ' ' + units[i];
+}
+function fmtBps(b) {
+  if (b == null || b < 1) return '0 B/s';
+  return fmtBytes(b, 1) + '/s';
+}
+function fmtPct(v) { return (v == null ? '—' : v.toFixed(1) + '%'); }
+function ts2label(ts) {
+  const d = new Date(ts * 1000);
+  return d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0') + ':' + d.getSeconds().toString().padStart(2,'0');
+}
+function barColor(pct) {
+  if (pct < 60) return getComputedStyle(document.documentElement).getPropertyValue('--green').trim();
+  if (pct < 85) return getComputedStyle(document.documentElement).getPropertyValue('--yellow').trim();
+  return getComputedStyle(document.documentElement).getPropertyValue('--red').trim();
+}
+
+const BASE = '/kvm-monitor';
+
+async function fetchJSON(url) {
+  const r = await fetch(BASE + url);
+  if (!r.ok) throw new Error(r.statusText);
+  return r.json();
+}
+
+// ---------------------------------------------------------------------------
+// Chart helpers
+// ---------------------------------------------------------------------------
+const CHART_DEFAULTS = {
+  responsive: true,
+  maintainAspectRatio: true,
+  animation: false,
+  plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
+  scales: {
+    x: {
+      ticks: { color: '#6c7086', maxTicksLimit: 6, maxRotation: 0 },
+      grid:  { color: 'rgba(255,255,255,.05)' },
+    },
+    y: {
+      ticks: { color: '#6c7086' },
+      grid:  { color: 'rgba(255,255,255,.05)' },
+      beginAtZero: true,
+    },
+  },
+};
+
+function makeLineDataset(label, color, data) {
+  return {
+    label,
+    data,
+    borderColor: color,
+    backgroundColor: color + '20',
+    borderWidth: 1.5,
+    pointRadius: 0,
+    fill: true,
+    tension: 0.3,
+  };
+}
+
+function newChart(id, datasets, yMax, yCallback) {
+  const ctx = document.getElementById(id).getContext('2d');
+  const opts = JSON.parse(JSON.stringify(CHART_DEFAULTS));
+  if (yMax != null)     opts.scales.y.max = yMax;
+  if (yCallback)        opts.scales.y.ticks.callback = yCallback;
+  return new Chart(ctx, { type: 'line', data: { labels: [], datasets }, options: opts });
+}
+
+function updateChart(chart, rows, tsKey, ...series) {
+  // series: [{key, dsIdx}]
+  chart.data.labels = rows.map(r => ts2label(r[tsKey]));
+  series.forEach(({ key, dsIdx }) => {
+    chart.data.datasets[dsIdx].data = rows.map(r => r[key] ?? 0);
+  });
+  chart.update('none');
+}
+
+// ---------------------------------------------------------------------------
+// Host charts
+// ---------------------------------------------------------------------------
+const hCpu  = newChart('chart-host-cpu',
+  [makeLineDataset('CPU %', '#89b4fa', [])],
+  100, v => v + '%');
+
+const hMem  = newChart('chart-host-mem',
+  [makeLineDataset('Used GB', '#a6e3a1', [])],
+  null, v => fmtBytes(v));
+
+const hDisk = newChart('chart-host-disk', [
+  makeLineDataset('Read',  '#f9e2af', []),
+  makeLineDataset('Write', '#f38ba8', []),
+], null, v => fmtBps(v));
+hDisk.options.plugins.legend.display = true;
+hDisk.update('none');
+
+const hNet  = newChart('chart-host-net', [
+  makeLineDataset('In',  '#94e2d5', []),
+  makeLineDataset('Out', '#cba6f7', []),
+], null, v => fmtBps(v));
+hNet.options.plugins.legend.display = true;
+hNet.update('none');
+
+// ---------------------------------------------------------------------------
+// VM detail charts
+// ---------------------------------------------------------------------------
+let detailVm = null;
+const dCpu  = newChart('detail-cpu',  [makeLineDataset('CPU %', '#89b4fa', [])], 100, v => v + '%');
+const dMem  = newChart('detail-mem',  [makeLineDataset('Used',  '#a6e3a1', [])], null, v => fmtBytes(v));
+const dDisk = newChart('detail-disk', [
+  makeLineDataset('Read',  '#f9e2af', []),
+  makeLineDataset('Write', '#f38ba8', []),
+], null, v => fmtBps(v));
+dDisk.options.plugins.legend.display = true; dDisk.update('none');
+const dNet  = newChart('detail-net',  [
+  makeLineDataset('In',  '#94e2d5', []),
+  makeLineDataset('Out', '#cba6f7', []),
+], null, v => fmtBps(v));
+dNet.options.plugins.legend.display = true; dNet.update('none');
+
+document.getElementById('detail-close').onclick = () => {
+  document.getElementById('vm-detail').style.display = 'none';
+  document.querySelectorAll('tr.vm-row').forEach(r => r.classList.remove('selected'));
+  detailVm = null;
+};
+
+async function loadVmDetail(name) {
+  const rows = await fetchJSON('/api/vms/' + encodeURIComponent(name) + '/history?minutes=' + currentMinutes);
+  document.getElementById('detail-title').textContent = name + ' — detail';
+  document.getElementById('vm-detail').style.display = '';
+  updateChart(dCpu,  rows, 'ts', { key: 'cpu_percent', dsIdx: 0 });
+  updateChart(dMem,  rows, 'ts', { key: 'mem_used',    dsIdx: 0 });
+  updateChart(dDisk, rows, 'ts', { key: 'disk_rd_bps', dsIdx: 0 }, { key: 'disk_wr_bps', dsIdx: 1 });
+  updateChart(dNet,  rows, 'ts', { key: 'net_rx_bps',  dsIdx: 0 }, { key: 'net_tx_bps',  dsIdx: 1 });
+}
+
+// ---------------------------------------------------------------------------
+// Table sort state
+// ---------------------------------------------------------------------------
+let sortCol = 'cpu_percent';
+let sortDir = -1;  // -1 = desc, 1 = asc
+
+function sortVms(vms) {
+  return [...vms].sort((a, b) => {
+    const av = a[sortCol] ?? 0, bv = b[sortCol] ?? 0;
+    if (typeof av === 'string') return sortDir * av.localeCompare(bv);
+    return sortDir * (bv - av);
+  });
+}
+
+document.querySelectorAll('th[data-col]').forEach(th => {
+  th.addEventListener('click', () => {
+    const col = th.dataset.col;
+    if (sortCol === col) { sortDir *= -1; }
+    else { sortCol = col; sortDir = -1; }
+    document.querySelectorAll('th[data-col]').forEach(t => t.className = '');
+    th.className = sortDir === -1 ? 'sort-desc' : 'sort-asc';
+    if (lastVms.length) renderVms(lastVms);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Render VM table
+// ---------------------------------------------------------------------------
+let lastVms = [];
+
+function stateClass(s) {
+  if (s === 'running') return 'state-running';
+  if (s === 'shutoff') return 'state-shutoff';
+  if (s === 'paused')  return 'state-paused';
+  return 'state-other';
+}
+
+function renderVms(vms) {
+  lastVms = vms;
+  const running = vms.filter(v => v.state_str === 'running').length;
+  document.getElementById('vm-count').textContent = running + ' / ' + vms.length;
+
+  const sorted = sortVms(vms);
+  const tbody  = document.getElementById('vm-tbody');
+
+  if (!sorted.length) {
+    tbody.innerHTML = '<tr><td colspan="9" class="no-data">No VMs found</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = sorted.map(vm => {
+    const cpuPct  = vm.cpu_percent ?? 0;
+    const memPct  = vm.mem_total ? (vm.mem_used / vm.mem_total * 100) : 0;
+    const typeBadge = vm.vm_type === 'lxc'
+      ? '<span class="badge badge-lxc">LXC</span>'
+      : '<span class="badge badge-kvm">KVM</span>';
+    const stateDot = `<span class="state-dot ${stateClass(vm.state_str)}"></span>${vm.state_str ?? '—'}`;
+    const isRunning = vm.state_str === 'running';
+    return `<tr class="vm-row" data-name="${vm.vm_name}">
+      <td><strong>${vm.vm_name}</strong></td>
+      <td>${typeBadge}</td>
+      <td>${stateDot}</td>
+      <td class="bar-cell">
+        <span class="val-label">${fmtPct(cpuPct)}</span>
+        <div class="mini-bar"><div class="mini-bar-fill" style="width:${cpuPct}%;background:${barColor(cpuPct)}"></div></div>
+      </td>
+      <td class="bar-cell">
+        <span class="val-label">${fmtBytes(vm.mem_used)}</span>
+        <div class="mini-bar"><div class="mini-bar-fill" style="width:${memPct}%;background:var(--green)"></div></div>
+      </td>
+      <td>${isRunning ? fmtBps(vm.disk_rd_bps) : '—'}</td>
+      <td>${isRunning ? fmtBps(vm.disk_wr_bps) : '—'}</td>
+      <td>${isRunning ? fmtBps(vm.net_rx_bps)  : '—'}</td>
+      <td>${isRunning ? fmtBps(vm.net_tx_bps)  : '—'}</td>
+    </tr>`;
+  }).join('');
+
+  document.querySelectorAll('tr.vm-row').forEach(row => {
+    row.addEventListener('click', () => {
+      const name = row.dataset.name;
+      if (detailVm === name) {
+        document.getElementById('vm-detail').style.display = 'none';
+        row.classList.remove('selected');
+        detailVm = null;
+        return;
+      }
+      document.querySelectorAll('tr.vm-row').forEach(r => r.classList.remove('selected'));
+      row.classList.add('selected');
+      detailVm = name;
+      loadVmDetail(name);
+    });
+  });
+
+  // Re-highlight selected row after re-render
+  if (detailVm) {
+    const row = document.querySelector(`tr.vm-row[data-name="${detailVm}"]`);
+    if (row) row.classList.add('selected');
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Fetch and update everything
+// ---------------------------------------------------------------------------
+let currentMinutes = 60;
+
+async function refreshHostCurrent() {
+  const host = await fetchJSON('/api/host/current');
+  if (!host || !host.ts) return;
+
+  const cpuPct = host.cpu_percent ?? 0;
+  document.getElementById('host-cpu-val').textContent = fmtPct(cpuPct);
+  document.getElementById('host-cpu-bar').style.width  = cpuPct + '%';
+  document.getElementById('host-cpu-bar').style.background = barColor(cpuPct);
+
+  const memPct = host.mem_total ? (host.mem_used / host.mem_total * 100) : 0;
+  document.getElementById('host-mem-val').textContent = fmtPct(memPct);
+  document.getElementById('host-mem-sub').textContent = fmtBytes(host.mem_used) + ' / ' + fmtBytes(host.mem_total);
+  document.getElementById('host-mem-bar').style.width = memPct + '%';
+  document.getElementById('host-mem-bar').style.background = barColor(memPct);
+
+  document.getElementById('host-disk-rd').textContent = fmtBps(host.disk_rd_bps);
+  document.getElementById('host-disk-wr').textContent = fmtBps(host.disk_wr_bps);
+  document.getElementById('host-net-rx').textContent  = fmtBps(host.net_rx_bps);
+  document.getElementById('host-net-tx').textContent  = fmtBps(host.net_tx_bps);
+}
+
+async function refreshHostHistory() {
+  const rows = await fetchJSON('/api/host/history?minutes=' + currentMinutes);
+  updateChart(hCpu,  rows, 'ts', { key: 'cpu_percent', dsIdx: 0 });
+  updateChart(hMem,  rows, 'ts', { key: 'mem_used',    dsIdx: 0 });
+  updateChart(hDisk, rows, 'ts', { key: 'disk_rd_bps', dsIdx: 0 }, { key: 'disk_wr_bps', dsIdx: 1 });
+  updateChart(hNet,  rows, 'ts', { key: 'net_rx_bps',  dsIdx: 0 }, { key: 'net_tx_bps',  dsIdx: 1 });
+}
+
+async function refreshVms() {
+  const vms = await fetchJSON('/api/vms');
+  renderVms(vms);
+  if (detailVm) loadVmDetail(detailVm);
+}
+
+async function refreshAll() {
+  try {
+    await Promise.all([refreshHostCurrent(), refreshHostHistory(), refreshVms()]);
+    const now = new Date();
+    document.getElementById('last-update').textContent =
+      'Updated ' + now.toLocaleTimeString();
+  } catch (e) {
+    document.getElementById('last-update').textContent = 'Error: ' + e.message;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Time range buttons
+// ---------------------------------------------------------------------------
+document.getElementById('time-btns').addEventListener('click', e => {
+  const btn = e.target.closest('.time-btn');
+  if (!btn) return;
+  document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentMinutes = parseInt(btn.dataset.m);
+  refreshAll();
+});
+
+// ---------------------------------------------------------------------------
+// Bootstrap
+// ---------------------------------------------------------------------------
+refreshAll();
+setInterval(refreshAll, 10000);
+</script>
+</body>
+</html>
