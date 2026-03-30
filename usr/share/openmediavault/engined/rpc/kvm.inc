@@ -48,6 +48,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('setPool');
         $this->registerMethod('deletePool');
         $this->registerMethod('poolCommand');
+        $this->registerMethod('fixPoolPermissions');
 
         $this->registerMethod('getVmList');
         $this->registerMethod('getVmNameStateList');
@@ -458,6 +459,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 'available'  => $info['available'],
                 'percentage' => $percentage,
                 'path'       => $info['path'],
+                'type'       => $info['type'],
             ];
         }
         // Filter the result.
@@ -611,6 +613,28 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if ($disable !== '') $cmdArgs[] = $disable;
         $err = gettext("Failed to set pool autostart.");
         $this->virshCommand($cmdArgs, $err);
+    }
+
+    public function fixPoolPermissions($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.fixpoolperms');
+        $path = $this->virshGetPoolPath($params['name']);
+        if (empty($path)) {
+            throw new \OMV\Exception(gettext("Unable to determine pool path."));
+        }
+        $cmdArgs = ['libvirt-qemu:libvirt-qemu', $path];
+        if ($params['recursive']) {
+            array_unshift($cmdArgs, '-R');
+        }
+        $cmd = new \OMV\System\Process('chown', $cmdArgs);
+        $cmd->setQuiet(false);
+        $cmd->execute($output, $exitStatus);
+        if (0 != $exitStatus) {
+            throw new \OMV\Exception(gettext("Failed to fix pool permissions."));
+        }
     }
 
     private function normalizePort($port)
@@ -3519,7 +3543,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
     private function virshGetPoolInfo(string $pool): array
     {
         $info = ['capacity' => 0, 'allocation' => 0, 'available' => 0, 'path' => '',
-                 'active' => false, 'state' => 'unknown', 'volume_count' => 0];
+                 'active' => false, 'state' => 'unknown', 'volume_count' => 0, 'type' => ''];
         // bytes + path from pool-dumpxml
         $cmd = new \OMV\System\Process('virsh', ['pool-dumpxml', $this->escapeName($pool)]);
         $cmd->setQuiet(true);
@@ -3531,6 +3555,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $info['allocation'] = (int)(string)$xml->allocation;
                 $info['available']  = (int)(string)$xml->available;
                 $info['path']       = (string)($xml->target->path ?? '');
+                $info['type']       = (string)($xml->attributes()['type'] ?? '');
             } catch (\Exception $e) {}
         }
         // state/active from pool-info

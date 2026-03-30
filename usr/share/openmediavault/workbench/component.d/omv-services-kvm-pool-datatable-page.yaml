@@ -229,6 +229,52 @@ data:
                   arg0:
                     prop: active
                   arg1: "Active"
+      - type: menu
+        icon: mdi:folder-key
+        tooltip: _("Fix permissions")
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+          constraint:
+            - operator: eq
+              arg0:
+                prop: active
+              arg1: "Active"
+            - operator: in
+              arg0:
+                prop: type
+              arg1: ["dir", "fs"]
+        actions:
+          - text: _("Fix directory permissions")
+            icon: mdi:folder-key-outline
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: fixPoolPermissions
+                params:
+                  name: "{{ _selected[0].name }}"
+                  recursive: false
+                progressMessage: _("Fixing directory permissions ...")
+                successNotification: _("Directory permissions have been fixed.")
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+          - text: _("Fix all permissions")
+            icon: mdi:folder-key
+            execute:
+              type: request
+              request:
+                service: Kvm
+                method: fixPoolPermissions
+                params:
+                  name: "{{ _selected[0].name }}"
+                  recursive: true
+                progressMessage: _("Fixing directory and file permissions ...")
+                successNotification: _("Directory and file permissions have been fixed.")
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
       - type: iconButton
         icon: mdi:download
         tooltip: _("Download virtio iso")

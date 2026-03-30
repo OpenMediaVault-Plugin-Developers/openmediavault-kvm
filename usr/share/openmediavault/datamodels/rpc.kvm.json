@@ -631,6 +631,23 @@
   },
   {
     "type": "rpc",
+    "id": "rpc.kvm.fixpoolperms",
+    "params": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "required": true
+        },
+        "recursive": {
+          "type": "boolean",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
     "id": "rpc.kvm.path",
     "params": {
       "type": "object",
