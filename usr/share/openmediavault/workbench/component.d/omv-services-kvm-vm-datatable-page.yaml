@@ -634,6 +634,25 @@ data:
                     name: src
                     label: _('Source')
                     value: ''
+                  - type: select
+                    name: fsdriver
+                    label: _('Driver')
+                    value: 'virtiofs'
+                    store:
+                      data:
+                        - value: 'virtiofs'
+                          text: _('virtiofs (VirtIO-FS)')
+                        - value: '9p'
+                          text: _('9p (VirtIO-9p)')
+                    valueField: value
+                    textField: text
+                    modifiers:
+                      - type: visible
+                        constraint:
+                          operator: ne
+                          arg0:
+                            prop: virttype
+                          arg1: "lxc"
                   - type: textInput
                     name: tgt
                     label: _('Mount tag')

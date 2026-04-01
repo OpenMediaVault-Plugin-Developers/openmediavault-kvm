@@ -2500,9 +2500,23 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 throw new \OMV\Exception( gettext("Cannot use / for mount point."));
             }
         }
+        $useVirtiofs = ($params['virttype'] !== 'lxc' && isset($params['fsdriver']) && $params['fsdriver'] === 'virtiofs');
+        if ($useVirtiofs) {
+            // virtiofs requires shared memory backing; configure it first.
+            $memArgs = [];
+            $memArgs[] = $this->escapeName($vmname);
+            $memArgs[] = '--edit';
+            $memArgs[] = '--memorybacking access.mode=shared,source.type=memfd';
+            $err = gettext("Failed to configure shared memory for virtiofs.");
+            $this->virshCommand($memArgs, $err, 'virt-xml');
+        }
         $cmdArgs[] = $this->escapeName($vmname);
         $cmdArgs[] = '--add-device';
-        $cmdArgs[] = sprintf("--filesystem '%s',%s", $src, $tgt);
+        if ($useVirtiofs) {
+            $cmdArgs[] = sprintf("--filesystem driver.type=virtiofs,source.dir='%s',target.dir=%s", $src, $tgt);
+        } else {
+            $cmdArgs[] = sprintf("--filesystem '%s',%s", $src, $tgt);
+        }
         $err = gettext("Failed to add filesystem passthrough.");
         $this->virshCommand($cmdArgs, $err, 'virt-xml');
     }

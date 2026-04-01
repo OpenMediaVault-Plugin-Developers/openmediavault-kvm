@@ -1014,6 +1014,10 @@
         "state": {
           "type": "string",
           "required": true
+        },
+        "fsdriver": {
+          "type": "string",
+          "enum": ["9p", "virtiofs"]
         }
       }
     }
