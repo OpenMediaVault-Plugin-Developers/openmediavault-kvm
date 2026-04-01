@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-20 13:54+0000\n"
+"POT-Creation-Date: 2026-04-01 11:48+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: songming <by@songming.me>, 2026\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_CN/)\n"
@@ -123,6 +123,9 @@ msgstr "添加 spice 监视器中 ..."
 msgid "Advanced"
 msgstr "高级"
 
+msgid "All permissions have been fixed."
+msgstr ""
+
 msgid "All snapshots have been deleted."
 msgstr ""
 
@@ -137,6 +140,11 @@ msgstr "Arch"
 
 msgid "Architecture"
 msgstr "架构"
+
+msgid ""
+"Are you sure you want to clear the monitor database? All collected metrics "
+"will be permanently deleted."
+msgstr ""
 
 msgid "Are you sure you want to delete all snapshots?"
 msgstr ""
@@ -195,6 +203,9 @@ msgstr "Bus"
 msgid "CPU"
 msgstr "CPU"
 
+msgid "CPU %"
+msgstr ""
+
 msgid "CPU count has been changed."
 msgstr "CPU 数量已改变。"
 
@@ -237,6 +248,12 @@ msgstr "检查"
 msgid "Check volume ..."
 msgstr "检查卷中 ..."
 
+msgid "Clear monitor database"
+msgstr ""
+
+msgid "Clearing monitor database ..."
+msgstr ""
+
 msgid "Clone"
 msgstr "克隆"
 
@@ -248,6 +265,12 @@ msgstr "克隆中 ..."
 
 msgid "Cloning complete."
 msgstr "克隆完成。"
+
+msgid "Collect host and VM/LXC metrics for the Monitor tab and dashboard."
+msgstr ""
+
+msgid "Collection interval (seconds)"
+msgstr ""
 
 msgid "Component"
 msgstr "组件"
@@ -312,6 +335,9 @@ msgstr ""
 msgid "Current size"
 msgstr "当前大小"
 
+msgid "Current size of the metrics database on disk."
+msgstr ""
+
 msgid "DHCP"
 msgstr "DHCP"
 
@@ -323,6 +349,12 @@ msgstr "DHCP 结束地址"
 
 msgid "DHCP starting address"
 msgstr "DHCP 开始地址"
+
+msgid "Database path"
+msgstr ""
+
+msgid "Database size"
+msgstr ""
 
 msgid "Date"
 msgstr "日期"
@@ -366,6 +398,9 @@ msgstr "路径"
 msgid "Directory is not empty!"
 msgstr "目录不为空！"
 
+msgid "Directory permissions have been fixed."
+msgstr ""
+
 msgid "Disable"
 msgstr "关闭"
 
@@ -374,6 +409,12 @@ msgstr "关闭自启动中 ..."
 
 msgid "Disk"
 msgstr "磁盘"
+
+msgid "Disk Read"
+msgstr ""
+
+msgid "Disk Write"
+msgstr ""
 
 msgid "Disk has been added."
 msgstr "磁盘已添加。"
@@ -432,6 +473,9 @@ msgstr "弹出光盘中 ..."
 msgid "Enable"
 msgstr "启用"
 
+msgid "Enable monitoring service"
+msgstr ""
+
 msgid "Enabling autostart ..."
 msgstr "启用自启动中 ..."
 
@@ -489,6 +533,9 @@ msgstr "添加 spicevmc 通道失败。"
 msgid "Failed to apply new XML, and unable to restore backup :: "
 msgstr "应用新 XML 失败，并且不能恢复备份 ::"
 
+msgid "Failed to configure shared memory for virtiofs."
+msgstr ""
+
 msgid "Failed to create VM XML."
 msgstr "创建 VM XML 失败。"
 
@@ -517,6 +564,12 @@ msgid "Failed to download image."
 msgstr ""
 
 msgid "Failed to enable autostart."
+msgstr ""
+
+msgid "Failed to fix permissions on parent directory: %s"
+msgstr ""
+
+msgid "Failed to fix pool permissions."
 msgstr ""
 
 msgid "Failed to force stop VM."
@@ -597,6 +650,27 @@ msgstr "文件将放在与基础镜像相同的目录。"
 msgid "Filesystem"
 msgstr "文件系统"
 
+msgid "Fix all permissions"
+msgstr ""
+
+msgid "Fix directory permissions"
+msgstr ""
+
+msgid "Fix parent dir permissions"
+msgstr ""
+
+msgid "Fix permissions"
+msgstr ""
+
+msgid "Fixing all permissions ..."
+msgstr ""
+
+msgid "Fixing directory permissions ..."
+msgstr ""
+
+msgid "Fixing parent directory permissions ..."
+msgstr ""
+
 msgid ""
 "For description of each type and how to configure <a "
 "href='https://libvirt.org/storage.html' "
@@ -649,6 +723,15 @@ msgstr "主机驱动已添加。"
 
 msgid "Host name"
 msgstr "主机名"
+
+msgid "How long to keep 1-minute summary samples."
+msgstr ""
+
+msgid "How long to keep 10-second raw samples."
+msgstr ""
+
+msgid "How often to collect metrics. Lower values increase CPU usage."
+msgstr ""
 
 msgid "IP Range"
 msgstr "IP 范围"
@@ -717,6 +800,12 @@ msgstr "MiB"
 msgid "Model"
 msgstr "型号"
 
+msgid "Monitor"
+msgstr ""
+
+msgid "Monitor database has been cleared."
+msgstr ""
+
 msgid "Move"
 msgstr "移动"
 
@@ -725,6 +814,12 @@ msgstr "移动 VM ..."
 
 msgid "Name"
 msgstr "名称"
+
+msgid "Net In"
+msgstr ""
+
+msgid "Net Out"
+msgstr ""
 
 msgid "Net info"
 msgstr "网络信息"
@@ -777,6 +872,9 @@ msgstr "注意"
 msgid "OS"
 msgstr "OS"
 
+msgid "Open full monitoring dashboard"
+msgstr ""
+
 msgid "Optical"
 msgstr "光盘"
 
@@ -818,6 +916,9 @@ msgstr "PCI 设备已添加。"
 msgid "PCI device has been removed."
 msgstr "PCI 设备已移除。"
 
+msgid "Parent directory permissions have been fixed."
+msgstr ""
+
 msgid "Passing through PCI device ..."
 msgstr "直通 PCI 设备中 ..."
 
@@ -835,6 +936,11 @@ msgstr "直通文件系统已移除。"
 
 msgid "Path"
 msgstr "路径"
+
+msgid ""
+"Path to the SQLite metrics database. Service will restart if this is "
+"changed."
+msgstr ""
 
 msgid "Pause"
 msgstr "暂停"
@@ -868,6 +974,12 @@ msgstr "关闭 + 移动"
 
 msgid "Power off VM and move ..."
 msgstr "关闭 VM 并移动 ..."
+
+msgid "RAM"
+msgstr ""
+
+msgid "Raw data retention (hours)"
+msgstr ""
 
 msgid "Reboot"
 msgstr "重启"
@@ -1064,6 +1176,9 @@ msgstr "存储卷"
 msgid "Subnet mask"
 msgstr "子掩码"
 
+msgid "Summary data retention (days)"
+msgstr ""
+
 msgid "TPM"
 msgstr "TPM"
 
@@ -1072,6 +1187,12 @@ msgstr "TB"
 
 msgid "Terminal Link"
 msgstr "终端链接"
+
+msgid ""
+"This will run 'chmod o+x' on every parent directory of the pool path, "
+"allowing libvirt-qemu to traverse them. Existing permissions on those "
+"directories will be modified. Continue?"
+msgstr ""
 
 msgid "Type"
 msgstr "类型"
@@ -1123,6 +1244,9 @@ msgstr ""
 
 msgid "Unable to delete volume - "
 msgstr "无法删除卷 -"
+
+msgid "Unable to determine pool path."
+msgstr ""
 
 msgid "Unable to get network adapter type - "
 msgstr "不能设置网卡类型 -"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-20 13:54+0000\n"
+"POT-Creation-Date: 2026-04-01 11:48+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: kochin <kochinc@outlook.com>, 2026\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_TW/)\n"
@@ -123,6 +123,9 @@ msgstr "新增 spice 檢視器中 ..."
 msgid "Advanced"
 msgstr "進階"
 
+msgid "All permissions have been fixed."
+msgstr "全部權限已被修復。"
+
 msgid "All snapshots have been deleted."
 msgstr "全部快照均已被刪除。"
 
@@ -137,6 +140,11 @@ msgstr "硬體架構"
 
 msgid "Architecture"
 msgstr "架構"
+
+msgid ""
+"Are you sure you want to clear the monitor database? All collected metrics "
+"will be permanently deleted."
+msgstr "您確定要清除監測資料庫嗎？所有收集到的量度將被永久刪除。"
 
 msgid "Are you sure you want to delete all snapshots?"
 msgstr "您確定要刪除全部快照嗎？"
@@ -195,6 +203,9 @@ msgstr "匯流排"
 msgid "CPU"
 msgstr "CPU"
 
+msgid "CPU %"
+msgstr "CPU %"
+
 msgid "CPU count has been changed."
 msgstr "CPU 數目已被改變。"
 
@@ -237,6 +248,12 @@ msgstr "檢查"
 msgid "Check volume ..."
 msgstr "檢查儲存卷 ..."
 
+msgid "Clear monitor database"
+msgstr "清除監測資料庫"
+
+msgid "Clearing monitor database ..."
+msgstr "清除監測資料庫中 …"
+
 msgid "Clone"
 msgstr "複製"
 
@@ -248,6 +265,12 @@ msgstr "複製中 ..."
 
 msgid "Cloning complete."
 msgstr "複製完成。"
+
+msgid "Collect host and VM/LXC metrics for the Monitor tab and dashboard."
+msgstr "收集給監測分頁與儀表板用的主機和 VM/LXC 量度。"
+
+msgid "Collection interval (seconds)"
+msgstr "收集時間間隔(秒)"
 
 msgid "Component"
 msgstr "組件"
@@ -312,6 +335,9 @@ msgstr "創建儲存卷中 ..."
 msgid "Current size"
 msgstr "目前大小"
 
+msgid "Current size of the metrics database on disk."
+msgstr "量度資料庫在磁碟上的大小。"
+
 msgid "DHCP"
 msgstr "DHCP"
 
@@ -323,6 +349,12 @@ msgstr "DHCP 結束地址"
 
 msgid "DHCP starting address"
 msgstr "DHCP 開始地址"
+
+msgid "Database path"
+msgstr "資料庫路徑"
+
+msgid "Database size"
+msgstr "資料庫大小"
 
 msgid "Date"
 msgstr "日期"
@@ -366,6 +398,9 @@ msgstr "目錄"
 msgid "Directory is not empty!"
 msgstr "目錄並非空白！"
 
+msgid "Directory permissions have been fixed."
+msgstr "目錄權限已被修復。"
+
 msgid "Disable"
 msgstr "停用"
 
@@ -374,6 +409,12 @@ msgstr "停用自動啟動中 ..."
 
 msgid "Disk"
 msgstr "磁碟"
+
+msgid "Disk Read"
+msgstr "磁碟讀入"
+
+msgid "Disk Write"
+msgstr "磁碟寫出"
 
 msgid "Disk has been added."
 msgstr "磁碟已被加入。"
@@ -432,6 +473,9 @@ msgstr "退出光碟中 ..."
 msgid "Enable"
 msgstr "啟用"
 
+msgid "Enable monitoring service"
+msgstr "啟用監測服務"
+
 msgid "Enabling autostart ..."
 msgstr "啟用自動啟動中 ..."
 
@@ -489,6 +533,9 @@ msgstr "添加 spicevmc 通道失敗。"
 msgid "Failed to apply new XML, and unable to restore backup :: "
 msgstr "套用新的 XML 失敗，並且無法從備份復原 ::"
 
+msgid "Failed to configure shared memory for virtiofs."
+msgstr ""
+
 msgid "Failed to create VM XML."
 msgstr "建立 VM XML 失敗。"
 
@@ -518,6 +565,12 @@ msgstr "下載映像失敗。"
 
 msgid "Failed to enable autostart."
 msgstr "啟用自動啟動失敗。"
+
+msgid "Failed to fix permissions on parent directory: %s"
+msgstr "修復父目錄上權限失敗：%s"
+
+msgid "Failed to fix pool permissions."
+msgstr "設定集用場權限失敗。"
 
 msgid "Failed to force stop VM."
 msgstr "強制停止 VM 失敗。"
@@ -597,6 +650,27 @@ msgstr "檔案將被放置於基礎映像的相同目錄中。"
 msgid "Filesystem"
 msgstr "檔案系統"
 
+msgid "Fix all permissions"
+msgstr "修復全部權限"
+
+msgid "Fix directory permissions"
+msgstr "修復目錄權限"
+
+msgid "Fix parent dir permissions"
+msgstr "修復父目錄權限"
+
+msgid "Fix permissions"
+msgstr "修復權限"
+
+msgid "Fixing all permissions ..."
+msgstr "修復全部權限中 …"
+
+msgid "Fixing directory permissions ..."
+msgstr "修復目錄權限中 …"
+
+msgid "Fixing parent directory permissions ..."
+msgstr "修復父目錄權限中 …"
+
 msgid ""
 "For description of each type and how to configure <a "
 "href='https://libvirt.org/storage.html' "
@@ -649,6 +723,15 @@ msgstr "主機已被加入。"
 
 msgid "Host name"
 msgstr "主機名稱"
+
+msgid "How long to keep 1-minute summary samples."
+msgstr "要保留每 1 分鐘的摘要樣本多久？"
+
+msgid "How long to keep 10-second raw samples."
+msgstr "要保留每 10 秒鐘的原始樣本多久？"
+
+msgid "How often to collect metrics. Lower values increase CPU usage."
+msgstr "要多頻繁收集量度。低的數值會增加 CPU 用量。"
 
 msgid "IP Range"
 msgstr "IP 範圍"
@@ -717,6 +800,12 @@ msgstr "MiB"
 msgid "Model"
 msgstr "型號"
 
+msgid "Monitor"
+msgstr "監測"
+
+msgid "Monitor database has been cleared."
+msgstr "監測資料庫已被清除。"
+
 msgid "Move"
 msgstr "搬移"
 
@@ -726,8 +815,14 @@ msgstr "搬移 VM ..."
 msgid "Name"
 msgstr "名稱"
 
+msgid "Net In"
+msgstr "網路輸入"
+
+msgid "Net Out"
+msgstr "網路輸出"
+
 msgid "Net info"
-msgstr "網站資訊"
+msgstr "網路資訊"
 
 msgid "Network"
 msgstr "網路"
@@ -777,6 +872,9 @@ msgstr "註釋"
 msgid "OS"
 msgstr "作業系統"
 
+msgid "Open full monitoring dashboard"
+msgstr "啟用全面監測儀表板"
+
 msgid "Optical"
 msgstr "光碟"
 
@@ -818,6 +916,9 @@ msgstr "PCI 裝置已被加入。"
 msgid "PCI device has been removed."
 msgstr "PCI 裝置已被移除。"
 
+msgid "Parent directory permissions have been fixed."
+msgstr "父目錄權限已被修復。"
+
 msgid "Passing through PCI device ..."
 msgstr "透通 PCI 裝置中 ...."
 
@@ -835,6 +936,11 @@ msgstr "直通檔案系統已被移除。"
 
 msgid "Path"
 msgstr "路徑"
+
+msgid ""
+"Path to the SQLite metrics database. Service will restart if this is "
+"changed."
+msgstr "指向 SQLite 量度資料庫的路徑。若這被改變，服務將重啟。"
 
 msgid "Pause"
 msgstr "暫停"
@@ -868,6 +974,12 @@ msgstr "關閉 + 搬移"
 
 msgid "Power off VM and move ..."
 msgstr "關閉 VM 並搬移 ..."
+
+msgid "RAM"
+msgstr "RAM"
+
+msgid "Raw data retention (hours)"
+msgstr "原始資料保留(時數)"
 
 msgid "Reboot"
 msgstr "重新啟動"
@@ -1064,6 +1176,9 @@ msgstr "儲存卷"
 msgid "Subnet mask"
 msgstr "子網遮罩"
 
+msgid "Summary data retention (days)"
+msgstr "摘要資料保留(日數)"
+
 msgid "TPM"
 msgstr "TPM"
 
@@ -1072,6 +1187,13 @@ msgstr "TB"
 
 msgid "Terminal Link"
 msgstr "終端機連結"
+
+msgid ""
+"This will run 'chmod o+x' on every parent directory of the pool path, "
+"allowing libvirt-qemu to traverse them. Existing permissions on those "
+"directories will be modified. Continue?"
+msgstr ""
+"這將在集用場路徑的每個父目錄執行 'chmod o+x'，使得 libvirt-qemu 能進入它們。在那些目錄上的現存權限將被變更。要繼續嗎？"
 
 msgid "Type"
 msgstr "型式"
@@ -1123,6 +1245,9 @@ msgstr "無法刪除集用場 "
 
 msgid "Unable to delete volume - "
 msgstr "無法刪除儲存卷 - "
+
+msgid "Unable to determine pool path."
+msgstr "無法決定集用場路徑。"
 
 msgid "Unable to get network adapter type - "
 msgstr "無法取得網路卡型式 -"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-20 13:54+0000\n"
+"POT-Creation-Date: 2026-04-01 11:48+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Andi Chandler <andi@gowling.com>, 2026\n"
 "Language-Team: English (United Kingdom) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/en_GB/)\n"
@@ -123,6 +123,9 @@ msgstr "Adding spice viewer ..."
 msgid "Advanced"
 msgstr "Advanced"
 
+msgid "All permissions have been fixed."
+msgstr ""
+
 msgid "All snapshots have been deleted."
 msgstr ""
 
@@ -137,6 +140,11 @@ msgstr "Arch"
 
 msgid "Architecture"
 msgstr "Architecture"
+
+msgid ""
+"Are you sure you want to clear the monitor database? All collected metrics "
+"will be permanently deleted."
+msgstr ""
 
 msgid "Are you sure you want to delete all snapshots?"
 msgstr ""
@@ -197,6 +205,9 @@ msgstr "Bus"
 msgid "CPU"
 msgstr "CPU"
 
+msgid "CPU %"
+msgstr ""
+
 msgid "CPU count has been changed."
 msgstr "CPU count has been changed."
 
@@ -239,6 +250,12 @@ msgstr "Check"
 msgid "Check volume ..."
 msgstr "Check volume ..."
 
+msgid "Clear monitor database"
+msgstr ""
+
+msgid "Clearing monitor database ..."
+msgstr ""
+
 msgid "Clone"
 msgstr "Clone"
 
@@ -250,6 +267,12 @@ msgstr "Cloning ..."
 
 msgid "Cloning complete."
 msgstr "Cloning complete."
+
+msgid "Collect host and VM/LXC metrics for the Monitor tab and dashboard."
+msgstr ""
+
+msgid "Collection interval (seconds)"
+msgstr ""
 
 msgid "Component"
 msgstr "Component"
@@ -314,6 +337,9 @@ msgstr ""
 msgid "Current size"
 msgstr "Current size"
 
+msgid "Current size of the metrics database on disk."
+msgstr ""
+
 msgid "DHCP"
 msgstr "DHCP"
 
@@ -325,6 +351,12 @@ msgstr "DHCP ending address"
 
 msgid "DHCP starting address"
 msgstr "DHCP starting address"
+
+msgid "Database path"
+msgstr ""
+
+msgid "Database size"
+msgstr ""
 
 msgid "Date"
 msgstr "Date"
@@ -368,6 +400,9 @@ msgstr "Directory"
 msgid "Directory is not empty!"
 msgstr "Directory is not empty!"
 
+msgid "Directory permissions have been fixed."
+msgstr ""
+
 msgid "Disable"
 msgstr "Disable"
 
@@ -376,6 +411,12 @@ msgstr "Disabling autostart ..."
 
 msgid "Disk"
 msgstr "Disk"
+
+msgid "Disk Read"
+msgstr ""
+
+msgid "Disk Write"
+msgstr ""
 
 msgid "Disk has been added."
 msgstr "Disk has been added."
@@ -434,6 +475,9 @@ msgstr "Ejecting optical disc ..."
 msgid "Enable"
 msgstr "Enable"
 
+msgid "Enable monitoring service"
+msgstr ""
+
 msgid "Enabling autostart ..."
 msgstr "Enabling autostart ..."
 
@@ -491,6 +535,9 @@ msgstr "Failed to add spicevmc channel."
 msgid "Failed to apply new XML, and unable to restore backup :: "
 msgstr "Failed to apply new XML, and unable to restore backup :: "
 
+msgid "Failed to configure shared memory for virtiofs."
+msgstr ""
+
 msgid "Failed to create VM XML."
 msgstr "Failed to create VM XML."
 
@@ -519,6 +566,12 @@ msgid "Failed to download image."
 msgstr ""
 
 msgid "Failed to enable autostart."
+msgstr ""
+
+msgid "Failed to fix permissions on parent directory: %s"
+msgstr ""
+
+msgid "Failed to fix pool permissions."
 msgstr ""
 
 msgid "Failed to force stop VM."
@@ -599,6 +652,27 @@ msgstr "File will be placed in same directory as the base image."
 msgid "Filesystem"
 msgstr "Filesystem"
 
+msgid "Fix all permissions"
+msgstr ""
+
+msgid "Fix directory permissions"
+msgstr ""
+
+msgid "Fix parent dir permissions"
+msgstr ""
+
+msgid "Fix permissions"
+msgstr ""
+
+msgid "Fixing all permissions ..."
+msgstr ""
+
+msgid "Fixing directory permissions ..."
+msgstr ""
+
+msgid "Fixing parent directory permissions ..."
+msgstr ""
+
 msgid ""
 "For description of each type and how to configure <a "
 "href='https://libvirt.org/storage.html' "
@@ -652,6 +726,15 @@ msgstr "Host drive has been added."
 
 msgid "Host name"
 msgstr "Host name"
+
+msgid "How long to keep 1-minute summary samples."
+msgstr ""
+
+msgid "How long to keep 10-second raw samples."
+msgstr ""
+
+msgid "How often to collect metrics. Lower values increase CPU usage."
+msgstr ""
 
 msgid "IP Range"
 msgstr "IP Range"
@@ -721,6 +804,12 @@ msgstr "MiB"
 msgid "Model"
 msgstr "Model"
 
+msgid "Monitor"
+msgstr ""
+
+msgid "Monitor database has been cleared."
+msgstr ""
+
 msgid "Move"
 msgstr "Move"
 
@@ -729,6 +818,12 @@ msgstr "Move VM ..."
 
 msgid "Name"
 msgstr "Name"
+
+msgid "Net In"
+msgstr ""
+
+msgid "Net Out"
+msgstr ""
 
 msgid "Net info"
 msgstr "Net info"
@@ -781,6 +876,9 @@ msgstr "Notes"
 msgid "OS"
 msgstr "OS"
 
+msgid "Open full monitoring dashboard"
+msgstr ""
+
 msgid "Optical"
 msgstr "Optical"
 
@@ -824,6 +922,9 @@ msgstr "PCI device has been added."
 msgid "PCI device has been removed."
 msgstr "PCI device has been removed."
 
+msgid "Parent directory permissions have been fixed."
+msgstr ""
+
 msgid "Passing through PCI device ..."
 msgstr "Passing through PCI device ..."
 
@@ -841,6 +942,11 @@ msgstr "Passthrough filesystem has been removed."
 
 msgid "Path"
 msgstr "Path"
+
+msgid ""
+"Path to the SQLite metrics database. Service will restart if this is "
+"changed."
+msgstr ""
 
 msgid "Pause"
 msgstr "Pause"
@@ -874,6 +980,12 @@ msgstr "Power off + Move"
 
 msgid "Power off VM and move ..."
 msgstr "Power off VM and move ..."
+
+msgid "RAM"
+msgstr ""
+
+msgid "Raw data retention (hours)"
+msgstr ""
 
 msgid "Reboot"
 msgstr "Reboot"
@@ -1070,6 +1182,9 @@ msgstr "Storage Volume"
 msgid "Subnet mask"
 msgstr "Subnet mask"
 
+msgid "Summary data retention (days)"
+msgstr ""
+
 msgid "TPM"
 msgstr "TPM"
 
@@ -1078,6 +1193,12 @@ msgstr "Terabytes"
 
 msgid "Terminal Link"
 msgstr "Terminal Link"
+
+msgid ""
+"This will run 'chmod o+x' on every parent directory of the pool path, "
+"allowing libvirt-qemu to traverse them. Existing permissions on those "
+"directories will be modified. Continue?"
+msgstr ""
 
 msgid "Type"
 msgstr "Type"
@@ -1129,6 +1250,9 @@ msgstr ""
 
 msgid "Unable to delete volume - "
 msgstr "Unable to delete volume - "
+
+msgid "Unable to determine pool path."
+msgstr ""
 
 msgid "Unable to get network adapter type - "
 msgstr "Unable to get network adapter type - "

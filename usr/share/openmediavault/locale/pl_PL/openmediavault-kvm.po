@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-20 13:54+0000\n"
+"POT-Creation-Date: 2026-04-01 11:48+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Rysiek Jurczy, 2023\n"
 "Language-Team: Polish (Poland) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/pl_PL/)\n"
@@ -123,6 +123,9 @@ msgstr "Dodawanie przeglądarki spice ..."
 msgid "Advanced"
 msgstr "Zaawansowane"
 
+msgid "All permissions have been fixed."
+msgstr ""
+
 msgid "All snapshots have been deleted."
 msgstr ""
 
@@ -137,6 +140,11 @@ msgstr "Architektura"
 
 msgid "Architecture"
 msgstr "Architektura"
+
+msgid ""
+"Are you sure you want to clear the monitor database? All collected metrics "
+"will be permanently deleted."
+msgstr ""
 
 msgid "Are you sure you want to delete all snapshots?"
 msgstr ""
@@ -193,6 +201,9 @@ msgstr "Magistrala"
 msgid "CPU"
 msgstr "Procesor"
 
+msgid "CPU %"
+msgstr ""
+
 msgid "CPU count has been changed."
 msgstr "Liczba procesorów została zmieniona."
 
@@ -235,6 +246,12 @@ msgstr "Sprawdź"
 msgid "Check volume ..."
 msgstr "Sprawdź wolumin ..."
 
+msgid "Clear monitor database"
+msgstr ""
+
+msgid "Clearing monitor database ..."
+msgstr ""
+
 msgid "Clone"
 msgstr "Klonuj"
 
@@ -246,6 +263,12 @@ msgstr "Klonowanie ..."
 
 msgid "Cloning complete."
 msgstr "Klonowanie zakończone."
+
+msgid "Collect host and VM/LXC metrics for the Monitor tab and dashboard."
+msgstr ""
+
+msgid "Collection interval (seconds)"
+msgstr ""
 
 msgid "Component"
 msgstr "Kompunent"
@@ -310,6 +333,9 @@ msgstr ""
 msgid "Current size"
 msgstr "Obecny roziar"
 
+msgid "Current size of the metrics database on disk."
+msgstr ""
+
 msgid "DHCP"
 msgstr "DHCP"
 
@@ -321,6 +347,12 @@ msgstr "Końcowy adres DHCP"
 
 msgid "DHCP starting address"
 msgstr "Początkowy adres DHCP"
+
+msgid "Database path"
+msgstr ""
+
+msgid "Database size"
+msgstr ""
 
 msgid "Date"
 msgstr "Data"
@@ -364,6 +396,9 @@ msgstr "Katalog"
 msgid "Directory is not empty!"
 msgstr "Katalog nie jest pusty!"
 
+msgid "Directory permissions have been fixed."
+msgstr ""
+
 msgid "Disable"
 msgstr "Dezaktywuj"
 
@@ -372,6 +407,12 @@ msgstr "Wyłączenie autostartu "
 
 msgid "Disk"
 msgstr "Dysk"
+
+msgid "Disk Read"
+msgstr ""
+
+msgid "Disk Write"
+msgstr ""
 
 msgid "Disk has been added."
 msgstr "Dysk został dodany"
@@ -429,6 +470,9 @@ msgstr ""
 
 msgid "Enable"
 msgstr "Aktywuj"
+
+msgid "Enable monitoring service"
+msgstr ""
 
 msgid "Enabling autostart ..."
 msgstr "Włącz autostart ..."
@@ -489,6 +533,9 @@ msgstr "Kanał Spice VMC nie został dodany."
 msgid "Failed to apply new XML, and unable to restore backup :: "
 msgstr ""
 
+msgid "Failed to configure shared memory for virtiofs."
+msgstr ""
+
 msgid "Failed to create VM XML."
 msgstr "VM XML nie został utworzony."
 
@@ -517,6 +564,12 @@ msgid "Failed to download image."
 msgstr ""
 
 msgid "Failed to enable autostart."
+msgstr ""
+
+msgid "Failed to fix permissions on parent directory: %s"
+msgstr ""
+
+msgid "Failed to fix pool permissions."
 msgstr ""
 
 msgid "Failed to force stop VM."
@@ -597,6 +650,27 @@ msgstr ""
 msgid "Filesystem"
 msgstr "System plików"
 
+msgid "Fix all permissions"
+msgstr ""
+
+msgid "Fix directory permissions"
+msgstr ""
+
+msgid "Fix parent dir permissions"
+msgstr ""
+
+msgid "Fix permissions"
+msgstr ""
+
+msgid "Fixing all permissions ..."
+msgstr ""
+
+msgid "Fixing directory permissions ..."
+msgstr ""
+
+msgid "Fixing parent directory permissions ..."
+msgstr ""
+
 msgid ""
 "For description of each type and how to configure <a "
 "href='https://libvirt.org/storage.html' "
@@ -650,6 +724,15 @@ msgstr "Dodano dysk hosta."
 
 msgid "Host name"
 msgstr "Nazwa hosta"
+
+msgid "How long to keep 1-minute summary samples."
+msgstr ""
+
+msgid "How long to keep 10-second raw samples."
+msgstr ""
+
+msgid "How often to collect metrics. Lower values increase CPU usage."
+msgstr ""
 
 msgid "IP Range"
 msgstr "Zakres IP"
@@ -720,6 +803,12 @@ msgstr "MiB"
 msgid "Model"
 msgstr "Model"
 
+msgid "Monitor"
+msgstr ""
+
+msgid "Monitor database has been cleared."
+msgstr ""
+
 msgid "Move"
 msgstr ""
 
@@ -728,6 +817,12 @@ msgstr ""
 
 msgid "Name"
 msgstr "Nazwa"
+
+msgid "Net In"
+msgstr ""
+
+msgid "Net Out"
+msgstr ""
 
 msgid "Net info"
 msgstr ""
@@ -780,6 +875,9 @@ msgstr "Notatki"
 msgid "OS"
 msgstr "OS"
 
+msgid "Open full monitoring dashboard"
+msgstr ""
+
 msgid "Optical"
 msgstr "Optyczny"
 
@@ -821,6 +919,9 @@ msgstr ""
 msgid "PCI device has been removed."
 msgstr ""
 
+msgid "Parent directory permissions have been fixed."
+msgstr ""
+
 msgid "Passing through PCI device ..."
 msgstr ""
 
@@ -839,6 +940,11 @@ msgstr "Przekazywany system plików został usunięty."
 
 msgid "Path"
 msgstr "Ścieżka"
+
+msgid ""
+"Path to the SQLite metrics database. Service will restart if this is "
+"changed."
+msgstr ""
 
 msgid "Pause"
 msgstr "Wstrzymaj"
@@ -871,6 +977,12 @@ msgid "Power off + Move"
 msgstr ""
 
 msgid "Power off VM and move ..."
+msgstr ""
+
+msgid "RAM"
+msgstr ""
+
+msgid "Raw data retention (hours)"
 msgstr ""
 
 msgid "Reboot"
@@ -1068,6 +1180,9 @@ msgstr "Wolumin przechowywania"
 msgid "Subnet mask"
 msgstr "Maska podsieci"
 
+msgid "Summary data retention (days)"
+msgstr ""
+
 msgid "TPM"
 msgstr "TPM"
 
@@ -1075,6 +1190,12 @@ msgid "Terabytes"
 msgstr "Terabajty"
 
 msgid "Terminal Link"
+msgstr ""
+
+msgid ""
+"This will run 'chmod o+x' on every parent directory of the pool path, "
+"allowing libvirt-qemu to traverse them. Existing permissions on those "
+"directories will be modified. Continue?"
 msgstr ""
 
 msgid "Type"
@@ -1127,6 +1248,9 @@ msgstr ""
 
 msgid "Unable to delete volume - "
 msgstr "Nie można usunąć woluminu -"
+
+msgid "Unable to determine pool path."
+msgstr ""
 
 msgid "Unable to get network adapter type - "
 msgstr "Nie można odczytać typu karty sieciowej -"

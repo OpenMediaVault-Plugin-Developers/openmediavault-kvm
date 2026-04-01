@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-20 13:54+0000\n"
+"POT-Creation-Date: 2026-04-01 11:48+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Stephan Paternotte <stephan@paternottes.net>, 2026\n"
 "Language-Team: Dutch (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/nl/)\n"
@@ -124,6 +124,9 @@ msgstr "Spice-weergave toevoegen…"
 msgid "Advanced"
 msgstr "Geavanceerd "
 
+msgid "All permissions have been fixed."
+msgstr "Alle toestemmingen zijn gerepareerd."
+
 msgid "All snapshots have been deleted."
 msgstr "Alle momentopnames zijn verwijderd."
 
@@ -138,6 +141,13 @@ msgstr "Arch"
 
 msgid "Architecture"
 msgstr "Architectuur"
+
+msgid ""
+"Are you sure you want to clear the monitor database? All collected metrics "
+"will be permanently deleted."
+msgstr ""
+"Weet je zeker dat je de bewakingsdatabase wilt wissen? Alle verzamelde "
+"gegevens worden permanent verwijderd."
 
 msgid "Are you sure you want to delete all snapshots?"
 msgstr "Weet je zeker dat je alle momentopnames wilt verwijderen?"
@@ -198,6 +208,9 @@ msgstr "Bus"
 msgid "CPU"
 msgstr "CPU"
 
+msgid "CPU %"
+msgstr "CPU %"
+
 msgid "CPU count has been changed."
 msgstr "Aantal CPU's is gewijzigd."
 
@@ -240,6 +253,12 @@ msgstr "Controleren"
 msgid "Check volume ..."
 msgstr "Volume controleren…"
 
+msgid "Clear monitor database"
+msgstr "Bewakingsdatabase wissen"
+
+msgid "Clearing monitor database ..."
+msgstr "Bewakingsdatabase wissen…"
+
 msgid "Clone"
 msgstr "Kloon"
 
@@ -251,6 +270,13 @@ msgstr "Klonen…"
 
 msgid "Cloning complete."
 msgstr "Klonen voltooid."
+
+msgid "Collect host and VM/LXC metrics for the Monitor tab and dashboard."
+msgstr ""
+"Host- en VM/LXC-gegevens verzamelen voor het tabblad Bewaking en dashboard."
+
+msgid "Collection interval (seconds)"
+msgstr "Verzamelinterval (seconden)"
 
 msgid "Component"
 msgstr "Component"
@@ -315,6 +341,9 @@ msgstr "Volume aanmaken…"
 msgid "Current size"
 msgstr "Huidige grootte"
 
+msgid "Current size of the metrics database on disk."
+msgstr "Huidige grootte van de gegevens-database op schijf."
+
 msgid "DHCP"
 msgstr "DHCP"
 
@@ -326,6 +355,12 @@ msgstr "DHCP eindadres"
 
 msgid "DHCP starting address"
 msgstr "DHCP startadres"
+
+msgid "Database path"
+msgstr "Databasepad"
+
+msgid "Database size"
+msgstr "Databasegrootte"
 
 msgid "Date"
 msgstr "Datum"
@@ -369,6 +404,9 @@ msgstr "Map"
 msgid "Directory is not empty!"
 msgstr "Map is niet leeg!"
 
+msgid "Directory permissions have been fixed."
+msgstr "De rechten op mappen zijn hersteld."
+
 msgid "Disable"
 msgstr "Uitschakelen"
 
@@ -377,6 +415,12 @@ msgstr "Autom. start uitschakelen…"
 
 msgid "Disk"
 msgstr "Schijf"
+
+msgid "Disk Read"
+msgstr "Schijf lezen"
+
+msgid "Disk Write"
+msgstr "Schijf schrijven"
 
 msgid "Disk has been added."
 msgstr "Schijf is toegevoegd."
@@ -434,6 +478,9 @@ msgstr "Optische schijf uitwerpen…"
 
 msgid "Enable"
 msgstr "Inschakelen"
+
+msgid "Enable monitoring service"
+msgstr "Bewakingsservice inschakelen"
 
 msgid "Enabling autostart ..."
 msgstr "Autom. start inschakelen…"
@@ -495,6 +542,9 @@ msgid "Failed to apply new XML, and unable to restore backup :: "
 msgstr ""
 "Toepassen van nieuwe XML is mislukt, en back-up niet kunnen herstellen ::"
 
+msgid "Failed to configure shared memory for virtiofs."
+msgstr ""
+
 msgid "Failed to create VM XML."
 msgstr "Aanmaken van VM-XML is mislukt."
 
@@ -524,6 +574,12 @@ msgstr "Image downloaden is mislukt."
 
 msgid "Failed to enable autostart."
 msgstr "Autostart inschakelen is mislukt."
+
+msgid "Failed to fix permissions on parent directory: %s"
+msgstr "Kan de machtigingen op de bovenliggende map niet herstellen: %s"
+
+msgid "Failed to fix pool permissions."
+msgstr "Kan de machtigingen van de pool niet herstellen."
 
 msgid "Failed to force stop VM."
 msgstr "Geforceerd stoppen van VM is mislukt."
@@ -603,6 +659,27 @@ msgstr "Bestand wordt in dezelfde map geplaatst als de basis-image."
 msgid "Filesystem"
 msgstr "Bestandssysteem"
 
+msgid "Fix all permissions"
+msgstr "Alle machtigingen herstellen"
+
+msgid "Fix directory permissions"
+msgstr "Rechten op mappen herstellen"
+
+msgid "Fix parent dir permissions"
+msgstr "Rechten op bovenliggende map herstellen"
+
+msgid "Fix permissions"
+msgstr "Machtigingen herstellen"
+
+msgid "Fixing all permissions ..."
+msgstr "Alle machtigingen herstellen…"
+
+msgid "Fixing directory permissions ..."
+msgstr "Rechten op mappen herstellen…"
+
+msgid "Fixing parent directory permissions ..."
+msgstr "Rechten op bovenliggende mappen herstellen…"
+
 msgid ""
 "For description of each type and how to configure <a "
 "href='https://libvirt.org/storage.html' "
@@ -656,6 +733,17 @@ msgstr "Host-schijfstation is toegevoegd."
 
 msgid "Host name"
 msgstr "Hostnaam"
+
+msgid "How long to keep 1-minute summary samples."
+msgstr "Hoe lang 1-minuut samenvattingsmonsters bewaard moeten worden."
+
+msgid "How long to keep 10-second raw samples."
+msgstr "Hoe lang 10-seconden ruwe monsters bewaard moeten worden."
+
+msgid "How often to collect metrics. Lower values increase CPU usage."
+msgstr ""
+"Hoe vaak statistieken moeten worden verzameld. Lagere waarden verhogen het "
+"CPU-gebruik."
 
 msgid "IP Range"
 msgstr "IP-bereik"
@@ -726,6 +814,12 @@ msgstr "MiB"
 msgid "Model"
 msgstr "Model"
 
+msgid "Monitor"
+msgstr "Bewaking"
+
+msgid "Monitor database has been cleared."
+msgstr "Bewakingsdatabase is gewist."
+
 msgid "Move"
 msgstr "Verplaatsen"
 
@@ -734,6 +828,12 @@ msgstr "VM verplaatsen …"
 
 msgid "Name"
 msgstr "Naam"
+
+msgid "Net In"
+msgstr "Net in"
+
+msgid "Net Out"
+msgstr "Net uit"
 
 msgid "Net info"
 msgstr "Net info"
@@ -786,6 +886,9 @@ msgstr "Notities"
 msgid "OS"
 msgstr "Besturingssysteem"
 
+msgid "Open full monitoring dashboard"
+msgstr "Volledig bewakingspaneel openen"
+
 msgid "Optical"
 msgstr "Optisch"
 
@@ -829,6 +932,9 @@ msgstr "PCI-apparaat is toegevoegd."
 msgid "PCI device has been removed."
 msgstr "PCI-apparaat is verwijderd."
 
+msgid "Parent directory permissions have been fixed."
+msgstr "Machtigingen op bovenliggende map zijn hersteld."
+
 msgid "Passing through PCI device ..."
 msgstr "Door PCI-apparaat gaan..."
 
@@ -848,6 +954,13 @@ msgstr "Passthrough-bestandssysteem is verwijderd."
 
 msgid "Path"
 msgstr "Pad"
+
+msgid ""
+"Path to the SQLite metrics database. Service will restart if this is "
+"changed."
+msgstr ""
+"Pad naar de SQLite-meetingendatabase. Als dit wordt gewijzigd, wordt de "
+"service opnieuw gestart."
 
 msgid "Pause"
 msgstr "Pauzeren"
@@ -881,6 +994,12 @@ msgstr "Uitschakelen + Verplaatsen"
 
 msgid "Power off VM and move ..."
 msgstr "VM uitschakelen en verplaatsen…"
+
+msgid "RAM"
+msgstr "RAM"
+
+msgid "Raw data retention (hours)"
+msgstr "Opslagduur van ruwe gegevens (uren)"
 
 msgid "Reboot"
 msgstr "Herstart"
@@ -1077,6 +1196,9 @@ msgstr "Opslagvolume"
 msgid "Subnet mask"
 msgstr "Subnetmasker"
 
+msgid "Summary data retention (days)"
+msgstr "Opslagduur van samengevatte gegevens (dagen)"
+
 msgid "TPM"
 msgstr "TPM"
 
@@ -1085,6 +1207,15 @@ msgstr "Terabytes"
 
 msgid "Terminal Link"
 msgstr "Terminal Link"
+
+msgid ""
+"This will run 'chmod o+x' on every parent directory of the pool path, "
+"allowing libvirt-qemu to traverse them. Existing permissions on those "
+"directories will be modified. Continue?"
+msgstr ""
+"Dit zal 'chmod o+x' uitvoeren op elke bovenliggende map van het poolpad, "
+"waardoor libvirt-qemu deze kan doorlopen. Bestaande machtigingen op die "
+"mappen zullen worden aangepast. Doorgaan?"
 
 msgid "Type"
 msgstr "Type"
@@ -1136,6 +1267,9 @@ msgstr "Kan pool niet verwijderen"
 
 msgid "Unable to delete volume - "
 msgstr "Kan volume niet verwijderen - "
+
+msgid "Unable to determine pool path."
+msgstr "Kan het pad van de pool niet bepalen."
 
 msgid "Unable to get network adapter type - "
 msgstr "Kan het type netwerkadapter niet krijgen - "
