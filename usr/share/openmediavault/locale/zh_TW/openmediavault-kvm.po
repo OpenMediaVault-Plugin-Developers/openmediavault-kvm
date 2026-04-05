@@ -534,7 +534,7 @@ msgid "Failed to apply new XML, and unable to restore backup :: "
 msgstr "套用新的 XML 失敗，並且無法從備份復原 ::"
 
 msgid "Failed to configure shared memory for virtiofs."
-msgstr ""
+msgstr "給 virtiofs 用的記憶體設置失敗。"
 
 msgid "Failed to create VM XML."
 msgstr "建立 VM XML 失敗。"

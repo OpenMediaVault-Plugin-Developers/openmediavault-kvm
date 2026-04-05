@@ -543,7 +543,7 @@ msgstr ""
 "Toepassen van nieuwe XML is mislukt, en back-up niet kunnen herstellen ::"
 
 msgid "Failed to configure shared memory for virtiofs."
-msgstr ""
+msgstr "Configureren van gedeeld geheugen voor virtiofs is mislukt."
 
 msgid "Failed to create VM XML."
 msgstr "Aanmaken van VM-XML is mislukt."

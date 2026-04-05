@@ -124,10 +124,10 @@ msgid "Advanced"
 msgstr "Advanced"
 
 msgid "All permissions have been fixed."
-msgstr ""
+msgstr "All permissions have been fixed."
 
 msgid "All snapshots have been deleted."
-msgstr ""
+msgstr "All snapshots have been deleted."
 
 msgid "Allocation"
 msgstr "Allocation"
@@ -145,9 +145,11 @@ msgid ""
 "Are you sure you want to clear the monitor database? All collected metrics "
 "will be permanently deleted."
 msgstr ""
+"Are you sure you want to clear the monitor database? All collected metrics "
+"will be permanently deleted."
 
 msgid "Are you sure you want to delete all snapshots?"
-msgstr ""
+msgstr "Are you sure you want to delete all snapshots?"
 
 msgid "Are you sure you want to delete?"
 msgstr "Are you sure you want to delete?"
@@ -156,7 +158,7 @@ msgid "Audio"
 msgstr "Audio"
 
 msgid "Auto-generate a unique name based on the VM name."
-msgstr ""
+msgstr "Auto-generate a unique name based on the VM name."
 
 msgid "AutoStart"
 msgstr "AutoStart"
@@ -174,7 +176,7 @@ msgid "Backing file"
 msgstr "Backing file"
 
 msgid "Backing file has been created."
-msgstr ""
+msgstr "Backing file has been created."
 
 msgid "Backup"
 msgstr "Backup"
@@ -206,7 +208,7 @@ msgid "CPU"
 msgstr "CPU"
 
 msgid "CPU %"
-msgstr ""
+msgstr "CPU %"
 
 msgid "CPU count has been changed."
 msgstr "CPU count has been changed."
@@ -251,10 +253,10 @@ msgid "Check volume ..."
 msgstr "Check volume ..."
 
 msgid "Clear monitor database"
-msgstr ""
+msgstr "Clear monitor database"
 
 msgid "Clearing monitor database ..."
-msgstr ""
+msgstr "Clearing monitor database ..."
 
 msgid "Clone"
 msgstr "Clone"
@@ -269,10 +271,10 @@ msgid "Cloning complete."
 msgstr "Cloning complete."
 
 msgid "Collect host and VM/LXC metrics for the Monitor tab and dashboard."
-msgstr ""
+msgstr "Collect host and VM/LXC metrics for the Monitor tab and dashboard."
 
 msgid "Collection interval (seconds)"
-msgstr ""
+msgstr "Collection interval (seconds)"
 
 msgid "Component"
 msgstr "Component"
@@ -323,7 +325,7 @@ msgid "Created scheduled job."
 msgstr "Created scheduled job."
 
 msgid "Creating backing file ..."
-msgstr ""
+msgstr "Creating backing file ..."
 
 msgid "Creating linked clone ..."
 msgstr "Creating linked clone ..."
@@ -332,13 +334,13 @@ msgid "Creating snapshot ..."
 msgstr "Creating snapshot ..."
 
 msgid "Creating volume ..."
-msgstr ""
+msgstr "Creating volume ..."
 
 msgid "Current size"
 msgstr "Current size"
 
 msgid "Current size of the metrics database on disk."
-msgstr ""
+msgstr "Current size of the metrics database on disk."
 
 msgid "DHCP"
 msgstr "DHCP"
@@ -353,10 +355,10 @@ msgid "DHCP starting address"
 msgstr "DHCP starting address"
 
 msgid "Database path"
-msgstr ""
+msgstr "Database path"
 
 msgid "Database size"
-msgstr ""
+msgstr "Database size"
 
 msgid "Date"
 msgstr "Date"
@@ -371,7 +373,7 @@ msgid "Delete + storage"
 msgstr "Delete + storage"
 
 msgid "Delete All"
-msgstr ""
+msgstr "Delete All"
 
 msgid "Deleted."
 msgstr "Deleted."
@@ -386,7 +388,7 @@ msgid "Deleting a pool ..."
 msgstr "Deleting a pool ..."
 
 msgid "Deleting all snapshots ..."
-msgstr ""
+msgstr "Deleting all snapshots ..."
 
 msgid "Deleting snapshot ..."
 msgstr "Deleting snapshot ..."
@@ -401,7 +403,7 @@ msgid "Directory is not empty!"
 msgstr "Directory is not empty!"
 
 msgid "Directory permissions have been fixed."
-msgstr ""
+msgstr "Directory permissions have been fixed."
 
 msgid "Disable"
 msgstr "Disable"
@@ -413,10 +415,10 @@ msgid "Disk"
 msgstr "Disk"
 
 msgid "Disk Read"
-msgstr ""
+msgstr "Disk Read"
 
 msgid "Disk Write"
-msgstr ""
+msgstr "Disk Write"
 
 msgid "Disk has been added."
 msgstr "Disk has been added."
@@ -476,7 +478,7 @@ msgid "Enable"
 msgstr "Enable"
 
 msgid "Enable monitoring service"
-msgstr ""
+msgstr "Enable monitoring service"
 
 msgid "Enabling autostart ..."
 msgstr "Enabling autostart ..."
@@ -494,7 +496,7 @@ msgid "Extend"
 msgstr "Extend"
 
 msgid "Extending volume ..."
-msgstr ""
+msgstr "Extending volume ..."
 
 msgid "Extension"
 msgstr "Extension"
@@ -536,7 +538,7 @@ msgid "Failed to apply new XML, and unable to restore backup :: "
 msgstr "Failed to apply new XML, and unable to restore backup :: "
 
 msgid "Failed to configure shared memory for virtiofs."
-msgstr ""
+msgstr "Failed to configure shared memory for virtiofs."
 
 msgid "Failed to create VM XML."
 msgstr "Failed to create VM XML."
@@ -551,46 +553,46 @@ msgid "Failed to delete VM."
 msgstr "Failed to delete VM."
 
 msgid "Failed to delete snapshot: "
-msgstr ""
+msgstr "Failed to delete snapshot: "
 
 msgid "Failed to delete the snapshot!"
-msgstr ""
+msgstr "Failed to delete the snapshot!"
 
 msgid "Failed to detach PCI device from host."
 msgstr "Failed to detach PCI device from host."
 
 msgid "Failed to disable autostart."
-msgstr ""
+msgstr "Failed to disable autostart."
 
 msgid "Failed to download image."
-msgstr ""
+msgstr "Failed to download image."
 
 msgid "Failed to enable autostart."
-msgstr ""
+msgstr "Failed to enable autostart."
 
 msgid "Failed to fix permissions on parent directory: %s"
-msgstr ""
+msgstr "Failed to fix permissions on parent directory: %s"
 
 msgid "Failed to fix pool permissions."
-msgstr ""
+msgstr "Failed to fix pool permissions."
 
 msgid "Failed to force stop VM."
-msgstr ""
+msgstr "Failed to force stop VM."
 
 msgid "Failed to generate a disk name!"
-msgstr ""
+msgstr "Failed to generate a disk name!"
 
 msgid "Failed to pause VM."
-msgstr ""
+msgstr "Failed to pause VM."
 
 msgid "Failed to power off VM."
-msgstr ""
+msgstr "Failed to power off VM."
 
 msgid "Failed to power on VM."
-msgstr ""
+msgstr "Failed to power on VM."
 
 msgid "Failed to reboot VM."
-msgstr ""
+msgstr "Failed to reboot VM."
 
 msgid "Failed to remove PCI device."
 msgstr "Failed to remove PCI device."
@@ -626,7 +628,7 @@ msgid "Failed to resize disk!"
 msgstr "Failed to resize disk!"
 
 msgid "Failed to resume VM."
-msgstr ""
+msgstr "Failed to resume VM."
 
 msgid "Failed to set change."
 msgstr "Failed to set change."
@@ -641,10 +643,10 @@ msgid "Failed to start pool."
 msgstr "Failed to start pool."
 
 msgid "Failed to start websockify for "
-msgstr ""
+msgstr "Failed to start websockify for "
 
 msgid "Failed to stop pool."
-msgstr ""
+msgstr "Failed to stop pool."
 
 msgid "File will be placed in same directory as the base image."
 msgstr "File will be placed in same directory as the base image."
@@ -653,25 +655,25 @@ msgid "Filesystem"
 msgstr "Filesystem"
 
 msgid "Fix all permissions"
-msgstr ""
+msgstr "Fix all permissions"
 
 msgid "Fix directory permissions"
-msgstr ""
+msgstr "Fix directory permissions"
 
 msgid "Fix parent dir permissions"
-msgstr ""
+msgstr "Fix parent dir permissions"
 
 msgid "Fix permissions"
-msgstr ""
+msgstr "Fix permissions"
 
 msgid "Fixing all permissions ..."
-msgstr ""
+msgstr "Fixing all permissions ..."
 
 msgid "Fixing directory permissions ..."
-msgstr ""
+msgstr "Fixing directory permissions ..."
 
 msgid "Fixing parent directory permissions ..."
-msgstr ""
+msgstr "Fixing parent directory permissions ..."
 
 msgid ""
 "For description of each type and how to configure <a "
@@ -728,13 +730,13 @@ msgid "Host name"
 msgstr "Host name"
 
 msgid "How long to keep 1-minute summary samples."
-msgstr ""
+msgstr "How long to keep 1-minute summary samples."
 
 msgid "How long to keep 10-second raw samples."
-msgstr ""
+msgstr "How long to keep 10-second raw samples."
 
 msgid "How often to collect metrics. Lower values increase CPU usage."
-msgstr ""
+msgstr "How often to collect metrics. Lower values increase CPU usage."
 
 msgid "IP Range"
 msgstr "IP Range"
@@ -805,10 +807,10 @@ msgid "Model"
 msgstr "Model"
 
 msgid "Monitor"
-msgstr ""
+msgstr "Monitor"
 
 msgid "Monitor database has been cleared."
-msgstr ""
+msgstr "Monitor database has been cleared."
 
 msgid "Move"
 msgstr "Move"
@@ -820,10 +822,10 @@ msgid "Name"
 msgstr "Name"
 
 msgid "Net In"
-msgstr ""
+msgstr "Net In"
 
 msgid "Net Out"
-msgstr ""
+msgstr "Net Out"
 
 msgid "Net info"
 msgstr "Net info"
@@ -877,7 +879,7 @@ msgid "OS"
 msgstr "OS"
 
 msgid "Open full monitoring dashboard"
-msgstr ""
+msgstr "Open full monitoring dashboard"
 
 msgid "Optical"
 msgstr "Optical"
@@ -923,7 +925,7 @@ msgid "PCI device has been removed."
 msgstr "PCI device has been removed."
 
 msgid "Parent directory permissions have been fixed."
-msgstr ""
+msgstr "Parent directory permissions have been fixed."
 
 msgid "Passing through PCI device ..."
 msgstr "Passing through PCI device ..."
@@ -947,6 +949,8 @@ msgid ""
 "Path to the SQLite metrics database. Service will restart if this is "
 "changed."
 msgstr ""
+"Path to the SQLite metrics database. Service will restart if this is "
+"changed."
 
 msgid "Pause"
 msgstr "Pause"
@@ -982,10 +986,10 @@ msgid "Power off VM and move ..."
 msgstr "Power off VM and move ..."
 
 msgid "RAM"
-msgstr ""
+msgstr "RAM"
 
 msgid "Raw data retention (hours)"
-msgstr ""
+msgstr "Raw data retention (hours)"
 
 msgid "Reboot"
 msgstr "Reboot"
@@ -1183,7 +1187,7 @@ msgid "Subnet mask"
 msgstr "Subnet mask"
 
 msgid "Summary data retention (days)"
-msgstr ""
+msgstr "Summary data retention (days)"
 
 msgid "TPM"
 msgstr "TPM"
@@ -1199,6 +1203,9 @@ msgid ""
 "allowing libvirt-qemu to traverse them. Existing permissions on those "
 "directories will be modified. Continue?"
 msgstr ""
+"This will run 'chmod o+x' on every parent directory of the pool path, "
+"allowing libvirt-qemu to traverse them. Existing permissions on those "
+"directories will be modified. Continue?"
 
 msgid "Type"
 msgstr "Type"
@@ -1219,7 +1226,7 @@ msgid "UUID"
 msgstr "UUID"
 
 msgid "Unable to add network adapter to VM"
-msgstr ""
+msgstr "Unable to add network adapter to VM"
 
 msgid "Unable to backup existing XML for VM :: "
 msgstr "Unable to backup existing XML for VM :: "
@@ -1228,52 +1235,52 @@ msgid "Unable to change notes for VM."
 msgstr "Unable to change notes for VM."
 
 msgid "Unable to create snapshot"
-msgstr ""
+msgstr "Unable to create snapshot"
 
 msgid "Unable to create volume - "
 msgstr "Unable to create volume - "
 
 msgid "Unable to define network"
-msgstr ""
+msgstr "Unable to define network"
 
 msgid "Unable to define storage pool"
-msgstr ""
+msgstr "Unable to define storage pool"
 
 msgid "Unable to delete disk(s) from VM."
-msgstr ""
+msgstr "Unable to delete disk(s) from VM."
 
 msgid "Unable to delete network"
-msgstr ""
+msgstr "Unable to delete network"
 
 msgid "Unable to delete pool"
-msgstr ""
+msgstr "Unable to delete pool"
 
 msgid "Unable to delete volume - "
 msgstr "Unable to delete volume - "
 
 msgid "Unable to determine pool path."
-msgstr ""
+msgstr "Unable to determine pool path."
 
 msgid "Unable to get network adapter type - "
 msgstr "Unable to get network adapter type - "
 
 msgid "Unable to revert to snapshot"
-msgstr ""
+msgstr "Unable to revert to snapshot"
 
 msgid "Unable to set VM XML :: "
 msgstr "Unable to set VM XML :: "
 
 msgid "Unable to start network"
-msgstr ""
+msgstr "Unable to start network"
 
 msgid "Unable to stop network"
-msgstr ""
+msgstr "Unable to stop network"
 
 msgid "Unable to undefine VM :: "
 msgstr "Unable to undefine VM :: "
 
 msgid "Unable to update domain XML"
-msgstr ""
+msgstr "Unable to update domain XML"
 
 msgid "Unit"
 msgstr "Unit"
@@ -1318,25 +1325,25 @@ msgid "Volume Count"
 msgstr "Volume Count"
 
 msgid "Volume check complete."
-msgstr ""
+msgstr "Volume check complete."
 
 msgid "Volume group"
 msgstr "Volume group"
 
 msgid "Volume has been converted to qcow2."
-msgstr ""
+msgstr "Volume has been converted to qcow2."
 
 msgid "Volume has been converted to raw."
-msgstr ""
+msgstr "Volume has been converted to raw."
 
 msgid "Volume has been created."
-msgstr ""
+msgstr "Volume has been created."
 
 msgid "Volume has been extended."
-msgstr ""
+msgstr "Volume has been extended."
 
 msgid "Volume has been optimized."
-msgstr ""
+msgstr "Volume has been optimized."
 
 msgid "Volume info ..."
 msgstr "Volume info ..."
