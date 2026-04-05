@@ -1913,7 +1913,6 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmdArgs = [];
         $cmdArgs[] = 'vol-delete';
         $cmdArgs[] = sprintf("'%s'", $params['path']);
-        $cmdArgs[] = '--by-path';
         $this->virshCommand($cmdArgs, gettext("Unable to delete volume - ") . $params['path']);
     }
 
