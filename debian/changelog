@@ -1,3 +1,9 @@
+openmediavault-kvm (8.2.2) stable; urgency=low
+
+  * Fix virsh command for volume delete
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sun, 05 Apr 2026 16:09:36 +0000
+
 openmediavault-kvm (8.2.1) stable; urgency=low
 
   * Add virtiofs driver option for passthrough filesystems
