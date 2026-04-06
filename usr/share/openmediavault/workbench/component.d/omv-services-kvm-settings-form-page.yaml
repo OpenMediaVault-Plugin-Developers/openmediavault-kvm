@@ -63,6 +63,8 @@ data:
         name: monitor_db_size
         label: _("Database size")
         readonly: true
+        disabled: true
+        submitValue: false
         hint: _("Current size of the metrics database on disk.")
     buttons:
       - template: submit
