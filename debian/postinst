@@ -19,6 +19,11 @@ case "$1" in
         # run salt to apply configuration
         omv-salt deploy run kvm
 
+        # Disable ksmtuned if the kernel does not support KSM
+        if [ ! -e /sys/kernel/mm/ksm/run ]; then
+            systemctl disable --now ksmtuned || :
+        fi
+
         # Restart monitoring daemon to pick up any updated files
         systemctl try-restart omv-kvm-monitor || :
     ;;
