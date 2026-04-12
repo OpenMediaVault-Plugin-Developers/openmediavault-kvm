@@ -254,6 +254,37 @@ data:
                         - ["scsi", _("scsi")]
                         - ["sata", _("sata")]
                         - ["ide", _("ide")]
+                  - type: checkbox
+                    name: advanced
+                    label: _("Show advanced options")
+                    value: false
+                    submitValue: false
+                  - type: textInput
+                    name: serial
+                    label: _("Serial")
+                    value: ""
+                    hint: _("Leave blank to omit.")
+                    modifiers:
+                      - type: visible
+                        constraint:
+                          operator: truthy
+                          arg0:
+                            prop: advanced
+                  - type: textInput
+                    name: wwn
+                    label: _("WWN")
+                    value: ""
+                    hint: _("World Wide Name, exactly 16 hex digits, optionally prefixed with 0x (e.g. 0x500152d00015b374). Leave blank to omit.")
+                    validators:
+                      pattern:
+                        pattern: "^$|^(0x|0X)?[0-9a-fA-F]{16}$"
+                        errorData: _("Must be exactly 16 hexadecimal digits (with optional 0x prefix) or left blank.")
+                    modifiers:
+                      - type: visible
+                        constraint:
+                          operator: truthy
+                          arg0:
+                            prop: advanced
                   - type: hidden
                     name: state
                     value: '{{ _selected[0].state }}'

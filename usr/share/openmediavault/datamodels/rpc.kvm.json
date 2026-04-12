@@ -351,6 +351,12 @@
         },
         "volunit": {
           "type": "string"
+        },
+        "serial": {
+          "type": "string"
+        },
+        "wwn": {
+          "type": "string"
         }
       }
     }

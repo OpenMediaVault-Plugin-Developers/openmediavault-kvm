@@ -1439,6 +1439,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $volpool = $params['volpool'];
         $volsize = $params['volsize'];
         $volunit = $params['volunit'];
+        $serial = $params['serial'] ?? '';
+        $wwn = $params['wwn'] ?? '';
         if ($volunit == "") {
             $volunit = "G";
         }
@@ -1486,10 +1488,18 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             }
         }
         // add disk to VM with virt-xml
+        $diskOpts = sprintf('%s,target.bus=%s%s,cache=none,io=native', $diskpath, $volbus, $formatArg);
+        if (!empty($serial)) {
+            $diskOpts .= sprintf(',serial=%s', preg_replace('/[^a-zA-Z0-9_\-]/', '', $serial));
+        }
+        if (!empty($wwn)) {
+            $wwn = preg_replace('/^0x/i', '', $wwn);
+            $diskOpts .= sprintf(',wwn=%s', preg_replace('/[^a-fA-F0-9]/', '', $wwn));
+        }
         $cmdArgs = [];
         $cmdArgs[] = $this->escapeName($vmname);
         $cmdArgs[] = '--add-device';
-        $cmdArgs[] = sprintf('--disk %s,target.bus=%s%s,cache=none,io=native', $diskpath, $volbus, $formatArg);
+        $cmdArgs[] = sprintf('--disk %s', $diskOpts);
         $err = gettext("Failed to add disk.");
         $this->virshCommand($cmdArgs, $err, 'virt-xml');
     }
