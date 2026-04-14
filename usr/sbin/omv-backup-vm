@@ -250,7 +250,7 @@ done
 # skip commit and remove if the VM is not powered on
 if [ ${vmId} -gt 0 ] && [ ${snap} -eq 1 ]; then
   # get list of disks
-  disks=$(virsh domblklist ${vmId} --details | sed 1,2d | awk NF | awk '$2 == "disk" { print $3","$4 }')
+  disks=$(virsh domblklist ${vmId} --details | sed 1,2d | awk NF | awk '$1 == "file" && $2 == "disk" { print $3","$4 }')
 
   # commit changes
   _log "Commit changes back to original disks..."
