@@ -185,7 +185,8 @@ if [ $? -eq 0 ]; then
 fi
 
 # get list of disks for VM
-disks=$(virsh domblklist ${backupVm} --details | sed 1,2d | awk NF | awk '$2 == "disk" { print $3","$4 }')
+disks=$(virsh domblklist ${backupVm} --details | sed 1,2d | awk NF | awk '$1 == "file" && $2 == "disk" { print $3","$4 }')
+excludeDisks=$(virsh domblklist ${backupVm} --details | sed 1,2d | awk NF | awk '$1 != "file" && $2 == "disk" { print $3","$4 }')
 
 # power off VM if poweroff flag passed
 if [ ${poweroff} -eq 1 ] && [ ${vmId} -gt 0 ]; then
@@ -212,6 +213,10 @@ if [ ${poweredoff} -ne 1 ] && [ ${vmId} -gt 0 ]; then
   for disk in ${disks}; do
     _log "Adding disk to snapshot :: ${disk%%,*}"
     diskSpecs="${diskSpecs} --diskspec ${disk%%,*},snapshot=external"
+  done
+  for disk in ${excludeDisks}; do
+    _log "Ignoring disk in snapshot :: ${disk%%,*}"
+    diskSpecs="${diskSpecs} --diskspec ${disk%%,*},snapshot=no"
   done
   _log "Creating snapshot..."
   virsh snapshot-create-as \

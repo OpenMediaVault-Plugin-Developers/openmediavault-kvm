@@ -2,6 +2,8 @@ openmediavault-kvm (8.2.4) UNRELEASED; urgency=medium
 
   * Add options to specify WWN, serial number, and alias for the Add
     Disk dialog
+  * omv-backup-vm: exclude non-file-backed disks (block/network passthrough)
+    from backup; mark them snapshot=no so snapshot creation does not fail
 
  -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sun, 12 Apr 2026 01:14:36 +0000
 
