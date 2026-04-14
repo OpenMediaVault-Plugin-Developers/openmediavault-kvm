@@ -3,6 +3,9 @@
 # This file is distributed under the same license as the openmediavault-kvm package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
+# Translators:
+# bounkirdni_2025, 2026
+# 
 #, fuzzy
 msgid ""
 msgstr ""
@@ -10,6 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-01 11:48+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
+"Last-Translator: bounkirdni_2025, 2026\n"
 "Language-Team: Lao (Laos) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/lo_LA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,168 +22,170 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 msgid " already exists!"
-msgstr ""
+msgstr " ມີຢູ່ແລ້ວ!"
 
 msgid " the network!"
-msgstr ""
+msgstr " ເຄືອຂ່າຍ!"
 
 msgid "Action"
-msgstr ""
+msgstr "ການດຳເນີນການ"
 
 msgid "Activity"
-msgstr ""
+msgstr "ກິດຈະກຳ"
 
 msgid "Add"
-msgstr ""
+msgstr "ເພີ່ມ"
 
 msgid "Add PCI"
-msgstr ""
+msgstr "ເພີ່ມ PCI"
 
 msgid "Add Spice"
-msgstr ""
+msgstr "ເພີ່ມ Spice"
 
 msgid "Add USB"
-msgstr ""
+msgstr "ເພີ່ມ USB"
 
 msgid "Add VNC"
-msgstr ""
+msgstr "ເພີ່ມ VNC"
 
 msgid "Add disc"
-msgstr ""
+msgstr "ເພີ່ມແຜ່ນ"
 
 msgid "Add disk"
-msgstr ""
+msgstr "ເພີ່ມດິສກ໌"
 
 msgid "Add host disk"
-msgstr ""
+msgstr "ເພີ່ມດິສກ໌ຂອງໂຮສທ໌"
 
 msgid "Add host drive"
-msgstr ""
+msgstr "ເພີ່ມໄດຣຟ໌ຂອງໂຮສທ໌"
 
 msgid "Add macvtap network"
-msgstr ""
+msgstr "ເພີ່ມເຄືອຂ່າຍ macvtap"
 
 msgid "Add network"
-msgstr ""
+msgstr "ເພີ່ມເຄືອຂ່າຍ"
 
 msgid "Add new"
-msgstr ""
+msgstr "ເພີ່ມໃໝ່"
 
 msgid "Add new VM"
-msgstr ""
+msgstr "ເພີ່ມ VM ໃໝ່"
 
 msgid "Add new container"
-msgstr ""
+msgstr "ເພີ່ມຄອນເທນເນີໃໝ່"
 
 msgid "Add new pool"
-msgstr ""
+msgstr "ເພີ່ມພູນ (Pool) ໃໝ່"
 
 msgid "Add passthrough"
-msgstr ""
+msgstr "ເພີ່ມ passthrough"
 
 msgid "Add virtual TPM 2.0 device"
-msgstr ""
+msgstr "ເພີ່ມອຸປະກອນ virtual TPM 2.0"
 
 msgid "Adding USB device ..."
-msgstr ""
+msgstr "ກຳລັງເພີ່ມອຸປະກອນ USB ..."
 
 msgid "Adding VNC viewer ..."
-msgstr ""
+msgstr "ກຳລັງເພີ່ມ VNC viewer ..."
 
 msgid "Adding a disk ..."
-msgstr ""
+msgstr "ກຳລັງເພີ່ມດິສກ໌ ..."
 
 msgid "Adding a host disk ..."
-msgstr ""
+msgstr "ກຳລັງເພີ່ມດິສກ໌ຂອງໂຮສທ໌ ..."
 
 msgid "Adding a macvtap network ..."
-msgstr ""
+msgstr "ກຳລັງເພີ່ມເຄືອຂ່າຍ macvtap ..."
 
 msgid "Adding a network ..."
-msgstr ""
+msgstr "ກຳລັງເພີ່ມເຄືອຂ່າຍ ..."
 
 msgid "Adding a pool ..."
-msgstr ""
+msgstr "ກຳລັງເພີ່ມພູນ ..."
 
 msgid "Adding host drive ..."
-msgstr ""
+msgstr "ກຳລັງເພີ່ມໄດຣຟ໌ຂອງໂຮສທ໌ ..."
 
 msgid "Adding network adapter ..."
-msgstr ""
+msgstr "ກຳລັງເພີ່ມອະແດັບເຕີເຄືອຂ່າຍ ..."
 
 msgid "Adding optical disc ..."
-msgstr ""
+msgstr "ກຳລັງເພີ່ມແຜ່ນອັອບຕິຄໍ ..."
 
 msgid "Adding passthrough filesystem ..."
-msgstr ""
+msgstr "ກຳລັງເພີ່ມລະບົບໄຟລ໌ passthrough ..."
 
 msgid "Adding spice viewer ..."
-msgstr ""
+msgstr "ກຳລັງເພີ່ມ spice viewer ..."
 
 msgid "Advanced"
-msgstr ""
+msgstr "ຂັ້ນສູງ"
 
 msgid "All permissions have been fixed."
-msgstr ""
+msgstr "ແກ້ໄຂສິດການເຂົ້າເຖິງທັງໝົດແລ້ວ."
 
 msgid "All snapshots have been deleted."
-msgstr ""
+msgstr "ລຶບ snapshot ທັງໝົດແລ້ວ."
 
 msgid "Allocation"
-msgstr ""
+msgstr "ການຈັດສັນ"
 
 msgid "Amount"
-msgstr ""
+msgstr "ຈຳນວນ"
 
 msgid "Arch"
-msgstr ""
+msgstr "Arch"
 
 msgid "Architecture"
-msgstr ""
+msgstr "ສະຖາປັດຕະຍະກຳ"
 
 msgid ""
 "Are you sure you want to clear the monitor database? All collected metrics "
 "will be permanently deleted."
 msgstr ""
+"ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການລຶບຖານຂໍ້ມູນການຕິດຕາມ? "
+"ຂໍ້ມູນການວັດແທກທັງໝົດທີ່ເກັບກຳໄວ້ຈະຖືກລຶບຖາວອນ."
 
 msgid "Are you sure you want to delete all snapshots?"
-msgstr ""
+msgstr "ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການລຶບ snapshot ທັງໝົດ?"
 
 msgid "Are you sure you want to delete?"
-msgstr ""
+msgstr "ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການລຶບ?"
 
 msgid "Audio"
-msgstr ""
+msgstr "ສຽງ"
 
 msgid "Auto-generate a unique name based on the VM name."
-msgstr ""
+msgstr "ສ້າງຊື່ທີ່ບໍ່ຊ້ຳກັນໂດຍອັດຕະໂນມັດໂດຍອີງໃສ່ຊື່ VM."
 
 msgid "AutoStart"
-msgstr ""
+msgstr "ເລີ່ມອັດຕະໂນມັດ"
 
 msgid "Autostart has been disabled."
-msgstr ""
+msgstr "ປິດການເລີ່ມອັດຕະໂນມັດແລ້ວ."
 
 msgid "Autostart has been enabled."
-msgstr ""
+msgstr "ເປີດການເລີ່ມອັດຕະໂນມັດແລ້ວ."
 
 msgid "Available"
-msgstr ""
+msgstr "ທີ່ມີຢູ່"
 
 msgid "Backing file"
-msgstr ""
+msgstr "ໄຟລ໌ Backing"
 
 msgid "Backing file has been created."
-msgstr ""
+msgstr "ສ້າງໄຟລ໌ Backing ແລ້ວ."
 
 msgid "Backup"
-msgstr ""
+msgstr "ສຳຮອງຂໍ້ມູນ"
 
 msgid "Backup with Compression"
-msgstr ""
+msgstr "ສຳຮອງຂໍ້ມູນພ້ອມບີບອັດ"
 
 msgid "Base image"
-msgstr ""
+msgstr "Image ພື້ນຖານ"
 
 msgid ""
 "Be very careful not to passthrough a device being used by the host operating"
@@ -187,1235 +193,1250 @@ msgid ""
 "change between reboots.<br/>It is recommended to use /dev/disk/by-id device "
 "names."
 msgstr ""
+"ລະວັງຢ່າເຮັດ passthrough "
+"ອຸປະກອນທີ່ລະບົບປະຕິບັດການຂອງໂຮສທ໌ກຳລັງໃຊ້ຢູ່!<br/>ການໃຊ້ /dev/sd* "
+"ອາດຈະບໍ່ມີຄວາມສະຖຽນເພາະມັນສາມາດປ່ຽນແປງໄດ້ຫຼັງຈາກຣີບູດ.<br/>ຂໍແນະນຳໃຫ້ໃຊ້ຊື່ອຸປະກອນແບບ"
+" /dev/disk/by-id ແທນ."
 
 msgid "Bridge Model"
-msgstr ""
+msgstr "ຮູບແບບ Bridge"
 
 msgid "Bus"
-msgstr ""
+msgstr "ບັສ (Bus)"
 
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 msgid "CPU %"
-msgstr ""
+msgstr "% CPU"
 
 msgid "CPU count has been changed."
-msgstr ""
+msgstr "ປ່ຽນຈຳນວນ CPU ແລ້ວ."
 
 msgid "CPUs"
-msgstr ""
+msgstr "CPU"
 
 msgid "Call"
-msgstr ""
+msgstr "ເອີ້ນໃຊ້"
 
 msgid "Cannot remove / from a container."
-msgstr ""
+msgstr "ບໍ່ສາມາດລຶບ / ອອກຈາກຄອນເທນເນີໄດ້."
 
 msgid "Cannot use / for mount point."
-msgstr ""
+msgstr "ບໍ່ສາມາດໃຊ້ / ສຳລັບຈຸດເຊື່ອມຕໍ່ (mount point)."
 
 msgid "Capacity"
-msgstr ""
+msgstr "ຄວາມຈຸ"
 
 msgid "Change disc"
-msgstr ""
+msgstr "ປ່ຽນແຜ່ນ"
 
 msgid "Change memory"
-msgstr ""
+msgstr "ປ່ຽນໜ່ວຍຄວາມຈຳ"
 
 msgid "Change vCPU"
-msgstr ""
+msgstr "ປ່ຽນ vCPU"
 
 msgid "Changing memory amount ..."
-msgstr ""
+msgstr "ກຳລັງປ່ຽນຈຳນວນໜ່ວຍຄວາມຈຳ ..."
 
 msgid "Changing number of CPUs ..."
-msgstr ""
+msgstr "ກຳລັງປ່ຽນຈຳນວນ CPU ..."
 
 msgid "Changing optical disc ..."
-msgstr ""
+msgstr "ກຳລັງປ່ຽນແຜ່ນອັອບຕິຄໍ ..."
 
 msgid "Check"
-msgstr ""
+msgstr "ກວດສອບ"
 
 msgid "Check volume ..."
-msgstr ""
+msgstr "ກຳລັງກວດສອບວໍລຸ່ມ ..."
 
 msgid "Clear monitor database"
-msgstr ""
+msgstr "ລຶບຖານຂໍ້ມູນການຕິດຕາມ"
 
 msgid "Clearing monitor database ..."
-msgstr ""
+msgstr "ກຳລັງລຶບຖານຂໍ້ມູນການຕິດຕາມ ..."
 
 msgid "Clone"
-msgstr ""
+msgstr "ໂຄລນ (Clone)"
 
 msgid "Clone name"
-msgstr ""
+msgstr "ຊື່ທີ່ໂຄລນ"
 
 msgid "Cloning ..."
-msgstr ""
+msgstr "ກຳລັງໂຄລນ ..."
 
 msgid "Cloning complete."
-msgstr ""
+msgstr "ໂຄລນສຳເລັດແລ້ວ."
 
 msgid "Collect host and VM/LXC metrics for the Monitor tab and dashboard."
-msgstr ""
+msgstr "ເກັບກຳຂໍ້ມູນ metrics ຂອງ ໂຮສທ໌ ແລະ VM/LXC ສຳລັບແທັບຕິດຕາມ ແລະ ແດຊບອດ."
 
 msgid "Collection interval (seconds)"
-msgstr ""
+msgstr "ໄລຍະຫ່າງການເກັບກຳ (ວິນາທີ)"
 
 msgid "Component"
-msgstr ""
+msgstr "ສ່ວນປະກອບ"
 
 msgid "Compression"
-msgstr ""
+msgstr "ການບີບອັດ"
 
 msgid "Console"
-msgstr ""
+msgstr "ຄອນໂຊລ (Console)"
 
 msgid "Consoles have been started."
-msgstr ""
+msgstr "ເລີ່ມການເຮັດວຽກຂອງຄອນໂຊລແລ້ວ."
 
 msgid "Consoles have been stopped."
-msgstr ""
+msgstr "ຢຸດການເຮັດວຽກຂອງຄອນໂຊລແລ້ວ."
 
 msgid "Convert to qcow2"
-msgstr ""
+msgstr "ແປງເປັນ qcow2"
 
 msgid "Convert to raw"
-msgstr ""
+msgstr "ແປງເປັນ raw"
 
 msgid "Converting to qcow2 ..."
-msgstr ""
+msgstr "ກຳລັງແປງເປັນ qcow2 ..."
 
 msgid "Converting to raw ..."
-msgstr ""
+msgstr "ກຳລັງແປງເປັນ raw ..."
 
 msgid "Create"
-msgstr ""
+msgstr "ສ້າງ"
 
 msgid "Create LXC"
-msgstr ""
+msgstr "ສ້າງ LXC"
 
 msgid "Create VM"
-msgstr ""
+msgstr "ສ້າງ VM"
 
 msgid "Create backing file"
-msgstr ""
+msgstr "ສ້າງໄຟລ໌ backing"
 
 msgid "Created LXC."
-msgstr ""
+msgstr "ສ້າງ LXC ແລ້ວ."
 
 msgid "Created VM."
-msgstr ""
+msgstr "ສ້າງ VM ແລ້ວ."
 
 msgid "Created scheduled job."
-msgstr ""
+msgstr "ສ້າງໜ້າວຽກທີ່ກຳນົດເວລາແລ້ວ."
 
 msgid "Creating backing file ..."
-msgstr ""
+msgstr "ກຳລັງສ້າງໄຟລ໌ backing ..."
 
 msgid "Creating linked clone ..."
-msgstr ""
+msgstr "ກຳລັງສ້າງ linked clone ..."
 
 msgid "Creating snapshot ..."
-msgstr ""
+msgstr "ກຳລັງສ້າງ snapshot ..."
 
 msgid "Creating volume ..."
-msgstr ""
+msgstr "ກຳລັງສ້າງວໍລຸ່ມ ..."
 
 msgid "Current size"
-msgstr ""
+msgstr "ຂະໜາດປັດຈຸບັນ"
 
 msgid "Current size of the metrics database on disk."
-msgstr ""
+msgstr "ຂະໜາດປັດຈຸບັນຂອງຖານຂໍ້ມູນ metrics ໃນດິສກ໌."
 
 msgid "DHCP"
-msgstr ""
+msgstr "DHCP"
 
 msgid "DHCP Range"
-msgstr ""
+msgstr "ຊ່ວງ DHCP"
 
 msgid "DHCP ending address"
-msgstr ""
+msgstr "ທີ່ຢູ່ສິ້ນສຸດ DHCP"
 
 msgid "DHCP starting address"
-msgstr ""
+msgstr "ທີ່ຢູ່ເລີ່ມຕົ້ນ DHCP"
 
 msgid "Database path"
-msgstr ""
+msgstr "ເສັ້ນທາງຖານຂໍ້ມູນ"
 
 msgid "Database size"
-msgstr ""
+msgstr "ຂະໜາດຖານຂໍ້ມູນ"
 
 msgid "Date"
-msgstr ""
+msgstr "ວັນທີ"
 
 msgid "Date & Time"
-msgstr ""
+msgstr "ວັນທີ ແລະ ເວລາ"
 
 msgid "Delete"
-msgstr ""
+msgstr "ລຶບ"
 
 msgid "Delete + storage"
-msgstr ""
+msgstr "ລຶບ + ພື້ນທີ່ເກັບຂໍ້ມູນ"
 
 msgid "Delete All"
-msgstr ""
+msgstr "ລຶບທັງໝົດ"
 
 msgid "Deleted."
-msgstr ""
+msgstr "ລຶບແລ້ວ."
 
 msgid "Deleting ..."
-msgstr ""
+msgstr "ກຳລັງລຶບ ..."
 
 msgid "Deleting a network ..."
-msgstr ""
+msgstr "ກຳລັງລຶບເຄືອຂ່າຍ ..."
 
 msgid "Deleting a pool ..."
-msgstr ""
+msgstr "ກຳລັງລຶບພູນ ..."
 
 msgid "Deleting all snapshots ..."
-msgstr ""
+msgstr "ກຳລັງລຶບ snapshot ທັງໝົດ ..."
 
 msgid "Deleting snapshot ..."
-msgstr ""
+msgstr "ກຳລັງລຶບ snapshot ..."
 
 msgid "Details"
-msgstr ""
+msgstr "ລາຍລະອຽດ"
 
 msgid "Directory"
-msgstr ""
+msgstr "ໄດເຣັກທໍຣີ"
 
 msgid "Directory is not empty!"
-msgstr ""
+msgstr "ໄດເຣັກທໍຣີບໍ່ວ່າງ!"
 
 msgid "Directory permissions have been fixed."
-msgstr ""
+msgstr "ແກ້ໄຂສິດການເຂົ້າເຖິງໄດເຣັກທໍຣີແລ້ວ."
 
 msgid "Disable"
-msgstr ""
+msgstr "ປິດໃຊ້ງານ"
 
 msgid "Disabling autostart ..."
-msgstr ""
+msgstr "ກຳລັງປິດການເລີ່ມອັດຕະໂນມັດ ..."
 
 msgid "Disk"
-msgstr ""
+msgstr "ດິສກ໌"
 
 msgid "Disk Read"
-msgstr ""
+msgstr "ການອ່ານດິສກ໌"
 
 msgid "Disk Write"
-msgstr ""
+msgstr "ການຂຽນດິສກ໌"
 
 msgid "Disk has been added."
-msgstr ""
+msgstr "ເພີ່ມດິສກ໌ແລ້ວ."
 
 msgid "Disk has been removed."
-msgstr ""
+msgstr "ລຶບດິສກ໌ອອກແລ້ວ."
 
 msgid "Disk info"
-msgstr ""
+msgstr "ຂໍ້ມູນດິສກ໌"
 
 msgid "Disk list"
-msgstr ""
+msgstr "ລາຍການດິສກ໌"
 
 msgid "Disk stats"
-msgstr ""
+msgstr "ສະຖິຕິດິສກ໌"
 
 msgid "Disk(s)"
-msgstr ""
+msgstr "ດິສກ໌"
 
 msgid "Dom stats"
-msgstr ""
+msgstr "ສະຖິຕິ Domain"
 
 msgid "Download virtio iso"
-msgstr ""
+msgstr "ດາວໂຫລດ virtio iso"
 
 msgid "Download virtio iso ..."
-msgstr ""
+msgstr "ກຳລັງດາວໂຫລດ virtio iso ..."
 
 msgid "Edit"
-msgstr ""
+msgstr "ແກ້ໄຂ"
 
 msgid "Edit Notes"
-msgstr ""
+msgstr "ແກ້ໄຂບັນທຶກ"
 
 msgid "Edit VM xml"
-msgstr ""
+msgstr "ແກ້ໄຂ VM xml"
 
 msgid "Edit VM xml."
-msgstr ""
+msgstr "ແກ້ໄຂ VM xml."
 
 msgid "Edit XML"
-msgstr ""
+msgstr "ແກ້ໄຂ XML"
 
 msgid "Edit scheduled job."
-msgstr ""
+msgstr "ແກ້ໄຂໜ້າວຽກທີ່ກຳນົດເວລາ."
 
 msgid "Edit settings."
-msgstr ""
+msgstr "ແກ້ໄຂການຕັ້ງຄ່າ."
 
 msgid "Eject disc"
-msgstr ""
+msgstr "ເອົາແຜ່ນອອກ"
 
 msgid "Ejecting optical disc ..."
-msgstr ""
+msgstr "ກຳລັງເອົາແຜ່ນອັອບຕິຄໍອອກ ..."
 
 msgid "Enable"
-msgstr ""
+msgstr "ເປີດໃຊ້ງານ"
 
 msgid "Enable monitoring service"
-msgstr ""
+msgstr "ເປີດໃຊ້ງານບໍລິການຕິດຕາມ"
 
 msgid "Enabling autostart ..."
-msgstr ""
+msgstr "ກຳລັງເປີດການເລີ່ມອັດຕະໂນມັດ ..."
 
 msgid "Execute backup using selected VM name and path ..."
-msgstr ""
+msgstr "ດຳເນີນການສຳຮອງຂໍ້ມູນໂດຍໃຊ້ຊື່ VM ແລະ ເສັ້ນທາງທີ່ເລືອກ ..."
 
 msgid "Execute backup with compression using selected VM name and path ..."
-msgstr ""
+msgstr "ດຳເນີນການສຳຮອງຂໍ້ມູນພ້ອມບີບອັດໂດຍໃຊ້ຊື່ VM ແລະ ເສັ້ນທາງທີ່ເລືອກ ..."
 
 msgid "Execute scheduled job ..."
-msgstr ""
+msgstr "ດຳເນີນການໜ້າວຽກທີ່ກຳນົດເວລາ ..."
 
 msgid "Extend"
-msgstr ""
+msgstr "ຂະຫຍາຍ"
 
 msgid "Extending volume ..."
-msgstr ""
+msgstr "ກຳລັງຂະຫຍາຍວໍລຸ່ມ ..."
 
 msgid "Extension"
-msgstr ""
+msgstr "ນາມສະກຸນ"
 
 msgid "Failed to "
-msgstr ""
+msgstr "ບໍ່ສາມາດ "
 
 msgid "Failed to add PCI device."
-msgstr ""
+msgstr "ບໍ່ສາມາດເພີ່ມອຸປະກອນ PCI."
 
 msgid "Failed to add USB device."
-msgstr ""
+msgstr "ບໍ່ສາມາດເພີ່ມອຸປະກອນ USB."
 
 msgid "Failed to add VNC device."
-msgstr ""
+msgstr "ບໍ່ສາມາດເພີ່ມອຸປະກອນ VNC."
 
 msgid "Failed to add disk."
-msgstr ""
+msgstr "ບໍ່ສາມາດເພີ່ມດິສກ໌."
 
 msgid "Failed to add filesystem passthrough."
-msgstr ""
+msgstr "ບໍ່ສາມາດເພີ່ມ filesystem passthrough."
 
 msgid "Failed to add host disk."
-msgstr ""
+msgstr "ບໍ່ສາມາດເພີ່ມດິສກ໌ຂອງໂຮສທ໌."
 
 msgid "Failed to add host optical."
-msgstr ""
+msgstr "ບໍ່ສາມາດເພີ່ມໄດຣຟ໌ອັອບຕິຄໍຂອງໂຮສທ໌."
 
 msgid "Failed to add optical."
-msgstr ""
+msgstr "ບໍ່ສາມາດເພີ່ມໄດຣຟ໌ອັອບຕິຄໍ."
 
 msgid "Failed to add spice device."
-msgstr ""
+msgstr "ບໍ່ສາມາດເພີ່ມອຸປະກອນ spice."
 
 msgid "Failed to add spicevmc channel."
-msgstr ""
+msgstr "ບໍ່ສາມາດເພີ່ມຊ່ອງ spicevmc."
 
 msgid "Failed to apply new XML, and unable to restore backup :: "
-msgstr ""
+msgstr "ບໍ່ສາມາດໃຊ້ XML ໃໝ່ ແລະ ບໍ່ສາມາດກູ້ຄືນຂໍ້ມູນສຳຮອງໄດ້ :: "
 
 msgid "Failed to configure shared memory for virtiofs."
-msgstr ""
+msgstr "ບໍ່ສາມາດຕັ້ງຄ່າໜ່ວຍຄວາມຈຳຮ່ວມສຳລັບ virtiofs."
 
 msgid "Failed to create VM XML."
-msgstr ""
+msgstr "ບໍ່ສາມາດສ້າງ VM XML."
 
 msgid "Failed to create VM."
-msgstr ""
+msgstr "ບໍ່ສາມາດສ້າງ VM."
 
 msgid "Failed to create new disk :: "
-msgstr ""
+msgstr "ບໍ່ສາມາດສ້າງດິສກ໌ໃໝ່ :: "
 
 msgid "Failed to delete VM."
-msgstr ""
+msgstr "ບໍ່ສາມາດລຶບ VM."
 
 msgid "Failed to delete snapshot: "
-msgstr ""
+msgstr "ບໍ່ສາມາດລຶບ snapshot: "
 
 msgid "Failed to delete the snapshot!"
-msgstr ""
+msgstr "ບໍ່ສາມາດລຶບ snapshot ໄດ້!"
 
 msgid "Failed to detach PCI device from host."
-msgstr ""
+msgstr "ບໍ່ສາມາດຖອດອຸປະກອນ PCI ອອກຈາກໂຮສທ໌."
 
 msgid "Failed to disable autostart."
-msgstr ""
+msgstr "ບໍ່ສາມາດປິດການເລີ່ມອັດຕະໂນມັດ."
 
 msgid "Failed to download image."
-msgstr ""
+msgstr "ບໍ່ສາມາດດາວໂຫລດ image."
 
 msgid "Failed to enable autostart."
-msgstr ""
+msgstr "ບໍ່ສາມາດເປີດການເລີ່ມອັດຕະໂນມັດ."
 
 msgid "Failed to fix permissions on parent directory: %s"
-msgstr ""
+msgstr "ບໍ່ສາມາດແກ້ໄຂສິດໃນໄດເຣັກທໍຣີຫຼັກ: %s"
 
 msgid "Failed to fix pool permissions."
-msgstr ""
+msgstr "ບໍ່ສາມາດແກ້ໄຂສິດຂອງພູນ (pool)."
 
 msgid "Failed to force stop VM."
-msgstr ""
+msgstr "ບໍ່ສາມາດບັງຄັບຢຸດ VM."
 
 msgid "Failed to generate a disk name!"
-msgstr ""
+msgstr "ບໍ່ສາມາດສ້າງຊື່ດິສກ໌ໄດ້!"
 
 msgid "Failed to pause VM."
-msgstr ""
+msgstr "ບໍ່ສາມາດພັກ VM."
 
 msgid "Failed to power off VM."
-msgstr ""
+msgstr "ບໍ່ສາມາດປິດເຄື່ອງ VM."
 
 msgid "Failed to power on VM."
-msgstr ""
+msgstr "ບໍ່ສາມາດເປີດເຄື່ອງ VM."
 
 msgid "Failed to reboot VM."
-msgstr ""
+msgstr "ບໍ່ສາມາດຣີບູດ VM."
 
 msgid "Failed to remove PCI device."
-msgstr ""
+msgstr "ບໍ່ສາມາດລຶບອຸປະກອນ PCI."
 
 msgid "Failed to remove USB device."
-msgstr ""
+msgstr "ບໍ່ສາມາດລຶບອຸປະກອນ USB."
 
 msgid "Failed to remove VNC device."
-msgstr ""
+msgstr "ບໍ່ສາມາດລຶບອຸປະກອນ VNC."
 
 msgid "Failed to remove disk."
-msgstr ""
+msgstr "ບໍ່ສາມາດລຶບດິສກ໌."
 
 msgid "Failed to remove filesystem passthrough."
-msgstr ""
+msgstr "ບໍ່ສາມາດລຶບ filesystem passthrough."
 
 msgid "Failed to remove network."
-msgstr ""
+msgstr "ບໍ່ສາມາດລຶບເຄືອຂ່າຍ."
 
 msgid "Failed to remove spice device."
-msgstr ""
+msgstr "ບໍ່ສາມາດລຶບອຸປະກອນ spice."
 
 msgid "Failed to remove spicevmc channel."
-msgstr ""
+msgstr "ບໍ່ສາມາດລຶບຊ່ອງ spicevmc."
 
 msgid "Failed to remove spicevmc redirdev."
-msgstr ""
+msgstr "ບໍ່ສາມາດລຶບ spicevmc redirdev."
 
 msgid "Failed to reset VM."
-msgstr ""
+msgstr "ບໍ່ສາມາດຣີເຊັດ VM."
 
 msgid "Failed to resize disk!"
-msgstr ""
+msgstr "ບໍ່ສາມາດປ່ຽນຂະໜາດດິສກ໌ໄດ້!"
 
 msgid "Failed to resume VM."
-msgstr ""
+msgstr "ບໍ່ສາມາດໃຫ້ VM ກັບມາເຮັດວຽກຕໍ່."
 
 msgid "Failed to set change."
-msgstr ""
+msgstr "ບໍ່ສາມາດບັນທຶກການປ່ຽນແປງ."
 
 msgid "Failed to set maximum."
-msgstr ""
+msgstr "ບໍ່ສາມາດຕັ້ງຄ່າສູງສຸດ."
 
 msgid "Failed to set pool autostart."
-msgstr ""
+msgstr "ບໍ່ສາມາດຕັ້ງຄ່າເລີ່ມພູນອັດຕະໂນມັດ."
 
 msgid "Failed to start pool."
-msgstr ""
+msgstr "ບໍ່ສາມາດເລີ່ມພູນ (pool)."
 
 msgid "Failed to start websockify for "
-msgstr ""
+msgstr "ບໍ່ສາມາດເລີ່ມ websockify ສຳລັບ "
 
 msgid "Failed to stop pool."
-msgstr ""
+msgstr "ບໍ່ສາມາດຢຸດພູນ (pool)."
 
 msgid "File will be placed in same directory as the base image."
-msgstr ""
+msgstr "ໄຟລ໌ຈະຖືກຈັດວາງໄວ້ໃນໄດເຣັກທໍຣີດຽວກັນກັບ image ພື້ນຖານ."
 
 msgid "Filesystem"
-msgstr ""
+msgstr "ລະບົບໄຟລ໌"
 
 msgid "Fix all permissions"
-msgstr ""
+msgstr "ແກ້ໄຂສິດທັງໝົດ"
 
 msgid "Fix directory permissions"
-msgstr ""
+msgstr "ແກ້ໄຂສິດໄດເຣັກທໍຣີ"
 
 msgid "Fix parent dir permissions"
-msgstr ""
+msgstr "ແກ້ໄຂສິດໄດເຣັກທໍຣີຫຼັກ"
 
 msgid "Fix permissions"
-msgstr ""
+msgstr "ແກ້ໄຂສິດການເຂົ້າເຖິງ"
 
 msgid "Fixing all permissions ..."
-msgstr ""
+msgstr "ກຳລັງແກ້ໄຂສິດທັງໝົດ ..."
 
 msgid "Fixing directory permissions ..."
-msgstr ""
+msgstr "ກຳລັງແກ້ໄຂສິດໄດເຣັກທໍຣີ ..."
 
 msgid "Fixing parent directory permissions ..."
-msgstr ""
+msgstr "ກຳລັງແກ້ໄຂສິດໄດເຣັກທໍຣີຫຼັກ ..."
 
 msgid ""
 "For description of each type and how to configure <a "
 "href='https://libvirt.org/storage.html' "
 "target='_blank'>libvirt.org/storage.html</a>"
 msgstr ""
+"ສຳລັບລາຍລະອຽດຂອງແຕ່ລະປະເພດ ແລະ ວິທີຕັ້ງຄ່າເບິ່ງໄດ້ທີ່ <a "
+"href='https://libvirt.org/storage.html' "
+"target='_blank'>libvirt.org/storage.html</a>"
 
 msgid "Force"
-msgstr ""
+msgstr "ບັງຄັບ"
 
 msgid "Force eject"
-msgstr ""
+msgstr "ບັງຄັບເອົາແຜ່ນອອກ"
 
 msgid "Force image list refresh"
-msgstr ""
+msgstr "ບັງຄັບຣີເຟຣຊລາຍການ image"
 
 msgid "Forced down."
-msgstr ""
+msgstr "ບັງຄັບປິດແລ້ວ."
 
 msgid "Forcing down ..."
-msgstr ""
+msgstr "ກຳລັງບັງຄັບປິດ ..."
 
 msgid "Format"
-msgstr ""
+msgstr "ຟໍແມັດ"
 
 msgid "Forwarding"
-msgstr ""
+msgstr "ການສົ່ງຕໍ່"
 
 msgid "Gateway IP"
-msgstr ""
+msgstr "Gateway IP"
 
 msgid "Gateway IP address"
-msgstr ""
+msgstr "ທີ່ຢູ່ Gateway IP"
 
 msgid "GiB"
-msgstr ""
+msgstr "GiB"
 
 msgid "Gigabytes"
-msgstr ""
+msgstr "ກິກາໄບທ໌"
 
 msgid "Hard disk"
-msgstr ""
+msgstr "ຮາດດິສກ໌"
 
 msgid "Host disk has been added."
-msgstr ""
+msgstr "ເພີ່ມດິສກ໌ຂອງໂຮສທ໌ແລ້ວ."
 
 msgid "Host drive has been added."
-msgstr ""
+msgstr "ເພີ່ມໄດຣຟ໌ຂອງໂຮສທ໌ແລ້ວ."
 
 msgid "Host name"
-msgstr ""
+msgstr "ຊື່ໂຮສທ໌"
 
 msgid "How long to keep 1-minute summary samples."
-msgstr ""
+msgstr "ໄລຍະເວລາທີ່ຈະເກັບຂໍ້ມູນຕົວຢ່າງສະຫຼຸບແບບ 1 ນາທີ."
 
 msgid "How long to keep 10-second raw samples."
-msgstr ""
+msgstr "ໄລຍະເວລາທີ່ຈະເກັບຂໍ້ມູນຕົວຢ່າງດິບແບບ 10 ວິນາທີ."
 
 msgid "How often to collect metrics. Lower values increase CPU usage."
-msgstr ""
+msgstr "ຄວາມຖີ່ໃນການເກັບກຳ metrics. ຄ່າທີ່ຕ່ຳກວ່າຈະເພີ່ມການໃຊ້ງານ CPU."
 
 msgid "IP Range"
-msgstr ""
+msgstr "ຊ່ວງ IP"
 
 msgid "ISOs"
-msgstr ""
+msgstr "ISO"
 
 msgid ""
 "If unchecked, LXC Container Initialization and Autoboot will be disabled."
-msgstr ""
+msgstr "ຫາກບໍ່ເລືອກ, ການເລີ່ມຕົ້ນ LXC Container ແລະ ການບູດອັດຕະໂນມັດຈະຖືກປິດ."
 
 msgid "If unchecked, LXC network bridge will be disabled."
-msgstr ""
+msgstr "ຫາກບໍ່ເລືອກ, ເຄືອຂ່າຍ bridge ຂອງ LXC ຈະຖືກປິດ."
 
 msgid "Image"
-msgstr ""
+msgstr "Image"
 
 msgid "Info"
-msgstr ""
+msgstr "ຂໍ້ມູນ"
 
 msgid "KVM"
-msgstr ""
+msgstr "KVM"
 
 msgid "KVM Backup"
-msgstr ""
+msgstr "ການສຳຮອງຂໍ້ມູນ KVM"
 
 msgid "Keep Recent"
-msgstr ""
+msgstr "ເກັບອັນຫຼ້າສຸດໄວ້"
 
 msgid "LXC"
-msgstr ""
+msgstr "LXC"
 
 msgid "LXC name"
-msgstr ""
+msgstr "ຊື່ LXC"
 
 msgid "Leave blank for random address."
-msgstr ""
+msgstr "ປະວ່າງໄວ້ເພື່ອສຸ່ມທີ່ຢູ່."
 
 msgid "Linked Clone"
-msgstr ""
+msgstr "Linked Clone"
 
 msgid "Linked clone complete."
-msgstr ""
+msgstr "ເຮັດ Linked clone ສຳເລັດແລ້ວ."
 
 msgid "Logical"
-msgstr ""
+msgstr "Logical"
 
 msgid "MAC address"
-msgstr ""
+msgstr "ທີ່ຢູ່ MAC"
 
 msgid "Megabytes"
-msgstr ""
+msgstr "ເມກາໄບທ໌"
 
 msgid "Memory"
-msgstr ""
+msgstr "ໜ່ວຍຄວາມຈຳ"
 
 msgid "Memory amount has been changed."
-msgstr ""
+msgstr "ປ່ຽນຈຳນວນໜ່ວຍຄວາມຈຳແລ້ວ."
 
 msgid "Message"
-msgstr ""
+msgstr "ຂໍ້ຄວາມ"
 
 msgid "MiB"
-msgstr ""
+msgstr "MiB"
 
 msgid "Model"
-msgstr ""
+msgstr "ຮຸ່ນ (Model)"
 
 msgid "Monitor"
-msgstr ""
+msgstr "ຕິດຕາມ"
 
 msgid "Monitor database has been cleared."
-msgstr ""
+msgstr "ລຶບຖານຂໍ້ມູນການຕິດຕາມແລ້ວ."
 
 msgid "Move"
-msgstr ""
+msgstr "ຍ້າຍ"
 
 msgid "Move VM ..."
-msgstr ""
+msgstr "ຍ້າຍ VM ..."
 
 msgid "Name"
-msgstr ""
+msgstr "ຊື່"
 
 msgid "Net In"
-msgstr ""
+msgstr "ເນັດເຂົ້າ"
 
 msgid "Net Out"
-msgstr ""
+msgstr "ເນັດອອກ"
 
 msgid "Net info"
-msgstr ""
+msgstr "ຂໍ້ມູນເຄືອຂ່າຍ"
 
 msgid "Network"
-msgstr ""
+msgstr "ເຄືອຂ່າຍ"
 
 msgid "Network Filesystem"
-msgstr ""
+msgstr "ລະບົບໄຟລ໌ເຄືອຂ່າຍ"
 
 msgid "Network Name"
-msgstr ""
+msgstr "ຊື່ເຄືອຂ່າຍ"
 
 msgid "Network State"
-msgstr ""
+msgstr "ສະຖານະເຄືອຂ່າຍ"
 
 msgid "Network adapter has been added."
-msgstr ""
+msgstr "ເພີ່ມອະແດັບເຕີເຄືອຂ່າຍແລ້ວ."
 
 msgid "Network adapter has been removed."
-msgstr ""
+msgstr "ລຶບອະແດັບເຕີເຄືອຂ່າຍອອກແລ້ວ."
 
 msgid "Network has been added."
-msgstr ""
+msgstr "ເພີ່ມເຄືອຂ່າຍແລ້ວ."
 
 msgid "Network has been deleted."
-msgstr ""
+msgstr "ລຶບເຄືອຂ່າຍແລ້ວ."
 
 msgid "Network has been started."
-msgstr ""
+msgstr "ເລີ່ມເຄືອຂ່າຍແລ້ວ."
 
 msgid "Network has been stopped."
-msgstr ""
+msgstr "ຢຸດເຄືອຂ່າຍແລ້ວ."
 
 msgid "Network interface info"
-msgstr ""
+msgstr "ຂໍ້ມູນອິນເຕີເຟດເຄືອຂ່າຍ"
 
 msgid "Networks"
-msgstr ""
+msgstr "ເຄືອຂ່າຍ"
 
 msgid "New name"
-msgstr ""
+msgstr "ຊື່ໃໝ່"
 
 msgid "No image - use existing image path"
-msgstr ""
+msgstr "ບໍ່ມີ image - ໃຊ້ເສັ້ນທາງ image ທີ່ມີຢູ່ແລ້ວ"
 
 msgid "Notes"
-msgstr ""
+msgstr "ບັນທຶກ"
 
 msgid "OS"
-msgstr ""
+msgstr "ລະບົບປະຕິບັດການ"
 
 msgid "Open full monitoring dashboard"
-msgstr ""
+msgstr "ເປີດແດຊບອດການຕິດຕາມແບບເຕັມ"
 
 msgid "Optical"
-msgstr ""
+msgstr "ອັອບຕິຄໍ"
 
 msgid "Optical Drive"
-msgstr ""
+msgstr "ໄດຣຟ໌ອັອບຕິຄໍ"
 
 msgid "Optical disc has been added."
-msgstr ""
+msgstr "ເພີ່ມແຜ່ນອັອບຕິຄໍແລ້ວ."
 
 msgid "Optical disc has been changed."
-msgstr ""
+msgstr "ປ່ຽນແຜ່ນອັອບຕິຄໍແລ້ວ."
 
 msgid "Optical disc has been ejected."
-msgstr ""
+msgstr "ເອົາແຜ່ນອັອບຕິຄໍອອກແລ້ວ."
 
 msgid "Optical disc has been removed."
-msgstr ""
+msgstr "ລຶບແຜ່ນອັອບຕິຄໍອອກແລ້ວ."
 
 msgid "Optimize/Shrink"
-msgstr ""
+msgstr "ປັບແຕ່ງ/ຫຍໍ້ຂະໜາດ"
 
 msgid "Optimizing/shrinking qcow2 ..."
-msgstr ""
+msgstr "ກຳລັງປັບແຕ່ງ/ຫຍໍ້ຂະໜາດ qcow2 ..."
 
 msgid ""
 "Optional. Choose pool to restore VM to a different location. Leave blank for"
 " original location."
 msgstr ""
+"ທາງເລືອກ. ເລືອກພູນ (pool) ເພື່ອກູ້ຄືນ VM ໄປຍັງບ່ອນອື່ນ. "
+"ປະວ່າງໄວ້ເພື່ອໃຊ້ບ່ອນເດີມ."
 
 msgid "Other CPU"
-msgstr ""
+msgstr "CPU ອື່ນໆ"
 
 msgid "PCI"
-msgstr ""
+msgstr "PCI"
 
 msgid "PCI device has been added."
-msgstr ""
+msgstr "ເພີ່ມອຸປະກອນ PCI ແລ້ວ."
 
 msgid "PCI device has been removed."
-msgstr ""
+msgstr "ລຶບອຸປະກອນ PCI ອອກແລ້ວ."
 
 msgid "Parent directory permissions have been fixed."
-msgstr ""
+msgstr "ແກ້ໄຂສິດໄດເຣັກທໍຣີຫຼັກແລ້ວ."
 
 msgid "Passing through PCI device ..."
-msgstr ""
+msgstr "ກຳລັງເຮັດ PCI passthrough ..."
 
 msgid "Passthrough Filesystem"
-msgstr ""
+msgstr "ລະບົບໄຟລ໌ Passthrough"
 
 msgid "Passthrough by address instead of using vendor and product IDs"
-msgstr ""
+msgstr "Passthrough ດ້ວຍທີ່ຢູ່ແທນການໃຊ້ vendor ແລະ product IDs"
 
 msgid "Passthrough filesystem has been added."
-msgstr ""
+msgstr "ເພີ່ມລະບົບໄຟລ໌ Passthrough ແລ້ວ."
 
 msgid "Passthrough filesystem has been removed."
-msgstr ""
+msgstr "ລຶບລະບົບໄຟລ໌ Passthrough ອອກແລ້ວ."
 
 msgid "Path"
-msgstr ""
+msgstr "ເສັ້ນທາງ (Path)"
 
 msgid ""
 "Path to the SQLite metrics database. Service will restart if this is "
 "changed."
 msgstr ""
+"ເສັ້ນທາງໄປຫາຖານຂໍ້ມູນ SQLite metrics. ບໍລິການຈະຣີສະຕາດຫາກມີການປ່ຽນແປງນີ້."
 
 msgid "Pause"
-msgstr ""
+msgstr "ພັກ"
 
 msgid "Paused."
-msgstr ""
+msgstr "ພັກແລ້ວ."
 
 msgid "Pausing ..."
-msgstr ""
+msgstr "ກຳລັງພັກ ..."
 
 msgid "Pool"
-msgstr ""
+msgstr "ພູນ (Pool)"
 
 msgid "Pool has been added."
-msgstr ""
+msgstr "ເພີ່ມພູນແລ້ວ."
 
 msgid "Pool has been deleted."
-msgstr ""
+msgstr "ລຶບພູນແລ້ວ."
 
 msgid "Pool has been started."
-msgstr ""
+msgstr "ເລີ່ມພູນແລ້ວ."
 
 msgid "Pool has been stopped."
-msgstr ""
+msgstr "ຢຸດພູນແລ້ວ."
 
 msgid "Pools"
-msgstr ""
+msgstr "ພູນ (Pools)"
 
 msgid "Power off + Move"
-msgstr ""
+msgstr "ປິດເຄື່ອງ + ຍ້າຍ"
 
 msgid "Power off VM and move ..."
-msgstr ""
+msgstr "ປິດເຄື່ອງ VM ແລະ ຍ້າຍ ..."
 
 msgid "RAM"
-msgstr ""
+msgstr "RAM"
 
 msgid "Raw data retention (hours)"
-msgstr ""
+msgstr "ການເກັບຮັກສາຂໍ້ມູນດິບ (ຊົ່ວໂມງ)"
 
 msgid "Reboot"
-msgstr ""
+msgstr "ຣີບູດ"
 
 msgid "Rebooted."
-msgstr ""
+msgstr "ຣີບູດແລ້ວ."
 
 msgid "Rebooting ..."
-msgstr ""
+msgstr "ກຳລັງຣີບູດ ..."
 
 msgid "Remove PCI"
-msgstr ""
+msgstr "ລຶບ PCI"
 
 msgid "Remove Spice"
-msgstr ""
+msgstr "ລຶບ Spice"
 
 msgid "Remove USB"
-msgstr ""
+msgstr "ລຶບ USB"
 
 msgid "Remove VNC"
-msgstr ""
+msgstr "ລຶບ VNC"
 
 msgid "Remove disc"
-msgstr ""
+msgstr "ລຶບແຜ່ນ"
 
 msgid "Remove disk"
-msgstr ""
+msgstr "ລຶບດິສກ໌"
 
 msgid "Remove network"
-msgstr ""
+msgstr "ລຶບເຄືອຂ່າຍ"
 
 msgid "Remove passthrough"
-msgstr ""
+msgstr "ລຶບ passthrough"
 
 msgid "Removing PCI device ..."
-msgstr ""
+msgstr "ກຳລັງລຶບອຸປະກອນ PCI ..."
 
 msgid "Removing USB device ..."
-msgstr ""
+msgstr "ກຳລັງລຶບອຸປະກອນ USB ..."
 
 msgid "Removing VNC viewer ..."
-msgstr ""
+msgstr "ກຳລັງລຶບ VNC viewer ..."
 
 msgid "Removing disk ..."
-msgstr ""
+msgstr "ກຳລັງລຶບດິສກ໌ ..."
 
 msgid "Removing network adapter ..."
-msgstr ""
+msgstr "ກຳລັງລຶບອະແດັບເຕີເຄືອຂ່າຍ ..."
 
 msgid "Removing optical disc ..."
-msgstr ""
+msgstr "ກຳລັງລຶບແຜ່ນອັອບຕິຄໍ ..."
 
 msgid "Removing passthrough filesystem ..."
-msgstr ""
+msgstr "ກຳລັງລຶບລະບົບໄຟລ໌ passthrough ..."
 
 msgid "Removing spice viewer ..."
-msgstr ""
+msgstr "ກຳລັງລຶບ spice viewer ..."
 
 msgid "Reset"
-msgstr ""
+msgstr "ຣີເຊັດ"
 
 msgid "Reset."
-msgstr ""
+msgstr "ຣີເຊັດແລ້ວ."
 
 msgid "Resetting ..."
-msgstr ""
+msgstr "ກຳລັງຣີເຊັດ ..."
 
 msgid "Restore"
-msgstr ""
+msgstr "ກູ້ຄືນ"
 
 msgid "Restore VM ..."
-msgstr ""
+msgstr "ກູ້ຄືນ VM ..."
 
 msgid "Resume"
-msgstr ""
+msgstr "ກັບມາເຮັດວຽກຕໍ່"
 
 msgid "Resumed."
-msgstr ""
+msgstr "ກັບມາເຮັດວຽກຕໍ່ແລ້ວ."
 
 msgid "Resuming ..."
-msgstr ""
+msgstr "ກຳລັງກັບມາເຮັດວຽກຕໍ່ ..."
 
 msgid "Revert"
-msgstr ""
+msgstr "ຍ້ອນກັບ"
 
 msgid "Reverting to snapshot ..."
-msgstr ""
+msgstr "ກຳລັງຍ້ອນກັບໄປຫາ snapshot ..."
 
 msgid "Run"
-msgstr ""
+msgstr "ເລີ່ມ"
 
 msgid "Running"
-msgstr ""
+msgstr "ກຳລັງເຮັດວຽກ"
 
 msgid "Same Format"
-msgstr ""
+msgstr "ຟໍແມັດດຽວກັນ"
 
 msgid "Schedule"
-msgstr ""
+msgstr "ກຳນົດເວລາ"
 
 msgid "Secure boot"
-msgstr ""
+msgstr "Secure boot"
 
 msgid "Select a snapshot ..."
-msgstr ""
+msgstr "ເລືອກ snapshot ..."
 
 msgid "Settings"
-msgstr ""
+msgstr "ການຕັ້ງຄ່າ"
 
 msgid "Show advanced options"
-msgstr ""
+msgstr "ສະແດງຕົວເລືອກຂັ້ນສູງ"
 
 msgid "Size"
-msgstr ""
+msgstr "ຂະໜາດ"
 
 msgid "Snapshot"
-msgstr ""
+msgstr "Snapshot"
 
 msgid "Snapshot has been created."
-msgstr ""
+msgstr "ສ້າງ snapshot ແລ້ວ."
 
 msgid "Snapshot has been deleted."
-msgstr ""
+msgstr "ລຶບ snapshot ແລ້ວ."
 
 msgid "Snapshot has been reverted."
-msgstr ""
+msgstr "ຍ້ອນກັບໄປຫາ snapshot ແລ້ວ."
 
 msgid "Snapshots"
-msgstr ""
+msgstr "Snapshot"
 
 msgid "Source VM"
-msgstr ""
+msgstr "VM ຕົ້ນທາງ"
 
 msgid "Source path"
-msgstr ""
+msgstr "ເສັ້ນທາງຕົ້ນທາງ"
 
 msgid "Space Used"
-msgstr ""
+msgstr "ພື້ນທີ່ທີ່ໃຊ້ໄປ"
 
 msgid "Spice"
-msgstr ""
+msgstr "Spice"
 
 msgid "Spice port"
-msgstr ""
+msgstr "Spice port"
 
 msgid "Spice viewer has been added."
-msgstr ""
+msgstr "ເພີ່ມ Spice viewer ແລ້ວ."
 
 msgid "Spice viewer has been removed."
-msgstr ""
+msgstr "ລຶບ Spice viewer ອອກແລ້ວ."
 
 msgid "Start"
-msgstr ""
+msgstr "ເລີ່ມ"
 
 msgid "Started."
-msgstr ""
+msgstr "ເລີ່ມແລ້ວ."
 
 msgid "Starting ..."
-msgstr ""
+msgstr "ກຳລັງເລີ່ມ ..."
 
 msgid "Starting a pool ..."
-msgstr ""
+msgstr "ກຳລັງເລີ່ມພູນ ..."
 
 msgid "Starting consoles ..."
-msgstr ""
+msgstr "ກຳລັງເລີ່ມຄອນໂຊລ ..."
 
 msgid "Starting network ..."
-msgstr ""
+msgstr "ກຳລັງເລີ່ມເຄືອຂ່າຍ ..."
 
 msgid "State"
-msgstr ""
+msgstr "ສະຖານະ"
 
 msgid "Stop"
-msgstr ""
+msgstr "ຢຸດ"
 
 msgid "Stopped."
-msgstr ""
+msgstr "ຢຸດແລ້ວ."
 
 msgid "Stopping ..."
-msgstr ""
+msgstr "ກຳລັງຢຸດ ..."
 
 msgid "Stopping a pool ..."
-msgstr ""
+msgstr "ກຳລັງຢຸດພູນ ..."
 
 msgid "Stopping consoles ..."
-msgstr ""
+msgstr "ກຳລັງຢຸດຄອນໂຊລ ..."
 
 msgid "Stopping network ..."
-msgstr ""
+msgstr "ກຳລັງຢຸດເຄືອຂ່າຍ ..."
 
 msgid "Storage Volume"
-msgstr ""
+msgstr "Storage Volume"
 
 msgid "Subnet mask"
-msgstr ""
+msgstr "Subnet mask"
 
 msgid "Summary data retention (days)"
-msgstr ""
+msgstr "ການເກັບຮັກສາຂໍ້ມູນສະຫຼຸບ (ມື້)"
 
 msgid "TPM"
-msgstr ""
+msgstr "TPM"
 
 msgid "Terabytes"
-msgstr ""
+msgstr "ເຕຣາໄບທ໌"
 
 msgid "Terminal Link"
-msgstr ""
+msgstr "Terminal Link"
 
 msgid ""
 "This will run 'chmod o+x' on every parent directory of the pool path, "
 "allowing libvirt-qemu to traverse them. Existing permissions on those "
 "directories will be modified. Continue?"
 msgstr ""
+"ນີ້ຈະລັນ 'chmod o+x' ໃນທຸກໆໄດເຣັກທໍຣີຫຼັກຂອງເສັ້ນທາງພູນ, ເພື່ອໃຫ້ libvirt-"
+"qemu ສາມາດເຂົ້າເຖິງໄດ້. ສິດທີ່ມີຢູ່ເດີມຈະຖືກແກ້ໄຂ. ຕ້ອງການສືບຕໍ່ບໍ່?"
 
 msgid "Type"
-msgstr ""
+msgstr "ປະເພດ"
 
 msgid "UEFI"
-msgstr ""
+msgstr "UEFI"
 
 msgid "USB"
-msgstr ""
+msgstr "USB"
 
 msgid "USB device has been added."
-msgstr ""
+msgstr "ເພີ່ມອຸປະກອນ USB ແລ້ວ."
 
 msgid "USB device has been removed."
-msgstr ""
+msgstr "ລຶບອຸປະກອນ USB ອອກແລ້ວ."
 
 msgid "UUID"
-msgstr ""
+msgstr "UUID"
 
 msgid "Unable to add network adapter to VM"
-msgstr ""
+msgstr "ບໍ່ສາມາດເພີ່ມອະແດັບເຕີເຄືອຂ່າຍໃຫ້ VM"
 
 msgid "Unable to backup existing XML for VM :: "
-msgstr ""
+msgstr "ບໍ່ສາມາດສຳຮອງຂໍ້ມູນ XML ທີ່ມີຢູ່ຂອງ VM :: "
 
 msgid "Unable to change notes for VM."
-msgstr ""
+msgstr "ບໍ່ສາມາດປ່ຽນບັນທຶກຂອງ VM."
 
 msgid "Unable to create snapshot"
-msgstr ""
+msgstr "ບໍ່ສາມາດສ້າງ snapshot"
 
 msgid "Unable to create volume - "
-msgstr ""
+msgstr "ບໍ່ສາມາດສ້າງວໍລຸ່ມ - "
 
 msgid "Unable to define network"
-msgstr ""
+msgstr "ບໍ່ສາມາດກຳນົດເຄືອຂ່າຍ"
 
 msgid "Unable to define storage pool"
-msgstr ""
+msgstr "ບໍ່ສາມາດກຳນົດ storage pool"
 
 msgid "Unable to delete disk(s) from VM."
-msgstr ""
+msgstr "ບໍ່ສາມາດລຶບດິສກ໌ອອກຈາກ VM."
 
 msgid "Unable to delete network"
-msgstr ""
+msgstr "ບໍ່ສາມາດລຶບເຄືອຂ່າຍ"
 
 msgid "Unable to delete pool"
-msgstr ""
+msgstr "ບໍ່ສາມາດລຶບພູນ (pool)"
 
 msgid "Unable to delete volume - "
-msgstr ""
+msgstr "ບໍ່ສາມາດລຶບວໍລຸ່ມ - "
 
 msgid "Unable to determine pool path."
-msgstr ""
+msgstr "ບໍ່ສາມາດລະບຸເສັ້ນທາງຂອງພູນ."
 
 msgid "Unable to get network adapter type - "
-msgstr ""
+msgstr "ບໍ່ສາມາດດຶງຂໍ້ມູນປະເພດອະແດັບເຕີເຄືອຂ່າຍ - "
 
 msgid "Unable to revert to snapshot"
-msgstr ""
+msgstr "ບໍ່ສາມາດຍ້ອນກັບໄປຫາ snapshot"
 
 msgid "Unable to set VM XML :: "
-msgstr ""
+msgstr "ບໍ່ສາມາດຕັ້ງຄ່າ VM XML :: "
 
 msgid "Unable to start network"
-msgstr ""
+msgstr "ບໍ່ສາມາດເລີ່ມເຄືອຂ່າຍ"
 
 msgid "Unable to stop network"
-msgstr ""
+msgstr "ບໍ່ສາມາດຢຸດເຄືອຂ່າຍ"
 
 msgid "Unable to undefine VM :: "
-msgstr ""
+msgstr "ບໍ່ສາມາດຍົກເລີກການກຳນົດ VM :: "
 
 msgid "Unable to update domain XML"
-msgstr ""
+msgstr "ບໍ່ສາມາດອັບເດດ domain XML"
 
 msgid "Unit"
-msgstr ""
+msgstr "ຫົວໜ່ວຍ"
 
 msgid "VM Name"
-msgstr ""
+msgstr "ຊື່ VM"
 
 msgid "VM does not have qemu guest agent installed!"
-msgstr ""
+msgstr "VM ບໍ່ໄດ້ຕິດຕັ້ງ qemu guest agent!"
 
 msgid "VM info"
-msgstr ""
+msgstr "ຂໍ້ມູນ VM"
 
 msgid "VM is not running!"
-msgstr ""
+msgstr "VM ບໍ່ໄດ້ກຳລັງເຮັດວຽກ!"
 
 msgid "VM must be powered off before deleting disks."
-msgstr ""
+msgstr "ຕ້ອງປິດ VM ກ່ອນທີ່ຈະລຶບດິສກ໌."
 
 msgid "VM name"
-msgstr ""
+msgstr "ຊື່ VM"
 
 msgid "VM name for restored VM"
-msgstr ""
+msgstr "ຊື່ VM ສຳລັບ VM ທີ່ກູ້ຄືນ"
 
 msgid "VMs"
-msgstr ""
+msgstr "VM"
 
 msgid "VNC"
-msgstr ""
+msgstr "VNC"
 
 msgid "VNC port"
-msgstr ""
+msgstr "VNC port"
 
 msgid "VNC viewer has been added."
-msgstr ""
+msgstr "ເພີ່ມ VNC viewer ແລ້ວ."
 
 msgid "VNC viewer has been removed."
-msgstr ""
+msgstr "ລຶບ VNC viewer ອອກແລ້ວ."
 
 msgid "Volume Count"
-msgstr ""
+msgstr "ຈຳນວນວໍລຸ່ມ"
 
 msgid "Volume check complete."
-msgstr ""
+msgstr "ກວດສອບວໍລຸ່ມສຳເລັດແລ້ວ."
 
 msgid "Volume group"
-msgstr ""
+msgstr "ກຸ່ມວໍລຸ່ມ"
 
 msgid "Volume has been converted to qcow2."
-msgstr ""
+msgstr "ແປງວໍລຸ່ມເປັນ qcow2 ແລ້ວ."
 
 msgid "Volume has been converted to raw."
-msgstr ""
+msgstr "ແປງວໍລຸ່ມເປັນ raw ແລ້ວ."
 
 msgid "Volume has been created."
-msgstr ""
+msgstr "ສ້າງວໍລຸ່ມແລ້ວ."
 
 msgid "Volume has been extended."
-msgstr ""
+msgstr "ຂະຫຍາຍວໍລຸ່ມແລ້ວ."
 
 msgid "Volume has been optimized."
-msgstr ""
+msgstr "ປັບແຕ່ງວໍລຸ່ມແລ້ວ."
 
 msgid "Volume info ..."
-msgstr ""
+msgstr "ຂໍ້ມູນວໍລຸ່ມ ..."
 
 msgid "Volumes"
-msgstr ""
+msgstr "ວໍລຸ່ມ"
 
 msgid ""
 "Warning! Address can change after VM reboot breaking the passthrough!<br "
 "/>Useful when the host system has two or more devices with duplicate vendor "
 "and product IDs."
 msgstr ""
+"ຄຳເຕືອນ! ທີ່ຢູ່ອາດຈະປ່ຽນແປງຫຼັງຈາກຣີບູດ VM ເຊິ່ງຈະເຮັດໃຫ້ passthrough "
+"ເຮັດວຽກບໍ່ໄດ້!<br />ມີປະໂຫຍດເມື່ອລະບົບໂຮສທ໌ມີອຸປະກອນສອງຢ່າງຂຶ້ນໄປທີ່ມີ "
+"vendor ແລະ product IDs ຄືກັນ."
 
 msgid "XML"
-msgstr ""
+msgstr "XML"
 
 msgid "ZFS"
-msgstr ""
+msgstr "ZFS"
 
 msgid "^win.*$"
-msgstr ""
+msgstr "^win.*$"
 
 msgid "bridge"
-msgstr ""
+msgstr "bridge"
 
 msgid "disabled"
-msgstr ""
+msgstr "ປິດໃຊ້ງານ"
 
 msgid "e1000"
-msgstr ""
+msgstr "e1000"
 
 msgid "e1000e"
-msgstr ""
+msgstr "e1000e"
 
 msgid "iSCSI"
-msgstr ""
+msgstr "iSCSI"
 
 msgid "ide"
-msgstr ""
+msgstr "ide"
 
 msgid "lxc service"
-msgstr ""
+msgstr "ບໍລິການ lxc"
 
 msgid "lxc-net service"
-msgstr ""
+msgstr "ບໍລິການ lxc-net"
 
 msgid "macvtap network has been added."
-msgstr ""
+msgstr "ເພີ່ມເຄືອຂ່າຍ macvtap ແລ້ວ."
 
 msgid "ne2k_pci"
-msgstr ""
+msgstr "ne2k_pci"
 
 msgid "noVNC URL"
-msgstr ""
+msgstr "noVNC URL"
 
 msgid "noVNC port"
-msgstr ""
+msgstr "noVNC port"
 
 msgid "pcnet"
-msgstr ""
+msgstr "pcnet"
 
 msgid "qcow2"
-msgstr ""
+msgstr "qcow2"
 
 msgid "raw"
-msgstr ""
+msgstr "raw"
 
 msgid "rtl8139"
-msgstr ""
+msgstr "rtl8139"
 
 msgid "sata"
-msgstr ""
+msgstr "sata"
 
 msgid "scsi"
-msgstr ""
+msgstr "scsi"
 
 msgid "spice-html5 URL"
-msgstr ""
+msgstr "spice-html5 URL"
 
 msgid "spice-html5 port"
-msgstr ""
+msgstr "spice-html5 port"
 
 msgid "vCPU"
-msgstr ""
+msgstr "vCPU"
 
 msgid "vCPUs"
-msgstr ""
+msgstr "vCPU"
 
 msgid "virtio"
-msgstr ""
+msgstr "virtio"
 
 msgid "vmxnet3"
-msgstr ""
+msgstr "vmxnet3"
 
 msgid "zPool name"
-msgstr ""
+msgstr "ຊື່ zPool"
