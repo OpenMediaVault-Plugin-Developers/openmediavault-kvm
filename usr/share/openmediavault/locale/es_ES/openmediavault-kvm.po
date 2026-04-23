@@ -11,14 +11,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-01 11:48+0000\n"
+"POT-Creation-Date: 2026-04-23 22:06+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>, 2024\n"
-"Language-Team: Spanish (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/es/)\n"
+"Language-Team: Spanish (Spain) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/es_ES/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es\n"
+"Language: es_ES\n"
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 msgid " already exists!"
@@ -112,7 +112,7 @@ msgid "Adding network adapter ..."
 msgstr "Añadiendo adaptador de red ..."
 
 msgid "Adding optical disc ..."
-msgstr "Añadiendo CD-ROM ..."
+msgstr "Añadiendo CD-ROM"
 
 msgid "Adding passthrough filesystem ..."
 msgstr "Añadiendo sistema de archivos passthrough  ..."
@@ -134,6 +134,9 @@ msgstr "Distribición"
 
 msgid "Amount"
 msgstr "Cantidad"
+
+msgid "Appliances"
+msgstr ""
 
 msgid "Arch"
 msgstr "Arch"
@@ -196,6 +199,9 @@ msgstr ""
 "confiable porque puede cambiar entre reinicios. <br/>Se recomienda usar "
 "nombres de dispositivo /dev/disk/by-id ."
 
+msgid "Bridge"
+msgstr ""
+
 msgid "Bridge Model"
 msgstr ""
 
@@ -246,6 +252,11 @@ msgstr "Cambiando CD-ROM ..."
 
 msgid "Check"
 msgstr "comprobar"
+
+msgid ""
+"Check github.com/home-assistant/operating-system/releases for the latest "
+"version."
+msgstr ""
 
 msgid "Check volume ..."
 msgstr "Revisar volumen ..."
@@ -444,6 +455,12 @@ msgstr "Descargar ISO virtio"
 
 msgid "Download virtio iso ..."
 msgstr "Descargar ISO virtio ..."
+
+msgid ""
+"Downloads and installs Home Assistant OS as a KVM virtual machine. The image"
+" is several hundred MB — installation may take a few minutes. The VM is "
+"started automatically when finished."
+msgstr ""
 
 msgid "Edit"
 msgstr "Editar"
@@ -716,6 +733,9 @@ msgstr "GiB"
 msgid "Gigabytes"
 msgstr "Gigabytes"
 
+msgid "HA OS Version"
+msgstr ""
+
 msgid "Hard disk"
 msgstr "Disco Duro"
 
@@ -758,6 +778,18 @@ msgstr "Imagen"
 msgid "Info"
 msgstr "Info"
 
+msgid "Install"
+msgstr ""
+
+msgid "Install Home Assistant OS"
+msgstr ""
+
+msgid "Install Home Assistant OS ..."
+msgstr ""
+
+msgid "Installing Home Assistant OS ..."
+msgstr ""
+
 msgid "KVM"
 msgstr "KVM"
 
@@ -776,6 +808,9 @@ msgstr "Nombre LCX"
 msgid "Leave blank for random address."
 msgstr "Dejar en blanco para dirección aleatoria."
 
+msgid "Leave blank to omit."
+msgstr ""
+
 msgid "Linked Clone"
 msgstr "Clon enlazado"
 
@@ -793,6 +828,9 @@ msgstr "Megabytes"
 
 msgid "Memory"
 msgstr "Memoria"
+
+msgid "Memory (MiB)"
+msgstr ""
 
 msgid "Memory amount has been changed."
 msgstr "Cambiada la cantidad de RAM."
@@ -818,6 +856,11 @@ msgstr ""
 msgid "Move VM ..."
 msgstr ""
 
+msgid ""
+"Must be exactly 16 hexadecimal digits (with optional 0x prefix) or left "
+"blank."
+msgstr ""
+
 msgid "Name"
 msgstr "Nombre"
 
@@ -841,6 +884,9 @@ msgstr "Nombre de Red"
 
 msgid "Network State"
 msgstr "Estado de la Red"
+
+msgid "Network Type"
+msgstr ""
 
 msgid "Network adapter has been added."
 msgstr "El adaptador de red ha sido añadido."
@@ -1093,6 +1139,9 @@ msgstr "Arranque seguro"
 msgid "Select a snapshot ..."
 msgstr "Seleccionar una Instantánea ..."
 
+msgid "Serial"
+msgstr ""
+
 msgid "Settings"
 msgstr "Opciones"
 
@@ -1176,6 +1225,9 @@ msgstr "Deteniendo la consola ..."
 
 msgid "Stopping network ..."
 msgstr "Deteniendo la red ..."
+
+msgid "Storage Pool"
+msgstr ""
 
 msgid "Storage Volume"
 msgstr "Volumen de Almacenamiento"
@@ -1315,6 +1367,9 @@ msgstr "El visor VNC ha sido añadido."
 msgid "VNC viewer has been removed."
 msgstr "El visor VNC ha sido eliminado."
 
+msgid "Virtual Network"
+msgstr ""
+
 msgid "Volume Count"
 msgstr "Recuento de Volumen"
 
@@ -1345,6 +1400,9 @@ msgstr "Información del volumen ..."
 msgid "Volumes"
 msgstr "Volumenes"
 
+msgid "WWN"
+msgstr ""
+
 msgid ""
 "Warning! Address can change after VM reboot breaking the passthrough!<br "
 "/>Useful when the host system has two or more devices with duplicate vendor "
@@ -1353,6 +1411,11 @@ msgstr ""
 "¡Advertencia! La dirección puede cambiar después de que el reinicio de la VM"
 " rompa el passthrough!. <br />Es útil cuando el sistema host tiene dos o más"
 " dispositivos con ID de producto y proveedor duplicados."
+
+msgid ""
+"World Wide Name, exactly 16 hex digits, optionally prefixed with 0x (e.g. "
+"0x500152d00015b374). Leave blank to omit."
+msgstr ""
 
 msgid "XML"
 msgstr "XML"

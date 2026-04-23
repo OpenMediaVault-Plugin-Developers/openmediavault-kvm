@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-01 11:48+0000\n"
+"POT-Creation-Date: 2026-04-23 22:06+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: kochin <kochinc@outlook.com>, 2026\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_TW/)\n"
@@ -135,6 +135,9 @@ msgstr "配置"
 msgid "Amount"
 msgstr "數量"
 
+msgid "Appliances"
+msgstr ""
+
 msgid "Arch"
 msgstr "硬體架構"
 
@@ -194,6 +197,9 @@ msgstr ""
 "請要非常小心，不要直通一個被主機作業系統使用的裝置！<br/>使用 /dev/sd* 是已知較為不可靠，因為它們可能在重新啟動間改變。<br/>建議使用"
 " /dev/disk/by-id 裝置名稱。"
 
+msgid "Bridge"
+msgstr ""
+
 msgid "Bridge Model"
 msgstr "橋接模式"
 
@@ -244,6 +250,11 @@ msgstr "變更光碟中 ..."
 
 msgid "Check"
 msgstr "檢查"
+
+msgid ""
+"Check github.com/home-assistant/operating-system/releases for the latest "
+"version."
+msgstr ""
 
 msgid "Check volume ..."
 msgstr "檢查儲存卷 ..."
@@ -442,6 +453,12 @@ msgstr "下載 virtio iso"
 
 msgid "Download virtio iso ..."
 msgstr "下載 virtio iso …"
+
+msgid ""
+"Downloads and installs Home Assistant OS as a KVM virtual machine. The image"
+" is several hundred MB — installation may take a few minutes. The VM is "
+"started automatically when finished."
+msgstr ""
 
 msgid "Edit"
 msgstr "編輯"
@@ -712,6 +729,9 @@ msgstr "GiB"
 msgid "Gigabytes"
 msgstr "GB"
 
+msgid "HA OS Version"
+msgstr ""
+
 msgid "Hard disk"
 msgstr "硬碟"
 
@@ -752,6 +772,18 @@ msgstr "映像"
 msgid "Info"
 msgstr "資訊"
 
+msgid "Install"
+msgstr ""
+
+msgid "Install Home Assistant OS"
+msgstr ""
+
+msgid "Install Home Assistant OS ..."
+msgstr ""
+
+msgid "Installing Home Assistant OS ..."
+msgstr ""
+
 msgid "KVM"
 msgstr "KVM"
 
@@ -770,6 +802,9 @@ msgstr "LXC 名稱"
 msgid "Leave blank for random address."
 msgstr "保留空白則使用隨機產生的地址。"
 
+msgid "Leave blank to omit."
+msgstr ""
+
 msgid "Linked Clone"
 msgstr "鍊接複製"
 
@@ -787,6 +822,9 @@ msgstr "MB"
 
 msgid "Memory"
 msgstr "記憶體"
+
+msgid "Memory (MiB)"
+msgstr ""
 
 msgid "Memory amount has been changed."
 msgstr "記憶體大小已被改變。"
@@ -812,6 +850,11 @@ msgstr "搬移"
 msgid "Move VM ..."
 msgstr "搬移 VM ..."
 
+msgid ""
+"Must be exactly 16 hexadecimal digits (with optional 0x prefix) or left "
+"blank."
+msgstr ""
+
 msgid "Name"
 msgstr "名稱"
 
@@ -835,6 +878,9 @@ msgstr "網路名稱"
 
 msgid "Network State"
 msgstr "網路狀態"
+
+msgid "Network Type"
+msgstr ""
 
 msgid "Network adapter has been added."
 msgstr "網路卡已被加入。"
@@ -1086,6 +1132,9 @@ msgstr "Secure boot"
 msgid "Select a snapshot ..."
 msgstr "選擇一個快照 ..."
 
+msgid "Serial"
+msgstr ""
+
 msgid "Settings"
 msgstr "設定"
 
@@ -1169,6 +1218,9 @@ msgstr "停止控制台中 ..."
 
 msgid "Stopping network ..."
 msgstr "停止網路中 ..."
+
+msgid "Storage Pool"
+msgstr ""
 
 msgid "Storage Volume"
 msgstr "儲存卷"
@@ -1309,6 +1361,9 @@ msgstr "VNC 檢視器已被加入。"
 msgid "VNC viewer has been removed."
 msgstr "VNC 檢視器已被移除。"
 
+msgid "Virtual Network"
+msgstr ""
+
 msgid "Volume Count"
 msgstr "儲存卷數目"
 
@@ -1339,12 +1394,20 @@ msgstr "儲存卷資訊 ..."
 msgid "Volumes"
 msgstr "儲存卷"
 
+msgid "WWN"
+msgstr ""
+
 msgid ""
 "Warning! Address can change after VM reboot breaking the passthrough!<br "
 "/>Useful when the host system has two or more devices with duplicate vendor "
 "and product IDs."
 msgstr ""
 "警告！在 VM 重新啟動後，地址可能會改變而破壞了直通！<br />此設定在主機系統上有兩個或多個裝置有重複的廠商和產品 IDs 時就很好用。"
+
+msgid ""
+"World Wide Name, exactly 16 hex digits, optionally prefixed with 0x (e.g. "
+"0x500152d00015b374). Leave blank to omit."
+msgstr ""
 
 msgid "XML"
 msgstr "XML"

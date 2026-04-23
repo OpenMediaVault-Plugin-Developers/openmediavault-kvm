@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-01 11:48+0000\n"
+"POT-Creation-Date: 2026-04-23 22:06+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Language-Team: Korean (Korea) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/ko_KR/)\n"
 "MIME-Version: 1.0\n"
@@ -131,6 +131,9 @@ msgstr ""
 msgid "Amount"
 msgstr ""
 
+msgid "Appliances"
+msgstr ""
+
 msgid "Arch"
 msgstr ""
 
@@ -188,6 +191,9 @@ msgid ""
 "names."
 msgstr ""
 
+msgid "Bridge"
+msgstr ""
+
 msgid "Bridge Model"
 msgstr ""
 
@@ -237,6 +243,11 @@ msgid "Changing optical disc ..."
 msgstr ""
 
 msgid "Check"
+msgstr ""
+
+msgid ""
+"Check github.com/home-assistant/operating-system/releases for the latest "
+"version."
 msgstr ""
 
 msgid "Check volume ..."
@@ -435,6 +446,12 @@ msgid "Download virtio iso"
 msgstr ""
 
 msgid "Download virtio iso ..."
+msgstr ""
+
+msgid ""
+"Downloads and installs Home Assistant OS as a KVM virtual machine. The image"
+" is several hundred MB — installation may take a few minutes. The VM is "
+"started automatically when finished."
 msgstr ""
 
 msgid "Edit"
@@ -704,6 +721,9 @@ msgstr ""
 msgid "Gigabytes"
 msgstr ""
 
+msgid "HA OS Version"
+msgstr ""
+
 msgid "Hard disk"
 msgstr ""
 
@@ -744,6 +764,18 @@ msgstr ""
 msgid "Info"
 msgstr ""
 
+msgid "Install"
+msgstr ""
+
+msgid "Install Home Assistant OS"
+msgstr ""
+
+msgid "Install Home Assistant OS ..."
+msgstr ""
+
+msgid "Installing Home Assistant OS ..."
+msgstr ""
+
 msgid "KVM"
 msgstr ""
 
@@ -762,6 +794,9 @@ msgstr ""
 msgid "Leave blank for random address."
 msgstr ""
 
+msgid "Leave blank to omit."
+msgstr ""
+
 msgid "Linked Clone"
 msgstr ""
 
@@ -778,6 +813,9 @@ msgid "Megabytes"
 msgstr ""
 
 msgid "Memory"
+msgstr ""
+
+msgid "Memory (MiB)"
 msgstr ""
 
 msgid "Memory amount has been changed."
@@ -804,6 +842,11 @@ msgstr ""
 msgid "Move VM ..."
 msgstr ""
 
+msgid ""
+"Must be exactly 16 hexadecimal digits (with optional 0x prefix) or left "
+"blank."
+msgstr ""
+
 msgid "Name"
 msgstr ""
 
@@ -826,6 +869,9 @@ msgid "Network Name"
 msgstr ""
 
 msgid "Network State"
+msgstr ""
+
+msgid "Network Type"
 msgstr ""
 
 msgid "Network adapter has been added."
@@ -1078,6 +1124,9 @@ msgstr ""
 msgid "Select a snapshot ..."
 msgstr ""
 
+msgid "Serial"
+msgstr ""
+
 msgid "Settings"
 msgstr ""
 
@@ -1160,6 +1209,9 @@ msgid "Stopping consoles ..."
 msgstr ""
 
 msgid "Stopping network ..."
+msgstr ""
+
+msgid "Storage Pool"
 msgstr ""
 
 msgid "Storage Volume"
@@ -1300,6 +1352,9 @@ msgstr ""
 msgid "VNC viewer has been removed."
 msgstr ""
 
+msgid "Virtual Network"
+msgstr ""
+
 msgid "Volume Count"
 msgstr ""
 
@@ -1330,10 +1385,18 @@ msgstr ""
 msgid "Volumes"
 msgstr ""
 
+msgid "WWN"
+msgstr ""
+
 msgid ""
 "Warning! Address can change after VM reboot breaking the passthrough!<br "
 "/>Useful when the host system has two or more devices with duplicate vendor "
 "and product IDs."
+msgstr ""
+
+msgid ""
+"World Wide Name, exactly 16 hex digits, optionally prefixed with 0x (e.g. "
+"0x500152d00015b374). Leave blank to omit."
 msgstr ""
 
 msgid "XML"

@@ -4,16 +4,16 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# bounkirdni_2025, 2026
+# BoneNI, 2026
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-01 11:48+0000\n"
+"POT-Creation-Date: 2026-04-23 22:06+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
-"Last-Translator: bounkirdni_2025, 2026\n"
+"Last-Translator: BoneNI, 2026\n"
 "Language-Team: Lao (Laos) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/lo_LA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -135,6 +135,9 @@ msgstr "ການຈັດສັນ"
 msgid "Amount"
 msgstr "ຈຳນວນ"
 
+msgid "Appliances"
+msgstr ""
+
 msgid "Arch"
 msgstr "Arch"
 
@@ -198,6 +201,9 @@ msgstr ""
 "ອາດຈະບໍ່ມີຄວາມສະຖຽນເພາະມັນສາມາດປ່ຽນແປງໄດ້ຫຼັງຈາກຣີບູດ.<br/>ຂໍແນະນຳໃຫ້ໃຊ້ຊື່ອຸປະກອນແບບ"
 " /dev/disk/by-id ແທນ."
 
+msgid "Bridge"
+msgstr ""
+
 msgid "Bridge Model"
 msgstr "ຮູບແບບ Bridge"
 
@@ -248,6 +254,11 @@ msgstr "ກຳລັງປ່ຽນແຜ່ນອັອບຕິຄໍ ..."
 
 msgid "Check"
 msgstr "ກວດສອບ"
+
+msgid ""
+"Check github.com/home-assistant/operating-system/releases for the latest "
+"version."
+msgstr ""
 
 msgid "Check volume ..."
 msgstr "ກຳລັງກວດສອບວໍລຸ່ມ ..."
@@ -446,6 +457,12 @@ msgstr "ດາວໂຫລດ virtio iso"
 
 msgid "Download virtio iso ..."
 msgstr "ກຳລັງດາວໂຫລດ virtio iso ..."
+
+msgid ""
+"Downloads and installs Home Assistant OS as a KVM virtual machine. The image"
+" is several hundred MB — installation may take a few minutes. The VM is "
+"started automatically when finished."
+msgstr ""
 
 msgid "Edit"
 msgstr "ແກ້ໄຂ"
@@ -717,6 +734,9 @@ msgstr "GiB"
 msgid "Gigabytes"
 msgstr "ກິກາໄບທ໌"
 
+msgid "HA OS Version"
+msgstr ""
+
 msgid "Hard disk"
 msgstr "ຮາດດິສກ໌"
 
@@ -757,6 +777,18 @@ msgstr "Image"
 msgid "Info"
 msgstr "ຂໍ້ມູນ"
 
+msgid "Install"
+msgstr ""
+
+msgid "Install Home Assistant OS"
+msgstr ""
+
+msgid "Install Home Assistant OS ..."
+msgstr ""
+
+msgid "Installing Home Assistant OS ..."
+msgstr ""
+
 msgid "KVM"
 msgstr "KVM"
 
@@ -775,6 +807,9 @@ msgstr "ຊື່ LXC"
 msgid "Leave blank for random address."
 msgstr "ປະວ່າງໄວ້ເພື່ອສຸ່ມທີ່ຢູ່."
 
+msgid "Leave blank to omit."
+msgstr ""
+
 msgid "Linked Clone"
 msgstr "Linked Clone"
 
@@ -792,6 +827,9 @@ msgstr "ເມກາໄບທ໌"
 
 msgid "Memory"
 msgstr "ໜ່ວຍຄວາມຈຳ"
+
+msgid "Memory (MiB)"
+msgstr ""
 
 msgid "Memory amount has been changed."
 msgstr "ປ່ຽນຈຳນວນໜ່ວຍຄວາມຈຳແລ້ວ."
@@ -817,6 +855,11 @@ msgstr "ຍ້າຍ"
 msgid "Move VM ..."
 msgstr "ຍ້າຍ VM ..."
 
+msgid ""
+"Must be exactly 16 hexadecimal digits (with optional 0x prefix) or left "
+"blank."
+msgstr ""
+
 msgid "Name"
 msgstr "ຊື່"
 
@@ -840,6 +883,9 @@ msgstr "ຊື່ເຄືອຂ່າຍ"
 
 msgid "Network State"
 msgstr "ສະຖານະເຄືອຂ່າຍ"
+
+msgid "Network Type"
+msgstr ""
 
 msgid "Network adapter has been added."
 msgstr "ເພີ່ມອະແດັບເຕີເຄືອຂ່າຍແລ້ວ."
@@ -1094,6 +1140,9 @@ msgstr "Secure boot"
 msgid "Select a snapshot ..."
 msgstr "ເລືອກ snapshot ..."
 
+msgid "Serial"
+msgstr ""
+
 msgid "Settings"
 msgstr "ການຕັ້ງຄ່າ"
 
@@ -1177,6 +1226,9 @@ msgstr "ກຳລັງຢຸດຄອນໂຊລ ..."
 
 msgid "Stopping network ..."
 msgstr "ກຳລັງຢຸດເຄືອຂ່າຍ ..."
+
+msgid "Storage Pool"
+msgstr ""
 
 msgid "Storage Volume"
 msgstr "Storage Volume"
@@ -1318,6 +1370,9 @@ msgstr "ເພີ່ມ VNC viewer ແລ້ວ."
 msgid "VNC viewer has been removed."
 msgstr "ລຶບ VNC viewer ອອກແລ້ວ."
 
+msgid "Virtual Network"
+msgstr ""
+
 msgid "Volume Count"
 msgstr "ຈຳນວນວໍລຸ່ມ"
 
@@ -1348,6 +1403,9 @@ msgstr "ຂໍ້ມູນວໍລຸ່ມ ..."
 msgid "Volumes"
 msgstr "ວໍລຸ່ມ"
 
+msgid "WWN"
+msgstr ""
+
 msgid ""
 "Warning! Address can change after VM reboot breaking the passthrough!<br "
 "/>Useful when the host system has two or more devices with duplicate vendor "
@@ -1356,6 +1414,11 @@ msgstr ""
 "ຄຳເຕືອນ! ທີ່ຢູ່ອາດຈະປ່ຽນແປງຫຼັງຈາກຣີບູດ VM ເຊິ່ງຈະເຮັດໃຫ້ passthrough "
 "ເຮັດວຽກບໍ່ໄດ້!<br />ມີປະໂຫຍດເມື່ອລະບົບໂຮສທ໌ມີອຸປະກອນສອງຢ່າງຂຶ້ນໄປທີ່ມີ "
 "vendor ແລະ product IDs ຄືກັນ."
+
+msgid ""
+"World Wide Name, exactly 16 hex digits, optionally prefixed with 0x (e.g. "
+"0x500152d00015b374). Leave blank to omit."
+msgstr ""
 
 msgid "XML"
 msgstr "XML"
