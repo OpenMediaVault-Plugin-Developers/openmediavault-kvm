@@ -1145,5 +1145,46 @@
         }
       }
     }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.installhomeassistant",
+    "params": {
+      "type": "object",
+      "properties": {
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "pool": {
+          "type": "string",
+          "required": true
+        },
+        "networktype": {
+          "type": "string",
+          "required": true
+        },
+        "bridge": {
+          "type": "string",
+          "required": false
+        },
+        "network": {
+          "type": "string",
+          "required": false
+        },
+        "version": {
+          "type": "string",
+          "required": true
+        },
+        "memory": {
+          "type": "string",
+          "required": true
+        },
+        "vcpus": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
   }
 ]

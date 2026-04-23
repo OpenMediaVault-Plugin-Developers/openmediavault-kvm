@@ -146,6 +146,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
 
         $this->registerMethod('getMonitorStats');
         $this->registerMethod('clearMonitorDb');
+
+        $this->registerMethod('installHomeAssistant');
     }
 
     private function escapeName($name)
@@ -2031,6 +2033,32 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 return $output;
             }
         );
+    }
+
+    public function installHomeAssistant($params, $context)
+    {
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        $this->validateMethodParams($params, 'rpc.kvm.installhomeassistant');
+        return $this->execBgProc(function($bgStatusFilename, $bgOutputFilename) use ($params) {
+            $netname = ($params['networktype'] === 'bridge') ? $params['bridge'] : $params['network'];
+            $cmdArgs = [
+                '/usr/sbin/omv-install-homeassistant',
+                escapeshellarg($params['pool']),
+                escapeshellarg($params['networktype']),
+                escapeshellarg($netname),
+                escapeshellarg($params['vmname']),
+                escapeshellarg($params['version']),
+                escapeshellarg((string)$params['memory']),
+                escapeshellarg((string)$params['vcpus']),
+            ];
+            $cmd = new \OMV\System\Process(implode(' ', $cmdArgs));
+            $cmd->setRedirect2to1();
+            $cmdLine = $cmd->getCommandLine();
+            if (0 !== $this->exec($cmdLine, $output, $bgOutputFilename)) {
+                throw new \OMV\ExecException($cmdLine, $output);
+            }
+            return $output;
+        });
     }
 
     private function deleteDisksByVm($vmname, $lxc)

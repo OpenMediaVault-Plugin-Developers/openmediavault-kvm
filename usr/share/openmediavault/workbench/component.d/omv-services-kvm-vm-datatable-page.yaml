@@ -105,6 +105,130 @@ data:
           type: url
           url: /services/kvm/vm/lxc
       - type: menu
+        icon: mdi:application-import
+        tooltip: _("Appliances")
+        actions:
+          - text: _("Install Home Assistant OS")
+            icon: mdi:home-assistant
+            execute:
+              type: formDialog
+              formDialog:
+                title: _("Install Home Assistant OS ...")
+                fields:
+                  - type: hint
+                    hintType: info
+                    text: _("Downloads and installs Home Assistant OS as a KVM virtual machine. The image is several hundred MB — installation may take a few minutes. The VM is started automatically when finished.")
+                  - type: textInput
+                    name: vmname
+                    label: _("VM Name")
+                    value: "homeassistant"
+                    validators:
+                      required: true
+                      patternType: shareName
+                  - type: textInput
+                    name: version
+                    label: _("HA OS Version")
+                    value: "17.2"
+                    hint: _("Check github.com/home-assistant/operating-system/releases for the latest version.")
+                    validators:
+                      required: true
+                  - type: select
+                    name: pool
+                    label: _("Storage Pool")
+                    textField: name
+                    valueField: name
+                    store:
+                      proxy:
+                        service: Kvm
+                        get:
+                          method: enumeratePools
+                    validators:
+                      required: true
+                  - type: select
+                    name: networktype
+                    label: _("Network Type")
+                    value: "bridge"
+                    store:
+                      data:
+                        - ["bridge", _("Bridge")]
+                        - ["network", _("Virtual Network")]
+                  - type: select
+                    name: bridge
+                    label: _("Bridge")
+                    textField: bridge
+                    valueField: bridge
+                    value: "br0"
+                    store:
+                      proxy:
+                        service: Kvm
+                        get:
+                          method: enumerateBridges
+                    modifiers:
+                      - type: hidden
+                        constraint:
+                          operator: ne
+                          arg0:
+                            prop: networktype
+                          arg1: "bridge"
+                  - type: select
+                    name: network
+                    label: _("Virtual Network")
+                    textField: netname
+                    valueField: netname
+                    store:
+                      proxy:
+                        service: Kvm
+                        get:
+                          method: enumerateNetworks
+                    modifiers:
+                      - type: hidden
+                        constraint:
+                          operator: eq
+                          arg0:
+                            prop: networktype
+                          arg1: "bridge"
+                  - type: container
+                    fields:
+                      - type: numberInput
+                        name: memory
+                        label: _("Memory (MiB)")
+                        value: 2048
+                        validators:
+                          min: 1024
+                          max: 65536
+                          patternType: integer
+                          required: true
+                      - type: numberInput
+                        name: vcpus
+                        label: _("vCPUs")
+                        value: 2
+                        validators:
+                          min: 1
+                          max: 32
+                          patternType: integer
+                          required: true
+                buttons:
+                  submit:
+                    text: _("Install")
+                    execute:
+                      type: taskDialog
+                      taskDialog:
+                        config:
+                          title: _("Installing Home Assistant OS ...")
+                          startOnInit: false
+                          request:
+                            service: Kvm
+                            method: installHomeAssistant
+                            params:
+                              vmname: "{{ vmname }}"
+                              pool: "{{ pool }}"
+                              networktype: "{{ networktype }}"
+                              bridge: "{{ bridge }}"
+                              network: "{{ network }}"
+                              version: "{{ version }}"
+                              memory: "{{ memory }}"
+                              vcpus: "{{ vcpus }}"
+      - type: menu
         icon: mdi:harddisk
         tooltip: _("Hard disk")
         enabledConstraints:

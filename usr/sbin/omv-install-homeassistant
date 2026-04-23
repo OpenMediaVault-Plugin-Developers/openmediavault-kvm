@@ -1,0 +1,130 @@
+#!/bin/bash
+# Install Home Assistant OS as a KVM virtual machine.
+# Usage: omv-install-homeassistant <pool> <nettype> <netname> <vmname> <version> <memory_mib> <vcpus>
+set -e
+
+POOL="$1"
+NET_TYPE="$2"
+NET_NAME="$3"
+VM_NAME="$4"
+VERSION="$5"
+MEMORY="${6:-2048}"
+VCPUS="${7:-2}"
+
+if [ -z "$POOL" ] || [ -z "$NET_TYPE" ] || [ -z "$NET_NAME" ] || [ -z "$VM_NAME" ] || [ -z "$VERSION" ]; then
+    echo "Usage: $0 <pool> <nettype> <netname> <vmname> <version> [memory_mib] [vcpus]"
+    exit 1
+fi
+
+ARCH=$(dpkg --print-architecture)
+
+case "$ARCH" in
+    amd64)
+        FILENAME="haos_ova-${VERSION}.qcow2.xz"
+        IMG_FORMAT="qcow2"
+        NEED_CONVERT=0
+        ARCH_ARG="x86_64"
+        BOOT_ARG="uefi"
+        ;;
+    arm64)
+        FILENAME="haos_generic-aarch64-${VERSION}.img.xz"
+        IMG_FORMAT="raw"
+        NEED_CONVERT=1
+        ARCH_ARG="aarch64"
+        BOOT_ARG="loader=/usr/share/AAVMF/AAVMF_CODE.no-secboot.fd,loader_type=pflash,nvram.template=/usr/share/AAVMF/AAVMF_VARS.fd"
+        ;;
+    *)
+        echo "Error: Unsupported architecture '$ARCH'. Only amd64 and arm64 are supported."
+        exit 1
+        ;;
+esac
+
+URL="https://github.com/home-assistant/operating-system/releases/download/${VERSION}/${FILENAME}"
+BASE_FILENAME="${FILENAME%.xz}"
+
+# Get pool path from libvirt
+POOL_PATH=$(virsh pool-dumpxml "$POOL" 2>/dev/null | grep -oP '(?<=<path>)[^<]+' | head -1)
+if [ -z "$POOL_PATH" ]; then
+    echo "Error: Could not find path for pool '$POOL'."
+    exit 1
+fi
+
+DISK_PATH="${POOL_PATH}/${VM_NAME}.qcow2"
+
+if [ -f "$DISK_PATH" ]; then
+    echo "Error: Disk already exists at '$DISK_PATH'. Remove it first or choose a different VM name."
+    exit 1
+fi
+
+if virsh dominfo "$VM_NAME" &>/dev/null; then
+    echo "Error: A VM named '$VM_NAME' already exists."
+    exit 1
+fi
+
+TEMP_DIR=$(mktemp -d /tmp/haos-install-XXXXXX)
+trap "rm -rf '$TEMP_DIR'" EXIT
+
+COMPRESSED_PATH="${TEMP_DIR}/${FILENAME}"
+DECOMPRESSED_PATH="${TEMP_DIR}/${BASE_FILENAME}"
+
+echo "=== Home Assistant OS ${VERSION} Installer ==="
+echo "Architecture : ${ARCH} (${ARCH_ARG})"
+echo "Pool         : ${POOL} (${POOL_PATH})"
+echo "VM name      : ${VM_NAME}"
+echo "Memory       : ${MEMORY} MiB"
+echo "vCPUs        : ${VCPUS}"
+echo "Network      : ${NET_TYPE}=${NET_NAME}"
+echo ""
+echo "Downloading ${FILENAME}..."
+wget --progress=dot:giga --output-document="$COMPRESSED_PATH" "$URL"
+
+echo ""
+echo "Decompressing..."
+xz --decompress --keep "$COMPRESSED_PATH"
+
+if [ "$NEED_CONVERT" -eq 1 ]; then
+    echo "Converting raw image to qcow2..."
+    qemu-img convert -p -f raw -O qcow2 "$DECOMPRESSED_PATH" "$DISK_PATH"
+else
+    echo "Copying qcow2 image to pool..."
+    cp --sparse=always "$DECOMPRESSED_PATH" "$DISK_PATH"
+fi
+
+chown libvirt-qemu:kvm "$DISK_PATH" 2>/dev/null || true
+chmod 660 "$DISK_PATH"
+
+echo "Refreshing pool '${POOL}'..."
+virsh pool-refresh "$POOL"
+
+# Build virt-install arguments
+VIRT_ARGS=(
+    --name "$VM_NAME"
+    --memory "$MEMORY"
+    --vcpus "$VCPUS"
+    --disk "${DISK_PATH},bus=virtio,cache=none,io=native"
+    --import
+    --arch "$ARCH_ARG"
+    --os-variant generic
+    --metadata "description=Home Assistant OS ${VERSION}"
+    --memballoon none
+    --clock offset=utc
+    --noautoconsole
+)
+
+if [ "$NET_TYPE" = "bridge" ]; then
+    VIRT_ARGS+=(--network "bridge=${NET_NAME},model=virtio")
+else
+    VIRT_ARGS+=(--network "network=${NET_NAME},model=virtio")
+fi
+
+VIRT_ARGS+=(--boot "$BOOT_ARG")
+
+echo ""
+echo "Creating VM '${VM_NAME}'..."
+virt-install "${VIRT_ARGS[@]}"
+
+echo ""
+echo "=== Installation complete ==="
+echo "Home Assistant OS '${VM_NAME}' is now running."
+echo "Once booted, access the UI at http://<vm-ip>:8123"
+echo "It may take a few minutes on first boot to complete setup."
