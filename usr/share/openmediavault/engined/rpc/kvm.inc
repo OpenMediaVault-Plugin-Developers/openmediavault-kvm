@@ -2203,7 +2203,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if ($params['virttype'] == 'lxc') {
             $snaps = $this->doLxcSnapshot($params['vmname'], 'list', '');
             foreach (array_reverse($snaps) as $snap) {
-                $this->doLxcSnapshot($params['vmname'], 'delete', $snap);
+                $snapname = trim(preg_replace('/\s*\(.*\)$/', '', $snap));
+                $this->doLxcSnapshot($params['vmname'], 'delete', $snapname);
             }
         } else {
             $snaps = $this->virshGetSnapshotList($params['vmname']);
@@ -2663,6 +2664,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 if (!$lxc && $hasNvram) {
                     $cmdArgs[] = '--nvram';
                 }
+                $cmdArgs[] = '--managed-save';
+                $cmdArgs[] = '--snapshots-metadata';
+                $cmdArgs[] = '--checkpoints-metadata';
                 $cmdArgs[] = $this->escapeName($vmname);
                 $this->virshCommand($cmdArgs, gettext("Failed to delete VM."));
                 break;
@@ -2676,6 +2680,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 if (!$lxc && $hasNvram) {
                     $cmdArgs[] = '--nvram';
                 }
+                $cmdArgs[] = '--managed-save';
+                $cmdArgs[] = '--snapshots-metadata';
+                $cmdArgs[] = '--checkpoints-metadata';
                 $cmdArgs[] = $this->escapeName($vmname);
                 $this->virshCommand($cmdArgs, gettext("Failed to delete VM."));
                 break;
