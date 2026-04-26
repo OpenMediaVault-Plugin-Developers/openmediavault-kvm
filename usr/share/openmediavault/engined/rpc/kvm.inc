@@ -2624,9 +2624,12 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $lxc = ($params['virttype'] === 'lxc');
         $vmname = $params['name'];
         $conn = $lxc ? ['--connect lxc:///'] : [];
-        // check for nvram
+        // check for nvram — covers both explicit <nvram> element and firmware='efi' implicit NVRAM
         $domXml = new SimpleXMLElement($this->virshDumpXml($vmname, $lxc));
-        $hasNvram = isset($domXml->os->nvram) && file_exists((string) $domXml->os->nvram);
+        $hasNvram = !$lxc && (
+            (isset($domXml->os->nvram) && file_exists((string) $domXml->os->nvram)) ||
+            ((string)($domXml->os->attributes()['firmware'] ?? '') === 'efi')
+        );
         switch ($params['command']) {
             case 'poweron':
                 $this->virshCommand(array_merge($conn, ['start', $this->escapeName($vmname)]),
