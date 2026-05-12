@@ -34,6 +34,62 @@ data:
         flexGrow: 3
         sortable: true
     actions:
+      - type: iconButton
+        icon: mdi:download
+        tooltip: _("Download ISO")
+        execute:
+          type: formDialog
+          formDialog:
+            title: _("Download ISO ...")
+            fields:
+              - type: select
+                name: pool
+                label: _("Storage Pool")
+                textField: name
+                valueField: path
+                store:
+                  proxy:
+                    service: Kvm
+                    get:
+                      method: enumeratePools
+                validators:
+                  required: true
+              - type: textInput
+                name: url
+                label: _("URL")
+                hint: _("Direct link to the .iso file.")
+                validators:
+                  required: true
+              - type: textInput
+                name: filename
+                label: _("Filename")
+                hint: _("Leave blank to use the filename from the URL. The .iso extension is added automatically.")
+              - type: textInput
+                name: checksum
+                label: _("Checksum")
+                hint: _("Optional. MD5, SHA1, SHA256, or SHA512 — auto-detected by length. File is deleted if verification fails.")
+              - type: checkbox
+                name: overwrite
+                label: _("Overwrite if exists")
+                value: false
+            buttons:
+              submit:
+                text: _("Download")
+                execute:
+                  type: taskDialog
+                  taskDialog:
+                    config:
+                      title: _("Downloading ISO ...")
+                      startOnInit: true
+                      request:
+                        service: Kvm
+                        method: downloadIso
+                        params:
+                          path: "{{ pool }}"
+                          url: "{{ url }}"
+                          filename: "{{ filename }}"
+                          checksum: "{{ checksum }}"
+                          overwrite: '{{ overwrite | toboolean }}'
       - template: delete
         execute:
           type: request

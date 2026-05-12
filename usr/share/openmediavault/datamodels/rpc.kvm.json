@@ -819,7 +819,7 @@
       "properties": {
         "filename": {
           "type": "string",
-          "required": true
+          "required": false
         },
         "path": {
           "type": "string",
@@ -828,6 +828,14 @@
         "url": {
           "type": "string",
           "required": true
+        },
+        "overwrite": {
+          "type": "boolean",
+          "required": false
+        },
+        "checksum": {
+          "type": "string",
+          "required": false
         }
       }
     }
@@ -1140,6 +1148,137 @@
           "required": true
         },
         "dayofweek": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.installomv8",
+    "params": {
+      "type": "object",
+      "properties": {
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "pool": {
+          "type": "string",
+          "required": true
+        },
+        "networktype": {
+          "type": "string",
+          "required": true
+        },
+        "bridge": {
+          "type": "string",
+          "required": false
+        },
+        "network": {
+          "type": "string",
+          "required": false
+        },
+        "version": {
+          "type": "string",
+          "required": true
+        },
+        "memory": {
+          "type": "string",
+          "required": true
+        },
+        "vcpus": {
+          "type": "string",
+          "required": true
+        },
+        "disksize": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.installredox",
+    "params": {
+      "type": "object",
+      "properties": {
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "pool": {
+          "type": "string",
+          "required": true
+        },
+        "networktype": {
+          "type": "string",
+          "required": true
+        },
+        "bridge": {
+          "type": "string",
+          "required": false
+        },
+        "network": {
+          "type": "string",
+          "required": false
+        },
+        "memory": {
+          "type": "string",
+          "required": true
+        },
+        "vcpus": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.installipfire",
+    "params": {
+      "type": "object",
+      "properties": {
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "pool": {
+          "type": "string",
+          "required": true
+        },
+        "networktype": {
+          "type": "string",
+          "required": true
+        },
+        "bridge": {
+          "type": "string",
+          "required": false
+        },
+        "network": {
+          "type": "string",
+          "required": false
+        },
+        "version": {
+          "type": "string",
+          "required": true
+        },
+        "core": {
+          "type": "string",
+          "required": true
+        },
+        "memory": {
+          "type": "string",
+          "required": true
+        },
+        "vcpus": {
+          "type": "string",
+          "required": true
+        },
+        "disksize": {
           "type": "string",
           "required": true
         }

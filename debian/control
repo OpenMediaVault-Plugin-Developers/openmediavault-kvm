@@ -48,6 +48,7 @@ Depends: distro-info,
          uuid,
          virtinst,
          whois,
-         xz-utils
+         xz-utils,
+         zstd
 Recommends: openmediavault-cterm (>= 8)
 Description: kvm plugin for OpenMediaVault.

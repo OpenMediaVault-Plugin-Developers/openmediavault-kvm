@@ -148,6 +148,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('clearMonitorDb');
 
         $this->registerMethod('installHomeAssistant');
+        $this->registerMethod('installOmv8');
+        $this->registerMethod('installRedox');
+        $this->registerMethod('installIpfire');
     }
 
     private function escapeName($name)
@@ -2016,13 +2019,26 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
     {
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ["role" => OMV_ROLE_ADMINISTRATOR]);
+        $params['overwrite'] = filter_var($params['overwrite'] ?? false, FILTER_VALIDATE_BOOLEAN);
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, "rpc.kvm.downloadiso");
         return $this->execBgProc(function($bgStatusFilename, $bgOutputFilename)
             use ($params) {
+                if (!empty($params['filename'])) {
+                    $filename = $params['filename'];
+                } else {
+                    $filename = basename(parse_url($params['url'], PHP_URL_PATH));
+                    if (strtolower(pathinfo($filename, PATHINFO_EXTENSION)) !== 'iso') {
+                        $filename = pathinfo($filename, PATHINFO_FILENAME) . '.iso';
+                    }
+                }
+                $destPath = sprintf('%s/%s', $params['path'], $filename);
+                if (empty($params['overwrite']) && file_exists($destPath)) {
+                    throw new \OMV\Exception('File "%s" already exists. Enable overwrite to replace it.', $filename);
+                }
                 $cmdArgs = [];
                 $cmdArgs[] = '/usr/bin/wget';
-                $cmdArgs[] = sprintf('--output-document="%s/%s"', $params['path'], $params['filename']);
+                $cmdArgs[] = sprintf('--output-document="%s"', $destPath);
                 $cmdArgs[] = $params['url'];
                 $cmd = new \OMV\System\Process($cmdArgs);
                 $cmd->setRedirect2to1();
@@ -2030,9 +2046,108 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 if (0 !== $this->exec($cmdLine, $output, $bgOutputFilename)) {
                     throw new \OMV\ExecException($cmdLine, $output);
                 }
+                chown($destPath, 'libvirt-qemu');
+                chgrp($destPath, 'kvm');
+                chmod($destPath, 0660);
+                $checksum = strtolower(trim($params['checksum'] ?? ''));
+                if (!empty($checksum)) {
+                    $algoMap = [32 => 'md5', 40 => 'sha1', 56 => 'sha224', 64 => 'sha256', 96 => 'sha384', 128 => 'sha512'];
+                    $algo = $algoMap[strlen($checksum)] ?? null;
+                    if ($algo === null) {
+                        unlink($destPath);
+                        throw new \OMV\Exception('Unrecognized checksum length (%d chars). Expected MD5, SHA1, SHA224, SHA256, SHA384, or SHA512.', strlen($checksum));
+                    }
+                    file_put_contents($bgOutputFilename, sprintf("Verifying %s checksum...\n", strtoupper($algo)), FILE_APPEND);
+                    $actual = hash_file($algo, $destPath);
+                    if ($actual !== $checksum) {
+                        unlink($destPath);
+                        throw new \OMV\Exception("Checksum mismatch (%s):\n  expected: %s\n  actual:   %s\nFile has been deleted.", strtoupper($algo), $checksum, $actual);
+                    }
+                    file_put_contents($bgOutputFilename, "Checksum OK.\n", FILE_APPEND);
+                }
                 return $output;
             }
         );
+    }
+
+    public function installOmv8($params, $context)
+    {
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        $this->validateMethodParams($params, 'rpc.kvm.installomv8');
+        return $this->execBgProc(function($bgStatusFilename, $bgOutputFilename) use ($params) {
+            $netname = ($params['networktype'] === 'bridge') ? $params['bridge'] : $params['network'];
+            $cmdArgs = [
+                '/usr/sbin/omv-install-omv8',
+                escapeshellarg($params['pool']),
+                escapeshellarg($params['networktype']),
+                escapeshellarg($netname),
+                escapeshellarg($params['vmname']),
+                escapeshellarg($params['version']),
+                escapeshellarg((string)$params['memory']),
+                escapeshellarg((string)$params['vcpus']),
+                escapeshellarg((string)$params['disksize']),
+            ];
+            $cmd = new \OMV\System\Process(implode(' ', $cmdArgs));
+            $cmd->setRedirect2to1();
+            $cmdLine = $cmd->getCommandLine();
+            if (0 !== $this->exec($cmdLine, $output, $bgOutputFilename)) {
+                throw new \OMV\ExecException($cmdLine, $output);
+            }
+            return $output;
+        });
+    }
+
+    public function installRedox($params, $context)
+    {
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        $this->validateMethodParams($params, 'rpc.kvm.installredox');
+        return $this->execBgProc(function($bgStatusFilename, $bgOutputFilename) use ($params) {
+            $netname = ($params['networktype'] === 'bridge') ? $params['bridge'] : $params['network'];
+            $cmdArgs = [
+                '/usr/sbin/omv-install-redox',
+                escapeshellarg($params['pool']),
+                escapeshellarg($params['networktype']),
+                escapeshellarg($netname),
+                escapeshellarg($params['vmname']),
+                escapeshellarg((string)$params['memory']),
+                escapeshellarg((string)$params['vcpus']),
+            ];
+            $cmd = new \OMV\System\Process(implode(' ', $cmdArgs));
+            $cmd->setRedirect2to1();
+            $cmdLine = $cmd->getCommandLine();
+            if (0 !== $this->exec($cmdLine, $output, $bgOutputFilename)) {
+                throw new \OMV\ExecException($cmdLine, $output);
+            }
+            return $output;
+        });
+    }
+
+    public function installIpfire($params, $context)
+    {
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        $this->validateMethodParams($params, 'rpc.kvm.installipfire');
+        return $this->execBgProc(function($bgStatusFilename, $bgOutputFilename) use ($params) {
+            $netname = ($params['networktype'] === 'bridge') ? $params['bridge'] : $params['network'];
+            $cmdArgs = [
+                '/usr/sbin/omv-install-ipfire',
+                escapeshellarg($params['pool']),
+                escapeshellarg($params['networktype']),
+                escapeshellarg($netname),
+                escapeshellarg($params['vmname']),
+                escapeshellarg($params['version']),
+                escapeshellarg($params['core']),
+                escapeshellarg((string)$params['memory']),
+                escapeshellarg((string)$params['vcpus']),
+                escapeshellarg((string)$params['disksize']),
+            ];
+            $cmd = new \OMV\System\Process(implode(' ', $cmdArgs));
+            $cmd->setRedirect2to1();
+            $cmdLine = $cmd->getCommandLine();
+            if (0 !== $this->exec($cmdLine, $output, $bgOutputFilename)) {
+                throw new \OMV\ExecException($cmdLine, $output);
+            }
+            return $output;
+        });
     }
 
     public function installHomeAssistant($params, $context)
