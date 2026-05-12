@@ -373,7 +373,7 @@ data:
                     text: _("Downloads the latest Redox OS disk image for your architecture and imports it as a VM. The image is fetched automatically from static.redox-os.org.")
                   - type: hint
                     hintType: warning
-                    text: _("On ARM, VNC may not be available. Use 'virsh console <vmname>' to access the VM.")
+                    text: _("ARM64 is not supported. Redox OS pre-built ARM64 images do not have a functional EFI partition and cannot boot under KVM.")
                   - type: textInput
                     name: vmname
                     label: _("VM Name")

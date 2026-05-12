@@ -1,0 +1,173 @@
+#!/bin/bash
+# Install IPFire as a KVM virtual machine.
+# Usage: omv-install-ipfire <pool> <nettype> <netname> <vmname> <version> <core> <memory_mib> <vcpus> <disksize_gb>
+set -e
+
+POOL="$1"
+NET_TYPE="$2"
+NET_NAME="$3"
+VM_NAME="$4"
+VERSION="$5"
+CORE="$6"
+MEMORY="${7:-1024}"
+VCPUS="${8:-2}"
+DISK_GB="${9:-20}"
+
+if [ -z "$POOL" ] || [ -z "$NET_TYPE" ] || [ -z "$NET_NAME" ] || [ -z "$VM_NAME" ] || [ -z "$VERSION" ] || [ -z "$CORE" ]; then
+    echo "Usage: $0 <pool> <nettype> <netname> <vmname> <version> <core> [memory_mib] [vcpus] [disksize_gb]"
+    echo "Example: $0 default bridge br0 ipfire 2.27 185"
+    exit 1
+fi
+
+ARCH=$(dpkg --print-architecture)
+
+case "$ARCH" in
+    amd64)
+        FILENAME="ipfire-${VERSION}-core${CORE}-x86_64.iso"
+        ARCH_ARG="x86_64"
+        BOOT_ARG="bios"
+        ;;
+    arm64)
+        # IPFire aarch64 uses a different image type
+        FILENAME="ipfire-${VERSION}-core${CORE}-aarch64.img.xz"
+        ARCH_ARG="aarch64"
+        BOOT_ARG="loader=/usr/share/AAVMF/AAVMF_CODE.no-secboot.fd,loader_type=pflash,nvram.template=/usr/share/AAVMF/AAVMF_VARS.fd"
+        ;;
+    *)
+        echo "Error: Unsupported architecture '$ARCH'. Only amd64 and arm64 are supported."
+        exit 1
+        ;;
+esac
+
+URL="https://downloads.ipfire.org/releases/ipfire-2.x/${VERSION}-core${CORE}/${FILENAME}"
+
+POOL_PATH=$(virsh pool-dumpxml "$POOL" 2>/dev/null | grep -oP '(?<=<path>)[^<]+' | head -1)
+if [ -z "$POOL_PATH" ]; then
+    echo "Error: Could not find path for pool '$POOL'."
+    exit 1
+fi
+
+DISK_PATH="${POOL_PATH}/${VM_NAME}.qcow2"
+ISO_PATH="${POOL_PATH}/${FILENAME}"
+
+if [ -f "$DISK_PATH" ]; then
+    echo "Error: Disk already exists at '$DISK_PATH'. Remove it first or choose a different VM name."
+    exit 1
+fi
+
+if virsh dominfo "$VM_NAME" &>/dev/null; then
+    echo "Error: A VM named '$VM_NAME' already exists."
+    exit 1
+fi
+
+echo "=== IPFire ${VERSION} Core ${CORE} VM Installer ==="
+echo "Architecture : ${ARCH} (${ARCH_ARG})"
+echo "Pool         : ${POOL} (${POOL_PATH})"
+echo "VM name      : ${VM_NAME}"
+echo "Memory       : ${MEMORY} MiB"
+echo "vCPUs        : ${VCPUS}"
+echo "Disk         : ${DISK_GB} GB"
+echo "Network      : ${NET_TYPE}=${NET_NAME}"
+echo ""
+
+if [ "$ARCH" = "amd64" ]; then
+    if [ ! -f "$ISO_PATH" ]; then
+        echo "Downloading ${FILENAME}..."
+        if ! wget --progress=dot:giga --output-document="$ISO_PATH" "$URL"; then
+            rm -f "$ISO_PATH"
+            echo "Error: Download failed."
+            exit 1
+        fi
+        chown libvirt-qemu:kvm "$ISO_PATH" 2>/dev/null || true
+        chmod 660 "$ISO_PATH"
+    else
+        echo "ISO already present at '${ISO_PATH}', skipping download."
+    fi
+
+    echo "Creating ${DISK_GB} GB disk image..."
+    qemu-img create -f qcow2 "$DISK_PATH" "${DISK_GB}G"
+    chown libvirt-qemu:kvm "$DISK_PATH" 2>/dev/null || true
+    chmod 660 "$DISK_PATH"
+
+    echo "Refreshing pool '${POOL}'..."
+    virsh pool-refresh "$POOL"
+
+    VIRT_ARGS=(
+        --name "$VM_NAME"
+        --memory "$MEMORY"
+        --vcpus "$VCPUS"
+        --disk "${DISK_PATH},bus=virtio,cache=none,io=native"
+        --cdrom "$ISO_PATH"
+        --arch "$ARCH_ARG"
+        --os-variant generic
+        --metadata "description=IPFire ${VERSION} Core ${CORE}"
+        --clock offset=utc
+        --graphics vnc,listen=0.0.0.0
+        --noautoconsole
+    )
+
+    if [ "$NET_TYPE" = "bridge" ]; then
+        VIRT_ARGS+=(--network "bridge=${NET_NAME},model=virtio")
+    else
+        VIRT_ARGS+=(--network "network=${NET_NAME},model=virtio")
+    fi
+
+else
+    # arm64: import from compressed image
+    TEMP_DIR=$(mktemp -d "${POOL_PATH}/ipfire-install-XXXXXX")
+    trap "rm -rf '$TEMP_DIR'; rm -f '$DISK_PATH'" EXIT
+
+    COMPRESSED_PATH="${TEMP_DIR}/${FILENAME}"
+    DECOMPRESSED_PATH="${TEMP_DIR}/${FILENAME%.xz}"
+
+    echo "Downloading ${FILENAME}..."
+    if ! wget --progress=dot:giga --output-document="$COMPRESSED_PATH" "$URL"; then
+        echo "Error: Download failed."
+        exit 1
+    fi
+
+    echo "Decompressing..."
+    xz --decompress --keep "$COMPRESSED_PATH"
+
+    echo "Converting image to qcow2..."
+    qemu-img convert -p -O qcow2 "$DECOMPRESSED_PATH" "$DISK_PATH"
+
+    chown libvirt-qemu:kvm "$DISK_PATH" 2>/dev/null || true
+    chmod 660 "$DISK_PATH"
+
+    echo "Refreshing pool '${POOL}'..."
+    virsh pool-refresh "$POOL"
+
+    VIRT_ARGS=(
+        --name "$VM_NAME"
+        --memory "$MEMORY"
+        --vcpus "$VCPUS"
+        --disk "${DISK_PATH},bus=scsi,cache=none,io=native"
+        --controller scsi,model=virtio-scsi
+        --import
+        --arch "$ARCH_ARG"
+        --os-variant generic
+        --metadata "description=IPFire ${VERSION} Core ${CORE}"
+        --clock offset=utc
+        --boot "$BOOT_ARG"
+        --graphics vnc,listen=0.0.0.0
+        --noautoconsole
+    )
+
+    if [ "$NET_TYPE" = "bridge" ]; then
+        VIRT_ARGS+=(--network "bridge=${NET_NAME},model=virtio")
+    else
+        VIRT_ARGS+=(--network "network=${NET_NAME},model=virtio")
+    fi
+fi
+
+echo ""
+echo "Creating VM '${VM_NAME}'..."
+virt-install "${VIRT_ARGS[@]}"
+
+echo ""
+echo "=== VM Created ==="
+echo "IPFire ${VERSION} Core ${CORE} VM '${VM_NAME}' is ready."
+echo "Connect via VNC to complete the installation."
+echo "Note: IPFire uses RED (WAN) and GREEN (LAN) interfaces."
+echo "Add a second network interface via the VM settings after creation if needed."

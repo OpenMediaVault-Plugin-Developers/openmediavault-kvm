@@ -1,0 +1,124 @@
+#!/bin/bash
+# Install OpenMediaVault 8 as a KVM virtual machine.
+# Usage: omv-install-omv8 <pool> <nettype> <netname> <vmname> <version> <memory_mib> <vcpus> <disksize_gb>
+set -e
+
+POOL="$1"
+NET_TYPE="$2"
+NET_NAME="$3"
+VM_NAME="$4"
+VERSION="$5"
+MEMORY="${6:-2048}"
+VCPUS="${7:-2}"
+DISK_GB="${8:-32}"
+
+if [ -z "$POOL" ] || [ -z "$NET_TYPE" ] || [ -z "$NET_NAME" ] || [ -z "$VM_NAME" ] || [ -z "$VERSION" ]; then
+    echo "Usage: $0 <pool> <nettype> <netname> <vmname> <version> [memory_mib] [vcpus] [disksize_gb]"
+    exit 1
+fi
+
+ARCH=$(dpkg --print-architecture)
+
+case "$ARCH" in
+    amd64)
+        FILENAME="openmediavault_${VERSION}-amd64.iso"
+        ARCH_ARG="x86_64"
+        BOOT_ARG="uefi,cdrom,hd"
+        OS_VARIANT="debian13"
+        ;;
+    arm64)
+        echo "Error: No OMV ISO is available for ARM64."
+        echo "Install Debian 13 as a VM, then follow the wiki:"
+        echo "https://wiki.omv-extras.org/doku.php?id=omv8:armbian_trixie_install"
+        exit 1
+        ;;
+    *)
+        echo "Error: Unsupported architecture '$ARCH'. Only amd64 and arm64 are supported."
+        exit 1
+        ;;
+esac
+
+URL="https://sourceforge.net/projects/openmediavault/files/iso/${VERSION}/${FILENAME}/download"
+
+POOL_PATH=$(virsh pool-dumpxml "$POOL" 2>/dev/null | grep -oP '(?<=<path>)[^<]+' | head -1)
+if [ -z "$POOL_PATH" ]; then
+    echo "Error: Could not find path for pool '$POOL'."
+    exit 1
+fi
+
+DISK_PATH="${POOL_PATH}/${VM_NAME}.qcow2"
+ISO_PATH="${POOL_PATH}/${FILENAME}"
+
+if [ -f "$DISK_PATH" ]; then
+    echo "Error: Disk already exists at '$DISK_PATH'. Remove it first or choose a different VM name."
+    exit 1
+fi
+
+if virsh dominfo "$VM_NAME" &>/dev/null; then
+    echo "Error: A VM named '$VM_NAME' already exists."
+    exit 1
+fi
+
+echo "=== OpenMediaVault ${VERSION} VM Installer ==="
+echo "Architecture : ${ARCH} (${ARCH_ARG})"
+echo "Pool         : ${POOL} (${POOL_PATH})"
+echo "VM name      : ${VM_NAME}"
+echo "Memory       : ${MEMORY} MiB"
+echo "vCPUs        : ${VCPUS}"
+echo "Disk         : ${DISK_GB} GB"
+echo "Network      : ${NET_TYPE}=${NET_NAME}"
+echo ""
+
+if [ ! -f "$ISO_PATH" ]; then
+    echo "Downloading ${FILENAME}..."
+    if ! wget --progress=dot:giga --output-document="$ISO_PATH" "$URL"; then
+        rm -f "$ISO_PATH"
+        echo "Error: Download failed."
+        exit 1
+    fi
+    chown libvirt-qemu:kvm "$ISO_PATH" 2>/dev/null || true
+    chmod 660 "$ISO_PATH"
+else
+    echo "ISO already present at '${ISO_PATH}', skipping download."
+fi
+
+echo "Creating ${DISK_GB} GB disk image..."
+qemu-img create -f qcow2 "$DISK_PATH" "${DISK_GB}G"
+chown libvirt-qemu:kvm "$DISK_PATH" 2>/dev/null || true
+chmod 660 "$DISK_PATH"
+
+echo "Refreshing pool '${POOL}'..."
+virsh pool-refresh "$POOL"
+
+VIRT_ARGS=(
+    --name "$VM_NAME"
+    --memory "$MEMORY"
+    --vcpus "$VCPUS"
+    --disk "${DISK_PATH},bus=virtio,cache=none,io=native"
+    --cdrom "$ISO_PATH"
+    --arch "$ARCH_ARG"
+    --os-variant "$OS_VARIANT"
+    --metadata "description=OpenMediaVault ${VERSION}"
+    --clock offset=utc
+    --graphics vnc,listen=0.0.0.0
+    --noautoconsole
+)
+
+if [ -n "$BOOT_ARG" ]; then
+    VIRT_ARGS+=(--boot "$BOOT_ARG")
+fi
+
+if [ "$NET_TYPE" = "bridge" ]; then
+    VIRT_ARGS+=(--network "bridge=${NET_NAME},model=virtio")
+else
+    VIRT_ARGS+=(--network "network=${NET_NAME},model=virtio")
+fi
+
+echo ""
+echo "Creating VM '${VM_NAME}'..."
+virt-install "${VIRT_ARGS[@]}"
+
+echo ""
+echo "=== VM Created ==="
+echo "OpenMediaVault ${VERSION} VM '${VM_NAME}' is ready."
+echo "Connect via VNC to complete the installation."

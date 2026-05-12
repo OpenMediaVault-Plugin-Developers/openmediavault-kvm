@@ -1,0 +1,184 @@
+#!/bin/bash
+# Install Redox OS as a KVM virtual machine using the latest image.
+# Usage: omv-install-redox <pool> <nettype> <netname> <vmname> <memory_mib> <vcpus>
+set -e
+
+POOL="$1"
+NET_TYPE="$2"
+NET_NAME="$3"
+VM_NAME="$4"
+MEMORY="${5:-2048}"
+VCPUS="${6:-2}"
+
+if [ -z "$POOL" ] || [ -z "$NET_TYPE" ] || [ -z "$NET_NAME" ] || [ -z "$VM_NAME" ]; then
+    echo "Usage: $0 <pool> <nettype> <netname> <vmname> [memory_mib] [vcpus]"
+    exit 1
+fi
+
+ARCH=$(dpkg --print-architecture)
+
+case "$ARCH" in
+    amd64)
+        BASE_URL="https://static.redox-os.org/img/x86_64/"
+        ARCH_ARG="x86_64"
+        BOOT_ARG="uefi"
+        VIDEO_ARG="vga"
+        DISK_BUS="virtio"
+        EXTRA_ARGS=()
+        ;;
+    arm64)
+        echo "Error: Redox OS ARM64 pre-built images do not have a functional EFI partition and cannot be booted under KVM/UEFI. Only amd64 is supported."
+        exit 1
+        ;;
+    *)
+        echo "Error: Unsupported architecture '$ARCH'. Only amd64 and arm64 are supported."
+        exit 1
+        ;;
+esac
+
+POOL_PATH=$(virsh pool-dumpxml "$POOL" 2>/dev/null | grep -oP '(?<=<path>)[^<]+' | head -1)
+if [ -z "$POOL_PATH" ]; then
+    echo "Error: Could not find path for pool '$POOL'."
+    exit 1
+fi
+
+DISK_PATH="${POOL_PATH}/${VM_NAME}.qcow2"
+
+if [ -f "$DISK_PATH" ]; then
+    echo "Error: Disk already exists at '$DISK_PATH'. Remove it first or choose a different VM name."
+    exit 1
+fi
+
+if virsh dominfo "$VM_NAME" &>/dev/null; then
+    echo "Error: A VM named '$VM_NAME' already exists."
+    exit 1
+fi
+
+echo "=== Redox OS Installer ==="
+echo "Architecture : ${ARCH} (${ARCH_ARG})"
+echo "Pool         : ${POOL} (${POOL_PATH})"
+echo "VM name      : ${VM_NAME}"
+echo "Memory       : ${MEMORY} MiB"
+echo "vCPUs        : ${VCPUS}"
+echo "Network      : ${NET_TYPE}=${NET_NAME}"
+echo ""
+
+echo "Fetching latest image listing from ${BASE_URL}..."
+LISTING=$(wget -q -O - "$BASE_URL" 2>/dev/null) || {
+    echo "Error: Could not fetch image listing from '$BASE_URL'."
+    exit 1
+}
+
+# On aarch64, prefer server image (desktop GUI is unsupported); on amd64 prefer desktop
+if [ "$ARCH_ARG" = "aarch64" ]; then
+    LATEST_FILE=$(echo "$LISTING" | grep -oP '(?<=href=")[^"]+_harddrive\.img(?:\.gz|\.zst)?"' | grep 'server' | sort -r | head -1 | tr -d '"')
+else
+    LATEST_FILE=$(echo "$LISTING" | grep -oP '(?<=href=")[^"]+_harddrive\.img(?:\.gz|\.zst)?"' | grep 'desktop' | sort -r | head -1 | tr -d '"')
+fi
+
+if [ -z "$LATEST_FILE" ]; then
+    LATEST_FILE=$(echo "$LISTING" | grep -oP '(?<=href=")[^"]+_harddrive\.img(?:\.gz|\.zst)?"' | grep -v '^\.\.' | sort -r | head -1 | tr -d '"')
+fi
+
+if [ -z "$LATEST_FILE" ]; then
+    LATEST_FILE=$(echo "$LISTING" | grep -oP '(?<=href=")[^"]+\.img(?:\.gz|\.zst)?"' | grep -v '^\.\.' | sort -r | head -1 | tr -d '"')
+fi
+
+if [ -z "$LATEST_FILE" ]; then
+    echo "Error: Could not find a Redox OS image at '${BASE_URL}'."
+    echo "Directory listing:"
+    echo "$LISTING" | grep -i 'href' | head -20
+    exit 1
+fi
+
+DOWNLOAD_URL="${BASE_URL}${LATEST_FILE}"
+echo "Latest image : ${LATEST_FILE}"
+echo "Download URL : ${DOWNLOAD_URL}"
+echo ""
+
+TEMP_DIR=$(mktemp -d "${POOL_PATH}/redox-install-XXXXXX")
+trap "rm -rf '$TEMP_DIR'; rm -f '$DISK_PATH'" EXIT
+
+DOWNLOADED_PATH="${TEMP_DIR}/${LATEST_FILE}"
+
+echo "Downloading ${LATEST_FILE}..."
+if ! wget --progress=dot:giga --output-document="$DOWNLOADED_PATH" "$DOWNLOAD_URL"; then
+    echo "Error: Download failed."
+    exit 1
+fi
+
+# Decompress if needed
+if [[ "$LATEST_FILE" == *.zst ]]; then
+    echo "Decompressing..."
+    DECOMPRESSED="${DOWNLOADED_PATH%.zst}"
+    zstd --decompress "$DOWNLOADED_PATH" -o "$DECOMPRESSED"
+    SOURCE_PATH="$DECOMPRESSED"
+elif [[ "$LATEST_FILE" == *.gz ]]; then
+    echo "Decompressing..."
+    DECOMPRESSED="${DOWNLOADED_PATH%.gz}"
+    gunzip -k "$DOWNLOADED_PATH"
+    SOURCE_PATH="$DECOMPRESSED"
+elif [[ "$LATEST_FILE" == *.xz ]]; then
+    echo "Decompressing..."
+    DECOMPRESSED="${DOWNLOADED_PATH%.xz}"
+    xz --decompress --keep "$DOWNLOADED_PATH"
+    SOURCE_PATH="$DECOMPRESSED"
+else
+    SOURCE_PATH="$DOWNLOADED_PATH"
+fi
+
+echo "Converting image to qcow2..."
+qemu-img convert -p -O qcow2 "$SOURCE_PATH" "$DISK_PATH"
+
+chown libvirt-qemu:kvm "$DISK_PATH" 2>/dev/null || true
+chmod 660 "$DISK_PATH"
+
+echo "Refreshing pool '${POOL}'..."
+virsh pool-refresh "$POOL"
+
+VIRT_ARGS=(
+    --name "$VM_NAME"
+    --memory "$MEMORY"
+    --vcpus "$VCPUS"
+    --disk "${DISK_PATH},bus=${DISK_BUS},cache=none"
+    --import
+    --arch "$ARCH_ARG"
+    --os-variant generic
+    --metadata "description=Redox OS (${LATEST_FILE})"
+    --memballoon none
+    --clock offset=utc
+    --graphics vnc,listen=0.0.0.0
+    --video "$VIDEO_ARG"
+    --noautoconsole
+    --boot "$BOOT_ARG"
+)
+
+if [ "$NET_TYPE" = "bridge" ]; then
+    VIRT_ARGS+=(--network "bridge=${NET_NAME},model=virtio")
+else
+    VIRT_ARGS+=(--network "network=${NET_NAME},model=virtio")
+fi
+
+echo ""
+echo "Creating VM '${VM_NAME}'..."
+virt-install "${VIRT_ARGS[@]}" "${EXTRA_ARGS[@]}"
+trap "rm -rf '$TEMP_DIR'" EXIT
+
+if [ "$ARCH_ARG" = "aarch64" ]; then
+    echo "Adding semihosting config..."
+    TMPXML=$(mktemp /tmp/redox-domain-XXXXXX.xml)
+    virsh dumpxml "$VM_NAME" | sed 's|</domain>|<qemu:commandline xmlns:qemu="http://libvirt.org/schemas/domain/qemu/1.0"><qemu:arg value="-semihosting-config"/><qemu:arg value="enable=on,target=native,userspace=on"/></qemu:commandline></domain>|' > "$TMPXML"
+    virsh destroy "$VM_NAME" 2>/dev/null || true
+    virsh define "$TMPXML"
+    rm -f "$TMPXML"
+    virsh start "$VM_NAME"
+fi
+
+echo ""
+echo "=== Installation complete ==="
+echo "Redox OS '${VM_NAME}' is now running (image: ${LATEST_FILE})."
+if [ "$ARCH_ARG" = "aarch64" ]; then
+    echo "Connect via VNC to access the VM."
+else
+    echo "Connect via VNC to access the desktop."
+fi
