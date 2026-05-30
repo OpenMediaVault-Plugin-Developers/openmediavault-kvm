@@ -172,6 +172,7 @@ OMV_NEW_UUID=$(grep -oP 'OMV_CONFIGOBJECT_NEW_UUID="\K[^"]+' /etc/default/openme
 TEST_JOB_COMMENT="omvtest_kvm_job"
 TEST_JOB_PATH="/tmp/omvtest_kvm_backup"
 TEST_VM_NAME="omvtest_kvm_vm"
+TEST_POOL_NAME="omvtest_kvm_pool"
 
 # ---------------------------------------------------------------------------
 # Tracked state — cleared on successful deletion so cleanup skips them
@@ -179,6 +180,8 @@ TEST_VM_NAME="omvtest_kvm_vm"
 JOB_UUID=""
 VM_CREATED=false   # set to true once setVm succeeds
 FIRST_NET=""       # populated in the Networks section
+POOL_CREATED=false # set to true once the test pool is defined
+TEST_POOL_PATH=""  # filesystem path of the test pool (cleaned up on exit)
 
 # ---------------------------------------------------------------------------
 # Pre-cleanup: remove leftover test job from a previous failed run
@@ -213,6 +216,13 @@ for r in rows:
             >/dev/null 2>&1 || \
         virsh undefine "$TEST_VM_NAME" --managed-save --snapshots-metadata 2>/dev/null || true
     fi
+
+    # leftover test pool
+    if virsh pool-info "$TEST_POOL_NAME" &>/dev/null 2>&1; then
+        info "Pre-cleanup: removing leftover test pool '$TEST_POOL_NAME'"
+        virsh pool-destroy  "$TEST_POOL_NAME" >/dev/null 2>&1 || true
+        virsh pool-undefine "$TEST_POOL_NAME" >/dev/null 2>&1 || true
+    fi
 }
 
 # ---------------------------------------------------------------------------
@@ -232,7 +242,22 @@ cleanup() {
             >/dev/null 2>&1 || \
         virsh undefine "$TEST_VM_NAME" --managed-save --snapshots-metadata 2>/dev/null || true
     fi
+    if $POOL_CREATED; then
+        info "Deleting test pool '$TEST_POOL_NAME'"
+        omv-rpc -u admin "Kvm" "deletePool" "{\"name\":\"$TEST_POOL_NAME\"}" >/dev/null 2>&1 || {
+            virsh pool-destroy  "$TEST_POOL_NAME" >/dev/null 2>&1 || true
+            virsh pool-undefine "$TEST_POOL_NAME" >/dev/null 2>&1 || true
+        }
+    fi
+    [ -n "$TEST_POOL_PATH" ] && rmdir "$TEST_POOL_PATH" 2>/dev/null || true
     echo "" >&2
+
+    # Deploy pending config changes so the OMV web UI "apply changes" banner
+    # does not linger after this test run. Runs detached/async so the script
+    # returns promptly; --append-dirty clears the dirty-module markers (the
+    # banner) once the deploy completes.
+    info "Deploying pending config changes asynchronously (clears web UI banner)"
+    nohup omv-salt deploy run --quiet --append-dirty >/dev/null 2>&1 &
 }
 trap cleanup EXIT
 
@@ -319,6 +344,99 @@ FIRST_POOL=""
 if assert_rpc "enumeratePools" "Kvm" "enumeratePools" '{}'; then
     FIRST_POOL=$(json_list_first "$RPC_OUT" "name")
     [ -n "$FIRST_POOL" ] && info "First pool: $FIRST_POOL"
+fi
+
+# ===========================================================================
+section "Pool storage-wait drop-in"
+# ===========================================================================
+# Verifies the libvirtd boot-ordering drop-in tracks storage pools: creating a
+# pool whose target path lives on a non-root mount must add a Wants=/After=
+# dependency on that mount unit to waitForPools.conf, and deleting it must
+# restore the drop-in to its prior state. Each step runs 'omv-salt deploy run
+# kvm' to regenerate the drop-in, exactly as applying changes in the web UI does.
+
+DROPIN="/etc/systemd/system/libvirtd.service.d/waitForPools.conf"
+
+# Find a writable mountpoint that is not the root filesystem to host the pool.
+TEST_MOUNT=$(findmnt -rno TARGET,FSTYPE | awk '
+    $1 != "/" && $2 !~ /^(proc|sysfs|cgroup|cgroup2|devtmpfs|tmpfs|devpts|mqueue|debugfs|tracefs|securityfs|pstore|bpf|configfs|fusectl|autofs|binfmt_misc|nsfs|ramfs|hugetlbfs|efivarfs|overlay|squashfs|nfsd|rpc_pipefs)$/ {print $1}' \
+    | while read -r mp; do [ -w "$mp" ] && { echo "$mp"; break; }; done)
+
+if [ -z "$TEST_MOUNT" ]; then
+    _skip "setPool (drop-in test)"                      "no writable non-root mount available"
+    _skip "deploy + drop-in gains pool mount"           "no writable non-root mount available"
+    _skip "deletePool (drop-in test)"                   "no writable non-root mount available"
+    _skip "deploy + drop-in restored after pool delete" "no writable non-root mount available"
+else
+    TEST_POOL_PATH="${TEST_MOUNT%/}/$TEST_POOL_NAME"
+    EXPECT_UNIT=$(systemd-escape -p --suffix=mount "$TEST_MOUNT")
+    info "Test pool mount: $TEST_MOUNT  ->  unit: $EXPECT_UNIT"
+
+    # Snapshot the current drop-in (may be absent) to compare against later.
+    BASELINE_DROPIN=""
+    [ -f "$DROPIN" ] && BASELINE_DROPIN=$(cat "$DROPIN")
+
+    POOL_PARAMS=$(python3 -c "
+import json
+print(json.dumps({
+    'name': '$TEST_POOL_NAME',
+    'path': '$TEST_POOL_PATH',
+    'type': 'dir',
+    'hostname': '',
+    'zpoolname': '',
+    'sourcepath': '',
+    'vg': ''
+}))
+")
+    if assert_rpc "setPool (create dir pool, drop-in test)" "Kvm" "setPool" "$POOL_PARAMS"; then
+        POOL_CREATED=true
+
+        info "Running 'omv-salt deploy run kvm' (regenerate drop-in with pool) ..."
+        if omv-salt deploy run --quiet kvm >/dev/null 2>&1; then
+            _pass "omv-salt deploy run kvm (after create)"
+        else
+            _fail "omv-salt deploy run kvm (after create)" "deploy returned non-zero"
+        fi
+
+        if [ -f "$DROPIN" ] && grep -qF "$EXPECT_UNIT" "$DROPIN"; then
+            _pass "drop-in gained pool mount unit after create"
+        else
+            _fail "drop-in gained pool mount unit after create" \
+                "expected '$EXPECT_UNIT' in $DROPIN; got: $([ -f "$DROPIN" ] && tr '\n' ' ' < "$DROPIN" || echo '<file absent>')"
+        fi
+    else
+        _skip "deploy + drop-in gains pool mount"           "pool was not created"
+        _skip "deletePool (drop-in test)"                   "pool was not created"
+        _skip "deploy + drop-in restored after pool delete" "pool was not created"
+    fi
+
+    if $POOL_CREATED; then
+        if assert_rpc "deletePool (drop-in test)" "Kvm" "deletePool" "{\"name\":\"$TEST_POOL_NAME\"}"; then
+            POOL_CREATED=false
+        fi
+
+        info "Running 'omv-salt deploy run kvm' (regenerate drop-in without pool) ..."
+        if omv-salt deploy run --quiet kvm >/dev/null 2>&1; then
+            _pass "omv-salt deploy run kvm (after delete)"
+        else
+            _fail "omv-salt deploy run kvm (after delete)" "deploy returned non-zero"
+        fi
+
+        # Drop-in should return to its pre-test state. (If a pre-existing pool
+        # shares the same backing mount, the unit legitimately remains — the
+        # baseline already contained it, so the comparison still holds.)
+        CURRENT_DROPIN=""
+        [ -f "$DROPIN" ] && CURRENT_DROPIN=$(cat "$DROPIN")
+        if [ "$CURRENT_DROPIN" = "$BASELINE_DROPIN" ]; then
+            _pass "drop-in restored to baseline after pool delete"
+        else
+            _fail "drop-in restored to baseline after pool delete" \
+                "current: $(echo "$CURRENT_DROPIN" | tr '\n' ' ')"
+        fi
+    fi
+
+    # Remove the directory setPool created on the mount.
+    [ -n "$TEST_POOL_PATH" ] && rmdir "$TEST_POOL_PATH" 2>/dev/null || true
 fi
 
 # ===========================================================================
