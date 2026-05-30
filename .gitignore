@@ -22,8 +22,7 @@
 Session.vim
 .netrwhist
 
-# SVN
-.svn/
+.claude/
 
 # Mac
 .DS_Store
