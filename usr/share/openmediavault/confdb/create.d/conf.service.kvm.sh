@@ -31,6 +31,7 @@ if ! omv_config_exists "/config/services/kvm"; then
     omv_config_add_key "/config/services/kvm" "monitor_collect_interval" "10"
     omv_config_add_key "/config/services/kvm" "monitor_detail_retention_hours" "24"
     omv_config_add_key "/config/services/kvm" "monitor_summary_retention_days" "7"
+    omv_config_add_key "/config/services/kvm" "startdelay" "0"
     omv_config_add_node "/config/services/kvm" "jobs"
 fi
 
@@ -55,6 +56,9 @@ if ! omv_config_exists "/config/services/kvm/monitor_detail_retention_hours"; th
 fi
 if ! omv_config_exists "/config/services/kvm/monitor_summary_retention_days"; then
     omv_config_add_key "/config/services/kvm" "monitor_summary_retention_days" "7"
+fi
+if ! omv_config_exists "/config/services/kvm/startdelay"; then
+    omv_config_add_key "/config/services/kvm" "startdelay" "0"
 fi
 
 exit 0

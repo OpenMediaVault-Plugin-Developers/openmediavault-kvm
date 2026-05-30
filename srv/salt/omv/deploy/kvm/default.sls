@@ -121,10 +121,57 @@ disable_ksm_service:
     - enable: False
     - onlyif: test ! -f /sys/kernel/mm/ksm/run
 
+
+{% set pool_mounts = salt['cmd.shell']("for p in $(virsh -q pool-list --all --name 2>/dev/null); do path=$(virsh pool-dumpxml \"$p\" --xpath '//target/path/text()' 2>/dev/null); [ -n \"$path\" ] || continue; mp=$(findmnt -no TARGET --target \"$path\" 2>/dev/null); [ -n \"$mp\" ] && [ \"$mp\" != \"/\" ] || continue; systemd-escape -p --suffix=mount \"$mp\"; done | sort -u | paste -sd' '") %}
+
+{% if pool_mounts | length > 0 %}
+libvirtd_wait_for_pools:
+  file.managed:
+    - name: /etc/systemd/system/libvirtd.service.d/waitForPools.conf
+    - contents: |
+        [Unit]
+        After={{ pool_mounts }}
+        Wants={{ pool_mounts }}
+    - user: root
+    - group: root
+    - mode: "0644"
+    - makedirs: True
+{% else %}
+libvirtd_wait_for_pools:
+  file.absent:
+    - name: /etc/systemd/system/libvirtd.service.d/waitForPools.conf
+{% endif %}
+
+{% if settings.startdelay | int > 0 %}
+libvirtd_start_delay:
+  file.managed:
+    - name: /etc/systemd/system/libvirtd.service.d/startDelay.conf
+    - contents: |
+        [Service]
+        ExecStartPre=/bin/sleep {{ settings.startdelay | int }}
+    - user: root
+    - group: root
+    - mode: "0644"
+    - makedirs: True
+{% else %}
+libvirtd_start_delay:
+  file.absent:
+    - name: /etc/systemd/system/libvirtd.service.d/startDelay.conf
+{% endif %}
+
+libvirtd_dropins_reload:
+  cmd.run:
+    - name: systemctl daemon-reload
+    - onchanges:
+      - file: libvirtd_wait_for_pools
+      - file: libvirtd_start_delay
+
 libvirtd_service:
   service.running:
     - name: libvirtd
     - enable: True
+    - require:
+      - cmd: libvirtd_dropins_reload
     - watch:
       - file: configure_qemu_vnc_listen
       - cmd: configure_qemu_nvram

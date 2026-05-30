@@ -32,6 +32,10 @@
         "monitor_summary_retention_days": {
           "type": "integer",
           "required": true
+        },
+        "startdelay": {
+          "type": "integer",
+          "required": true
         }
       }
     }

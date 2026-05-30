@@ -572,6 +572,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
         $xml .= "</pool>";
         $this->virshPoolDefineXml($xml);
+        // Mark the module dirty so the libvirtd pool-mount wait drop-in is
+        // regenerated from the current set of pool target paths on apply.
+        $this->setModuleDirty("kvm");
     }
 
     public function deletePool($params, $context)
@@ -582,6 +585,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodParams($params, 'rpc.kvm.name');
         $this->virshCommand(['pool-undefine', $this->escapeName($params['name'])],
             gettext("Unable to delete pool"));
+        // Mark the module dirty so the libvirtd pool-mount wait drop-in is
+        // regenerated without this pool's target path on apply.
+        $this->setModuleDirty("kvm");
     }
 
     public function poolCommand($params, $context)

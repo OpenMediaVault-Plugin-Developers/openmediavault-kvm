@@ -35,6 +35,12 @@
       "type": "integer",
       "default": 7
     },
+    "startdelay": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 300,
+      "default": 0
+    },
     "jobs": {
       "type": "object",
       "properties": {
