@@ -17,7 +17,7 @@ case "$1" in
         fi
 
         # run salt to apply configuration
-        omv-salt deploy run kvm
+        omv-salt deploy run --no-color --quiet kvm || :
 
         # Disable ksmtuned if the kernel does not support KSM
         if [ ! -e /sys/kernel/mm/ksm/run ]; then
