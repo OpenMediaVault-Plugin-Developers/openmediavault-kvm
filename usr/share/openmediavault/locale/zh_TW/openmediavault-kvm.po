@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-23 22:06+0000\n"
+"POT-Creation-Date: 2026-05-30 13:17+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: kochin <kochinc@outlook.com>, 2026\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_TW/)\n"
@@ -26,6 +26,11 @@ msgstr "已經存在！"
 
 msgid " the network!"
 msgstr "網路！"
+
+msgid ""
+"ARM64 is not supported. Redox OS pre-built ARM64 images do not have a "
+"functional EFI partition and cannot boot under KVM."
+msgstr ""
 
 msgid "Action"
 msgstr "動作"
@@ -136,7 +141,7 @@ msgid "Amount"
 msgstr "數量"
 
 msgid "Appliances"
-msgstr ""
+msgstr "虛擬設備"
 
 msgid "Arch"
 msgstr "硬體架構"
@@ -197,8 +202,11 @@ msgstr ""
 "請要非常小心，不要直通一個被主機作業系統使用的裝置！<br/>使用 /dev/sd* 是已知較為不可靠，因為它們可能在重新啟動間改變。<br/>建議使用"
 " /dev/disk/by-id 裝置名稱。"
 
-msgid "Bridge"
+msgid "Boot"
 msgstr ""
+
+msgid "Bridge"
+msgstr "橋接器"
 
 msgid "Bridge Model"
 msgstr "橋接模式"
@@ -251,13 +259,24 @@ msgstr "變更光碟中 ..."
 msgid "Check"
 msgstr "檢查"
 
+msgid "Check downloads.ipfire.org for the latest core update number."
+msgstr ""
+
 msgid ""
 "Check github.com/home-assistant/operating-system/releases for the latest "
+"version."
+msgstr "於 github.com/home-assistant/operating-system/releases 查看最新版本。"
+
+msgid ""
+"Check sourceforge.net/projects/openmediavault/files/iso/ for the latest "
 "version."
 msgstr ""
 
 msgid "Check volume ..."
 msgstr "檢查儲存卷 ..."
+
+msgid "Checksum"
+msgstr ""
 
 msgid "Clear monitor database"
 msgstr "清除監測資料庫"
@@ -309,6 +328,9 @@ msgstr "轉換成 qcow2 中 ..."
 
 msgid "Converting to raw ..."
 msgstr "轉換成 raw 中 ..."
+
+msgid "Core Update"
+msgstr ""
 
 msgid "Create"
 msgstr "建立"
@@ -403,6 +425,9 @@ msgstr "刪除快照中 ..."
 msgid "Details"
 msgstr "詳情"
 
+msgid "Direct link to the .iso file."
+msgstr ""
+
 msgid "Directory"
 msgstr "目錄"
 
@@ -420,6 +445,9 @@ msgstr "停用自動啟動中 ..."
 
 msgid "Disk"
 msgstr "磁碟"
+
+msgid "Disk (GB)"
+msgstr ""
 
 msgid "Disk Read"
 msgstr "磁碟讀入"
@@ -448,16 +476,46 @@ msgstr "磁碟"
 msgid "Dom stats"
 msgstr "Dom 狀態"
 
+msgid "Download"
+msgstr ""
+
+msgid "Download ISO"
+msgstr ""
+
+msgid "Download ISO ..."
+msgstr ""
+
 msgid "Download virtio iso"
 msgstr "下載 virtio iso"
 
 msgid "Download virtio iso ..."
 msgstr "下載 virtio iso …"
 
+msgid "Downloading ISO ..."
+msgstr ""
+
 msgid ""
 "Downloads and installs Home Assistant OS as a KVM virtual machine. The image"
 " is several hundred MB — installation may take a few minutes. The VM is "
 "started automatically when finished."
+msgstr ""
+"下載並安裝 Home Assistant OS 為 KVM 虛擬機。該映像有數百 MB — 安裝需要花幾分鐘。安裝完成後，該 VM 會自動啟動。"
+
+msgid ""
+"Downloads the IPFire ISO and creates a VM ready for installation. Connect "
+"via VNC to complete setup. IPFire is a firewall distribution — consider "
+"adding a second NIC after creation for RED/GREEN separation."
+msgstr ""
+
+msgid ""
+"Downloads the OpenMediaVault 8 ISO (based on Debian 13) and creates a VM "
+"ready for installation. Connect via VNC to complete setup. The ISO is "
+"several hundred MB."
+msgstr ""
+
+msgid ""
+"Downloads the latest Redox OS disk image for your architecture and imports "
+"it as a VM. The image is fetched automatically from static.redox-os.org."
 msgstr ""
 
 msgid "Edit"
@@ -664,6 +722,9 @@ msgstr "停用集用場失敗 - "
 msgid "File will be placed in same directory as the base image."
 msgstr "檔案將被放置於基礎映像的相同目錄中。"
 
+msgid "Filename"
+msgstr ""
+
 msgid "Filesystem"
 msgstr "檔案系統"
 
@@ -730,7 +791,7 @@ msgid "Gigabytes"
 msgstr "GB"
 
 msgid "HA OS Version"
-msgstr ""
+msgstr "HA OS 版本"
 
 msgid "Hard disk"
 msgstr "硬碟"
@@ -756,6 +817,9 @@ msgstr "要多頻繁收集量度。低的數值會增加 CPU 用量。"
 msgid "IP Range"
 msgstr "IP 範圍"
 
+msgid "IPFire Version"
+msgstr ""
+
 msgid "ISOs"
 msgstr "ISOs"
 
@@ -773,15 +837,42 @@ msgid "Info"
 msgstr "資訊"
 
 msgid "Install"
-msgstr ""
+msgstr "安裝"
 
 msgid "Install Home Assistant OS"
-msgstr ""
+msgstr "安裝 Home Assistant OS"
 
 msgid "Install Home Assistant OS ..."
+msgstr "安裝 Home Assistant OS ..."
+
+msgid "Install IPFire"
+msgstr ""
+
+msgid "Install IPFire ..."
+msgstr ""
+
+msgid "Install OpenMediaVault 8"
+msgstr ""
+
+msgid "Install OpenMediaVault 8 ..."
+msgstr ""
+
+msgid "Install Redox OS"
+msgstr ""
+
+msgid "Install Redox OS ..."
 msgstr ""
 
 msgid "Installing Home Assistant OS ..."
+msgstr "安裝 Home Assistant OS 中 ..."
+
+msgid "Installing IPFire ..."
+msgstr ""
+
+msgid "Installing OpenMediaVault 8 ..."
+msgstr ""
+
+msgid "Installing Redox OS ..."
 msgstr ""
 
 msgid "KVM"
@@ -803,6 +894,11 @@ msgid "Leave blank for random address."
 msgstr "保留空白則使用隨機產生的地址。"
 
 msgid "Leave blank to omit."
+msgstr "保留空白則略過。"
+
+msgid ""
+"Leave blank to use the filename from the URL. The .iso extension is added "
+"automatically."
 msgstr ""
 
 msgid "Linked Clone"
@@ -824,7 +920,7 @@ msgid "Memory"
 msgstr "記憶體"
 
 msgid "Memory (MiB)"
-msgstr ""
+msgstr "記憶體 (MiB)"
 
 msgid "Memory amount has been changed."
 msgstr "記憶體大小已被改變。"
@@ -853,7 +949,7 @@ msgstr "搬移 VM ..."
 msgid ""
 "Must be exactly 16 hexadecimal digits (with optional 0x prefix) or left "
 "blank."
-msgstr ""
+msgstr "必須是正好 16 個十六進位數字 (可以選擇地加 0x 前綴詞)，或留空白。"
 
 msgid "Name"
 msgstr "名稱"
@@ -880,7 +976,7 @@ msgid "Network State"
 msgstr "網路狀態"
 
 msgid "Network Type"
-msgstr ""
+msgstr "網路類型"
 
 msgid "Network adapter has been added."
 msgstr "網路卡已被加入。"
@@ -914,6 +1010,9 @@ msgstr "無映像 - 使用現存的映像路徑"
 
 msgid "Notes"
 msgstr "註釋"
+
+msgid "OMV Version"
+msgstr ""
 
 msgid "OS"
 msgstr "作業系統"
@@ -950,8 +1049,16 @@ msgid ""
 " original location."
 msgstr "選擇性。選擇集用場來將 VM 復原到不同位置。留空白則代表原始位置。"
 
+msgid ""
+"Optional. MD5, SHA1, SHA256, or SHA512 — auto-detected by length. File is "
+"deleted if verification fails."
+msgstr ""
+
 msgid "Other CPU"
 msgstr "其它 CPU"
+
+msgid "Overwrite if exists"
+msgstr ""
 
 msgid "PCI"
 msgstr "PCI"
@@ -1126,6 +1233,11 @@ msgstr "相同格式"
 msgid "Schedule"
 msgstr "預定"
 
+msgid ""
+"Seconds to wait before libvirtd starts on boot. Use this if pools or VMs "
+"fail to autostart because the underlying storage is not ready in time."
+msgstr ""
+
 msgid "Secure boot"
 msgstr "Secure boot"
 
@@ -1133,7 +1245,7 @@ msgid "Select a snapshot ..."
 msgstr "選擇一個快照 ..."
 
 msgid "Serial"
-msgstr ""
+msgstr "序號"
 
 msgid "Settings"
 msgstr "設定"
@@ -1183,6 +1295,9 @@ msgstr "Spice 檢視器已被移除。"
 msgid "Start"
 msgstr "啟動"
 
+msgid "Start delay"
+msgstr ""
+
 msgid "Started."
 msgstr "已啟動。"
 
@@ -1220,7 +1335,7 @@ msgid "Stopping network ..."
 msgstr "停止網路中 ..."
 
 msgid "Storage Pool"
-msgstr ""
+msgstr "儲存集用場"
 
 msgid "Storage Volume"
 msgstr "儲存卷"
@@ -1252,6 +1367,9 @@ msgstr "型式"
 
 msgid "UEFI"
 msgstr "UEFI"
+
+msgid "URL"
+msgstr ""
 
 msgid "USB"
 msgstr "USB"
@@ -1362,7 +1480,7 @@ msgid "VNC viewer has been removed."
 msgstr "VNC 檢視器已被移除。"
 
 msgid "Virtual Network"
-msgstr ""
+msgstr "虛擬網路"
 
 msgid "Volume Count"
 msgstr "儲存卷數目"
@@ -1395,7 +1513,7 @@ msgid "Volumes"
 msgstr "儲存卷"
 
 msgid "WWN"
-msgstr ""
+msgstr "WWN"
 
 msgid ""
 "Warning! Address can change after VM reboot breaking the passthrough!<br "
@@ -1408,6 +1526,8 @@ msgid ""
 "World Wide Name, exactly 16 hex digits, optionally prefixed with 0x (e.g. "
 "0x500152d00015b374). Leave blank to omit."
 msgstr ""
+"世界廣用名稱 (World Wide Name)，須為正好 16 個十六進位數字，選擇地加 0x 前綴詞 "
+"(例如：0x500152d00015b374)。保留空白則略過。"
 
 msgid "XML"
 msgstr "XML"

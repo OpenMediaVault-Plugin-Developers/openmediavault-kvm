@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-23 22:06+0000\n"
+"POT-Creation-Date: 2026-05-30 13:17+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Stephan Paternotte <stephan@paternottes.net>, 2026\n"
 "Language-Team: Dutch (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/nl/)\n"
@@ -27,6 +27,11 @@ msgstr "bestaat al!"
 
 msgid " the network!"
 msgstr "het netwerk!"
+
+msgid ""
+"ARM64 is not supported. Redox OS pre-built ARM64 images do not have a "
+"functional EFI partition and cannot boot under KVM."
+msgstr ""
 
 msgid "Action"
 msgstr "Actie"
@@ -137,7 +142,7 @@ msgid "Amount"
 msgstr "Hoeveelheid"
 
 msgid "Appliances"
-msgstr ""
+msgstr "Apparaten"
 
 msgid "Arch"
 msgstr "Arch"
@@ -177,7 +182,7 @@ msgid "Available"
 msgstr "Beschikbaar"
 
 msgid "Backing file"
-msgstr "Onderliggen bestand"
+msgstr "Onderliggend bestand"
 
 msgid "Backing file has been created."
 msgstr "Backing-bestand is aangemaakt."
@@ -202,8 +207,11 @@ msgstr ""
 " minder betrouwbaar omdat ze kunnen wijzigen bij opnieuw opstarten.<br/>Het "
 "wordt aanbevolen om /dev/disk/by-id apparaatnamen te gebruiken."
 
-msgid "Bridge"
+msgid "Boot"
 msgstr ""
+
+msgid "Bridge"
+msgstr "Bridge"
 
 msgid "Bridge Model"
 msgstr "Bridge-model"
@@ -256,13 +264,26 @@ msgstr "Optiche schijf wijzigen…"
 msgid "Check"
 msgstr "Controleren"
 
+msgid "Check downloads.ipfire.org for the latest core update number."
+msgstr ""
+
 msgid ""
 "Check github.com/home-assistant/operating-system/releases for the latest "
+"version."
+msgstr ""
+"Controleer github.com/home-assistant/operating-system/releases voor de "
+"nieuwste versie."
+
+msgid ""
+"Check sourceforge.net/projects/openmediavault/files/iso/ for the latest "
 "version."
 msgstr ""
 
 msgid "Check volume ..."
 msgstr "Volume controleren…"
+
+msgid "Checksum"
+msgstr ""
 
 msgid "Clear monitor database"
 msgstr "Bewakingsdatabase wissen"
@@ -315,6 +336,9 @@ msgstr "Converteren naar qcow2…"
 
 msgid "Converting to raw ..."
 msgstr "Converteren naar raw…"
+
+msgid "Core Update"
+msgstr ""
 
 msgid "Create"
 msgstr "Aanmaken"
@@ -409,6 +433,9 @@ msgstr "Momentopname verwijderen…"
 msgid "Details"
 msgstr "Details"
 
+msgid "Direct link to the .iso file."
+msgstr ""
+
 msgid "Directory"
 msgstr "Map"
 
@@ -426,6 +453,9 @@ msgstr "Autom. start uitschakelen…"
 
 msgid "Disk"
 msgstr "Schijf"
+
+msgid "Disk (GB)"
+msgstr ""
 
 msgid "Disk Read"
 msgstr "Schijf lezen"
@@ -454,16 +484,48 @@ msgstr "Schijf/schijven"
 msgid "Dom stats"
 msgstr "Dom-stats"
 
+msgid "Download"
+msgstr ""
+
+msgid "Download ISO"
+msgstr ""
+
+msgid "Download ISO ..."
+msgstr ""
+
 msgid "Download virtio iso"
 msgstr "VirtIO ISO-bestand downloaden"
 
 msgid "Download virtio iso ..."
 msgstr "VirtIO ISO-bestand downloaden…"
 
+msgid "Downloading ISO ..."
+msgstr ""
+
 msgid ""
 "Downloads and installs Home Assistant OS as a KVM virtual machine. The image"
 " is several hundred MB — installation may take a few minutes. The VM is "
 "started automatically when finished."
+msgstr ""
+"Downloadt en installeert Home Assistant OS als een virtuele KVM-machine. Dit"
+" image is enkele honderden MB groot — installatie kan een paar minuten "
+"duren. De VM wordt automatisch gestart wanneer deze klaar is."
+
+msgid ""
+"Downloads the IPFire ISO and creates a VM ready for installation. Connect "
+"via VNC to complete setup. IPFire is a firewall distribution — consider "
+"adding a second NIC after creation for RED/GREEN separation."
+msgstr ""
+
+msgid ""
+"Downloads the OpenMediaVault 8 ISO (based on Debian 13) and creates a VM "
+"ready for installation. Connect via VNC to complete setup. The ISO is "
+"several hundred MB."
+msgstr ""
+
+msgid ""
+"Downloads the latest Redox OS disk image for your architecture and imports "
+"it as a VM. The image is fetched automatically from static.redox-os.org."
 msgstr ""
 
 msgid "Edit"
@@ -673,6 +735,9 @@ msgstr "Pool stoppen is mislukt."
 msgid "File will be placed in same directory as the base image."
 msgstr "Bestand wordt in dezelfde map geplaatst als de basis-image."
 
+msgid "Filename"
+msgstr ""
+
 msgid "Filesystem"
 msgstr "Bestandssysteem"
 
@@ -740,7 +805,7 @@ msgid "Gigabytes"
 msgstr "Gigabytes"
 
 msgid "HA OS Version"
-msgstr ""
+msgstr "HA OS-versie"
 
 msgid "Hard disk"
 msgstr "Harde schijf"
@@ -768,6 +833,9 @@ msgstr ""
 msgid "IP Range"
 msgstr "IP-bereik"
 
+msgid "IPFire Version"
+msgstr ""
+
 msgid "ISOs"
 msgstr "ISO-bestanden"
 
@@ -787,15 +855,42 @@ msgid "Info"
 msgstr "Info"
 
 msgid "Install"
-msgstr ""
+msgstr "Installeren"
 
 msgid "Install Home Assistant OS"
-msgstr ""
+msgstr "Home Assistant OS installeren"
 
 msgid "Install Home Assistant OS ..."
+msgstr "Home Assistant OS installeren…"
+
+msgid "Install IPFire"
+msgstr ""
+
+msgid "Install IPFire ..."
+msgstr ""
+
+msgid "Install OpenMediaVault 8"
+msgstr ""
+
+msgid "Install OpenMediaVault 8 ..."
+msgstr ""
+
+msgid "Install Redox OS"
+msgstr ""
+
+msgid "Install Redox OS ..."
 msgstr ""
 
 msgid "Installing Home Assistant OS ..."
+msgstr "Home Assistant OS installeren…"
+
+msgid "Installing IPFire ..."
+msgstr ""
+
+msgid "Installing OpenMediaVault 8 ..."
+msgstr ""
+
+msgid "Installing Redox OS ..."
 msgstr ""
 
 msgid "KVM"
@@ -817,6 +912,11 @@ msgid "Leave blank for random address."
 msgstr "Laat leeg voor willekeurig adres."
 
 msgid "Leave blank to omit."
+msgstr "Laat leeg om achterwege te laten."
+
+msgid ""
+"Leave blank to use the filename from the URL. The .iso extension is added "
+"automatically."
 msgstr ""
 
 msgid "Linked Clone"
@@ -838,7 +938,7 @@ msgid "Memory"
 msgstr "Geheugen"
 
 msgid "Memory (MiB)"
-msgstr ""
+msgstr "Geheugen (MiB)"
 
 msgid "Memory amount has been changed."
 msgstr "Geheugenhoeveelheid is gewijzigd."
@@ -868,6 +968,8 @@ msgid ""
 "Must be exactly 16 hexadecimal digits (with optional 0x prefix) or left "
 "blank."
 msgstr ""
+"Moet exact 16 hexadecimale cijfers zijn (met optioneel voorvoegsel 0x) of "
+"blanco gelaten."
 
 msgid "Name"
 msgstr "Naam"
@@ -894,7 +996,7 @@ msgid "Network State"
 msgstr "Netwerkstatus"
 
 msgid "Network Type"
-msgstr ""
+msgstr "Netwerktype"
 
 msgid "Network adapter has been added."
 msgstr "Netwerkadapter is toegevoegd."
@@ -928,6 +1030,9 @@ msgstr "Geen image - bestaand image-pad gebruiken"
 
 msgid "Notes"
 msgstr "Notities"
+
+msgid "OMV Version"
+msgstr ""
 
 msgid "OS"
 msgstr "Besturingssysteem"
@@ -966,8 +1071,16 @@ msgstr ""
 "Optioneel. Kies pool om VM te herstellen naar een andere locatie. Leeglaten "
 "voor originele locatie."
 
+msgid ""
+"Optional. MD5, SHA1, SHA256, or SHA512 — auto-detected by length. File is "
+"deleted if verification fails."
+msgstr ""
+
 msgid "Other CPU"
 msgstr "Overig CPU"
+
+msgid "Overwrite if exists"
+msgstr ""
 
 msgid "PCI"
 msgstr "PCI"
@@ -1146,6 +1259,11 @@ msgstr "Zelfde formaat"
 msgid "Schedule"
 msgstr "Planning"
 
+msgid ""
+"Seconds to wait before libvirtd starts on boot. Use this if pools or VMs "
+"fail to autostart because the underlying storage is not ready in time."
+msgstr ""
+
 msgid "Secure boot"
 msgstr "Secure boot"
 
@@ -1153,7 +1271,7 @@ msgid "Select a snapshot ..."
 msgstr "Momentopname selecteren..."
 
 msgid "Serial"
-msgstr ""
+msgstr "Seriëel"
 
 msgid "Settings"
 msgstr "Instellingen"
@@ -1203,6 +1321,9 @@ msgstr "Spice-weergave is verwijderd."
 msgid "Start"
 msgstr "Start"
 
+msgid "Start delay"
+msgstr ""
+
 msgid "Started."
 msgstr "Gestart."
 
@@ -1240,7 +1361,7 @@ msgid "Stopping network ..."
 msgstr "Netwerk stoppen…"
 
 msgid "Storage Pool"
-msgstr ""
+msgstr "Opslag-pool"
 
 msgid "Storage Volume"
 msgstr "Opslagvolume"
@@ -1274,6 +1395,9 @@ msgstr "Type"
 
 msgid "UEFI"
 msgstr "UEFI"
+
+msgid "URL"
+msgstr ""
 
 msgid "USB"
 msgstr "USB"
@@ -1384,7 +1508,7 @@ msgid "VNC viewer has been removed."
 msgstr "VNC-viewer is verwijderd."
 
 msgid "Virtual Network"
-msgstr ""
+msgstr "Virtueel netwerk"
 
 msgid "Volume Count"
 msgstr "Aantal volumes"
@@ -1417,7 +1541,7 @@ msgid "Volumes"
 msgstr "Volumes"
 
 msgid "WWN"
-msgstr ""
+msgstr "WWN"
 
 msgid ""
 "Warning! Address can change after VM reboot breaking the passthrough!<br "
@@ -1432,6 +1556,8 @@ msgid ""
 "World Wide Name, exactly 16 hex digits, optionally prefixed with 0x (e.g. "
 "0x500152d00015b374). Leave blank to omit."
 msgstr ""
+"World Wide Name, exact 16 hex-cijfers, optioneel voorafgegaan door 0x (bijv."
+" 0x500152d00015b374). Laat leeg om achterwege te laten."
 
 msgid "XML"
 msgstr "XML"

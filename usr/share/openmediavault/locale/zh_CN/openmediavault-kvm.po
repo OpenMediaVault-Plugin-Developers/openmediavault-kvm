@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-23 22:06+0000\n"
+"POT-Creation-Date: 2026-05-30 13:17+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: songming <by@songming.me>, 2026\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_CN/)\n"
@@ -26,6 +26,11 @@ msgstr "已经存在！"
 
 msgid " the network!"
 msgstr "网络"
+
+msgid ""
+"ARM64 is not supported. Redox OS pre-built ARM64 images do not have a "
+"functional EFI partition and cannot boot under KVM."
+msgstr ""
 
 msgid "Action"
 msgstr "动作"
@@ -124,10 +129,10 @@ msgid "Advanced"
 msgstr "高级"
 
 msgid "All permissions have been fixed."
-msgstr ""
+msgstr "全部权限已被修复。"
 
 msgid "All snapshots have been deleted."
-msgstr ""
+msgstr "全部快照已被删除。"
 
 msgid "Allocation"
 msgstr "划分"
@@ -136,7 +141,7 @@ msgid "Amount"
 msgstr "数量"
 
 msgid "Appliances"
-msgstr ""
+msgstr "装置"
 
 msgid "Arch"
 msgstr "Arch"
@@ -147,10 +152,10 @@ msgstr "架构"
 msgid ""
 "Are you sure you want to clear the monitor database? All collected metrics "
 "will be permanently deleted."
-msgstr ""
+msgstr "您确定要清除监控数据库吗？所有已收集的指标将被永久删除。"
 
 msgid "Are you sure you want to delete all snapshots?"
-msgstr ""
+msgstr "您确定要删除全部快照吗？"
 
 msgid "Are you sure you want to delete?"
 msgstr "您确定删除吗？"
@@ -159,7 +164,7 @@ msgid "Audio"
 msgstr "音频"
 
 msgid "Auto-generate a unique name based on the VM name."
-msgstr ""
+msgstr "根据 VM 虚拟机名称自动生成一个唯一名称。"
 
 msgid "AutoStart"
 msgstr "自启动"
@@ -177,7 +182,7 @@ msgid "Backing file"
 msgstr "备份文件"
 
 msgid "Backing file has been created."
-msgstr ""
+msgstr "备份文件已创建。"
 
 msgid "Backup"
 msgstr "备份"
@@ -197,8 +202,11 @@ msgstr ""
 "请注意不要将宿主机操作系统使用的设备做直通！<br/>不推荐使用 /dev/sd* 格式，因为重启时检查会变。<br/>建议使用 "
 "/dev/disk/by-id 这种设备名称直通。"
 
-msgid "Bridge"
+msgid "Boot"
 msgstr ""
+
+msgid "Bridge"
+msgstr "桥"
 
 msgid "Bridge Model"
 msgstr "桥接模式"
@@ -210,7 +218,7 @@ msgid "CPU"
 msgstr "CPU"
 
 msgid "CPU %"
-msgstr ""
+msgstr "CPU %"
 
 msgid "CPU count has been changed."
 msgstr "CPU 数量已改变。"
@@ -251,19 +259,30 @@ msgstr "改变光盘中 ..."
 msgid "Check"
 msgstr "检查"
 
+msgid "Check downloads.ipfire.org for the latest core update number."
+msgstr ""
+
 msgid ""
 "Check github.com/home-assistant/operating-system/releases for the latest "
+"version."
+msgstr "请查看 github.com/home-assistant/operating-system/releases 了解最新版本。"
+
+msgid ""
+"Check sourceforge.net/projects/openmediavault/files/iso/ for the latest "
 "version."
 msgstr ""
 
 msgid "Check volume ..."
 msgstr "检查卷中 ..."
 
-msgid "Clear monitor database"
+msgid "Checksum"
 msgstr ""
 
+msgid "Clear monitor database"
+msgstr "清除监控数据库"
+
 msgid "Clearing monitor database ..."
-msgstr ""
+msgstr "清除监控数据库中 ..."
 
 msgid "Clone"
 msgstr "克隆"
@@ -278,10 +297,10 @@ msgid "Cloning complete."
 msgstr "克隆完成。"
 
 msgid "Collect host and VM/LXC metrics for the Monitor tab and dashboard."
-msgstr ""
+msgstr "收集主机和虚拟机/LXC 的监控指标，用于监视器标签页和仪表板。"
 
 msgid "Collection interval (seconds)"
-msgstr ""
+msgstr "收集间隔（秒）"
 
 msgid "Component"
 msgstr "组件"
@@ -310,6 +329,9 @@ msgstr "转换为 qcow2 中 ..."
 msgid "Converting to raw ..."
 msgstr "转换为  raw 中 ..."
 
+msgid "Core Update"
+msgstr ""
+
 msgid "Create"
 msgstr "创建"
 
@@ -332,7 +354,7 @@ msgid "Created scheduled job."
 msgstr "创建计划任务。"
 
 msgid "Creating backing file ..."
-msgstr ""
+msgstr "创建备份文件中 ..."
 
 msgid "Creating linked clone ..."
 msgstr "创建链接克隆中 ..."
@@ -341,13 +363,13 @@ msgid "Creating snapshot ..."
 msgstr "创建快照中 ..."
 
 msgid "Creating volume ..."
-msgstr ""
+msgstr "创建卷中 ..."
 
 msgid "Current size"
 msgstr "当前大小"
 
 msgid "Current size of the metrics database on disk."
-msgstr ""
+msgstr "磁盘上指标数据库的当前大小。"
 
 msgid "DHCP"
 msgstr "DHCP"
@@ -362,10 +384,10 @@ msgid "DHCP starting address"
 msgstr "DHCP 开始地址"
 
 msgid "Database path"
-msgstr ""
+msgstr "数据库路径"
 
 msgid "Database size"
-msgstr ""
+msgstr "数据库大小"
 
 msgid "Date"
 msgstr "日期"
@@ -380,7 +402,7 @@ msgid "Delete + storage"
 msgstr "删除 + 存储"
 
 msgid "Delete All"
-msgstr ""
+msgstr "删除全部"
 
 msgid "Deleted."
 msgstr "删除。"
@@ -395,13 +417,16 @@ msgid "Deleting a pool ..."
 msgstr "删除池中 ..."
 
 msgid "Deleting all snapshots ..."
-msgstr ""
+msgstr "删除所有快照中 ..."
 
 msgid "Deleting snapshot ..."
 msgstr "删除快照中 ..."
 
 msgid "Details"
 msgstr "详情"
+
+msgid "Direct link to the .iso file."
+msgstr ""
 
 msgid "Directory"
 msgstr "路径"
@@ -410,7 +435,7 @@ msgid "Directory is not empty!"
 msgstr "目录不为空！"
 
 msgid "Directory permissions have been fixed."
-msgstr ""
+msgstr "目录权限已被修复。"
 
 msgid "Disable"
 msgstr "关闭"
@@ -421,11 +446,14 @@ msgstr "关闭自启动中 ..."
 msgid "Disk"
 msgstr "磁盘"
 
-msgid "Disk Read"
+msgid "Disk (GB)"
 msgstr ""
 
+msgid "Disk Read"
+msgstr "磁盘读取"
+
 msgid "Disk Write"
-msgstr ""
+msgstr "磁盘写入"
 
 msgid "Disk has been added."
 msgstr "磁盘已添加。"
@@ -448,16 +476,46 @@ msgstr "磁盘"
 msgid "Dom stats"
 msgstr "Dom 状态"
 
+msgid "Download"
+msgstr ""
+
+msgid "Download ISO"
+msgstr ""
+
+msgid "Download ISO ..."
+msgstr ""
+
 msgid "Download virtio iso"
 msgstr "下载  virtio iso"
 
 msgid "Download virtio iso ..."
 msgstr " 下载 virtio iso 中 ..."
 
+msgid "Downloading ISO ..."
+msgstr ""
+
 msgid ""
 "Downloads and installs Home Assistant OS as a KVM virtual machine. The image"
 " is several hundred MB — installation may take a few minutes. The VM is "
 "started automatically when finished."
+msgstr ""
+"下载并安装 Home Assistant OS 作为 KVM 虚拟机。映像文件大小为数百 MB——安装可能需要几分钟。安装完成后，虚拟机会自动启动。"
+
+msgid ""
+"Downloads the IPFire ISO and creates a VM ready for installation. Connect "
+"via VNC to complete setup. IPFire is a firewall distribution — consider "
+"adding a second NIC after creation for RED/GREEN separation."
+msgstr ""
+
+msgid ""
+"Downloads the OpenMediaVault 8 ISO (based on Debian 13) and creates a VM "
+"ready for installation. Connect via VNC to complete setup. The ISO is "
+"several hundred MB."
+msgstr ""
+
+msgid ""
+"Downloads the latest Redox OS disk image for your architecture and imports "
+"it as a VM. The image is fetched automatically from static.redox-os.org."
 msgstr ""
 
 msgid "Edit"
@@ -491,7 +549,7 @@ msgid "Enable"
 msgstr "启用"
 
 msgid "Enable monitoring service"
-msgstr ""
+msgstr "启用监控服务"
 
 msgid "Enabling autostart ..."
 msgstr "启用自启动中 ..."
@@ -509,7 +567,7 @@ msgid "Extend"
 msgstr "扩展"
 
 msgid "Extending volume ..."
-msgstr ""
+msgstr "扩展卷中 ..."
 
 msgid "Extension"
 msgstr "扩展"
@@ -551,7 +609,7 @@ msgid "Failed to apply new XML, and unable to restore backup :: "
 msgstr "应用新 XML 失败，并且不能恢复备份 ::"
 
 msgid "Failed to configure shared memory for virtiofs."
-msgstr ""
+msgstr "配置 virtiofs 的共享内存失败。"
 
 msgid "Failed to create VM XML."
 msgstr "创建 VM XML 失败。"
@@ -566,46 +624,46 @@ msgid "Failed to delete VM."
 msgstr "删除 VM 失败。"
 
 msgid "Failed to delete snapshot: "
-msgstr ""
+msgstr "删除快照失败："
 
 msgid "Failed to delete the snapshot!"
-msgstr ""
+msgstr "删除这个快照失败！"
 
 msgid "Failed to detach PCI device from host."
 msgstr "从主机分离 PCI 设备失败。"
 
 msgid "Failed to disable autostart."
-msgstr ""
+msgstr "停用自启动失败。"
 
 msgid "Failed to download image."
-msgstr ""
+msgstr "下载镜像失败。"
 
 msgid "Failed to enable autostart."
-msgstr ""
+msgstr "启用自启动失败。"
 
 msgid "Failed to fix permissions on parent directory: %s"
-msgstr ""
+msgstr "修复父目录的权限失败：%s"
 
 msgid "Failed to fix pool permissions."
-msgstr ""
+msgstr "修复池权限失败。"
 
 msgid "Failed to force stop VM."
-msgstr ""
+msgstr "强制停止 VM虚拟机失败。"
 
 msgid "Failed to generate a disk name!"
-msgstr ""
+msgstr "生成磁盘名称失败！"
 
 msgid "Failed to pause VM."
-msgstr ""
+msgstr "暂停 VM 虚拟机失败。"
 
 msgid "Failed to power off VM."
-msgstr ""
+msgstr "VM 虚拟机关机失败。"
 
 msgid "Failed to power on VM."
-msgstr ""
+msgstr "VM 虚拟机开机失败。"
 
 msgid "Failed to reboot VM."
-msgstr ""
+msgstr "VM 虚拟机重启失败。"
 
 msgid "Failed to remove PCI device."
 msgstr "移除 PCI 设备失败。"
@@ -641,7 +699,7 @@ msgid "Failed to resize disk!"
 msgstr "调整磁盘大小失败！"
 
 msgid "Failed to resume VM."
-msgstr ""
+msgstr "恢复 VM 虚拟机失败。"
 
 msgid "Failed to set change."
 msgstr "改变设置失败。"
@@ -656,37 +714,40 @@ msgid "Failed to start pool."
 msgstr "启动池失败。"
 
 msgid "Failed to start websockify for "
-msgstr ""
+msgstr "启动 websockify 失败"
 
 msgid "Failed to stop pool."
-msgstr ""
+msgstr "停止池失败。"
 
 msgid "File will be placed in same directory as the base image."
 msgstr "文件将放在与基础镜像相同的目录。"
+
+msgid "Filename"
+msgstr ""
 
 msgid "Filesystem"
 msgstr "文件系统"
 
 msgid "Fix all permissions"
-msgstr ""
+msgstr "修复全部权限"
 
 msgid "Fix directory permissions"
-msgstr ""
+msgstr "修复目录权限"
 
 msgid "Fix parent dir permissions"
-msgstr ""
+msgstr "修复父目录权限"
 
 msgid "Fix permissions"
-msgstr ""
+msgstr "修复权限"
 
 msgid "Fixing all permissions ..."
-msgstr ""
+msgstr "修复所有权限中 ..."
 
 msgid "Fixing directory permissions ..."
-msgstr ""
+msgstr "修复目录权限中 ..."
 
 msgid "Fixing parent directory permissions ..."
-msgstr ""
+msgstr "修复父目录权限中 ..."
 
 msgid ""
 "For description of each type and how to configure <a "
@@ -730,7 +791,7 @@ msgid "Gigabytes"
 msgstr "GB"
 
 msgid "HA OS Version"
-msgstr ""
+msgstr "HA OS 版本"
 
 msgid "Hard disk"
 msgstr "硬盘"
@@ -745,16 +806,19 @@ msgid "Host name"
 msgstr "主机名"
 
 msgid "How long to keep 1-minute summary samples."
-msgstr ""
+msgstr "保留 1 分钟摘要样本要多久。"
 
 msgid "How long to keep 10-second raw samples."
-msgstr ""
+msgstr "保留 10 秒原始样本要多久。"
 
 msgid "How often to collect metrics. Lower values increase CPU usage."
-msgstr ""
+msgstr "收集指标的频率。较低的值会增加 CPU 使用率。"
 
 msgid "IP Range"
 msgstr "IP 范围"
+
+msgid "IPFire Version"
+msgstr ""
 
 msgid "ISOs"
 msgstr "ISOs"
@@ -773,15 +837,42 @@ msgid "Info"
 msgstr "信息"
 
 msgid "Install"
-msgstr ""
+msgstr "安装"
 
 msgid "Install Home Assistant OS"
-msgstr ""
+msgstr "安装 Home Assistant OS"
 
 msgid "Install Home Assistant OS ..."
+msgstr "安装 Home Assistant OS ..."
+
+msgid "Install IPFire"
+msgstr ""
+
+msgid "Install IPFire ..."
+msgstr ""
+
+msgid "Install OpenMediaVault 8"
+msgstr ""
+
+msgid "Install OpenMediaVault 8 ..."
+msgstr ""
+
+msgid "Install Redox OS"
+msgstr ""
+
+msgid "Install Redox OS ..."
 msgstr ""
 
 msgid "Installing Home Assistant OS ..."
+msgstr "安装 Home Assistant OS 中 ..."
+
+msgid "Installing IPFire ..."
+msgstr ""
+
+msgid "Installing OpenMediaVault 8 ..."
+msgstr ""
+
+msgid "Installing Redox OS ..."
 msgstr ""
 
 msgid "KVM"
@@ -803,6 +894,11 @@ msgid "Leave blank for random address."
 msgstr "留空则使用随机地址。"
 
 msgid "Leave blank to omit."
+msgstr "留空则省略。"
+
+msgid ""
+"Leave blank to use the filename from the URL. The .iso extension is added "
+"automatically."
 msgstr ""
 
 msgid "Linked Clone"
@@ -824,7 +920,7 @@ msgid "Memory"
 msgstr "内存"
 
 msgid "Memory (MiB)"
-msgstr ""
+msgstr "内存 (MiB)"
 
 msgid "Memory amount has been changed."
 msgstr "内存大小已改变。"
@@ -839,10 +935,10 @@ msgid "Model"
 msgstr "型号"
 
 msgid "Monitor"
-msgstr ""
+msgstr "监控"
 
 msgid "Monitor database has been cleared."
-msgstr ""
+msgstr "监控数据库已被清空。"
 
 msgid "Move"
 msgstr "移动"
@@ -853,16 +949,16 @@ msgstr "移动 VM ..."
 msgid ""
 "Must be exactly 16 hexadecimal digits (with optional 0x prefix) or left "
 "blank."
-msgstr ""
+msgstr "必须正好是16个十六进制数字（可选0x前缀）或留空。"
 
 msgid "Name"
 msgstr "名称"
 
 msgid "Net In"
-msgstr ""
+msgstr "网络输入"
 
 msgid "Net Out"
-msgstr ""
+msgstr "网络输出"
 
 msgid "Net info"
 msgstr "网络信息"
@@ -880,7 +976,7 @@ msgid "Network State"
 msgstr "网络状态"
 
 msgid "Network Type"
-msgstr ""
+msgstr "网卡类型"
 
 msgid "Network adapter has been added."
 msgstr "网卡已添加。"
@@ -915,11 +1011,14 @@ msgstr "无镜像 - 使用已有的镜像路径"
 msgid "Notes"
 msgstr "注意"
 
+msgid "OMV Version"
+msgstr ""
+
 msgid "OS"
 msgstr "OS"
 
 msgid "Open full monitoring dashboard"
-msgstr ""
+msgstr "打开完整监控仪表盘"
 
 msgid "Optical"
 msgstr "光盘"
@@ -950,8 +1049,16 @@ msgid ""
 " original location."
 msgstr "可选项，选择池以恢复 VM 到不同的位置，留空则恢复到原来的位置。"
 
+msgid ""
+"Optional. MD5, SHA1, SHA256, or SHA512 — auto-detected by length. File is "
+"deleted if verification fails."
+msgstr ""
+
 msgid "Other CPU"
 msgstr "其它 CPU"
+
+msgid "Overwrite if exists"
+msgstr ""
 
 msgid "PCI"
 msgstr "PCI"
@@ -963,7 +1070,7 @@ msgid "PCI device has been removed."
 msgstr "PCI 设备已移除。"
 
 msgid "Parent directory permissions have been fixed."
-msgstr ""
+msgstr "父目录权限已被修复。"
 
 msgid "Passing through PCI device ..."
 msgstr "直通 PCI 设备中 ..."
@@ -986,7 +1093,7 @@ msgstr "路径"
 msgid ""
 "Path to the SQLite metrics database. Service will restart if this is "
 "changed."
-msgstr ""
+msgstr "SQLite 指标数据库的路径。更改此路径服务将会重启。"
 
 msgid "Pause"
 msgstr "暂停"
@@ -1022,10 +1129,10 @@ msgid "Power off VM and move ..."
 msgstr "关闭 VM 并移动 ..."
 
 msgid "RAM"
-msgstr ""
+msgstr "RAM"
 
 msgid "Raw data retention (hours)"
-msgstr ""
+msgstr "原始数据保留时间（小时）"
 
 msgid "Reboot"
 msgstr "重启"
@@ -1126,6 +1233,11 @@ msgstr "相同格式"
 msgid "Schedule"
 msgstr "计划"
 
+msgid ""
+"Seconds to wait before libvirtd starts on boot. Use this if pools or VMs "
+"fail to autostart because the underlying storage is not ready in time."
+msgstr ""
+
 msgid "Secure boot"
 msgstr "安全启动"
 
@@ -1133,7 +1245,7 @@ msgid "Select a snapshot ..."
 msgstr "选择快照中 ..."
 
 msgid "Serial"
-msgstr ""
+msgstr "序列号"
 
 msgid "Settings"
 msgstr "设置"
@@ -1183,6 +1295,9 @@ msgstr "Spice 监视器已移除。"
 msgid "Start"
 msgstr "运行"
 
+msgid "Start delay"
+msgstr ""
+
 msgid "Started."
 msgstr "已启动。"
 
@@ -1220,7 +1335,7 @@ msgid "Stopping network ..."
 msgstr "停止网络中 ..."
 
 msgid "Storage Pool"
-msgstr ""
+msgstr "存储池"
 
 msgid "Storage Volume"
 msgstr "存储卷"
@@ -1229,7 +1344,7 @@ msgid "Subnet mask"
 msgstr "子掩码"
 
 msgid "Summary data retention (days)"
-msgstr ""
+msgstr "摘要数据保留（天）"
 
 msgid "TPM"
 msgstr "TPM"
@@ -1244,13 +1359,16 @@ msgid ""
 "This will run 'chmod o+x' on every parent directory of the pool path, "
 "allowing libvirt-qemu to traverse them. Existing permissions on those "
 "directories will be modified. Continue?"
-msgstr ""
+msgstr "这将在池路径的每个父目录上运行 'chmod o+x'，允许 libvirt-qemu 遍历它们。现有的目录权限将被修改。是否继续？"
 
 msgid "Type"
 msgstr "类型"
 
 msgid "UEFI"
 msgstr "UEFI"
+
+msgid "URL"
+msgstr ""
 
 msgid "USB"
 msgstr "USB"
@@ -1265,7 +1383,7 @@ msgid "UUID"
 msgstr "UUID"
 
 msgid "Unable to add network adapter to VM"
-msgstr ""
+msgstr "无法将网络适配器添加到虚拟机"
 
 msgid "Unable to backup existing XML for VM :: "
 msgstr "不能备份已存在的虚拟机 XML :: "
@@ -1274,52 +1392,52 @@ msgid "Unable to change notes for VM."
 msgstr "无法改变 VM 注释。"
 
 msgid "Unable to create snapshot"
-msgstr ""
+msgstr "无法创建快照"
 
 msgid "Unable to create volume - "
 msgstr "无法创建卷 -"
 
 msgid "Unable to define network"
-msgstr ""
+msgstr "无法定义网络"
 
 msgid "Unable to define storage pool"
-msgstr ""
+msgstr "无法定义存储池"
 
 msgid "Unable to delete disk(s) from VM."
-msgstr ""
+msgstr "无法从 VM 虚拟机删除磁盘。"
 
 msgid "Unable to delete network"
-msgstr ""
+msgstr "无法删除网络"
 
 msgid "Unable to delete pool"
-msgstr ""
+msgstr "无法删除池"
 
 msgid "Unable to delete volume - "
 msgstr "无法删除卷 -"
 
 msgid "Unable to determine pool path."
-msgstr ""
+msgstr "无法确定池路径。"
 
 msgid "Unable to get network adapter type - "
 msgstr "不能设置网卡类型 -"
 
 msgid "Unable to revert to snapshot"
-msgstr ""
+msgstr "无法恢复到快照"
 
 msgid "Unable to set VM XML :: "
 msgstr "无法设置 VM XML :: "
 
 msgid "Unable to start network"
-msgstr ""
+msgstr "无法启动网络"
 
 msgid "Unable to stop network"
-msgstr ""
+msgstr "无法停止网络"
 
 msgid "Unable to undefine VM :: "
 msgstr "无法定义 VM :: "
 
 msgid "Unable to update domain XML"
-msgstr ""
+msgstr "无法更新域 XML"
 
 msgid "Unit"
 msgstr "单位"
@@ -1361,31 +1479,31 @@ msgid "VNC viewer has been removed."
 msgstr "VNC 监视器已移除。"
 
 msgid "Virtual Network"
-msgstr ""
+msgstr "虚拟网络"
 
 msgid "Volume Count"
 msgstr "卷数量"
 
 msgid "Volume check complete."
-msgstr ""
+msgstr "卷检查完成。"
 
 msgid "Volume group"
 msgstr "卷组"
 
 msgid "Volume has been converted to qcow2."
-msgstr ""
+msgstr "卷已被转换成 qcow2。"
 
 msgid "Volume has been converted to raw."
-msgstr ""
+msgstr "卷已被转换成 raw。"
 
 msgid "Volume has been created."
-msgstr ""
+msgstr "卷已被创建。"
 
 msgid "Volume has been extended."
-msgstr ""
+msgstr "卷已被扩展。"
 
 msgid "Volume has been optimized."
-msgstr ""
+msgstr "卷已被优化。"
 
 msgid "Volume info ..."
 msgstr "卷信息 ..."
@@ -1394,7 +1512,7 @@ msgid "Volumes"
 msgstr "卷"
 
 msgid "WWN"
-msgstr ""
+msgstr "WWN"
 
 msgid ""
 "Warning! Address can change after VM reboot breaking the passthrough!<br "
@@ -1405,7 +1523,7 @@ msgstr "警告！VM 重启后地址可能改变而影响直通！<br />当主机
 msgid ""
 "World Wide Name, exactly 16 hex digits, optionally prefixed with 0x (e.g. "
 "0x500152d00015b374). Leave blank to omit."
-msgstr ""
+msgstr "全局唯一名称，恰好16个十六进制数字，可选择以0x开头（例如 0x500152d00015b374）。留空表示省略。"
 
 msgid "XML"
 msgstr "XML"

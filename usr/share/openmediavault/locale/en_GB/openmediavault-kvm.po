@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-23 22:06+0000\n"
+"POT-Creation-Date: 2026-05-30 13:17+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Andi Chandler <andi@gowling.com>, 2026\n"
 "Language-Team: English (United Kingdom) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/en_GB/)\n"
@@ -26,6 +26,11 @@ msgstr " already exists!"
 
 msgid " the network!"
 msgstr " the network!"
+
+msgid ""
+"ARM64 is not supported. Redox OS pre-built ARM64 images do not have a "
+"functional EFI partition and cannot boot under KVM."
+msgstr ""
 
 msgid "Action"
 msgstr "Action"
@@ -201,6 +206,9 @@ msgstr ""
 "change between reboots.<br/>It is recommended to use /dev/disk/by-id device "
 "names."
 
+msgid "Boot"
+msgstr ""
+
 msgid "Bridge"
 msgstr ""
 
@@ -255,13 +263,24 @@ msgstr "Changing optical disc ..."
 msgid "Check"
 msgstr "Check"
 
+msgid "Check downloads.ipfire.org for the latest core update number."
+msgstr ""
+
 msgid ""
 "Check github.com/home-assistant/operating-system/releases for the latest "
 "version."
 msgstr ""
 
+msgid ""
+"Check sourceforge.net/projects/openmediavault/files/iso/ for the latest "
+"version."
+msgstr ""
+
 msgid "Check volume ..."
 msgstr "Check volume ..."
+
+msgid "Checksum"
+msgstr ""
 
 msgid "Clear monitor database"
 msgstr "Clear monitor database"
@@ -313,6 +332,9 @@ msgstr "Converting to qcow2 ..."
 
 msgid "Converting to raw ..."
 msgstr "Converting to raw ..."
+
+msgid "Core Update"
+msgstr ""
 
 msgid "Create"
 msgstr "Create"
@@ -407,6 +429,9 @@ msgstr "Deleting snapshot ..."
 msgid "Details"
 msgstr "Details"
 
+msgid "Direct link to the .iso file."
+msgstr ""
+
 msgid "Directory"
 msgstr "Directory"
 
@@ -424,6 +449,9 @@ msgstr "Disabling autostart ..."
 
 msgid "Disk"
 msgstr "Disk"
+
+msgid "Disk (GB)"
+msgstr ""
 
 msgid "Disk Read"
 msgstr "Disk Read"
@@ -452,16 +480,45 @@ msgstr "Disk(s)"
 msgid "Dom stats"
 msgstr "Dom stats"
 
+msgid "Download"
+msgstr ""
+
+msgid "Download ISO"
+msgstr ""
+
+msgid "Download ISO ..."
+msgstr ""
+
 msgid "Download virtio iso"
 msgstr "Download VirtIO ISO"
 
 msgid "Download virtio iso ..."
 msgstr "Download VirtIO ISO ..."
 
+msgid "Downloading ISO ..."
+msgstr ""
+
 msgid ""
 "Downloads and installs Home Assistant OS as a KVM virtual machine. The image"
 " is several hundred MB — installation may take a few minutes. The VM is "
 "started automatically when finished."
+msgstr ""
+
+msgid ""
+"Downloads the IPFire ISO and creates a VM ready for installation. Connect "
+"via VNC to complete setup. IPFire is a firewall distribution — consider "
+"adding a second NIC after creation for RED/GREEN separation."
+msgstr ""
+
+msgid ""
+"Downloads the OpenMediaVault 8 ISO (based on Debian 13) and creates a VM "
+"ready for installation. Connect via VNC to complete setup. The ISO is "
+"several hundred MB."
+msgstr ""
+
+msgid ""
+"Downloads the latest Redox OS disk image for your architecture and imports "
+"it as a VM. The image is fetched automatically from static.redox-os.org."
 msgstr ""
 
 msgid "Edit"
@@ -668,6 +725,9 @@ msgstr "Failed to stop pool."
 msgid "File will be placed in same directory as the base image."
 msgstr "File will be placed in same directory as the base image."
 
+msgid "Filename"
+msgstr ""
+
 msgid "Filesystem"
 msgstr "Filesystem"
 
@@ -761,6 +821,9 @@ msgstr "How often to collect metrics. Lower values increase CPU usage."
 msgid "IP Range"
 msgstr "IP Range"
 
+msgid "IPFire Version"
+msgstr ""
+
 msgid "ISOs"
 msgstr "ISOs"
 
@@ -787,7 +850,34 @@ msgstr ""
 msgid "Install Home Assistant OS ..."
 msgstr ""
 
+msgid "Install IPFire"
+msgstr ""
+
+msgid "Install IPFire ..."
+msgstr ""
+
+msgid "Install OpenMediaVault 8"
+msgstr ""
+
+msgid "Install OpenMediaVault 8 ..."
+msgstr ""
+
+msgid "Install Redox OS"
+msgstr ""
+
+msgid "Install Redox OS ..."
+msgstr ""
+
 msgid "Installing Home Assistant OS ..."
+msgstr ""
+
+msgid "Installing IPFire ..."
+msgstr ""
+
+msgid "Installing OpenMediaVault 8 ..."
+msgstr ""
+
+msgid "Installing Redox OS ..."
 msgstr ""
 
 msgid "KVM"
@@ -809,6 +899,11 @@ msgid "Leave blank for random address."
 msgstr "Leave blank for random address."
 
 msgid "Leave blank to omit."
+msgstr ""
+
+msgid ""
+"Leave blank to use the filename from the URL. The .iso extension is added "
+"automatically."
 msgstr ""
 
 msgid "Linked Clone"
@@ -921,6 +1016,9 @@ msgstr "No image - use existing image path"
 msgid "Notes"
 msgstr "Notes"
 
+msgid "OMV Version"
+msgstr ""
+
 msgid "OS"
 msgstr "OS"
 
@@ -958,8 +1056,16 @@ msgstr ""
 "Optional. Choose pool to restore VM to a different location. Leave blank for"
 " original location."
 
+msgid ""
+"Optional. MD5, SHA1, SHA256, or SHA512 — auto-detected by length. File is "
+"deleted if verification fails."
+msgstr ""
+
 msgid "Other CPU"
 msgstr "Other CPU"
+
+msgid "Overwrite if exists"
+msgstr ""
 
 msgid "PCI"
 msgstr "PCI"
@@ -1136,6 +1242,11 @@ msgstr "Same Format"
 msgid "Schedule"
 msgstr "Schedule"
 
+msgid ""
+"Seconds to wait before libvirtd starts on boot. Use this if pools or VMs "
+"fail to autostart because the underlying storage is not ready in time."
+msgstr ""
+
 msgid "Secure boot"
 msgstr "Secure boot"
 
@@ -1192,6 +1303,9 @@ msgstr "Spice viewer has been removed."
 
 msgid "Start"
 msgstr "Start"
+
+msgid "Start delay"
+msgstr ""
 
 msgid "Started."
 msgstr "Started."
@@ -1264,6 +1378,9 @@ msgstr "Type"
 
 msgid "UEFI"
 msgstr "UEFI"
+
+msgid "URL"
+msgstr ""
 
 msgid "USB"
 msgstr "USB"
