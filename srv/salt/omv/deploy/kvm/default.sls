@@ -29,7 +29,7 @@ configure_kvm_scheduled_jobs:
         jobs: {{ config | json }}
     - user: root
     - group: root
-    - mode: 644
+    - mode: '0644'
 
 configure_omv_backup_vm_logrotate:
   file.managed:
@@ -44,7 +44,7 @@ configure_omv_backup_vm_logrotate:
         }
     - user: root
     - group: root
-    - mode: 644
+    - mode: '0644'
 
 configure_omv_virsh_command_logrotate:
   file.managed:
@@ -59,7 +59,7 @@ configure_omv_virsh_command_logrotate:
         }
     - user: root
     - group: root
-    - mode: 644
+    - mode: '0644'
 
 {% if not salt['environ.get']('DPKG_MAINTSCRIPT_PACKAGE', '') %}
 kvm_install_packages:
@@ -78,7 +78,7 @@ configure_ip_forward:
         {% endif %}
     - user: root
     - group: root
-    - mode: 644
+    - mode: '0644'
 
 apply_ip_forward:
   cmd.run:
@@ -93,7 +93,7 @@ configure_macvlan_module:
         macvlan
     - user: root
     - group: root
-    - mode: 644
+    - mode: '0644'
 
 load_macvlan_module:
   cmd.run:
@@ -134,7 +134,7 @@ libvirtd_wait_for_pools:
         Wants={{ pool_mounts }}
     - user: root
     - group: root
-    - mode: "0644"
+    - mode: '0644'
     - makedirs: True
 {% else %}
 libvirtd_wait_for_pools:
@@ -151,7 +151,7 @@ libvirtd_start_delay:
         ExecStartPre=/bin/sleep {{ settings.startdelay | int }}
     - user: root
     - group: root
-    - mode: "0644"
+    - mode: '0644'
     - makedirs: True
 {% else %}
 libvirtd_start_delay:
@@ -190,7 +190,7 @@ kvm_monitor_db_dir:
     - makedirs: True
     - user: root
     - group: root
-    - mode: "0755"
+    - mode: '0755'
 
 configure_kvm_monitor_service:
   file.managed:
@@ -213,7 +213,7 @@ configure_kvm_monitor_service:
         WantedBy=multi-user.target
     - user: root
     - group: root
-    - mode: "0644"
+    - mode: '0644'
 
 omv_kvm_monitor_systemd_reload:
   module.run:
@@ -233,7 +233,7 @@ configure_kvm_monitor_config:
         } | tojson }}
     - user: root
     - group: root
-    - mode: "0644"
+    - mode: '0644'
 
 {% if settings.lxc %}
 lxc_service:
@@ -286,7 +286,7 @@ configure_kvm_monitor_nginx:
         }
     - user: root
     - group: root
-    - mode: "0644"
+    - mode: '0644'
 
 reload_nginx_for_kvm_monitor:
   cmd.run:
