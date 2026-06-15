@@ -16,5 +16,12 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 {%- if job.keep > 0 -%}
 {%- set keep = ' -k ' ~ job.keep -%}
 {%- endif -%}
-{{ separator }}root omv-backup-vm -v {{ job.vmname }} -d '{{ job.path }}'{{ keep }}{{ ' -p' if job.poweroff | to_bool }}{{ ' -s' if job.samefmt | to_bool }}{{ ' -c' if job.compression | to_bool }}{{ ' -e onerror' if job.sendemail | to_bool and job.emailonerror | to_bool else (' -e always' if job.sendemail | to_bool else '') }}{{ (' -C "' ~ job.comment | replace('\n', ' ') ~ '"') if job.sendemail | to_bool and job.comment | length > 0 else '' }}{{ separator }}>/dev/null 2>&1
+{%- set incr = '' -%}
+{%- if job.incremental | to_bool -%}
+{%- set incr = ' -i' -%}
+{%- if job.fullinterval > 0 -%}
+{%- set incr = incr ~ ' -F ' ~ job.fullinterval -%}
+{%- endif -%}
+{%- endif -%}
+{{ separator }}root omv-backup-vm -v {{ job.vmname }} -d '{{ job.path }}'{{ keep }}{{ incr }}{{ ' -p' if job.poweroff | to_bool }}{{ ' -s' if job.samefmt | to_bool }}{{ ' -c' if job.compression | to_bool }}{{ ' -e onerror' if job.sendemail | to_bool and job.emailonerror | to_bool else (' -e always' if job.sendemail | to_bool else '') }}{{ (' -C "' ~ job.comment | replace('\n', ' ') ~ '"') if job.sendemail | to_bool and job.comment | length > 0 else '' }}{{ separator }}>/dev/null 2>&1
 {%- endfor -%}

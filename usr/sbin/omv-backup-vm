@@ -8,7 +8,7 @@
 # License version 2. This program is licensed "as is" without any
 # warranty of any kind, whether express or implied.
 #
-# version: 0.3.2
+# version: 0.4.0
 #
 
 if [[ $(id -u) -ne 0 ]]; then
@@ -26,6 +26,8 @@ declare -i samefmt=0
 declare -i snap=0
 declare -i used=0
 declare -i vmId=0
+declare -i incremental=0
+declare -i fullInterval=0
 
 backupDir=""
 backupVm=""
@@ -34,6 +36,11 @@ compress=""
 diskSpecs=""
 email_comment=""
 email_mode=""
+
+# checkpoint prefix used to identify checkpoints owned by this script
+chkPrefix="omvbak"
+# seconds between polls while waiting on a push-mode backup job
+pollInterval=2
 
 # logging location
 logDir="/var/log/"
@@ -48,7 +55,7 @@ _log()
 }
 
 # loop through options
-while getopts "cC:d:e:hk:psv:" opt; do
+while getopts "cC:d:e:F:hik:psv:" opt; do
   case "${opt}" in
     c)
       compress=" -c -o compression_type=zstd"
@@ -64,6 +71,10 @@ while getopts "cC:d:e:hk:psv:" opt; do
     e)
       email_mode="${OPTARG}"
       ;;
+    F)
+      fullInterval=${OPTARG}
+      _log "Full interval :: ${fullInterval}"
+      ;;
     h)
       echo "Use the following flags:"
       echo "  -c"
@@ -74,10 +85,17 @@ while getopts "cC:d:e:hk:psv:" opt; do
       echo "    set backup directory"
       echo "  -e onerror|always"
       echo "    send email on error only or always"
+      echo "  -F #"
+      echo "    incremental mode: start a new full backup every # backups"
+      echo "    (chain length cap; 0 or unset means only one full, ever)"
       echo "  -h"
       echo "    show this help"
+      echo "  -i"
+      echo "    incremental backup mode (live, qcow2 disks only)"
+      echo "    creates a full backup then differential backups of changed"
+      echo "    blocks using libvirt checkpoints / qcow2 dirty bitmaps"
       echo "  -k #"
-      echo "    keep last number of backups"
+      echo "    keep last number of backups (full mode) or chains (incremental)"
       echo "  -p"
       echo "    power off VM before backup if powered on"
       echo "    VM will be powered back on if powered off by script"
@@ -90,8 +108,13 @@ while getopts "cC:d:e:hk:psv:" opt; do
       echo ""
       echo "Examples:"
       echo "  omv-backup-vm -d /srv/backup/ -k 5 -v testvm1"
+      echo "  omv-backup-vm -d /srv/backup/ -i -F 7 -k 3 -v testvm1"
       echo ""
       exit 100
+      ;;
+    i)
+      incremental=1
+      _log "incremental :: enabled"
       ;;
     k)
       keep=${OPTARG}
@@ -170,6 +193,295 @@ if [ "${powerState}" = "running" ]; then
 fi
 _log "${backupVm} ID :: ${vmId}"
 
+# get list of disks for VM as "target,source" pairs
+# target = guest device name (vda), source = host path
+disks=$(virsh domblklist ${backupVm} --details | sed 1,2d | awk NF | awk '$1 == "file" && $2 == "disk" { print $3","$4 }')
+excludeDisks=$(virsh domblklist ${backupVm} --details | sed 1,2d | awk NF | awk '$1 != "file" && $2 == "disk" { print $3","$4 }')
+
+#############################################################################
+# helpers
+#############################################################################
+
+# return the qemu-img reported format of a disk image
+# -U forces shared/read-only access so it works while the VM holds the
+# image lock (a running guest keeps an exclusive lock otherwise).
+# parse the plain-text "file format:" line rather than --output=json: newer
+# qemu-img nests a protocol node ("format":"file") ahead of the real format
+_disk_format() {
+  qemu-img info -U "${1}" 2>/dev/null \
+    | sed -n 's/^file format:[[:space:]]*\([[:alnum:]]*\).*/\1/p' | head -n1
+}
+
+# verify every backed-up disk is qcow2 (required for persistent bitmaps)
+_all_qcow2() {
+  local d fmt
+  for d in ${disks}; do
+    fmt="$(_disk_format "${d#*,}")"
+    if [ "${fmt}" != "qcow2" ]; then
+      _log "Disk ${d#*,} is '${fmt}', not qcow2 :: incremental not possible"
+      return 1
+    fi
+  done
+  return 0
+}
+
+# wait for an active push-mode backup job to finish, then report status
+# returns 0 on success, non-zero on failure
+_wait_backup() {
+  local dom="${1}" jt
+  while true; do
+    jt=$(virsh domjobinfo "${dom}" 2>/dev/null \
+      | awk -F: '/Job type/ { gsub(/^[ \t]+|[ \t]+$/, "", $2); print $2 }')
+    if [ -z "${jt}" ] || [ "${jt}" = "None" ]; then
+      break
+    fi
+    sleep "${pollInterval}"
+  done
+  # inspect the completed job result
+  jt=$(virsh domjobinfo "${dom}" --completed 2>/dev/null \
+    | awk -F: '/Job type/ { gsub(/^[ \t]+|[ \t]+$/, "", $2); print $2 }')
+  if [ "${jt}" = "Failed" ]; then
+    return 1
+  fi
+  return 0
+}
+
+# build the <disks> block for a backup XML, writing each changed disk to
+# the chain dir. args: <type label> <output dir>
+# echoes a space separated list of "target=outfile" written, sets globals
+_backup_disks_xml=""
+_backup_disks_map=""
+_build_backup_xml() {
+  local label="${1}" outdir="${2}" d target out
+  _backup_disks_xml=""
+  _backup_disks_map=""
+  for d in ${disks}; do
+    target="${d%%,*}"
+    out="${outdir}/${label}_${date}_${target}.qcow2"
+    _backup_disks_xml="${_backup_disks_xml}    <disk name='${target}' backup='yes' type='file'>
+      <target file='${out}'/>
+      <driver type='qcow2'/>
+    </disk>
+"
+    _backup_disks_map="${_backup_disks_map}${target}=${out} "
+  done
+  # explicitly exclude non-file / read-only disks (cdrom, passthrough)
+  for d in ${excludeDisks}; do
+    target="${d%%,*}"
+    _backup_disks_xml="${_backup_disks_xml}    <disk name='${target}' backup='no'/>
+"
+  done
+}
+
+# build a checkpoint XML referencing every backed-up disk
+_build_checkpoint_xml() {
+  local chkName="${1}" d target body=""
+  for d in ${disks}; do
+    target="${d%%,*}"
+    body="${body}    <disk name='${target}' checkpoint='bitmap'/>
+"
+  done
+  for d in ${excludeDisks}; do
+    target="${d%%,*}"
+    body="${body}    <disk name='${target}' checkpoint='no'/>
+"
+  done
+  cat <<EOF
+<domaincheckpoint>
+  <name>${chkName}</name>
+  <description>openmediavault backup checkpoint</description>
+  <disks>
+${body}  </disks>
+</domaincheckpoint>
+EOF
+}
+
+# remove all checkpoints owned by this script for the domain (resets bitmaps)
+# plain delete first so the dirty bitmap is actually dropped from the qcow2;
+# only fall back to --metadata (libvirt record only) if that fails, otherwise
+# orphaned bitmaps accumulate in the live disk across full cycles
+_purge_checkpoints() {
+  local c
+  for c in $(virsh checkpoint-list "${backupVm}" --name 2>/dev/null \
+      | awk -v p="${chkPrefix}" '$0 ~ "^" p {print}'); do
+    _log "Removing stale checkpoint :: ${c}"
+    virsh checkpoint-delete "${backupVm}" "${c}" > /dev/null 2>&1 \
+      || virsh checkpoint-delete "${backupVm}" "${c}" --metadata > /dev/null 2>&1
+  done
+}
+
+#############################################################################
+# incremental backup path
+#############################################################################
+do_incremental() {
+  local chainDir manifest lastChk entryCount needFull=0
+  local backupXml checkpointXml chkName d target out prevFile rc
+
+  # locate the most recent existing chain for this VM
+  chainDir=""
+  manifest=""
+  lastChk=""
+  if [ -d "${backupDir}/${backupVm}" ]; then
+    local cand
+    cand=$(find "${backupDir}/${backupVm}" -mindepth 1 -maxdepth 1 -type d \
+      | sort -r | head -n1)
+    if [ -n "${cand}" ] && [ -f "${cand}/manifest" ]; then
+      chainDir="${cand}"
+      manifest="${chainDir}/manifest"
+      lastChk=$(awk -F'|' 'END { print $3 }' "${manifest}")
+      entryCount=$(wc -l < "${manifest}")
+    fi
+  fi
+
+  # decide whether this run must be a full backup
+  if [ -z "${chainDir}" ]; then
+    _log "No existing chain found :: performing full backup"
+    needFull=1
+  elif [ -z "${lastChk}" ]; then
+    _log "Chain has no checkpoint recorded :: performing full backup"
+    needFull=1
+  elif ! virsh checkpoint-info "${backupVm}" "${lastChk}" > /dev/null 2>&1; then
+    _log "Checkpoint '${lastChk}' missing in libvirt :: performing full backup"
+    needFull=1
+  elif [ ${fullInterval} -gt 0 ] && [ ${entryCount:-0} -ge ${fullInterval} ]; then
+    _log "Full interval reached (${entryCount}/${fullInterval}) :: performing full backup"
+    needFull=1
+  fi
+
+  if [ ${needFull} -eq 1 ]; then
+    # start a brand new chain rooted at this date; reset all bitmaps
+    _purge_checkpoints
+    chainDir="${backupDir}/${backupVm}/${date}"
+    manifest="${chainDir}/manifest"
+    mkdir -p "${chainDir}"
+    # save VM definition for restore
+    _log "Dump XML for backup :: ${backupVm}_${date}.xml"
+    virsh dumpxml ${backupVm} > "${chainDir}/${backupVm}_${date}.xml"
+  fi
+
+  chkName="${chkPrefix}-${date}"
+  _build_backup_xml "$([ ${needFull} -eq 1 ] && echo full || echo incr)" "${chainDir}"
+
+  backupXml="$(mktemp)"
+  checkpointXml="$(mktemp)"
+  _build_checkpoint_xml "${chkName}" > "${checkpointXml}"
+
+  if [ ${needFull} -eq 1 ]; then
+    _log "Creating full backup (push mode)..."
+    cat > "${backupXml}" <<EOF
+<domainbackup mode='push'>
+  <disks>
+${_backup_disks_xml}  </disks>
+</domainbackup>
+EOF
+  else
+    _log "Creating incremental backup from checkpoint '${lastChk}'..."
+    cat > "${backupXml}" <<EOF
+<domainbackup mode='push'>
+  <incremental>${lastChk}</incremental>
+  <disks>
+${_backup_disks_xml}  </disks>
+</domainbackup>
+EOF
+  fi
+
+  # begin the backup and atomically create the new checkpoint/bitmap
+  if ! virsh backup-begin "${backupVm}" "${backupXml}" "${checkpointXml}"; then
+    _log "backup-begin failed!"
+    rm -f "${backupXml}" "${checkpointXml}"
+    return 7
+  fi
+  rm -f "${backupXml}" "${checkpointXml}"
+
+  if ! _wait_backup "${backupVm}"; then
+    _log "Backup job reported failure!"
+    return 8
+  fi
+  _log "Backup job completed."
+
+  # for incrementals, point each delta image at its predecessor in the
+  # chain so the newest image is a complete, restorable qcow2 backing chain
+  if [ ${needFull} -ne 1 ]; then
+    for d in ${disks}; do
+      target="${d%%,*}"
+      out="${chainDir}/incr_${date}_${target}.qcow2"
+      # previous image for this target = newest existing chain file != current
+      prevFile=$(find "${chainDir}" -maxdepth 1 -type f \
+        \( -name "full_*_${target}.qcow2" -o -name "incr_*_${target}.qcow2" \) \
+        ! -name "incr_${date}_${target}.qcow2" | sort | tail -n1)
+      if [ -n "${prevFile}" ]; then
+        _log "Linking ${out##*/} -> backing $(basename "${prevFile}")"
+        qemu-img rebase -u -f qcow2 -F qcow2 \
+          -b "$(basename "${prevFile}")" "${out}"
+      fi
+    done
+  fi
+
+  # record this run in the chain manifest
+  # format: TYPE|DATE|CHECKPOINT
+  echo "$([ ${needFull} -eq 1 ] && echo full || echo incr)|${date}|${chkName}" \
+    >> "${manifest}"
+
+  # add entry to list file (one row per restore point)
+  used=$(du --block-size=1 "${chainDir}" | awk '{ print $1 }')
+  _log "Adding entry to list file '${listFile}'"
+  echo "$(uuid),${backupDir},${backupVm},${date},${used}" >> ${listFile}
+
+  # chain-aware retention: keep the most recent ${keep} chains
+  if [ ${keep} -gt 0 ]; then
+    _log "Keeping the most recent ${keep} chains..."
+    local keepDir delDirs delDate delDir
+    keepDir="${backupDir}/${backupVm}/"
+    OFS=$IFS
+    IFS=$'\n'
+    delDirs=$(find "${keepDir}" -mindepth 1 -maxdepth 1 -type d | sort -r | awk "NR>${keep}")
+    for d in ${delDirs}; do
+      delDate="$(basename "${d}")"
+      # release any checkpoints belonging to this chain before deleting files
+      if [ -f "${d}/manifest" ]; then
+        local c
+        for c in $(awk -F'|' '{print $3}' "${d}/manifest"); do
+          virsh checkpoint-delete "${backupVm}" "${c}" --metadata > /dev/null 2>&1
+        done
+      fi
+      delDir="$(dirname "${keepDir}")/"
+      _log "Removing chain ${d}..."
+      rm -rv "${d}"
+      sed -i "\|${delDir%/}/\?,${backupVm},${delDate}|d" "${listFile}"
+    done
+    IFS=$OFS
+  fi
+
+  end=$(date +%s)
+  _log "Backup size :: ${used} bytes"
+  _log "Backup time :: $((end-start)) secs"
+  _log "Done."
+  exit 0
+}
+
+# dispatch to incremental path when requested and supported
+if [ ${incremental} -eq 1 ]; then
+  if [ ${vmId} -le 0 ]; then
+    _log "VM not running :: incremental requires a live VM, falling back to full backup"
+  elif [ -n "${compress}" ]; then
+    _log "compression is ignored in incremental mode"
+    compress=""
+    if _all_qcow2; then
+      do_incremental
+    else
+      _log "Falling back to full backup"
+    fi
+  elif _all_qcow2; then
+    do_incremental
+  else
+    _log "Falling back to full backup"
+  fi
+fi
+
+#############################################################################
+# full (standalone) backup path - default behavior
+#############################################################################
+
 # create backup directory for VM
 backupVmDir="${backupDir}/${backupVm}/${date}"
 mkdir -p "${backupVmDir}"
@@ -183,10 +495,6 @@ grep -i 'loader.*pflash' "${backupVmDir}/${backupXml}"
 if [ $? -eq 0 ]; then
   _log "VM is using pflash"
 fi
-
-# get list of disks for VM
-disks=$(virsh domblklist ${backupVm} --details | sed 1,2d | awk NF | awk '$1 == "file" && $2 == "disk" { print $3","$4 }')
-excludeDisks=$(virsh domblklist ${backupVm} --details | sed 1,2d | awk NF | awk '$1 != "file" && $2 == "disk" { print $3","$4 }')
 
 # power off VM if poweroff flag passed
 if [ ${poweroff} -eq 1 ] && [ ${vmId} -gt 0 ]; then

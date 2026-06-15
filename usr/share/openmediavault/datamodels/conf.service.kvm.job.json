@@ -38,6 +38,16 @@
       "type": "boolean",
       "default": false
     },
+    "incremental": {
+      "type": "boolean",
+      "default": false
+    },
+    "fullinterval": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 65535,
+      "default": 0
+    },
     "compression": {
       "type": "boolean",
       "default": false

@@ -76,6 +76,27 @@ data:
                   compression: true
                   path: "{{ _selected[0].path }}"
                   vmname: "{{ _selected[0].vmname }}"
+      - type: iconButton
+        tooltip: _("Incremental Backup")
+        icon: mdi:playlist-plus
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+        execute:
+          type: taskDialog
+          taskDialog:
+            config:
+              title: _("Execute incremental backup using selected VM name and path ...")
+              startOnInit: false
+              showCompletion: false
+              request:
+                service: Kvm
+                method: doBackup
+                params:
+                  compression: false
+                  incremental: true
+                  path: "{{ _selected[0].path }}"
+                  vmname: "{{ _selected[0].vmname }}"
       - template: delete
         execute:
           type: request

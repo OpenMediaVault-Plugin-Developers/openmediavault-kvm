@@ -3186,6 +3186,12 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmdArgs[] = '/usr/sbin/omv-backup-vm';
                 $cmdArgs[] = sprintf('-v %s', $params['vmname']);
                 $cmdArgs[] = sprintf("-d '%s'", $params['path']);
+                if (array_key_exists('incremental', $params) && $params['incremental'] === true) {
+                    $cmdArgs[] = '-i';
+                    if (array_key_exists('fullinterval', $params) && $params['fullinterval'] > 0) {
+                        $cmdArgs[] = sprintf('-F %s', $params['fullinterval']);
+                    }
+                }
                 if ($params['compression'] === true) {
                     $cmdArgs[] = '-c';
                 }
@@ -3355,6 +3361,12 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmdArgs[] = sprintf("-d '%s'", $object->get('path'));
                 if ($object->get('keep') > 0) {
                     $cmdArgs[] = sprintf('-k %s', $object->get('keep'));
+                }
+                if ($object->get('incremental') === true) {
+                    $cmdArgs[] = '-i';
+                    if ($object->get('fullinterval') > 0) {
+                        $cmdArgs[] = sprintf('-F %s', $object->get('fullinterval'));
+                    }
                 }
                 if ($object->get('compression') === true) {
                     $cmdArgs[] = '-c';

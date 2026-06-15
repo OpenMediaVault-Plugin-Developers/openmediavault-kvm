@@ -63,6 +63,25 @@ data:
         value: false
         hint: _('Use same disk format as source.  Will use cp to backup disks.  Will ignore compression option if enabled')
       - type: checkbox
+        name: incremental
+        label: _('Incremental')
+        value: false
+        hint: _('Differential/incremental backups using libvirt checkpoints. Only changed blocks are copied, which is much faster. Requires a running VM with qcow2 disks; falls back to a full backup otherwise. Compression and same format options are ignored.')
+      - type: numberInput
+        name: fullinterval
+        label: _('Full backup interval')
+        value: 0
+        validators:
+          min: 0
+          max: 65535
+        hint: _('Start a new full backup every N backups to cap the incremental chain length. 0 means only one full backup, then incrementals.')
+        modifiers:
+          - type: disabled
+            constraint:
+              operator: falsy
+              arg0:
+                prop: incremental
+      - type: checkbox
         name: compression
         label: _('Compress')
         value: false

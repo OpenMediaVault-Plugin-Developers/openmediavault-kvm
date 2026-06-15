@@ -51,6 +51,18 @@ data:
         flexGrow: 1
         sortable: true
         cellTemplateName: checkIcon
+      - name: _("Incremental")
+        prop: incremental
+        flexGrow: 1
+        sortable: true
+        cellTemplateName: checkIcon
+      - name: _("Full Interval")
+        prop: fullinterval
+        flexGrow: 1
+        sortable: true
+        cellTemplateName: template
+        cellTemplateConfig: |
+          {% if incremental %}{{ fullinterval }}{% else %}-{% endif %}
       - name: _("Compression")
         prop: compression
         flexGrow: 1

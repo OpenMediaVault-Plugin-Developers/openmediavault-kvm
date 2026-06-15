@@ -914,6 +914,14 @@
         },
         "compression": {
           "type": "boolean"
+        },
+        "incremental": {
+          "type": "boolean",
+          "required": false
+        },
+        "fullinterval": {
+          "type": "integer",
+          "required": false
         }
       }
     }
@@ -1093,6 +1101,14 @@
         },
         "samefmt": {
           "type": "boolean",
+          "required": false
+        },
+        "incremental": {
+          "type": "boolean",
+          "required": false
+        },
+        "fullinterval": {
+          "type": "integer",
           "required": false
         },
         "compression": {
