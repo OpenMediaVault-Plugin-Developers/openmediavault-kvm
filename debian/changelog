@@ -1,3 +1,13 @@
+openmediavault-kvm (8.3.0) stable; urgency=low
+
+  * Add incremental/differential VM backups using libvirt checkpoints and
+    qcow2 dirty bitmaps (only changed blocks are copied, much faster)
+  * Restore supports point-in-time recovery from an incremental chain
+  * Add Incremental option and full backup interval to the backup schedule
+    job, plus an Incremental Backup action on the Backups tab
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Mon, 15 Jun 2026 23:30:00 +0000
+
 openmediavault-kvm (8.2.8) stable; urgency=low
 
   * Make libvirtd wait for pool storage at boot so pools and their VMs
