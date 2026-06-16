@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-31 01:22+0000\n"
+"POT-Creation-Date: 2026-06-16 00:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -530,6 +530,9 @@ msgstr ""
 msgid "Execute backup with compression using selected VM name and path ..."
 msgstr ""
 
+msgid "Execute incremental backup using selected VM name and path ..."
+msgstr ""
+
 msgid "Execute scheduled job ..."
 msgstr ""
 
@@ -743,6 +746,9 @@ msgstr ""
 msgid "Forwarding"
 msgstr ""
 
+msgid "Full Interval"
+msgstr ""
+
 msgid "Gateway IP"
 msgstr ""
 
@@ -795,6 +801,12 @@ msgid "If unchecked, LXC network bridge will be disabled."
 msgstr ""
 
 msgid "Image"
+msgstr ""
+
+msgid "Incremental"
+msgstr ""
+
+msgid "Incremental Backup"
 msgstr ""
 
 msgid "Info"
@@ -1076,10 +1088,10 @@ msgstr ""
 msgid "Pools"
 msgstr ""
 
-msgid "Power off + Move"
+msgid "Power off before move"
 msgstr ""
 
-msgid "Power off VM and move ..."
+msgid "Power off the VM before moving if it is running. The VM will be powered back on after the move is complete."
 msgstr ""
 
 msgid "RAM"

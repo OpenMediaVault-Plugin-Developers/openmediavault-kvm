@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-30 13:17+0000\n"
+"POT-Creation-Date: 2026-06-16 00:25+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Дмитрий <bardimnik@rambler.ru>, 2023\n"
 "Language-Team: Russian (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/ru/)\n"
@@ -561,6 +561,9 @@ msgstr ""
 "Выполнение резервного копирования со сжатием, используя выбранное имя и путь"
 " виртуальной машины ..."
 
+msgid "Execute incremental backup using selected VM name and path ..."
+msgstr ""
+
 msgid "Execute scheduled job ..."
 msgstr "Выполнение запланированного задания ..."
 
@@ -777,6 +780,9 @@ msgstr ""
 msgid "Forwarding"
 msgstr ""
 
+msgid "Full Interval"
+msgstr ""
+
 msgid "Gateway IP"
 msgstr ""
 
@@ -830,6 +836,12 @@ msgid "If unchecked, LXC network bridge will be disabled."
 msgstr ""
 
 msgid "Image"
+msgstr ""
+
+msgid "Incremental"
+msgstr ""
+
+msgid "Incremental Backup"
 msgstr ""
 
 msgid "Info"
@@ -1121,10 +1133,12 @@ msgstr ""
 msgid "Pools"
 msgstr ""
 
-msgid "Power off + Move"
+msgid "Power off before move"
 msgstr ""
 
-msgid "Power off VM and move ..."
+msgid ""
+"Power off the VM before moving if it is running. The VM will be powered back"
+" on after the move is complete."
 msgstr ""
 
 msgid "RAM"

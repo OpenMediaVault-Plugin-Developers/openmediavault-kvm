@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-30 13:17+0000\n"
+"POT-Creation-Date: 2026-06-16 00:25+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>, 2024\n"
 "Language-Team: Spanish (Spain) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/es_ES/)\n"
@@ -562,6 +562,9 @@ msgid "Execute backup with compression using selected VM name and path ..."
 msgstr ""
 "Ejecutar el backup con compresión usando el nombre y la ruta de VM ..."
 
+msgid "Execute incremental backup using selected VM name and path ..."
+msgstr ""
+
 msgid "Execute scheduled job ..."
 msgstr "Ejecute el trabajo programado ..."
 
@@ -781,6 +784,9 @@ msgstr "Formatear"
 msgid "Forwarding"
 msgstr "Seguir"
 
+msgid "Full Interval"
+msgstr ""
+
 msgid "Gateway IP"
 msgstr "IP del Gateway"
 
@@ -837,6 +843,12 @@ msgstr "Si no está marcado, el puente de red LXC se desactivará."
 
 msgid "Image"
 msgstr "Imagen"
+
+msgid "Incremental"
+msgstr ""
+
+msgid "Incremental Backup"
+msgstr ""
 
 msgid "Info"
 msgstr "Info"
@@ -1128,10 +1140,12 @@ msgstr "El Pool ha sido detenido."
 msgid "Pools"
 msgstr "Pools"
 
-msgid "Power off + Move"
+msgid "Power off before move"
 msgstr ""
 
-msgid "Power off VM and move ..."
+msgid ""
+"Power off the VM before moving if it is running. The VM will be powered back"
+" on after the move is complete."
 msgstr ""
 
 msgid "RAM"

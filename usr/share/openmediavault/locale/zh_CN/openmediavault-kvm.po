@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-30 13:17+0000\n"
+"POT-Creation-Date: 2026-06-16 00:25+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: songming <by@songming.me>, 2026\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_CN/)\n"
@@ -560,6 +560,9 @@ msgstr "使用选定的 VM 名称和路径执行备份中 ..."
 msgid "Execute backup with compression using selected VM name and path ..."
 msgstr "使用选定的 VM 名称和路径执行压缩备份中 ..."
 
+msgid "Execute incremental backup using selected VM name and path ..."
+msgstr ""
+
 msgid "Execute scheduled job ..."
 msgstr "执行计划任务中 ..."
 
@@ -778,6 +781,9 @@ msgstr "格式化"
 msgid "Forwarding"
 msgstr "转发"
 
+msgid "Full Interval"
+msgstr ""
+
 msgid "Gateway IP"
 msgstr "网关"
 
@@ -832,6 +838,12 @@ msgstr "如果不检查，LXC 网桥将关闭。"
 
 msgid "Image"
 msgstr "镜像"
+
+msgid "Incremental"
+msgstr ""
+
+msgid "Incremental Backup"
+msgstr ""
 
 msgid "Info"
 msgstr "信息"
@@ -1122,11 +1134,13 @@ msgstr "池已停止。"
 msgid "Pools"
 msgstr "池"
 
-msgid "Power off + Move"
-msgstr "关闭 + 移动"
+msgid "Power off before move"
+msgstr ""
 
-msgid "Power off VM and move ..."
-msgstr "关闭 VM 并移动 ..."
+msgid ""
+"Power off the VM before moving if it is running. The VM will be powered back"
+" on after the move is complete."
+msgstr ""
 
 msgid "RAM"
 msgstr "RAM"

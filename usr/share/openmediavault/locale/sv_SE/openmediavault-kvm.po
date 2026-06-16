@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-30 13:17+0000\n"
+"POT-Creation-Date: 2026-06-16 00:25+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Karl Jonatan Nyberg, 2023\n"
 "Language-Team: Swedish (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/sv/)\n"
@@ -557,6 +557,9 @@ msgstr ""
 msgid "Execute backup with compression using selected VM name and path ..."
 msgstr ""
 
+msgid "Execute incremental backup using selected VM name and path ..."
+msgstr ""
+
 msgid "Execute scheduled job ..."
 msgstr ""
 
@@ -776,6 +779,9 @@ msgstr "Formatera"
 msgid "Forwarding"
 msgstr "Vidarebefordring"
 
+msgid "Full Interval"
+msgstr ""
+
 msgid "Gateway IP"
 msgstr "Gateway IP"
 
@@ -832,6 +838,12 @@ msgstr "Om avmarkerat kommer LXC-nätverksbryggan att inaktiveras."
 
 msgid "Image"
 msgstr "Bild"
+
+msgid "Incremental"
+msgstr ""
+
+msgid "Incremental Backup"
+msgstr ""
 
 msgid "Info"
 msgstr "Info"
@@ -1122,10 +1134,12 @@ msgstr ""
 msgid "Pools"
 msgstr "Pooler"
 
-msgid "Power off + Move"
+msgid "Power off before move"
 msgstr ""
 
-msgid "Power off VM and move ..."
+msgid ""
+"Power off the VM before moving if it is running. The VM will be powered back"
+" on after the move is complete."
 msgstr ""
 
 msgid "RAM"

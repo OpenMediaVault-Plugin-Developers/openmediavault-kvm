@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-30 13:17+0000\n"
+"POT-Creation-Date: 2026-06-16 00:25+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Rysiek Jurczy, 2023\n"
 "Language-Team: Polish (Poland) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/pl_PL/)\n"
@@ -559,6 +559,9 @@ msgstr ""
 "Wykonaj skompresowaną kopię zapasową, używając wybranej nazwy maszyny i "
 "ścieżki ..."
 
+msgid "Execute incremental backup using selected VM name and path ..."
+msgstr ""
+
 msgid "Execute scheduled job ..."
 msgstr "Wykonaj zaplanowane zadanie ..."
 
@@ -778,6 +781,9 @@ msgstr "Format"
 msgid "Forwarding"
 msgstr "Przekazywanie"
 
+msgid "Full Interval"
+msgstr ""
+
 msgid "Gateway IP"
 msgstr "Brama IP"
 
@@ -834,6 +840,12 @@ msgstr "Jeśli odznaczone, most sieciowy LXC zostanie wyłączony."
 
 msgid "Image"
 msgstr "Obraz"
+
+msgid "Incremental"
+msgstr ""
+
+msgid "Incremental Backup"
+msgstr ""
 
 msgid "Info"
 msgstr "Info"
@@ -1125,10 +1137,12 @@ msgstr "Pula zatrzymana."
 msgid "Pools"
 msgstr "Pule"
 
-msgid "Power off + Move"
+msgid "Power off before move"
 msgstr ""
 
-msgid "Power off VM and move ..."
+msgid ""
+"Power off the VM before moving if it is running. The VM will be powered back"
+" on after the move is complete."
 msgstr ""
 
 msgid "RAM"
