@@ -6,6 +6,7 @@ openmediavault-kvm (8.3.0) stable; urgency=low
   * Add Incremental option and full backup interval to the backup schedule
     job, plus an Incremental Backup action on the Backups tab
   * Move Restore from its own tab to a Restore button on the Backups tab
+  * Move the Move action from its own tab to the VM Advanced menu
 
  -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Mon, 15 Jun 2026 23:30:00 +0000
 
