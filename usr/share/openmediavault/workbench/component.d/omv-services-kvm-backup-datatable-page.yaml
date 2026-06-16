@@ -97,6 +97,54 @@ data:
                   incremental: true
                   path: "{{ _selected[0].path }}"
                   vmname: "{{ _selected[0].vmname }}"
+      - type: iconButton
+        tooltip: _("Restore")
+        icon: mdi:restore
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+        execute:
+          type: formDialog
+          formDialog:
+            title: _("Restore VM ...")
+            fields:
+              - type: textInput
+                name: backup
+                label: _("Backup")
+                readonly: true
+                value: "{{ _selected[0].vmname }} | {{ _selected[0].date }} | {{ _selected[0].path }}"
+              - type: textInput
+                name: newname
+                label: _("VM name")
+                value: ""
+                hint: _("VM name for restored VM")
+              - type: select
+                name: pool
+                label: _('Pool')
+                textField: name
+                valueField: path
+                store:
+                  proxy:
+                    service: Kvm
+                    get:
+                      method: enumeratePools
+                hint: _("Optional. Choose pool to restore VM to a different location. Leave blank for original location.")
+            buttons:
+              submit:
+                text: _("Restore")
+                execute:
+                  type: taskDialog
+                  taskDialog:
+                    config:
+                      title: _("Restore VM ...")
+                      startOnInit: true
+                      request:
+                        service: Kvm
+                        method: doRestore
+                        params:
+                          backup: "{{ backup }}"
+                          newname: "{{ newname }}"
+                          newpath: "{{ pool }}"
       - template: delete
         execute:
           type: request
