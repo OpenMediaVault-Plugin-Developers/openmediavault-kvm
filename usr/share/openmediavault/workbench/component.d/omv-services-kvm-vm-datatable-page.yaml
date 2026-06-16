@@ -2464,3 +2464,56 @@ data:
                   arg0:
                     prop: state
                   arg1: "shutoff"
+          - text: _("Move")
+            icon: mdi:folder-move-outline
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: ne
+                  arg0:
+                    prop: virttype
+                  arg1: "lxc"
+            execute:
+              type: formDialog
+              formDialog:
+                title: _('Move VM')
+                fields:
+                  - type: textInput
+                    name: vmname
+                    label: _("VM Name")
+                    value: "{{ _selected[0].vmname }}"
+                    readonly: true
+                  - type: select
+                    name: pool
+                    label: _('New pool')
+                    textField: name
+                    valueField: name
+                    store:
+                      proxy:
+                        service: Kvm
+                        get:
+                          method: enumeratePools
+                    validators:
+                      required: true
+                  - type: checkbox
+                    name: poweroff
+                    label: _("Power off before move")
+                    value: false
+                    hint: _("Power off the VM before moving if it is running. The VM will be powered back on after the move is complete.")
+                buttons:
+                  submit:
+                    text: _('Move')
+                    execute:
+                      type: taskDialog
+                      taskDialog:
+                        config:
+                          title: _("Move VM ...")
+                          startOnInit: true
+                          request:
+                            service: Kvm
+                            method: doMove
+                            params:
+                              vmname: "{{ vmname }}"
+                              pool: "{{ pool }}"
+                              poweroff: "{{ poweroff }}"

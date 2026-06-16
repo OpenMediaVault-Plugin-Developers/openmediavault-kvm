@@ -941,7 +941,7 @@
           "required": true
         },
         "poweroff": {
-          "type": "boolean",
+          "type": ["boolean", "string"],
           "required": true
         }
       }

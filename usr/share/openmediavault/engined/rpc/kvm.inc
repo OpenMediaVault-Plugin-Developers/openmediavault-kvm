@@ -3232,6 +3232,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.domove');
+        // The workbench may submit poweroff as a string ("true"/"false");
+        // normalize to a real boolean.
+        $params['poweroff'] = filter_var($params['poweroff'], FILTER_VALIDATE_BOOLEAN);
         return $this->execBgProc(function($bgStatusFilename, $bgOutputFilename)
             use ($params) {
                 $cmdArgs = [];
