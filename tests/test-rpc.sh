@@ -857,6 +857,8 @@ print(json.dumps({
     'poweroff': False,
     'keep': 3,
     'samefmt': False,
+    'incremental': True,
+    'fullinterval': 5,
     'compression': False,
     'sendemail': False,
     'emailonerror': False,
@@ -918,18 +920,36 @@ if [ -n "$JOB_UUID" ]; then
         _fail "getJob — execution" "expected 'daily', got '$saved_exec'"
     fi
 
-    # Update — change keep and compression
+    saved_incr=$(json_get "$JOB_DATA" "incremental")
+    if [ "$saved_incr" = "True" ] || [ "$saved_incr" = "true" ] || [ "$saved_incr" = "1" ]; then
+        _pass "getJob — incremental=true saved correctly"
+    else
+        _fail "getJob — incremental round-trip" "expected true, got '$saved_incr'"
+    fi
+
+    saved_finterval=$(json_get "$JOB_DATA" "fullinterval")
+    if [ "$saved_finterval" = "5" ]; then
+        _pass "getJob — fullinterval=5 saved correctly"
+    else
+        _fail "getJob — fullinterval round-trip" "expected 5, got '$saved_finterval'"
+    fi
+
+    # Update — change keep, compression, and the incremental fields
     JOB_UPDATE=$(echo "$JOB_DATA" | python3 -c "
 import sys, json
 d = json.load(sys.stdin)
 d['keep'] = 7
 d['compression'] = True
+d['incremental'] = False
+d['fullinterval'] = 10
 print(json.dumps(d))
 " 2>/dev/null)
     if [ -n "$JOB_UPDATE" ]; then
-        assert_rpc "setJob (update keep+compression)" "Kvm" "setJob" "$JOB_UPDATE"
+        assert_rpc "setJob (update keep+compression+incremental)" "Kvm" "setJob" "$JOB_UPDATE"
         saved_keep2=$(json_get "$RPC_OUT" "keep")
         saved_comp=$(json_get "$RPC_OUT" "compression")
+        saved_incr2=$(json_get "$RPC_OUT" "incremental")
+        saved_finterval2=$(json_get "$RPC_OUT" "fullinterval")
         if [ "$saved_keep2" = "7" ]; then
             _pass "setJob (update) — keep=7 saved correctly"
         else
@@ -939,6 +959,16 @@ print(json.dumps(d))
             _pass "setJob (update) — compression=true saved correctly"
         else
             _fail "setJob (update) — compression round-trip" "expected true, got '$saved_comp'"
+        fi
+        if [ "$saved_incr2" = "False" ] || [ "$saved_incr2" = "false" ] || [ "$saved_incr2" = "0" ]; then
+            _pass "setJob (update) — incremental=false saved correctly"
+        else
+            _fail "setJob (update) — incremental round-trip" "expected false, got '$saved_incr2'"
+        fi
+        if [ "$saved_finterval2" = "10" ]; then
+            _pass "setJob (update) — fullinterval=10 saved correctly"
+        else
+            _fail "setJob (update) — fullinterval round-trip" "expected 10, got '$saved_finterval2'"
         fi
     else
         _skip "setJob (update)" "could not build update params"
