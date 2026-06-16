@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-16 00:25+0000\n"
+"POT-Creation-Date: 2026-06-16 01:15+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Language-Team: Occitan (post 1500) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/oc/)\n"
 "MIME-Version: 1.0\n"
@@ -32,6 +32,9 @@ msgid "Action"
 msgstr ""
 
 msgid "Activity"
+msgstr ""
+
+msgid "Actual Size"
 msgstr ""
 
 msgid "Add"
@@ -153,6 +156,12 @@ msgstr ""
 msgid "Are you sure you want to delete all snapshots?"
 msgstr ""
 
+msgid ""
+"Are you sure you want to delete this backup? For an incremental backup this "
+"removes the entire chain (the full backup and all of its incrementals), "
+"since they cannot be restored without it."
+msgstr ""
+
 msgid "Are you sure you want to delete?"
 msgstr ""
 
@@ -230,6 +239,9 @@ msgid "Cannot use / for mount point."
 msgstr ""
 
 msgid "Capacity"
+msgstr ""
+
+msgid "Chain"
 msgstr ""
 
 msgid "Change disc"
@@ -913,6 +925,9 @@ msgstr ""
 msgid "Logical"
 msgstr ""
 
+msgid "Logical Size"
+msgstr ""
+
 msgid "MAC address"
 msgstr ""
 
@@ -1280,9 +1295,6 @@ msgid "Source VM"
 msgstr ""
 
 msgid "Source path"
-msgstr ""
-
-msgid "Space Used"
 msgstr ""
 
 msgid "Spice"

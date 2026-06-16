@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-16 00:25+0000\n"
+"POT-Creation-Date: 2026-06-16 01:15+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Karl Jonatan Nyberg, 2023\n"
 "Language-Team: Swedish (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/sv/)\n"
@@ -37,6 +37,9 @@ msgstr "Åtgärd"
 
 msgid "Activity"
 msgstr "Aktivitet"
+
+msgid "Actual Size"
+msgstr ""
 
 msgid "Add"
 msgstr "Lägg till"
@@ -157,6 +160,12 @@ msgstr ""
 msgid "Are you sure you want to delete all snapshots?"
 msgstr ""
 
+msgid ""
+"Are you sure you want to delete this backup? For an incremental backup this "
+"removes the entire chain (the full backup and all of its incrementals), "
+"since they cannot be restored without it."
+msgstr ""
+
 msgid "Are you sure you want to delete?"
 msgstr "Är du säker att du vill ta bort?"
 
@@ -235,6 +244,9 @@ msgstr "Kan inte använda / för monteringspunkt."
 
 msgid "Capacity"
 msgstr "Kapacitet"
+
+msgid "Chain"
+msgstr ""
 
 msgid "Change disc"
 msgstr ""
@@ -922,6 +934,9 @@ msgstr ""
 msgid "Logical"
 msgstr "Logisk"
 
+msgid "Logical Size"
+msgstr ""
+
 msgid "MAC address"
 msgstr "MAC-adress"
 
@@ -1290,9 +1305,6 @@ msgstr "Käll-VM"
 
 msgid "Source path"
 msgstr "Källsökväg"
-
-msgid "Space Used"
-msgstr "Använt utrymme"
 
 msgid "Spice"
 msgstr "Spice"

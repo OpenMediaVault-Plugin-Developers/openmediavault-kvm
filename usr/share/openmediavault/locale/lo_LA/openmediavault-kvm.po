@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-16 00:25+0000\n"
+"POT-Creation-Date: 2026-06-16 01:15+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: BoneNI, 2026\n"
 "Language-Team: Lao (Laos) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/lo_LA/)\n"
@@ -37,6 +37,9 @@ msgstr "ການດຳເນີນການ"
 
 msgid "Activity"
 msgstr "ກິດຈະກຳ"
+
+msgid "Actual Size"
+msgstr ""
 
 msgid "Add"
 msgstr "ເພີ່ມ"
@@ -159,6 +162,12 @@ msgstr ""
 msgid "Are you sure you want to delete all snapshots?"
 msgstr "ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການລຶບ snapshot ທັງໝົດ?"
 
+msgid ""
+"Are you sure you want to delete this backup? For an incremental backup this "
+"removes the entire chain (the full backup and all of its incrementals), "
+"since they cannot be restored without it."
+msgstr ""
+
 msgid "Are you sure you want to delete?"
 msgstr "ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການລຶບ?"
 
@@ -241,6 +250,9 @@ msgstr "ບໍ່ສາມາດໃຊ້ / ສຳລັບຈຸດເຊື່
 
 msgid "Capacity"
 msgstr "ຄວາມຈຸ"
+
+msgid "Chain"
+msgstr ""
 
 msgid "Change disc"
 msgstr "ປ່ຽນແຜ່ນ"
@@ -926,6 +938,9 @@ msgstr "ເຮັດ Linked clone ສຳເລັດແລ້ວ."
 msgid "Logical"
 msgstr "Logical"
 
+msgid "Logical Size"
+msgstr ""
+
 msgid "MAC address"
 msgstr "ທີ່ຢູ່ MAC"
 
@@ -1297,9 +1312,6 @@ msgstr "VM ຕົ້ນທາງ"
 
 msgid "Source path"
 msgstr "ເສັ້ນທາງຕົ້ນທາງ"
-
-msgid "Space Used"
-msgstr "ພື້ນທີ່ທີ່ໃຊ້ໄປ"
 
 msgid "Spice"
 msgstr "Spice"

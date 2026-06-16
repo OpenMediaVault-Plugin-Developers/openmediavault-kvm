@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-16 00:25+0000\n"
+"POT-Creation-Date: 2026-06-16 01:15+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: songming <by@songming.me>, 2026\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_CN/)\n"
@@ -37,6 +37,9 @@ msgstr "动作"
 
 msgid "Activity"
 msgstr "激活"
+
+msgid "Actual Size"
+msgstr ""
 
 msgid "Add"
 msgstr "添加"
@@ -157,6 +160,12 @@ msgstr "您确定要清除监控数据库吗？所有已收集的指标将被永
 msgid "Are you sure you want to delete all snapshots?"
 msgstr "您确定要删除全部快照吗？"
 
+msgid ""
+"Are you sure you want to delete this backup? For an incremental backup this "
+"removes the entire chain (the full backup and all of its incrementals), "
+"since they cannot be restored without it."
+msgstr ""
+
 msgid "Are you sure you want to delete?"
 msgstr "您确定删除吗？"
 
@@ -237,6 +246,9 @@ msgstr "不能使用挂载点。"
 
 msgid "Capacity"
 msgstr "容量"
+
+msgid "Chain"
+msgstr ""
 
 msgid "Change disc"
 msgstr "变更光盘"
@@ -922,6 +934,9 @@ msgstr "链接克隆已完成。"
 msgid "Logical"
 msgstr "逻辑"
 
+msgid "Logical Size"
+msgstr ""
+
 msgid "MAC address"
 msgstr "MAC 地址"
 
@@ -1290,9 +1305,6 @@ msgstr "VM 源"
 
 msgid "Source path"
 msgstr "路径源"
-
-msgid "Space Used"
-msgstr "空间使用"
 
 msgid "Spice"
 msgstr "Spice"

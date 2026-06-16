@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-16 00:25+0000\n"
+"POT-Creation-Date: 2026-06-16 01:15+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Andi Chandler <andi@gowling.com>, 2026\n"
 "Language-Team: English (United Kingdom) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/en_GB/)\n"
@@ -37,6 +37,9 @@ msgstr "Action"
 
 msgid "Activity"
 msgstr "Activity"
+
+msgid "Actual Size"
+msgstr ""
 
 msgid "Add"
 msgstr "Add"
@@ -159,6 +162,12 @@ msgstr ""
 msgid "Are you sure you want to delete all snapshots?"
 msgstr "Are you sure you want to delete all snapshots?"
 
+msgid ""
+"Are you sure you want to delete this backup? For an incremental backup this "
+"removes the entire chain (the full backup and all of its incrementals), "
+"since they cannot be restored without it."
+msgstr ""
+
 msgid "Are you sure you want to delete?"
 msgstr "Are you sure you want to delete?"
 
@@ -241,6 +250,9 @@ msgstr "Cannot use / for mount point."
 
 msgid "Capacity"
 msgstr "Capacity"
+
+msgid "Chain"
+msgstr ""
 
 msgid "Change disc"
 msgstr "Change disc"
@@ -927,6 +939,9 @@ msgstr "Linked clone complete."
 msgid "Logical"
 msgstr "Logical"
 
+msgid "Logical Size"
+msgstr ""
+
 msgid "MAC address"
 msgstr "MAC address"
 
@@ -1299,9 +1314,6 @@ msgstr "Source VM"
 
 msgid "Source path"
 msgstr "Source path"
-
-msgid "Space Used"
-msgstr "Space Used"
 
 msgid "Spice"
 msgstr "Spice"
