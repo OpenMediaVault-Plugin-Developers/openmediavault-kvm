@@ -3135,12 +3135,99 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
 	    if ($backuplistarray !== false) {
                 $rows = array_map('str_getcsv', file($backuplist));
                 $header = ['uuid','path','vmname','date','used'];
+                $typeCache = [];
                 foreach($rows as $row) {
-                    $objects[] = array_combine($header, $row);
+                    if (count($row) < count($header)) {
+                        continue;
+                    }
+                    $object = array_combine($header, array_slice($row, 0, count($header)));
+                    // Derive the backup type and the chain it belongs to from
+                    // the chain manifest (if any).
+                    $info = $this->backupInfo($object['path'],
+                        $object['vmname'], $object['date'], $typeCache);
+                    $object['type'] = $info['type'];
+                    $object['chain'] = $info['chain'];
+                    // Compute both sizes live from the current files so they
+                    // are consistent and accurate. The value stored in the
+                    // list file is unreliable: its measurement method changed
+                    // over time and, on ZFS, sizing right after the write
+                    // under-reports allocation (delayed transaction commit).
+                    $sizes = $this->backupSizes($object['path'],
+                        $object['vmname'], $object['date'], $info['chain']);
+                    if ($sizes['logical'] !== '') {
+                        $object['used'] = $sizes['logical'];
+                    }
+                    $object['actualused'] = $sizes['actual'];
+                    $objects[] = $object;
                 }
             }
         }
         return ($objects);
+    }
+
+    // Determine the backup type ('Full' or 'Incremental') and the chain a
+    // restore point belongs to. Incremental backups record each member's type
+    // in the chain manifest, and the chain is identified by its directory name
+    // (the full backup's date). Legacy/self-contained backups have no manifest,
+    // are always full, and are not part of a chain.
+    private function backupInfo($path, $vmname, $date, &$cache)
+    {
+        $vmDir = sprintf('%s/%s', $path, $vmname);
+        $direct = sprintf('%s/%s', $vmDir, $date);
+        if (is_dir($direct) && !file_exists($direct . '/manifest')) {
+            return ['type' => 'Full', 'chain' => '-'];
+        }
+        if (!array_key_exists($vmDir, $cache)) {
+            $map = [];
+            foreach (glob($vmDir . '/*/manifest') as $manifest) {
+                $chain = basename(dirname($manifest));
+                foreach (file($manifest, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
+                    $parts = explode('|', $line);
+                    if (count($parts) >= 2) {
+                        $map[trim($parts[1])] = [
+                            'type' => (trim($parts[0]) === 'incr') ? 'Incremental' : 'Full',
+                            'chain' => $chain,
+                        ];
+                    }
+                }
+            }
+            $cache[$vmDir] = $map;
+        }
+        return $cache[$vmDir][$date] ?? ['type' => 'Full', 'chain' => '-'];
+    }
+
+    // Compute the logical (apparent) and actual (allocated on disk) size of a
+    // restore point from its current files. 'logical' is the sum of apparent
+    // file sizes; 'actual' is the sum of allocated blocks (stat 'blocks' * 512)
+    // which reflects real usage after filesystem compression/sparseness. For an
+    // incremental chain member only that run's delta file(s) are counted; for a
+    // legacy backup the whole backup directory. Empty strings if files missing.
+    private function backupSizes($path, $vmname, $date, $chain)
+    {
+        $vmDir = sprintf('%s/%s', $path, $vmname);
+        if ($chain === '-') {
+            $dir = sprintf('%s/%s', $vmDir, $date);
+            $files = is_dir($dir) ? glob($dir . '/*') : [];
+        } else {
+            $files = glob(sprintf('%s/%s/*_%s_*.qcow2', $vmDir, $chain, $date));
+        }
+        $logical = 0;
+        $actual = 0;
+        $found = false;
+        foreach ($files as $f) {
+            if (is_file($f)) {
+                $st = @stat($f);
+                if ($st !== false) {
+                    $logical += $st['size'];
+                    $actual += $st['blocks'] * 512;
+                    $found = true;
+                }
+            }
+        }
+        return [
+            'logical' => $found ? (string)$logical : '',
+            'actual' => $found ? (string)$actual : '',
+        ];
     }
 
     public function deleteBackup($params, $context)
@@ -3151,24 +3238,62 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         //$this->validateMethodParams($params, 'rpc.kvm.dobackup');
         $date = $params['date'];
         $path = $params['path'];
-        $uuid = $params['uuid'];
         $vmname = $params['vmname'];
-        $dir = sprintf('%s/%s/%s', $path, $vmname, $date);
-        if ((is_dir($dir)) && (strlen($dir) > 2)) {
+        $vmDir = sprintf('%s/%s', $path, $vmname);
+        // Incremental backups are stored as a chain in a single directory
+        // named after the chain's full backup date; each restore point (the
+        // full plus every incremental) has its own row in the list file.
+        // Because incrementals depend on the full and the preceding
+        // incrementals, deleting any member must remove the ENTIRE chain so an
+        // incremental is never left without the backups it needs to restore.
+        $direct = sprintf('%s/%s', $vmDir, $date);
+        $chainDir = '';
+        if (is_dir($direct)) {
+            // selected row is either a chain root (has a manifest) or a legacy
+            // self-contained backup directory (no manifest) - delete it either way
+            $chainDir = $direct;
+        } else {
+            // selected row may be an incremental inside a chain; find the chain
+            // directory whose manifest references this restore-point date
+            foreach (glob($vmDir . '/*/manifest') as $manifest) {
+                foreach (file($manifest, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
+                    $parts = explode('|', $line);
+                    if (count($parts) >= 2 && trim($parts[1]) === $date) {
+                        $chainDir = dirname($manifest);
+                        break 2;
+                    }
+                }
+            }
+        }
+        // collect every restore-point date so all matching list rows are
+        // removed together (a chain manifest lists each member's date)
+        $datesToRemove = [$date];
+        if ($chainDir !== '' && file_exists($chainDir . '/manifest')) {
+            $datesToRemove = [];
+            foreach (file($chainDir . '/manifest', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
+                $parts = explode('|', $line);
+                if (count($parts) >= 2) {
+                    $datesToRemove[] = trim($parts[1]);
+                }
+            }
+        }
+        if (($chainDir !== '') && is_dir($chainDir) && (strlen($chainDir) > 2)) {
             $cmdArgs = [];
             $cmdArgs[] = '-rf';
-            $cmdArgs[] = sprintf("'%s'", $dir);
+            $cmdArgs[] = sprintf("'%s'", $chainDir);
             $cmd = new \OMV\System\Process('rm', $cmdArgs);
             $cmd->setQuiet(true);
             $cmd->execute($output, $exitStatus);
         }
-        $cmdArgs = [];
-        $cmdArgs[] = '-i';
-        $cmdArgs[] = sprintf("'/^%s.*%s.*%s.*$/d'", $uuid, $vmname, $date);
-        $cmdArgs[] = '/etc/omv-backup-vm.list';
-        $cmd = new \OMV\System\Process('sed', $cmdArgs);
-        $cmd->setQuiet(true);
-        $cmd->execute($output, $exitStatus);
+        foreach (array_unique($datesToRemove) as $d) {
+            $cmdArgs = [];
+            $cmdArgs[] = '-i';
+            $cmdArgs[] = sprintf("'/,%s,%s,/d'", $vmname, $d);
+            $cmdArgs[] = '/etc/omv-backup-vm.list';
+            $cmd = new \OMV\System\Process('sed', $cmdArgs);
+            $cmd->setQuiet(true);
+            $cmd->execute($output, $exitStatus);
+        }
     }
 
     public function doBackup($params, $context)

@@ -56,7 +56,7 @@ data:
         validators:
           min: 0
           max: 65535
-        hint: _('Keep the most recent number of backups. 0 = keep all backups')
+        hint: _('Keep the most recent number of backups. 0 keeps all backups. In incremental mode this counts backup chains (a full plus its incrementals), not individual restore points, and an entire chain is removed at once.')
       - type: checkbox
         name: samefmt
         label: _('Same format')

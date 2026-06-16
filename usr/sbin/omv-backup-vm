@@ -423,7 +423,14 @@ EOF
     >> "${manifest}"
 
   # add entry to list file (one row per restore point)
-  used=$(du --block-size=1 "${chainDir}" | awk '{ print $1 }')
+  # measure only the files written by this run (this restore point's own
+  # delta) rather than the whole chain, so incrementals report their true,
+  # smaller size instead of the cumulative chain size. Use apparent size so
+  # the value reflects the qcow2 content and is not skewed by filesystem
+  # compression/sparseness (e.g. ZFS reporting far fewer allocated blocks)
+  used=$(du -c --apparent-size --block-size=1 "${chainDir}/"*"_${date}_"*.qcow2 2>/dev/null \
+    | tail -n1 | awk '{ print $1 }')
+  used=${used:-0}
   _log "Adding entry to list file '${listFile}'"
   echo "$(uuid),${backupDir},${backupVm},${date},${used}" >> ${listFile}
 
@@ -591,7 +598,9 @@ if [ ${poweroff} -eq 1 ] && [ ${poweredoff} -eq 1 ]; then
 fi
 
 # add entry to list file
-used=$(du --block-size=1 "${backupVmDir}" | awk '{ print $1 }')
+# apparent size so the value reflects backup content and is not skewed by
+# filesystem compression/sparseness (matches the incremental path)
+used=$(du --apparent-size --block-size=1 "${backupVmDir}" | awk '{ print $1 }')
 _log "Adding entry to list file '${listFile}'"
 echo "$(uuid),${backupDir},${backupVm},${date},${used}" >> ${listFile}
 

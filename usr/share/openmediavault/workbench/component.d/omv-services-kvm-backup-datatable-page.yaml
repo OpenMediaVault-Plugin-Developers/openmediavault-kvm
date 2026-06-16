@@ -26,12 +26,25 @@ data:
         prop: date
         flexGrow: 2
         sortable: true
+      - name: _("Type")
+        prop: type
+        flexGrow: 1
+        sortable: true
+      - name: _("Chain")
+        prop: chain
+        flexGrow: 2
+        sortable: true
       - name: _("Path")
         prop: path
         flexGrow: 3
         sortable: true
-      - name: _("Space Used")
+      - name: _("Logical Size")
         prop: used
+        flexGrow: 1
+        sortable: true
+        cellTemplateName: binaryUnit
+      - name: _("Actual Size")
+        prop: actualused
         flexGrow: 1
         sortable: true
         cellTemplateName: binaryUnit
@@ -146,6 +159,9 @@ data:
                           newname: "{{ newname }}"
                           newpath: "{{ pool }}"
       - template: delete
+        confirmationDialogConfig:
+          template: confirmation-danger
+          message: _("Are you sure you want to delete this backup? For an incremental backup this removes the entire chain (the full backup and all of its incrementals), since they cannot be restored without it.")
         execute:
           type: request
           request:
