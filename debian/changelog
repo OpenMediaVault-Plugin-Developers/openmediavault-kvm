@@ -5,6 +5,7 @@ openmediavault-kvm (8.3.0) stable; urgency=low
   * Restore supports point-in-time recovery from an incremental chain
   * Add Incremental option and full backup interval to the backup schedule
     job, plus an Incremental Backup action on the Backups tab
+  * Move Restore from its own tab to a Restore button on the Backups tab
 
  -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Mon, 15 Jun 2026 23:30:00 +0000
 
