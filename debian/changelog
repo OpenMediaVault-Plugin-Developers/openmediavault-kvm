@@ -8,7 +8,7 @@ openmediavault-kvm (8.3.0) stable; urgency=low
   * Move Restore from its own tab to a Restore button on the Backups tab
   * Move the Move action from its own tab to the VM Advanced menu
 
- -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Mon, 15 Jun 2026 23:30:00 +0000
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Tue, 16 Jun 2026 00:25:17 +0000
 
 openmediavault-kvm (8.2.8) stable; urgency=low
 
