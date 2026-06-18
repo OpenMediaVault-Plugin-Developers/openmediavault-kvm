@@ -3393,10 +3393,14 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $restorefrom = trim($backup[2]);
                 $newpath = trim($params['newpath']);
                 $vmname = trim($backup[0]);
+                $newname = trim($params['newname']);
+                if (strlen($newname) < 1) {
+                    $newname = $vmname;
+                }
                 $cmdArgs = [];
                 $cmdArgs[] = '/usr/sbin/omv-restore-vm';
                 $cmdArgs[] = sprintf("-d '%s'", $restorefrom);
-                $cmdArgs[] = sprintf('-r %s', $params['newname']);
+                $cmdArgs[] = sprintf('-r %s', $newname);
                 $cmdArgs[] = sprintf('-t %s', $date);
                 $cmdArgs[] = sprintf('-v %s', $vmname);
                 if (strlen($newpath) > 1) {
