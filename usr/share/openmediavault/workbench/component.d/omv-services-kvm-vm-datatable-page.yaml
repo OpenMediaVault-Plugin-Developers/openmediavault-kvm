@@ -128,7 +128,7 @@ data:
                   - type: textInput
                     name: version
                     label: _("HA OS Version")
-                    value: "17.2"
+                    value: "18.0"
                     hint: _("Check github.com/home-assistant/operating-system/releases for the latest version.")
                     validators:
                       required: true
