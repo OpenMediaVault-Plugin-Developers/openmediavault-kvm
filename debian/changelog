@@ -7,6 +7,7 @@ openmediavault-kvm (8.3.0) stable; urgency=low
     job, plus an Incremental Backup action on the Backups tab
   * Move Restore from its own tab to a Restore button on the Backups tab
   * Move the Move action from its own tab to the VM Advanced menu
+  * Allow creating named snapshots
 
  -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Tue, 16 Jun 2026 00:25:17 +0000
 
