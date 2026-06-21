@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-16 01:15+0000\n"
+"POT-Creation-Date: 2026-06-21 21:00+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: BoneNI, 2026\n"
 "Language-Team: Lao (Laos) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/lo_LA/)\n"
@@ -350,6 +350,9 @@ msgstr ""
 
 msgid "Create"
 msgstr "ສ້າງ"
+
+msgid "Create (named)"
+msgstr ""
 
 msgid "Create LXC"
 msgstr "ສ້າງ LXC"
@@ -1303,6 +1306,9 @@ msgstr "ລຶບ snapshot ແລ້ວ."
 
 msgid "Snapshot has been reverted."
 msgstr "ຍ້ອນກັບໄປຫາ snapshot ແລ້ວ."
+
+msgid "Snapshot name"
+msgstr ""
 
 msgid "Snapshots"
 msgstr "Snapshot"

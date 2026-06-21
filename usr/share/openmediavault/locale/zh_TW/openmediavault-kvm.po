@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-16 01:15+0000\n"
+"POT-Creation-Date: 2026-06-21 21:00+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: kochin <kochinc@outlook.com>, 2026\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_TW/)\n"
@@ -39,7 +39,7 @@ msgid "Activity"
 msgstr "活動"
 
 msgid "Actual Size"
-msgstr ""
+msgstr "實際大小"
 
 msgid "Add"
 msgstr "新增"
@@ -164,7 +164,7 @@ msgid ""
 "Are you sure you want to delete this backup? For an incremental backup this "
 "removes the entire chain (the full backup and all of its incrementals), "
 "since they cannot be restored without it."
-msgstr ""
+msgstr "您確定要删除此備份？對於增量式備份，這將移除整個備份鏈 (完整備份和它的所有增量)，因為沒有了它，備份就無法復原。"
 
 msgid "Are you sure you want to delete?"
 msgstr "您確定要刪除嗎？"
@@ -248,7 +248,7 @@ msgid "Capacity"
 msgstr "容量"
 
 msgid "Chain"
-msgstr ""
+msgstr "備份鏈"
 
 msgid "Change disc"
 msgstr "變更磁碟"
@@ -346,6 +346,9 @@ msgstr "核心更新"
 
 msgid "Create"
 msgstr "建立"
+
+msgid "Create (named)"
+msgstr ""
 
 msgid "Create LXC"
 msgstr "建立 LXC"
@@ -578,7 +581,7 @@ msgid "Execute backup with compression using selected VM name and path ..."
 msgstr "使用所選的 VM 名稱與路徑來執行備份並壓縮 ..."
 
 msgid "Execute incremental backup using selected VM name and path ..."
-msgstr ""
+msgstr "使用所選的 VM 名稱與路徑來執行增量備份 ..."
 
 msgid "Execute scheduled job ..."
 msgstr "執行預定工作 ..."
@@ -799,7 +802,7 @@ msgid "Forwarding"
 msgstr "轉接"
 
 msgid "Full Interval"
-msgstr ""
+msgstr "完整備份間隔"
 
 msgid "Gateway IP"
 msgstr "閘道器 IP"
@@ -857,10 +860,10 @@ msgid "Image"
 msgstr "映像"
 
 msgid "Incremental"
-msgstr ""
+msgstr "增量式"
 
 msgid "Incremental Backup"
-msgstr ""
+msgstr "增量式備份"
 
 msgid "Info"
 msgstr "資訊"
@@ -940,7 +943,7 @@ msgid "Logical"
 msgstr "邏輯"
 
 msgid "Logical Size"
-msgstr ""
+msgstr "邏輯大小"
 
 msgid "MAC address"
 msgstr "MAC 地址"
@@ -1155,12 +1158,12 @@ msgid "Pools"
 msgstr "集用場"
 
 msgid "Power off before move"
-msgstr ""
+msgstr "搬移前先關機"
 
 msgid ""
 "Power off the VM before moving if it is running. The VM will be powered back"
 " on after the move is complete."
-msgstr ""
+msgstr "若 VM 正在運行中，在搬移前先將它關機。搬移完成之後，該 VM 將被重新啟動。"
 
 msgid "RAM"
 msgstr "RAM"
@@ -1301,6 +1304,9 @@ msgstr "快照已被刪除。"
 
 msgid "Snapshot has been reverted."
 msgstr "快照已被還原。"
+
+msgid "Snapshot name"
+msgstr ""
 
 msgid "Snapshots"
 msgstr "快照"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-16 01:15+0000\n"
+"POT-Creation-Date: 2026-06-21 21:00+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>, 2021\n"
 "Language-Team: Galician (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/gl/)\n"
@@ -344,6 +344,9 @@ msgstr ""
 
 msgid "Create"
 msgstr "Crear"
+
+msgid "Create (named)"
+msgstr ""
 
 msgid "Create LXC"
 msgstr ""
@@ -1290,6 +1293,9 @@ msgid "Snapshot has been deleted."
 msgstr ""
 
 msgid "Snapshot has been reverted."
+msgstr ""
+
+msgid "Snapshot name"
 msgstr ""
 
 msgid "Snapshots"

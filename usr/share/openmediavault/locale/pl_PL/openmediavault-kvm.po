@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-16 01:15+0000\n"
+"POT-Creation-Date: 2026-06-21 21:00+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Rysiek Jurczy, 2023\n"
 "Language-Team: Polish (Poland) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/pl_PL/)\n"
@@ -344,6 +344,9 @@ msgstr ""
 
 msgid "Create"
 msgstr "Utwórz"
+
+msgid "Create (named)"
+msgstr ""
 
 msgid "Create LXC"
 msgstr "Utwórz LXC"
@@ -1299,6 +1302,9 @@ msgstr "Migawka została usunięta."
 
 msgid "Snapshot has been reverted."
 msgstr "Migawka przywrócona."
+
+msgid "Snapshot name"
+msgstr ""
 
 msgid "Snapshots"
 msgstr "Migawki"

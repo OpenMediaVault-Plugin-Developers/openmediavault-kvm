@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-16 01:15+0000\n"
+"POT-Creation-Date: 2026-06-21 21:00+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Stephan Paternotte <stephan@paternottes.net>, 2026\n"
 "Language-Team: Dutch (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/nl/)\n"
@@ -42,7 +42,7 @@ msgid "Activity"
 msgstr "Activiteit"
 
 msgid "Actual Size"
-msgstr ""
+msgstr "Werkelijke grootte"
 
 msgid "Add"
 msgstr "Toevoegen"
@@ -170,6 +170,9 @@ msgid ""
 "removes the entire chain (the full backup and all of its incrementals), "
 "since they cannot be restored without it."
 msgstr ""
+"Weet u zeker dat u deze back-up wilt verwijderen? Voor een incrementele "
+"back-up verwijdert dit de hele keten (de volledige back-up en al zijn "
+"incrementen), omdat ze zonder deze niet kunnen worden hersteld."
 
 msgid "Are you sure you want to delete?"
 msgstr "Weet u zeker dat u wilt verwijderen?"
@@ -255,7 +258,7 @@ msgid "Capacity"
 msgstr "Capaciteit"
 
 msgid "Chain"
-msgstr ""
+msgstr "Keten"
 
 msgid "Change disc"
 msgstr "Schijf wijzigen"
@@ -358,6 +361,9 @@ msgstr "Core update"
 
 msgid "Create"
 msgstr "Aanmaken"
+
+msgid "Create (named)"
+msgstr ""
 
 msgid "Create LXC"
 msgstr "LXC aanmaken"
@@ -600,6 +606,8 @@ msgstr ""
 
 msgid "Execute incremental backup using selected VM name and path ..."
 msgstr ""
+"Voer incrementele back-up uit met behulp van de geselecteerde VM-naam en het"
+" pad…"
 
 msgid "Execute scheduled job ..."
 msgstr "Geplande taak uitvoeren…"
@@ -822,7 +830,7 @@ msgid "Forwarding"
 msgstr "Doorsturen"
 
 msgid "Full Interval"
-msgstr ""
+msgstr "Volledig interval"
 
 msgid "Gateway IP"
 msgstr "Gateway IP-adres"
@@ -884,10 +892,10 @@ msgid "Image"
 msgstr "Image"
 
 msgid "Incremental"
-msgstr ""
+msgstr "Incrementeel"
 
 msgid "Incremental Backup"
-msgstr ""
+msgstr "Incrementele back-up"
 
 msgid "Info"
 msgstr "Info"
@@ -969,7 +977,7 @@ msgid "Logical"
 msgstr "Logisch"
 
 msgid "Logical Size"
-msgstr ""
+msgstr "Logische grootte"
 
 msgid "MAC address"
 msgstr "MAC-adres"
@@ -1194,12 +1202,14 @@ msgid "Pools"
 msgstr "Pools"
 
 msgid "Power off before move"
-msgstr ""
+msgstr "Uitschakelen voor verplaatsen"
 
 msgid ""
 "Power off the VM before moving if it is running. The VM will be powered back"
 " on after the move is complete."
 msgstr ""
+"Schakel de VM uit voor verplaatsen als deze actief is. De VM wordt weer "
+"ingeschakeld nadat de verplaatsing is voltooid."
 
 msgid "RAM"
 msgstr "RAM"
@@ -1343,6 +1353,9 @@ msgstr "Momentopname is verwijderd."
 
 msgid "Snapshot has been reverted."
 msgstr "Momentopname is teruggezet."
+
+msgid "Snapshot name"
+msgstr ""
 
 msgid "Snapshots"
 msgstr "Momentopnames"
