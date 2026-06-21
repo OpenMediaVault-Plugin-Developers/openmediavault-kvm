@@ -2240,7 +2240,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $cmdArgs = [];
         $cmdArgs[] = sprintf("-c '%s'", $cntr);
         $cmdArgs[] = sprintf("-a '%s'", $action);
-        if ($action == 'revert' || $action == 'delete') {
+        if ($action == 'revert' || $action == 'delete' ||
+            ($action == 'create' && $snapname != '')) {
             $cmdArgs[] = sprintf("-s '%s'", $snapname);
         }
         $cmd = new \OMV\System\Process('omv-lxc-snapshot', $cmdArgs);
@@ -2283,13 +2284,21 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
-        $this->validateMethodParams($params, 'rpc.kvm.vmname');
+        $this->validateMethodParams($params, 'rpc.kvm.addsnapshot');
+        // optional snapshot name; when empty the create logic falls back to
+        // a date based name (see omv-lxc-snapshot / virsh defaults)
+        $snapname = trim($params['snapname'] ?? '');
         // create snapshot
         if ($params['virttype'] == 'lxc') {
-            $output = $this->doLxcSnapshot($params['vmname'], 'create', '');
+            $output = $this->doLxcSnapshot($params['vmname'], 'create', $snapname);
         } else {
+            $cmdArgs = ['snapshot-create-as', $this->escapeName($params['vmname'])];
+            if ($snapname !== '') {
+                $cmdArgs[] = '--name';
+                $cmdArgs[] = $this->escapeName($snapname);
+            }
             $this->virshCommand(
-                ['snapshot-create-as', $this->escapeName($params['vmname'])],
+                $cmdArgs,
                 gettext("Unable to create snapshot")
             );
         }

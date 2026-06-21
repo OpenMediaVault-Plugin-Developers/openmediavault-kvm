@@ -668,6 +668,22 @@ if ! $VM_CREATED; then
 else
     SNAP_PARAMS=$(python3 -c "import json; print(json.dumps({'vmname':'$TEST_VM_NAME','virttype':'vm'}))")
 
+    # Add a snapshot with an explicit name and verify it is used verbatim
+    NAMED_SNAP="testsnap1"
+    NAMED_SNAP_PARAMS=$(python3 -c "
+import json
+print(json.dumps({'vmname':'$TEST_VM_NAME','virttype':'vm','snapname':'$NAMED_SNAP'}))
+")
+    assert_rpc "addSnapshot (named)" "Kvm" "addSnapshot" "$NAMED_SNAP_PARAMS"
+    assert_rpc "enumerateSnapshots (after named add)" "Kvm" "enumerateSnapshots" "$SNAP_PARAMS"
+    if echo "$RPC_OUT" | grep -q "\"$NAMED_SNAP\""; then
+        _pass "addSnapshot — named snapshot '$NAMED_SNAP' created"
+    else
+        _fail "addSnapshot — expected snapshot named '$NAMED_SNAP'" "$RPC_OUT"
+    fi
+    # Clean up the named snapshot before exercising the auto-named flow
+    assert_rpc "deleteSnapshot (named)" "Kvm" "deleteSnapshot" "$NAMED_SNAP_PARAMS"
+
     # Add first snapshot
     assert_rpc "addSnapshot" "Kvm" "addSnapshot" "$SNAP_PARAMS"
 

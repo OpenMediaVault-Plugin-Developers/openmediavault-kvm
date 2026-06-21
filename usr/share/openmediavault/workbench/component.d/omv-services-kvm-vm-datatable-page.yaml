@@ -1913,6 +1913,39 @@ data:
                 progressMessage: _("Creating snapshot ...")
                 successNotification: _("Snapshot has been created.")
                 task: false
+          - text: _("Create (named)")
+            icon: mdi:file-cog
+            execute:
+              type: formDialog
+              formDialog:
+                title: _('Create snapshot')
+                fields:
+                  - type: textInput
+                    name: vmname
+                    label: _("Source VM")
+                    value: "{{ _selected[0].vmname }}"
+                    readonly: true
+                  - type: textInput
+                    name: snapname
+                    label: _("Snapshot name")
+                    validators:
+                      required: true
+                      patternType: shareName
+                  - type: hidden
+                    name: virttype
+                    value: '{{ _selected[0].virttype }}'
+                    readonly: true
+                buttons:
+                  submit:
+                    text: _('Create')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: addSnapshot
+                        progressMessage: _("Creating snapshot ...")
+                        successNotification: _("Snapshot has been created.")
+                        task: false
           - text: _("Revert")
             icon: mdi:file-undo
             enabledConstraints:
