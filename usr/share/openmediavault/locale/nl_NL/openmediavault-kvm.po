@@ -363,7 +363,7 @@ msgid "Create"
 msgstr "Aanmaken"
 
 msgid "Create (named)"
-msgstr ""
+msgstr "Aanmaken (met naam)"
 
 msgid "Create LXC"
 msgstr "LXC aanmaken"
@@ -1355,7 +1355,7 @@ msgid "Snapshot has been reverted."
 msgstr "Momentopname is teruggezet."
 
 msgid "Snapshot name"
-msgstr ""
+msgstr "Naam van momentopname"
 
 msgid "Snapshots"
 msgstr "Momentopnames"
