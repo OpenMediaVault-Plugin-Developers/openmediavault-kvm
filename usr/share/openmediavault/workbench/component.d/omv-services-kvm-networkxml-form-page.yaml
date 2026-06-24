@@ -1,0 +1,26 @@
+version: "1.0"
+type: component
+data:
+  name: omv-services-kvm-networkxml-form-page
+  type: formPage
+  config:
+    request:
+      service: Kvm
+      get:
+        method: getNetworkXml
+        params:
+          name: '{{ _routeParams.name }}'
+    fields:
+      - type: codeEditor
+        name: netxml
+        label: _("XML")
+        language: "xml"
+        readonly: true
+      - type: hidden
+        name: name
+        value: '{{ _routeParams.name }}'
+    buttons:
+      - template: cancel
+        execute:
+          type: url
+          url: "/services/kvm/network"

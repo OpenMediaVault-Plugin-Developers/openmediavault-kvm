@@ -36,6 +36,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('getNetworkXml');
         $this->registerMethod('setNetwork');
         $this->registerMethod('setMacvtap');
+        $this->registerMethod('setBridgeNetwork');
         $this->registerMethod('networkCommand');
 
         $this->registerMethod('addVmNic');
@@ -254,7 +255,14 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         $objects = [];
         foreach (glob('/sys/class/net/br*', GLOB_ONLYDIR) as $path) {
-            $objects[] = ['bridge' => basename($path)];
+            $bridge = basename($path);
+            // Skip Docker-managed bridges (named "br-" + 12 hex chars). Docker
+            // owns these interfaces and their firewall rules, so they must not
+            // be offered as a target for guest NICs.
+            if (preg_match('/^br-[0-9a-f]{12}$/', $bridge)) {
+                continue;
+            }
+            $objects[] = ['bridge' => $bridge];
         }
         // Filter the result.
         return ($objects);
@@ -262,6 +270,15 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
 
     public function getNetworkXml($params, $context)
     {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.name');
+        $cmd = new \OMV\System\Process('virsh', ['net-dumpxml', $this->escapeName($params['name'])]);
+        $cmd->setQuiet(true);
+        $cmd->execute($output, $exitStatus);
+        $netxml = implode(PHP_EOL, array_filter($output));
+        return ["name" => $params['name'], "netxml" => $netxml];
     }
 
     public function setNetwork($params, $context)
@@ -270,9 +287,14 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
         // Validate the parameters of the RPC service method.
         $this->validateMethodParams($params, 'rpc.kvm.setnetwork');
+        // Forward mode. "isolated" means no <forward> element at all, so the
+        // network is reachable only by the host and other guests on it.
+        $forward = $params['forward'] ?? 'nat';
         $xml = "<network>";
         $xml .= sprintf("<name>%s</name>", $params['name']);
-        $xml .= "<forward mode='nat'/>";
+        if ($forward !== 'isolated') {
+            $xml .= sprintf("<forward mode='%s'/>", $forward);
+        }
         $xml .= sprintf("<mac address='%s'/>", $params['macaddress']);
         $xml .= sprintf("<ip address='%s' netmask='%s'>", $params['gatewayip'], $params['subnet']);
         if ($params['dhcp']) {
@@ -293,7 +315,21 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->validateMethodParams($params, 'rpc.kvm.setmacvtap');
         $name = $params['name'];
         $nic = $params['nic'];
-        $xml = sprintf('<network><name>%s</name><forward mode="bridge"><interface dev="%s"/></forward></network>', $name, $nic);
+        // macvtap forwarding mode: bridge (default), vepa, private or passthrough.
+        $mode = $params['mode'] ?? 'bridge';
+        $xml = sprintf('<network><name>%s</name><forward mode="%s"><interface dev="%s"/></forward></network>', $name, $mode, $nic);
+        $this->virshNetDefineXml($xml);
+    }
+
+    public function setBridgeNetwork($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.setbridgenetwork');
+        // Define a libvirt network that hands guests onto an existing host bridge.
+        $xml = sprintf('<network><name>%s</name><forward mode="bridge"/><bridge name="%s"/></network>',
+            $params['name'], $params['bridge']);
         $this->virshNetDefineXml($xml);
     }
 

@@ -50,6 +50,16 @@
           "type": "string",
           "required": true
         },
+        "forward": {
+          "type": "string",
+          "enum": [
+            "nat",
+            "route",
+            "open",
+            "isolated"
+          ],
+          "required": true
+        },
         "macaddress": {
           "type": "string",
           "required": true
@@ -88,6 +98,33 @@
           "required": true
         },
         "nic": {
+          "type": "string",
+          "required": true
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "bridge",
+            "vepa",
+            "private",
+            "passthrough"
+          ],
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.setbridgenetwork",
+    "params": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "required": true
+        },
+        "bridge": {
           "type": "string",
           "required": true
         }

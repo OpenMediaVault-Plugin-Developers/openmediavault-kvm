@@ -56,6 +56,17 @@ data:
                     validators:
                       required: true
                       patternType: 'shareName'
+                  - type: select
+                    name: forward
+                    label: _("Forwarding")
+                    value: "nat"
+                    store:
+                      data:
+                        - ["nat", _("NAT")]
+                        - ["route", _("Routed")]
+                        - ["open", _("Open")]
+                        - ["isolated", _("Isolated")]
+                    hint: _("Isolated networks have no outbound forwarding; guests reach only the host and each other.")
                   - type: textInput
                     name: macaddress
                     label: _("MAC address")
@@ -136,6 +147,17 @@ data:
                         service: Network
                         get:
                           method: enumerateDevices
+                  - type: select
+                    name: mode
+                    label: _("Mode")
+                    value: "bridge"
+                    store:
+                      data:
+                        - ["bridge", _("Bridge")]
+                        - ["vepa", _("VEPA")]
+                        - ["private", _("Private")]
+                        - ["passthrough", _("Passthrough")]
+                    hint: _("Passthrough dedicates the adapter to a single guest at a time; use Bridge to share it among several guests.")
                 buttons:
                   submit:
                     text: _('Add')
@@ -146,6 +168,51 @@ data:
                         method: setMacvtap
                         progressMessage: _("Adding a macvtap network ...")
                         successNotification: _("macvtap network has been added.")
+          - text: _("Add bridge network")
+            icon: mdi:lan
+            execute:
+              type: formDialog
+              formDialog:
+                title: _('Add bridge network ...')
+                fields:
+                  - type: textInput
+                    name: name
+                    label: _("Name")
+                    validators:
+                      required: true
+                      patternType: 'shareName'
+                  - type: select
+                    name: bridge
+                    label: _('Bridge')
+                    textField: bridge
+                    valueField: bridge
+                    store:
+                      proxy:
+                        service: Kvm
+                        get:
+                          method: enumerateBridges
+                    validators:
+                      required: true
+                    hint: _("Hands guests directly onto an existing host bridge.")
+                buttons:
+                  submit:
+                    text: _('Add')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: setBridgeNetwork
+                        progressMessage: _("Adding a bridge network ...")
+                        successNotification: _("Bridge network has been added.")
+      - type: iconButton
+        icon: mdi:xml
+        tooltip: _("View XML")
+        execute:
+          type: url
+          url: "/services/kvm/networkxml/{{ _selected[0].netname }}"
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
       - type: iconButton
         icon: delete
         tooltip: _("Delete")

@@ -1,0 +1,8 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/kvm/networkxml/:name"
+  title: _("Network XML")
+  editing: true
+  notificationTitle: _("Network XML")
+  component: omv-services-kvm-networkxml-form-page
