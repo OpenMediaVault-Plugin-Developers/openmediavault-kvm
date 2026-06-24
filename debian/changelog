@@ -1,3 +1,14 @@
+openmediavault-kvm (8.3.1) stable; urgency=low
+
+  * Networks: choose the forwarding mode when adding a network (NAT, Routed,
+    Open or Isolated); isolated networks have no outbound forwarding
+  * Networks: select the macvtap mode (bridge, VEPA, private or passthrough)
+  * Networks: add a bridge-backed network onto an existing host bridge;
+    Docker-managed bridges are hidden from the bridge picker
+  * Networks: add a View XML action to inspect a network definition
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Wed, 24 Jun 2026 23:35:09 +0000
+
 openmediavault-kvm (8.3.0) stable; urgency=low
 
   * Add incremental/differential VM backups using libvirt checkpoints and
