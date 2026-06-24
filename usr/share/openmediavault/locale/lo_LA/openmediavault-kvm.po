@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-21 21:00+0000\n"
+"POT-Creation-Date: 2026-06-24 23:37+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: BoneNI, 2026\n"
 "Language-Team: Lao (Laos) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/lo_LA/)\n"
@@ -56,6 +56,9 @@ msgstr "ເພີ່ມ USB"
 msgid "Add VNC"
 msgstr "ເພີ່ມ VNC"
 
+msgid "Add bridge network"
+msgstr ""
+
 msgid "Add disc"
 msgstr "ເພີ່ມແຜ່ນ"
 
@@ -97,6 +100,9 @@ msgstr "ກຳລັງເພີ່ມອຸປະກອນ USB ..."
 
 msgid "Adding VNC viewer ..."
 msgstr "ກຳລັງເພີ່ມ VNC viewer ..."
+
+msgid "Adding a bridge network ..."
+msgstr ""
 
 msgid "Adding a disk ..."
 msgstr "ກຳລັງເພີ່ມດິສກ໌ ..."
@@ -223,6 +229,9 @@ msgstr ""
 
 msgid "Bridge Model"
 msgstr "ຮູບແບບ Bridge"
+
+msgid "Bridge network has been added."
+msgstr ""
 
 msgid "Bus"
 msgstr "ບັສ (Bus)"
@@ -818,6 +827,9 @@ msgstr "ກິກາໄບທ໌"
 msgid "HA OS Version"
 msgstr ""
 
+msgid "Hands guests directly onto an existing host bridge."
+msgstr ""
+
 msgid "Hard disk"
 msgstr "ຮາດດິສກ໌"
 
@@ -906,6 +918,14 @@ msgstr ""
 msgid "Installing Redox OS ..."
 msgstr ""
 
+msgid "Isolated"
+msgstr ""
+
+msgid ""
+"Isolated networks have no outbound forwarding; guests reach only the host "
+"and each other."
+msgstr ""
+
 msgid "KVM"
 msgstr "KVM"
 
@@ -965,6 +985,9 @@ msgstr "ຂໍ້ຄວາມ"
 msgid "MiB"
 msgstr "MiB"
 
+msgid "Mode"
+msgstr ""
+
 msgid "Model"
 msgstr "ຮຸ່ນ (Model)"
 
@@ -983,6 +1006,9 @@ msgstr "ຍ້າຍ VM ..."
 msgid ""
 "Must be exactly 16 hexadecimal digits (with optional 0x prefix) or left "
 "blank."
+msgstr ""
+
+msgid "NAT"
 msgstr ""
 
 msgid "Name"
@@ -1010,6 +1036,9 @@ msgid "Network State"
 msgstr "ສະຖານະເຄືອຂ່າຍ"
 
 msgid "Network Type"
+msgstr ""
+
+msgid "Network XML"
 msgstr ""
 
 msgid "Network adapter has been added."
@@ -1050,6 +1079,9 @@ msgstr ""
 
 msgid "OS"
 msgstr "ລະບົບປະຕິບັດການ"
+
+msgid "Open"
+msgstr ""
 
 msgid "Open full monitoring dashboard"
 msgstr "ເປີດແດຊບອດການຕິດຕາມແບບເຕັມ"
@@ -1111,11 +1143,19 @@ msgstr "ແກ້ໄຂສິດໄດເຣັກທໍຣີຫຼັກແລ
 msgid "Passing through PCI device ..."
 msgstr "ກຳລັງເຮັດ PCI passthrough ..."
 
+msgid "Passthrough"
+msgstr ""
+
 msgid "Passthrough Filesystem"
 msgstr "ລະບົບໄຟລ໌ Passthrough"
 
 msgid "Passthrough by address instead of using vendor and product IDs"
 msgstr "Passthrough ດ້ວຍທີ່ຢູ່ແທນການໃຊ້ vendor ແລະ product IDs"
+
+msgid ""
+"Passthrough dedicates the adapter to a single guest at a time; use Bridge to"
+" share it among several guests."
+msgstr ""
 
 msgid "Passthrough filesystem has been added."
 msgstr "ເພີ່ມລະບົບໄຟລ໌ Passthrough ແລ້ວ."
@@ -1165,6 +1205,9 @@ msgstr ""
 msgid ""
 "Power off the VM before moving if it is running. The VM will be powered back"
 " on after the move is complete."
+msgstr ""
+
+msgid "Private"
 msgstr ""
 
 msgid "RAM"
@@ -1259,6 +1302,9 @@ msgstr "ຍ້ອນກັບ"
 
 msgid "Reverting to snapshot ..."
 msgstr "ກຳລັງຍ້ອນກັບໄປຫາ snapshot ..."
+
+msgid "Routed"
+msgstr ""
 
 msgid "Run"
 msgstr "ເລີ່ມ"
@@ -1483,6 +1529,9 @@ msgstr "ບໍ່ສາມາດອັບເດດ domain XML"
 msgid "Unit"
 msgstr "ຫົວໜ່ວຍ"
 
+msgid "VEPA"
+msgstr ""
+
 msgid "VM Name"
 msgstr "ຊື່ VM"
 
@@ -1518,6 +1567,9 @@ msgstr "ເພີ່ມ VNC viewer ແລ້ວ."
 
 msgid "VNC viewer has been removed."
 msgstr "ລຶບ VNC viewer ອອກແລ້ວ."
+
+msgid "View XML"
+msgstr ""
 
 msgid "Virtual Network"
 msgstr ""

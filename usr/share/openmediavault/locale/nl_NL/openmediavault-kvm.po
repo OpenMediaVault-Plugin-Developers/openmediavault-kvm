@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-21 21:00+0000\n"
+"POT-Creation-Date: 2026-06-24 23:37+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Stephan Paternotte <stephan@paternottes.net>, 2026\n"
 "Language-Team: Dutch (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/nl/)\n"
@@ -59,6 +59,9 @@ msgstr "USB toevoegen"
 msgid "Add VNC"
 msgstr "VNC toevoegen"
 
+msgid "Add bridge network"
+msgstr ""
+
 msgid "Add disc"
 msgstr "Schijf toevoegen"
 
@@ -100,6 +103,9 @@ msgstr "USB-apparaat toevoegen…"
 
 msgid "Adding VNC viewer ..."
 msgstr "VNC-viewer toevoegen…"
+
+msgid "Adding a bridge network ..."
+msgstr ""
 
 msgid "Adding a disk ..."
 msgstr "Een schijf toevoegen…"
@@ -229,6 +235,9 @@ msgstr "Bridge"
 
 msgid "Bridge Model"
 msgstr "Bridge-model"
+
+msgid "Bridge network has been added."
+msgstr ""
 
 msgid "Bus"
 msgstr "Bus"
@@ -847,6 +856,9 @@ msgstr "Gigabytes"
 msgid "HA OS Version"
 msgstr "HA OS-versie"
 
+msgid "Hands guests directly onto an existing host bridge."
+msgstr ""
+
 msgid "Hard disk"
 msgstr "Harde schijf"
 
@@ -939,6 +951,14 @@ msgstr "OpenMediaVault 8 installeren…"
 msgid "Installing Redox OS ..."
 msgstr "Redox OS installeren…"
 
+msgid "Isolated"
+msgstr ""
+
+msgid ""
+"Isolated networks have no outbound forwarding; guests reach only the host "
+"and each other."
+msgstr ""
+
 msgid "KVM"
 msgstr "KVM"
 
@@ -1000,6 +1020,9 @@ msgstr "Bericht"
 msgid "MiB"
 msgstr "MiB"
 
+msgid "Mode"
+msgstr ""
+
 msgid "Model"
 msgstr "Model"
 
@@ -1021,6 +1044,9 @@ msgid ""
 msgstr ""
 "Moet exact 16 hexadecimale cijfers zijn (met optioneel voorvoegsel 0x) of "
 "blanco gelaten."
+
+msgid "NAT"
+msgstr ""
 
 msgid "Name"
 msgstr "Naam"
@@ -1048,6 +1074,9 @@ msgstr "Netwerkstatus"
 
 msgid "Network Type"
 msgstr "Netwerktype"
+
+msgid "Network XML"
+msgstr ""
 
 msgid "Network adapter has been added."
 msgstr "Netwerkadapter is toegevoegd."
@@ -1087,6 +1116,9 @@ msgstr "OMV-version"
 
 msgid "OS"
 msgstr "Besturingssysteem"
+
+msgid "Open"
+msgstr ""
 
 msgid "Open full monitoring dashboard"
 msgstr "Volledig bewakingspaneel openen"
@@ -1150,6 +1182,9 @@ msgstr "Machtigingen op bovenliggende map zijn hersteld."
 msgid "Passing through PCI device ..."
 msgstr "Door PCI-apparaat gaan..."
 
+msgid "Passthrough"
+msgstr ""
+
 msgid "Passthrough Filesystem"
 msgstr "Passthrough-bestandssysteem"
 
@@ -1157,6 +1192,11 @@ msgid "Passthrough by address instead of using vendor and product IDs"
 msgstr ""
 "Passthrough op basis van adres gebruiken in plaats van fabrikant- en "
 "product-ID's."
+
+msgid ""
+"Passthrough dedicates the adapter to a single guest at a time; use Bridge to"
+" share it among several guests."
+msgstr ""
 
 msgid "Passthrough filesystem has been added."
 msgstr "Passthrough-bestandssysteem is toegevoegd."
@@ -1210,6 +1250,9 @@ msgid ""
 msgstr ""
 "Schakel de VM uit voor verplaatsen als deze actief is. De VM wordt weer "
 "ingeschakeld nadat de verplaatsing is voltooid."
+
+msgid "Private"
+msgstr ""
 
 msgid "RAM"
 msgstr "RAM"
@@ -1303,6 +1346,9 @@ msgstr "Terugdraaien"
 
 msgid "Reverting to snapshot ..."
 msgstr "Terugkeren naar momentopname..."
+
+msgid "Routed"
+msgstr ""
 
 msgid "Run"
 msgstr "Uitvoeren"
@@ -1531,6 +1577,9 @@ msgstr "Kan domein XML niet bijwerken"
 msgid "Unit"
 msgstr "Eenheid"
 
+msgid "VEPA"
+msgstr ""
+
 msgid "VM Name"
 msgstr "VM-naam"
 
@@ -1566,6 +1615,9 @@ msgstr "VNC-viewer is toegevoegd."
 
 msgid "VNC viewer has been removed."
 msgstr "VNC-viewer is verwijderd."
+
+msgid "View XML"
+msgstr ""
 
 msgid "Virtual Network"
 msgstr "Virtueel netwerk"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-21 21:00+0000\n"
+"POT-Creation-Date: 2026-06-24 23:37+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: kochin <kochinc@outlook.com>, 2026\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_TW/)\n"
@@ -56,6 +56,9 @@ msgstr "新增 USB"
 msgid "Add VNC"
 msgstr "新增 VNC"
 
+msgid "Add bridge network"
+msgstr ""
+
 msgid "Add disc"
 msgstr "新增光碟"
 
@@ -97,6 +100,9 @@ msgstr "新增 USB 裝置中 ..."
 
 msgid "Adding VNC viewer ..."
 msgstr "新增 VNC 檢視器中 ..."
+
+msgid "Adding a bridge network ..."
+msgstr ""
 
 msgid "Adding a disk ..."
 msgstr "新增磁碟中 ..."
@@ -219,6 +225,9 @@ msgstr "橋接器"
 
 msgid "Bridge Model"
 msgstr "橋接模式"
+
+msgid "Bridge network has been added."
+msgstr ""
 
 msgid "Bus"
 msgstr "匯流排"
@@ -345,19 +354,19 @@ msgid "Core Update"
 msgstr "核心更新"
 
 msgid "Create"
-msgstr "建立"
+msgstr "創建"
 
 msgid "Create (named)"
-msgstr ""
+msgstr "創建 (命名)"
 
 msgid "Create LXC"
-msgstr "建立 LXC"
+msgstr "創建 LXC"
 
 msgid "Create VM"
-msgstr "建立 VM"
+msgstr "創建 VM"
 
 msgid "Create backing file"
-msgstr "建立基墊檔案"
+msgstr "創建基墊檔案"
 
 msgid "Created LXC."
 msgstr "已建立 LXC。"
@@ -819,6 +828,9 @@ msgstr "GB"
 msgid "HA OS Version"
 msgstr "HA OS 版本"
 
+msgid "Hands guests directly onto an existing host bridge."
+msgstr ""
+
 msgid "Hard disk"
 msgstr "硬碟"
 
@@ -907,6 +919,14 @@ msgstr "安裝 OpenMediaVault 8 中 …"
 msgid "Installing Redox OS ..."
 msgstr "安裝 Redox OS 中 …"
 
+msgid "Isolated"
+msgstr ""
+
+msgid ""
+"Isolated networks have no outbound forwarding; guests reach only the host "
+"and each other."
+msgstr ""
+
 msgid "KVM"
 msgstr "KVM"
 
@@ -966,6 +986,9 @@ msgstr "訊息"
 msgid "MiB"
 msgstr "MiB"
 
+msgid "Mode"
+msgstr ""
+
 msgid "Model"
 msgstr "型號"
 
@@ -985,6 +1008,9 @@ msgid ""
 "Must be exactly 16 hexadecimal digits (with optional 0x prefix) or left "
 "blank."
 msgstr "必須是正好 16 個十六進位數字 (可以選擇地加 0x 前綴詞)，或留空白。"
+
+msgid "NAT"
+msgstr ""
 
 msgid "Name"
 msgstr "名稱"
@@ -1012,6 +1038,9 @@ msgstr "網路狀態"
 
 msgid "Network Type"
 msgstr "網路類型"
+
+msgid "Network XML"
+msgstr ""
 
 msgid "Network adapter has been added."
 msgstr "網路卡已被加入。"
@@ -1051,6 +1080,9 @@ msgstr "OMV 版本"
 
 msgid "OS"
 msgstr "作業系統"
+
+msgid "Open"
+msgstr ""
 
 msgid "Open full monitoring dashboard"
 msgstr "啟用全面監測儀表板"
@@ -1110,11 +1142,19 @@ msgstr "父目錄權限已被修復。"
 msgid "Passing through PCI device ..."
 msgstr "透通 PCI 裝置中 ...."
 
+msgid "Passthrough"
+msgstr ""
+
 msgid "Passthrough Filesystem"
 msgstr "直通檔案系統"
 
 msgid "Passthrough by address instead of using vendor and product IDs"
 msgstr "以地址來做直通，而非使用廠商與產品 ID"
+
+msgid ""
+"Passthrough dedicates the adapter to a single guest at a time; use Bridge to"
+" share it among several guests."
+msgstr ""
 
 msgid "Passthrough filesystem has been added."
 msgstr "直通檔案系統已被加入。"
@@ -1164,6 +1204,9 @@ msgid ""
 "Power off the VM before moving if it is running. The VM will be powered back"
 " on after the move is complete."
 msgstr "若 VM 正在運行中，在搬移前先將它關機。搬移完成之後，該 VM 將被重新啟動。"
+
+msgid "Private"
+msgstr ""
 
 msgid "RAM"
 msgstr "RAM"
@@ -1258,6 +1301,9 @@ msgstr "還原"
 msgid "Reverting to snapshot ..."
 msgstr "還原回快照中 ..."
 
+msgid "Routed"
+msgstr ""
+
 msgid "Run"
 msgstr "執行"
 
@@ -1306,7 +1352,7 @@ msgid "Snapshot has been reverted."
 msgstr "快照已被還原。"
 
 msgid "Snapshot name"
-msgstr ""
+msgstr "快照名稱"
 
 msgid "Snapshots"
 msgstr "快照"
@@ -1480,6 +1526,9 @@ msgstr "無法更新虛擬機域 XML "
 msgid "Unit"
 msgstr "單位"
 
+msgid "VEPA"
+msgstr ""
+
 msgid "VM Name"
 msgstr "VM 名稱"
 
@@ -1515,6 +1564,9 @@ msgstr "VNC 檢視器已被加入。"
 
 msgid "VNC viewer has been removed."
 msgstr "VNC 檢視器已被移除。"
+
+msgid "View XML"
+msgstr ""
 
 msgid "Virtual Network"
 msgstr "虛擬網路"

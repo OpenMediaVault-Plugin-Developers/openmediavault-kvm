@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-21 21:00+0000\n"
+"POT-Creation-Date: 2026-06-24 23:37+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Jorge Giménez, 2026\n"
 "Language-Team: Spanish (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/es/)\n"
@@ -57,6 +57,9 @@ msgstr "añadir USB"
 msgid "Add VNC"
 msgstr "Añadir VNC"
 
+msgid "Add bridge network"
+msgstr ""
+
 msgid "Add disc"
 msgstr "Añadir Disco"
 
@@ -98,6 +101,9 @@ msgstr "Añadiendo dispositivo USB ..."
 
 msgid "Adding VNC viewer ..."
 msgstr "Añadiendo visor VNC ..."
+
+msgid "Adding a bridge network ..."
+msgstr ""
 
 msgid "Adding a disk ..."
 msgstr "Añadiendo un disco ..."
@@ -223,6 +229,9 @@ msgid "Bridge"
 msgstr ""
 
 msgid "Bridge Model"
+msgstr ""
+
+msgid "Bridge network has been added."
 msgstr ""
 
 msgid "Bus"
@@ -822,6 +831,9 @@ msgstr "Gigabytes"
 msgid "HA OS Version"
 msgstr ""
 
+msgid "Hands guests directly onto an existing host bridge."
+msgstr ""
+
 msgid "Hard disk"
 msgstr "Disco Duro"
 
@@ -912,6 +924,14 @@ msgstr ""
 msgid "Installing Redox OS ..."
 msgstr ""
 
+msgid "Isolated"
+msgstr ""
+
+msgid ""
+"Isolated networks have no outbound forwarding; guests reach only the host "
+"and each other."
+msgstr ""
+
 msgid "KVM"
 msgstr "KVM"
 
@@ -971,6 +991,9 @@ msgstr "Mensaje"
 msgid "MiB"
 msgstr "MiB"
 
+msgid "Mode"
+msgstr ""
+
 msgid "Model"
 msgstr "Modelo"
 
@@ -989,6 +1012,9 @@ msgstr ""
 msgid ""
 "Must be exactly 16 hexadecimal digits (with optional 0x prefix) or left "
 "blank."
+msgstr ""
+
+msgid "NAT"
 msgstr ""
 
 msgid "Name"
@@ -1016,6 +1042,9 @@ msgid "Network State"
 msgstr "Estado de la Red"
 
 msgid "Network Type"
+msgstr ""
+
+msgid "Network XML"
 msgstr ""
 
 msgid "Network adapter has been added."
@@ -1056,6 +1085,9 @@ msgstr ""
 
 msgid "OS"
 msgstr "OS"
+
+msgid "Open"
+msgstr ""
 
 msgid "Open full monitoring dashboard"
 msgstr "Abre panel completo de monitorización"
@@ -1117,12 +1149,20 @@ msgstr "Los permisos del directorio padre han sido corregidos."
 msgid "Passing through PCI device ..."
 msgstr "Pasando a través del dispositivo PCI..."
 
+msgid "Passthrough"
+msgstr ""
+
 msgid "Passthrough Filesystem"
 msgstr "Sistema de Archivos Passthrough "
 
 msgid "Passthrough by address instead of using vendor and product IDs"
 msgstr ""
 "Passthrough por dirección en lugar de utilizar ID de proveedor y producto"
+
+msgid ""
+"Passthrough dedicates the adapter to a single guest at a time; use Bridge to"
+" share it among several guests."
+msgstr ""
 
 msgid "Passthrough filesystem has been added."
 msgstr "El sistema de archivos Passthrough ha sido añadido."
@@ -1173,6 +1213,9 @@ msgstr ""
 msgid ""
 "Power off the VM before moving if it is running. The VM will be powered back"
 " on after the move is complete."
+msgstr ""
+
+msgid "Private"
 msgstr ""
 
 msgid "RAM"
@@ -1267,6 +1310,9 @@ msgstr "Revertir"
 
 msgid "Reverting to snapshot ..."
 msgstr "Volviendo a una instantánea ..."
+
+msgid "Routed"
+msgstr ""
 
 msgid "Run"
 msgstr "Ejecutar"
@@ -1492,6 +1538,9 @@ msgstr ""
 msgid "Unit"
 msgstr "Unidad"
 
+msgid "VEPA"
+msgstr ""
+
 msgid "VM Name"
 msgstr "Nombre de la VM"
 
@@ -1527,6 +1576,9 @@ msgstr "El visor VNC ha sido añadido."
 
 msgid "VNC viewer has been removed."
 msgstr "El visor VNC ha sido eliminado."
+
+msgid "View XML"
+msgstr ""
 
 msgid "Virtual Network"
 msgstr ""
