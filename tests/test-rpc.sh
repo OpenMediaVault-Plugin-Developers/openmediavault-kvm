@@ -173,6 +173,7 @@ TEST_JOB_COMMENT="omvtest_kvm_job"
 TEST_JOB_PATH="/tmp/omvtest_kvm_backup"
 TEST_VM_NAME="omvtest_kvm_vm"
 TEST_POOL_NAME="omvtest_kvm_pool"
+TEST_NET_PREFIX="omvtest-kvm-net"   # libvirt networks created during the run
 
 # ---------------------------------------------------------------------------
 # Tracked state — cleared on successful deletion so cleanup skips them
@@ -182,6 +183,7 @@ VM_CREATED=false   # set to true once setVm succeeds
 FIRST_NET=""       # populated in the Networks section
 POOL_CREATED=false # set to true once the test pool is defined
 TEST_POOL_PATH=""  # filesystem path of the test pool (cleaned up on exit)
+declare -a CREATED_NETS=()  # libvirt networks defined by the run, undefined on exit
 
 # ---------------------------------------------------------------------------
 # Pre-cleanup: remove leftover test job from a previous failed run
@@ -223,6 +225,13 @@ for r in rows:
         virsh pool-destroy  "$TEST_POOL_NAME" >/dev/null 2>&1 || true
         virsh pool-undefine "$TEST_POOL_NAME" >/dev/null 2>&1 || true
     fi
+
+    # leftover test networks (any net whose name starts with the test prefix)
+    for net in $(virsh net-list --all --name 2>/dev/null | grep "^${TEST_NET_PREFIX}" || true); do
+        info "Pre-cleanup: removing leftover test network '$net'"
+        virsh net-destroy  "$net" >/dev/null 2>&1 || true
+        virsh net-undefine "$net" >/dev/null 2>&1 || true
+    done
 }
 
 # ---------------------------------------------------------------------------
@@ -250,6 +259,15 @@ cleanup() {
         }
     fi
     [ -n "$TEST_POOL_PATH" ] && rmdir "$TEST_POOL_PATH" 2>/dev/null || true
+
+    for net in "${CREATED_NETS[@]}"; do
+        info "Deleting test network '$net'"
+        omv-rpc -u admin "Kvm" "networkCommand" \
+            "{\"name\":\"$net\",\"command\":\"delete\"}" >/dev/null 2>&1 || {
+            virsh net-destroy  "$net" >/dev/null 2>&1 || true
+            virsh net-undefine "$net" >/dev/null 2>&1 || true
+        }
+    done
     echo "" >&2
 
     # Deploy pending config changes so the OMV web UI "apply changes" banner
@@ -330,6 +348,157 @@ if assert_rpc "enumerateNetworks" "Kvm" "enumerateNetworks" '{}'; then
     [ -n "$FIRST_NET" ] && info "First network: $FIRST_NET"
 fi
 assert_rpc "enumerateBridges"  "Kvm" "enumerateBridges"  '{}'
+NET_BRIDGE=$(json_list_first "$RPC_OUT" "bridge")
+# Docker-managed bridges (br-<12 hex>) must be filtered out.
+if echo "$RPC_OUT" | grep -Eq 'br-[0-9a-f]{12}'; then
+    _fail "enumerateBridges — Docker bridges hidden" \
+        "found a br-<hex> bridge in: ${RPC_OUT:0:200}"
+elif ls -d /sys/class/net/br-[0-9a-f]* &>/dev/null 2>&1; then
+    _pass "enumerateBridges — Docker bridges hidden (present on host, excluded)"
+else
+    _skip "enumerateBridges — Docker bridges hidden" "no Docker bridges on host"
+fi
+
+# getNetworkXml against a pre-existing network (read-only)
+if [ -n "$FIRST_NET" ]; then
+    assert_rpc "getNetworkXml" "Kvm" "getNetworkXml" \
+        "$(python3 -c "import json; print(json.dumps({'name':'$FIRST_NET'}))")" '"netxml"'
+    if echo "$RPC_OUT" | grep -q "<network"; then
+        _pass "getNetworkXml — returns network XML"
+    else
+        _fail "getNetworkXml — returns network XML" "no <network> element in: ${RPC_OUT:0:200}"
+    fi
+else
+    _skip "getNetworkXml" "no pre-existing network"
+fi
+
+# ===========================================================================
+section "Network lifecycle — create/verify/delete"
+# ===========================================================================
+# Defines libvirt networks via the RPC methods, inspects the generated XML
+# with getNetworkXml, then deletes them with networkCommand. Networks are only
+# *defined* (never started), so no host firewall or interface state is touched.
+
+# Helper: assert a network's dumped XML contains a pattern, then it is tracked
+# for deletion. Args: desc name pattern
+assert_net_xml() {
+    local desc=$1 name=$2 pattern=$3
+    if assert_rpc "$desc" "Kvm" "getNetworkXml" \
+        "$(python3 -c "import json,sys; print(json.dumps({'name':sys.argv[1]}))" "$name")"; then
+        if echo "$RPC_OUT" | grep -q "$pattern"; then
+            _pass "$desc — XML matches '$pattern'"
+        else
+            _fail "$desc — XML matches '$pattern'" "got: ${RPC_OUT:0:200}"
+        fi
+    fi
+}
+
+# Helper: delete a network and verify it is gone. Arg: name
+delete_net() {
+    local name=$1
+    if assert_rpc "networkCommand delete ($name)" "Kvm" "networkCommand" \
+        "{\"name\":\"$name\",\"command\":\"delete\"}"; then
+        # drop from the cleanup list now that it is gone
+        local kept=() n
+        for n in "${CREATED_NETS[@]}"; do [ "$n" != "$name" ] && kept+=("$n"); done
+        CREATED_NETS=("${kept[@]}")
+    fi
+    if virsh net-info "$name" &>/dev/null 2>&1; then
+        _fail "network '$name' absent after delete" "virsh still sees the network"
+    else
+        _pass "network '$name' absent after delete"
+    fi
+}
+
+# --- Isolated network (no <forward> element) ---
+NET_ISO="${TEST_NET_PREFIX}-iso"
+ISO_PARAMS=$(python3 -c "
+import json
+print(json.dumps({
+    'name': '$NET_ISO',
+    'forward': 'isolated',
+    'macaddress': '52:54:00:6a:1b:01',
+    'gatewayip': '10.123.45.1',
+    'subnet': '255.255.255.0',
+    'dhcp': False
+}))
+")
+if assert_rpc "setNetwork (isolated)" "Kvm" "setNetwork" "$ISO_PARAMS"; then
+    CREATED_NETS+=("$NET_ISO")
+    assert_rpc "getNetworkXml (isolated)" "Kvm" "getNetworkXml" \
+        "$(python3 -c "import json; print(json.dumps({'name':'$NET_ISO'}))")" '"netxml"'
+    if echo "$RPC_OUT" | grep -q "<forward"; then
+        _fail "isolated network has no <forward> element" "found <forward> in XML"
+    else
+        _pass "isolated network has no <forward> element"
+    fi
+    delete_net "$NET_ISO"
+fi
+
+# --- NAT network (<forward mode='nat'>) ---
+NET_NAT="${TEST_NET_PREFIX}-nat"
+NAT_PARAMS=$(python3 -c "
+import json
+print(json.dumps({
+    'name': '$NET_NAT',
+    'forward': 'nat',
+    'macaddress': '52:54:00:6a:1b:02',
+    'gatewayip': '10.123.46.1',
+    'subnet': '255.255.255.0',
+    'dhcp': True,
+    'startaddress': '10.123.46.100',
+    'endaddress': '10.123.46.200'
+}))
+")
+if assert_rpc "setNetwork (nat + dhcp)" "Kvm" "setNetwork" "$NAT_PARAMS"; then
+    CREATED_NETS+=("$NET_NAT")
+    assert_net_xml "getNetworkXml (nat forward)" "$NET_NAT" "mode='nat'"
+    assert_net_xml "getNetworkXml (dhcp range)"  "$NET_NAT" "10.123.46.100"
+    delete_net "$NET_NAT"
+fi
+
+# --- Bridge-backed network (needs an existing host bridge) ---
+NET_BR="${TEST_NET_PREFIX}-br"
+if [ -n "$NET_BRIDGE" ]; then
+    info "Host bridge for bridge-network test: $NET_BRIDGE"
+    BR_PARAMS=$(python3 -c "
+import json
+print(json.dumps({'name': '$NET_BR', 'bridge': '$NET_BRIDGE'}))
+")
+    if assert_rpc "setBridgeNetwork" "Kvm" "setBridgeNetwork" "$BR_PARAMS"; then
+        CREATED_NETS+=("$NET_BR")
+        assert_net_xml "getNetworkXml (bridge name)" "$NET_BR" "bridge name='$NET_BRIDGE'"
+        delete_net "$NET_BR"
+    fi
+else
+    _skip "setBridgeNetwork" "no host bridge available"
+fi
+
+# --- macvtap network (needs a physical NIC) ---
+NET_MV="${TEST_NET_PREFIX}-mv"
+MV_NIC=""
+if assert_rpc "_enumerateDevices (macvtap NIC discovery)" "Network" "enumerateDevices" '{}' 2>/dev/null; then
+    MV_NIC=$(json_list_first "$RPC_OUT" "devicename")
+fi
+if [ -n "$MV_NIC" ]; then
+    info "Physical NIC for macvtap test: $MV_NIC (mode: passthrough)"
+    MV_PARAMS=$(python3 -c "
+import json,sys
+print(json.dumps({'name':'$NET_MV','nic':sys.argv[1],'mode':'passthrough'}))
+" "$MV_NIC")
+    if assert_rpc "setMacvtap (passthrough)" "Kvm" "setMacvtap" "$MV_PARAMS"; then
+        CREATED_NETS+=("$NET_MV")
+        assert_net_xml "getNetworkXml (macvtap mode)" "$NET_MV" "mode='passthrough'"
+        assert_net_xml "getNetworkXml (macvtap dev)"  "$NET_MV" "interface dev='$MV_NIC'"
+        delete_net "$NET_MV"
+    fi
+else
+    _skip "setMacvtap" "no physical NIC reported by Network.enumerateDevices"
+fi
+
+# Negative: deleting a non-existent network must fail
+assert_rpc_fails "networkCommand delete — unknown network" "Kvm" "networkCommand" \
+    "{\"name\":\"${TEST_NET_PREFIX}-does-not-exist\",\"command\":\"delete\"}"
 
 # ===========================================================================
 section "Pools"
