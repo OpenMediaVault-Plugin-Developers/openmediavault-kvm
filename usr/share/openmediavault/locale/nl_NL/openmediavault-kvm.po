@@ -60,7 +60,7 @@ msgid "Add VNC"
 msgstr "VNC toevoegen"
 
 msgid "Add bridge network"
-msgstr ""
+msgstr "Bridge-netwerk toevoegen"
 
 msgid "Add disc"
 msgstr "Schijf toevoegen"
@@ -105,7 +105,7 @@ msgid "Adding VNC viewer ..."
 msgstr "VNC-viewer toevoegen…"
 
 msgid "Adding a bridge network ..."
-msgstr ""
+msgstr "Bridge-netwerk toevoegen…"
 
 msgid "Adding a disk ..."
 msgstr "Een schijf toevoegen…"
@@ -237,7 +237,7 @@ msgid "Bridge Model"
 msgstr "Bridge-model"
 
 msgid "Bridge network has been added."
-msgstr ""
+msgstr "Bridge-netwerk is toegevoegd."
 
 msgid "Bus"
 msgstr "Bus"
@@ -857,7 +857,7 @@ msgid "HA OS Version"
 msgstr "HA OS-versie"
 
 msgid "Hands guests directly onto an existing host bridge."
-msgstr ""
+msgstr "Geeft gasten direct door aan een bestaande host bridge."
 
 msgid "Hard disk"
 msgstr "Harde schijf"
@@ -952,12 +952,14 @@ msgid "Installing Redox OS ..."
 msgstr "Redox OS installeren…"
 
 msgid "Isolated"
-msgstr ""
+msgstr "Geïsoleerd"
 
 msgid ""
 "Isolated networks have no outbound forwarding; guests reach only the host "
 "and each other."
 msgstr ""
+"Geïsoleerde netwerken hebben geen uitgaande forwarding; gasten bereiken "
+"alleen de host en elkaar."
 
 msgid "KVM"
 msgstr "KVM"
@@ -1021,7 +1023,7 @@ msgid "MiB"
 msgstr "MiB"
 
 msgid "Mode"
-msgstr ""
+msgstr "Modus"
 
 msgid "Model"
 msgstr "Model"
@@ -1046,7 +1048,7 @@ msgstr ""
 "blanco gelaten."
 
 msgid "NAT"
-msgstr ""
+msgstr "NAT"
 
 msgid "Name"
 msgstr "Naam"
@@ -1076,7 +1078,7 @@ msgid "Network Type"
 msgstr "Netwerktype"
 
 msgid "Network XML"
-msgstr ""
+msgstr "Netwerk-XML"
 
 msgid "Network adapter has been added."
 msgstr "Netwerkadapter is toegevoegd."
@@ -1118,7 +1120,7 @@ msgid "OS"
 msgstr "Besturingssysteem"
 
 msgid "Open"
-msgstr ""
+msgstr "Open"
 
 msgid "Open full monitoring dashboard"
 msgstr "Volledig bewakingspaneel openen"
@@ -1183,7 +1185,7 @@ msgid "Passing through PCI device ..."
 msgstr "Door PCI-apparaat gaan..."
 
 msgid "Passthrough"
-msgstr ""
+msgstr "Passthrough"
 
 msgid "Passthrough Filesystem"
 msgstr "Passthrough-bestandssysteem"
@@ -1197,6 +1199,8 @@ msgid ""
 "Passthrough dedicates the adapter to a single guest at a time; use Bridge to"
 " share it among several guests."
 msgstr ""
+"Passthrough wijdt de adapter aan één gast tegelijk; gebruik Bridge om het "
+"onder verschillende gasten te delen."
 
 msgid "Passthrough filesystem has been added."
 msgstr "Passthrough-bestandssysteem is toegevoegd."
@@ -1252,7 +1256,7 @@ msgstr ""
 "ingeschakeld nadat de verplaatsing is voltooid."
 
 msgid "Private"
-msgstr ""
+msgstr "Private"
 
 msgid "RAM"
 msgstr "RAM"
@@ -1348,7 +1352,7 @@ msgid "Reverting to snapshot ..."
 msgstr "Terugkeren naar momentopname..."
 
 msgid "Routed"
-msgstr ""
+msgstr "Routed"
 
 msgid "Run"
 msgstr "Uitvoeren"
@@ -1578,7 +1582,7 @@ msgid "Unit"
 msgstr "Eenheid"
 
 msgid "VEPA"
-msgstr ""
+msgstr "VEPA"
 
 msgid "VM Name"
 msgstr "VM-naam"
@@ -1617,7 +1621,7 @@ msgid "VNC viewer has been removed."
 msgstr "VNC-viewer is verwijderd."
 
 msgid "View XML"
-msgstr ""
+msgstr "XML weergeven"
 
 msgid "Virtual Network"
 msgstr "Virtueel netwerk"

@@ -57,7 +57,7 @@ msgid "Add VNC"
 msgstr "新增 VNC"
 
 msgid "Add bridge network"
-msgstr ""
+msgstr "新增橋接網路"
 
 msgid "Add disc"
 msgstr "新增光碟"
@@ -102,7 +102,7 @@ msgid "Adding VNC viewer ..."
 msgstr "新增 VNC 檢視器中 ..."
 
 msgid "Adding a bridge network ..."
-msgstr ""
+msgstr "新增橋接網路中 …"
 
 msgid "Adding a disk ..."
 msgstr "新增磁碟中 ..."
@@ -227,7 +227,7 @@ msgid "Bridge Model"
 msgstr "橋接模式"
 
 msgid "Bridge network has been added."
-msgstr ""
+msgstr "橋接網路已被加入。"
 
 msgid "Bus"
 msgstr "匯流排"
@@ -829,7 +829,7 @@ msgid "HA OS Version"
 msgstr "HA OS 版本"
 
 msgid "Hands guests directly onto an existing host bridge."
-msgstr ""
+msgstr "將客體直接交給一個現存的主機橋接。"
 
 msgid "Hard disk"
 msgstr "硬碟"
@@ -920,12 +920,12 @@ msgid "Installing Redox OS ..."
 msgstr "安裝 Redox OS 中 …"
 
 msgid "Isolated"
-msgstr ""
+msgstr "隔離"
 
 msgid ""
 "Isolated networks have no outbound forwarding; guests reach only the host "
 "and each other."
-msgstr ""
+msgstr "隔離網路不做向外轉送；客體只能與主機及互相之間聯繫。"
 
 msgid "KVM"
 msgstr "KVM"
@@ -987,7 +987,7 @@ msgid "MiB"
 msgstr "MiB"
 
 msgid "Mode"
-msgstr ""
+msgstr "模式"
 
 msgid "Model"
 msgstr "型號"
@@ -1010,7 +1010,7 @@ msgid ""
 msgstr "必須是正好 16 個十六進位數字 (可以選擇地加 0x 前綴詞)，或留空白。"
 
 msgid "NAT"
-msgstr ""
+msgstr "NAT"
 
 msgid "Name"
 msgstr "名稱"
@@ -1040,7 +1040,7 @@ msgid "Network Type"
 msgstr "網路類型"
 
 msgid "Network XML"
-msgstr ""
+msgstr "網路 XML"
 
 msgid "Network adapter has been added."
 msgstr "網路卡已被加入。"
@@ -1082,7 +1082,7 @@ msgid "OS"
 msgstr "作業系統"
 
 msgid "Open"
-msgstr ""
+msgstr "開放"
 
 msgid "Open full monitoring dashboard"
 msgstr "啟用全面監測儀表板"
@@ -1143,7 +1143,7 @@ msgid "Passing through PCI device ..."
 msgstr "透通 PCI 裝置中 ...."
 
 msgid "Passthrough"
-msgstr ""
+msgstr "直通"
 
 msgid "Passthrough Filesystem"
 msgstr "直通檔案系統"
@@ -1154,7 +1154,7 @@ msgstr "以地址來做直通，而非使用廠商與產品 ID"
 msgid ""
 "Passthrough dedicates the adapter to a single guest at a time; use Bridge to"
 " share it among several guests."
-msgstr ""
+msgstr "直通模式將該介面一次只讓一個客體専用；用 橋接 來將它共用於數個客體之間。"
 
 msgid "Passthrough filesystem has been added."
 msgstr "直通檔案系統已被加入。"
@@ -1206,7 +1206,7 @@ msgid ""
 msgstr "若 VM 正在運行中，在搬移前先將它關機。搬移完成之後，該 VM 將被重新啟動。"
 
 msgid "Private"
-msgstr ""
+msgstr "私用"
 
 msgid "RAM"
 msgstr "RAM"
@@ -1302,7 +1302,7 @@ msgid "Reverting to snapshot ..."
 msgstr "還原回快照中 ..."
 
 msgid "Routed"
-msgstr ""
+msgstr "路由"
 
 msgid "Run"
 msgstr "執行"
@@ -1527,7 +1527,7 @@ msgid "Unit"
 msgstr "單位"
 
 msgid "VEPA"
-msgstr ""
+msgstr "VEPA"
 
 msgid "VM Name"
 msgstr "VM 名稱"
@@ -1566,7 +1566,7 @@ msgid "VNC viewer has been removed."
 msgstr "VNC 檢視器已被移除。"
 
 msgid "View XML"
-msgstr ""
+msgstr "檢視 XML"
 
 msgid "Virtual Network"
 msgstr "虛擬網路"
