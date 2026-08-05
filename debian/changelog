@@ -1,3 +1,9 @@
+openmediavault-kvm (8.3.2) UNRELEASED; urgency=medium
+
+  * Improve backup failure handling
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Tue, 04 Aug 2026 13:15:36 +0000
+
 openmediavault-kvm (8.3.1) stable; urgency=low
 
   * Networks: choose the forwarding mode when adding a network (NAT, Routed,
