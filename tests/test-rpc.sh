@@ -174,6 +174,16 @@ TEST_JOB_PATH="/tmp/omvtest_kvm_backup"
 TEST_VM_NAME="omvtest_kvm_vm"
 TEST_POOL_NAME="omvtest_kvm_pool"
 TEST_NET_PREFIX="omvtest-kvm-net"   # libvirt networks created during the run
+TEST_BACKUP_DIR1="/tmp/omvtest_kvm_backup_run1"  # doBackup happy path
+TEST_BACKUP_DIR2="/tmp/omvtest_kvm_backup_run2"  # doBackup forced-cancel
+TEST_BACKUP_DIR3="/tmp/omvtest_kvm_backup_run3"  # omv-backup-vm SIGTERM cleanup
+# Dedicated dir pool for the test VM's own disk, under /tmp rather than any
+# pre-existing host pool: whatever pool happens to sort first on the host is
+# unpredictable (e.g. virt-manager's root-owned "boot-scratch" pool, which a
+# non-root qemu process can't open — /root itself is 0700), and /tmp is
+# always writable and reachable by the unprivileged qemu user.
+TEST_VM_POOL_NAME="omvtest_kvm_vmpool"
+TEST_VM_POOL_PATH="/tmp/omvtest_kvm_vmpool"
 
 # ---------------------------------------------------------------------------
 # Tracked state — cleared on successful deletion so cleanup skips them
@@ -183,6 +193,7 @@ VM_CREATED=false   # set to true once setVm succeeds
 FIRST_NET=""       # populated in the Networks section
 POOL_CREATED=false # set to true once the test pool is defined
 TEST_POOL_PATH=""  # filesystem path of the test pool (cleaned up on exit)
+VM_POOL_CREATED=false # set to true once the dedicated /tmp VM-disk pool is defined
 declare -a CREATED_NETS=()  # libvirt networks defined by the run, undefined on exit
 
 # ---------------------------------------------------------------------------
@@ -226,12 +237,23 @@ for r in rows:
         virsh pool-undefine "$TEST_POOL_NAME" >/dev/null 2>&1 || true
     fi
 
+    # leftover VM-disk test pool (/tmp)
+    if virsh pool-info "$TEST_VM_POOL_NAME" &>/dev/null 2>&1; then
+        info "Pre-cleanup: removing leftover VM-disk test pool '$TEST_VM_POOL_NAME'"
+        virsh pool-destroy  "$TEST_VM_POOL_NAME" >/dev/null 2>&1 || true
+        virsh pool-undefine "$TEST_VM_POOL_NAME" >/dev/null 2>&1 || true
+    fi
+    rm -rf "$TEST_VM_POOL_PATH" 2>/dev/null || true
+
     # leftover test networks (any net whose name starts with the test prefix)
     for net in $(virsh net-list --all --name 2>/dev/null | grep "^${TEST_NET_PREFIX}" || true); do
         info "Pre-cleanup: removing leftover test network '$net'"
         virsh net-destroy  "$net" >/dev/null 2>&1 || true
         virsh net-undefine "$net" >/dev/null 2>&1 || true
     done
+
+    # leftover backup-execution test directories
+    rm -rf "$TEST_BACKUP_DIR1" "$TEST_BACKUP_DIR2" "$TEST_BACKUP_DIR3" 2>/dev/null || true
 }
 
 # ---------------------------------------------------------------------------
@@ -259,6 +281,17 @@ cleanup() {
         }
     fi
     [ -n "$TEST_POOL_PATH" ] && rmdir "$TEST_POOL_PATH" 2>/dev/null || true
+
+    if $VM_POOL_CREATED; then
+        info "Deleting VM-disk test pool '$TEST_VM_POOL_NAME'"
+        omv-rpc -u admin "Kvm" "deletePool" "{\"name\":\"$TEST_VM_POOL_NAME\"}" >/dev/null 2>&1 || {
+            virsh pool-destroy  "$TEST_VM_POOL_NAME" >/dev/null 2>&1 || true
+            virsh pool-undefine "$TEST_VM_POOL_NAME" >/dev/null 2>&1 || true
+        }
+    fi
+    rm -rf "$TEST_VM_POOL_PATH" 2>/dev/null || true
+
+    rm -rf "$TEST_BACKUP_DIR1" "$TEST_BACKUP_DIR2" "$TEST_BACKUP_DIR3" 2>/dev/null || true
 
     for net in "${CREATED_NETS[@]}"; do
         info "Deleting test network '$net'"
@@ -511,7 +544,18 @@ info "Pools found: $POOL_COUNT"
 
 FIRST_POOL=""
 if assert_rpc "enumeratePools" "Kvm" "enumeratePools" '{}'; then
-    FIRST_POOL=$(json_list_first "$RPC_OUT" "name")
+    # Skip virt-manager's auto-created "boot-scratch" pool (~/.cache/virt-manager/boot)
+    # if present — it's root-owned scratch storage for install media caching, not a
+    # real storage pool, and disks created there are unreadable by the qemu user.
+    FIRST_POOL=$(echo "$RPC_OUT" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+rows = d.get('data', d) if isinstance(d, dict) else d
+for r in (rows or []):
+    if r.get('name') != 'boot-scratch':
+        print(r.get('name', ''))
+        break
+" 2>/dev/null || echo "")
     [ -n "$FIRST_POOL" ] && info "First pool: $FIRST_POOL"
 fi
 
@@ -657,30 +701,48 @@ fi
 section "VM lifecycle — create"
 # ===========================================================================
 #
-# Requires at least one active storage pool and one defined network.
-# Creates a 1 GiB qcow2 disk in the first available pool and defines a
-# minimal VM (no ISO, no VNC).  Per-VM tests run against it next; the VM is
-# deleted in the "VM lifecycle — delete" section that follows those tests.
+# Requires at least one defined network. The VM's own disk lives in a
+# dedicated dir pool this section defines under /tmp (rather than whatever
+# pre-existing host pool sorts first) so it's always owned/reachable by the
+# unprivileged qemu process — see TEST_VM_POOL_NAME above. Creates a 1 GiB
+# qcow2 disk and defines a minimal VM (no ISO, no VNC). Per-VM tests run
+# against it next; the VM is deleted in the "VM lifecycle — delete" section
+# that follows those tests.
 
-if [ -z "$FIRST_POOL" ] || [ -z "$FIRST_NET" ]; then
-    [ -z "$FIRST_POOL" ] && info "Skipping VM create — no storage pool available"
-    [ -z "$FIRST_NET"  ] && info "Skipping VM create — no libvirt network available"
-    _skip "setVm (create test VM)" "${FIRST_POOL:+no libvirt network available}${FIRST_POOL:-no storage pool available}"
+if [ -z "$FIRST_NET" ]; then
+    info "Skipping VM create — no libvirt network available"
+    _skip "setVm (create test VM)" "no libvirt network available"
 else
-    HOST_ARCH=$(dpkg --print-architecture 2>/dev/null || echo "x86_64")
-    [ "$HOST_ARCH" = "amd64" ] && HOST_ARCH="x86_64"
-    [ "$HOST_ARCH" = "arm64" ] && HOST_ARCH="aarch64"
+    VM_POOL_PARAMS=$(python3 -c "
+import json
+print(json.dumps({
+    'name': '$TEST_VM_POOL_NAME',
+    'path': '$TEST_VM_POOL_PATH',
+    'type': 'dir',
+    'hostname': '',
+    'zpoolname': '',
+    'sourcepath': '',
+    'vg': ''
+}))
+")
+    if ! assert_rpc "setPool (VM-disk test pool)" "Kvm" "setPool" "$VM_POOL_PARAMS"; then
+        _skip "setVm (create test VM)" "could not create dedicated VM-disk pool"
+    else
+        VM_POOL_CREATED=true
+        HOST_ARCH=$(dpkg --print-architecture 2>/dev/null || echo "x86_64")
+        [ "$HOST_ARCH" = "amd64" ] && HOST_ARCH="x86_64"
+        [ "$HOST_ARCH" = "arm64" ] && HOST_ARCH="aarch64"
 
-    # Pick a safe OS variant present on this host
-    TEST_OS=$(osinfo-query --fields=short-id os 2>/dev/null \
-        | awk 'NR>2 && /^\s*(generic|linux2022|linux2020|debian12|debian11|ubuntu22\.04)\s*$/ {gsub(/ /,""); print; exit}')
-    [ -z "$TEST_OS" ] && \
+        # Pick a safe OS variant present on this host
         TEST_OS=$(osinfo-query --fields=short-id os 2>/dev/null \
-            | awk 'NR>2 {gsub(/^ +| +$/,"",$0); if ($0!="") {print; exit}}')
-    [ -z "$TEST_OS" ] && TEST_OS="generic"
-    info "OS variant: $TEST_OS  pool: $FIRST_POOL  network: $FIRST_NET  arch: $HOST_ARCH"
+            | awk 'NR>2 && /^\s*(generic|linux2022|linux2020|debian12|debian11|ubuntu22\.04)\s*$/ {gsub(/ /,""); print; exit}')
+        [ -z "$TEST_OS" ] && \
+            TEST_OS=$(osinfo-query --fields=short-id os 2>/dev/null \
+                | awk 'NR>2 {gsub(/^ +| +$/,"",$0); if ($0!="") {print; exit}}')
+        [ -z "$TEST_OS" ] && TEST_OS="generic"
+        info "OS variant: $TEST_OS  pool: $TEST_VM_POOL_NAME  network: $FIRST_NET  arch: $HOST_ARCH"
 
-    VM_CREATE=$(python3 -c "
+        VM_CREATE=$(python3 -c "
 import json
 print(json.dumps({
     'lxc': False,
@@ -703,7 +765,7 @@ print(json.dumps({
     'volbus': 'virtio',
     'volformat': 'qcow2',
     'volname': '',
-    'volpool': '$FIRST_POOL',
+    'volpool': '$TEST_VM_POOL_NAME',
     'volsize': 1,
     'volunit': 'G',
     'voliso': 'none',
@@ -715,17 +777,18 @@ print(json.dumps({
     'notes': 'omvtest vm - safe to delete'
 }))
 ")
-    if assert_rpc "setVm (create test VM)" "Kvm" "setVm" "$VM_CREATE"; then
-        VM_CREATED=true
+        if assert_rpc "setVm (create test VM)" "Kvm" "setVm" "$VM_CREATE"; then
+            VM_CREATED=true
 
-        assert_rpc "getVmList (test VM present)" "Kvm" "getVmList" \
-            '{"start":0,"limit":100,"sortfield":"vmname","sortdir":"ASC"}' \
-            "\"$TEST_VM_NAME\""
-        if echo "$RPC_OUT" | grep -q "\"$TEST_VM_NAME\""; then
-            _pass "getVmList — '$TEST_VM_NAME' present after create"
-        else
-            _fail "getVmList — '$TEST_VM_NAME' present after create" \
-                "VM not found in list response"
+            assert_rpc "getVmList (test VM present)" "Kvm" "getVmList" \
+                '{"start":0,"limit":100,"sortfield":"vmname","sortdir":"ASC"}' \
+                "\"$TEST_VM_NAME\""
+            if echo "$RPC_OUT" | grep -q "\"$TEST_VM_NAME\""; then
+                _pass "getVmList — '$TEST_VM_NAME' present after create"
+            else
+                _fail "getVmList — '$TEST_VM_NAME' present after create" \
+                    "VM not found in list response"
+            fi
         fi
     fi
 fi
@@ -923,6 +986,241 @@ print(json.dumps({'vmname':'$TEST_VM_NAME','virttype':'vm','snapname':'$SNAP_NAM
 fi
 
 # ===========================================================================
+section "Backup execution (doBackup)"
+# ===========================================================================
+# Actually runs usr/sbin/omv-backup-vm (via the Kvm.doBackup bg RPC method,
+# and once directly) against the disposable test VM. Unlike the sections
+# above — which only exercise job *definition* CRUD — these tests cover the
+# push-mode backup / _wait_backup state machine and the backupActive /
+# _cleanup_backup interrupt trap added in omv-backup-vm 0.4.1. Each case
+# uses its own fresh backup dir so every run is a brand-new "full" chain
+# member (guaranteed non-trivial NBD copy work / a job that stays active
+# long enough to observe or interrupt), rather than depending on dirty-bitmap
+# timing from a prior incremental run.
+#
+# Timing-sensitive: these tests poll virsh domjobinfo for an active job
+# within a short window and may be flaky on very slow or very fast storage.
+
+if ! $VM_CREATED; then
+    _skip "doBackup (incremental, happy path)" "test VM was not created"
+    _skip "doBackup (forced cancel)"           "test VM was not created"
+    _skip "omv-backup-vm SIGTERM cleanup"      "test VM was not created"
+else
+    VM_RUNNING=false
+    FIRST_NET_STARTED_BY_TEST=false
+
+    # The VM's NIC is attached to $FIRST_NET (a pre-existing network picked
+    # in "VM lifecycle — create"). If it's defined but inactive, virsh start
+    # fails immediately with a network-not-active error. Start it ourselves
+    # if needed and restore it to inactive afterwards.
+    if [ -n "$FIRST_NET" ] && ! virsh net-info "$FIRST_NET" 2>/dev/null | grep -qi '^Active:[[:space:]]*yes'; then
+        info "Network '$FIRST_NET' is inactive; starting it for the backup tests"
+        if virsh net-start "$FIRST_NET" >/dev/null 2>&1; then
+            FIRST_NET_STARTED_BY_TEST=true
+        else
+            info "Could not start network '$FIRST_NET' (continuing; VM start may fail)"
+        fi
+    fi
+
+    # The test disk is a freshly created, all-zero/sparse 1G qcow2 — a push-mode
+    # backup of it can complete in well under a second on fast storage, which
+    # makes it unreliable to catch mid-flight for the forced-cancel/SIGTERM
+    # tests below. Populate it with real data (while the VM is still stopped,
+    # so nothing else has it open) so those backup jobs have non-trivial work
+    # and stay active long enough to observe.
+    vm_disk_path=$(virsh domblklist "$TEST_VM_NAME" --details 2>/dev/null \
+        | awk '$1 == "file" && $2 == "disk" { print $4; exit }')
+    if [ -n "$vm_disk_path" ] && command -v qemu-io >/dev/null 2>&1; then
+        info "Populating test VM disk with data so backup jobs have real work to copy"
+        qemu-io -f qcow2 -c "write -P 0xAB 0 900M" "$vm_disk_path" >/dev/null 2>&1 || \
+            info "Could not pre-populate test disk (continuing; forced-cancel/SIGTERM tests may be flaky)"
+    fi
+
+    info "Starting test VM '$TEST_VM_NAME' (push-mode/incremental backups require a live VM)"
+    start_err=$(virsh start "$TEST_VM_NAME" 2>&1 >/dev/null)
+    start_ec=$?
+    if [ $start_ec -eq 0 ]; then
+        elapsed=0
+        while [ $elapsed -lt 30 ]; do
+            [ "$(virsh domstate "$TEST_VM_NAME" 2>/dev/null)" = "running" ] && { VM_RUNNING=true; break; }
+            sleep 1; ((elapsed++)) || true
+        done
+    fi
+
+    if ! $VM_RUNNING; then
+        if [ $start_ec -ne 0 ]; then
+            _fail "test VM running for backup tests" "virsh start failed :: ${start_err}"
+        else
+            _fail "test VM running for backup tests" "virsh start succeeded but domstate did not reach 'running' within 30s"
+        fi
+        _skip "doBackup (incremental, happy path)" "could not start test VM"
+        _skip "doBackup (forced cancel)"           "could not start test VM"
+        _skip "omv-backup-vm SIGTERM cleanup"      "could not start test VM"
+    else
+        _pass "test VM running for backup tests"
+
+        # Poll virsh domjobinfo until an active backup job appears (Bounded or
+        # Unbounded). Polls every 0.1s (rather than a full second) since the
+        # job can start and finish within a single second on fast storage.
+        # Echoes 1 on success, 0 on timeout. Arg: timeout seconds.
+        _wait_job_active() {
+            local timeout=${1:-20} tries jt
+            tries=$((timeout * 10))
+            while [ "$tries" -gt 0 ]; do
+                jt=$(virsh domjobinfo "$TEST_VM_NAME" 2>/dev/null \
+                    | awk -F: '/Job type/ { gsub(/^[ \t]+|[ \t]+$/, "", $2); print $2 }')
+                { [ "$jt" = "Bounded" ] || [ "$jt" = "Unbounded" ]; } && { echo 1; return; }
+                sleep 0.1; tries=$((tries-1))
+            done
+            echo 0
+        }
+
+        # ---------------------------------------------------------------
+        # 1. Happy path: full RPC round trip through doBackup, first-ever
+        #    chain member (a full push-mode backup) — exercises the
+        #    rewritten _wait_backup Bounded/Unbounded -> None -> Completed
+        #    happy path end-to-end.
+        # ---------------------------------------------------------------
+        mkdir -p "$TEST_BACKUP_DIR1"
+        DOBACKUP1_PARAMS=$(python3 -c "
+import json
+print(json.dumps({
+    'vmname': '$TEST_VM_NAME',
+    'path': '$TEST_BACKUP_DIR1',
+    'incremental': True,
+    'fullinterval': 0,
+    'compression': False
+}))
+")
+        if assert_rpc_bg "doBackup (incremental, happy path)" "Kvm" "doBackup" "$DOBACKUP1_PARAMS" "Done"; then
+            if echo "$BG_OUT" | grep -q "Backup job completed\."; then
+                _pass "doBackup — _wait_backup reported Completed"
+            else
+                _fail "doBackup — _wait_backup reported Completed" "${BG_OUT: -400}"
+            fi
+            if find "$TEST_BACKUP_DIR1/$TEST_VM_NAME" -name '*.qcow2' 2>/dev/null | grep -q .; then
+                _pass "doBackup — backup chain files present on disk"
+            else
+                _fail "doBackup — backup chain files present on disk" \
+                    "no qcow2 files under $TEST_BACKUP_DIR1/$TEST_VM_NAME"
+            fi
+        fi
+
+        # ---------------------------------------------------------------
+        # 2. Forced-cancel path: start another fresh (full) push-mode
+        #    backup and abort it ourselves mid-job via virsh domjobabort —
+        #    exercises the new Failed/Cancelled/Canceled branch of
+        #    _wait_backup and the "Backup job reported failure!" exit path.
+        # ---------------------------------------------------------------
+        mkdir -p "$TEST_BACKUP_DIR2"
+        DOBACKUP2_PARAMS=$(python3 -c "
+import json
+print(json.dumps({
+    'vmname': '$TEST_VM_NAME',
+    'path': '$TEST_BACKUP_DIR2',
+    'incremental': True,
+    'fullinterval': 0,
+    'compression': False
+}))
+")
+        cancel_filename=$(omv-rpc -u admin "Kvm" "doBackup" "$DOBACKUP2_PARAMS" 2>&1)
+        cancel_ec=$?
+        cancel_filename=$(echo "$cancel_filename" | tr -d '"')
+        if [ $cancel_ec -ne 0 ] || [ -z "$cancel_filename" ]; then
+            _fail "doBackup (forced cancel)" "failed to start bg task: ${cancel_filename:0:200}"
+        elif [ "$(_wait_job_active 20)" != "1" ]; then
+            _fail "doBackup (forced cancel)" "backup job never became active within timeout"
+        else
+            virsh domjobabort "$TEST_VM_NAME" >/dev/null 2>&1
+
+            timeout=60; elapsed=0; poll_ec=0; poll_out=""
+            while [ $elapsed -lt $timeout ]; do
+                poll_out=$(omv-rpc -u admin "Exec" "getOutput" \
+                    "{\"filename\":\"$cancel_filename\",\"pos\":0}" 2>&1)
+                poll_ec=$?
+                [ $poll_ec -ne 0 ] && break
+                echo "$poll_out" | grep -q '"running":true\|"running": true' || break
+                sleep 2; ((elapsed += 2)) || true
+            done
+            if [ $poll_ec -ne 0 ]; then
+                cancel_content=$(echo "$poll_out" | python3 -c \
+                    "import sys,json; d=json.load(sys.stdin); e=d.get('error') or {}; print(e.get('message', str(d))[:1000])" \
+                    2>/dev/null || echo "${poll_out:0:400}")
+            else
+                cancel_content=$(echo "$poll_out" | python3 -c \
+                    "import sys,json; d=json.load(sys.stdin); print(d.get('output',''))" \
+                    2>/dev/null || echo "")
+            fi
+
+            if echo "$cancel_content" | grep -qE "Backup completed with state '(Failed|Cancelled|Canceled)'"; then
+                _pass "doBackup (forced cancel) — _wait_backup reported failure state"
+            else
+                _fail "doBackup (forced cancel) — _wait_backup reported failure state" "${cancel_content: -400}"
+            fi
+            if echo "$cancel_content" | grep -q "Backup job reported failure!"; then
+                _pass "doBackup (forced cancel) — script reported failure"
+            else
+                _fail "doBackup (forced cancel) — script reported failure" "${cancel_content: -400}"
+            fi
+        fi
+
+        # ---------------------------------------------------------------
+        # 3. SIGTERM during an active backup: invoke omv-backup-vm directly
+        #    (not via RPC) so we control its pid, kill it mid-job, and
+        #    verify the backupActive / _cleanup_backup trap logs the abort
+        #    and actually clears the job via virsh domjobabort.
+        # ---------------------------------------------------------------
+        mkdir -p "$TEST_BACKUP_DIR3"
+        TERM_LOG="/tmp/omvtest_kvm_sigterm.log"
+        rm -f "$TERM_LOG"
+        /usr/sbin/omv-backup-vm -v "$TEST_VM_NAME" -d "$TEST_BACKUP_DIR3" -i >"$TERM_LOG" 2>&1 &
+        term_pid=$!
+
+        if [ "$(_wait_job_active 20)" != "1" ]; then
+            _fail "omv-backup-vm SIGTERM cleanup" "backup job never became active within timeout"
+            kill -TERM "$term_pid" >/dev/null 2>&1 || true
+            wait "$term_pid" 2>/dev/null || true
+        else
+            kill -TERM "$term_pid" >/dev/null 2>&1
+            wait "$term_pid" 2>/dev/null
+
+            if grep -q "Script interrupted with backup active; aborting backup job\." "$TERM_LOG"; then
+                _pass "omv-backup-vm SIGTERM cleanup — trap logged abort"
+            else
+                _fail "omv-backup-vm SIGTERM cleanup — trap logged abort" "$(tail -5 "$TERM_LOG")"
+            fi
+
+            job_cleared=false
+            elapsed=0
+            while [ $elapsed -lt 10 ]; do
+                jt_after=$(virsh domjobinfo "$TEST_VM_NAME" 2>/dev/null \
+                    | awk -F: '/Job type/ { gsub(/^[ \t]+|[ \t]+$/, "", $2); print $2 }')
+                if [ -z "$jt_after" ] || [ "$jt_after" = "None" ]; then
+                    job_cleared=true
+                    break
+                fi
+                sleep 1; ((elapsed++)) || true
+            done
+            if $job_cleared; then
+                _pass "omv-backup-vm SIGTERM cleanup — no lingering backup job"
+            else
+                _fail "omv-backup-vm SIGTERM cleanup — no lingering backup job" \
+                    "domjobinfo still reports '$jt_after' 10s after SIGTERM"
+            fi
+        fi
+        rm -f "$TERM_LOG"
+
+        info "Shutting down test VM '$TEST_VM_NAME'"
+        virsh destroy "$TEST_VM_NAME" >/dev/null 2>&1 || true
+    fi
+
+    if $FIRST_NET_STARTED_BY_TEST; then
+        info "Restoring network '$FIRST_NET' to inactive (was inactive before backup tests)"
+        virsh net-destroy "$FIRST_NET" >/dev/null 2>&1 || true
+    fi
+fi
+
+# ===========================================================================
 section "VM lifecycle — delete"
 # ===========================================================================
 
@@ -953,6 +1251,18 @@ print(json.dumps({
         _fail "VM '$TEST_VM_NAME' absent from virsh after undefineplus" \
             "virsh still sees the domain"
     fi
+fi
+
+if $VM_POOL_CREATED; then
+    # virt-install auto-starts a pool when a disk it creates lives inside that
+    # pool's target directory (our own setPool call above only pool-defines
+    # it) — deletePool's pool-undefine fails on an active pool, so stop it
+    # first.
+    virsh pool-destroy "$TEST_VM_POOL_NAME" >/dev/null 2>&1 || true
+    if assert_rpc "deletePool (VM-disk test pool)" "Kvm" "deletePool" "{\"name\":\"$TEST_VM_POOL_NAME\"}"; then
+        VM_POOL_CREATED=false
+    fi
+    rmdir "$TEST_VM_POOL_PATH" 2>/dev/null || true
 fi
 
 # ===========================================================================
