@@ -8,7 +8,7 @@
 # License version 2. This program is licensed "as is" without any
 # warranty of any kind, whether express or implied.
 #
-# version: 0.4.0
+# version: 0.4.1
 #
 
 if [[ $(id -u) -ne 0 ]]; then
@@ -28,6 +28,7 @@ declare -i used=0
 declare -i vmId=0
 declare -i incremental=0
 declare -i fullInterval=0
+declare -i backupActive=0
 
 backupDir=""
 backupVm=""
@@ -153,7 +154,18 @@ _send_email() {
     rm -f "${tmpfile}"
   fi
 }
-trap '_send_email $?' EXIT
+_cleanup_backup() {
+  local rc=$?
+
+  if [ "${backupActive}" -eq 1 ]; then
+    _log "Script interrupted with backup active; aborting backup job."
+    virsh domjobabort "${backupVm}" >/dev/null 2>&1 || true
+  fi
+
+  _send_email "${rc}"
+}
+
+trap '_cleanup_backup' EXIT INT TERM
 
 if [ ! -f "/usr/bin/virsh" ]; then
   _log "virsh command not found!"
@@ -228,22 +240,74 @@ _all_qcow2() {
 # wait for an active push-mode backup job to finish, then report status
 # returns 0 on success, non-zero on failure
 _wait_backup() {
-  local dom="${1}" jt
+  local dom="${1}"
+  local output jt
+  local failures=0
+
   while true; do
-    jt=$(virsh domjobinfo "${dom}" 2>/dev/null \
-      | awk -F: '/Job type/ { gsub(/^[ \t]+|[ \t]+$/, "", $2); print $2 }')
-    if [ -z "${jt}" ] || [ "${jt}" = "None" ]; then
-      break
+    if ! output=$(virsh domjobinfo "${dom}" 2>&1); then
+      failures=$((failures + 1))
+      _log "Unable to query backup job (${failures}) :: ${output}"
+
+      if [ "${failures}" -ge 5 ]; then
+        _log "Unable to determine backup job state."
+        return 1
+      fi
+
+      sleep "${pollInterval}"
+      continue
     fi
-    sleep "${pollInterval}"
+
+    failures=0
+
+    jt=$(printf '%s\n' "${output}" |
+      awk -F: '/Job type/ {
+        gsub(/^[ \t]+|[ \t]+$/, "", $2)
+        print $2
+      }')
+
+    case "${jt}" in
+      None)
+        break
+        ;;
+      Unbounded|Bounded)
+        sleep "${pollInterval}"
+        ;;
+      "")
+        _log "Unable to parse backup job state :: ${output}"
+        return 1
+        ;;
+      *)
+        _log "Unexpected active backup job state '${jt}' :: ${output}"
+        return 1
+        ;;
+    esac
   done
-  # inspect the completed job result
-  jt=$(virsh domjobinfo "${dom}" --completed 2>/dev/null \
-    | awk -F: '/Job type/ { gsub(/^[ \t]+|[ \t]+$/, "", $2); print $2 }')
-  if [ "${jt}" = "Failed" ]; then
+
+  if ! output=$(virsh domjobinfo "${dom}" --completed 2>&1); then
+    _log "Unable to query completed backup result :: ${output}"
     return 1
   fi
-  return 0
+
+  jt=$(printf '%s\n' "${output}" |
+    awk -F: '/Job type/ {
+      gsub(/^[ \t]+|[ \t]+$/, "", $2)
+      print $2
+    }')
+
+  case "${jt}" in
+    Completed)
+      return 0
+      ;;
+    Failed|Cancelled|Canceled)
+      _log "Backup completed with state '${jt}' :: ${output}"
+      return 1
+      ;;
+    *)
+      _log "Unexpected completed backup state '${jt}' :: ${output}"
+      return 1
+      ;;
+  esac
 }
 
 # build the <disks> block for a backup XML, writing each changed disk to
@@ -392,8 +456,12 @@ EOF
     return 7
   fi
   rm -f "${backupXml}" "${checkpointXml}"
+  backupActive=1
 
-  if ! _wait_backup "${backupVm}"; then
+  _wait_backup "${backupVm}"
+  rc=$?
+  backupActive=0
+  if [ ${rc} -ne 0 ]; then
     _log "Backup job reported failure!"
     return 8
   fi
