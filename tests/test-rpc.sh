@@ -1313,6 +1313,131 @@ assert_rpc "getBackupList"  "Kvm" "getBackupList"  \
 assert_rpc "getRestoreList" "Kvm" "getRestoreList" '{}'
 
 # ===========================================================================
+section "Backup list sync (syncBackupList)"
+# ===========================================================================
+# Exercises Kvm.syncBackupList (usr/sbin/omv-sync-vm-backups-list), which
+# reconciles /etc/omv-backup-vm.list against what's actually on disk. Reuses
+# the real chain the "doBackup (incremental, happy path)" test wrote to
+# TEST_BACKUP_DIR1 as a known-good entry, and injects one deliberately
+# orphaned row (a date that was never backed up) alongside it. syncBackupList
+# operates on the whole list file, not just our test rows, so the counting
+# assertion below is scoped to rows mentioning TEST_BACKUP_DIR1 rather than
+# the full file — the file may carry other, real orphaned rows unrelated to
+# this run (e.g. from other VMs) that syncBackupList will also legitimately
+# clean up, and that's not something this test should fail on.
+
+BACKUP_LIST="/etc/omv-backup-vm.list"
+SYNC_ORPHAN_DATE="1999-01-01_00-00-00"
+SYNC_ORPHAN_UUID="00000000-0000-0000-0000-000000000000"
+
+# rows are only ever appended, never reordered, so the last match for our
+# test VM/path is the freshest one — earlier matches would be leftovers from
+# previous runs of this suite (their backup dir gets wiped by cleanup(), but
+# the list-file row is deliberately left for syncBackupList to clean up, so
+# it can't have been removed by our own prior runs)
+real_entry=""
+if [ -f "$BACKUP_LIST" ]; then
+    real_entry=$(grep ",${TEST_VM_NAME}," "$BACKUP_LIST" | grep -F "$TEST_BACKUP_DIR1" | tail -1)
+fi
+
+if [ -z "$real_entry" ]; then
+    _skip "syncBackupList removes orphaned entry"    "no real backup entry from the happy-path test to compare against"
+    _skip "syncBackupList keeps real entry"          "no real backup entry from the happy-path test to compare against"
+    _skip "syncBackupList removes exactly one entry" "no real backup entry from the happy-path test to compare against"
+    _skip "syncBackupList backs up list file"        "no real backup entry from the happy-path test to compare against"
+else
+    # purge any TEST_BACKUP_DIR1 rows left behind by earlier runs of this
+    # suite (besides the current real one) so the count assertion below
+    # isn't thrown off by this test's own accumulated history
+    stale_tmp=$(mktemp)
+    grep -vF "$TEST_BACKUP_DIR1" "$BACKUP_LIST" > "$stale_tmp" || true
+    echo "$real_entry" >> "$stale_tmp"
+    mv "$stale_tmp" "$BACKUP_LIST"
+
+    echo "${SYNC_ORPHAN_UUID},${TEST_BACKUP_DIR1},${TEST_VM_NAME},${SYNC_ORPHAN_DATE},0" >> "$BACKUP_LIST"
+    pre_count=$(grep -cF "$TEST_BACKUP_DIR1" "$BACKUP_LIST")
+    rm -f "${BACKUP_LIST}.bak"
+
+    # syncBackupList runs via execBgProc (like doBackup/doMove) so the RPC
+    # returns a bg task filename immediately; poll it to completion before
+    # checking the list file, same technique as the "doBackup (forced
+    # cancel)" polling above.
+    sync_filename=$(omv-rpc -u admin "Kvm" "syncBackupList" '{}' 2>&1)
+    sync_start_ec=$?
+    sync_filename=$(echo "$sync_filename" | tr -d '"')
+
+    sync_failed=false
+    sync_err=""
+    if [ $sync_start_ec -ne 0 ] || [ -z "$sync_filename" ]; then
+        sync_failed=true
+        sync_err="failed to start bg task: ${sync_filename:0:300}"
+    else
+        timeout=60; elapsed=0; poll_ec=0; poll_out=""
+        while [ $elapsed -lt $timeout ]; do
+            poll_out=$(omv-rpc -u admin "Exec" "getOutput" \
+                "{\"filename\":\"$sync_filename\",\"pos\":0}" 2>&1)
+            poll_ec=$?
+            [ $poll_ec -ne 0 ] && break
+            echo "$poll_out" | grep -q '"running":true\|"running": true' || break
+            sleep 1; ((elapsed += 1)) || true
+        done
+        if [ $elapsed -ge $timeout ]; then
+            sync_failed=true
+            sync_err="bg task timed out after ${timeout}s"
+        elif [ $poll_ec -ne 0 ]; then
+            sync_failed=true
+            sync_err=$(echo "$poll_out" | python3 -c \
+                "import sys,json; d=json.load(sys.stdin); e=d.get('error') or {}; print(e.get('message', str(d))[:300])" \
+                2>/dev/null || echo "${poll_out:0:300}")
+        else
+            sync_content=$(echo "$poll_out" | python3 -c \
+                "import sys,json; d=json.load(sys.stdin); print(d.get('output',''))" \
+                2>/dev/null || echo "")
+            if echo "$sync_content" | grep -q "Exception"; then
+                sync_failed=true
+                sync_err=$(echo "$sync_content" | grep "Exception" | head -2)
+            fi
+        fi
+    fi
+
+    if $sync_failed; then
+        _fail "syncBackupList removes orphaned entry"    "$sync_err"
+        _fail "syncBackupList keeps real entry"          "$sync_err"
+        _fail "syncBackupList removes exactly one entry" "$sync_err"
+        _fail "syncBackupList backs up list file"        "$sync_err"
+        # sync never ran (or never finished), so the injected row is still ours to clean up
+        sed -i "\|${SYNC_ORPHAN_DATE}|d" "$BACKUP_LIST"
+    else
+        if grep -qF "$SYNC_ORPHAN_DATE" "$BACKUP_LIST"; then
+            _fail "syncBackupList removes orphaned entry" "orphan row for $SYNC_ORPHAN_DATE still present"
+        else
+            _pass "syncBackupList removes orphaned entry"
+        fi
+
+        if grep -qF "$real_entry" "$BACKUP_LIST"; then
+            _pass "syncBackupList keeps real entry"
+        else
+            _fail "syncBackupList keeps real entry" "real entry disappeared: $real_entry"
+        fi
+
+        post_count=$(grep -cF "$TEST_BACKUP_DIR1" "$BACKUP_LIST")
+        if [ "$post_count" -eq $((pre_count - 1)) ]; then
+            _pass "syncBackupList removes exactly one entry"
+        else
+            _fail "syncBackupList removes exactly one entry" \
+                "expected $((pre_count - 1)) TEST_BACKUP_DIR1 rows after sync, got $post_count"
+        fi
+
+        if [ -f "${BACKUP_LIST}.bak" ] && grep -qF "$SYNC_ORPHAN_DATE" "${BACKUP_LIST}.bak"; then
+            _pass "syncBackupList backs up list file"
+        else
+            _fail "syncBackupList backs up list file" \
+                "${BACKUP_LIST}.bak missing, or doesn't contain pre-sync state"
+        fi
+    fi
+fi
+
+# ===========================================================================
 section "Monitor stats"
 # ===========================================================================
 
