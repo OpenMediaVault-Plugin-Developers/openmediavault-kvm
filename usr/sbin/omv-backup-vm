@@ -505,24 +505,31 @@ EOF
   # chain-aware retention: keep the most recent ${keep} chains
   if [ ${keep} -gt 0 ]; then
     _log "Keeping the most recent ${keep} chains..."
-    local keepDir delDirs delDate delDir
+    local keepDir delDirs delDate delDir delDates dd c
     keepDir="${backupDir}/${backupVm}/"
     OFS=$IFS
     IFS=$'\n'
     delDirs=$(find "${keepDir}" -mindepth 1 -maxdepth 1 -type d | sort -r | awk "NR>${keep}")
     for d in ${delDirs}; do
       delDate="$(basename "${d}")"
-      # release any checkpoints belonging to this chain before deleting files
+      delDir="$(dirname "${keepDir}")/"
+      # a chain's manifest has one row per restore point (full + incrementals);
+      # every one of those dates got its own list-file entry, so all of them
+      # need to be dropped, not just the chain dir's own (full) date
       if [ -f "${d}/manifest" ]; then
-        local c
+        delDates=$(awk -F'|' '{print $2}' "${d}/manifest")
+        # release any checkpoints belonging to this chain before deleting files
         for c in $(awk -F'|' '{print $3}' "${d}/manifest"); do
           virsh checkpoint-delete "${backupVm}" "${c}" --metadata > /dev/null 2>&1
         done
+      else
+        delDates="${delDate}"
       fi
-      delDir="$(dirname "${keepDir}")/"
       _log "Removing chain ${d}..."
       rm -rv "${d}"
-      sed -i "\|${delDir%/}/\?,${backupVm},${delDate}|d" "${listFile}"
+      for dd in ${delDates}; do
+        sed -i "\|${delDir%/}/\?,${backupVm},${dd}|d" "${listFile}"
+      done
     done
     IFS=$OFS
   fi

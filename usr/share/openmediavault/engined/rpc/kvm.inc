@@ -120,6 +120,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('getBackupList');
         $this->registerMethod('deleteBackup');
         $this->registerMethod('doBackup');
+        $this->registerMethod('syncBackupList');
 
         $this->registerMethod('doMove');
 
@@ -3339,6 +3340,23 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $cmd->setQuiet(true);
             $cmd->execute($output, $exitStatus);
         }
+    }
+
+    public function syncBackupList($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // reconcile /etc/omv-backup-vm.list against what's actually on disk,
+        // dropping rows orphaned by prior retention pruning
+        return $this->execBgProc(function($bgStatusFilename, $bgOutputFilename) {
+            $cmd = new \OMV\System\Process('/usr/sbin/omv-sync-vm-backups-list');
+            $cmd->setRedirect2to1();
+            $cmdLine = $cmd->getCommandLine();
+            if (0 !== $this->exec($cmdLine, $output, $bgOutputFilename)) {
+                throw new \OMV\ExecException($cmdLine, $output);
+            }
+            return $output;
+        });
     }
 
     public function doBackup($params, $context)

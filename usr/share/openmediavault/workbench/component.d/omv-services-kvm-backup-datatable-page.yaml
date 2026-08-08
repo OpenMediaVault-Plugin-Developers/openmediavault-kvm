@@ -158,6 +158,25 @@ data:
                           backup: "{{ backup }}"
                           newname: "{{ newname }}"
                           newpath: "{{ pool }}"
+      - type: iconButton
+        tooltip: _("Sync Backup List")
+        icon: mdi:auto-fix
+        confirmationDialogConfig:
+          template: confirmation-danger
+          message: _("This reconciles the backup list against what actually exists on disk, removing entries left behind by prior retention pruning. A backup of the list file is kept as omv-backup-vm.list.bak. Continue?")
+        execute:
+          type: taskDialog
+          taskDialog:
+            config:
+              title: _("Syncing backup list ...")
+              startOnInit: true
+              showCompletion: true
+              request:
+                service: Kvm
+                method: syncBackupList
+              buttons:
+                stop:
+                  hidden: true
       - template: delete
         confirmationDialogConfig:
           template: confirmation-danger

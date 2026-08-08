@@ -1,0 +1,127 @@
+#!/bin/bash
+#
+# shellcheck disable=SC2086
+#
+# Copyright (c) 2022-2026 openmediavault plugin developers
+#
+# This file is licensed under the terms of the GNU General Public
+# License version 2. This program is licensed "as is" without any
+# warranty of any kind, whether express or implied.
+#
+# version: 0.1.0
+#
+# Reconciles /etc/omv-backup-vm.list against what actually exists on disk.
+# A list row is valid if either:
+#   - <path>/<vmname>/<date> exists as a directory (a legacy full backup, or
+#     the root of an incremental chain), or
+#   - <date> appears as a restore-point in some chain's manifest under
+#     <path>/<vmname>/*/manifest (an incremental member of a chain that is
+#     still on disk).
+# Any row matching neither is an orphan - typically left behind when a chain
+# was pruned by retention but not every restore-point row belonging to it was
+# removed (see omv-backup-vm chain-aware retention) - and is dropped.
+
+if [[ $(id -u) -ne 0 ]]; then
+  echo "This script must be executed as root or using sudo."
+  exit 99
+fi
+
+export LC_ALL=C.UTF-8
+
+logDir="/var/log/"
+logFile="${logDir}/omv-backup-vm.log"
+listFile="/etc/omv-backup-vm.list"
+
+syncVm=""
+syncPath=""
+
+_log()
+{
+  msg=${1}
+  echo "[$(date +'%Y-%m-%d %H:%M:%S%z')] [sync] ${msg}" | tee -a ${logFile} >&2
+}
+
+while getopts "d:hv:" opt; do
+  case "${opt}" in
+    d)
+      syncPath="${OPTARG}"
+      ;;
+    h)
+      echo "Usage: omv-sync-vm-backups-list [-v vmname] [-d path]"
+      echo "  Reconcile the backup list file against what actually exists on disk,"
+      echo "  dropping rows left behind by prior retention pruning."
+      echo ""
+      echo "  -v vmname    limit to a single VM"
+      echo "  -d path      limit to a single VM's backup path (used with -v)"
+      echo "  -h           this help text"
+      exit 0
+      ;;
+    v)
+      syncVm="${OPTARG}"
+      ;;
+    *)
+      echo "Invalid option: -${OPTARG}"
+      exit 1
+      ;;
+  esac
+done
+
+if [ ! -f "${listFile}" ]; then
+  _log "No list file at '${listFile}', nothing to sync."
+  exit 0
+fi
+
+backupFile="${listFile}.bak"
+cp -a "${listFile}" "${backupFile}"
+_log "Backed up '${listFile}' to '${backupFile}'"
+
+tmpFile=$(mktemp)
+trap 'rm -f "${tmpFile}"' EXIT
+
+declare -i scanned=0
+declare -i kept=0
+declare -i removed=0
+
+while IFS=, read -r uuid path vmname date used; do
+  [ -z "${uuid}" ] && continue
+  scanned+=1
+
+  if [ -n "${syncVm}" ] && [ "${vmname}" != "${syncVm}" ]; then
+    echo "${uuid},${path},${vmname},${date},${used}" >> "${tmpFile}"
+    kept+=1
+    continue
+  fi
+  if [ -n "${syncPath}" ] && [ "${path%/}" != "${syncPath%/}" ]; then
+    echo "${uuid},${path},${vmname},${date},${used}" >> "${tmpFile}"
+    kept+=1
+    continue
+  fi
+
+  vmDir="${path%/}/${vmname}"
+  valid=0
+
+  if [ -d "${vmDir}/${date}" ]; then
+    valid=1
+  else
+    for manifest in "${vmDir}"/*/manifest; do
+      [ -f "${manifest}" ] || continue
+      if awk -F'|' -v d="${date}" '$2 == d { found=1 } END { exit !found }' "${manifest}"; then
+        valid=1
+        break
+      fi
+    done
+  fi
+
+  if [ ${valid} -eq 1 ]; then
+    echo "${uuid},${path},${vmname},${date},${used}" >> "${tmpFile}"
+    kept+=1
+  else
+    _log "Removing orphaned entry :: ${vmname} ${date} (${path})"
+    removed+=1
+  fi
+done < "${listFile}"
+
+mv "${tmpFile}" "${listFile}"
+trap - EXIT
+
+_log "Synced list file :: scanned ${scanned}, kept ${kept}, removed ${removed}"
