@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-24 23:37+0000\n"
+"POT-Creation-Date: 2026-08-08 12:50+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Language-Team: Occitan (post 1500) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/oc/)\n"
 "MIME-Version: 1.0\n"
@@ -1415,6 +1415,12 @@ msgstr ""
 msgid "Summary data retention (days)"
 msgstr ""
 
+msgid "Sync Backup List"
+msgstr ""
+
+msgid "Syncing backup list ..."
+msgstr ""
+
 msgid "TPM"
 msgstr ""
 
@@ -1422,6 +1428,12 @@ msgid "Terabytes"
 msgstr ""
 
 msgid "Terminal Link"
+msgstr ""
+
+msgid ""
+"This reconciles the backup list against what actually exists on disk, "
+"removing entries left behind by prior retention pruning. A backup of the "
+"list file is kept as omv-backup-vm.list.bak. Continue?"
 msgstr ""
 
 msgid ""

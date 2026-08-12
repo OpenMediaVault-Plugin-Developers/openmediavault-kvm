@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-24 23:37+0000\n"
+"POT-Creation-Date: 2026-08-08 12:50+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Andi Chandler <andi@gowling.com>, 2026\n"
 "Language-Team: English (United Kingdom) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/en_GB/)\n"
@@ -59,7 +59,7 @@ msgid "Add VNC"
 msgstr "Add VNC"
 
 msgid "Add bridge network"
-msgstr ""
+msgstr "Add bridge network"
 
 msgid "Add disc"
 msgstr "Add disc"
@@ -104,7 +104,7 @@ msgid "Adding VNC viewer ..."
 msgstr "Adding VNC viewer ..."
 
 msgid "Adding a bridge network ..."
-msgstr ""
+msgstr "Adding a bridge network ..."
 
 msgid "Adding a disk ..."
 msgstr "Adding a disk ..."
@@ -236,7 +236,7 @@ msgid "Bridge Model"
 msgstr "Bridge Model"
 
 msgid "Bridge network has been added."
-msgstr ""
+msgstr "Bridge network has been added."
 
 msgid "Bus"
 msgstr "Bus"
@@ -370,7 +370,7 @@ msgid "Create"
 msgstr "Create"
 
 msgid "Create (named)"
-msgstr ""
+msgstr "Create (named)"
 
 msgid "Create LXC"
 msgstr "Create LXC"
@@ -848,7 +848,7 @@ msgid "HA OS Version"
 msgstr "HA OS Version"
 
 msgid "Hands guests directly onto an existing host bridge."
-msgstr ""
+msgstr "Hands guests directly onto an existing host bridge."
 
 msgid "Hard disk"
 msgstr "Hard disk"
@@ -940,12 +940,14 @@ msgid "Installing Redox OS ..."
 msgstr "Installing Redox OS ..."
 
 msgid "Isolated"
-msgstr ""
+msgstr "Isolated"
 
 msgid ""
 "Isolated networks have no outbound forwarding; guests reach only the host "
 "and each other."
 msgstr ""
+"Isolated networks have no outbound forwarding; guests reach only the host "
+"and each other."
 
 msgid "KVM"
 msgstr "KVM"
@@ -1009,7 +1011,7 @@ msgid "MiB"
 msgstr "MiB"
 
 msgid "Mode"
-msgstr ""
+msgstr "Mode"
 
 msgid "Model"
 msgstr "Model"
@@ -1034,7 +1036,7 @@ msgstr ""
 "blank."
 
 msgid "NAT"
-msgstr ""
+msgstr "NAT"
 
 msgid "Name"
 msgstr "Name"
@@ -1064,7 +1066,7 @@ msgid "Network Type"
 msgstr "Network Type"
 
 msgid "Network XML"
-msgstr ""
+msgstr "Network XML"
 
 msgid "Network adapter has been added."
 msgstr "Network adapter has been added."
@@ -1106,7 +1108,7 @@ msgid "OS"
 msgstr "OS"
 
 msgid "Open"
-msgstr ""
+msgstr "Open"
 
 msgid "Open full monitoring dashboard"
 msgstr "Open full monitoring dashboard"
@@ -1171,7 +1173,7 @@ msgid "Passing through PCI device ..."
 msgstr "Passing through PCI device ..."
 
 msgid "Passthrough"
-msgstr ""
+msgstr "Passthrough"
 
 msgid "Passthrough Filesystem"
 msgstr "Passthrough Filesystem"
@@ -1183,6 +1185,8 @@ msgid ""
 "Passthrough dedicates the adapter to a single guest at a time; use Bridge to"
 " share it among several guests."
 msgstr ""
+"Passthrough dedicates the adapter to a single guest at a time; use Bridge to"
+" share it among several guests."
 
 msgid "Passthrough filesystem has been added."
 msgstr "Passthrough filesystem has been added."
@@ -1238,7 +1242,7 @@ msgstr ""
 " on after the move is complete."
 
 msgid "Private"
-msgstr ""
+msgstr "Private"
 
 msgid "RAM"
 msgstr "RAM"
@@ -1334,7 +1338,7 @@ msgid "Reverting to snapshot ..."
 msgstr "Reverting to snapshot ..."
 
 msgid "Routed"
-msgstr ""
+msgstr "Routed"
 
 msgid "Run"
 msgstr "Run"
@@ -1386,7 +1390,7 @@ msgid "Snapshot has been reverted."
 msgstr "Snapshot has been reverted."
 
 msgid "Snapshot name"
-msgstr ""
+msgstr "Snapshot name"
 
 msgid "Snapshots"
 msgstr "Snapshots"
@@ -1463,6 +1467,12 @@ msgstr "Subnet mask"
 msgid "Summary data retention (days)"
 msgstr "Summary data retention (days)"
 
+msgid "Sync Backup List"
+msgstr ""
+
+msgid "Syncing backup list ..."
+msgstr ""
+
 msgid "TPM"
 msgstr "TPM"
 
@@ -1471,6 +1481,12 @@ msgstr "Terabytes"
 
 msgid "Terminal Link"
 msgstr "Terminal Link"
+
+msgid ""
+"This reconciles the backup list against what actually exists on disk, "
+"removing entries left behind by prior retention pruning. A backup of the "
+"list file is kept as omv-backup-vm.list.bak. Continue?"
+msgstr ""
 
 msgid ""
 "This will run 'chmod o+x' on every parent directory of the pool path, "
@@ -1563,7 +1579,7 @@ msgid "Unit"
 msgstr "Unit"
 
 msgid "VEPA"
-msgstr ""
+msgstr "VEPA"
 
 msgid "VM Name"
 msgstr "VM Name"
@@ -1602,7 +1618,7 @@ msgid "VNC viewer has been removed."
 msgstr "VNC viewer has been removed."
 
 msgid "View XML"
-msgstr ""
+msgstr "View XML"
 
 msgid "Virtual Network"
 msgstr "Virtual Network"

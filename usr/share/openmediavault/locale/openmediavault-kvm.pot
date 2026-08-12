@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-24 23:37+0000\n"
+"POT-Creation-Date: 2026-08-08 12:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1367,6 +1367,12 @@ msgstr ""
 msgid "Summary data retention (days)"
 msgstr ""
 
+msgid "Sync Backup List"
+msgstr ""
+
+msgid "Syncing backup list ..."
+msgstr ""
+
 msgid "TPM"
 msgstr ""
 
@@ -1374,6 +1380,9 @@ msgid "Terabytes"
 msgstr ""
 
 msgid "Terminal Link"
+msgstr ""
+
+msgid "This reconciles the backup list against what actually exists on disk, removing entries left behind by prior retention pruning. A backup of the list file is kept as omv-backup-vm.list.bak. Continue?"
 msgstr ""
 
 msgid "This will run 'chmod o+x' on every parent directory of the pool path, allowing libvirt-qemu to traverse them. Existing permissions on those directories will be modified. Continue?"

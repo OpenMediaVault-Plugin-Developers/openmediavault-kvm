@@ -4,16 +4,16 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Karl Jonatan Nyberg, 2023
+# Jonatan Nyberg, 2026
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-24 23:37+0000\n"
+"POT-Creation-Date: 2026-08-08 12:50+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
-"Last-Translator: Karl Jonatan Nyberg, 2023\n"
+"Last-Translator: Jonatan Nyberg, 2026\n"
 "Language-Team: Swedish (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,15 +22,17 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid " already exists!"
-msgstr "existerar redan!"
+msgstr " finns redan!"
 
 msgid " the network!"
-msgstr "nätverket!"
+msgstr " nätverket!"
 
 msgid ""
 "ARM64 is not supported. Redox OS pre-built ARM64 images do not have a "
 "functional EFI partition and cannot boot under KVM."
 msgstr ""
+"ARM64 stöds inte. De förbyggda ARM64-avbilderna av Redox OS saknar en "
+"fungerande EFI-partition och kan inte startas under KVM."
 
 msgid "Action"
 msgstr "Åtgärd"
@@ -39,13 +41,13 @@ msgid "Activity"
 msgstr "Aktivitet"
 
 msgid "Actual Size"
-msgstr ""
+msgstr "Faktisk storlek"
 
 msgid "Add"
 msgstr "Lägg till"
 
 msgid "Add PCI"
-msgstr ""
+msgstr "Lägg till PCI"
 
 msgid "Add Spice"
 msgstr "Lägg till Spice"
@@ -57,7 +59,7 @@ msgid "Add VNC"
 msgstr "Lägg till VNC"
 
 msgid "Add bridge network"
-msgstr ""
+msgstr "Lägg till bryggnätverk"
 
 msgid "Add disc"
 msgstr "Lägg till skiva"
@@ -66,7 +68,7 @@ msgid "Add disk"
 msgstr "Lägg till disk"
 
 msgid "Add host disk"
-msgstr ""
+msgstr "Lägg till värddisk"
 
 msgid "Add host drive"
 msgstr "Lägg till värdenhet"
@@ -84,76 +86,76 @@ msgid "Add new VM"
 msgstr "Lägg till ny VM"
 
 msgid "Add new container"
-msgstr "Lägg till ny behållare"
+msgstr "Lägg till ny container"
 
 msgid "Add new pool"
 msgstr "Lägg till ny pool"
 
 msgid "Add passthrough"
-msgstr "Lägg till passthrough"
+msgstr "Lägg till vidarekoppling"
 
 msgid "Add virtual TPM 2.0 device"
 msgstr "Lägg till virtuell TPM 2.0-enhet"
 
 msgid "Adding USB device ..."
-msgstr ""
+msgstr "Lägger till USB-enhet…"
 
 msgid "Adding VNC viewer ..."
-msgstr ""
+msgstr "Lägger till VNC-visare…"
 
 msgid "Adding a bridge network ..."
-msgstr ""
+msgstr "Lägger till ett bryggnätverk…"
 
 msgid "Adding a disk ..."
-msgstr ""
+msgstr "Lägger till en disk…"
 
 msgid "Adding a host disk ..."
-msgstr ""
+msgstr "Lägger till en värddisk…"
 
 msgid "Adding a macvtap network ..."
-msgstr ""
+msgstr "Lägger till ett macvtap-nätverk…"
 
 msgid "Adding a network ..."
-msgstr ""
+msgstr "Lägger till ett nätverk…"
 
 msgid "Adding a pool ..."
-msgstr ""
+msgstr "Lägger till en pool…"
 
 msgid "Adding host drive ..."
-msgstr ""
+msgstr "Lägger till värdenhet…"
 
 msgid "Adding network adapter ..."
-msgstr ""
+msgstr "Lägger till nätverkskort…"
 
 msgid "Adding optical disc ..."
-msgstr ""
+msgstr "Lägger till optisk skiva…"
 
 msgid "Adding passthrough filesystem ..."
-msgstr ""
+msgstr "Lägger till vidarekopplat filsystem…"
 
 msgid "Adding spice viewer ..."
-msgstr ""
+msgstr "Lägger till Spice-visare…"
 
 msgid "Advanced"
-msgstr "Avancerad"
+msgstr "Avancerat"
 
 msgid "All permissions have been fixed."
-msgstr ""
+msgstr "Alla behörigheter har korrigerats."
 
 msgid "All snapshots have been deleted."
-msgstr ""
+msgstr "Alla ögonblicksbilder har tagits bort."
 
 msgid "Allocation"
-msgstr "Allokation"
+msgstr "Allokering"
 
 msgid "Amount"
 msgstr "Mängd"
 
 msgid "Appliances"
-msgstr ""
+msgstr "Färdiga system"
 
 msgid "Arch"
-msgstr ""
+msgstr "Arkitektur"
 
 msgid "Architecture"
 msgstr "Arkitektur"
@@ -162,42 +164,48 @@ msgid ""
 "Are you sure you want to clear the monitor database? All collected metrics "
 "will be permanently deleted."
 msgstr ""
+"Vill du verkligen rensa övervakningsdatabasen? Alla insamlade mätvärden tas "
+"bort permanent."
 
 msgid "Are you sure you want to delete all snapshots?"
-msgstr ""
+msgstr "Vill du verkligen ta bort alla ögonblicksbilder?"
 
 msgid ""
 "Are you sure you want to delete this backup? For an incremental backup this "
 "removes the entire chain (the full backup and all of its incrementals), "
 "since they cannot be restored without it."
 msgstr ""
+"Vill du verkligen ta bort den här säkerhetskopian? För en inkrementell "
+"säkerhetskopia tas hela kedjan bort, det vill säga den fullständiga "
+"säkerhetskopian och alla dess inkrement, eftersom de inte kan återställas "
+"utan den."
 
 msgid "Are you sure you want to delete?"
-msgstr "Är du säker att du vill ta bort?"
+msgstr "Vill du verkligen ta bort?"
 
 msgid "Audio"
 msgstr "Ljud"
 
 msgid "Auto-generate a unique name based on the VM name."
-msgstr ""
+msgstr "Skapa automatiskt ett unikt namn utifrån VM-namnet."
 
 msgid "AutoStart"
-msgstr "AutoStart"
+msgstr "Automatisk start"
 
 msgid "Autostart has been disabled."
-msgstr ""
+msgstr "Automatisk start har inaktiverats."
 
 msgid "Autostart has been enabled."
-msgstr ""
+msgstr "Automatisk start har aktiverats."
 
 msgid "Available"
 msgstr "Tillgängliga"
 
 msgid "Backing file"
-msgstr "Säkerhetskopiera fil"
+msgstr "Bakgrundsfil"
 
 msgid "Backing file has been created."
-msgstr ""
+msgstr "Bakgrundsfilen har skapats."
 
 msgid "Backup"
 msgstr "Säkerhetskopiering"
@@ -206,7 +214,7 @@ msgid "Backup with Compression"
 msgstr "Säkerhetskopiera med komprimering"
 
 msgid "Base image"
-msgstr "Basbild"
+msgstr "Basavbild"
 
 msgid ""
 "Be very careful not to passthrough a device being used by the host operating"
@@ -214,30 +222,34 @@ msgid ""
 "change between reboots.<br/>It is recommended to use /dev/disk/by-id device "
 "names."
 msgstr ""
+"Var mycket försiktig så att du inte vidarekopplar en enhet som används av "
+"värdoperativsystemet!<br/>Det är mindre tillförlitligt att använda /dev/sd* "
+"eftersom beteckningarna kan ändras mellan omstarter.<br/>Det rekommenderas "
+"att använda enhetsnamn under /dev/disk/by-id."
 
 msgid "Boot"
-msgstr ""
+msgstr "Start"
 
 msgid "Bridge"
-msgstr ""
+msgstr "Bro"
 
 msgid "Bridge Model"
-msgstr ""
+msgstr "Bryggmodell"
 
 msgid "Bridge network has been added."
-msgstr ""
+msgstr "Bryggnätverket har lagts till."
 
 msgid "Bus"
-msgstr "Bus"
+msgstr "Buss"
 
 msgid "CPU"
 msgstr "CPU"
 
 msgid "CPU %"
-msgstr ""
+msgstr "CPU %"
 
 msgid "CPU count has been changed."
-msgstr ""
+msgstr "Antalet CPU:er har ändrats."
 
 msgid "CPUs"
 msgstr "CPU:er"
@@ -246,62 +258,68 @@ msgid "Call"
 msgstr "Anropa"
 
 msgid "Cannot remove / from a container."
-msgstr "Kan inte ta bort / från en behållare."
+msgstr "Det går inte att ta bort / från en container."
 
 msgid "Cannot use / for mount point."
-msgstr "Kan inte använda / för monteringspunkt."
+msgstr "Det går inte att använda / som monteringspunkt."
 
 msgid "Capacity"
 msgstr "Kapacitet"
 
 msgid "Chain"
-msgstr ""
+msgstr "Kedja"
 
 msgid "Change disc"
-msgstr ""
+msgstr "Byt skiva"
 
 msgid "Change memory"
-msgstr "Byt minne"
+msgstr "Ändra minne"
 
 msgid "Change vCPU"
-msgstr "Byt vCPU"
+msgstr "Ändra vCPU"
 
 msgid "Changing memory amount ..."
-msgstr ""
+msgstr "Ändrar minnesmängd…"
 
 msgid "Changing number of CPUs ..."
-msgstr ""
+msgstr "Ändrar antalet CPU:er…"
 
 msgid "Changing optical disc ..."
-msgstr ""
+msgstr "Byter optisk skiva…"
 
 msgid "Check"
 msgstr "Kontrollera"
 
 msgid "Check downloads.ipfire.org for the latest core update number."
 msgstr ""
+"Kontrollera downloads.ipfire.org för numret på den senaste "
+"kärnuppdateringen."
 
 msgid ""
 "Check github.com/home-assistant/operating-system/releases for the latest "
 "version."
 msgstr ""
+"Kontrollera github.com/home-assistant/operating-system/releases för den "
+"senaste versionen."
 
 msgid ""
 "Check sourceforge.net/projects/openmediavault/files/iso/ for the latest "
 "version."
 msgstr ""
+"Kontrollera sourceforge.net/projects/openmediavault/files/iso/ för den "
+"senaste versionen."
 
 msgid "Check volume ..."
-msgstr "Kontrollera volym ..."
+msgstr "Kontrollerar volym…"
 
 msgid "Checksum"
-msgstr ""
+msgstr "Kontrollsumma"
 
 msgid "Clear monitor database"
-msgstr ""
+msgstr "Rensa övervakningsdatabas"
 
 msgid "Clearing monitor database ..."
-msgstr ""
+msgstr "Rensar övervakningsdatabas…"
 
 msgid "Clone"
 msgstr "Klona"
@@ -310,16 +328,18 @@ msgid "Clone name"
 msgstr "Klonnamn"
 
 msgid "Cloning ..."
-msgstr ""
+msgstr "Klonar…"
 
 msgid "Cloning complete."
-msgstr ""
+msgstr "Kloningen är klar."
 
 msgid "Collect host and VM/LXC metrics for the Monitor tab and dashboard."
 msgstr ""
+"Samla in mätvärden för värden och VM/LXC till fliken Övervakning och "
+"instrumentpanelen."
 
 msgid "Collection interval (seconds)"
-msgstr ""
+msgstr "Insamlingsintervall (sekunder)"
 
 msgid "Component"
 msgstr "Komponent"
@@ -331,10 +351,10 @@ msgid "Console"
 msgstr "Konsol"
 
 msgid "Consoles have been started."
-msgstr ""
+msgstr "Konsolerna har startats."
 
 msgid "Consoles have been stopped."
-msgstr ""
+msgstr "Konsolerna har stoppats."
 
 msgid "Convert to qcow2"
 msgstr "Konvertera till qcow2"
@@ -343,19 +363,19 @@ msgid "Convert to raw"
 msgstr "Konvertera till raw"
 
 msgid "Converting to qcow2 ..."
-msgstr "Konverterar till qcow2 ..."
+msgstr "Konverterar till qcow2…"
 
 msgid "Converting to raw ..."
-msgstr "Konverterar till raw ..."
+msgstr "Konverterar till raw…"
 
 msgid "Core Update"
-msgstr ""
+msgstr "Kärnuppdatering"
 
 msgid "Create"
 msgstr "Skapa"
 
 msgid "Create (named)"
-msgstr ""
+msgstr "Skapa (namngiven)"
 
 msgid "Create LXC"
 msgstr "Skapa LXC"
@@ -364,34 +384,34 @@ msgid "Create VM"
 msgstr "Skapa VM"
 
 msgid "Create backing file"
-msgstr "Skapa säkerhetskopieringsfil"
+msgstr "Skapa bakgrundsfil"
 
 msgid "Created LXC."
-msgstr "Skapade LXC."
+msgstr "LXC-containern har skapats."
 
 msgid "Created VM."
-msgstr "Skapade VM."
+msgstr "Den virtuella maskinen har skapats."
 
 msgid "Created scheduled job."
-msgstr "Skapat schemalagt jobb."
+msgstr "Det schemalagda jobbet har skapats."
 
 msgid "Creating backing file ..."
-msgstr ""
+msgstr "Skapar bakgrundsfil…"
 
 msgid "Creating linked clone ..."
-msgstr ""
+msgstr "Skapar länkad klon…"
 
 msgid "Creating snapshot ..."
-msgstr ""
+msgstr "Skapar ögonblicksbild…"
 
 msgid "Creating volume ..."
-msgstr ""
+msgstr "Skapar volym…"
 
 msgid "Current size"
 msgstr "Aktuell storlek"
 
 msgid "Current size of the metrics database on disk."
-msgstr ""
+msgstr "Mätvärdesdatabasens aktuella storlek på disken."
 
 msgid "DHCP"
 msgstr "DHCP"
@@ -406,16 +426,16 @@ msgid "DHCP starting address"
 msgstr "DHCP-startadress"
 
 msgid "Database path"
-msgstr ""
+msgstr "Databassökväg"
 
 msgid "Database size"
-msgstr ""
+msgstr "Databasstorlek"
 
 msgid "Date"
 msgstr "Datum"
 
 msgid "Date & Time"
-msgstr "Datum & tid"
+msgstr "Datum och tid"
 
 msgid "Delete"
 msgstr "Ta bort"
@@ -424,31 +444,31 @@ msgid "Delete + storage"
 msgstr "Ta bort + lagring"
 
 msgid "Delete All"
-msgstr ""
+msgstr "Ta bort alla"
 
 msgid "Deleted."
-msgstr ""
+msgstr "Borttagen."
 
 msgid "Deleting ..."
-msgstr ""
+msgstr "Tar bort…"
 
 msgid "Deleting a network ..."
-msgstr ""
+msgstr "Tar bort ett nätverk…"
 
 msgid "Deleting a pool ..."
-msgstr ""
+msgstr "Tar bort en pool…"
 
 msgid "Deleting all snapshots ..."
-msgstr ""
+msgstr "Tar bort alla ögonblicksbilder…"
 
 msgid "Deleting snapshot ..."
-msgstr ""
+msgstr "Tar bort ögonblicksbild…"
 
 msgid "Details"
 msgstr "Detaljer"
 
 msgid "Direct link to the .iso file."
-msgstr ""
+msgstr "Direktlänk till ISO-filen."
 
 msgid "Directory"
 msgstr "Mapp"
@@ -457,34 +477,34 @@ msgid "Directory is not empty!"
 msgstr "Mappen är inte tom!"
 
 msgid "Directory permissions have been fixed."
-msgstr ""
+msgstr "Mappbehörigheterna har korrigerats."
 
 msgid "Disable"
 msgstr "Inaktivera"
 
 msgid "Disabling autostart ..."
-msgstr ""
+msgstr "Inaktiverar automatisk start…"
 
 msgid "Disk"
 msgstr "Disk"
 
 msgid "Disk (GB)"
-msgstr ""
+msgstr "Disk (GB)"
 
 msgid "Disk Read"
-msgstr ""
+msgstr "Diskläsning"
 
 msgid "Disk Write"
-msgstr ""
+msgstr "Diskskrivning"
 
 msgid "Disk has been added."
-msgstr ""
+msgstr "Disken har lagts till."
 
 msgid "Disk has been removed."
-msgstr ""
+msgstr "Disken har tagits bort."
 
 msgid "Disk info"
-msgstr "Diskinfo"
+msgstr "Diskinformation"
 
 msgid "Disk list"
 msgstr "Disklista"
@@ -496,48 +516,61 @@ msgid "Disk(s)"
 msgstr "Disk(ar)"
 
 msgid "Dom stats"
-msgstr ""
+msgstr "Domänstatistik"
 
 msgid "Download"
-msgstr ""
+msgstr "Hämta"
 
 msgid "Download ISO"
-msgstr ""
+msgstr "Hämta ISO"
 
 msgid "Download ISO ..."
-msgstr ""
+msgstr "Hämta ISO…"
 
 msgid "Download virtio iso"
-msgstr "Hämta virtio iso"
+msgstr "Hämta virtio-ISO"
 
 msgid "Download virtio iso ..."
-msgstr "Hämta virtio iso ..."
+msgstr "Hämta virtio-ISO…"
 
 msgid "Downloading ISO ..."
-msgstr ""
+msgstr "Hämtar ISO…"
 
 msgid ""
 "Downloads and installs Home Assistant OS as a KVM virtual machine. The image"
 " is several hundred MB — installation may take a few minutes. The VM is "
 "started automatically when finished."
 msgstr ""
+"Hämtar och installerar Home Assistant OS som en virtuell KVM-maskin. "
+"Avbilden är flera hundra MB och installationen kan ta några minuter. Den "
+"virtuella maskinen startas automatiskt när installationen är klar."
 
 msgid ""
 "Downloads the IPFire ISO and creates a VM ready for installation. Connect "
 "via VNC to complete setup. IPFire is a firewall distribution — consider "
 "adding a second NIC after creation for RED/GREEN separation."
 msgstr ""
+"Hämtar IPFire-ISO:n och skapar en virtuell maskin som är redo att "
+"installeras. Anslut via VNC för att slutföra installationen. IPFire är en "
+"brandväggsdistribution; överväg att lägga till ett andra nätverkskort efter "
+"skapandet för att skilja RED och GREEN åt."
 
 msgid ""
 "Downloads the OpenMediaVault 8 ISO (based on Debian 13) and creates a VM "
 "ready for installation. Connect via VNC to complete setup. The ISO is "
 "several hundred MB."
 msgstr ""
+"Hämtar OpenMediaVault 8-ISO:n, som bygger på Debian 13, och skapar en "
+"virtuell maskin som är redo att installeras. Anslut via VNC för att slutföra"
+" installationen. ISO-filen är flera hundra MB."
 
 msgid ""
 "Downloads the latest Redox OS disk image for your architecture and imports "
 "it as a VM. The image is fetched automatically from static.redox-os.org."
 msgstr ""
+"Hämtar den senaste diskavbilden av Redox OS för din arkitektur och "
+"importerar den som en virtuell maskin. Avbilden hämtas automatiskt från "
+"static.redox-os.org."
 
 msgid "Edit"
 msgstr "Redigera"
@@ -546,10 +579,10 @@ msgid "Edit Notes"
 msgstr "Redigera anteckningar"
 
 msgid "Edit VM xml"
-msgstr "Redigera VM xml"
+msgstr "Redigera VM-XML"
 
 msgid "Edit VM xml."
-msgstr "Redigera VM xml."
+msgstr "Redigera VM-XML."
 
 msgid "Edit XML"
 msgstr "Redigera XML"
@@ -561,217 +594,219 @@ msgid "Edit settings."
 msgstr "Redigera inställningar."
 
 msgid "Eject disc"
-msgstr ""
+msgstr "Mata ut skiva"
 
 msgid "Ejecting optical disc ..."
-msgstr ""
+msgstr "Matar ut optisk skiva…"
 
 msgid "Enable"
 msgstr "Aktivera"
 
 msgid "Enable monitoring service"
-msgstr ""
+msgstr "Aktivera övervakningstjänst"
 
 msgid "Enabling autostart ..."
-msgstr ""
+msgstr "Aktiverar automatisk start…"
 
 msgid "Execute backup using selected VM name and path ..."
-msgstr ""
+msgstr "Kör säkerhetskopiering med valt VM-namn och vald sökväg…"
 
 msgid "Execute backup with compression using selected VM name and path ..."
-msgstr ""
+msgstr "Kör komprimerad säkerhetskopiering med valt VM-namn och vald sökväg…"
 
 msgid "Execute incremental backup using selected VM name and path ..."
-msgstr ""
+msgstr "Kör inkrementell säkerhetskopiering med valt VM-namn och vald sökväg…"
 
 msgid "Execute scheduled job ..."
-msgstr ""
+msgstr "Kör schemalagt jobb…"
 
 msgid "Extend"
-msgstr ""
+msgstr "Utöka"
 
 msgid "Extending volume ..."
-msgstr ""
+msgstr "Utökar volym…"
 
 msgid "Extension"
-msgstr ""
+msgstr "Filändelse"
 
 msgid "Failed to "
-msgstr ""
+msgstr "Det gick inte att "
 
 msgid "Failed to add PCI device."
-msgstr ""
+msgstr "Det gick inte att lägga till PCI-enheten."
 
 msgid "Failed to add USB device."
-msgstr ""
+msgstr "Det gick inte att lägga till USB-enheten."
 
 msgid "Failed to add VNC device."
-msgstr ""
+msgstr "Det gick inte att lägga till VNC-enheten."
 
 msgid "Failed to add disk."
-msgstr ""
+msgstr "Det gick inte att lägga till disken."
 
 msgid "Failed to add filesystem passthrough."
-msgstr ""
+msgstr "Det gick inte att lägga till det vidarekopplade filsystemet."
 
 msgid "Failed to add host disk."
-msgstr ""
+msgstr "Det gick inte att lägga till värddisken."
 
 msgid "Failed to add host optical."
-msgstr ""
+msgstr "Det gick inte att lägga till värdens optiska enhet."
 
 msgid "Failed to add optical."
-msgstr ""
+msgstr "Det gick inte att lägga till den optiska enheten."
 
 msgid "Failed to add spice device."
-msgstr ""
+msgstr "Det gick inte att lägga till Spice-enheten."
 
 msgid "Failed to add spicevmc channel."
-msgstr ""
+msgstr "Det gick inte att lägga till spicevmc-kanalen."
 
 msgid "Failed to apply new XML, and unable to restore backup :: "
 msgstr ""
+"Det gick inte att tillämpa den nya XML-konfigurationen eller återställa "
+"säkerhetskopian: "
 
 msgid "Failed to configure shared memory for virtiofs."
-msgstr ""
+msgstr "Det gick inte att konfigurera delat minne för virtiofs."
 
 msgid "Failed to create VM XML."
-msgstr "Det gick inte att skapa VM XML."
+msgstr "Det gick inte att skapa VM-XML."
 
 msgid "Failed to create VM."
-msgstr ""
+msgstr "Det gick inte att skapa den virtuella maskinen."
 
 msgid "Failed to create new disk :: "
-msgstr ""
+msgstr "Det gick inte att skapa den nya disken: "
 
 msgid "Failed to delete VM."
-msgstr ""
+msgstr "Det gick inte att ta bort den virtuella maskinen."
 
 msgid "Failed to delete snapshot: "
-msgstr ""
+msgstr "Det gick inte att ta bort ögonblicksbilden: "
 
 msgid "Failed to delete the snapshot!"
-msgstr ""
+msgstr "Det gick inte att ta bort ögonblicksbilden!"
 
 msgid "Failed to detach PCI device from host."
-msgstr ""
+msgstr "Det gick inte att koppla bort PCI-enheten från värden."
 
 msgid "Failed to disable autostart."
-msgstr ""
+msgstr "Det gick inte att inaktivera automatisk start."
 
 msgid "Failed to download image."
-msgstr ""
+msgstr "Det gick inte att hämta avbilden."
 
 msgid "Failed to enable autostart."
-msgstr ""
+msgstr "Det gick inte att aktivera automatisk start."
 
 msgid "Failed to fix permissions on parent directory: %s"
-msgstr ""
+msgstr "Det gick inte att korrigera behörigheterna för överordnad mapp: %s"
 
 msgid "Failed to fix pool permissions."
-msgstr ""
+msgstr "Det gick inte att korrigera poolens behörigheter."
 
 msgid "Failed to force stop VM."
-msgstr ""
+msgstr "Det gick inte att tvångsstoppa den virtuella maskinen."
 
 msgid "Failed to generate a disk name!"
-msgstr ""
+msgstr "Det gick inte att skapa ett disknamn!"
 
 msgid "Failed to pause VM."
-msgstr ""
+msgstr "Det gick inte att pausa den virtuella maskinen."
 
 msgid "Failed to power off VM."
-msgstr ""
+msgstr "Det gick inte att stänga av den virtuella maskinen."
 
 msgid "Failed to power on VM."
-msgstr ""
+msgstr "Det gick inte att starta den virtuella maskinen."
 
 msgid "Failed to reboot VM."
-msgstr ""
+msgstr "Det gick inte att starta om den virtuella maskinen."
 
 msgid "Failed to remove PCI device."
-msgstr ""
+msgstr "Det gick inte att ta bort PCI-enheten."
 
 msgid "Failed to remove USB device."
-msgstr ""
+msgstr "Det gick inte att ta bort USB-enheten."
 
 msgid "Failed to remove VNC device."
-msgstr ""
+msgstr "Det gick inte att ta bort VNC-enheten."
 
 msgid "Failed to remove disk."
-msgstr ""
+msgstr "Det gick inte att ta bort disken."
 
 msgid "Failed to remove filesystem passthrough."
-msgstr ""
+msgstr "Det gick inte att ta bort det vidarekopplade filsystemet."
 
 msgid "Failed to remove network."
-msgstr ""
+msgstr "Det gick inte att ta bort nätverket."
 
 msgid "Failed to remove spice device."
-msgstr ""
+msgstr "Det gick inte att ta bort Spice-enheten."
 
 msgid "Failed to remove spicevmc channel."
-msgstr ""
+msgstr "Det gick inte att ta bort spicevmc-kanalen."
 
 msgid "Failed to remove spicevmc redirdev."
-msgstr ""
+msgstr "Det gick inte att ta bort spicevmc-omdirigeringsenheten."
 
 msgid "Failed to reset VM."
-msgstr ""
+msgstr "Det gick inte att återställa den virtuella maskinen."
 
 msgid "Failed to resize disk!"
-msgstr ""
+msgstr "Det gick inte att ändra diskens storlek!"
 
 msgid "Failed to resume VM."
-msgstr ""
+msgstr "Det gick inte att återuppta den virtuella maskinen."
 
 msgid "Failed to set change."
-msgstr ""
+msgstr "Det gick inte att tillämpa ändringen."
 
 msgid "Failed to set maximum."
-msgstr ""
+msgstr "Det gick inte att ange maxvärdet."
 
 msgid "Failed to set pool autostart."
-msgstr ""
+msgstr "Det gick inte att ange automatisk start för poolen."
 
 msgid "Failed to start pool."
 msgstr "Det gick inte att starta poolen."
 
 msgid "Failed to start websockify for "
-msgstr ""
+msgstr "Det gick inte att starta websockify för "
 
 msgid "Failed to stop pool."
-msgstr ""
+msgstr "Det gick inte att stoppa poolen."
 
 msgid "File will be placed in same directory as the base image."
-msgstr ""
+msgstr "Filen placeras i samma mapp som basavbilden."
 
 msgid "Filename"
-msgstr ""
+msgstr "Filnamn"
 
 msgid "Filesystem"
 msgstr "Filsystem"
 
 msgid "Fix all permissions"
-msgstr ""
+msgstr "Korrigera alla behörigheter"
 
 msgid "Fix directory permissions"
-msgstr ""
+msgstr "Korrigera mappbehörigheter"
 
 msgid "Fix parent dir permissions"
-msgstr ""
+msgstr "Korrigera behörigheter för överordnade mappar"
 
 msgid "Fix permissions"
-msgstr ""
+msgstr "Korrigera behörigheter"
 
 msgid "Fixing all permissions ..."
-msgstr ""
+msgstr "Korrigerar alla behörigheter…"
 
 msgid "Fixing directory permissions ..."
-msgstr ""
+msgstr "Korrigerar mappbehörigheter…"
 
 msgid "Fixing parent directory permissions ..."
-msgstr ""
+msgstr "Korrigerar behörigheter för överordnade mappar…"
 
 msgid ""
 "For description of each type and how to configure <a "
@@ -786,31 +821,31 @@ msgid "Force"
 msgstr "Tvinga"
 
 msgid "Force eject"
-msgstr ""
+msgstr "Tvinga utmatning"
 
 msgid "Force image list refresh"
-msgstr ""
+msgstr "Tvinga uppdatering av avbildningslistan"
 
 msgid "Forced down."
-msgstr ""
+msgstr "Tvångsstoppad."
 
 msgid "Forcing down ..."
-msgstr ""
+msgstr "Tvångsstoppar…"
 
 msgid "Format"
-msgstr "Formatera"
+msgstr "Format"
 
 msgid "Forwarding"
-msgstr "Vidarebefordring"
+msgstr "Vidarebefordran"
 
 msgid "Full Interval"
-msgstr ""
+msgstr "Intervall för fullständig säkerhetskopia"
 
 msgid "Gateway IP"
-msgstr "Gateway IP"
+msgstr "Gateway-IP"
 
 msgid "Gateway IP address"
-msgstr "Gateway IP-adress"
+msgstr "Gateway-IP-adress"
 
 msgid "GiB"
 msgstr "GiB"
@@ -819,37 +854,37 @@ msgid "Gigabytes"
 msgstr "Gigabyte"
 
 msgid "HA OS Version"
-msgstr ""
+msgstr "HA OS-version"
 
 msgid "Hands guests directly onto an existing host bridge."
-msgstr ""
+msgstr "Ansluter gäster direkt till en befintlig brygga på värden."
 
 msgid "Hard disk"
 msgstr "Hårddisk"
 
 msgid "Host disk has been added."
-msgstr ""
+msgstr "Värddisken har lagts till."
 
 msgid "Host drive has been added."
-msgstr ""
+msgstr "Värdenheten har lagts till."
 
 msgid "Host name"
 msgstr "Värdnamn"
 
 msgid "How long to keep 1-minute summary samples."
-msgstr ""
+msgstr "Hur länge sammanfattningsvärden med en minuts intervall ska sparas."
 
 msgid "How long to keep 10-second raw samples."
-msgstr ""
+msgstr "Hur länge råvärden med tio sekunders intervall ska sparas."
 
 msgid "How often to collect metrics. Lower values increase CPU usage."
-msgstr ""
+msgstr "Hur ofta mätvärden ska samlas in. Lägre värden ökar CPU-användningen."
 
 msgid "IP Range"
 msgstr "IP-intervall"
 
 msgid "IPFire Version"
-msgstr ""
+msgstr "IPFire-version"
 
 msgid "ISOs"
 msgstr "ISO:er"
@@ -857,70 +892,72 @@ msgstr "ISO:er"
 msgid ""
 "If unchecked, LXC Container Initialization and Autoboot will be disabled."
 msgstr ""
-"Om avmarkerat kommer LXC Container Initialization och Autoboot att "
-"inaktiveras."
+"Om alternativet avmarkeras inaktiveras initiering och automatisk start av "
+"LXC-containrar."
 
 msgid "If unchecked, LXC network bridge will be disabled."
-msgstr "Om avmarkerat kommer LXC-nätverksbryggan att inaktiveras."
+msgstr "Om alternativet avmarkeras inaktiveras LXC-nätverksbryggan."
 
 msgid "Image"
-msgstr "Bild"
+msgstr "Avbild"
 
 msgid "Incremental"
-msgstr ""
+msgstr "Inkrementell"
 
 msgid "Incremental Backup"
-msgstr ""
+msgstr "Inkrementell säkerhetskopia"
 
 msgid "Info"
-msgstr "Info"
+msgstr "Information"
 
 msgid "Install"
-msgstr ""
+msgstr "Installera"
 
 msgid "Install Home Assistant OS"
-msgstr ""
+msgstr "Installera Home Assistant OS"
 
 msgid "Install Home Assistant OS ..."
-msgstr ""
+msgstr "Installera Home Assistant OS…"
 
 msgid "Install IPFire"
-msgstr ""
+msgstr "Installera IPFire"
 
 msgid "Install IPFire ..."
-msgstr ""
+msgstr "Installera IPFire…"
 
 msgid "Install OpenMediaVault 8"
-msgstr ""
+msgstr "Installera OpenMediaVault 8"
 
 msgid "Install OpenMediaVault 8 ..."
-msgstr ""
+msgstr "Installera OpenMediaVault 8…"
 
 msgid "Install Redox OS"
-msgstr ""
+msgstr "Installera Redox OS"
 
 msgid "Install Redox OS ..."
-msgstr ""
+msgstr "Installera Redox OS…"
 
 msgid "Installing Home Assistant OS ..."
-msgstr ""
+msgstr "Installerar Home Assistant OS…"
 
 msgid "Installing IPFire ..."
-msgstr ""
+msgstr "Installerar IPFire…"
 
 msgid "Installing OpenMediaVault 8 ..."
-msgstr ""
+msgstr "Installerar OpenMediaVault 8…"
 
 msgid "Installing Redox OS ..."
-msgstr ""
+msgstr "Installerar Redox OS…"
 
 msgid "Isolated"
-msgstr ""
+msgstr "Isolerat"
 
 msgid ""
 "Isolated networks have no outbound forwarding; guests reach only the host "
 "and each other."
 msgstr ""
+"Isolerade nätverk har ingen vidarebefordran utåt; gästerna kan endast nå "
+"värden och varandra."
 
 msgid "KVM"
 msgstr "KVM"
@@ -935,30 +972,32 @@ msgid "LXC"
 msgstr "LXC"
 
 msgid "LXC name"
-msgstr "LXC namn"
+msgstr "LXC-namn"
 
 msgid "Leave blank for random address."
 msgstr "Lämna tomt för slumpmässig adress."
 
 msgid "Leave blank to omit."
-msgstr ""
+msgstr "Lämna tomt för att utelämna."
 
 msgid ""
 "Leave blank to use the filename from the URL. The .iso extension is added "
 "automatically."
 msgstr ""
+"Lämna tomt för att använda filnamnet från webbadressen. Filändelsen .iso "
+"läggs till automatiskt."
 
 msgid "Linked Clone"
 msgstr "Länkad klon"
 
 msgid "Linked clone complete."
-msgstr ""
+msgstr "Den länkade klonen är klar."
 
 msgid "Logical"
 msgstr "Logisk"
 
 msgid "Logical Size"
-msgstr ""
+msgstr "Logisk storlek"
 
 msgid "MAC address"
 msgstr "MAC-adress"
@@ -970,10 +1009,10 @@ msgid "Memory"
 msgstr "Minne"
 
 msgid "Memory (MiB)"
-msgstr ""
+msgstr "Minne (MiB)"
 
 msgid "Memory amount has been changed."
-msgstr ""
+msgstr "Minnesmängden har ändrats."
 
 msgid "Message"
 msgstr "Meddelande"
@@ -982,42 +1021,44 @@ msgid "MiB"
 msgstr "MiB"
 
 msgid "Mode"
-msgstr ""
+msgstr "Läge"
 
 msgid "Model"
 msgstr "Modell"
 
 msgid "Monitor"
-msgstr ""
+msgstr "Övervakning"
 
 msgid "Monitor database has been cleared."
-msgstr ""
+msgstr "Övervakningsdatabasen har rensats."
 
 msgid "Move"
-msgstr ""
+msgstr "Flytta"
 
 msgid "Move VM ..."
-msgstr ""
+msgstr "Flytta virtuell maskin…"
 
 msgid ""
 "Must be exactly 16 hexadecimal digits (with optional 0x prefix) or left "
 "blank."
 msgstr ""
+"Måste vara exakt 16 hexadecimala siffror, med valfritt 0x-prefix, eller "
+"lämnas tomt."
 
 msgid "NAT"
-msgstr ""
+msgstr "NAT"
 
 msgid "Name"
 msgstr "Namn"
 
 msgid "Net In"
-msgstr ""
+msgstr "Nätverk in"
 
 msgid "Net Out"
-msgstr ""
+msgstr "Nätverk ut"
 
 msgid "Net info"
-msgstr ""
+msgstr "Nätverksinformation"
 
 msgid "Network"
 msgstr "Nätverk"
@@ -1032,31 +1073,31 @@ msgid "Network State"
 msgstr "Nätverkets tillstånd"
 
 msgid "Network Type"
-msgstr ""
+msgstr "Nätverkstyp"
 
 msgid "Network XML"
-msgstr ""
+msgstr "Nätverks-XML"
 
 msgid "Network adapter has been added."
-msgstr ""
+msgstr "Nätverkskortet har lagts till."
 
 msgid "Network adapter has been removed."
-msgstr ""
+msgstr "Nätverkskortet har tagits bort."
 
 msgid "Network has been added."
-msgstr ""
+msgstr "Nätverket har lagts till."
 
 msgid "Network has been deleted."
-msgstr ""
+msgstr "Nätverket har tagits bort."
 
 msgid "Network has been started."
-msgstr ""
+msgstr "Nätverket har startats."
 
 msgid "Network has been stopped."
-msgstr ""
+msgstr "Nätverket har stoppats."
 
 msgid "Network interface info"
-msgstr ""
+msgstr "Information om nätverksgränssnitt"
 
 msgid "Networks"
 msgstr "Nätverk"
@@ -1065,22 +1106,22 @@ msgid "New name"
 msgstr "Nytt namn"
 
 msgid "No image - use existing image path"
-msgstr "Ingen bild - använd befintlig bildsökväg"
+msgstr "Ingen avbild – använd befintlig avbildningssökväg"
 
 msgid "Notes"
 msgstr "Anteckningar"
 
 msgid "OMV Version"
-msgstr ""
+msgstr "OMV-version"
 
 msgid "OS"
 msgstr "OS"
 
 msgid "Open"
-msgstr ""
+msgstr "Öppna"
 
 msgid "Open full monitoring dashboard"
-msgstr ""
+msgstr "Öppna fullständig övervakningspanel"
 
 msgid "Optical"
 msgstr "Optisk"
@@ -1089,73 +1130,79 @@ msgid "Optical Drive"
 msgstr "Optisk enhet"
 
 msgid "Optical disc has been added."
-msgstr ""
+msgstr "Den optiska skivan har lagts till."
 
 msgid "Optical disc has been changed."
-msgstr ""
+msgstr "Den optiska skivan har bytts."
 
 msgid "Optical disc has been ejected."
-msgstr ""
+msgstr "Den optiska skivan har matats ut."
 
 msgid "Optical disc has been removed."
-msgstr ""
+msgstr "Den optiska skivan har tagits bort."
 
 msgid "Optimize/Shrink"
-msgstr ""
+msgstr "Optimera/krymp"
 
 msgid "Optimizing/shrinking qcow2 ..."
-msgstr ""
+msgstr "Optimerar/krymper qcow2…"
 
 msgid ""
 "Optional. Choose pool to restore VM to a different location. Leave blank for"
 " original location."
 msgstr ""
+"Valfritt. Välj en pool för att återställa den virtuella maskinen till en "
+"annan plats. Lämna tomt för den ursprungliga platsen."
 
 msgid ""
 "Optional. MD5, SHA1, SHA256, or SHA512 — auto-detected by length. File is "
 "deleted if verification fails."
 msgstr ""
+"Valfritt. MD5, SHA1, SHA256 eller SHA512 identifieras automatiskt utifrån "
+"längden. Filen tas bort om verifieringen misslyckas."
 
 msgid "Other CPU"
 msgstr "Annan CPU"
 
 msgid "Overwrite if exists"
-msgstr ""
+msgstr "Skriv över om den finns"
 
 msgid "PCI"
-msgstr ""
+msgstr "PCI"
 
 msgid "PCI device has been added."
-msgstr ""
+msgstr "PCI-enheten har lagts till."
 
 msgid "PCI device has been removed."
-msgstr ""
+msgstr "PCI-enheten har tagits bort."
 
 msgid "Parent directory permissions have been fixed."
-msgstr ""
+msgstr "Behörigheterna för de överordnade mapparna har korrigerats."
 
 msgid "Passing through PCI device ..."
-msgstr ""
+msgstr "Vidarekopplar PCI-enhet…"
 
 msgid "Passthrough"
-msgstr ""
+msgstr "Vidarekoppling"
 
 msgid "Passthrough Filesystem"
-msgstr "Passthrough filsystem"
+msgstr "Vidarekopplat filsystem"
 
 msgid "Passthrough by address instead of using vendor and product IDs"
-msgstr ""
+msgstr "Vidarekoppla efter adress i stället för leverantörs- och produkt-ID"
 
 msgid ""
 "Passthrough dedicates the adapter to a single guest at a time; use Bridge to"
 " share it among several guests."
 msgstr ""
+"Vidarekoppling tilldelar kortet till en enda gäst åt gången. Använd Brygga "
+"för att dela det mellan flera gäster."
 
 msgid "Passthrough filesystem has been added."
-msgstr ""
+msgstr "Passthrough-filsystemet har lagts till."
 
 msgid "Passthrough filesystem has been removed."
-msgstr ""
+msgstr "Passthrough-filsystemet har tagits bort."
 
 msgid "Path"
 msgstr "Sökväg"
@@ -1164,62 +1211,66 @@ msgid ""
 "Path to the SQLite metrics database. Service will restart if this is "
 "changed."
 msgstr ""
+"Sökväg till SQLite-databasen med mätvärden. Tjänsten startas om om värdet "
+"ändras."
 
 msgid "Pause"
 msgstr "Pausa"
 
 msgid "Paused."
-msgstr ""
+msgstr "Pausad."
 
 msgid "Pausing ..."
-msgstr ""
+msgstr "Pausar…"
 
 msgid "Pool"
 msgstr "Pool"
 
 msgid "Pool has been added."
-msgstr ""
+msgstr "Poolen har lagts till."
 
 msgid "Pool has been deleted."
-msgstr ""
+msgstr "Poolen har tagits bort."
 
 msgid "Pool has been started."
-msgstr ""
+msgstr "Poolen har startats."
 
 msgid "Pool has been stopped."
-msgstr ""
+msgstr "Poolen har stoppats."
 
 msgid "Pools"
 msgstr "Pooler"
 
 msgid "Power off before move"
-msgstr ""
+msgstr "Stäng av före flytt"
 
 msgid ""
 "Power off the VM before moving if it is running. The VM will be powered back"
 " on after the move is complete."
 msgstr ""
+"Stäng av den virtuella maskinen före flytten om den körs. Den startas igen "
+"när flytten är klar."
 
 msgid "Private"
-msgstr ""
+msgstr "Privat"
 
 msgid "RAM"
-msgstr ""
+msgstr "RAM"
 
 msgid "Raw data retention (hours)"
-msgstr ""
+msgstr "Lagringstid för rådata (timmar)"
 
 msgid "Reboot"
 msgstr "Starta om"
 
 msgid "Rebooted."
-msgstr ""
+msgstr "Omstartad."
 
 msgid "Rebooting ..."
-msgstr ""
+msgstr "Startar om…"
 
 msgid "Remove PCI"
-msgstr ""
+msgstr "Ta bort PCI"
 
 msgid "Remove Spice"
 msgstr "Ta bort Spice"
@@ -1240,64 +1291,64 @@ msgid "Remove network"
 msgstr "Ta bort nätverk"
 
 msgid "Remove passthrough"
-msgstr "Ta bort passthrough"
+msgstr "Ta bort vidarekoppling"
 
 msgid "Removing PCI device ..."
-msgstr ""
+msgstr "Tar bort PCI-enhet…"
 
 msgid "Removing USB device ..."
-msgstr ""
+msgstr "Tar bort USB-enhet…"
 
 msgid "Removing VNC viewer ..."
-msgstr ""
+msgstr "Tar bort VNC-visare…"
 
 msgid "Removing disk ..."
-msgstr ""
+msgstr "Tar bort disk…"
 
 msgid "Removing network adapter ..."
-msgstr ""
+msgstr "Tar bort nätverkskort…"
 
 msgid "Removing optical disc ..."
-msgstr ""
+msgstr "Tar bort optisk skiva…"
 
 msgid "Removing passthrough filesystem ..."
-msgstr ""
+msgstr "Tar bort vidarekopplat filsystem…"
 
 msgid "Removing spice viewer ..."
-msgstr ""
+msgstr "Tar bort Spice-visare…"
 
 msgid "Reset"
 msgstr "Återställ"
 
 msgid "Reset."
-msgstr ""
+msgstr "Återställd."
 
 msgid "Resetting ..."
-msgstr ""
+msgstr "Återställer…"
 
 msgid "Restore"
 msgstr "Återställ"
 
 msgid "Restore VM ..."
-msgstr "Återställ VM..."
+msgstr "Återställer virtuell maskin…"
 
 msgid "Resume"
 msgstr "Återuppta"
 
 msgid "Resumed."
-msgstr ""
+msgstr "Återupptagen."
 
 msgid "Resuming ..."
-msgstr ""
+msgstr "Återupptar…"
 
 msgid "Revert"
 msgstr "Återgå"
 
 msgid "Reverting to snapshot ..."
-msgstr ""
+msgstr "Återgår till ögonblicksbild…"
 
 msgid "Routed"
-msgstr ""
+msgstr "Routat"
 
 msgid "Run"
 msgstr "Kör"
@@ -1315,15 +1366,18 @@ msgid ""
 "Seconds to wait before libvirtd starts on boot. Use this if pools or VMs "
 "fail to autostart because the underlying storage is not ready in time."
 msgstr ""
+"Antal sekunder att vänta innan libvirtd startas vid systemstart. Använd "
+"detta om pooler eller virtuella maskiner inte startas automatiskt eftersom "
+"den underliggande lagringen inte hinner bli klar."
 
 msgid "Secure boot"
-msgstr ""
+msgstr "Säker start"
 
 msgid "Select a snapshot ..."
-msgstr "Välj en ögonblicksbild ..."
+msgstr "Välj en ögonblicksbild…"
 
 msgid "Serial"
-msgstr ""
+msgstr "Seriell"
 
 msgid "Settings"
 msgstr "Inställningar"
@@ -1338,16 +1392,16 @@ msgid "Snapshot"
 msgstr "Ögonblicksbild"
 
 msgid "Snapshot has been created."
-msgstr ""
+msgstr "Ögonblicksbilden har skapats."
 
 msgid "Snapshot has been deleted."
-msgstr ""
+msgstr "Ögonblicksbilden har tagits bort."
 
 msgid "Snapshot has been reverted."
-msgstr ""
+msgstr "Ögonblicksbilden har återställts."
 
 msgid "Snapshot name"
-msgstr ""
+msgstr "Namn på ögonblicksbild"
 
 msgid "Snapshots"
 msgstr "Ögonblicksbilder"
@@ -1365,31 +1419,31 @@ msgid "Spice port"
 msgstr "Spice-port"
 
 msgid "Spice viewer has been added."
-msgstr ""
+msgstr "Spice-visaren har lagts till."
 
 msgid "Spice viewer has been removed."
-msgstr ""
+msgstr "Spice-visaren har tagits bort."
 
 msgid "Start"
 msgstr "Starta"
 
 msgid "Start delay"
-msgstr ""
+msgstr "Startfördröjning"
 
 msgid "Started."
-msgstr ""
+msgstr "Startad."
 
 msgid "Starting ..."
-msgstr ""
+msgstr "Startar…"
 
 msgid "Starting a pool ..."
-msgstr ""
+msgstr "Startar en pool…"
 
 msgid "Starting consoles ..."
-msgstr ""
+msgstr "Startar konsoler…"
 
 msgid "Starting network ..."
-msgstr ""
+msgstr "Startar nätverk…"
 
 msgid "State"
 msgstr "Tillstånd"
@@ -1398,22 +1452,22 @@ msgid "Stop"
 msgstr "Stoppa"
 
 msgid "Stopped."
-msgstr ""
+msgstr "Stoppad."
 
 msgid "Stopping ..."
-msgstr ""
+msgstr "Stoppar…"
 
 msgid "Stopping a pool ..."
-msgstr ""
+msgstr "Stoppar en pool…"
 
 msgid "Stopping consoles ..."
-msgstr ""
+msgstr "Stoppar konsoler…"
 
 msgid "Stopping network ..."
-msgstr ""
+msgstr "Stoppar nätverk…"
 
 msgid "Storage Pool"
-msgstr ""
+msgstr "Lagringspool"
 
 msgid "Storage Volume"
 msgstr "Lagringsvolym"
@@ -1422,6 +1476,12 @@ msgid "Subnet mask"
 msgstr "Subnätmask"
 
 msgid "Summary data retention (days)"
+msgstr "Lagringstid för sammanfattningsdata (dagar)"
+
+msgid "Sync Backup List"
+msgstr ""
+
+msgid "Syncing backup list ..."
 msgstr ""
 
 msgid "TPM"
@@ -1431,6 +1491,12 @@ msgid "Terabytes"
 msgstr "Terabyte"
 
 msgid "Terminal Link"
+msgstr "Terminallänk"
+
+msgid ""
+"This reconciles the backup list against what actually exists on disk, "
+"removing entries left behind by prior retention pruning. A backup of the "
+"list file is kept as omv-backup-vm.list.bak. Continue?"
 msgstr ""
 
 msgid ""
@@ -1438,6 +1504,9 @@ msgid ""
 "allowing libvirt-qemu to traverse them. Existing permissions on those "
 "directories will be modified. Continue?"
 msgstr ""
+"Detta kör ”chmod o+x” på varje överordnad mapp i poolsökvägen så att "
+"libvirt-qemu kan passera dem. Befintliga behörigheter för mapparna ändras. "
+"Vill du fortsätta?"
 
 msgid "Type"
 msgstr "Typ"
@@ -1446,97 +1515,100 @@ msgid "UEFI"
 msgstr "UEFI"
 
 msgid "URL"
-msgstr ""
+msgstr "Webbadress"
 
 msgid "USB"
 msgstr "USB"
 
 msgid "USB device has been added."
-msgstr ""
+msgstr "USB-enheten har lagts till."
 
 msgid "USB device has been removed."
-msgstr ""
+msgstr "USB-enheten har tagits bort."
 
 msgid "UUID"
 msgstr "UUID"
 
 msgid "Unable to add network adapter to VM"
-msgstr ""
+msgstr "Det gick inte att lägga till nätverkskortet i den virtuella maskinen"
 
 msgid "Unable to backup existing XML for VM :: "
 msgstr ""
+"Det gick inte att säkerhetskopiera den befintliga XML-konfigurationen för "
+"den virtuella maskinen: "
 
 msgid "Unable to change notes for VM."
-msgstr ""
+msgstr "Det gick inte att ändra anteckningarna för den virtuella maskinen."
 
 msgid "Unable to create snapshot"
-msgstr ""
+msgstr "Det gick inte att skapa ögonblicksbilden"
 
 msgid "Unable to create volume - "
-msgstr "Det går inte att skapa volym - "
+msgstr "Det gick inte att skapa volymen – "
 
 msgid "Unable to define network"
-msgstr ""
+msgstr "Det gick inte att definiera nätverket"
 
 msgid "Unable to define storage pool"
-msgstr ""
+msgstr "Det gick inte att definiera lagringspoolen"
 
 msgid "Unable to delete disk(s) from VM."
 msgstr ""
+"Det gick inte att ta bort disken eller diskarna från den virtuella maskinen."
 
 msgid "Unable to delete network"
-msgstr ""
+msgstr "Det gick inte att ta bort nätverket"
 
 msgid "Unable to delete pool"
-msgstr ""
+msgstr "Det gick inte att ta bort poolen"
 
 msgid "Unable to delete volume - "
-msgstr "Det går inte att ta bort volym - "
+msgstr "Det gick inte att ta bort volymen – "
 
 msgid "Unable to determine pool path."
-msgstr ""
+msgstr "Det gick inte att fastställa poolsökvägen."
 
 msgid "Unable to get network adapter type - "
-msgstr "Det går inte att hämta nätverksadaptertyp -"
+msgstr "Det gick inte att hämta nätverkskortstypen – "
 
 msgid "Unable to revert to snapshot"
-msgstr ""
+msgstr "Det gick inte att återgå till ögonblicksbilden"
 
 msgid "Unable to set VM XML :: "
-msgstr ""
+msgstr "Det gick inte att ange VM-XML: "
 
 msgid "Unable to start network"
-msgstr ""
+msgstr "Det gick inte att starta nätverket"
 
 msgid "Unable to stop network"
-msgstr ""
+msgstr "Det gick inte att stoppa nätverket"
 
 msgid "Unable to undefine VM :: "
-msgstr ""
+msgstr "Det gick inte att ta bort definitionen av den virtuella maskinen: "
 
 msgid "Unable to update domain XML"
-msgstr ""
+msgstr "Det gick inte att uppdatera domänens XML-konfiguration"
 
 msgid "Unit"
 msgstr "Enhet"
 
 msgid "VEPA"
-msgstr ""
+msgstr "VEPA"
 
 msgid "VM Name"
 msgstr "VM-namn"
 
 msgid "VM does not have qemu guest agent installed!"
-msgstr ""
+msgstr "QEMU-gästagenten är inte installerad i den virtuella maskinen!"
 
 msgid "VM info"
-msgstr "VM-info"
+msgstr "VM-information"
 
 msgid "VM is not running!"
-msgstr ""
+msgstr "Den virtuella maskinen körs inte!"
 
 msgid "VM must be powered off before deleting disks."
-msgstr ""
+msgstr "Den virtuella maskinen måste vara avstängd innan diskar tas bort."
 
 msgid "VM name"
 msgstr "VM-namn"
@@ -1554,60 +1626,65 @@ msgid "VNC port"
 msgstr "VNC-port"
 
 msgid "VNC viewer has been added."
-msgstr ""
+msgstr "VNC-visaren har lagts till."
 
 msgid "VNC viewer has been removed."
-msgstr ""
+msgstr "VNC-visaren har tagits bort."
 
 msgid "View XML"
-msgstr ""
+msgstr "Visa XML"
 
 msgid "Virtual Network"
-msgstr ""
+msgstr "Virtuellt nätverk"
 
 msgid "Volume Count"
-msgstr "Volymantal"
+msgstr "Antal volymer"
 
 msgid "Volume check complete."
-msgstr ""
+msgstr "Volymkontrollen är klar."
 
 msgid "Volume group"
 msgstr "Volymgrupp"
 
 msgid "Volume has been converted to qcow2."
-msgstr ""
+msgstr "Volymen har konverterats till qcow2."
 
 msgid "Volume has been converted to raw."
-msgstr ""
+msgstr "Volymen har konverterats till raw."
 
 msgid "Volume has been created."
-msgstr ""
+msgstr "Volymen har skapats."
 
 msgid "Volume has been extended."
-msgstr ""
+msgstr "Volymen har utökats."
 
 msgid "Volume has been optimized."
-msgstr ""
+msgstr "Volymen har optimerats."
 
 msgid "Volume info ..."
-msgstr "Volyminfo ..."
+msgstr "Volyminformation…"
 
 msgid "Volumes"
 msgstr "Volymer"
 
 msgid "WWN"
-msgstr ""
+msgstr "WWN"
 
 msgid ""
 "Warning! Address can change after VM reboot breaking the passthrough!<br "
 "/>Useful when the host system has two or more devices with duplicate vendor "
 "and product IDs."
 msgstr ""
+"Varning! Adressen kan ändras när den virtuella maskinen startas om, vilket "
+"bryter vidarekopplingen!<br />Användbart när värdsystemet har två eller "
+"flera enheter med samma leverantörs- och produkt-ID."
 
 msgid ""
 "World Wide Name, exactly 16 hex digits, optionally prefixed with 0x (e.g. "
 "0x500152d00015b374). Leave blank to omit."
 msgstr ""
+"World Wide Name med exakt 16 hexadecimala siffror och valfritt 0x-prefix "
+"(t.ex. 0x500152d00015b374). Lämna tomt för att utelämna."
 
 msgid "XML"
 msgstr "XML"
@@ -1616,19 +1693,19 @@ msgid "ZFS"
 msgstr "ZFS"
 
 msgid "^win.*$"
-msgstr ""
+msgstr "^win.*$"
 
 msgid "bridge"
-msgstr ""
+msgstr "brygga"
 
 msgid "disabled"
-msgstr ""
+msgstr "inaktiverad"
 
 msgid "e1000"
 msgstr "e1000"
 
 msgid "e1000e"
-msgstr ""
+msgstr "e1000e"
 
 msgid "iSCSI"
 msgstr "iSCSI"
@@ -1637,13 +1714,13 @@ msgid "ide"
 msgstr "ide"
 
 msgid "lxc service"
-msgstr ""
+msgstr "LXC-tjänst"
 
 msgid "lxc-net service"
-msgstr ""
+msgstr "lxc-net-tjänst"
 
 msgid "macvtap network has been added."
-msgstr ""
+msgstr "macvtap-nätverket har lagts till."
 
 msgid "ne2k_pci"
 msgstr "ne2k_pci"

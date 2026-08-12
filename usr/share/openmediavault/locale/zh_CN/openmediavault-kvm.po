@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-24 23:37+0000\n"
+"POT-Creation-Date: 2026-08-08 12:50+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: songming <by@songming.me>, 2026\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_CN/)\n"
@@ -30,7 +30,7 @@ msgstr "网络"
 msgid ""
 "ARM64 is not supported. Redox OS pre-built ARM64 images do not have a "
 "functional EFI partition and cannot boot under KVM."
-msgstr ""
+msgstr "不支持 ARM64。Redox OS 预构建的 ARM64 镜像不包含可用的 EFI 分区，无法在 KVM 下引导启动。"
 
 msgid "Action"
 msgstr "动作"
@@ -39,7 +39,7 @@ msgid "Activity"
 msgstr "激活"
 
 msgid "Actual Size"
-msgstr ""
+msgstr "实际大小"
 
 msgid "Add"
 msgstr "添加"
@@ -57,7 +57,7 @@ msgid "Add VNC"
 msgstr "添加 VNC"
 
 msgid "Add bridge network"
-msgstr ""
+msgstr "添加网桥"
 
 msgid "Add disc"
 msgstr "添加 光盘"
@@ -69,7 +69,7 @@ msgid "Add host disk"
 msgstr "添加主机磁盘"
 
 msgid "Add host drive"
-msgstr "添加磁盘"
+msgstr "添加主机驱动器"
 
 msgid "Add macvtap network"
 msgstr "添加 macvtap 网络"
@@ -102,7 +102,7 @@ msgid "Adding VNC viewer ..."
 msgstr "添加 VNC 监视器中 ..."
 
 msgid "Adding a bridge network ..."
-msgstr ""
+msgstr "添加网桥中 ..."
 
 msgid "Adding a disk ..."
 msgstr "添加磁盘中 ..."
@@ -170,7 +170,7 @@ msgid ""
 "Are you sure you want to delete this backup? For an incremental backup this "
 "removes the entire chain (the full backup and all of its incrementals), "
 "since they cannot be restored without it."
-msgstr ""
+msgstr "您确定要删除此备份吗？对于增量备份，此操作会删除整个备份链（包括完整备份及其所有增量备份），因为若缺少该增量备份，其余备份将无法还原。"
 
 msgid "Are you sure you want to delete?"
 msgstr "您确定删除吗？"
@@ -218,7 +218,7 @@ msgstr ""
 "/dev/disk/by-id 这种设备名称直通。"
 
 msgid "Boot"
-msgstr ""
+msgstr "启动"
 
 msgid "Bridge"
 msgstr "桥"
@@ -227,7 +227,7 @@ msgid "Bridge Model"
 msgstr "桥接模式"
 
 msgid "Bridge network has been added."
-msgstr ""
+msgstr "网桥已添加。"
 
 msgid "Bus"
 msgstr "Bus"
@@ -257,7 +257,7 @@ msgid "Capacity"
 msgstr "容量"
 
 msgid "Chain"
-msgstr ""
+msgstr "备份链"
 
 msgid "Change disc"
 msgstr "变更光盘"
@@ -281,7 +281,7 @@ msgid "Check"
 msgstr "检查"
 
 msgid "Check downloads.ipfire.org for the latest core update number."
-msgstr ""
+msgstr "请查看 downloads.ipfire.org 以获取最新的核心更新版本号。"
 
 msgid ""
 "Check github.com/home-assistant/operating-system/releases for the latest "
@@ -291,13 +291,13 @@ msgstr "请查看 github.com/home-assistant/operating-system/releases 了解最�
 msgid ""
 "Check sourceforge.net/projects/openmediavault/files/iso/ for the latest "
 "version."
-msgstr ""
+msgstr "请访问 sourceforge.net/projects/openmediavault/files/iso/ 查看最新版本。"
 
 msgid "Check volume ..."
 msgstr "检查卷中 ..."
 
 msgid "Checksum"
-msgstr ""
+msgstr "校验"
 
 msgid "Clear monitor database"
 msgstr "清除监控数据库"
@@ -351,13 +351,13 @@ msgid "Converting to raw ..."
 msgstr "转换为  raw 中 ..."
 
 msgid "Core Update"
-msgstr ""
+msgstr "核心更新"
 
 msgid "Create"
 msgstr "创建"
 
 msgid "Create (named)"
-msgstr ""
+msgstr "创建（命名）"
 
 msgid "Create LXC"
 msgstr "创建 LXC"
@@ -450,7 +450,7 @@ msgid "Details"
 msgstr "详情"
 
 msgid "Direct link to the .iso file."
-msgstr ""
+msgstr "直接链接到 .iso 文件。"
 
 msgid "Directory"
 msgstr "路径"
@@ -471,7 +471,7 @@ msgid "Disk"
 msgstr "磁盘"
 
 msgid "Disk (GB)"
-msgstr ""
+msgstr "磁盘 (GB)"
 
 msgid "Disk Read"
 msgstr "磁盘读取"
@@ -501,13 +501,13 @@ msgid "Dom stats"
 msgstr "Dom 状态"
 
 msgid "Download"
-msgstr ""
+msgstr "下载"
 
 msgid "Download ISO"
-msgstr ""
+msgstr "下载 ISO"
 
 msgid "Download ISO ..."
-msgstr ""
+msgstr "下载 ISO ..."
 
 msgid "Download virtio iso"
 msgstr "下载  virtio iso"
@@ -516,7 +516,7 @@ msgid "Download virtio iso ..."
 msgstr " 下载 virtio iso 中 ..."
 
 msgid "Downloading ISO ..."
-msgstr ""
+msgstr "下载 ISO 中 ..."
 
 msgid ""
 "Downloads and installs Home Assistant OS as a KVM virtual machine. The image"
@@ -530,17 +530,21 @@ msgid ""
 "via VNC to complete setup. IPFire is a firewall distribution — consider "
 "adding a second NIC after creation for RED/GREEN separation."
 msgstr ""
+"下载 IPFire ISO 镜像并创建可用于安装的虚拟机。通过 VNC 连接以完成设置。IPFire "
+"是一款防火墙发行版——建议在创建后添加第二块网卡，以实现 RED/GREEN 网络区域隔离。"
 
 msgid ""
 "Downloads the OpenMediaVault 8 ISO (based on Debian 13) and creates a VM "
 "ready for installation. Connect via VNC to complete setup. The ISO is "
 "several hundred MB."
 msgstr ""
+"下载 OpenMediaVault 8 ISO 镜像（基于 Debian 13）并创建一个可供安装的虚拟机。通过 VNC 连接以完成设置。该 ISO "
+"镜像大小为几百 MB。"
 
 msgid ""
 "Downloads the latest Redox OS disk image for your architecture and imports "
 "it as a VM. The image is fetched automatically from static.redox-os.org."
-msgstr ""
+msgstr "下载适用于您架构的最新 Redox OS 磁盘镜像，并将其导入为虚拟机。该镜像会自动从 static.redox-os.org 获取。"
 
 msgid "Edit"
 msgstr "编辑"
@@ -585,7 +589,7 @@ msgid "Execute backup with compression using selected VM name and path ..."
 msgstr "使用选定的 VM 名称和路径执行压缩备份中 ..."
 
 msgid "Execute incremental backup using selected VM name and path ..."
-msgstr ""
+msgstr "使用选定的虚拟机名称和路径执行增量备份…"
 
 msgid "Execute scheduled job ..."
 msgstr "执行计划任务中 ..."
@@ -750,7 +754,7 @@ msgid "File will be placed in same directory as the base image."
 msgstr "文件将放在与基础镜像相同的目录。"
 
 msgid "Filename"
-msgstr ""
+msgstr "文件名"
 
 msgid "Filesystem"
 msgstr "文件系统"
@@ -806,7 +810,7 @@ msgid "Forwarding"
 msgstr "转发"
 
 msgid "Full Interval"
-msgstr ""
+msgstr "完整间隔"
 
 msgid "Gateway IP"
 msgstr "网关"
@@ -824,7 +828,7 @@ msgid "HA OS Version"
 msgstr "HA OS 版本"
 
 msgid "Hands guests directly onto an existing host bridge."
-msgstr ""
+msgstr "将客户机直接移交给现有的宿主桥接设备。"
 
 msgid "Hard disk"
 msgstr "硬盘"
@@ -851,7 +855,7 @@ msgid "IP Range"
 msgstr "IP 范围"
 
 msgid "IPFire Version"
-msgstr ""
+msgstr "IPFire 版本"
 
 msgid "ISOs"
 msgstr "ISOs"
@@ -867,10 +871,10 @@ msgid "Image"
 msgstr "镜像"
 
 msgid "Incremental"
-msgstr ""
+msgstr "增量"
 
 msgid "Incremental Backup"
-msgstr ""
+msgstr "增量备份"
 
 msgid "Info"
 msgstr "信息"
@@ -885,42 +889,42 @@ msgid "Install Home Assistant OS ..."
 msgstr "安装 Home Assistant OS ..."
 
 msgid "Install IPFire"
-msgstr ""
+msgstr "安装 IPFire "
 
 msgid "Install IPFire ..."
-msgstr ""
+msgstr "安装 IPFire ..."
 
 msgid "Install OpenMediaVault 8"
-msgstr ""
+msgstr "安装 OpenMediaVault 8"
 
 msgid "Install OpenMediaVault 8 ..."
-msgstr ""
+msgstr "安装 OpenMediaVault 8 ..."
 
 msgid "Install Redox OS"
-msgstr ""
+msgstr "安装 Redox OS"
 
 msgid "Install Redox OS ..."
-msgstr ""
+msgstr "安装 Redox OS ..."
 
 msgid "Installing Home Assistant OS ..."
 msgstr "安装 Home Assistant OS 中 ..."
 
 msgid "Installing IPFire ..."
-msgstr ""
+msgstr "安装 IPFire 中 ..."
 
 msgid "Installing OpenMediaVault 8 ..."
-msgstr ""
+msgstr "安装 OpenMediaVault 8 中 ..."
 
 msgid "Installing Redox OS ..."
-msgstr ""
+msgstr "安装 Redox OS 中 ..."
 
 msgid "Isolated"
-msgstr ""
+msgstr "隔离"
 
 msgid ""
 "Isolated networks have no outbound forwarding; guests reach only the host "
 "and each other."
-msgstr ""
+msgstr "隔离网络没有出站转发功能；访客只能访问宿主机及彼此。"
 
 msgid "KVM"
 msgstr "KVM"
@@ -946,7 +950,7 @@ msgstr "留空则省略。"
 msgid ""
 "Leave blank to use the filename from the URL. The .iso extension is added "
 "automatically."
-msgstr ""
+msgstr "留空则使用 URL 中的文件名。.iso 扩展名会自动添加。"
 
 msgid "Linked Clone"
 msgstr "链接克隆"
@@ -958,7 +962,7 @@ msgid "Logical"
 msgstr "逻辑"
 
 msgid "Logical Size"
-msgstr ""
+msgstr "逻辑大小"
 
 msgid "MAC address"
 msgstr "MAC 地址"
@@ -982,7 +986,7 @@ msgid "MiB"
 msgstr "MiB"
 
 msgid "Mode"
-msgstr ""
+msgstr "模式"
 
 msgid "Model"
 msgstr "型号"
@@ -1005,7 +1009,7 @@ msgid ""
 msgstr "必须正好是16个十六进制数字（可选0x前缀）或留空。"
 
 msgid "NAT"
-msgstr ""
+msgstr "NAT"
 
 msgid "Name"
 msgstr "名称"
@@ -1035,7 +1039,7 @@ msgid "Network Type"
 msgstr "网卡类型"
 
 msgid "Network XML"
-msgstr ""
+msgstr "网络 XML"
 
 msgid "Network adapter has been added."
 msgstr "网卡已添加。"
@@ -1071,13 +1075,13 @@ msgid "Notes"
 msgstr "注意"
 
 msgid "OMV Version"
-msgstr ""
+msgstr "OMV 版本"
 
 msgid "OS"
 msgstr "OS"
 
 msgid "Open"
-msgstr ""
+msgstr "打开"
 
 msgid "Open full monitoring dashboard"
 msgstr "打开完整监控仪表盘"
@@ -1114,13 +1118,13 @@ msgstr "可选项，选择池以恢复 VM 到不同的位置，留空则恢复�
 msgid ""
 "Optional. MD5, SHA1, SHA256, or SHA512 — auto-detected by length. File is "
 "deleted if verification fails."
-msgstr ""
+msgstr "可选。MD5、SHA1、SHA256 或 SHA512 —— 根据长度自动检测。若验证失败，文件将被删除。"
 
 msgid "Other CPU"
 msgstr "其它 CPU"
 
 msgid "Overwrite if exists"
-msgstr ""
+msgstr "如果存在则覆盖"
 
 msgid "PCI"
 msgstr "PCI"
@@ -1138,7 +1142,7 @@ msgid "Passing through PCI device ..."
 msgstr "直通 PCI 设备中 ..."
 
 msgid "Passthrough"
-msgstr ""
+msgstr "直通"
 
 msgid "Passthrough Filesystem"
 msgstr "直通文件系统"
@@ -1149,7 +1153,7 @@ msgstr "使用地址来直通，而不是厂商或产品 ID。"
 msgid ""
 "Passthrough dedicates the adapter to a single guest at a time; use Bridge to"
 " share it among several guests."
-msgstr ""
+msgstr "直通（Passthrough）模式将适配器专用于单个客户机；若需在多个客户机之间共享适配器，请使用桥接（Bridge）模式。"
 
 msgid "Passthrough filesystem has been added."
 msgstr "直通文件系统已添加。"
@@ -1193,15 +1197,15 @@ msgid "Pools"
 msgstr "池"
 
 msgid "Power off before move"
-msgstr ""
+msgstr "移动前先关机"
 
 msgid ""
 "Power off the VM before moving if it is running. The VM will be powered back"
 " on after the move is complete."
-msgstr ""
+msgstr "如果虚拟机正在运行，请在移动前将其关机。移动完成后，虚拟机会重新启动。"
 
 msgid "Private"
-msgstr ""
+msgstr "私有"
 
 msgid "RAM"
 msgstr "RAM"
@@ -1297,7 +1301,7 @@ msgid "Reverting to snapshot ..."
 msgstr "还原快照中 ..."
 
 msgid "Routed"
-msgstr ""
+msgstr "路由"
 
 msgid "Run"
 msgstr "运行"
@@ -1314,7 +1318,7 @@ msgstr "计划"
 msgid ""
 "Seconds to wait before libvirtd starts on boot. Use this if pools or VMs "
 "fail to autostart because the underlying storage is not ready in time."
-msgstr ""
+msgstr "设置系统启动时 libvirtd 启动前的等待时间（以秒为单位）。如果存储池或虚拟机因底层存储未及时就绪而无法自动启动，请使用此设置。"
 
 msgid "Secure boot"
 msgstr "安全启动"
@@ -1347,7 +1351,7 @@ msgid "Snapshot has been reverted."
 msgstr "快照已还原。"
 
 msgid "Snapshot name"
-msgstr ""
+msgstr "快照名称"
 
 msgid "Snapshots"
 msgstr "快照"
@@ -1374,7 +1378,7 @@ msgid "Start"
 msgstr "运行"
 
 msgid "Start delay"
-msgstr ""
+msgstr "启动延迟"
 
 msgid "Started."
 msgstr "已启动。"
@@ -1424,6 +1428,12 @@ msgstr "子掩码"
 msgid "Summary data retention (days)"
 msgstr "摘要数据保留（天）"
 
+msgid "Sync Backup List"
+msgstr ""
+
+msgid "Syncing backup list ..."
+msgstr ""
+
 msgid "TPM"
 msgstr "TPM"
 
@@ -1432,6 +1442,12 @@ msgstr "TB"
 
 msgid "Terminal Link"
 msgstr "终端链接"
+
+msgid ""
+"This reconciles the backup list against what actually exists on disk, "
+"removing entries left behind by prior retention pruning. A backup of the "
+"list file is kept as omv-backup-vm.list.bak. Continue?"
+msgstr ""
 
 msgid ""
 "This will run 'chmod o+x' on every parent directory of the pool path, "
@@ -1446,7 +1462,7 @@ msgid "UEFI"
 msgstr "UEFI"
 
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 msgid "USB"
 msgstr "USB"
@@ -1521,7 +1537,7 @@ msgid "Unit"
 msgstr "单位"
 
 msgid "VEPA"
-msgstr ""
+msgstr "VEPA"
 
 msgid "VM Name"
 msgstr "VM 名称"
@@ -1560,7 +1576,7 @@ msgid "VNC viewer has been removed."
 msgstr "VNC 监视器已移除。"
 
 msgid "View XML"
-msgstr ""
+msgstr "查看 XML"
 
 msgid "Virtual Network"
 msgstr "虚拟网络"

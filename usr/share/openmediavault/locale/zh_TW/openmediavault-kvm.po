@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-24 23:37+0000\n"
+"POT-Creation-Date: 2026-08-08 12:50+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: kochin <kochinc@outlook.com>, 2026\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_TW/)\n"
@@ -1212,7 +1212,7 @@ msgid "RAM"
 msgstr "RAM"
 
 msgid "Raw data retention (hours)"
-msgstr "原始資料保留(時數)"
+msgstr "原始資料留存(時數)"
 
 msgid "Reboot"
 msgstr "重新啟動"
@@ -1427,7 +1427,13 @@ msgid "Subnet mask"
 msgstr "子網遮罩"
 
 msgid "Summary data retention (days)"
-msgstr "摘要資料保留(日數)"
+msgstr "摘要資料留存(日數)"
+
+msgid "Sync Backup List"
+msgstr "同步備份列表"
+
+msgid "Syncing backup list ..."
+msgstr "同步備份列表中 …"
 
 msgid "TPM"
 msgstr "TPM"
@@ -1437,6 +1443,13 @@ msgstr "TB"
 
 msgid "Terminal Link"
 msgstr "終端機連結"
+
+msgid ""
+"This reconciles the backup list against what actually exists on disk, "
+"removing entries left behind by prior retention pruning. A backup of the "
+"list file is kept as omv-backup-vm.list.bak. Continue?"
+msgstr ""
+"這將根據磁碟上的實際內容核對備份列表，並移除先前留存清理遺留的項目。會保留一份列表檔案的備份為 omv-backup-vm.list.bak。是否繼續？"
 
 msgid ""
 "This will run 'chmod o+x' on every parent directory of the pool path, "
