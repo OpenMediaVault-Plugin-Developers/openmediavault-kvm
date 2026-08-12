@@ -1282,7 +1282,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmdArgs[] = '--boot hd,cdrom';
             }
             $cmdArgs[] = sprintf('--arch %s', $arch);
-            $cmdArgs[] = sprintf('--cpu %s,check=none,migratable=off', $cpuModel);
+            if ($cpuModel === 'host-passthrough') {
+                $cmdArgs[] = sprintf('--cpu %s,check=none,migratable=off', $cpuModel);
+            } else {
+                $cmdArgs[] = sprintf('--cpu %s,check=none', $cpuModel);
+            }
             $cmdArgs[] = sprintf('--disk %s', $diskArgs);
             $cmdArgs[] = sprintf('--os-variant name=%s', $params['os']);
         }
