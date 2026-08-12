@@ -1,8 +1,10 @@
-openmediavault-kvm (8.3.2) UNRELEASED; urgency=medium
+openmediavault-kvm (8.3.2) stable; urgency=low
 
   * Improve backup failure handling
+  * Add script and button to sync backup list to what is on the system
+  * Only add migratable param when cpu model is host-passthrough
 
- -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Tue, 04 Aug 2026 13:15:36 +0000
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sat, 08 Aug 2026 12:53:06 +0000
 
 openmediavault-kvm (8.3.1) stable; urgency=low
 
