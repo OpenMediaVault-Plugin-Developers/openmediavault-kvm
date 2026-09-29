@@ -148,6 +148,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
 
         $this->registerMethod('getMonitorStats');
         $this->registerMethod('clearMonitorDb');
+        $this->registerMethod('deleteMonitorVm');
 
         $this->registerMethod('installHomeAssistant');
         $this->registerMethod('installOmv8');
@@ -2843,6 +2844,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmdArgs[] = '--checkpoints-metadata';
                 $cmdArgs[] = $this->escapeName($vmname);
                 $this->virshCommand($cmdArgs, gettext("Failed to delete VM."));
+                // Best effort: monitor may be disabled or not running.
+                $this->deleteVmFromMonitor($vmname);
                 break;
             }
             case 'undefineplus': {
@@ -2859,6 +2862,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmdArgs[] = '--checkpoints-metadata';
                 $cmdArgs[] = $this->escapeName($vmname);
                 $this->virshCommand($cmdArgs, gettext("Failed to delete VM."));
+                // Best effort: monitor may be disabled or not running.
+                $this->deleteVmFromMonitor($vmname);
                 break;
             }
             case 'autostartdisable':
@@ -4349,5 +4354,38 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if ($json === false) {
             throw new \OMV\Exception("Failed to clear monitor database: %s", $err);
         }
+    }
+
+    public function deleteMonitorVm($params, $context)
+    {
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        $this->validateMethodParams($params, 'rpc.kvm.name');
+        $err = $this->deleteVmFromMonitor($params['name']);
+        if ($err !== null) {
+            throw new \OMV\Exception("Failed to delete VM from monitor database: %s", $err);
+        }
+    }
+
+    // Returns null on success or an error string on failure.
+    private function deleteVmFromMonitor($vmname)
+    {
+        $ch = curl_init(sprintf('http://127.0.0.1:8889/api/vms/%s/delete', rawurlencode($vmname)));
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST           => true,
+            CURLOPT_CONNECTTIMEOUT => 2,
+            CURLOPT_TIMEOUT        => 15,
+        ]);
+        $json = curl_exec($ch);
+        $err  = curl_error($ch);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        if ($json === false) {
+            return $err;
+        }
+        if ($code !== 200) {
+            return sprintf("HTTP %d", $code);
+        }
+        return null;
     }
 }

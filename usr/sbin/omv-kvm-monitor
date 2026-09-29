@@ -191,6 +191,13 @@ class KvmCollector:
     # Public entry point
     # ------------------------------------------------------------------
 
+    def forget_vm(self, name):
+        """Drop cached delta/device state for a VM."""
+        self._prev_vm_cpu.pop(name, None)
+        self._prev_vm_disk.pop(name, None)
+        self._prev_vm_net.pop(name, None)
+        self._device_cache.pop(name, None)
+
     def collect(self):
         ts = int(time.time())
         host = self._collect_host(ts)
@@ -489,6 +496,7 @@ app = Flask(__name__)
 # Injected at startup
 _db_path = None
 _config  = None
+_collector = None
 
 
 def _query_history(table, extra_where, params, minutes, config):
@@ -605,18 +613,31 @@ def api_db_clear():
     return jsonify({'ok': True})
 
 
+@app.route('/api/vms/<vm_name>/delete', methods=['POST'])
+def api_vm_delete(vm_name):
+    """Delete all collected metrics for a single VM."""
+    with get_db(_db_path) as conn:
+        conn.execute('DELETE FROM vm_raw WHERE vm_name = ?', (vm_name,))
+        conn.execute('DELETE FROM vm_summary WHERE vm_name = ?', (vm_name,))
+    if _collector is not None:
+        _collector.forget_vm(vm_name)
+    log.info('Deleted metrics for VM %s via API', vm_name)
+    return jsonify({'ok': True})
+
+
 # ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
 
 def main():
-    global _db_path, _config
+    global _db_path, _config, _collector
     _config  = load_config()
     _db_path = _config.get('db_path', DB_PATH)
 
     init_db(_db_path)
 
     collector = KvmCollector(_db_path, _config)
+    _collector = collector
 
     t = threading.Thread(
         target=_collection_loop,

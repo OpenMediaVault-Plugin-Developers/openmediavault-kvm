@@ -77,3 +77,21 @@ data:
         execute:
           type: url
           url: /externalRedirect/%2Fkvm-monitor%2F
+      - type: iconButton
+        icon: delete
+        tooltip: _("Delete from monitor database")
+        confirmationDialogConfig:
+          template: confirmation-danger
+          message: _("Are you sure you want to delete all collected metrics for this VM? If the VM still exists, it will reappear on the next collection.")
+        enabledConstraints:
+          minSelected: 1
+          maxSelected: 1
+        execute:
+          type: request
+          request:
+            service: Kvm
+            method: deleteMonitorVm
+            params:
+              name: "{{ _selected[0].vm_name }}"
+            progressMessage: _("Deleting VM from monitor database ...")
+            successNotification: _("VM has been deleted from monitor database.")
