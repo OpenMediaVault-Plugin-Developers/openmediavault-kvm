@@ -1,3 +1,10 @@
+openmediavault-kvm (8.3.3) stable; urgency=low
+
+  * Add delete button to delete VM from monitoring
+  * Delete VM from monitoring when deleting VM from VMs tab
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Tue, 29 Sep 2026 21:25:05 +0000
+
 openmediavault-kvm (8.3.2) stable; urgency=low
 
   * Improve backup failure handling
