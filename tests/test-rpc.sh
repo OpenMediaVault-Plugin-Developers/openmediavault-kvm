@@ -1442,6 +1442,10 @@ section "Monitor stats"
 # ===========================================================================
 
 assert_rpc "getMonitorStats" "Kvm" "getMonitorStats" '{}'
+if systemctl is-active --quiet omv-kvm-monitor; then
+    assert_rpc "deleteMonitorVm — nonexistent vm" "Kvm" "deleteMonitorVm" \
+        '{"name":"omv-test-no-such-vm"}'
+fi
 
 # ===========================================================================
 section "LXC images"
