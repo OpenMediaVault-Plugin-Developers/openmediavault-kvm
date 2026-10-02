@@ -1,3 +1,9 @@
+openmediavault-kvm (8.3.4) UNRELEASED; urgency=medium
+
+  * Add Talos appliance
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Fri, 02 Oct 2026 23:21:03 +0000
+
 openmediavault-kvm (8.3.3) stable; urgency=low
 
   * Add delete button to delete VM from monitoring
