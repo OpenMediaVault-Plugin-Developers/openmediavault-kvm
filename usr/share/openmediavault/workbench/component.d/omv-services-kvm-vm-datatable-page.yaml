@@ -615,6 +615,136 @@ data:
                               memory: "{{ memory }}"
                               vcpus: "{{ vcpus }}"
                               disksize: "{{ disksize }}"
+          - text: _("Install Talos Linux")
+            icon: mdi:kubernetes
+            execute:
+              type: formDialog
+              formDialog:
+                title: _("Install Talos Linux ...")
+                fields:
+                  - type: hint
+                    hintType: info
+                    text: _("Downloads the Talos Linux ISO (with the QEMU guest agent extension) from the Talos Image Factory and creates a VM that boots into maintenance mode. Use talosctl from a workstation to apply a machine configuration and install Talos to the disk (/dev/vda).")
+                  - type: textInput
+                    name: vmname
+                    label: _("VM Name")
+                    value: "talos"
+                    validators:
+                      required: true
+                      patternType: shareName
+                  - type: textInput
+                    name: version
+                    label: _("Talos Version")
+                    value: "1.14.2"
+                    hint: _("Check github.com/siderolabs/talos/releases for the latest version.")
+                    validators:
+                      required: true
+                  - type: select
+                    name: pool
+                    label: _("Storage Pool")
+                    textField: name
+                    valueField: name
+                    store:
+                      proxy:
+                        service: Kvm
+                        get:
+                          method: enumeratePools
+                    validators:
+                      required: true
+                  - type: select
+                    name: networktype
+                    label: _("Network Type")
+                    value: "bridge"
+                    store:
+                      data:
+                        - ["bridge", _("Bridge")]
+                        - ["network", _("Virtual Network")]
+                  - type: select
+                    name: bridge
+                    label: _("Bridge")
+                    textField: bridge
+                    valueField: bridge
+                    value: "br0"
+                    store:
+                      proxy:
+                        service: Kvm
+                        get:
+                          method: enumerateBridges
+                    modifiers:
+                      - type: hidden
+                        constraint:
+                          operator: ne
+                          arg0:
+                            prop: networktype
+                          arg1: "bridge"
+                  - type: select
+                    name: network
+                    label: _("Virtual Network")
+                    textField: netname
+                    valueField: netname
+                    store:
+                      proxy:
+                        service: Kvm
+                        get:
+                          method: enumerateNetworks
+                    modifiers:
+                      - type: hidden
+                        constraint:
+                          operator: eq
+                          arg0:
+                            prop: networktype
+                          arg1: "bridge"
+                  - type: container
+                    fields:
+                      - type: numberInput
+                        name: memory
+                        label: _("Memory (MiB)")
+                        value: 4096
+                        validators:
+                          min: 2048
+                          max: 65536
+                          patternType: integer
+                          required: true
+                      - type: numberInput
+                        name: vcpus
+                        label: _("vCPUs")
+                        value: 2
+                        validators:
+                          min: 1
+                          max: 32
+                          patternType: integer
+                          required: true
+                      - type: numberInput
+                        name: disksize
+                        label: _("Disk (GB)")
+                        value: 20
+                        validators:
+                          min: 10
+                          max: 2048
+                          patternType: integer
+                          required: true
+                buttons:
+                  submit:
+                    text: _("Install")
+                    execute:
+                      type: taskDialog
+                      taskDialog:
+                        config:
+                          title: _("Installing Talos Linux ...")
+                          startOnInit: true
+                          request:
+                            service: Kvm
+                            method: installTalos
+                            params:
+                              vmname: "{{ vmname }}"
+                              pool: "{{ pool }}"
+                              networktype: "{{ networktype }}"
+                              bridge: "{{ bridge }}"
+                              network: "{{ network }}"
+                              version: "{{ version }}"
+                              memory: "{{ memory }}"
+                              vcpus: "{{ vcpus }}"
+                              disksize: "{{ disksize }}"
       - type: menu
         icon: mdi:harddisk
         tooltip: _("Hard disk")

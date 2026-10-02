@@ -154,6 +154,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('installOmv8');
         $this->registerMethod('installRedox');
         $this->registerMethod('installIpfire');
+        $this->registerMethod('installTalos');
     }
 
     private function escapeName($name)
@@ -2184,6 +2185,33 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 escapeshellarg($params['vmname']),
                 escapeshellarg($params['version']),
                 escapeshellarg($params['core']),
+                escapeshellarg((string)$params['memory']),
+                escapeshellarg((string)$params['vcpus']),
+                escapeshellarg((string)$params['disksize']),
+            ];
+            $cmd = new \OMV\System\Process(implode(' ', $cmdArgs));
+            $cmd->setRedirect2to1();
+            $cmdLine = $cmd->getCommandLine();
+            if (0 !== $this->exec($cmdLine, $output, $bgOutputFilename)) {
+                throw new \OMV\ExecException($cmdLine, $output);
+            }
+            return $output;
+        });
+    }
+
+    public function installTalos($params, $context)
+    {
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        $this->validateMethodParams($params, 'rpc.kvm.installtalos');
+        return $this->execBgProc(function($bgStatusFilename, $bgOutputFilename) use ($params) {
+            $netname = ($params['networktype'] === 'bridge') ? $params['bridge'] : $params['network'];
+            $cmdArgs = [
+                '/usr/sbin/omv-install-talos',
+                escapeshellarg($params['pool']),
+                escapeshellarg($params['networktype']),
+                escapeshellarg($netname),
+                escapeshellarg($params['vmname']),
+                escapeshellarg($params['version']),
                 escapeshellarg((string)$params['memory']),
                 escapeshellarg((string)$params['vcpus']),
                 escapeshellarg((string)$params['disksize']),
