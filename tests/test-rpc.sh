@@ -163,6 +163,92 @@ print(len(rows) if isinstance(rows, list) else 0)
 " 2>/dev/null || echo "0"
 }
 
+# Expect a *BgProc method to fail (task throws or its output has an
+# Exception). Optional 5th arg: grep pattern the failure must mention.
+# Task output / error text is available in $BG_OUT after the call.
+assert_rpc_bg_fails() {
+    local desc=$1 svc=$2 method=$3 params=${4:-'{}'} pattern=${5:-}
+    local filename ec=0
+    BG_OUT=""
+    filename=$(omv-rpc -u admin "$svc" "$method" "$params" 2>&1) || ec=$?
+    if [ $ec -ne 0 ]; then
+        # rejected before the bg task even started - still a failure
+        BG_OUT="$filename"
+    else
+        filename=$(echo "$filename" | tr -d '"')
+        local timeout=120 elapsed=0 poll_ec=0 poll_out
+        while [ $elapsed -lt $timeout ]; do
+            poll_out=$(omv-rpc -u admin "Exec" "getOutput" \
+                "{\"filename\":\"$filename\",\"pos\":0}" 2>&1)
+            poll_ec=$?
+            [ $poll_ec -ne 0 ] && break
+            echo "$poll_out" | grep -q '"running":true\|"running": true' || break
+            sleep 2; ((elapsed += 2)) || true
+        done
+        if [ $elapsed -ge $timeout ]; then
+            _fail "$desc" "Bg task timed out after ${timeout}s"
+            return 1
+        fi
+        if [ $poll_ec -ne 0 ]; then
+            BG_OUT=$(echo "$poll_out" | python3 -c \
+                "import sys,json; d=json.load(sys.stdin); e=d.get('error') or {}; print(e.get('message', str(d)))" \
+                2>/dev/null || echo "$poll_out")
+        else
+            BG_OUT=$(echo "$poll_out" | python3 -c \
+                "import sys,json; d=json.load(sys.stdin); print(d.get('output',''))" \
+                2>/dev/null || echo "")
+            if ! echo "$BG_OUT" | grep -q "Exception"; then
+                _fail "$desc" "Expected failure but task succeeded: ${BG_OUT: -200}"
+                return 1
+            fi
+        fi
+    fi
+    if [ -n "$pattern" ] && ! echo "$BG_OUT" | grep -q "$pattern"; then
+        _fail "$desc" "Failed, but without '$pattern': ${BG_OUT: -300}"
+        return 1
+    fi
+    _pass "$desc"
+    return 0
+}
+
+# Path of a VM's first file-backed disk (persistent config)
+vm_disk_path() {
+    virsh domblklist "$1" --details --inactive 2>/dev/null \
+        | awk '$1 == "file" && $2 == "disk" { print $4; exit }'
+}
+
+# Attribute of the first <disk device='disk'> in the persistent XML.
+# Args: vm, child element (driver/target/source), attribute
+vm_disk_attr() {
+    virsh dumpxml --inactive "$1" 2>/dev/null | python3 -c "
+import sys, xml.etree.ElementTree as ET
+root = ET.fromstring(sys.stdin.read())
+for d in root.findall('./devices/disk'):
+    if d.get('device') == 'disk':
+        el = d.find('$2')
+        print(el.get('$3', '') if el is not None else '')
+        break
+" 2>/dev/null
+}
+
+# Format reported by qemu-img for an image
+img_format() {
+    qemu-img info -U "$1" 2>/dev/null | sed -n 's/^file format:[[:space:]]*\([[:alnum:]]*\).*/\1/p' | head -n1
+}
+
+# Undefine a VM created by the tests and delete its file-backed disks
+destroy_test_vm() {
+    local vm=$1 d
+    virsh domstate "$vm" &>/dev/null || return 0
+    virsh destroy "$vm" >/dev/null 2>&1 || true
+    for d in $(virsh domblklist "$vm" --details --inactive 2>/dev/null \
+            | awk '$1 == "file" && $2 == "disk" { print $4 }'); do
+        rm -f "$d"
+    done
+    virsh undefine "$vm" --managed-save --snapshots-metadata --nvram >/dev/null 2>&1 \
+        || virsh undefine "$vm" --managed-save --snapshots-metadata >/dev/null 2>&1 || true
+}
+
 OMV_NEW_UUID=$(grep -oP 'OMV_CONFIGOBJECT_NEW_UUID="\K[^"]+' /etc/default/openmediavault 2>/dev/null \
     || echo "fa4b1c66-ef79-11e5-87a0-0002b3a176b4")
 
@@ -177,6 +263,17 @@ TEST_NET_PREFIX="omvtest-kvm-net"   # libvirt networks created during the run
 TEST_BACKUP_DIR1="/tmp/omvtest_kvm_backup_run1"  # doBackup happy path
 TEST_BACKUP_DIR2="/tmp/omvtest_kvm_backup_run2"  # doBackup forced-cancel
 TEST_BACKUP_DIR3="/tmp/omvtest_kvm_backup_run3"  # omv-backup-vm SIGTERM cleanup
+TEST_BACKUP_DIR4="/tmp/omvtest_kvm_backup_run4"  # full (snapshot) backup of a running VM
+TEST_BACKUP_DIR5="/tmp/omvtest_kvm_backup_run5"  # full backup interrupted by SIGTERM
+TEST_RESTORE_DIR="/tmp/omvtest_kvm_restore"      # restore target directory
+TEST_RESTORE_VM="omvtest_kvm_restored"           # VM restored from the incremental chain
+TEST_RESTORE_VM2="omvtest_kvm_restored2"         # VM restored from the full backup
+TEST_CLONE_VM="omvtest_kvm_clone"                # linked clone of the test VM
+TEST_ISO_NAME="omvtest_kvm_cdrom.iso"            # fake ISO attached to the test VM
+TEST_MOVE_POOL_NAME="omvtest_kvm_movepool"       # doMove destination pool
+TEST_MOVE_POOL_PATH="/tmp/omvtest_kvm_movepool"
+# Notes with characters the shell / virt-install used to mangle
+TEST_VM_NOTES='omvtest vm - safe to delete "quoted", $HOME `id` 100%'
 # Dedicated dir pool for the test VM's own disk, under /tmp rather than any
 # pre-existing host pool: whatever pool happens to sort first on the host is
 # unpredictable (e.g. virt-manager's root-owned "boot-scratch" pool, which a
@@ -194,6 +291,7 @@ FIRST_NET=""       # populated in the Networks section
 POOL_CREATED=false # set to true once the test pool is defined
 TEST_POOL_PATH=""  # filesystem path of the test pool (cleaned up on exit)
 VM_POOL_CREATED=false # set to true once the dedicated /tmp VM-disk pool is defined
+MOVE_POOL_CREATED=false # set to true once the doMove destination pool is defined
 declare -a CREATED_NETS=()  # libvirt networks defined by the run, undefined on exit
 
 # ---------------------------------------------------------------------------
@@ -252,8 +350,33 @@ for r in rows:
         virsh net-undefine "$net" >/dev/null 2>&1 || true
     done
 
-    # leftover backup-execution test directories
-    rm -rf "$TEST_BACKUP_DIR1" "$TEST_BACKUP_DIR2" "$TEST_BACKUP_DIR3" 2>/dev/null || true
+    # leftover restored / cloned VMs
+    for vm in "$TEST_RESTORE_VM" "$TEST_RESTORE_VM2" "$TEST_CLONE_VM"; do
+        if virsh domstate "$vm" &>/dev/null; then
+            info "Pre-cleanup: removing leftover VM '$vm'"
+            destroy_test_vm "$vm"
+        fi
+    done
+
+    # leftover doMove destination pool
+    if virsh pool-info "$TEST_MOVE_POOL_NAME" &>/dev/null 2>&1; then
+        info "Pre-cleanup: removing leftover move test pool '$TEST_MOVE_POOL_NAME'"
+        virsh pool-destroy  "$TEST_MOVE_POOL_NAME" >/dev/null 2>&1 || true
+        virsh pool-undefine "$TEST_MOVE_POOL_NAME" >/dev/null 2>&1 || true
+    fi
+    rm -rf "$TEST_MOVE_POOL_PATH" 2>/dev/null || true
+
+    # leftover backup-execution test directories (and their list rows)
+    remove_test_backup_dirs
+}
+
+remove_test_backup_dirs() {
+    local d
+    for d in "$TEST_BACKUP_DIR1" "$TEST_BACKUP_DIR2" "$TEST_BACKUP_DIR3" \
+             "$TEST_BACKUP_DIR4" "$TEST_BACKUP_DIR5" "$TEST_RESTORE_DIR"; do
+        rm -rf "$d" 2>/dev/null || true
+        [ -f /etc/omv-backup-vm.list ] && sed -i "\|,${d},|d" /etc/omv-backup-vm.list
+    done
 }
 
 # ---------------------------------------------------------------------------
@@ -265,6 +388,12 @@ cleanup() {
         info "Deleting test job $JOB_UUID"
         omv-rpc -u admin "Kvm" "deleteJob" "{\"uuid\":\"$JOB_UUID\"}" >/dev/null 2>&1 || true
     fi
+    for vm in "$TEST_RESTORE_VM" "$TEST_RESTORE_VM2" "$TEST_CLONE_VM"; do
+        if virsh domstate "$vm" &>/dev/null; then
+            info "Deleting test VM '$vm'"
+            destroy_test_vm "$vm"
+        fi
+    done
     if $VM_CREATED; then
         info "Deleting test VM '$TEST_VM_NAME' (undefineplus)"
         virsh destroy "$TEST_VM_NAME" >/dev/null 2>&1 || true
@@ -291,7 +420,14 @@ cleanup() {
     fi
     rm -rf "$TEST_VM_POOL_PATH" 2>/dev/null || true
 
-    rm -rf "$TEST_BACKUP_DIR1" "$TEST_BACKUP_DIR2" "$TEST_BACKUP_DIR3" 2>/dev/null || true
+    if $MOVE_POOL_CREATED; then
+        info "Deleting move test pool '$TEST_MOVE_POOL_NAME'"
+        virsh pool-destroy  "$TEST_MOVE_POOL_NAME" >/dev/null 2>&1 || true
+        virsh pool-undefine "$TEST_MOVE_POOL_NAME" >/dev/null 2>&1 || true
+    fi
+    rm -rf "$TEST_MOVE_POOL_PATH" 2>/dev/null || true
+
+    remove_test_backup_dirs
 
     for net in "${CREATED_NETS[@]}"; do
         info "Deleting test network '$net'"
@@ -339,6 +475,97 @@ if virsh list --all --name &>/dev/null; then
     _pass "libvirtd reachable via virsh"
 else
     _fail "libvirtd reachable via virsh" "virsh list failed — is libvirtd running?"
+fi
+
+# ===========================================================================
+section "Installed files — static checks"
+# ===========================================================================
+# Offline checks of the installed plugin files; no RPC or libvirt involved.
+
+for f in omv-backup-vm omv-linked-clone omv-lxc-snapshot omv-sync-vm-backups-list \
+         omv-shrink-disk omv-install-homeassistant omv-install-ipfire \
+         omv-install-omv8 omv-install-redox omv-install-talos; do
+    if [ ! -f "/usr/sbin/$f" ]; then
+        _skip "bash -n $f" "not installed"
+    elif out=$(bash -n "/usr/sbin/$f" 2>&1); then
+        _pass "bash -n $f"
+    else
+        _fail "bash -n $f" "$out"
+    fi
+done
+for f in omv-kvm-monitor omv-move-vm omv-restore-vm; do
+    if [ ! -f "/usr/sbin/$f" ]; then
+        _skip "python syntax $f" "not installed"
+    elif out=$(python3 -c "import ast, sys; ast.parse(open(sys.argv[1]).read())" "/usr/sbin/$f" 2>&1); then
+        _pass "python syntax $f"
+    else
+        _fail "python syntax $f" "$out"
+    fi
+done
+if out=$(php -l /usr/share/openmediavault/engined/rpc/kvm.inc 2>&1); then
+    _pass "php -l rpc/kvm.inc"
+else
+    _fail "php -l rpc/kvm.inc" "$out"
+fi
+
+# the file postrm removes on uninstall must be the one salt writes
+SLS="/srv/salt/omv/deploy/kvm/default.sls"
+POSTRM="/var/lib/dpkg/info/openmediavault-kvm.postrm"
+if [ -f "$SLS" ] && [ -f "$POSTRM" ]; then
+    sls_fwd=$(grep -oE '/etc/sysctl[^ ]*ip_forward\.conf' "$SLS" | head -1)
+    postrm_fwd=$(sed -n 's/^ipFwdConf="\(.*\)"$/\1/p' "$POSTRM")
+    if [ -n "$sls_fwd" ] && [ "$sls_fwd" = "$postrm_fwd" ]; then
+        _pass "postrm removes the ip_forward config salt writes ($sls_fwd)"
+    else
+        _fail "postrm removes the ip_forward config salt writes" "salt: '$sls_fwd', postrm: '$postrm_fwd'"
+    fi
+else
+    _skip "postrm ip_forward path" "salt state or postrm not found"
+fi
+
+# render the cron template for a job whose comment contains characters that
+# cron (%) and the shell (' " $) treat specially, then parse the line the way
+# cron + sh do and check omv-backup-vm would receive the comment unchanged
+JOBS_J2="/srv/salt/omv/deploy/kvm/files/jobs.j2"
+if [ -f "$JOBS_J2" ] && python3 -c "import jinja2" 2>/dev/null; then
+    cron_out=$(python3 - "$JOBS_J2" <<'PY' 2>&1
+import sys, subprocess, jinja2
+comment = """it's 100% "ok" $HOME `id`"""
+env = jinja2.Environment()
+env.filters['to_bool'] = lambda v: v in (True, 1, '1', 'true', 'True', 'yes')
+job = dict(enable=True, execution='daily', keep=0, incremental=False, fullinterval=0,
+           poweroff=False, samefmt=False, compression=False, sendemail=True,
+           emailonerror=False, comment=comment, vmname='vm1', path='/srv/backup')
+line = env.from_string(open(sys.argv[1]).read()).render(
+    pillar={'headers': {'multiline': ''}}, jobs=[job]).strip().splitlines()[-1]
+cmd = line.split(' root ', 1)[1].replace('>/dev/null 2>&1', '')
+# cron: "\%" -> "%", an unescaped "%" ends the command
+out, esc = [], False
+for ch in cmd:
+    if esc:
+        if ch != '%':
+            out.append('\\')
+        out.append(ch)
+        esc = False
+    elif ch == '\\':
+        esc = True
+    elif ch == '%':
+        break
+    else:
+        out.append(ch)
+args = subprocess.run(['sh', '-c', 'set -- ' + ''.join(out) + '; for a; do printf "%s\\n" "$a"; done'],
+                      capture_output=True, text=True).stdout.splitlines()
+got = args[args.index('-C') + 1] if '-C' in args else None
+print('OK' if got == comment else 'MISMATCH: %r' % got)
+PY
+)
+    if [ "$cron_out" = "OK" ]; then
+        _pass "cron template — job comment reaches omv-backup-vm unchanged"
+    else
+        _fail "cron template — job comment reaches omv-backup-vm unchanged" "$cron_out"
+    fi
+else
+    _skip "cron template rendering" "template or python3-jinja2 not available"
 fi
 
 # ===========================================================================
@@ -742,8 +969,8 @@ print(json.dumps({
         [ -z "$TEST_OS" ] && TEST_OS="generic"
         info "OS variant: $TEST_OS  pool: $TEST_VM_POOL_NAME  network: $FIRST_NET  arch: $HOST_ARCH"
 
-        VM_CREATE=$(python3 -c "
-import json
+        VM_CREATE=$(TEST_VM_NOTES="$TEST_VM_NOTES" python3 -c "
+import json, os
 print(json.dumps({
     'lxc': False,
     'vmname': '$TEST_VM_NAME',
@@ -774,7 +1001,7 @@ print(json.dumps({
     'vnc': False,
     'spice': False,
     'tpm': False,
-    'notes': 'omvtest vm - safe to delete'
+    'notes': os.environ['TEST_VM_NOTES']
 }))
 ")
         if assert_rpc "setVm (create test VM)" "Kvm" "setVm" "$VM_CREATE"; then
@@ -788,6 +1015,19 @@ print(json.dumps({
             else
                 _fail "getVmList — '$TEST_VM_NAME' present after create" \
                     "VM not found in list response"
+            fi
+
+            # notes are stored verbatim: quotes, commas, $, backticks and %
+            # used to be expanded by the shell or mangled by virt-install
+            if assert_rpc "getNotes (test VM)" "Kvm" "getNotes" \
+                "{\"vmname\":\"$TEST_VM_NAME\",\"virttype\":\"vm\"}"; then
+                saved_notes=$(json_get "$RPC_OUT" "notes")
+                if [ "$saved_notes" = "$TEST_VM_NOTES" ]; then
+                    _pass "setVm — notes with special characters stored verbatim"
+                else
+                    _fail "setVm — notes with special characters stored verbatim" \
+                        "expected '$TEST_VM_NOTES', got '$saved_notes'"
+                fi
             fi
         fi
     fi
@@ -906,6 +1146,13 @@ else
 import json
 print(json.dumps({'vmname':'$TEST_VM_NAME','virttype':'vm','snapname':'$NAMED_SNAP'}))
 ")
+    # internal snapshots live inside the qcow2; deleting one must remove the
+    # data there too, not just libvirt's metadata
+    SNAP_DISK=$(vm_disk_path "$TEST_VM_NAME")
+    _qcow_snap_count() {
+        qemu-img snapshot -l -U "$SNAP_DISK" 2>/dev/null | awk 'NR > 2 && NF' | wc -l
+    }
+
     assert_rpc "addSnapshot (named)" "Kvm" "addSnapshot" "$NAMED_SNAP_PARAMS"
     assert_rpc "enumerateSnapshots (after named add)" "Kvm" "enumerateSnapshots" "$SNAP_PARAMS"
     if echo "$RPC_OUT" | grep -q "\"$NAMED_SNAP\""; then
@@ -913,8 +1160,20 @@ print(json.dumps({'vmname':'$TEST_VM_NAME','virttype':'vm','snapname':'$NAMED_SN
     else
         _fail "addSnapshot — expected snapshot named '$NAMED_SNAP'" "$RPC_OUT"
     fi
+    if qemu-img snapshot -l -U "$SNAP_DISK" 2>/dev/null | grep -qw "$NAMED_SNAP"; then
+        _pass "addSnapshot — '$NAMED_SNAP' stored in the qcow2"
+    else
+        _fail "addSnapshot — '$NAMED_SNAP' stored in the qcow2" \
+            "qemu-img snapshot -l does not list it (external snapshot?)"
+    fi
     # Clean up the named snapshot before exercising the auto-named flow
     assert_rpc "deleteSnapshot (named)" "Kvm" "deleteSnapshot" "$NAMED_SNAP_PARAMS"
+    if qemu-img snapshot -l -U "$SNAP_DISK" 2>/dev/null | grep -qw "$NAMED_SNAP"; then
+        _fail "deleteSnapshot — snapshot data removed from the qcow2" \
+            "'$NAMED_SNAP' still listed by qemu-img snapshot -l"
+    else
+        _pass "deleteSnapshot — snapshot data removed from the qcow2"
+    fi
 
     # Add first snapshot
     assert_rpc "addSnapshot" "Kvm" "addSnapshot" "$SNAP_PARAMS"
@@ -973,6 +1232,13 @@ print(json.dumps({'vmname':'$TEST_VM_NAME','virttype':'vm','snapname':'$SNAP_NAM
             _pass "enumerateSnapshots — 0 snapshots after deleteAllSnapshots"
         else
             _fail "enumerateSnapshots — expected 0 after deleteAllSnapshots" "got $snap_count"
+        fi
+        qcow_snaps=$(_qcow_snap_count)
+        if [ "$qcow_snaps" = "0" ]; then
+            _pass "deleteAllSnapshots — no snapshot data left in the qcow2"
+        else
+            _fail "deleteAllSnapshots — no snapshot data left in the qcow2" \
+                "qemu-img snapshot -l lists $qcow_snaps snapshot(s)"
         fi
     else
         _skip "revertSnapshot"    "no snapshot name captured"
@@ -1144,7 +1410,7 @@ print(json.dumps({
             done
             if [ $poll_ec -ne 0 ]; then
                 cancel_content=$(echo "$poll_out" | python3 -c \
-                    "import sys,json; d=json.load(sys.stdin); e=d.get('error') or {}; print(e.get('message', str(d))[:1000])" \
+                    "import sys,json; d=json.load(sys.stdin); e=d.get('error') or {}; print(e.get('message', str(d)))" \
                     2>/dev/null || echo "${poll_out:0:400}")
             else
                 cancel_content=$(echo "$poll_out" | python3 -c \
@@ -1161,6 +1427,25 @@ print(json.dumps({
                 _pass "doBackup (forced cancel) — script reported failure"
             else
                 _fail "doBackup (forced cancel) — script reported failure" "${cancel_content: -400}"
+            fi
+            # a failed incremental must fail the task instead of silently
+            # falling back to a full backup
+            if [ $poll_ec -ne 0 ] || echo "$cancel_content" | grep -q "Exception"; then
+                _pass "doBackup (forced cancel) — task reported as failed"
+            else
+                _fail "doBackup (forced cancel) — task reported as failed" "${cancel_content: -400}"
+            fi
+            if echo "$cancel_content" | grep -q "Copy disks to backup directory"; then
+                _fail "doBackup (forced cancel) — no fallback to full backup" \
+                    "full backup path ran after the failed incremental"
+            else
+                _pass "doBackup (forced cancel) — no fallback to full backup"
+            fi
+            if find "$TEST_BACKUP_DIR2/$TEST_VM_NAME" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | grep -q .; then
+                _fail "doBackup (forced cancel) — partial chain removed" \
+                    "$(find "$TEST_BACKUP_DIR2/$TEST_VM_NAME" | head -5 | tr '\n' ' ')"
+            else
+                _pass "doBackup (forced cancel) — partial chain removed"
             fi
         fi
 
@@ -1183,11 +1468,37 @@ print(json.dumps({
         else
             kill -TERM "$term_pid" >/dev/null 2>&1
             wait "$term_pid" 2>/dev/null
+            term_ec=$?
 
-            if grep -q "Script interrupted with backup active; aborting backup job\." "$TERM_LOG"; then
+            if grep -q "Received SIGTERM; cleaning up\." "$TERM_LOG" \
+                && grep -q "Aborting active backup job\." "$TERM_LOG"; then
                 _pass "omv-backup-vm SIGTERM cleanup — trap logged abort"
             else
                 _fail "omv-backup-vm SIGTERM cleanup — trap logged abort" "$(tail -5 "$TERM_LOG")"
+            fi
+
+            # the handler must stop the script (143), not let it carry on
+            if [ "$term_ec" -eq 143 ]; then
+                _pass "omv-backup-vm SIGTERM cleanup — script exited (143)"
+            else
+                _fail "omv-backup-vm SIGTERM cleanup — script exited (143)" "exit code $term_ec"
+            fi
+            if grep -q "Copy disks to backup directory" "$TERM_LOG"; then
+                _fail "omv-backup-vm SIGTERM cleanup — no fallback to full backup" "$(tail -5 "$TERM_LOG")"
+            else
+                _pass "omv-backup-vm SIGTERM cleanup — no fallback to full backup"
+            fi
+            if find "$TEST_BACKUP_DIR3/$TEST_VM_NAME" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | grep -q .; then
+                _fail "omv-backup-vm SIGTERM cleanup — partial chain removed" \
+                    "$(find "$TEST_BACKUP_DIR3/$TEST_VM_NAME" | head -5 | tr '\n' ' ')"
+            else
+                _pass "omv-backup-vm SIGTERM cleanup — partial chain removed"
+            fi
+            if virsh checkpoint-list "$TEST_VM_NAME" --name 2>/dev/null | grep -q '^omvbak'; then
+                _fail "omv-backup-vm SIGTERM cleanup — no checkpoint left behind" \
+                    "$(virsh checkpoint-list "$TEST_VM_NAME" --name 2>/dev/null | tr '\n' ' ')"
+            else
+                _pass "omv-backup-vm SIGTERM cleanup — no checkpoint left behind"
             fi
 
             job_cleared=false
@@ -1210,6 +1521,122 @@ print(json.dumps({
         fi
         rm -f "$TERM_LOG"
 
+        # ---------------------------------------------------------------
+        # 4. Full (non-incremental) backup of the running VM: external
+        #    snapshot, copy, blockcommit. The VM must end up back on its
+        #    original disk with no overlay files left behind.
+        # ---------------------------------------------------------------
+        ORIG_DISK=$(vm_disk_path "$TEST_VM_NAME")
+        ORIG_DIR=$(dirname "$ORIG_DISK")
+        _live_disk() {
+            virsh domblklist "$TEST_VM_NAME" --details 2>/dev/null \
+                | awk '$1 == "file" && $2 == "disk" { print $4; exit }'
+        }
+        _overlay_count() {
+            find "$ORIG_DIR" -maxdepth 1 -name '*backup-snapshot_*' 2>/dev/null | wc -l
+        }
+
+        mkdir -p "$TEST_BACKUP_DIR4"
+        FULL_LOG="/tmp/omvtest_kvm_full.log"
+        if /usr/sbin/omv-backup-vm -v "$TEST_VM_NAME" -d "$TEST_BACKUP_DIR4" >"$FULL_LOG" 2>&1; then
+            _pass "omv-backup-vm full backup (running VM)"
+        else
+            _fail "omv-backup-vm full backup (running VM)" "$(tail -5 "$FULL_LOG")"
+        fi
+        if find "$TEST_BACKUP_DIR4/$TEST_VM_NAME" -name '*.bak' 2>/dev/null | grep -q .; then
+            _pass "full backup — .bak disk image written"
+        else
+            _fail "full backup — .bak disk image written" "no .bak under $TEST_BACKUP_DIR4"
+        fi
+        if [ "$(_live_disk)" = "$ORIG_DISK" ]; then
+            _pass "full backup — VM pivoted back to its original disk"
+        else
+            _fail "full backup — VM pivoted back to its original disk" "live disk is '$(_live_disk)'"
+        fi
+        if [ "$(_overlay_count)" = "0" ]; then
+            _pass "full backup — snapshot overlay removed"
+        else
+            _fail "full backup — snapshot overlay removed" \
+                "$(find "$ORIG_DIR" -maxdepth 1 -name '*backup-snapshot_*' | tr '\n' ' ')"
+        fi
+        rm -f "$FULL_LOG"
+
+        # ---------------------------------------------------------------
+        # 5. SIGTERM during a full backup, while the VM runs on the backup
+        #    snapshot: the handler must merge the overlay back and exit.
+        # ---------------------------------------------------------------
+        mkdir -p "$TEST_BACKUP_DIR5"
+        FULLTERM_LOG="/tmp/omvtest_kvm_fullterm.log"
+        /usr/sbin/omv-backup-vm -v "$TEST_VM_NAME" -d "$TEST_BACKUP_DIR5" >"$FULLTERM_LOG" 2>&1 &
+        fullterm_pid=$!
+        on_overlay=false
+        for _ in $(seq 1 200); do
+            case "$(_live_disk)" in *backup-snapshot_*) on_overlay=true; break ;; esac
+            kill -0 "$fullterm_pid" 2>/dev/null || break
+            sleep 0.1
+        done
+        if ! $on_overlay; then
+            wait "$fullterm_pid" 2>/dev/null
+            _skip "omv-backup-vm SIGTERM during full backup" \
+                "VM never observed on the backup snapshot (backup too fast?)"
+        else
+            kill -TERM "$fullterm_pid" >/dev/null 2>&1
+            wait "$fullterm_pid" 2>/dev/null
+            fullterm_ec=$?
+            if [ "$fullterm_ec" -eq 143 ]; then
+                _pass "SIGTERM during full backup — script exited (143)"
+            else
+                _fail "SIGTERM during full backup — script exited (143)" \
+                    "exit code $fullterm_ec :: $(tail -3 "$FULLTERM_LOG")"
+            fi
+            if grep -q "Merging backup snapshot back into the original disks" "$FULLTERM_LOG"; then
+                _pass "SIGTERM during full backup — handler merged the snapshot"
+            else
+                _fail "SIGTERM during full backup — handler merged the snapshot" "$(tail -5 "$FULLTERM_LOG")"
+            fi
+            if [ "$(_live_disk)" = "$ORIG_DISK" ]; then
+                _pass "SIGTERM during full backup — VM back on its original disk"
+            else
+                _fail "SIGTERM during full backup — VM back on its original disk" "live disk is '$(_live_disk)'"
+            fi
+            if [ "$(_overlay_count)" = "0" ]; then
+                _pass "SIGTERM during full backup — snapshot overlay removed"
+            else
+                _fail "SIGTERM during full backup — snapshot overlay removed" \
+                    "$(find "$ORIG_DIR" -maxdepth 1 -name '*backup-snapshot_*' | tr '\n' ' ')"
+            fi
+        fi
+        rm -f "$FULLTERM_LOG"
+
+        # ---------------------------------------------------------------
+        # 6. Monitor memory: VMs created by the plugin have no balloon, so
+        #    used memory must come from the RSS fallback, not be reported as
+        #    the whole allocation (it used to be a constant 100%).
+        # ---------------------------------------------------------------
+        if systemctl is-active --quiet omv-kvm-monitor; then
+            mon_pct=""
+            for _ in $(seq 1 15); do
+                mon_pct=$(omv-rpc -u admin "Kvm" "getMonitorStats" '{}' 2>/dev/null | python3 -c "
+import sys, json
+for r in json.load(sys.stdin):
+    if r.get('vm_name') == '$TEST_VM_NAME' and r.get('state_str') == 'running':
+        print(r.get('mem_percent', ''))
+        break
+" 2>/dev/null)
+                [ -n "$mon_pct" ] && break
+                sleep 2
+            done
+            if [ -z "$mon_pct" ]; then
+                _skip "monitor — memory usage below 100% for idle VM" "test VM not collected yet"
+            elif python3 -c "import sys; sys.exit(0 if 0 < float('$mon_pct') < 100 else 1)"; then
+                _pass "monitor — memory usage below 100% for idle VM (${mon_pct}%)"
+            else
+                _fail "monitor — memory usage below 100% for idle VM" "mem_percent=$mon_pct"
+            fi
+        else
+            _skip "monitor — memory usage below 100% for idle VM" "omv-kvm-monitor not running"
+        fi
+
         info "Shutting down test VM '$TEST_VM_NAME'"
         virsh destroy "$TEST_VM_NAME" >/dev/null 2>&1 || true
     fi
@@ -1217,6 +1644,244 @@ print(json.dumps({
     if $FIRST_NET_STARTED_BY_TEST; then
         info "Restoring network '$FIRST_NET' to inactive (was inactive before backup tests)"
         virsh net-destroy "$FIRST_NET" >/dev/null 2>&1 || true
+    fi
+fi
+
+# ===========================================================================
+section "Restore (doRestore)"
+# ===========================================================================
+# Restores the backups written in "Backup execution" to new VM names. The
+# test disk is not written between those backups and now (the VM has no OS),
+# so each restored image must match the original disk byte for byte.
+
+_restore_params() {
+    # args: date, source dir, new name
+    python3 -c "
+import json, sys
+print(json.dumps({
+    'backup': '$TEST_VM_NAME | ' + sys.argv[1] + ' | ' + sys.argv[2],
+    'newname': sys.argv[3],
+    'newpath': '$TEST_RESTORE_DIR'
+}))
+" "$1" "$2" "$3"
+}
+
+INCR_DATE=""
+INCR_MANIFEST=$(ls "$TEST_BACKUP_DIR1/$TEST_VM_NAME"/*/manifest 2>/dev/null | head -1)
+[ -n "$INCR_MANIFEST" ] && INCR_DATE=$(awk -F'|' 'NR == 1 { print $2 }' "$INCR_MANIFEST")
+FULL_DATE=$(find "$TEST_BACKUP_DIR4/$TEST_VM_NAME" -mindepth 1 -maxdepth 1 -type d -printf '%f\n' 2>/dev/null | head -1)
+
+if ! $VM_CREATED; then
+    _skip "doRestore" "test VM was not created"
+else
+    mkdir -p "$TEST_RESTORE_DIR"
+    SRC_DISK=$(vm_disk_path "$TEST_VM_NAME")
+
+    # --- incremental chain restore
+    if [ -z "$INCR_DATE" ]; then
+        _skip "doRestore (incremental chain)" "no incremental backup from the backup tests"
+    elif assert_rpc_bg "doRestore (incremental chain)" "Kvm" "doRestore" \
+            "$(_restore_params "$INCR_DATE" "$TEST_BACKUP_DIR1" "$TEST_RESTORE_VM")" "Done"; then
+        if virsh dominfo "$TEST_RESTORE_VM" &>/dev/null; then
+            _pass "doRestore (incremental) — VM '$TEST_RESTORE_VM' defined"
+        else
+            _fail "doRestore (incremental) — VM '$TEST_RESTORE_VM' defined" "virsh dominfo failed"
+        fi
+        restored=$(vm_disk_path "$TEST_RESTORE_VM")
+        if [ "$restored" = "$TEST_RESTORE_DIR/${TEST_RESTORE_VM}_001.qcow2" ] && [ -f "$restored" ]; then
+            _pass "doRestore (incremental) — disk restored into the restore dir"
+        else
+            _fail "doRestore (incremental) — disk restored into the restore dir" "disk path '$restored'"
+        fi
+        if qemu-img compare -U "$SRC_DISK" "$restored" >/dev/null 2>&1; then
+            _pass "doRestore (incremental) — restored image matches the original"
+        else
+            _fail "doRestore (incremental) — restored image matches the original" \
+                "$(qemu-img compare -U "$SRC_DISK" "$restored" 2>&1 | tail -1)"
+        fi
+
+        # restoring the same name again must be refused before anything is
+        # written - the existing VM and its disk stay untouched
+        before=$(stat -c %Y "$restored" 2>/dev/null)
+        assert_rpc_bg_fails "doRestore — refuses an existing VM name" "Kvm" "doRestore" \
+            "$(_restore_params "$INCR_DATE" "$TEST_BACKUP_DIR1" "$TEST_RESTORE_VM")" "already exists"
+        if [ "$(stat -c %Y "$restored" 2>/dev/null)" = "$before" ]; then
+            _pass "doRestore — existing VM's disk not overwritten"
+        else
+            _fail "doRestore — existing VM's disk not overwritten" "mtime of $restored changed"
+        fi
+    fi
+
+    # restoring over the source VM's own name must also be refused
+    if [ -n "$INCR_DATE" ]; then
+        src_before=$(stat -c %Y "$SRC_DISK" 2>/dev/null)
+        assert_rpc_bg_fails "doRestore — refuses the source VM's name" "Kvm" "doRestore" \
+            "$(_restore_params "$INCR_DATE" "$TEST_BACKUP_DIR1" "$TEST_VM_NAME")" "already exists"
+        if [ "$(stat -c %Y "$SRC_DISK" 2>/dev/null)" = "$src_before" ]; then
+            _pass "doRestore — source VM's disk not touched"
+        else
+            _fail "doRestore — source VM's disk not touched" "mtime of $SRC_DISK changed"
+        fi
+    fi
+
+    # --- full (self-contained) backup restore
+    if [ -z "$FULL_DATE" ]; then
+        _skip "doRestore (full backup)" "no full backup from the backup tests"
+    elif assert_rpc_bg "doRestore (full backup)" "Kvm" "doRestore" \
+            "$(_restore_params "$FULL_DATE" "$TEST_BACKUP_DIR4" "$TEST_RESTORE_VM2")" "Done"; then
+        restored2=$(vm_disk_path "$TEST_RESTORE_VM2")
+        if [ -n "$restored2" ] && [ -f "$restored2" ]; then
+            _pass "doRestore (full) — disk restored"
+        else
+            _fail "doRestore (full) — disk restored" "disk path '$restored2'"
+        fi
+        drv=$(vm_disk_attr "$TEST_RESTORE_VM2" driver type)
+        fmt=$(img_format "$restored2")
+        if [ -n "$fmt" ] && [ "$drv" = "$fmt" ]; then
+            _pass "doRestore (full) — driver type matches image format ($fmt)"
+        else
+            _fail "doRestore (full) — driver type matches image format" "driver '$drv', image '$fmt'"
+        fi
+        if qemu-img compare -U "$SRC_DISK" "$restored2" >/dev/null 2>&1; then
+            _pass "doRestore (full) — restored image matches the original"
+        else
+            _fail "doRestore (full) — restored image matches the original" \
+                "$(qemu-img compare -U "$SRC_DISK" "$restored2" 2>&1 | tail -1)"
+        fi
+    fi
+
+    destroy_test_vm "$TEST_RESTORE_VM"
+    destroy_test_vm "$TEST_RESTORE_VM2"
+fi
+
+# ===========================================================================
+section "Linked clone (createLinkedClone)"
+# ===========================================================================
+# Attaches a (fake) ISO to the test VM first: the clone must only overlay
+# real disks and leave the cdrom pointing at the same ISO.
+
+TEST_ISO_PATH="$TEST_VM_POOL_PATH/$TEST_ISO_NAME"
+
+if ! $VM_CREATED; then
+    _skip "createLinkedClone" "test VM was not created"
+else
+    truncate -s 1M "$TEST_ISO_PATH"
+    assert_rpc "addOptical (fake ISO)" "Kvm" "addOptical" \
+        "$(python3 -c "import json; print(json.dumps({'vmname':'$TEST_VM_NAME','voliso':'$TEST_ISO_PATH'}))")"
+
+    SRC_DISK=$(vm_disk_path "$TEST_VM_NAME")
+    CLONE_PARAMS=$(python3 -c "import json; print(json.dumps({'clone':'$TEST_CLONE_VM','source':'$TEST_VM_NAME'}))")
+    if assert_rpc "createLinkedClone (VM with ISO attached)" "Kvm" "createLinkedClone" "$CLONE_PARAMS"; then
+        clone_disk=$(vm_disk_path "$TEST_CLONE_VM")
+        expected="$(dirname "$SRC_DISK")/${TEST_CLONE_VM}_$(basename "$SRC_DISK")"
+        if [ "$clone_disk" = "$expected" ] && [ -f "$clone_disk" ]; then
+            _pass "createLinkedClone — overlay disk created"
+        else
+            _fail "createLinkedClone — overlay disk created" "clone disk '$clone_disk', expected '$expected'"
+        fi
+        backing=$(qemu-img info -U "$clone_disk" 2>/dev/null | sed -n 's/^backing file: //p')
+        if [ "$backing" = "$SRC_DISK" ]; then
+            _pass "createLinkedClone — overlay backed by the source disk"
+        else
+            _fail "createLinkedClone — overlay backed by the source disk" "backing '$backing'"
+        fi
+        if [ "$(vm_disk_attr "$TEST_CLONE_VM" driver type)" = "qcow2" ]; then
+            _pass "createLinkedClone — overlay driver type is qcow2"
+        else
+            _fail "createLinkedClone — overlay driver type is qcow2" \
+                "got '$(vm_disk_attr "$TEST_CLONE_VM" driver type)'"
+        fi
+        if virsh domblklist "$TEST_CLONE_VM" --details --inactive 2>/dev/null \
+                | awk '$2 == "cdrom" { print $4 }' | grep -qxF "$TEST_ISO_PATH"; then
+            _pass "createLinkedClone — cdrom still points at the ISO"
+        else
+            _fail "createLinkedClone — cdrom still points at the ISO" \
+                "$(virsh domblklist "$TEST_CLONE_VM" --details --inactive 2>&1 | tr -s ' ' | tr '\n' ';')"
+        fi
+        if [ ! -e "$(dirname "$TEST_ISO_PATH")/${TEST_CLONE_VM}_$TEST_ISO_NAME" ]; then
+            _pass "createLinkedClone — no overlay created for the ISO"
+        else
+            _fail "createLinkedClone — no overlay created for the ISO" "overlay of the ISO exists"
+        fi
+        assert_rpc_fails "createLinkedClone — refuses an existing clone name" "Kvm" "createLinkedClone" "$CLONE_PARAMS"
+    fi
+    destroy_test_vm "$TEST_CLONE_VM"
+    if [ -f "$SRC_DISK" ]; then
+        _pass "linked clone removal left the source disk intact"
+    else
+        _fail "linked clone removal left the source disk intact" "$SRC_DISK is gone"
+    fi
+fi
+
+# ===========================================================================
+section "Move VM (doMove)"
+# ===========================================================================
+# Moves the test VM's disk to another dir pool and back. The disk's other
+# settings (bus, cache) must survive, and an existing file at the destination
+# must never be overwritten.
+
+if ! $VM_CREATED; then
+    _skip "doMove" "test VM was not created"
+else
+    MOVE_POOL_PARAMS=$(python3 -c "
+import json
+print(json.dumps({'name': '$TEST_MOVE_POOL_NAME', 'path': '$TEST_MOVE_POOL_PATH', 'type': 'dir',
+                  'hostname': '', 'zpoolname': '', 'sourcepath': '', 'vg': ''}))
+")
+    if ! assert_rpc "setPool (move destination pool)" "Kvm" "setPool" "$MOVE_POOL_PARAMS"; then
+        _skip "doMove" "could not create destination pool"
+    else
+        MOVE_POOL_CREATED=true
+        MV_ORIG=$(vm_disk_path "$TEST_VM_NAME")
+        MV_NEW="$TEST_MOVE_POOL_PATH/$(basename "$MV_ORIG")"
+        bus_before=$(vm_disk_attr "$TEST_VM_NAME" target bus)
+        cache_before=$(vm_disk_attr "$TEST_VM_NAME" driver cache)
+        _move_params() {
+            python3 -c "import json; print(json.dumps({'vmname':'$TEST_VM_NAME','pool':'$1','poweroff':False}))"
+        }
+
+        if assert_rpc_bg "doMove (to destination pool)" "Kvm" "doMove" "$(_move_params "$TEST_MOVE_POOL_NAME")"; then
+            if [ "$(vm_disk_path "$TEST_VM_NAME")" = "$MV_NEW" ] && [ -f "$MV_NEW" ] && [ ! -e "$MV_ORIG" ]; then
+                _pass "doMove — disk moved and VM points at the new path"
+            else
+                _fail "doMove — disk moved and VM points at the new path" \
+                    "VM disk '$(vm_disk_path "$TEST_VM_NAME")', new exists: $([ -f "$MV_NEW" ] && echo y || echo n), old exists: $([ -e "$MV_ORIG" ] && echo y || echo n)"
+            fi
+            bus_after=$(vm_disk_attr "$TEST_VM_NAME" target bus)
+            cache_after=$(vm_disk_attr "$TEST_VM_NAME" driver cache)
+            if [ "$bus_after" = "$bus_before" ] && [ "$cache_after" = "$cache_before" ]; then
+                _pass "doMove — disk bus/cache preserved ($bus_after/$cache_after)"
+            else
+                _fail "doMove — disk bus/cache preserved" \
+                    "before '$bus_before/$cache_before', after '$bus_after/$cache_after'"
+            fi
+
+            # an unrelated file now sits where the disk would go back to
+            echo "omvtest marker" > "$MV_ORIG"
+            assert_rpc_bg_fails "doMove — refuses to overwrite an existing file" "Kvm" "doMove" \
+                "$(_move_params "$TEST_VM_POOL_NAME")" "already exists"
+            if [ "$(cat "$MV_ORIG" 2>/dev/null)" = "omvtest marker" ] && [ "$(vm_disk_path "$TEST_VM_NAME")" = "$MV_NEW" ]; then
+                _pass "doMove — existing file and VM left untouched"
+            else
+                _fail "doMove — existing file and VM left untouched" \
+                    "marker: '$(head -c 40 "$MV_ORIG" 2>/dev/null)', VM disk: '$(vm_disk_path "$TEST_VM_NAME")'"
+            fi
+            rm -f "$MV_ORIG"
+
+            if assert_rpc_bg "doMove (back to original pool)" "Kvm" "doMove" "$(_move_params "$TEST_VM_POOL_NAME")"; then
+                if [ "$(vm_disk_path "$TEST_VM_NAME")" = "$MV_ORIG" ] && [ -f "$MV_ORIG" ]; then
+                    _pass "doMove — disk moved back"
+                else
+                    _fail "doMove — disk moved back" "VM disk '$(vm_disk_path "$TEST_VM_NAME")'"
+                fi
+            fi
+        fi
+
+        virsh pool-destroy "$TEST_MOVE_POOL_NAME" >/dev/null 2>&1 || true
+        if assert_rpc "deletePool (move destination pool)" "Kvm" "deletePool" "{\"name\":\"$TEST_MOVE_POOL_NAME\"}"; then
+            MOVE_POOL_CREATED=false
+        fi
+        rm -rf "$TEST_MOVE_POOL_PATH" 2>/dev/null || true
     fi
 fi
 
@@ -1241,8 +1906,21 @@ print(json.dumps({
     'hostport2': '0'
 }))
 ")
+    DEL_DISK=$(vm_disk_path "$TEST_VM_NAME")
     if assert_rpc "doCommand undefineplus (delete test VM+disk)" "Kvm" "doCommand" "$DEL_PARAMS"; then
         VM_CREATED=false
+    fi
+
+    if [ -n "$DEL_DISK" ] && [ ! -e "$DEL_DISK" ]; then
+        _pass "undefineplus — VM disk deleted"
+    else
+        _fail "undefineplus — VM disk deleted" "'$DEL_DISK' still exists"
+    fi
+    if [ -f "$TEST_ISO_PATH" ]; then
+        _pass "undefineplus — attached ISO not deleted"
+        rm -f "$TEST_ISO_PATH"
+    else
+        _fail "undefineplus — attached ISO not deleted" "'$TEST_ISO_PATH' is gone"
     fi
 
     if ! virsh domstate "$TEST_VM_NAME" &>/dev/null 2>&1; then
@@ -1272,6 +1950,17 @@ section "Host devices"
 assert_rpc "enumerateHostDisk"    "Kvm" "enumerateHostDisk"    '{}'
 assert_rpc "enumerateHostOptical" "Kvm" "enumerateHostOptical" '{}'
 assert_rpc "enumerateUsbByHost"   "Kvm" "enumerateUsbByHost"   '{}'
+# every host USB device must be offered, including ones without a serial
+# number (they report "iSerial 0" and used to be dropped)
+if command -v lsusb >/dev/null 2>&1; then
+    usb_host=$(lsusb 2>/dev/null | grep -c '^Bus')
+    usb_rpc=$(json_list_count "$RPC_OUT")
+    if [ "$usb_rpc" = "$usb_host" ]; then
+        _pass "enumerateUsbByHost — all $usb_host host USB device(s) listed"
+    else
+        _fail "enumerateUsbByHost — all host USB devices listed" "lsusb: $usb_host, RPC: $usb_rpc"
+    fi
+fi
 assert_rpc "enumeratePciByHost"   "Kvm" "enumeratePciByHost"   '{}'
 
 # ===========================================================================
