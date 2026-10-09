@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# shellcheck disable=SC2086,SC2181
+# shellcheck disable=SC2181
 #
 # Copyright (c) 2022-2026 openmediavault plugin developers
 #
@@ -82,13 +82,13 @@ if [ -z "${sourceVm}" ]; then
 fi
 
 # check if source VM is defined by libvirt
-if ! virsh dominfo ${sourceVm} > /dev/null 2>&1; then
+if ! virsh dominfo "${sourceVm}" > /dev/null 2>&1; then
   _log "VM '${sourceVm}' not defined!"
   exit 5
 fi
 
 # check if clone VM is defined by libvirt
-if virsh dominfo ${cloneVm} > /dev/null 2>&1; then
+if virsh dominfo "${cloneVm}" > /dev/null 2>&1; then
   _log "VM '${cloneVm}' is already defined!"
   exit 6
 fi
@@ -96,7 +96,7 @@ fi
 
 # create backup xml
 tempXml="$(mktemp)"
-virsh dumpxml ${sourceVm} > "${tempXml}"
+virsh dumpxml "${sourceVm}" > "${tempXml}"
 
 # change name,uuid,mac address in temp xml file to clone VM name
 xmlstarlet edit --inplace --update "/domain/name" -v "${cloneVm}" "${tempXml}"

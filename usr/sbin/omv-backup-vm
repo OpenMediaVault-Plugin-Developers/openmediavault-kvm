@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# shellcheck disable=SC2086,SC2181
+# shellcheck disable=SC2181
 #
 # Copyright (c) 2022-2026 openmediavault plugin developers
 #
@@ -35,8 +35,8 @@ declare -i incrPending=0
 backupDir=""
 backupVm=""
 backupVmDir=""
-compress=""
-diskSpecs=""
+compress=()
+diskSpecs=()
 email_comment=""
 email_mode=""
 
@@ -51,6 +51,18 @@ logFile="${logDir}/omv-backup-vm.log"
 listFile="/etc/omv-backup-vm.list"
 
 
+# drop list rows for <path> <vm> <date>, matching the fields exactly (the
+# path may be stored with or without a trailing slash)
+_remove_list_rows() {
+  local tmp
+  [ -f "${listFile}" ] || return 0
+  tmp="$(mktemp)"
+  awk -F, -v p="${1%/}" -v v="${2}" -v d="${3}" \
+    '!(($2 == p || $2 == p "/") && $3 == v && $4 == d)' "${listFile}" > "${tmp}" \
+    && cat "${tmp}" > "${listFile}"
+  rm -f "${tmp}"
+}
+
 _log()
 {
   msg=${1}
@@ -61,7 +73,7 @@ _log()
 while getopts "cC:d:e:F:hik:psv:" opt; do
   case "${opt}" in
     c)
-      compress=" -c -o compression_type=zstd"
+      compress=(-c -o compression_type=zstd)
       _log "compression :: enabled"
       ;;
     C)
@@ -141,6 +153,10 @@ while getopts "cC:d:e:F:hik:psv:" opt; do
   esac
 done
 
+# Disk lists below are newline separated "target,source" pairs; split only on
+# newlines so paths containing spaces survive unquoted list expansion.
+IFS=$'\n'
+
 tmpfile=""
 if [ -n "${email_mode}" ]; then
   tmpfile=$(mktemp)
@@ -212,7 +228,7 @@ if [ -z "${backupVm}" ]; then
 fi
 
 # check if VM is defined by libvirt
-if ! virsh dominfo ${backupVm} > /dev/null 2>&1; then
+if ! virsh dominfo "${backupVm}" > /dev/null 2>&1; then
   _log "VM '${backupVm}' not defined!"
   exit 5
 fi
@@ -224,18 +240,26 @@ start=$(date +%s)
 _log "Starting backup..."
 
 # get VM power state
-powerState="$(virsh dominfo ${backupVm} | awk '$1 == "State:" { print $2 }')"
+powerState="$(virsh dominfo "${backupVm}" | awk '$1 == "State:" { print $2 }')"
 
 # get VM ID
 if [ "${powerState}" = "running" ]; then
-  vmId=$(virsh domid ${backupVm})
+  vmId=$(virsh domid "${backupVm}")
 fi
 _log "${backupVm} ID :: ${vmId}"
 
+# list a domain's disks as "target,source" lines. args: <domain> <awk filter>
+# the source is everything after the third column, so paths with spaces stay
+# whole (domblklist pads columns with spaces)
+_blk_disks() {
+  virsh domblklist "${1}" --details | sed 1,2d | awk NF \
+    | awk "${2}"' { src = $0; sub(/^[ \t]*[^ \t]+[ \t]+[^ \t]+[ \t]+[^ \t]+[ \t]+/, "", src); print $3 "," src }'
+}
+
 # get list of disks for VM as "target,source" pairs
 # target = guest device name (vda), source = host path
-disks=$(virsh domblklist ${backupVm} --details | sed 1,2d | awk NF | awk '$1 == "file" && $2 == "disk" { print $3","$4 }')
-excludeDisks=$(virsh domblklist ${backupVm} --details | sed 1,2d | awk NF | awk '$1 != "file" && $2 == "disk" { print $3","$4 }')
+disks=$(_blk_disks "${backupVm}" '$1 == "file" && $2 == "disk"')
+excludeDisks=$(_blk_disks "${backupVm}" '$1 != "file" && $2 == "disk"')
 
 #############################################################################
 # helpers
@@ -354,7 +378,7 @@ _build_backup_xml() {
       <driver type='qcow2'/>
     </disk>
 "
-    _backup_disks_map="${_backup_disks_map}${target}=${out} "
+    _backup_disks_map="${_backup_disks_map}${target}=${out}"$'\n'
   done
   # explicitly exclude non-file / read-only disks (cdrom, passthrough)
   for d in ${excludeDisks}; do
@@ -422,8 +446,8 @@ _commit_snapshot() {
   local overlays disk
   # only this run's overlays (libvirt names them <base>.backup-snapshot_<date>);
   # disks already pivoted back to their base image are skipped
-  overlays=$(virsh domblklist ${vmId} --details | sed 1,2d | awk NF \
-    | awk -v s=".backup-snapshot_${date}" '$1 == "file" && $2 == "disk" && substr($4, length($4) - length(s) + 1) == s { print $3","$4 }')
+  overlays=$(_blk_disks "${vmId}" '$1 == "file" && $2 == "disk"' \
+    | awk -v s=".backup-snapshot_${date}" 'substr($0, length($0) - length(s) + 1) == s')
   for disk in ${overlays}; do
     _log "Disk :: ${disk}"
     if ! virsh blockcommit ${vmId} "${disk#*,}" --active --pivot; then
@@ -507,7 +531,7 @@ do_incremental() {
     mkdir -p "${chainDir}"
     # save VM definition for restore
     _log "Dump XML for backup :: ${backupVm}_${date}.xml"
-    virsh dumpxml ${backupVm} > "${chainDir}/${backupVm}_${date}.xml"
+    virsh dumpxml "${backupVm}" > "${chainDir}/${backupVm}_${date}.xml"
   fi
 
   chkName="${chkPrefix}-${date}"
@@ -602,15 +626,13 @@ EOF
     | tail -n1 | awk '{ print $1 }')
   used=${used:-0}
   _log "Adding entry to list file '${listFile}'"
-  echo "$(uuid),${backupDir},${backupVm},${date},${used}" >> ${listFile}
+  echo "$(uuid),${backupDir},${backupVm},${date},${used}" >> "${listFile}"
 
   # chain-aware retention: keep the most recent ${keep} chains
   if [ ${keep} -gt 0 ]; then
     _log "Keeping the most recent ${keep} chains..."
     local keepDir delDirs delDate delDir delDates dd c
     keepDir="${backupDir}/${backupVm}/"
-    OFS=$IFS
-    IFS=$'\n'
     delDirs=$(find "${keepDir}" -mindepth 1 -maxdepth 1 -type d | sort -r | awk "NR>${keep}")
     for d in ${delDirs}; do
       delDate="$(basename "${d}")"
@@ -630,10 +652,9 @@ EOF
       _log "Removing chain ${d}..."
       rm -rv "${d}"
       for dd in ${delDates}; do
-        sed -i "\|${delDir%/}/\?,${backupVm},${dd}|d" "${listFile}"
+        _remove_list_rows "${delDir}" "${backupVm}" "${dd}"
       done
     done
-    IFS=$OFS
   fi
 
   end=$(date +%s)
@@ -647,9 +668,9 @@ EOF
 if [ ${incremental} -eq 1 ]; then
   if [ ${vmId} -le 0 ]; then
     _log "VM not running :: incremental requires a live VM, falling back to full backup"
-  elif [ -n "${compress}" ]; then
+  elif [ ${#compress[@]} -gt 0 ]; then
     _log "compression is ignored in incremental mode"
-    compress=""
+    compress=()
     if _all_qcow2; then
       do_incremental
     else
@@ -673,7 +694,7 @@ mkdir -p "${backupVmDir}"
 # create backup xml
 backupXml="${backupVm}_${date}.xml"
 _log "Dump XML for backup :: ${backupXml}"
-virsh dumpxml ${backupVm} > "${backupVmDir}/${backupXml}"
+virsh dumpxml "${backupVm}" > "${backupVmDir}/${backupXml}"
 
 grep -i 'loader.*pflash' "${backupVmDir}/${backupXml}"
 if [ $? -eq 0 ]; then
@@ -686,7 +707,7 @@ if [ ${poweroff} -eq 1 ] && [ ${vmId} -gt 0 ]; then
   virsh shutdown --domain ${vmId}
   countDown=300 # seconds, 5 minutes
   while [ ${countDown} -gt 0 ]; do
-    if virsh domstate ${backupVm} | grep 'shut off' ; then
+    if virsh domstate "${backupVm}" | grep 'shut off' ; then
       poweredoff=1
       break
     fi
@@ -704,11 +725,11 @@ if [ ${poweredoff} -ne 1 ] && [ ${vmId} -gt 0 ]; then
   # create disk spec
   for disk in ${disks}; do
     _log "Adding disk to snapshot :: ${disk%%,*}"
-    diskSpecs="${diskSpecs} --diskspec ${disk%%,*},snapshot=external"
+    diskSpecs+=(--diskspec "${disk%%,*},snapshot=external")
   done
   for disk in ${excludeDisks}; do
     _log "Ignoring disk in snapshot :: ${disk%%,*}"
-    diskSpecs="${diskSpecs} --diskspec ${disk%%,*},snapshot=no"
+    diskSpecs+=(--diskspec "${disk%%,*},snapshot=no")
   done
   _log "Creating snapshot..."
   virsh snapshot-create-as \
@@ -717,7 +738,7 @@ if [ ${poweredoff} -ne 1 ] && [ ${vmId} -gt 0 ]; then
     --disk-only \
     --name "backup-snapshot_${date}" \
     --no-metadata \
-    ${diskSpecs}
+    "${diskSpecs[@]}"
   if [ $? -ne 0 ]; then
     _log "Failed to create snapshot!"
     exit 7
@@ -733,7 +754,7 @@ _log "Copy disks to backup directory..."
 declare -A usedNames=()
 for disk in ${disks}; do
   _log "Copying disk :: ${disk#*,}"
-  filename="$(basename ${disk#*,})"
+  filename="$(basename "${disk#*,}")"
   # disks with the same file name in different directories would overwrite
   # each other; add the target device to the name of any later duplicate
   bakName="${filename}_${date}.bak"
@@ -744,7 +765,7 @@ for disk in ${disks}; do
   if [ ${samefmt} -eq 1 ]; then
     cp --reflink=auto -v "${disk#*,}" "${backupVmDir}/${bakName}"
   else
-    qemu-img convert -O qcow2 ${compress} "${disk#*,}" "${backupVmDir}/${bakName}"
+    qemu-img convert -O qcow2 "${compress[@]}" "${disk#*,}" "${backupVmDir}/${bakName}"
   fi
 done
 _backup_nvram "${backupVmDir}/${backupXml}" "${backupVmDir}"
@@ -762,7 +783,7 @@ fi
 # power on VM if poweroff flag passed and VM was actually powered off
 if [ ${poweroff} -eq 1 ] && [ ${poweredoff} -eq 1 ]; then
   _log "Power on ${backupVm}..."
-  virsh start ${backupVm}
+  virsh start "${backupVm}"
 fi
 
 # add entry to list file
@@ -770,7 +791,7 @@ fi
 # filesystem compression/sparseness (matches the incremental path)
 used=$(du --apparent-size --block-size=1 "${backupVmDir}" | awk '{ print $1 }')
 _log "Adding entry to list file '${listFile}'"
-echo "$(uuid),${backupDir},${backupVm},${date},${used}" >> ${listFile}
+echo "$(uuid),${backupDir},${backupVm},${date},${used}" >> "${listFile}"
 
 end=$(date +%s)
 backuptime=$((end-start))
@@ -782,8 +803,6 @@ if [ ${keep} -gt 0 ]; then
   _log "Keeping the most recent ${keep} backups..."
   keepDir="${backupDir}/${backupVm}/"
 
-  OFS=$IFS
-  IFS=$'\n'
   delDirs=$(find "${keepDir}" -mindepth 1 -maxdepth 1 -type d | sort -r | awk "NR>${keep}")
   for d in ${delDirs}; do
     delDate="$(basename "${d}")"
@@ -792,10 +811,8 @@ if [ ${keep} -gt 0 ]; then
     _log "delete dir :: ${delDir}"
     _log "Removing ${d}..."
     rm -rv "${d}"
-    grep "${delDir%/}/\?,${backupVm},${delDate}" ${listFile}
-    sed -i "\|${delDir%/}/\?,${backupVm},${delDate}|d" "${listFile}"
+    _remove_list_rows "${delDir}" "${backupVm}" "${delDate}"
   done
-  IFS=$OFS
 fi
 
 _log "Done."

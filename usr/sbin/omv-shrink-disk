@@ -36,7 +36,8 @@ if [ ! -f "${disk}" ]; then
     exit 1
 fi
 
-vm_running=$(pgrep -u libvirt-qemu -f "${disk}")
+# fixed-string match: the path may contain regex characters
+vm_running=$(ps -u libvirt-qemu -o args= 2>/dev/null | grep -F -- "${disk}")
 if [ -n "${vm_running}" ]; then
     _log "Error: VM is running! Please shut it down before proceeding."
     exit 2
