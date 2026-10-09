@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-08 12:50+0000\n"
+"POT-Creation-Date: 2026-10-09 19:56+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: BoneNI, 2026\n"
 "Language-Team: Lao (Laos) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/lo_LA/)\n"
@@ -26,6 +26,11 @@ msgstr " ມີຢູ່ແລ້ວ!"
 
 msgid " the network!"
 msgstr " ເຄືອຂ່າຍ!"
+
+msgid ""
+"'%s' contains a character virt-install cannot handle (& ' \" < >). Please "
+"rename it."
+msgstr ""
 
 msgid ""
 "ARM64 is not supported. Redox OS pre-built ARM64 images do not have a "
@@ -165,6 +170,11 @@ msgstr ""
 "ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການລຶບຖານຂໍ້ມູນການຕິດຕາມ? "
 "ຂໍ້ມູນການວັດແທກທັງໝົດທີ່ເກັບກຳໄວ້ຈະຖືກລຶບຖາວອນ."
 
+msgid ""
+"Are you sure you want to delete all collected metrics for this VM? If the VM"
+" still exists, it will reappear on the next collection."
+msgstr ""
+
 msgid "Are you sure you want to delete all snapshots?"
 msgstr "ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການລຶບ snapshot ທັງໝົດ?"
 
@@ -290,6 +300,9 @@ msgstr ""
 msgid ""
 "Check github.com/home-assistant/operating-system/releases for the latest "
 "version."
+msgstr ""
+
+msgid "Check github.com/siderolabs/talos/releases for the latest version."
 msgstr ""
 
 msgid ""
@@ -432,11 +445,17 @@ msgstr "ລຶບ + ພື້ນທີ່ເກັບຂໍ້ມູນ"
 msgid "Delete All"
 msgstr "ລຶບທັງໝົດ"
 
+msgid "Delete from monitor database"
+msgstr ""
+
 msgid "Deleted."
 msgstr "ລຶບແລ້ວ."
 
 msgid "Deleting ..."
 msgstr "ກຳລັງລຶບ ..."
+
+msgid "Deleting VM from monitor database ..."
+msgstr ""
 
 msgid "Deleting a network ..."
 msgstr "ກຳລັງລຶບເຄືອຂ່າຍ ..."
@@ -538,6 +557,13 @@ msgid ""
 "Downloads the OpenMediaVault 8 ISO (based on Debian 13) and creates a VM "
 "ready for installation. Connect via VNC to complete setup. The ISO is "
 "several hundred MB."
+msgstr ""
+
+msgid ""
+"Downloads the Talos Linux ISO (with the QEMU guest agent extension) from the"
+" Talos Image Factory and creates a VM that boots into maintenance mode. Use "
+"talosctl from a workstation to apply a machine configuration and install "
+"Talos to the disk (/dev/vda)."
 msgstr ""
 
 msgid ""
@@ -906,6 +932,12 @@ msgstr ""
 msgid "Install Redox OS ..."
 msgstr ""
 
+msgid "Install Talos Linux"
+msgstr ""
+
+msgid "Install Talos Linux ..."
+msgstr ""
+
 msgid "Installing Home Assistant OS ..."
 msgstr ""
 
@@ -916,6 +948,9 @@ msgid "Installing OpenMediaVault 8 ..."
 msgstr ""
 
 msgid "Installing Redox OS ..."
+msgstr ""
+
+msgid "Installing Talos Linux ..."
 msgstr ""
 
 msgid "Isolated"
@@ -1440,6 +1475,9 @@ msgstr ""
 msgid "TPM"
 msgstr "TPM"
 
+msgid "Talos Version"
+msgstr ""
+
 msgid "Terabytes"
 msgstr "ເຕຣາໄບທ໌"
 
@@ -1517,6 +1555,9 @@ msgstr "ບໍ່ສາມາດລຶບວໍລຸ່ມ - "
 msgid "Unable to determine pool path."
 msgstr "ບໍ່ສາມາດລະບຸເສັ້ນທາງຂອງພູນ."
 
+msgid "Unable to determine volume group for pool :: "
+msgstr ""
+
 msgid "Unable to get network adapter type - "
 msgstr "ບໍ່ສາມາດດຶງຂໍ້ມູນປະເພດອະແດັບເຕີເຄືອຂ່າຍ - "
 
@@ -1525,6 +1566,9 @@ msgstr "ບໍ່ສາມາດຍ້ອນກັບໄປຫາ snapshot"
 
 msgid "Unable to set VM XML :: "
 msgstr "ບໍ່ສາມາດຕັ້ງຄ່າ VM XML :: "
+
+msgid "Unable to set notes for VM."
+msgstr ""
 
 msgid "Unable to start network"
 msgstr "ບໍ່ສາມາດເລີ່ມເຄືອຂ່າຍ"
@@ -1549,6 +1593,9 @@ msgstr "ຊື່ VM"
 
 msgid "VM does not have qemu guest agent installed!"
 msgstr "VM ບໍ່ໄດ້ຕິດຕັ້ງ qemu guest agent!"
+
+msgid "VM has been deleted from monitor database."
+msgstr ""
 
 msgid "VM info"
 msgstr "ຂໍ້ມູນ VM"

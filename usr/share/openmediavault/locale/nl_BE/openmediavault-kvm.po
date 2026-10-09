@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-08 12:50+0000\n"
+"POT-Creation-Date: 2026-10-09 19:56+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Language-Team: Dutch (Belgium) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/nl_BE/)\n"
 "MIME-Version: 1.0\n"
@@ -21,6 +21,11 @@ msgid " already exists!"
 msgstr ""
 
 msgid " the network!"
+msgstr ""
+
+msgid ""
+"'%s' contains a character virt-install cannot handle (& ' \" < >). Please "
+"rename it."
 msgstr ""
 
 msgid ""
@@ -159,6 +164,11 @@ msgid ""
 "will be permanently deleted."
 msgstr ""
 
+msgid ""
+"Are you sure you want to delete all collected metrics for this VM? If the VM"
+" still exists, it will reappear on the next collection."
+msgstr ""
+
 msgid "Are you sure you want to delete all snapshots?"
 msgstr ""
 
@@ -280,6 +290,9 @@ msgstr ""
 msgid ""
 "Check github.com/home-assistant/operating-system/releases for the latest "
 "version."
+msgstr ""
+
+msgid "Check github.com/siderolabs/talos/releases for the latest version."
 msgstr ""
 
 msgid ""
@@ -422,10 +435,16 @@ msgstr ""
 msgid "Delete All"
 msgstr ""
 
+msgid "Delete from monitor database"
+msgstr ""
+
 msgid "Deleted."
 msgstr ""
 
 msgid "Deleting ..."
+msgstr ""
+
+msgid "Deleting VM from monitor database ..."
 msgstr ""
 
 msgid "Deleting a network ..."
@@ -528,6 +547,13 @@ msgid ""
 "Downloads the OpenMediaVault 8 ISO (based on Debian 13) and creates a VM "
 "ready for installation. Connect via VNC to complete setup. The ISO is "
 "several hundred MB."
+msgstr ""
+
+msgid ""
+"Downloads the Talos Linux ISO (with the QEMU guest agent extension) from the"
+" Talos Image Factory and creates a VM that boots into maintenance mode. Use "
+"talosctl from a workstation to apply a machine configuration and install "
+"Talos to the disk (/dev/vda)."
 msgstr ""
 
 msgid ""
@@ -893,6 +919,12 @@ msgstr ""
 msgid "Install Redox OS ..."
 msgstr ""
 
+msgid "Install Talos Linux"
+msgstr ""
+
+msgid "Install Talos Linux ..."
+msgstr ""
+
 msgid "Installing Home Assistant OS ..."
 msgstr ""
 
@@ -903,6 +935,9 @@ msgid "Installing OpenMediaVault 8 ..."
 msgstr ""
 
 msgid "Installing Redox OS ..."
+msgstr ""
+
+msgid "Installing Talos Linux ..."
 msgstr ""
 
 msgid "Isolated"
@@ -1424,6 +1459,9 @@ msgstr ""
 msgid "TPM"
 msgstr ""
 
+msgid "Talos Version"
+msgstr ""
+
 msgid "Terabytes"
 msgstr ""
 
@@ -1499,6 +1537,9 @@ msgstr ""
 msgid "Unable to determine pool path."
 msgstr ""
 
+msgid "Unable to determine volume group for pool :: "
+msgstr ""
+
 msgid "Unable to get network adapter type - "
 msgstr ""
 
@@ -1506,6 +1547,9 @@ msgid "Unable to revert to snapshot"
 msgstr ""
 
 msgid "Unable to set VM XML :: "
+msgstr ""
+
+msgid "Unable to set notes for VM."
 msgstr ""
 
 msgid "Unable to start network"
@@ -1530,6 +1574,9 @@ msgid "VM Name"
 msgstr ""
 
 msgid "VM does not have qemu guest agent installed!"
+msgstr ""
+
+msgid "VM has been deleted from monitor database."
 msgstr ""
 
 msgid "VM info"
