@@ -211,10 +211,42 @@ assert_rpc_bg_fails() {
     return 0
 }
 
+# Build JSON params from key=value arguments without any shell quoting of
+# the values. "@true"/"@false" give booleans, "@int:N" an integer.
+jp() {
+    python3 -c '
+import json, sys
+d = {}
+for a in sys.argv[1:]:
+    k, v = a.split("=", 1)
+    if v == "@true": v = True
+    elif v == "@false": v = False
+    elif v.startswith("@int:"): v = int(v[5:])
+    d[k] = v
+print(json.dumps(d))' "$@"
+}
+
+# Source files of a VM's file-backed devices, one per line, read from the
+# domain XML (domblklist's columns can't be split reliably when a path
+# contains spaces). Args: vm, device type (disk/cdrom), optional "live" to
+# read the running config instead of the persistent one.
+vm_sources() {
+    local flag="--inactive"
+    [ "${3:-}" = "live" ] && flag=""
+    # shellcheck disable=SC2086
+    virsh dumpxml $flag "$1" 2>/dev/null | python3 -c "
+import sys, xml.etree.ElementTree as ET
+root = ET.fromstring(sys.stdin.read())
+for d in root.findall('./devices/disk'):
+    src = d.find('source')
+    if d.get('device') == sys.argv[1] and d.get('type') == 'file' and src is not None and src.get('file'):
+        print(src.get('file'))
+" "$2" 2>/dev/null
+}
+
 # Path of a VM's first file-backed disk (persistent config)
 vm_disk_path() {
-    virsh domblklist "$1" --details --inactive 2>/dev/null \
-        | awk '$1 == "file" && $2 == "disk" { print $4; exit }'
+    vm_sources "$1" disk | head -n1
 }
 
 # Attribute of the first <disk device='disk'> in the persistent XML.
@@ -241,10 +273,9 @@ destroy_test_vm() {
     local vm=$1 d
     virsh domstate "$vm" &>/dev/null || return 0
     virsh destroy "$vm" >/dev/null 2>&1 || true
-    for d in $(virsh domblklist "$vm" --details --inactive 2>/dev/null \
-            | awk '$1 == "file" && $2 == "disk" { print $4 }'); do
-        rm -f "$d"
-    done
+    while IFS= read -r d; do
+        [ -n "$d" ] && rm -f "$d"
+    done < <(vm_sources "$vm" disk)
     virsh undefine "$vm" --managed-save --snapshots-metadata --nvram >/dev/null 2>&1 \
         || virsh undefine "$vm" --managed-save --snapshots-metadata >/dev/null 2>&1 || true
 }
@@ -272,6 +303,18 @@ TEST_CLONE_VM="omvtest_kvm_clone"                # linked clone of the test VM
 TEST_ISO_NAME="omvtest_kvm_cdrom.iso"            # fake ISO attached to the test VM
 TEST_MOVE_POOL_NAME="omvtest_kvm_movepool"       # doMove destination pool
 TEST_MOVE_POOL_PATH="/tmp/omvtest_kvm_movepool"
+# Objects with names the shell would mangle if any command left them unquoted
+# (spaces, a single quote, $, and a comma in a path). Single-quoted so the
+# literal $x is part of the name.
+ODD_VM='omvtest kvm vm '\''q'\'' $x'
+ODD_RESTORE_VM='omvtest kvm restored '\''q'\'' $x'
+ODD_CLONE_VM='omvtest kvm clone '\''q'\'' $x'
+ODD_POOL='omvtest_kvm pool $x'
+ODD_POOL_PATH='/tmp/omvtest kvm pool $x,1'
+ODD_MOVE_POOL='omvtest_kvm movepool $x'
+ODD_MOVE_POOL_PATH='/tmp/omvtest kvm movepool $x'
+ODD_NET='omvtest-kvm-net odd $x'
+ODD_BACKUP_DIR='/tmp/omvtest kvm backup $x'
 # Notes with characters the shell / virt-install used to mangle
 TEST_VM_NOTES='omvtest vm - safe to delete "quoted", $HOME `id` 100%'
 # Dedicated dir pool for the test VM's own disk, under /tmp rather than any
@@ -344,27 +387,31 @@ for r in rows:
     rm -rf "$TEST_VM_POOL_PATH" 2>/dev/null || true
 
     # leftover test networks (any net whose name starts with the test prefix)
-    for net in $(virsh net-list --all --name 2>/dev/null | grep "^${TEST_NET_PREFIX}" || true); do
+    while IFS= read -r net; do
+        [ -n "$net" ] || continue
         info "Pre-cleanup: removing leftover test network '$net'"
         virsh net-destroy  "$net" >/dev/null 2>&1 || true
         virsh net-undefine "$net" >/dev/null 2>&1 || true
-    done
+    done < <(virsh net-list --all --name 2>/dev/null | grep "^${TEST_NET_PREFIX}" || true)
 
-    # leftover restored / cloned VMs
-    for vm in "$TEST_RESTORE_VM" "$TEST_RESTORE_VM2" "$TEST_CLONE_VM"; do
+    # leftover restored / cloned / odd-name VMs
+    for vm in "$TEST_RESTORE_VM" "$TEST_RESTORE_VM2" "$TEST_CLONE_VM" \
+              "$ODD_VM" "$ODD_RESTORE_VM" "$ODD_CLONE_VM"; do
         if virsh domstate "$vm" &>/dev/null; then
             info "Pre-cleanup: removing leftover VM '$vm'"
             destroy_test_vm "$vm"
         fi
     done
 
-    # leftover doMove destination pool
-    if virsh pool-info "$TEST_MOVE_POOL_NAME" &>/dev/null 2>&1; then
-        info "Pre-cleanup: removing leftover move test pool '$TEST_MOVE_POOL_NAME'"
-        virsh pool-destroy  "$TEST_MOVE_POOL_NAME" >/dev/null 2>&1 || true
-        virsh pool-undefine "$TEST_MOVE_POOL_NAME" >/dev/null 2>&1 || true
-    fi
-    rm -rf "$TEST_MOVE_POOL_PATH" 2>/dev/null || true
+    # leftover doMove destination pool and odd-name pools
+    for pool in "$TEST_MOVE_POOL_NAME" "$ODD_POOL" "$ODD_MOVE_POOL"; do
+        if virsh pool-info "$pool" &>/dev/null 2>&1; then
+            info "Pre-cleanup: removing leftover test pool '$pool'"
+            virsh pool-destroy  "$pool" >/dev/null 2>&1 || true
+            virsh pool-undefine "$pool" >/dev/null 2>&1 || true
+        fi
+    done
+    rm -rf "$TEST_MOVE_POOL_PATH" "$ODD_POOL_PATH" "$ODD_MOVE_POOL_PATH" 2>/dev/null || true
 
     # leftover backup-execution test directories (and their list rows)
     remove_test_backup_dirs
@@ -373,9 +420,14 @@ for r in rows:
 remove_test_backup_dirs() {
     local d
     for d in "$TEST_BACKUP_DIR1" "$TEST_BACKUP_DIR2" "$TEST_BACKUP_DIR3" \
-             "$TEST_BACKUP_DIR4" "$TEST_BACKUP_DIR5" "$TEST_RESTORE_DIR"; do
+             "$TEST_BACKUP_DIR4" "$TEST_BACKUP_DIR5" "$TEST_RESTORE_DIR" "$ODD_BACKUP_DIR"; do
         rm -rf "$d" 2>/dev/null || true
-        [ -f /etc/omv-backup-vm.list ] && sed -i "\|,${d},|d" /etc/omv-backup-vm.list
+        if [ -f /etc/omv-backup-vm.list ]; then
+            # fixed-string field match; the paths contain regex characters
+            awk -F, -v p="$d" '$2 != p && $2 != p "/"' /etc/omv-backup-vm.list > /etc/omv-backup-vm.list.omvtest \
+                && cat /etc/omv-backup-vm.list.omvtest > /etc/omv-backup-vm.list
+            rm -f /etc/omv-backup-vm.list.omvtest
+        fi
     done
 }
 
@@ -388,7 +440,8 @@ cleanup() {
         info "Deleting test job $JOB_UUID"
         omv-rpc -u admin "Kvm" "deleteJob" "{\"uuid\":\"$JOB_UUID\"}" >/dev/null 2>&1 || true
     fi
-    for vm in "$TEST_RESTORE_VM" "$TEST_RESTORE_VM2" "$TEST_CLONE_VM"; do
+    for vm in "$TEST_RESTORE_VM" "$TEST_RESTORE_VM2" "$TEST_CLONE_VM" \
+              "$ODD_CLONE_VM" "$ODD_RESTORE_VM" "$ODD_VM"; do
         if virsh domstate "$vm" &>/dev/null; then
             info "Deleting test VM '$vm'"
             destroy_test_vm "$vm"
@@ -426,6 +479,15 @@ cleanup() {
         virsh pool-undefine "$TEST_MOVE_POOL_NAME" >/dev/null 2>&1 || true
     fi
     rm -rf "$TEST_MOVE_POOL_PATH" 2>/dev/null || true
+
+    for pool in "$ODD_POOL" "$ODD_MOVE_POOL"; do
+        if virsh pool-info "$pool" &>/dev/null 2>&1; then
+            info "Deleting test pool '$pool'"
+            virsh pool-destroy  "$pool" >/dev/null 2>&1 || true
+            virsh pool-undefine "$pool" >/dev/null 2>&1 || true
+        fi
+    done
+    rm -rf "$ODD_POOL_PATH" "$ODD_MOVE_POOL_PATH" 2>/dev/null || true
 
     remove_test_backup_dirs
 
@@ -1294,8 +1356,7 @@ else
     # tests below. Populate it with real data (while the VM is still stopped,
     # so nothing else has it open) so those backup jobs have non-trivial work
     # and stay active long enough to observe.
-    vm_disk_path=$(virsh domblklist "$TEST_VM_NAME" --details 2>/dev/null \
-        | awk '$1 == "file" && $2 == "disk" { print $4; exit }')
+    vm_disk_path=$(vm_disk_path "$TEST_VM_NAME")
     if [ -n "$vm_disk_path" ] && command -v qemu-io >/dev/null 2>&1; then
         info "Populating test VM disk with data so backup jobs have real work to copy"
         qemu-io -f qcow2 -c "write -P 0xAB 0 900M" "$vm_disk_path" >/dev/null 2>&1 || \
@@ -1529,8 +1590,7 @@ print(json.dumps({
         ORIG_DISK=$(vm_disk_path "$TEST_VM_NAME")
         ORIG_DIR=$(dirname "$ORIG_DISK")
         _live_disk() {
-            virsh domblklist "$TEST_VM_NAME" --details 2>/dev/null \
-                | awk '$1 == "file" && $2 == "disk" { print $4; exit }'
+            vm_sources "$TEST_VM_NAME" disk live | head -n1
         }
         _overlay_count() {
             find "$ORIG_DIR" -maxdepth 1 -name '*backup-snapshot_*' 2>/dev/null | wc -l
@@ -1791,8 +1851,7 @@ else
             _fail "createLinkedClone — overlay driver type is qcow2" \
                 "got '$(vm_disk_attr "$TEST_CLONE_VM" driver type)'"
         fi
-        if virsh domblklist "$TEST_CLONE_VM" --details --inactive 2>/dev/null \
-                | awk '$2 == "cdrom" { print $4 }' | grep -qxF "$TEST_ISO_PATH"; then
+        if vm_sources "$TEST_CLONE_VM" cdrom | grep -qxF "$TEST_ISO_PATH"; then
             _pass "createLinkedClone — cdrom still points at the ISO"
         else
             _fail "createLinkedClone — cdrom still points at the ISO" \
@@ -1941,6 +2000,238 @@ if $VM_POOL_CREATED; then
         VM_POOL_CREATED=false
     fi
     rmdir "$TEST_VM_POOL_PATH" 2>/dev/null || true
+fi
+
+# ===========================================================================
+section "Unusual names (shell quoting)"
+# ===========================================================================
+# Runs a VM lifecycle where every object name contains characters the shell
+# treats specially: spaces, a single quote and $ (plus a comma in the pool
+# path). Every RPC used to pass names to commands unquoted, so these broke or
+# were expanded by the shell.
+
+ODD_OK=true
+if assert_rpc "setNetwork (odd name)" "Kvm" "setNetwork" \
+        "$(jp name="$ODD_NET" forward=isolated macaddress=52:54:00:6a:1b:09 \
+              gatewayip=10.123.49.1 subnet=255.255.255.0 dhcp=@false)"; then
+    CREATED_NETS+=("$ODD_NET")
+    if virsh net-info "$ODD_NET" &>/dev/null; then
+        _pass "odd network defined under its exact name"
+    else
+        _fail "odd network defined under its exact name" "virsh net-info '$ODD_NET' failed"
+        ODD_OK=false
+    fi
+else
+    ODD_OK=false
+fi
+
+if $ODD_OK && assert_rpc "setPool (odd name and path)" "Kvm" "setPool" \
+        "$(jp name="$ODD_POOL" path="$ODD_POOL_PATH" type=dir hostname= zpoolname= sourcepath= vg=)"; then
+    if [ "$(virsh pool-dumpxml "$ODD_POOL" 2>/dev/null | sed -n 's:.*<path>\(.*\)</path>.*:\1:p')" = "$ODD_POOL_PATH" ]; then
+        _pass "odd pool defined with its exact path"
+    else
+        _fail "odd pool defined with its exact path" "$(virsh pool-dumpxml "$ODD_POOL" 2>&1 | grep path)"
+    fi
+else
+    ODD_OK=false
+fi
+
+ODD_VM_CREATED=false
+if $ODD_OK; then
+    HOST_ARCH=$(dpkg --print-architecture 2>/dev/null || echo "x86_64")
+    [ "$HOST_ARCH" = "amd64" ] && HOST_ARCH="x86_64"
+    [ "$HOST_ARCH" = "arm64" ] && HOST_ARCH="aarch64"
+    if assert_rpc "setVm (odd name, odd pool, odd network)" "Kvm" "setVm" \
+            "$(jp lxc=@false vmname="$ODD_VM" arch="$HOST_ARCH" cpu='host host-passthrough' otherCpu= \
+                  os=generic uefi=@false secure=@false vcpu=@int:1 memory=@int:256 memoryunit=MiB \
+                  network="$ODD_NET" model=virtio macaddress= bridge= brmodel= \
+                  voldisk='Create new disk' volbus=virtio volformat=qcow2 volname= volpool="$ODD_POOL" \
+                  volsize=@int:1 volunit=G voliso=none voliso2=none audio=@false vnc=@false \
+                  spice=@false tpm=@false notes="$TEST_VM_NOTES")"; then
+        ODD_VM_CREATED=true
+    fi
+fi
+
+if ! $ODD_VM_CREATED; then
+    _skip "unusual names lifecycle" "odd network/pool/VM could not be created"
+else
+    ODD_DISK=$(vm_disk_path "$ODD_VM")
+    if [ "$(dirname "$ODD_DISK")" = "$ODD_POOL_PATH" ] && [ -f "$ODD_DISK" ]; then
+        _pass "setVm (odd) — disk created in the odd pool ($(basename "$ODD_DISK"))"
+    else
+        _fail "setVm (odd) — disk created in the odd pool" "disk '$ODD_DISK'"
+    fi
+    if virsh domiflist "$ODD_VM" 2>/dev/null | grep -qF "$ODD_NET"; then
+        _pass "setVm (odd) — NIC attached to the odd network"
+    else
+        _fail "setVm (odd) — NIC attached to the odd network" "$(virsh domiflist "$ODD_VM" 2>&1 | tail -2)"
+    fi
+
+    ODD_VMP=$(jp vmname="$ODD_VM" virttype=vm)
+    assert_rpc "getVmList (odd VM listed)" "Kvm" "getVmList" \
+        '{"start":0,"limit":200,"sortfield":"vmname","sortdir":"ASC"}'
+    if echo "$RPC_OUT" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+rows = d.get('data', d) if isinstance(d, dict) else d
+sys.exit(0 if any(r.get('vmname') == sys.argv[1] for r in rows) else 1)" "$ODD_VM"; then
+        _pass "getVmList — odd VM present under its exact name"
+    else
+        _fail "getVmList — odd VM present under its exact name" "not found"
+    fi
+    assert_rpc "getVmXml (odd)"     "Kvm" "getVmXml"     "$ODD_VMP" '"vmxml"'
+    assert_rpc "getVmDetails (odd)" "Kvm" "getVmDetails" "$(jp vmname="$ODD_VM")" 'State:'
+    assert_rpc "enumerateVmNic (odd)" "Kvm" "enumerateVmNic" "$ODD_VMP"
+    if echo "$RPC_OUT" | grep -qF "$ODD_NET"; then
+        _pass "enumerateVmNic (odd) — source shows the full network name"
+    else
+        _fail "enumerateVmNic (odd) — source shows the full network name" "${RPC_OUT:0:300}"
+    fi
+    assert_rpc "enumerateVolumesByVm (odd)" "Kvm" "enumerateVolumesByVm" "$(jp vmname="$ODD_VM" optical=@false)"
+    if echo "$RPC_OUT" | grep -qF "$(basename "$ODD_DISK")"; then
+        _pass "enumerateVolumesByVm (odd) — full disk path returned"
+    else
+        _fail "enumerateVolumesByVm (odd) — full disk path returned" "${RPC_OUT:0:300}"
+    fi
+
+    # notes
+    assert_rpc "setNotes (odd)" "Kvm" "setNotes" "$(jp vmname="$ODD_VM" virttype=vm notes="$TEST_VM_NOTES")"
+    assert_rpc "getNotes (odd)" "Kvm" "getNotes" "$ODD_VMP"
+    if [ "$(json_get "$RPC_OUT" notes)" = "$TEST_VM_NOTES" ]; then
+        _pass "notes on odd VM stored verbatim"
+    else
+        _fail "notes on odd VM stored verbatim" "got '$(json_get "$RPC_OUT" notes)'"
+    fi
+
+    # snapshot with an odd name
+    ODD_SNAP='snap '\''one'\'' $x'
+    assert_rpc "addSnapshot (odd names)" "Kvm" "addSnapshot" "$(jp vmname="$ODD_VM" virttype=vm snapname="$ODD_SNAP")"
+    if virsh snapshot-list "$ODD_VM" --name 2>/dev/null | grep -qxF "$ODD_SNAP"; then
+        _pass "addSnapshot (odd) — snapshot created under its exact name"
+    else
+        _fail "addSnapshot (odd) — snapshot created under its exact name" "$(virsh snapshot-list "$ODD_VM" --name 2>&1)"
+    fi
+    assert_rpc "deleteSnapshot (odd names)" "Kvm" "deleteSnapshot" "$(jp vmname="$ODD_VM" virttype=vm snapname="$ODD_SNAP")"
+
+    # ISO with spaces and a comma in its path
+    ODD_ISO="$ODD_POOL_PATH/install disk,1.iso"
+    truncate -s 1M "$ODD_ISO"
+    assert_rpc "addOptical (ISO path with space and comma)" "Kvm" "addOptical" "$(jp vmname="$ODD_VM" voliso="$ODD_ISO")"
+    if virsh domblklist "$ODD_VM" --details --inactive 2>/dev/null | grep -qF "$ODD_ISO"; then
+        _pass "addOptical (odd) — cdrom points at the exact ISO path"
+    else
+        _fail "addOptical (odd) — cdrom points at the exact ISO path" \
+            "$(virsh domblklist "$ODD_VM" --details --inactive 2>&1 | tail -3)"
+    fi
+    # virt-install/virt-xml double-escape & ' " < > in paths; refuse them
+    # instead of silently pointing the VM at the wrong file
+    BAD_ISO="$ODD_POOL_PATH/bad'name.iso"
+    truncate -s 1M "$BAD_ISO"
+    assert_rpc_fails "addOptical — refuses a path virt-xml would corrupt" "Kvm" "addOptical" \
+        "$(jp vmname="$ODD_VM" voliso="$BAD_ISO")"
+    rm -f "$BAD_ISO"
+
+    # full backup (VM is off) into a directory with an odd name
+    mkdir -p "$ODD_BACKUP_DIR"
+    ODD_DATE=""
+    if assert_rpc_bg "doBackup (odd VM and backup dir)" "Kvm" "doBackup" \
+            "$(jp vmname="$ODD_VM" path="$ODD_BACKUP_DIR" compression=@false)" "Done"; then
+        ODD_DATE=$(find "$ODD_BACKUP_DIR/$ODD_VM" -mindepth 1 -maxdepth 1 -type d -printf '%f\n' 2>/dev/null | head -1)
+        if [ -n "$ODD_DATE" ] && find "$ODD_BACKUP_DIR/$ODD_VM/$ODD_DATE" -name '*.bak' | grep -q .; then
+            _pass "doBackup (odd) — backup written under the exact VM name"
+        else
+            _fail "doBackup (odd) — backup written under the exact VM name" \
+                "$(find "$ODD_BACKUP_DIR" 2>&1 | head -5 | tr '\n' ' ')"
+        fi
+        if awk -F, -v p="$ODD_BACKUP_DIR" -v v="$ODD_VM" -v d="$ODD_DATE" \
+                '$2 == p && $3 == v && $4 == d { f = 1 } END { exit !f }' /etc/omv-backup-vm.list; then
+            _pass "doBackup (odd) — list row recorded with exact names"
+        else
+            _fail "doBackup (odd) — list row recorded with exact names" "$(grep -F "$ODD_VM" /etc/omv-backup-vm.list)"
+        fi
+    fi
+
+    if [ -n "$ODD_DATE" ]; then
+        if assert_rpc_bg "doRestore (odd names)" "Kvm" "doRestore" \
+                "$(jp backup="$ODD_VM | $ODD_DATE | $ODD_BACKUP_DIR" newname="$ODD_RESTORE_VM" newpath="$ODD_POOL_PATH")" "Done"; then
+            r_disk=$(vm_disk_path "$ODD_RESTORE_VM")
+            if [ -f "$r_disk" ] && qemu-img compare -U "$ODD_DISK" "$r_disk" >/dev/null 2>&1; then
+                _pass "doRestore (odd) — restored VM defined, image matches"
+            else
+                _fail "doRestore (odd) — restored VM defined, image matches" "restored disk '$r_disk'"
+            fi
+            # the restored VM keeps its cdrom; its ISO path has a comma
+            if virsh domblklist "$ODD_RESTORE_VM" --details --inactive 2>/dev/null | grep -qF "$ODD_ISO"; then
+                _pass "doRestore (odd) — cdrom path kept"
+            else
+                _fail "doRestore (odd) — cdrom path kept" "$(virsh domblklist "$ODD_RESTORE_VM" --details --inactive 2>&1 | tail -3)"
+            fi
+        fi
+        destroy_test_vm "$ODD_RESTORE_VM"
+
+        assert_rpc "deleteBackup (odd names)" "Kvm" "deleteBackup" \
+            "$(jp date="$ODD_DATE" path="$ODD_BACKUP_DIR" vmname="$ODD_VM")"
+        if [ ! -e "$ODD_BACKUP_DIR/$ODD_VM/$ODD_DATE" ] && ! grep -qF ",$ODD_VM,$ODD_DATE," /etc/omv-backup-vm.list; then
+            _pass "deleteBackup (odd) — files and list row removed"
+        else
+            _fail "deleteBackup (odd) — files and list row removed" \
+                "dir exists: $([ -e "$ODD_BACKUP_DIR/$ODD_VM/$ODD_DATE" ] && echo y || echo n)"
+        fi
+    fi
+
+    # linked clone
+    if assert_rpc "createLinkedClone (odd names)" "Kvm" "createLinkedClone" "$(jp clone="$ODD_CLONE_VM" source="$ODD_VM")"; then
+        c_disk=$(vm_disk_path "$ODD_CLONE_VM")
+        backing=$(qemu-img info -U "$c_disk" 2>/dev/null | sed -n 's/^backing file: //p')
+        if [ "$backing" = "$ODD_DISK" ]; then
+            _pass "createLinkedClone (odd) — overlay backed by the exact source path"
+        else
+            _fail "createLinkedClone (odd) — overlay backed by the exact source path" "backing '$backing'"
+        fi
+    fi
+    destroy_test_vm "$ODD_CLONE_VM"
+
+    # move to an odd-named pool and back
+    if assert_rpc "setPool (odd move destination)" "Kvm" "setPool" \
+            "$(jp name="$ODD_MOVE_POOL" path="$ODD_MOVE_POOL_PATH" type=dir hostname= zpoolname= sourcepath= vg=)"; then
+        if assert_rpc_bg "doMove (odd names)" "Kvm" "doMove" "$(jp vmname="$ODD_VM" pool="$ODD_MOVE_POOL" poweroff=@false)"; then
+            if [ "$(dirname "$(vm_disk_path "$ODD_VM")")" = "$ODD_MOVE_POOL_PATH" ]; then
+                _pass "doMove (odd) — disk now in the odd destination pool"
+            else
+                _fail "doMove (odd) — disk now in the odd destination pool" "disk '$(vm_disk_path "$ODD_VM")'"
+            fi
+            assert_rpc_bg "doMove (odd names, back)" "Kvm" "doMove" "$(jp vmname="$ODD_VM" pool="$ODD_POOL" poweroff=@false)"
+        fi
+        virsh pool-destroy "$ODD_MOVE_POOL" >/dev/null 2>&1 || true
+        assert_rpc "deletePool (odd move destination)" "Kvm" "deletePool" "$(jp name="$ODD_MOVE_POOL")"
+        rm -rf "$ODD_MOVE_POOL_PATH"
+    fi
+
+    # delete VM and disk
+    ODD_DISK=$(vm_disk_path "$ODD_VM")
+    if assert_rpc "doCommand undefineplus (odd VM)" "Kvm" "doCommand" \
+            "$(jp name="$ODD_VM" command=undefineplus virttype=vm vncport=0 spiceport=0 hostport=0 hostport2=0)"; then
+        if ! virsh dominfo "$ODD_VM" &>/dev/null && [ ! -e "$ODD_DISK" ]; then
+            _pass "undefineplus (odd) — VM and disk removed"
+        else
+            _fail "undefineplus (odd) — VM and disk removed" "disk '$ODD_DISK'"
+        fi
+        if [ -f "$ODD_ISO" ]; then
+            _pass "undefineplus (odd) — ISO kept"
+        else
+            _fail "undefineplus (odd) — ISO kept" "'$ODD_ISO' is gone"
+        fi
+    fi
+fi
+
+# tear down the odd pool and network
+if virsh pool-info "$ODD_POOL" &>/dev/null; then
+    virsh pool-destroy "$ODD_POOL" >/dev/null 2>&1 || true
+    assert_rpc "deletePool (odd)" "Kvm" "deletePool" "$(jp name="$ODD_POOL")"
+fi
+rm -rf "$ODD_POOL_PATH" "$ODD_BACKUP_DIR" 2>/dev/null || true
+if virsh net-info "$ODD_NET" &>/dev/null; then
+    delete_net "$ODD_NET"
 fi
 
 # ===========================================================================
