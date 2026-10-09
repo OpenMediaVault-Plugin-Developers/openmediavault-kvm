@@ -1,8 +1,25 @@
 openmediavault-kvm (8.3.4) UNRELEASED; urgency=medium
 
   * Add Talos appliance
+  * Move VM: keep disk bus/cache/boot settings and never overwrite existing files
+  * Fix creating new disks in LVM (logical) pools
+  * Fix IPFire arm64 installer deleting the new disk; clean up Home Assistant disk on failure
+  * Monitor: fix VM memory usage always showing 100%
+  * Snapshot delete now removes the snapshot data, not just the metadata
+  * Restore: refuse existing VM names/files, keep cdroms, fix disk format and image matching
+  * Backup: stop and clean up properly on interrupt; failed incrementals no longer fall back to full
+  * Backup: save UEFI NVRAM; restores and linked clones get their own copy
+  * Backup: fix disks with the same file name overwriting each other
+  * Linked clone: skip cdroms and support non-qcow2 base disks
+  * LXC snapshot: wait for container shutdown before snapshot/revert
+  * Fix VM deletion removing the wrong devices from the XML
+  * List USB devices without a serial number
+  * Report failed VM moves as errors
+  * Fix LXC image list error when the image index cannot be downloaded
+  * Fix special characters in VM notes and backup job comments
+  * Remove the ip_forward config on uninstall
 
- -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Fri, 02 Oct 2026 23:21:03 +0000
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Fri, 09 Oct 2026 18:36:36 +0000
 
 openmediavault-kvm (8.3.3) stable; urgency=low
 
