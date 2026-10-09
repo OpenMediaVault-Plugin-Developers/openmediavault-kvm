@@ -5,7 +5,7 @@ set -e
 . /etc/default/openmediavault
 . /usr/share/openmediavault/scripts/helper-functions
 
-ipFwdConf="/etc/sysctl.conf.d/ip_forward.conf"
+ipFwdConf="/etc/sysctl.d/ip_forward.conf"
 
 remove_action() {
     if [ -f "${ipFwdConf}" ]; then

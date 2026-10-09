@@ -22,6 +22,10 @@ import xml.etree.ElementTree as ET
 
 LOG_PATH = "/var/log/omv-move-vm.log"
 
+# keep the usual prefixes when the domain XML is re-serialized
+ET.register_namespace("qemu", "http://libvirt.org/schemas/domain/qemu/1.0")
+ET.register_namespace("libosinfo", "http://libosinfo.org/xmlns/libvirt/domain/1.0")
+
 
 # ---------- logging ----------
 def setup_logging():
@@ -105,12 +109,24 @@ def parse_file_disks(dom: libvirt.virDomain):
     return out
 
 
-def build_disk_xml(driver: str, new_path: str, target: str) -> str:
-    disk = ET.Element("disk", type="file", device="disk")
-    ET.SubElement(disk, "driver", name="qemu", type=driver)
-    ET.SubElement(disk, "source", file=new_path)
-    ET.SubElement(disk, "target", dev=target)
-    return ET.tostring(disk, encoding="unicode")
+def update_disk_source(conn: libvirt.virConnect, dom: libvirt.virDomain, target: str, new_path: str, driver: str) -> libvirt.virDomain:
+    """Point the persistent definition of disk <target> at new_path.
+
+    Only the <source file> (and driver type) of the existing <disk> element
+    are changed, so bus, cache, discard, boot order, serial and address are
+    all preserved. The domain is redefined from its full inactive XML.
+    """
+    root = ET.fromstring(dom.XMLDesc(libvirt.VIR_DOMAIN_XML_INACTIVE | libvirt.VIR_DOMAIN_XML_SECURE))
+    for d in root.findall("./devices/disk"):
+        tgt_el = d.find("target")
+        if tgt_el is None or tgt_el.get("dev") != target:
+            continue
+        d.find("source").set("file", new_path)
+        dr_el = d.find("driver")
+        if dr_el is not None and driver:
+            dr_el.set("type", driver)
+        return conn.defineXML(ET.tostring(root, encoding="unicode"))
+    raise RuntimeError(f"{target}: disk not found in domain XML")
 
 
 # ---------- shutdown handling ----------
@@ -173,8 +189,6 @@ def _convert_preserving_thin(src, dst, fmt, logger, qcow_opts=None):
     subprocess.check_call(cmd)
 
 def move_vm_disks(conn, dom, disks, dest_dir, was_running, timeout, force_off, keep_old, logger):
-    AFFECT_CONFIG = libvirt.VIR_DOMAIN_AFFECT_CONFIG
-
     state, _ = dom.state()
     if state == libvirt.VIR_DOMAIN_RUNNING:
         if not force_off:
@@ -182,13 +196,27 @@ def move_vm_disks(conn, dom, disks, dest_dir, was_running, timeout, force_off, k
         logger.info(f"Shutting down {dom.name()}...")
         graceful_shutdown(dom, timeout, logger, force=True)
 
+    # Plan every destination up front so nothing is moved if any of them
+    # would collide with an existing file or with another disk of this VM.
+    planned = set()
+    for d in disks:
+        dst = _norm(os.path.join(dest_dir, os.path.basename(d["path"])))
+        d["dst"] = dst
+        if dst == _norm(d["path"]):
+            continue
+        if dst in planned:
+            raise RuntimeError(f"{d['target']}: another disk of this VM would also be moved to {dst}")
+        if os.path.exists(dst):
+            raise RuntimeError(f"{d['target']}: destination {dst} already exists; refusing to overwrite it")
+        planned.add(dst)
+
     for d in disks:
         src = d["path"]
         tgt = d["target"]
         drv = d["driver"]  # may be 'qcow2' or 'raw', but we’ll verify on disk
-        dst = _norm(os.path.join(dest_dir, os.path.basename(src)))
+        dst = d["dst"]
 
-        if src == dst:
+        if _norm(src) == dst:
             logger.info(f"{tgt}: already in destination, skipping")
             continue
 
@@ -225,8 +253,7 @@ def move_vm_disks(conn, dom, disks, dest_dir, was_running, timeout, force_off, k
             raise RuntimeError(f"{tgt}: failed to move {src} to {dst}: {e}")
 
         # Persist new path in inactive XML
-        diskxml = build_disk_xml(fmt, dst, tgt)
-        dom.updateDeviceFlags(diskxml, AFFECT_CONFIG)
+        dom = update_disk_source(conn, dom, tgt, dst, fmt)
         logger.info(f"{tgt}: updated persistent XML to {dst}")
 
 

@@ -178,6 +178,17 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         return (trim($poolXml['type']));
     }
 
+    // volume group backing a logical (LVM) pool - its <source><name>
+    private function getPoolVg($pool) {
+        $poolFile = sprintf('/etc/libvirt/storage/%s.xml', $pool);
+        $poolXml = new SimpleXMLElement(file_get_contents($poolFile));
+        $vg = trim((string)$poolXml->source->name);
+        if ($vg === '') {
+            throw new \OMV\Exception(gettext("Unable to determine volume group for pool :: ") . $pool);
+        }
+        return ($vg);
+    }
+
     private function formatBytes(int $bytes): string
     {
         if ($bytes >= 1024 ** 4) return round($bytes / 1024 ** 4, 2) . ' TiB';
@@ -1228,11 +1239,12 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                     $formatArg = sprintf(',format=%s', $volformat);
                 }
                 if ($block) {
+                    $vg = $this->getPoolVg($volpool);
                     $cmdArgs = [];
                     $cmdArgs[] = sprintf('-L %d%s', $volsize, $volunit);
                     $cmdArgs[] = sprintf('-n %s', $this->escapeName($volname));
                     $cmdArgs[] = $vg;
-                    $err = gettext("Failed to create new disk :: ") . $params['command'];
+                    $err = gettext("Failed to create new disk :: ") . $volname;
                     $this->virshCommand($cmdArgs, $err, 'lvcreate');
                     $diskpath = sprintf("'/dev/%s/%s'", $vg, $this->escapeName($volname));
                 } else {
@@ -1243,7 +1255,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                     $cmdArgs[] = sprintf('-f %s', $volformat);
                     $cmdArgs[] = $diskpath;
                     $cmdArgs[] = sprintf('%d%s', $volsize, $volunit);
-                    $err = gettext("Failed to create new disk :: ") . $params['command'];
+                    $err = gettext("Failed to create new disk :: ") . $volname;
                     $this->virshCommand($cmdArgs, $err, 'qemu-img');
                 }
                 $voldisk = $diskpath;
@@ -1293,7 +1305,6 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $cmdArgs[] = sprintf('--os-variant name=%s', $params['os']);
         }
         $cmdArgs[] = sprintf('--memory %s', $memory);
-        $cmdArgs[] = sprintf('--metadata description="%s"', htmlspecialchars($params['notes'], ENT_XML1));
         $cmdArgs[] = sprintf('--name %s', $vmname);
         $cmdArgs[] = sprintf('--network %s', $netArgs);
         $cmdArgs[] = sprintf('--vcpus %s', $vcpuArgs);
@@ -1385,6 +1396,22 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
 
         // remove temporary xml file
         unlink($xmlFile);
+
+        // set notes with virsh desc - virt-install's option parser mangles
+        // quotes and commas in --metadata values
+        $notes = $params['notes'] ?? '';
+        if ($notes !== '') {
+            $cmdArgs = [];
+            if ($lxc) {
+                $cmdArgs[] = '--connect lxc:///';
+            }
+            $cmdArgs[] = 'desc';
+            $cmdArgs[] = sprintf('--domain %s', $this->escapeName($vmname));
+            $cmdArgs[] = '--config';
+            $cmdArgs[] = '--new-desc';
+            $cmdArgs[] = escapeshellarg($notes);
+            $this->virshCommand($cmdArgs, gettext("Unable to set notes for VM."));
+        }
     }
 
     private function addNameToUnixChannel($path)
@@ -1457,7 +1484,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // Precompute path parts
         $isLogical = ($poolType === 'logical');
         if ($isLogical) {
-            $vg = $volpool;
+            $vg = $this->getPoolVg($volpool);
             $dir = null;
             $fmt = null;
         } else {
@@ -1515,11 +1542,12 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $formatArg = sprintf(',format=%s', $volformat);
             }
             if ($block) {
+                $vg = $this->getPoolVg($volpool);
                 $cmdArgs = [];
                 $cmdArgs[] = sprintf('-L %d%s', $volsize, $volunit);
                 $cmdArgs[] = sprintf('-n %s', $this->escapeName($volname));
                 $cmdArgs[] = $vg;
-                $err = gettext("Failed to create new disk :: ") . $params['command'];
+                $err = gettext("Failed to create new disk :: ") . $volname;
                 $this->virshCommand($cmdArgs, $err, 'lvcreate');
                 $diskpath = sprintf("'/dev/%s/%s'", $vg, $this->escapeName($volname));
             } else {
@@ -1530,7 +1558,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmdArgs[] = sprintf('-f %s', $volformat);
                 $cmdArgs[] = $diskpath;
                 $cmdArgs[] = sprintf('%d%s', $volsize, $volunit);
-                $err = gettext("Failed to create new disk :: ") . $params['command'];
+                $err = gettext("Failed to create new disk :: ") . $volname;
                 $this->virshCommand($cmdArgs, $err, 'qemu-img');
             }
         } else {
@@ -2283,18 +2311,16 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                     gettext("VM must be powered off before deleting disks.")
                 );
             }
-            // Remove disk devices + unlink backing files
-            $xpath = $domXml->xpath('//devices/disk');
-            foreach ($xpath as $idx => $disk) {
-                if ((string)$disk['device'] !== 'disk') {
-                    continue;
-                }
+            // Remove disk devices + unlink backing files. Remove the nodes
+            // through DOM rather than by index so removing one element does
+            // not shift the position of the ones still to be visited.
+            foreach ($domXml->xpath('//devices/disk[@device="disk"]') as $disk) {
                 $file = (string)$disk->source['file'];
                 if ($file !== '' && file_exists($file)) {
                     @unlink($file);
                 }
-                // Remove this disk element from XML
-                unset($domXml->devices->disk[$idx]);
+                $node = dom_import_simplexml($disk);
+                $node->parentNode->removeChild($node);
             }
             $newXml = $domXml->asXML();
             $newXml = preg_replace('/<\?xml[^>]+>\s*/', '', $newXml);
@@ -2388,7 +2414,6 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $cmdArgs[] = 'snapshot-delete';
             $cmdArgs[] = $this->escapeName($params['vmname']);
             $cmdArgs[] = $this->escapeName($params['snapname']);
-            $cmdArgs[] = '--metadata';
             $err = gettext("Failed to delete the snapshot!");
             $this->virshCommand($cmdArgs, $err);
         }
@@ -2407,11 +2432,12 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $this->doLxcSnapshot($params['vmname'], 'delete', $snapname);
             }
         } else {
-            $snaps = $this->virshGetSnapshotList($params['vmname']);
-            // delete in reverse order so children are removed before parents
+            // topological order lists parents first; reverse it so children
+            // are removed before their parents
+            $snaps = $this->virshGetSnapshotList($params['vmname'], true);
             foreach (array_reverse($snaps) as $snap) {
                 $this->virshCommand(
-                    ['snapshot-delete', $this->escapeName($params['vmname']), $this->escapeName($snap['name']), '--metadata'],
+                    ['snapshot-delete', $this->escapeName($params['vmname']), $this->escapeName($snap['name'])],
                     gettext("Failed to delete snapshot: ") . $snap['name'],
                     'virsh',
                     true
@@ -2449,8 +2475,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         foreach ($output as $line) {
             if (preg_match('/^Bus\s/', $line)) {
                 $busLine = $line;
-            } elseif (!empty($busLine) && preg_match('/iSerial\s+\d+\s+(\S+)/', $line, $m)) {
-                $desc = $busLine . ' Serial: ' . $m[1];
+            } elseif (!empty($busLine) && preg_match('/^\s*iSerial\s+\d+(?:\s+(\S+))?/', $line, $m)) {
+                // devices without a serial number report "iSerial 0"
+                $desc = empty($m[1]) ? $busLine : $busLine . ' Serial: ' . $m[1];
                 $objects[] = ['description' => $desc, 'device' => $desc];
                 $busLine = '';
             }
@@ -2491,7 +2518,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             }
             $description = $device;
             for ($j = 0; $j < $usbCount; $j++) {
-                if (strpos($output[$j], $check)) {
+                if (strpos($output[$j], $check) !== false) {
                     $description = $output[$j];
                     break;
                 }
@@ -3473,8 +3500,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmd->setRedirect2to1();
                 $cmdLine = $cmd->getCommandLine();
                 file_put_contents($bgOutputFilename, $cmdLine . PHP_EOL . PHP_EOL, FILE_APPEND);
-                $cmd->setQuiet(true);
-                $this->exec($cmdLine, $output, $bgOutputFilename);
+                if (0 !== $this->exec($cmdLine, $output, $bgOutputFilename)) {
+                    throw new \OMV\ExecException($cmdLine, $output);
+                }
                 return $output;
             }
         );
@@ -4064,9 +4092,11 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         return $info;
     }
 
-    private function virshGetSnapshotList(string $vmname): array
+    private function virshGetSnapshotList(string $vmname, bool $topological = false): array
     {
-        $cmd = new \OMV\System\Process('virsh', ['snapshot-list', $this->escapeName($vmname)]);
+        $cmdArgs = ['snapshot-list', $this->escapeName($vmname)];
+        if ($topological) $cmdArgs[] = '--topological';
+        $cmd = new \OMV\System\Process('virsh', $cmdArgs);
         $cmd->setQuiet(true);
         $cmd->execute($output, $exitStatus);
         if ($exitStatus !== 0) return [];
@@ -4229,7 +4259,10 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $arch = $this->getArch();
         $this->fillImages();
         // get list of images
-        $images = file($this->imageCache);
+        $images = file_exists($this->imageCache) ? file($this->imageCache) : false;
+        if ($images === false) {
+            $images = [];
+        }
         $objects= [];
         $objects[] = [
             'desc' => gettext("No image - use existing image path"),
@@ -4256,9 +4289,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
     {
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
-        // remove cache file if found and download new list
-        unlink($this->imageCache);
-        $this->fillImages();
+        // download a new list; the old cache is kept if the download fails
+        $this->fillImages(true);
     }
 
     private function downloadImage($image, $path)
@@ -4306,12 +4338,13 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         }
     }
 
-    private function fillImages()
+    private function fillImages($force = false)
     {
         // get current time
         $time = time();
-        // if the cache doesn't exist or is older than 1 day, download it
-        if ( !file_exists($this->imageCache) or
+        $list = false;
+        // if forced, the cache doesn't exist or is older than 1 day, download it
+        if ( $force or !file_exists($this->imageCache) or
            ( $time - filemtime($this->imageCache) >= 60*60*24) ) {
             $url = 'https://images.linuxcontainers.org/meta/1.0/index-system';
             for ($i = 0; $i < 5; $i++) {

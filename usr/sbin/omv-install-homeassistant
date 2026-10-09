@@ -82,6 +82,9 @@ echo ""
 echo "Decompressing..."
 xz --decompress --keep "$COMPRESSED_PATH"
 
+# remove the disk again if anything below fails
+trap "rm -rf '$TEMP_DIR'; rm -f '$DISK_PATH'" EXIT
+
 if [ "$NEED_CONVERT" -eq 1 ]; then
     echo "Converting raw image to qcow2..."
     qemu-img convert -p -f raw -O qcow2 "$DECOMPRESSED_PATH" "$DISK_PATH"
@@ -122,6 +125,7 @@ VIRT_ARGS+=(--boot "$BOOT_ARG")
 echo ""
 echo "Creating VM '${VM_NAME}'..."
 virt-install "${VIRT_ARGS[@]}"
+trap "rm -rf '$TEMP_DIR'" EXIT
 
 echo ""
 echo "=== Installation complete ==="

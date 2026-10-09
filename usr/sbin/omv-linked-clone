@@ -103,31 +103,67 @@ xmlstarlet edit --inplace --update "/domain/name" -v "${cloneVm}" "${tempXml}"
 xmlstarlet edit --inplace --update "/domain/uuid" -v "$(uuid)" "${tempXml}"
 sed -i "/mac address/d" "${tempXml}"
 
-# get list of disks in backup
-_log "Creating linked clones of each disk ..."
-disks=$(xmlstarlet sel -t -v "/domain/devices/disk/source/@file" "${tempXml}")
+# files created so far, removed again if the clone fails
+created=()
+_fail() {
+  local f
+  _log "${1}"
+  for f in "${created[@]}"; do
+    rm -f "${f}"
+  done
+  rm -f "${tempXml}"
+  exit "${2}"
+}
 
-OFS=$IFS
-IFS=$'\n'
-for disk in ${disks}; do
+# create a linked clone (qcow2 overlay) of every file-backed disk; cdroms and
+# block devices are left pointing at their original source
+_log "Creating linked clones of each disk ..."
+diskXpath="/domain/devices/disk[@device='disk' and source/@file]"
+count=$(xmlstarlet sel -t -v "count(${diskXpath})" "${tempXml}")
+for (( i=1; i<=count; i++ )); do
+  disk="$(xmlstarlet sel -t -v "(${diskXpath})[${i}]/source/@file" "${tempXml}")"
   _log "Source disk :: ${disk}"
-  diskdir="$(dirname ${disk})"
-  diskfile="$(basename ${disk})"
-  clonedisk="${diskdir}/${cloneVm}_${diskfile}"
-  _log "Clone disk :: ${clonedisk}"
-  qemu-img create -f qcow2 -F qcow2 -b "${disk}" "${clonedisk}"
-  if [ $? -gt 0 ]; then
-    _log "Error creating backing file :: ${clonedisk}"
-    exit 7
+  fmt="$(qemu-img info -U "${disk}" 2>/dev/null | sed -n 's/^file format:[[:space:]]*\([[:alnum:]]*\).*/\1/p' | head -n1)"
+  if [ -z "${fmt}" ]; then
+    _fail "Unable to determine format of ${disk}" 7
   fi
-  sed -i "s|${disk}|${clonedisk}|" "${tempXml}"
+  clonedisk="$(dirname "${disk}")/${cloneVm}_$(basename "${disk}")"
+  if [ -e "${clonedisk}" ]; then
+    _fail "Clone disk already exists :: ${clonedisk}" 7
+  fi
+  _log "Clone disk :: ${clonedisk}"
+  if ! qemu-img create -f qcow2 -F "${fmt}" -b "${disk}" "${clonedisk}"; then
+    _fail "Error creating backing file :: ${clonedisk}" 7
+  fi
+  created+=("${clonedisk}")
+  xmlstarlet edit --inplace --update "(${diskXpath})[${i}]/source/@file" -v "${clonedisk}" "${tempXml}"
+  # the overlay is always qcow2, whatever the base format is
+  xmlstarlet edit --inplace --update "(${diskXpath})[${i}]/driver/@type" -v "qcow2" "${tempXml}"
 done
 
-IFS=$OFS
+# give the clone its own copy of the UEFI variable store instead of sharing
+# the source VM's file
+nvram="$(xmlstarlet sel -t -v "/domain/os/nvram" "${tempXml}")"
+if [ -n "${nvram}" ]; then
+  clonenvram="$(dirname "${nvram}")/${cloneVm}_VARS.fd"
+  if [ -e "${clonenvram}" ]; then
+    _fail "Clone NVRAM file already exists :: ${clonenvram}" 8
+  fi
+  if [ -f "${nvram}" ]; then
+    _log "Copying NVRAM :: ${nvram} -> ${clonenvram}"
+    if ! cp -a "${nvram}" "${clonenvram}"; then
+      _fail "Error copying NVRAM :: ${nvram}" 8
+    fi
+    created+=("${clonenvram}")
+  fi
+  xmlstarlet edit --inplace --update "/domain/os/nvram" -v "${clonenvram}" "${tempXml}"
+fi
 
 # define clone VM
 _log "Creating clone VM :: ${tempXml}"
-virsh define --file "${tempXml}"
+if ! virsh define --file "${tempXml}"; then
+  _fail "Error defining clone VM :: ${cloneVm}" 9
+fi
 
 # remove temp file
 rm -f "${tempXml}"

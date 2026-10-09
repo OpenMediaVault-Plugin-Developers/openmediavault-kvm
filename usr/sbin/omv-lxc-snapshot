@@ -172,16 +172,31 @@ if _is_btrfs_fs "${cntrDir}" && _is_btrfs_subvol "${cntrDir}" && _same_fs "${cnt
   snap_mode="btrfs snapshot"
 fi
 
+_is_running()
+{
+  ${virshCmd} list --name | grep -qx "${cntrName}"
+}
+
 # Helper to stop/start container if running
+# returns non-zero if the container did not stop
 _stop_if_running()
 {
-  if ${virshCmd} list --name | grep -qx "${cntrName}"; then
+  local countDown=60
+  if _is_running; then
     _log "Shutdown ${cntrName} ..."
     ${virshCmd} shutdown "${cntrName}"
     poweredOn=1
-    # give it a few seconds to settle
-    sleep 2
+    # wait for the container to actually stop before touching its rootfs
+    while _is_running; do
+      if [ ${countDown} -le 0 ]; then
+        _log "${cntrName} did not shut down within 60 seconds."
+        return 1
+      fi
+      sleep 2
+      countDown=$((countDown-2))
+    done
   fi
+  return 0
 }
 
 _start_if_needed()
@@ -200,7 +215,10 @@ case "${action}" in
     fi
 
     _log "Starting snapshot '${snapName}' for container '${cntrName}' (mode: ${snap_mode})"
-    _stop_if_running
+    if ! _stop_if_running; then
+      _log "Aborting snapshot."
+      exit 17
+    fi
 
     if [ "${use_btrfs}" = "yes" ]; then
       # store btrfs snapshots in a subdir to avoid mixing files and subvols
@@ -235,7 +253,10 @@ case "${action}" in
     fi
     _log "Reverting to snapshot '${snapName}' for container '${cntrName}'"
 
-    _stop_if_running
+    if ! _stop_if_running; then
+      _log "Aborting revert; container files were not changed."
+      exit 17
+    fi
 
     if [ "${use_btrfs}" = "yes" ] && [ -d "${cntrSnapDir}/${snapName}" ]; then
       # Btrfs subvolume snapshot exists

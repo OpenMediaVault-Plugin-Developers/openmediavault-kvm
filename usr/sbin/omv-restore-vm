@@ -115,6 +115,72 @@ def load_xml(xml_path, restore_vm, backup_vm):
     tree.write(temp_xml)
     return temp_xml
 
+def file_disks(root):
+    """(index, <disk>, <source>, target dev) for file-backed disks, skipping
+    cdroms/floppies, which are not part of a backup."""
+    idx = 0
+    for disk in root.findall("./devices/disk"):
+        if disk.get("device", "disk") != "disk" or disk.get("type") != "file":
+            continue
+        source = disk.find("source")
+        if source is None or "file" not in source.attrib:
+            continue
+        idx += 1
+        target = disk.find("target")
+        dev = target.get("dev", f"disk{idx}") if target is not None else f"disk{idx}"
+        yield idx, disk, source, dev
+
+def plan_nvram(root, backup_dir, restore_vm, backup_vm, date):
+    """Work out where the restored VM's UEFI variable store goes.
+
+    Returns (backup_file or None, new_path or None). The VM never keeps the
+    original VM's NVRAM path unless it is restored under the same name.
+    """
+    nvram = root.find("./os/nvram")
+    if nvram is None or not (nvram.text or "").strip():
+        return None, None
+    old_path = nvram.text.strip()
+    if restore_vm == backup_vm:
+        new_path = old_path
+    else:
+        new_path = os.path.join(os.path.dirname(old_path), f"{restore_vm}_VARS.fd")
+    nvram.text = new_path
+    backup_file = os.path.join(backup_dir, f"nvram_{date}.fd")
+    if not os.path.isfile(backup_file):
+        # older backups have no copy; libvirt recreates it from the template
+        backup_file = None
+    return backup_file, new_path
+
+def nvram_targets(src, dst, restore_vm, backup_vm):
+    """NVRAM paths that must not already exist. Under the original name (the
+    VM itself is gone, see main) a leftover variable store is just replaced."""
+    if src and dst and restore_vm != backup_vm:
+        return [dst]
+    return []
+
+def check_targets(paths):
+    """Refuse to overwrite anything that already exists."""
+    seen = set()
+    for path in paths:
+        if path in seen:
+            log(f"Two disks would be restored to the same file '{path}'!")
+            sys.exit(12)
+        seen.add(path)
+        if os.path.exists(path):
+            log(f"Restore target '{path}' already exists! Choose another VM name or restore location.")
+            sys.exit(12)
+
+def find_legacy_image(restore_from_path, old_path, dev, date):
+    """Backup image of one disk in a self-contained backup directory."""
+    base = os.path.basename(old_path)
+    # a disk sharing its file name with an earlier disk is stored with its
+    # target device in the name
+    for name in (f"{base}_{dev}_{date}.bak", f"{base}_{date}.bak"):
+        candidate = os.path.join(restore_from_path, name)
+        if os.path.isfile(candidate):
+            return candidate
+    return None
+
 #############################################################################
 # legacy (full, self-contained) restore
 #############################################################################
@@ -124,27 +190,35 @@ def restore_legacy(restore_from_path, restore_to_dir, backup_vm, restore_vm, dat
 
     tree = ET.parse(temp_xml)
     root = tree.getroot()
-    disk_mapping = {}
+    jobs = []
 
-    for idx, disk in enumerate(root.findall(".//disk[@type='file']/source"), start=1):
-        old_path = disk.attrib["file"]
-        backup_path = next((os.path.join(restore_from_path, f) for f in os.listdir(restore_from_path) if f.startswith(os.path.basename(old_path))), None)
-        new_ext = get_qemu_img_format(backup_path) if backup_path else "qcow2"
+    for idx, disk, source, dev in file_disks(root):
+        old_path = source.attrib["file"]
+        backup_path = find_legacy_image(restore_from_path, old_path, dev, date)
+        if not backup_path:
+            log(f"No backup image found for disk '{dev}' ({old_path}), skipping")
+            continue
+        new_ext = get_qemu_img_format(backup_path)
         new_path = os.path.join(restore_to_dir if restore_to_dir else os.path.dirname(old_path), f"{restore_vm}_{idx:03d}.{new_ext}")
-        disk.attrib["file"] = new_path
-        disk_mapping[old_path] = new_path
+        source.attrib["file"] = new_path
+        # full backups are converted to qcow2 unless made with -s, so the
+        # driver must follow the format of the backup image
+        driver = disk.find("driver")
+        if driver is not None:
+            driver.set("type", new_ext)
+        jobs.append((backup_path, new_path, new_ext))
 
+    nvram_src, nvram_dst = plan_nvram(root, restore_from_path, restore_vm, backup_vm, date)
+    check_targets([j[1] for j in jobs] + nvram_targets(nvram_src, nvram_dst, restore_vm, backup_vm))
     tree.write(temp_xml)
 
-    for old_path, new_path in disk_mapping.items():
-        backup_path = next((os.path.join(restore_from_path, f) for f in os.listdir(restore_from_path) if f.startswith(os.path.basename(old_path))), None)
-        if backup_path:
-            log(f"Restoring {backup_path} to {new_path}")
-            fmt = get_qemu_img_format(backup_path)
-            if fmt == "qcow2":
-                subprocess.run(["qemu-img", "convert", "-O", "qcow2", backup_path, new_path], check=True)
-            else:
-                subprocess.run(["qemu-img", "dd", f"if={backup_path}", f"of={new_path}", "bs=1M"], check=True)
+    for backup_path, new_path, fmt in jobs:
+        log(f"Restoring {backup_path} to {new_path}")
+        if fmt == "qcow2":
+            subprocess.run(["qemu-img", "convert", "-O", "qcow2", backup_path, new_path], check=True)
+        else:
+            subprocess.run(["qemu-img", "dd", f"if={backup_path}", f"of={new_path}", "bs=1M"], check=True)
+    restore_nvram(nvram_src, nvram_dst)
 
     return temp_xml
 
@@ -158,18 +232,10 @@ def restore_incremental(chain_dir, chain_root, restore_to_dir, backup_vm, restor
 
     tree = ET.parse(temp_xml)
     root = tree.getroot()
+    jobs = []
 
-    idx = 0
-    for disk in root.findall(".//disk[@device='disk']"):
-        if disk.get("type") != "file":
-            continue
-        source = disk.find("source")
-        target = disk.find("target")
-        if source is None or target is None:
-            continue
-        idx += 1
-        old_path = source.attrib.get("file", "")
-        dev = target.attrib.get("dev", f"disk{idx}")
+    for idx, disk, source, dev in file_disks(root):
+        old_path = source.attrib["file"]
 
         # the restore-point image for this disk is the full/incr file in the
         # chain dir named for this date and target device. qemu-img convert
@@ -182,13 +248,30 @@ def restore_incremental(chain_dir, chain_root, restore_to_dir, backup_vm, restor
 
         new_dir = restore_to_dir if restore_to_dir else os.path.dirname(old_path)
         new_path = os.path.join(new_dir, f"{restore_vm}_{idx:03d}.qcow2")
+        source.attrib["file"] = new_path
+        driver = disk.find("driver")
+        if driver is not None:
+            driver.set("type", "qcow2")
+        jobs.append((restore_point, new_path))
+
+    nvram_src, nvram_dst = plan_nvram(root, chain_dir, restore_vm, backup_vm, date)
+    check_targets([j[1] for j in jobs] + nvram_targets(nvram_src, nvram_dst, restore_vm, backup_vm))
+    tree.write(temp_xml)
+
+    for restore_point, new_path in jobs:
         log(f"Restoring {os.path.basename(restore_point)} (chain) to {new_path}")
         subprocess.run(["qemu-img", "convert", "-O", "qcow2", restore_point, new_path], check=True)
+    restore_nvram(nvram_src, nvram_dst)
 
-        source.attrib["file"] = new_path
-
-    tree.write(temp_xml)
     return temp_xml
+
+def restore_nvram(src, dst):
+    if src and dst:
+        log(f"Restoring NVRAM {os.path.basename(src)} to {dst}")
+        shutil.copy(src, dst)
+
+def vm_exists(name):
+    return subprocess.run(["virsh", "dominfo", name], capture_output=True).returncode == 0
 
 def define_vm(temp_xml):
     subprocess.run(["virsh", "define", temp_xml], check=True)
@@ -208,6 +291,10 @@ def main():
     if restore_to_dir and not os.path.isdir(restore_to_dir):
         log(f"No restore directory '{restore_to_dir}' found!")
         sys.exit(11)
+
+    if vm_exists(args.restore_vm):
+        log(f"A VM named '{args.restore_vm}' already exists! Choose another name or delete it first.")
+        sys.exit(13)
 
     chain_dir, kind, chain_root = find_backup(args.restore_from_dir, args.backup_vm, args.date)
     if not chain_dir:

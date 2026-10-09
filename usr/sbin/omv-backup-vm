@@ -29,6 +29,8 @@ declare -i vmId=0
 declare -i incremental=0
 declare -i fullInterval=0
 declare -i backupActive=0
+declare -i snapActive=0
+declare -i incrPending=0
 
 backupDir=""
 backupVm=""
@@ -154,18 +156,43 @@ _send_email() {
     rm -f "${tmpfile}"
   fi
 }
-_cleanup_backup() {
-  local rc=$?
-
-  if [ "${backupActive}" -eq 1 ]; then
-    _log "Script interrupted with backup active; aborting backup job."
-    virsh domjobabort "${backupVm}" >/dev/null 2>&1 || true
-  fi
-
-  _send_email "${rc}"
+_on_exit() {
+  _send_email "$1"
 }
 
-trap '_cleanup_backup' EXIT INT TERM
+# INT/TERM: undo whatever is in flight, then actually stop. Without the exit
+# the script would carry on after the handler returns.
+_on_signal() {
+  local sig="$1"
+  trap '' INT TERM
+  _log "Received SIG${sig}; cleaning up."
+
+  if [ "${backupActive}" -eq 1 ]; then
+    _log "Aborting active backup job."
+    virsh domjobabort "${backupVm}" >/dev/null 2>&1 || true
+    backupActive=0
+  fi
+  if [ "${incrPending}" -eq 1 ]; then
+    _incr_cleanup
+  fi
+  if [ "${snapActive}" -eq 1 ]; then
+    _log "Merging backup snapshot back into the original disks."
+    _commit_snapshot || true
+  fi
+  if [ "${poweroff}" -eq 1 ] && [ "${poweredoff}" -eq 1 ]; then
+    _log "Power on ${backupVm}..."
+    virsh start "${backupVm}" || true
+  fi
+
+  if [ "${sig}" = "INT" ]; then
+    exit 130
+  fi
+  exit 143
+}
+
+trap '_on_exit $?' EXIT
+trap '_on_signal INT' INT
+trap '_on_signal TERM' TERM
 
 if [ ! -f "/usr/bin/virsh" ]; then
   _log "virsh command not found!"
@@ -374,6 +401,66 @@ _purge_checkpoints() {
   done
 }
 
+# copy the UEFI variable store (if any) next to the backup as nvram_<date>.fd
+# args: <domain xml file> <output dir>
+_backup_nvram() {
+  local nvram
+  nvram="$(xmlstarlet sel -t -v "/domain/os/nvram" "${1}" 2>/dev/null)"
+  if [ -n "${nvram}" ] && [ -f "${nvram}" ]; then
+    _log "Copying NVRAM :: ${nvram}"
+    if ! cp "${nvram}" "${2}/nvram_${date}.fd"; then
+      _log "Failed to copy NVRAM ${nvram}!"
+      return 1
+    fi
+  fi
+  return 0
+}
+
+# commit the external backup snapshot of a running VM back into its base
+# images and remove the overlays. returns non-zero if a commit failed
+_commit_snapshot() {
+  local overlays disk
+  # only this run's overlays (libvirt names them <base>.backup-snapshot_<date>);
+  # disks already pivoted back to their base image are skipped
+  overlays=$(virsh domblklist ${vmId} --details | sed 1,2d | awk NF \
+    | awk -v s=".backup-snapshot_${date}" '$1 == "file" && $2 == "disk" && substr($4, length($4) - length(s) + 1) == s { print $3","$4 }')
+  for disk in ${overlays}; do
+    _log "Disk :: ${disk}"
+    if ! virsh blockcommit ${vmId} "${disk#*,}" --active --pivot; then
+      _log "Failed to commit changes.  VM '${backupVm}' may be in a bad state."
+      return 1
+    fi
+    sync
+  done
+  snapActive=0
+
+  # wait 5 secs before removing files
+  sleep 5
+
+  _log "Remove temp files..."
+  for disk in ${overlays}; do
+    _log "Disk :: ${disk}"
+    rm -fv "${disk#*,}"
+  done
+  return 0
+}
+
+# undo a failed or interrupted incremental run: drop the files it wrote, the
+# chain dir if this run started it, and the checkpoint it created
+_incr_cleanup() {
+  local m
+  for m in ${_backup_disks_map}; do
+    rm -f "${m#*=}"
+  done
+  rm -f "${incrChainDir}/nvram_${date}.fd"
+  if [ "${incrNewChain}" -eq 1 ] && [ -n "${incrChainDir}" ]; then
+    rm -rf "${incrChainDir}"
+  fi
+  virsh checkpoint-delete "${backupVm}" "${incrChk}" > /dev/null 2>&1 \
+    || virsh checkpoint-delete "${backupVm}" "${incrChk}" --metadata > /dev/null 2>&1
+  incrPending=0
+}
+
 #############################################################################
 # incremental backup path
 #############################################################################
@@ -426,6 +513,12 @@ do_incremental() {
   chkName="${chkPrefix}-${date}"
   _build_backup_xml "$([ ${needFull} -eq 1 ] && echo full || echo incr)" "${chainDir}"
 
+  # state used by _incr_cleanup if this run fails or is interrupted
+  incrChainDir="${chainDir}"
+  incrNewChain=${needFull}
+  incrChk="${chkName}"
+  incrPending=1
+
   backupXml="$(mktemp)"
   checkpointXml="$(mktemp)"
   _build_checkpoint_xml "${chkName}" > "${checkpointXml}"
@@ -450,22 +543,30 @@ EOF
   fi
 
   # begin the backup and atomically create the new checkpoint/bitmap
+  backupActive=1
   if ! virsh backup-begin "${backupVm}" "${backupXml}" "${checkpointXml}"; then
+    backupActive=0
     _log "backup-begin failed!"
     rm -f "${backupXml}" "${checkpointXml}"
-    return 7
+    _incr_cleanup
+    exit 7
   fi
   rm -f "${backupXml}" "${checkpointXml}"
-  backupActive=1
 
   _wait_backup "${backupVm}"
   rc=$?
   backupActive=0
   if [ ${rc} -ne 0 ]; then
     _log "Backup job reported failure!"
-    return 8
+    _incr_cleanup
+    exit 8
   fi
   _log "Backup job completed."
+
+  if ! _backup_nvram "${chainDir}/${backupVm}_$(basename "${chainDir}").xml" "${chainDir}"; then
+    _incr_cleanup
+    exit 9
+  fi
 
   # for incrementals, point each delta image at its predecessor in the
   # chain so the newest image is a complete, restorable qcow2 backing chain
@@ -489,6 +590,7 @@ EOF
   # format: TYPE|DATE|CHECKPOINT
   echo "$([ ${needFull} -eq 1 ] && echo full || echo incr)|${date}|${chkName}" \
     >> "${manifest}"
+  incrPending=0
 
   # add entry to list file (one row per restore point)
   # measure only the files written by this run (this restore point's own
@@ -621,47 +723,38 @@ if [ ${poweredoff} -ne 1 ] && [ ${vmId} -gt 0 ]; then
     exit 7
   fi
   snap=1
+  snapActive=1
 else
   _log "Skip snapshot - VM is not powered on"
 fi
 
 # copy disks to VM backup directory
 _log "Copy disks to backup directory..."
+declare -A usedNames=()
 for disk in ${disks}; do
   _log "Copying disk :: ${disk#*,}"
   filename="$(basename ${disk#*,})"
+  # disks with the same file name in different directories would overwrite
+  # each other; add the target device to the name of any later duplicate
+  bakName="${filename}_${date}.bak"
+  if [ -n "${usedNames[${bakName}]:-}" ]; then
+    bakName="${filename}_${disk%%,*}_${date}.bak"
+  fi
+  usedNames[${bakName}]=1
   if [ ${samefmt} -eq 1 ]; then
-    cp --reflink=auto -v "${disk#*,}" "${backupVmDir}/${filename}_${date}.bak"
+    cp --reflink=auto -v "${disk#*,}" "${backupVmDir}/${bakName}"
   else
-    qemu-img convert -O qcow2 ${compress} "${disk#*,}" "${backupVmDir}/${filename}_${date}.bak"
+    qemu-img convert -O qcow2 ${compress} "${disk#*,}" "${backupVmDir}/${bakName}"
   fi
 done
+_backup_nvram "${backupVmDir}/${backupXml}" "${backupVmDir}"
 
 # skip commit and remove if the VM is not powered on
 if [ ${vmId} -gt 0 ] && [ ${snap} -eq 1 ]; then
-  # get list of disks
-  disks=$(virsh domblklist ${vmId} --details | sed 1,2d | awk NF | awk '$1 == "file" && $2 == "disk" { print $3","$4 }')
-
-  # commit changes
   _log "Commit changes back to original disks..."
-  for disk in ${disks}; do
-    _log "Disk :: ${disk}"
-    if ! virsh blockcommit ${vmId} "${disk#*,}" --active --pivot; then
-      _log "Failed to commit changes.  VM '${backupVm}' may be in a bad state."
-      exit 8
-    fi
-    sync
-  done
-
-  # wait 5 secs before removing files
-  sleep 5
-
-  # remove temp files
-  _log "Remove temp files..."
-  for disk in ${disks}; do
-    _log "Disk :: ${disk}"
-    rm -fv "${disk#*,}"
-  done
+  if ! _commit_snapshot; then
+    exit 8
+  fi
 else
   _log "Skip commit and remove - VM is not powered on"
 fi

@@ -337,13 +337,21 @@ class KvmCollector:
                     # Memory: use balloon stats for running VMs, 0 for shutoff
                     if running:
                         try:
+                            # the python binding keys the stats by name, in KiB
                             mstats   = dom.memoryStats()
-                            # actual_balloon (5) = memory assigned to VM in KiB
-                            # usable (8) or available (6) = free memory in guest in KiB
-                            actual   = mstats.get(5, info[2]) * 1024  # VIR_DOMAIN_MEMORY_STAT_ACTUAL_BALLOON
-                            usable   = mstats.get(8, mstats.get(6, 0)) * 1024  # usable or available
+                            actual   = mstats.get('actual', info[2]) * 1024
                             max_mem  = actual
-                            cur_mem  = max(0, actual - usable)
+                            if 'usable' in mstats or 'unused' in mstats:
+                                # guest-reported free memory (needs a balloon
+                                # device with stats polling)
+                                free    = mstats.get('usable', mstats.get('unused', 0)) * 1024
+                                cur_mem = max(0, actual - free)
+                            elif 'rss' in mstats:
+                                # no guest stats: fall back to host RSS of the
+                                # qemu process, capped at the assigned memory
+                                cur_mem = min(actual, mstats['rss'] * 1024)
+                            else:
+                                cur_mem = info[2] * 1024
                         except Exception:
                             cur_mem  = info[2] * 1024
                     else:
