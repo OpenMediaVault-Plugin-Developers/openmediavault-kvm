@@ -276,8 +276,12 @@ destroy_test_vm() {
     while IFS= read -r d; do
         [ -n "$d" ] && rm -f "$d"
     done < <(vm_sources "$vm" disk)
-    virsh undefine "$vm" --managed-save --snapshots-metadata --nvram >/dev/null 2>&1 \
+    # incremental backups leave checkpoints, which block a plain undefine
+    virsh undefine "$vm" --managed-save --snapshots-metadata --checkpoints-metadata --nvram >/dev/null 2>&1 \
+        || virsh undefine "$vm" --managed-save --snapshots-metadata --checkpoints-metadata >/dev/null 2>&1 \
         || virsh undefine "$vm" --managed-save --snapshots-metadata >/dev/null 2>&1 || true
+    # variable stores a failed run may have left next to the referenced one
+    rm -f "/var/lib/libvirt/qemu/nvram/${vm}_VARS.fd" "/var/lib/libvirt/qemu/nvram/${vm}_VARS.qcow2"
 }
 
 OMV_NEW_UUID=$(grep -oP 'OMV_CONFIGOBJECT_NEW_UUID="\K[^"]+' /etc/default/openmediavault 2>/dev/null \
@@ -296,6 +300,14 @@ TEST_BACKUP_DIR2="/tmp/omvtest_kvm_backup_run2"  # doBackup forced-cancel
 TEST_BACKUP_DIR3="/tmp/omvtest_kvm_backup_run3"  # omv-backup-vm SIGTERM cleanup
 TEST_BACKUP_DIR4="/tmp/omvtest_kvm_backup_run4"  # full (snapshot) backup of a running VM
 TEST_BACKUP_DIR5="/tmp/omvtest_kvm_backup_run5"  # full backup interrupted by SIGTERM
+TEST_BACKUP_DIR6="/tmp/omvtest_kvm_backup_run6"  # full backup whose disk copy fails
+TEST_BROKEN_VM="omvtest_kvm_broken"              # VM whose disk file does not exist
+TEST_UEFI_VM="omvtest_kvm_uefi"                  # UEFI VM for the qcow2 NVRAM snapshot tests
+TEST_UEFI_CLONE_VM="omvtest_kvm_uefi_clone"      # linked clone of the UEFI VM
+TEST_UEFI_RESTORE_VM="omvtest_kvm_uefi_restored"   # UEFI VM restored from a full backup
+TEST_UEFI_RESTORE_VM2="omvtest_kvm_uefi_restored2" # UEFI VM restored from an incremental chain
+TEST_BACKUP_DIR7="/tmp/omvtest_kvm_backup_run7"  # full backup of the running converted UEFI VM
+TEST_BACKUP_DIR8="/tmp/omvtest_kvm_backup_run8"  # incremental chain of the converted UEFI VM
 TEST_RESTORE_DIR="/tmp/omvtest_kvm_restore"      # restore target directory
 TEST_RESTORE_VM="omvtest_kvm_restored"           # VM restored from the incremental chain
 TEST_RESTORE_VM2="omvtest_kvm_restored2"         # VM restored from the full backup
@@ -396,7 +408,9 @@ for r in rows:
 
     # leftover restored / cloned / odd-name VMs
     for vm in "$TEST_RESTORE_VM" "$TEST_RESTORE_VM2" "$TEST_CLONE_VM" \
-              "$ODD_VM" "$ODD_RESTORE_VM" "$ODD_CLONE_VM"; do
+              "$ODD_VM" "$ODD_RESTORE_VM" "$ODD_CLONE_VM" \
+              "$TEST_BROKEN_VM" "$TEST_UEFI_CLONE_VM" "$TEST_UEFI_VM" \
+              "$TEST_UEFI_RESTORE_VM" "$TEST_UEFI_RESTORE_VM2"; do
         if virsh domstate "$vm" &>/dev/null; then
             info "Pre-cleanup: removing leftover VM '$vm'"
             destroy_test_vm "$vm"
@@ -420,7 +434,9 @@ for r in rows:
 remove_test_backup_dirs() {
     local d
     for d in "$TEST_BACKUP_DIR1" "$TEST_BACKUP_DIR2" "$TEST_BACKUP_DIR3" \
-             "$TEST_BACKUP_DIR4" "$TEST_BACKUP_DIR5" "$TEST_RESTORE_DIR" "$ODD_BACKUP_DIR"; do
+             "$TEST_BACKUP_DIR4" "$TEST_BACKUP_DIR5" "$TEST_BACKUP_DIR6" \
+             "$TEST_BACKUP_DIR7" "$TEST_BACKUP_DIR8" "$TEST_RESTORE_DIR" \
+             "$ODD_BACKUP_DIR"; do
         rm -rf "$d" 2>/dev/null || true
         if [ -f /etc/omv-backup-vm.list ]; then
             # fixed-string field match; the paths contain regex characters
@@ -441,7 +457,9 @@ cleanup() {
         omv-rpc -u admin "Kvm" "deleteJob" "{\"uuid\":\"$JOB_UUID\"}" >/dev/null 2>&1 || true
     fi
     for vm in "$TEST_RESTORE_VM" "$TEST_RESTORE_VM2" "$TEST_CLONE_VM" \
-              "$ODD_CLONE_VM" "$ODD_RESTORE_VM" "$ODD_VM"; do
+              "$ODD_CLONE_VM" "$ODD_RESTORE_VM" "$ODD_VM" \
+              "$TEST_BROKEN_VM" "$TEST_UEFI_CLONE_VM" "$TEST_UEFI_VM" \
+              "$TEST_UEFI_RESTORE_VM" "$TEST_UEFI_RESTORE_VM2"; do
         if virsh domstate "$vm" &>/dev/null; then
             info "Deleting test VM '$vm'"
             destroy_test_vm "$vm"
@@ -568,6 +586,95 @@ if out=$(php -l /usr/share/openmediavault/engined/rpc/kvm.inc 2>&1); then
     _pass "php -l rpc/kvm.inc"
 else
     _fail "php -l rpc/kvm.inc" "$out"
+fi
+
+# omv-restore-vm helpers, called directly on hand-built domain XML
+if [ -f /usr/sbin/omv-restore-vm ] && command -v qemu-img >/dev/null 2>&1; then
+    restore_unit=$(python3 -B - <<'PY' 2>&1
+import importlib.machinery, importlib.util, os, subprocess, tempfile
+import xml.etree.ElementTree as ET
+loader = importlib.machinery.SourceFileLoader("omv_restore_vm", "/usr/sbin/omv-restore-vm")
+spec = importlib.util.spec_from_loader("omv_restore_vm", loader)
+m = importlib.util.module_from_spec(spec)
+loader.exec_module(m)
+m.log = lambda message: None  # keep stdout clean and the real restore log untouched
+errors = []
+
+# a qcow2 variable store keeps its extension under a new VM name
+for old, want in (("/n/a_VARS.qcow2", "/n/b_VARS.qcow2"), ("/n/a_VARS.fd", "/n/b_VARS.fd")):
+    root = ET.fromstring(f"<domain><os><nvram>{old}</nvram></os></domain>")
+    _, new = m.plan_nvram(root, "/nonexistent", "b", "a", "2000-01-01_00-00-00")
+    if new != want:
+        errors.append(f"plan_nvram {old} -> {new}, expected {want}")
+
+# missing shared qcow2 firmware is recreated from the raw original
+with tempfile.TemporaryDirectory() as tmp:
+    raw_dir, fw_dir = os.path.join(tmp, "OVMF"), os.path.join(tmp, "fw")
+    os.mkdir(raw_dir)
+    for n in ("CODE", "VARS"):
+        with open(os.path.join(raw_dir, f"T_{n}.fd"), "wb") as f:
+            f.truncate(65536)
+    root = ET.fromstring(
+        f"<domain><os><loader format='qcow2'>{fw_dir}/T_CODE.qcow2</loader>"
+        f"<nvram template='{fw_dir}/T_VARS.qcow2' format='qcow2'>/n/x.qcow2</nvram></os></domain>")
+    m.ensure_firmware(root, fw_dir, (raw_dir,))
+    for n in ("CODE", "VARS"):
+        p = os.path.join(fw_dir, f"T_{n}.qcow2")
+        fmt = subprocess.run(["qemu-img", "info", p], capture_output=True, text=True).stdout
+        if "file format: qcow2" not in fmt:
+            errors.append(f"ensure_firmware did not create qcow2 {p}")
+        elif oct(os.stat(p).st_mode & 0o777) != "0o644":
+            errors.append(f"{p} mode {oct(os.stat(p).st_mode & 0o777)}, expected 0o644")
+    # paths outside the firmware dir are never touched
+    root = ET.fromstring(f"<domain><os><loader>{tmp}/other/T_CODE.qcow2</loader></os></domain>")
+    m.ensure_firmware(root, fw_dir, (raw_dir,))
+    if os.path.exists(os.path.join(tmp, "other")):
+        errors.append("ensure_firmware wrote outside the firmware dir")
+print("OK" if not errors else "; ".join(errors))
+PY
+)
+    if [ "$restore_unit" = "OK" ]; then
+        _pass "omv-restore-vm — NVRAM extension kept and qcow2 firmware recreated"
+    else
+        _fail "omv-restore-vm — NVRAM extension kept and qcow2 firmware recreated" "$restore_unit"
+    fi
+else
+    _skip "omv-restore-vm helpers" "omv-restore-vm or qemu-img not installed"
+fi
+
+# omv-lxc-snapshot must start a container it stopped again when the
+# snapshot archive cannot be written. virsh and tar are stubbed.
+if [ -f /usr/sbin/omv-lxc-snapshot ] && [ -f /usr/bin/btrfs ]; then
+    LXC_STUB=$(mktemp -d)
+    mkdir -p "$LXC_STUB/bin" "$LXC_STUB/rootfs" "$LXC_STUB/snaps"
+    touch "$LXC_STUB/running"
+    cat > "$LXC_STUB/bin/virsh" <<EOF
+#!/bin/bash
+shift 2  # --connect lxc:///
+case "\$1" in
+    dominfo) exit 0 ;;
+    dumpxml) echo "<domain><devices><filesystem><source dir='$LXC_STUB/rootfs'/><target dir='/'/></filesystem></devices></domain>" ;;
+    list) [ -f "$LXC_STUB/running" ] && echo omvtest_lxc ;;
+    shutdown) rm -f "$LXC_STUB/running" ;;
+    start) touch "$LXC_STUB/running"; echo start >> "$LXC_STUB/calls" ;;
+esac
+exit 0
+EOF
+    printf '#!/bin/sh\nexit 2\n' > "$LXC_STUB/bin/tar"
+    chmod +x "$LXC_STUB/bin/virsh" "$LXC_STUB/bin/tar"
+    PATH="$LXC_STUB/bin:$PATH" /usr/sbin/omv-lxc-snapshot -c omvtest_lxc -a create \
+        -d "$LXC_STUB/snaps" -s s1 >/dev/null 2>&1
+    lxc_ec=$?
+    if [ "$lxc_ec" -eq 10 ] && grep -qx start "$LXC_STUB/calls" 2>/dev/null \
+        && [ ! -e "$LXC_STUB/snaps/omvtest_lxc/s1.tar.gz" ]; then
+        _pass "omv-lxc-snapshot — failed snapshot restarts the container"
+    else
+        _fail "omv-lxc-snapshot — failed snapshot restarts the container" \
+            "exit $lxc_ec, start calls: $(cat "$LXC_STUB/calls" 2>/dev/null | wc -l), archive left: $([ -e "$LXC_STUB/snaps/omvtest_lxc/s1.tar.gz" ] && echo y || echo n)"
+    fi
+    rm -rf "$LXC_STUB"
+else
+    _skip "omv-lxc-snapshot failed snapshot restart" "omv-lxc-snapshot or btrfs not installed"
 fi
 
 # the file postrm removes on uninstall must be the one salt writes
@@ -1314,6 +1421,295 @@ print(json.dumps({'vmname':'$TEST_VM_NAME','virttype':'vm','snapname':'$SNAP_NAM
 fi
 
 # ===========================================================================
+section "UEFI snapshots (qcow2 NVRAM)"
+# ===========================================================================
+# libvirt only takes internal snapshots of a pflash (UEFI) VM when its
+# firmware and NVRAM are qcow2. New UEFI VMs are created that way; older ones
+# (raw images, firmware='efi' autoselection) are converted by addSnapshot
+# once they are powered off. The interface is dropped from the legacy layout
+# so the VM can start without an active network.
+
+OVMF_CODE="/usr/share/OVMF/OVMF_CODE_4M.fd"
+OVMF_VARS="/usr/share/OVMF/OVMF_VARS_4M.fd"
+UEFI_NVRAM_DIR="/var/lib/libvirt/qemu/nvram"
+FW_QCOW2_DIR="/var/lib/libvirt/qemu/firmware-qcow2"
+
+# key=value lines describing a VM's <os> firmware setup (persistent config)
+_uefi_xml() {
+    virsh dumpxml --inactive "$1" 2>/dev/null | python3 -c "
+import sys, xml.etree.ElementTree as ET
+os_el = ET.fromstring(sys.stdin.read()).find('os')
+loader, nvram = os_el.find('loader'), os_el.find('nvram')
+print('firmware=' + os_el.get('firmware', ''))
+print('loader_format=' + (loader.get('format', '') if loader is not None else ''))
+print('loader=' + ((loader.text or '').strip() if loader is not None else ''))
+print('nvram_format=' + (nvram.get('format', '') if nvram is not None else ''))
+print('nvram=' + ((nvram.text or '').strip() if nvram is not None else ''))
+print('template_format=' + (nvram.get('templateFormat', '') if nvram is not None else ''))
+print('template=' + (nvram.get('template', '') if nvram is not None else ''))
+" 2>/dev/null
+}
+_uefi_get() { _uefi_xml "$1" | sed -n "s/^$2=//p"; }
+
+# Assert a VM uses the plugin's qcow2 firmware copies. Args: label, vm
+_assert_uefi_qcow2() {
+    local label=$1 vm=$2 x
+    x=$(_uefi_xml "$vm")
+    local loader nvram template
+    loader=$(echo "$x" | sed -n 's/^loader=//p')
+    nvram=$(echo "$x" | sed -n 's/^nvram=//p')
+    template=$(echo "$x" | sed -n 's/^template=//p')
+    if echo "$x" | grep -qx 'loader_format=qcow2' && echo "$x" | grep -qx 'nvram_format=qcow2' \
+        && echo "$x" | grep -qx 'template_format=qcow2' && echo "$x" | grep -qx 'firmware=' \
+        && [ "$(dirname "$loader")" = "$FW_QCOW2_DIR" ] && [ "$(img_format "$loader")" = "qcow2" ] \
+        && [ "$(img_format "$template")" = "qcow2" ] && [[ "$nvram" == *_VARS.qcow2 ]]; then
+        _pass "$label — firmware, template and NVRAM are qcow2"
+    else
+        _fail "$label — firmware, template and NVRAM are qcow2" "$(echo "$x" | tr '\n' ' ')"
+    fi
+}
+
+_wait_running() {
+    local vm=$1
+    for _ in $(seq 1 30); do
+        [ "$(virsh domstate "$vm" 2>/dev/null)" = "running" ] && return 0
+        sleep 1
+    done
+    return 1
+}
+
+# Back up the converted (qcow2 NVRAM) UEFI VM, full and incremental, with an
+# internal snapshot taken in the middle of the chain, then restore both
+# backups under new names and boot them. Expects the VM shut off.
+_uefi_backup_tests() {
+    local vm=$TEST_UEFI_VM log=/tmp/omvtest_kvm_uefi_backup.log
+    local orig_disk full_date incr_date chain_dir dir date rvm nv label
+
+    orig_disk=$(vm_disk_path "$vm")
+    if ! { virsh start "$vm" >/dev/null 2>&1 && _wait_running "$vm"; }; then
+        _skip "UEFI backups and restores" "could not start the converted UEFI VM"
+        return
+    fi
+
+    # full backup of the running VM (temporary external disk-only snapshot)
+    mkdir -p "$TEST_BACKUP_DIR7"
+    if /usr/sbin/omv-backup-vm -v "$vm" -d "$TEST_BACKUP_DIR7" >"$log" 2>&1; then
+        _pass "UEFI full backup (running, qcow2 NVRAM)"
+    else
+        _fail "UEFI full backup (running, qcow2 NVRAM)" "$(tail -3 "$log")"
+    fi
+    full_date=$(find "$TEST_BACKUP_DIR7/$vm" -mindepth 1 -maxdepth 1 -type d -printf '%f\n' 2>/dev/null | head -n1)
+    if [ -n "$full_date" ] && [ "$(img_format "$TEST_BACKUP_DIR7/$vm/$full_date/nvram_${full_date}.fd")" = "qcow2" ]; then
+        _pass "UEFI full backup — qcow2 variable store saved"
+    else
+        _fail "UEFI full backup — qcow2 variable store saved" "backup dir '$full_date'"
+    fi
+    if [ "$(vm_sources "$vm" disk live | head -n1)" = "$orig_disk" ]; then
+        _pass "UEFI full backup — VM back on its original disk"
+    else
+        _fail "UEFI full backup — VM back on its original disk" "live disk '$(vm_sources "$vm" disk live | head -n1)'"
+    fi
+
+    # incremental chain: full, internal snapshot, incremental. The second
+    # run must continue the chain, so the checkpoint has to survive the
+    # snapshot and the snapshot has to be allowed next to the checkpoint.
+    mkdir -p "$TEST_BACKUP_DIR8"
+    if /usr/sbin/omv-backup-vm -i -v "$vm" -d "$TEST_BACKUP_DIR8" >"$log" 2>&1; then
+        _pass "UEFI incremental chain — first (full) run"
+    else
+        _fail "UEFI incremental chain — first (full) run" "$(tail -3 "$log")"
+    fi
+    assert_rpc "addSnapshot (UEFI VM with a backup checkpoint)" "Kvm" "addSnapshot" \
+        "$(jp vmname="$vm" virttype=vm snapname=omvtest_chain)"
+    sleep 1  # backup dates have one second resolution
+    if /usr/sbin/omv-backup-vm -i -v "$vm" -d "$TEST_BACKUP_DIR8" >"$log" 2>&1; then
+        _pass "UEFI incremental chain — second run"
+    else
+        _fail "UEFI incremental chain — second run" "$(tail -3 "$log")"
+    fi
+    if grep -q "Creating incremental backup" "$log"; then
+        _pass "UEFI incremental chain — second run continued the chain after the snapshot"
+    else
+        _fail "UEFI incremental chain — second run continued the chain after the snapshot" \
+            "$(grep -m1 "performing full backup" "$log" || tail -2 "$log")"
+    fi
+    chain_dir=$(find "$TEST_BACKUP_DIR8/$vm" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | head -n1)
+    incr_date=$(awk -F'|' 'END { print $2 }' "$chain_dir/manifest" 2>/dev/null)
+
+    virsh destroy "$vm" >/dev/null 2>&1 || true
+    assert_rpc "deleteAllSnapshots (UEFI VM after backups)" "Kvm" "deleteAllSnapshots" \
+        "$(jp vmname="$vm" virttype=vm)"
+
+    # restore both under new names: own qcow2 variable store, and they boot
+    for label in full incremental; do
+        if [ "$label" = full ]; then
+            dir=$TEST_BACKUP_DIR7; date=$full_date; rvm=$TEST_UEFI_RESTORE_VM
+        else
+            dir=$TEST_BACKUP_DIR8; date=$incr_date; rvm=$TEST_UEFI_RESTORE_VM2
+        fi
+        if [ -z "$date" ]; then
+            _skip "UEFI restore ($label)" "no backup date found"
+            continue
+        fi
+        if ! /usr/sbin/omv-restore-vm -d "$dir" -r "$rvm" -t "$date" -v "$vm" >"$log" 2>&1; then
+            _fail "UEFI restore ($label)" "$(tail -3 "$log")"
+            continue
+        fi
+        _pass "UEFI restore ($label)"
+        nv=$(_uefi_get "$rvm" nvram)
+        if [ "$nv" = "$UEFI_NVRAM_DIR/${rvm}_VARS.qcow2" ] && [ "$(img_format "$nv")" = "qcow2" ] \
+            && [ "$(_uefi_get "$rvm" nvram_format)" = "qcow2" ]; then
+            _pass "UEFI restore ($label) — own qcow2 variable store"
+        else
+            _fail "UEFI restore ($label) — own qcow2 variable store" "$(_uefi_xml "$rvm" | tr '\n' ' ')"
+        fi
+        if virsh start "$rvm" >/dev/null 2>&1 && _wait_running "$rvm"; then
+            _pass "UEFI restore ($label) — restored VM starts"
+        else
+            _fail "UEFI restore ($label) — restored VM starts" "$(virsh start "$rvm" 2>&1 | tail -2)"
+        fi
+        destroy_test_vm "$rvm"
+    done
+    rm -f "$log"
+}
+
+if [ "$(dpkg --print-architecture 2>/dev/null)" != "amd64" ] || [ ! -f "$OVMF_CODE" ] || [ ! -f "$OVMF_VARS" ]; then
+    _skip "UEFI snapshots" "x86_64 OVMF firmware not installed"
+elif [ -z "${VM_CREATE:-}" ] || ! $VM_POOL_CREATED; then
+    _skip "UEFI snapshots" "VM create parameters / test pool not available"
+else
+    UEFI_CREATE=$(echo "$VM_CREATE" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+d.update(vmname='$TEST_UEFI_VM', uefi=True, volname='', notes='')
+print(json.dumps(d))")
+    UEFI_PARAMS=$(jp vmname="$TEST_UEFI_VM" virttype=vm)
+    if assert_rpc "setVm (create UEFI VM)" "Kvm" "setVm" "$UEFI_CREATE"; then
+        # 1. new UEFI VMs are created on qcow2 firmware
+        _assert_uefi_qcow2 "setVm (UEFI)" "$TEST_UEFI_VM"
+        assert_rpc "addSnapshot (new UEFI VM, powered off)" "Kvm" "addSnapshot" "$UEFI_PARAMS"
+        assert_rpc "deleteAllSnapshots (new UEFI VM)" "Kvm" "deleteAllSnapshots" "$UEFI_PARAMS"
+
+        # 2. rebuild it with the raw firmware='efi' layout older VMs have
+        UEFI_RAW_NVRAM="$UEFI_NVRAM_DIR/${TEST_UEFI_VM}_VARS.fd"
+        UEFI_QCOW2_NVRAM="$UEFI_NVRAM_DIR/${TEST_UEFI_VM}_VARS.qcow2"
+        rm -f "$(_uefi_get "$TEST_UEFI_VM" nvram)"
+        cp "$OVMF_VARS" "$UEFI_RAW_NVRAM"
+        legacy_xml=$(mktemp)
+        virsh dumpxml --inactive "$TEST_UEFI_VM" | python3 -c "
+import sys, xml.etree.ElementTree as ET
+ET.register_namespace('libosinfo', 'http://libosinfo.org/xmlns/libvirt/domain/1.0')
+root = ET.fromstring(sys.stdin.read())
+os_el = root.find('os')
+os_el.set('firmware', 'efi')
+for c in list(os_el):
+    if c.tag in ('loader', 'nvram', 'firmware'):
+        os_el.remove(c)
+fw = ET.Element('firmware')
+ET.SubElement(fw, 'feature', enabled='no', name='enrolled-keys')
+ET.SubElement(fw, 'feature', enabled='no', name='secure-boot')
+loader = ET.Element('loader', readonly='yes', type='pflash', format='raw')
+loader.text = '$OVMF_CODE'
+nvram = ET.Element('nvram', template='$OVMF_VARS', templateFormat='raw', format='raw')
+nvram.text = '$UEFI_RAW_NVRAM'
+idx = list(os_el).index(os_el.find('type')) + 1
+for i, e in enumerate((fw, loader, nvram)):
+    os_el.insert(idx + i, e)
+devices = root.find('devices')
+for iface in devices.findall('interface'):
+    devices.remove(iface)
+print(ET.tostring(root, encoding='unicode'))
+" > "$legacy_xml"
+        if virsh define "$legacy_xml" >/dev/null 2>&1 && [ "$(_uefi_get "$TEST_UEFI_VM" nvram_format)" = "raw" ]; then
+            _pass "UEFI VM redefined with raw firmware='efi' layout"
+
+            # 3. running: refused with a clear message, nothing changed
+            if virsh start "$TEST_UEFI_VM" >/dev/null 2>&1 && _wait_running "$TEST_UEFI_VM"; then
+                snap_out=$(omv-rpc -u admin "Kvm" "addSnapshot" "$UEFI_PARAMS" 2>&1)
+                if echo "$snap_out" | grep -q "Power off VM"; then
+                    _pass "addSnapshot (running raw UEFI VM) — asks to power off"
+                else
+                    _fail "addSnapshot (running raw UEFI VM) — asks to power off" "${snap_out:0:300}"
+                fi
+                if [ "$(_uefi_get "$TEST_UEFI_VM" nvram_format)" = "raw" ] && [ -f "$UEFI_RAW_NVRAM" ]; then
+                    _pass "addSnapshot (running raw UEFI VM) — VM left unchanged"
+                else
+                    _fail "addSnapshot (running raw UEFI VM) — VM left unchanged" "$(_uefi_xml "$TEST_UEFI_VM" | tr '\n' ' ')"
+                fi
+                virsh destroy "$TEST_UEFI_VM" >/dev/null 2>&1 || true
+            else
+                _skip "addSnapshot (running raw UEFI VM)" "could not start the UEFI VM"
+            fi
+
+            # 4. powered off: converted, then snapshotted. Real variable
+            #    stores are private to the qemu user.
+            chown libvirt-qemu:libvirt-qemu "$UEFI_RAW_NVRAM" 2>/dev/null || true
+            chmod 600 "$UEFI_RAW_NVRAM"
+            raw_owner_mode=$(stat -c '%U:%G %a' "$UEFI_RAW_NVRAM")
+            if assert_rpc "addSnapshot (raw UEFI VM, powered off) — converts" "Kvm" "addSnapshot" "$UEFI_PARAMS"; then
+                _assert_uefi_qcow2 "addSnapshot conversion" "$TEST_UEFI_VM"
+                if [ "$(_uefi_get "$TEST_UEFI_VM" nvram)" = "$UEFI_QCOW2_NVRAM" ] \
+                    && [ "$(img_format "$UEFI_QCOW2_NVRAM")" = "qcow2" ] && [ ! -e "$UEFI_RAW_NVRAM" ]; then
+                    _pass "addSnapshot conversion — variable store converted, raw file removed"
+                else
+                    _fail "addSnapshot conversion — variable store converted, raw file removed" \
+                        "nvram '$(_uefi_get "$TEST_UEFI_VM" nvram)', raw left: $([ -e "$UEFI_RAW_NVRAM" ] && echo y || echo n)"
+                fi
+                if [ "$(stat -c '%U:%G %a' "$UEFI_QCOW2_NVRAM" 2>/dev/null)" = "$raw_owner_mode" ]; then
+                    _pass "addSnapshot conversion — variable store keeps owner/mode ($raw_owner_mode)"
+                else
+                    _fail "addSnapshot conversion — variable store keeps owner/mode" \
+                        "expected '$raw_owner_mode', got '$(stat -c '%U:%G %a' "$UEFI_QCOW2_NVRAM" 2>&1)'"
+                fi
+                assert_rpc "enumerateSnapshots (converted UEFI VM)" "Kvm" "enumerateSnapshots" "$UEFI_PARAMS"
+                if [ "$(json_list_count "$RPC_OUT")" = "1" ]; then
+                    _pass "addSnapshot conversion — snapshot created"
+                else
+                    _fail "addSnapshot conversion — snapshot created" "$RPC_OUT"
+                fi
+
+                # 5. the converted VM boots and snapshots while running
+                if virsh start "$TEST_UEFI_VM" >/dev/null 2>&1 && _wait_running "$TEST_UEFI_VM"; then
+                    _pass "converted UEFI VM starts on qcow2 firmware"
+                    assert_rpc "addSnapshot (converted UEFI VM, running)" "Kvm" "addSnapshot" \
+                        "$(jp vmname="$TEST_UEFI_VM" virttype=vm snapname=omvtest_live)"
+                    assert_rpc "enumerateSnapshots (after running snapshot)" "Kvm" "enumerateSnapshots" \
+                        "$UEFI_PARAMS" '"omvtest_live"'
+                    virsh destroy "$TEST_UEFI_VM" >/dev/null 2>&1 || true
+                else
+                    _fail "converted UEFI VM starts on qcow2 firmware" \
+                        "$(virsh start "$TEST_UEFI_VM" 2>&1 | tail -2)"
+                fi
+                assert_rpc "deleteAllSnapshots (converted UEFI VM)" "Kvm" "deleteAllSnapshots" "$UEFI_PARAMS"
+
+                # 6. a linked clone gets its own qcow2 variable store
+                if assert_rpc "createLinkedClone (UEFI VM)" "Kvm" "createLinkedClone" \
+                    "$(jp clone="$TEST_UEFI_CLONE_VM" source="$TEST_UEFI_VM")"; then
+                    clone_nvram=$(_uefi_get "$TEST_UEFI_CLONE_VM" nvram)
+                    if [ "$clone_nvram" = "$UEFI_NVRAM_DIR/${TEST_UEFI_CLONE_VM}_VARS.qcow2" ] \
+                        && [ "$(img_format "$clone_nvram")" = "qcow2" ]; then
+                        _pass "createLinkedClone (UEFI VM) — clone NVRAM keeps the .qcow2 name"
+                    else
+                        _fail "createLinkedClone (UEFI VM) — clone NVRAM keeps the .qcow2 name" "nvram '$clone_nvram'"
+                    fi
+                fi
+                destroy_test_vm "$TEST_UEFI_CLONE_VM"
+
+                # 7. backups of the converted VM: a full backup while it runs
+                #    (external disk-only snapshot), and an incremental chain
+                #    (libvirt checkpoints) with an internal snapshot taken
+                #    between two runs, so both kinds coexist on the VM
+                _uefi_backup_tests
+            fi
+        else
+            _fail "UEFI VM redefined with raw firmware='efi' layout" "$(virsh define "$legacy_xml" 2>&1 | tail -2)"
+        fi
+        rm -f "$legacy_xml"
+    fi
+    destroy_test_vm "$TEST_UEFI_VM"
+fi
+
+# ===========================================================================
 section "Backup execution (doBackup)"
 # ===========================================================================
 # Actually runs usr/sbin/omv-backup-vm (via the Kvm.doBackup bg RPC method,
@@ -1697,6 +2093,24 @@ for r in json.load(sys.stdin):
             _skip "monitor — memory usage below 100% for idle VM" "omv-kvm-monitor not running"
         fi
 
+        # ---------------------------------------------------------------
+        # 7. omv-move-vm must refuse a paused VM: it still holds its disks
+        #    open. The VM's own pool is the destination, so even the old
+        #    behaviour would not have touched the disk.
+        # ---------------------------------------------------------------
+        if virsh suspend "$TEST_VM_NAME" >/dev/null 2>&1; then
+            pause_out=$(/usr/sbin/omv-move-vm -v "$TEST_VM_NAME" -d "$TEST_VM_POOL_NAME" 2>&1)
+            pause_ec=$?
+            if [ "$pause_ec" -ne 0 ] && echo "$pause_out" | grep -q "is paused"; then
+                _pass "omv-move-vm — refuses a paused VM"
+            else
+                _fail "omv-move-vm — refuses a paused VM" "exit $pause_ec :: $(echo "$pause_out" | tail -2)"
+            fi
+            virsh resume "$TEST_VM_NAME" >/dev/null 2>&1 || true
+        else
+            _skip "omv-move-vm — refuses a paused VM" "could not pause the test VM"
+        fi
+
         info "Shutting down test VM '$TEST_VM_NAME'"
         virsh destroy "$TEST_VM_NAME" >/dev/null 2>&1 || true
     fi
@@ -1706,6 +2120,55 @@ for r in json.load(sys.stdin):
         virsh net-destroy "$FIRST_NET" >/dev/null 2>&1 || true
     fi
 fi
+
+# ---------------------------------------------------------------------------
+# A full backup whose disk copy fails must not be listed as a backup. The
+# throwaway VM points at a disk file that does not exist.
+# ---------------------------------------------------------------------------
+BROKEN_DISK="/tmp/omvtest_kvm_missing_disk.qcow2"
+rm -f "$BROKEN_DISK"
+broken_xml=$(mktemp)
+cat > "$broken_xml" <<XML
+<domain type='qemu'>
+  <name>$TEST_BROKEN_VM</name>
+  <memory unit='MiB'>64</memory>
+  <os><type arch='$(uname -m)'>hvm</type></os>
+  <devices>
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='qcow2'/>
+      <source file='$BROKEN_DISK'/>
+      <target dev='vda' bus='virtio'/>
+    </disk>
+  </devices>
+</domain>
+XML
+if virsh define "$broken_xml" >/dev/null 2>&1; then
+    mkdir -p "$TEST_BACKUP_DIR6"
+    BROKEN_LOG="/tmp/omvtest_kvm_broken.log"
+    /usr/sbin/omv-backup-vm -v "$TEST_BROKEN_VM" -d "$TEST_BACKUP_DIR6" >"$BROKEN_LOG" 2>&1
+    broken_ec=$?
+    if [ "$broken_ec" -eq 10 ]; then
+        _pass "omv-backup-vm — failed disk copy exits non-zero (10)"
+    else
+        _fail "omv-backup-vm — failed disk copy exits non-zero (10)" "exit $broken_ec :: $(tail -3 "$BROKEN_LOG")"
+    fi
+    if [ -z "$(find "$TEST_BACKUP_DIR6/$TEST_BROKEN_VM" -mindepth 1 -maxdepth 1 2>/dev/null)" ]; then
+        _pass "omv-backup-vm — incomplete backup directory removed"
+    else
+        _fail "omv-backup-vm — incomplete backup directory removed" \
+            "$(find "$TEST_BACKUP_DIR6/$TEST_BROKEN_VM" -mindepth 1 | head -3 | tr '\n' ' ')"
+    fi
+    if ! grep -F ",${TEST_BROKEN_VM}," /etc/omv-backup-vm.list 2>/dev/null | grep -qF "$TEST_BACKUP_DIR6"; then
+        _pass "omv-backup-vm — no list entry for the failed backup"
+    else
+        _fail "omv-backup-vm — no list entry for the failed backup" "row found in /etc/omv-backup-vm.list"
+    fi
+    rm -f "$BROKEN_LOG"
+    virsh undefine "$TEST_BROKEN_VM" >/dev/null 2>&1 || true
+else
+    _skip "omv-backup-vm failed disk copy" "could not define $TEST_BROKEN_VM"
+fi
+rm -f "$broken_xml"
 
 # ===========================================================================
 section "Restore (doRestore)"
@@ -1933,6 +2396,30 @@ print(json.dumps({'name': '$TEST_MOVE_POOL_NAME', 'path': '$TEST_MOVE_POOL_PATH'
                 else
                     _fail "doMove — disk moved back" "VM disk '$(vm_disk_path "$TEST_VM_NAME")'"
                 fi
+            fi
+
+            # a copying move (--keep-old forces the copy path a move to
+            # another filesystem takes) must keep internal snapshots, which
+            # qemu-img convert would silently drop
+            MV_SNAP_PARAMS=$(jp vmname="$TEST_VM_NAME" virttype=vm snapname=omvtest_move)
+            if [ "$(vm_disk_path "$TEST_VM_NAME")" = "$MV_ORIG" ] \
+                && assert_rpc "addSnapshot (before copying move)" "Kvm" "addSnapshot" "$MV_SNAP_PARAMS"; then
+                keep_out=$(/usr/sbin/omv-move-vm -v "$TEST_VM_NAME" -d "$TEST_MOVE_POOL_NAME" --keep-old 2>&1)
+                keep_ec=$?
+                if [ "$keep_ec" -eq 0 ] && [ "$(vm_disk_path "$TEST_VM_NAME")" = "$MV_NEW" ] \
+                    && qemu-img snapshot -l -U "$MV_NEW" 2>/dev/null | grep -qw omvtest_move; then
+                    _pass "omv-move-vm --keep-old — internal snapshot kept in the copy"
+                else
+                    _fail "omv-move-vm --keep-old — internal snapshot kept in the copy" \
+                        "exit $keep_ec, VM disk '$(vm_disk_path "$TEST_VM_NAME")' :: $(echo "$keep_out" | tail -2)"
+                fi
+                # put the VM back where the later sections expect it; the
+                # kept original is an identical copy
+                if [ "$(vm_disk_path "$TEST_VM_NAME")" = "$MV_NEW" ]; then
+                    rm -f "$MV_ORIG"
+                    assert_rpc_bg "doMove (back after copying move)" "Kvm" "doMove" "$(_move_params "$TEST_VM_POOL_NAME")"
+                fi
+                assert_rpc "deleteAllSnapshots (after copying move)" "Kvm" "deleteAllSnapshots" "$(jp vmname="$TEST_VM_NAME" virttype=vm)"
             fi
         fi
 
@@ -2325,6 +2812,7 @@ if [ -z "$real_entry" ]; then
     _skip "syncBackupList keeps real entry"          "no real backup entry from the happy-path test to compare against"
     _skip "syncBackupList removes exactly one entry" "no real backup entry from the happy-path test to compare against"
     _skip "syncBackupList backs up list file"        "no real backup entry from the happy-path test to compare against"
+    _skip "syncBackupList keeps the list file mode"  "no real backup entry from the happy-path test to compare against"
 else
     # purge any TEST_BACKUP_DIR1 rows left behind by earlier runs of this
     # suite (besides the current real one) so the count assertion below
@@ -2332,7 +2820,11 @@ else
     stale_tmp=$(mktemp)
     grep -vF "$TEST_BACKUP_DIR1" "$BACKUP_LIST" > "$stale_tmp" || true
     echo "$real_entry" >> "$stale_tmp"
-    mv "$stale_tmp" "$BACKUP_LIST"
+    cat "$stale_tmp" > "$BACKUP_LIST"
+    rm -f "$stale_tmp"
+    # syncBackupList must keep the list file's mode (it used to come back
+    # 0600 from the temporary file it was moved over from)
+    chmod 0644 "$BACKUP_LIST"
 
     echo "${SYNC_ORPHAN_UUID},${TEST_BACKUP_DIR1},${TEST_VM_NAME},${SYNC_ORPHAN_DATE},0" >> "$BACKUP_LIST"
     pre_count=$(grep -cF "$TEST_BACKUP_DIR1" "$BACKUP_LIST")
@@ -2385,6 +2877,7 @@ else
         _fail "syncBackupList keeps real entry"          "$sync_err"
         _fail "syncBackupList removes exactly one entry" "$sync_err"
         _fail "syncBackupList backs up list file"        "$sync_err"
+        _fail "syncBackupList keeps the list file mode (644)" "$sync_err"
         # sync never ran (or never finished), so the injected row is still ours to clean up
         sed -i "\|${SYNC_ORPHAN_DATE}|d" "$BACKUP_LIST"
     else
@@ -2413,6 +2906,12 @@ else
         else
             _fail "syncBackupList backs up list file" \
                 "${BACKUP_LIST}.bak missing, or doesn't contain pre-sync state"
+        fi
+
+        if [ "$(stat -c %a "$BACKUP_LIST")" = "644" ]; then
+            _pass "syncBackupList keeps the list file mode (644)"
+        else
+            _fail "syncBackupList keeps the list file mode (644)" "mode is $(stat -c %a "$BACKUP_LIST")"
         fi
     fi
 fi
