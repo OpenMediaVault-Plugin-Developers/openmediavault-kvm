@@ -1315,6 +1315,24 @@ print(next((d['id'] for d in json.load(sys.stdin) if d['id'].startswith('disk:')
         else
             _skip "setBootOrder" "test VM has no NIC or disk"
         fi
+        # host-passthrough VMs default to migratable=off; toggle it on and back
+        if virsh dumpxml --inactive "$TARGET_VM" 2>/dev/null | grep -q "migratable='off'"; then
+            _pass "setVm — host-passthrough defaults to migratable=off"
+        else
+            _fail "setVm — host-passthrough defaults to migratable=off" \
+                "$(virsh dumpxml --inactive "$TARGET_VM" 2>/dev/null | grep -n "<cpu")"
+        fi
+        for mig in on off; do
+            if assert_rpc "setCpuMigratable ($mig)" "Kvm" "setCpuMigratable" \
+                    "$(jp vmname="$TARGET_VM" migratable=@$([ $mig = on ] && echo true || echo false))"; then
+                if virsh dumpxml --inactive "$TARGET_VM" 2>/dev/null | grep -q "migratable='$mig'"; then
+                    _pass "setCpuMigratable ($mig) — <cpu migratable='$mig'>"
+                else
+                    _fail "setCpuMigratable ($mig) — <cpu migratable='$mig'>" \
+                        "$(virsh dumpxml --inactive "$TARGET_VM" 2>/dev/null | grep -n "<cpu")"
+                fi
+            fi
+        done
     fi
     assert_rpc "enumerateUsbByVm"   "Kvm" "enumerateUsbByVm"    "$VM_PARAMS"
     assert_rpc "enumeratePciByVm"    "Kvm" "enumeratePciByVm"    "$VM_PARAMS"
