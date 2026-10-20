@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-09 19:56+0000\n"
+"POT-Creation-Date: 2026-10-20 15:30+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: songming <by@songming.me>, 2026\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_CN/)\n"
@@ -30,6 +30,21 @@ msgstr "网络"
 msgid ""
 "'%s' contains a character virt-install cannot handle (& ' \" < >). Please "
 "rename it."
+msgstr ""
+
+msgid "1st boot device"
+msgstr ""
+
+msgid "2nd boot device"
+msgstr ""
+
+msgid "3rd boot device"
+msgstr ""
+
+msgid "4th boot device"
+msgstr ""
+
+msgid "A boot device can only be selected once."
 msgstr ""
 
 msgid ""
@@ -230,6 +245,15 @@ msgstr ""
 msgid "Boot"
 msgstr "启动"
 
+msgid "Boot device '%s' not found in VM."
+msgstr ""
+
+msgid "Boot order"
+msgstr ""
+
+msgid "Boot order."
+msgstr ""
+
 msgid "Bridge"
 msgstr "桥"
 
@@ -242,6 +266,9 @@ msgstr "网桥已添加。"
 msgid "Bus"
 msgstr "Bus"
 
+msgid "CD-ROM"
+msgstr ""
+
 msgid "CPU"
 msgstr "CPU"
 
@@ -250,6 +277,12 @@ msgstr "CPU %"
 
 msgid "CPU count has been changed."
 msgstr "CPU 数量已改变。"
+
+msgid "CPU migratable"
+msgstr ""
+
+msgid "CPU migratable has been changed."
+msgstr ""
 
 msgid "CPUs"
 msgstr "CPUs"
@@ -269,6 +302,9 @@ msgstr "容量"
 msgid "Chain"
 msgstr "备份链"
 
+msgid "Change CPU migratable"
+msgstr ""
+
 msgid "Change disc"
 msgstr "变更光盘"
 
@@ -277,6 +313,9 @@ msgstr "改变内存"
 
 msgid "Change vCPU"
 msgstr "改变 vCPU"
+
+msgid "Changing CPU migratable ..."
+msgstr ""
 
 msgid "Changing memory amount ..."
 msgstr "改变内存大小中 ..."
@@ -859,6 +898,11 @@ msgstr "将客户机直接移交给现有的宿主桥接设备。"
 msgid "Hard disk"
 msgstr "硬盘"
 
+msgid ""
+"Hide host CPU features that block live migration and snapshots of running "
+"VMs, such as invtsc. Leave off to pass every host CPU feature to the VM."
+msgstr ""
+
 msgid "Host disk has been added."
 msgstr "主机磁盘已添加。"
 
@@ -1105,6 +1149,9 @@ msgstr "新名称"
 
 msgid "No image - use existing image path"
 msgstr "无镜像 - 使用已有的镜像路径"
+
+msgid "None"
+msgstr ""
 
 msgid "Notes"
 msgstr "注意"
@@ -1358,6 +1405,13 @@ msgstr "设置系统启动时 libvirtd 启动前的等待时间（以秒为单�
 msgid "Secure boot"
 msgstr "安全启动"
 
+msgid ""
+"Select a network adapter to boot from the network (PXE). Devices not "
+"selected are not used for booting. If no device is selected, the VM boots "
+"from disk and then CD-ROM. Changes take effect after the VM is shut down and"
+" started again."
+msgstr ""
+
 msgid "Select a snapshot ..."
 msgstr "选择快照中 ..."
 
@@ -1369,6 +1423,9 @@ msgstr "设置"
 
 msgid "Show advanced options"
 msgstr "显示高级选项"
+
+msgid "Show boot menu"
+msgstr ""
 
 msgid "Size"
 msgstr "大小"
@@ -1390,6 +1447,12 @@ msgstr "快照名称"
 
 msgid "Snapshots"
 msgstr "快照"
+
+msgid ""
+"Snapshots of UEFI VMs need the firmware and NVRAM in qcow2 format. Power off"
+" VM '%s' and create the snapshot again to convert it automatically. This is "
+"only needed once."
+msgstr ""
 
 msgid "Source VM"
 msgstr "VM 源"
@@ -1482,6 +1545,11 @@ msgid "Terminal Link"
 msgstr "终端链接"
 
 msgid ""
+"The migratable setting only applies to VMs with a host-passthrough CPU. VM "
+"'%s' does not use one."
+msgstr ""
+
+msgid ""
 "This reconciles the backup list against what actually exists on disk, "
 "removing entries left behind by prior retention pruning. A backup of the "
 "list file is kept as omv-backup-vm.list.bak. Continue?"
@@ -1525,6 +1593,17 @@ msgstr "不能备份已存在的虚拟机 XML :: "
 msgid "Unable to change notes for VM."
 msgstr "无法改变 VM 注释。"
 
+msgid "Unable to convert NVRAM to qcow2"
+msgstr ""
+
+msgid "Unable to convert UEFI firmware to qcow2"
+msgstr ""
+
+msgid ""
+"Unable to convert the UEFI firmware of VM '%s' to qcow2: firmware image not "
+"found."
+msgstr ""
+
 msgid "Unable to create snapshot"
 msgstr "无法创建快照"
 
@@ -1558,6 +1637,9 @@ msgstr ""
 msgid "Unable to get network adapter type - "
 msgstr "不能设置网卡类型 -"
 
+msgid "Unable to read XML of VM '%s'."
+msgstr ""
+
 msgid "Unable to revert to snapshot"
 msgstr "无法恢复到快照"
 
@@ -1584,6 +1666,12 @@ msgstr "单位"
 
 msgid "VEPA"
 msgstr "VEPA"
+
+msgid ""
+"VM '%s' cannot be snapshotted while running because its CPU exposes non-"
+"migratable features (host-passthrough with migratable=off). Power off the VM"
+" to take the snapshot, or turn on CPU migratable in the Advanced menu."
+msgstr ""
 
 msgid "VM Name"
 msgstr "VM 名称"
@@ -1694,6 +1782,9 @@ msgstr "e1000"
 
 msgid "e1000e"
 msgstr "e1000e"
+
+msgid "empty"
+msgstr ""
 
 msgid "iSCSI"
 msgstr "iSCSI"

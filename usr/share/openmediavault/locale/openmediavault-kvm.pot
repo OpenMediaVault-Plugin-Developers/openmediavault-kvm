@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-20 14:58+0000\n"
+"POT-Creation-Date: 2026-10-20 15:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -257,6 +257,12 @@ msgstr ""
 msgid "CPU count has been changed."
 msgstr ""
 
+msgid "CPU migratable"
+msgstr ""
+
+msgid "CPU migratable has been changed."
+msgstr ""
+
 msgid "CPUs"
 msgstr ""
 
@@ -275,6 +281,9 @@ msgstr ""
 msgid "Chain"
 msgstr ""
 
+msgid "Change CPU migratable"
+msgstr ""
+
 msgid "Change disc"
 msgstr ""
 
@@ -282,6 +291,9 @@ msgid "Change memory"
 msgstr ""
 
 msgid "Change vCPU"
+msgstr ""
+
+msgid "Changing CPU migratable ..."
 msgstr ""
 
 msgid "Changing memory amount ..."
@@ -834,6 +846,9 @@ msgid "Hands guests directly onto an existing host bridge."
 msgstr ""
 
 msgid "Hard disk"
+msgstr ""
+
+msgid "Hide host CPU features that block live migration and snapshots of running VMs, such as invtsc. Leave off to pass every host CPU feature to the VM."
 msgstr ""
 
 msgid "Host disk has been added."
@@ -1451,6 +1466,9 @@ msgstr ""
 msgid "Terminal Link"
 msgstr ""
 
+msgid "The migratable setting only applies to VMs with a host-passthrough CPU. VM '%s' does not use one."
+msgstr ""
+
 msgid "This reconciles the backup list against what actually exists on disk, removing entries left behind by prior retention pruning. A backup of the list file is kept as omv-backup-vm.list.bak. Continue?"
 msgstr ""
 
@@ -1557,6 +1575,9 @@ msgid "Unit"
 msgstr ""
 
 msgid "VEPA"
+msgstr ""
+
+msgid "VM '%s' cannot be snapshotted while running because its CPU exposes non-migratable features (host-passthrough with migratable=off). Power off the VM to take the snapshot, or turn on CPU migratable in the Advanced menu."
 msgstr ""
 
 msgid "VM Name"

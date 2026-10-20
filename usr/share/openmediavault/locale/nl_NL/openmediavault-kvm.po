@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-09 19:56+0000\n"
+"POT-Creation-Date: 2026-10-20 15:30+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Stephan Paternotte <stephan@paternottes.net>, 2026\n"
 "Language-Team: Dutch (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/nl/)\n"
@@ -32,6 +32,23 @@ msgid ""
 "'%s' contains a character virt-install cannot handle (& ' \" < >). Please "
 "rename it."
 msgstr ""
+"'%s' bevat een teken dat virt-install niet kan verwerken (& ' \" < >). Pas "
+"de naam aan."
+
+msgid "1st boot device"
+msgstr "1e opstartapparaat"
+
+msgid "2nd boot device"
+msgstr "2e opstartapparaat"
+
+msgid "3rd boot device"
+msgstr "3e opstartapparaat"
+
+msgid "4th boot device"
+msgstr "4e opstartapparaat"
+
+msgid "A boot device can only be selected once."
+msgstr "Een opstartapparaat kan slechts één keer worden geselecteerd."
 
 msgid ""
 "ARM64 is not supported. Redox OS pre-built ARM64 images do not have a "
@@ -243,6 +260,15 @@ msgstr ""
 msgid "Boot"
 msgstr "Opstarten"
 
+msgid "Boot device '%s' not found in VM."
+msgstr "Opstartapparaat '%s' niet gevonden in VM."
+
+msgid "Boot order"
+msgstr "Opstartvolgorde"
+
+msgid "Boot order."
+msgstr "Opstartvolgorde."
+
 msgid "Bridge"
 msgstr "Bridge"
 
@@ -255,6 +281,9 @@ msgstr "Bridge-netwerk is toegevoegd."
 msgid "Bus"
 msgstr "Bus"
 
+msgid "CD-ROM"
+msgstr "CD-ROM"
+
 msgid "CPU"
 msgstr "CPU"
 
@@ -263,6 +292,12 @@ msgstr "CPU %"
 
 msgid "CPU count has been changed."
 msgstr "Aantal CPU's is gewijzigd."
+
+msgid "CPU migratable"
+msgstr "CPU migreerbaar"
+
+msgid "CPU migratable has been changed."
+msgstr "CPU migreerbaar is aangepast."
 
 msgid "CPUs"
 msgstr "CPU's"
@@ -282,6 +317,9 @@ msgstr "Capaciteit"
 msgid "Chain"
 msgstr "Keten"
 
+msgid "Change CPU migratable"
+msgstr "CPU migreerbaar aanpassen"
+
 msgid "Change disc"
 msgstr "Schijf wijzigen"
 
@@ -290,6 +328,9 @@ msgstr "Geheugen wijzigen"
 
 msgid "Change vCPU"
 msgstr "vCPU wijzigen"
+
+msgid "Changing CPU migratable ..."
+msgstr "CPU migreerbaar aanpassen…"
 
 msgid "Changing memory amount ..."
 msgstr "Hoeveelheid geheugen wijzigen…"
@@ -314,7 +355,7 @@ msgstr ""
 "nieuwste versie."
 
 msgid "Check github.com/siderolabs/talos/releases for the latest version."
-msgstr ""
+msgstr "Zie github.com/siderolabs/talos/releases voor de nieuwste versie."
 
 msgid ""
 "Check sourceforge.net/projects/openmediavault/files/iso/ for the latest "
@@ -589,6 +630,10 @@ msgid ""
 "talosctl from a workstation to apply a machine configuration and install "
 "Talos to the disk (/dev/vda)."
 msgstr ""
+"Downloadt de Talos Linux ISO (met de QEMU guest agent-extensie) van de Talos"
+" Image Factory en maakt een VM die opstart in de onderhoudsmodus. Gebruik "
+"talosctl vanaf een werkstation om een machineconfiguratie toe te passen en "
+"installeer Talos op de schijf (/dev/vda)."
 
 msgid ""
 "Downloads the latest Redox OS disk image for your architecture and imports "
@@ -891,6 +936,14 @@ msgstr "Geeft gasten direct door aan een bestaande host bridge."
 msgid "Hard disk"
 msgstr "Harde schijf"
 
+msgid ""
+"Hide host CPU features that block live migration and snapshots of running "
+"VMs, such as invtsc. Leave off to pass every host CPU feature to the VM."
+msgstr ""
+"Verberg host-CPU-functies die live migratie en momentopnames van actieve "
+"VM's blokkeren, zoals invtsc. Laat staan om elke host-CPU-functie door te "
+"geven aan de VM."
+
 msgid "Host disk has been added."
 msgstr "Hostschijf is toegevoegd."
 
@@ -969,10 +1022,10 @@ msgid "Install Redox OS ..."
 msgstr "Redox OS installeren…"
 
 msgid "Install Talos Linux"
-msgstr ""
+msgstr "Talos Linux installeren"
 
 msgid "Install Talos Linux ..."
-msgstr ""
+msgstr "Talos Linux installeren…"
 
 msgid "Installing Home Assistant OS ..."
 msgstr "Home Assistant OS installeren…"
@@ -987,7 +1040,7 @@ msgid "Installing Redox OS ..."
 msgstr "Redox OS installeren…"
 
 msgid "Installing Talos Linux ..."
-msgstr ""
+msgstr "Talos Linux installeren…"
 
 msgid "Isolated"
 msgstr "Geïsoleerd"
@@ -1147,6 +1200,9 @@ msgstr "Nieuwe naam"
 
 msgid "No image - use existing image path"
 msgstr "Geen image - bestaand image-pad gebruiken"
+
+msgid "None"
+msgstr "Geen"
 
 msgid "Notes"
 msgstr "Notities"
@@ -1415,6 +1471,18 @@ msgstr ""
 msgid "Secure boot"
 msgstr "Secure boot"
 
+msgid ""
+"Select a network adapter to boot from the network (PXE). Devices not "
+"selected are not used for booting. If no device is selected, the VM boots "
+"from disk and then CD-ROM. Changes take effect after the VM is shut down and"
+" started again."
+msgstr ""
+"Selecteer een netwerkadapter om op te starten vanuit het netwerk (PXE). "
+"Apparaten die niet zijn geselecteerd, worden niet gebruikt voor het "
+"opstarten. Als er geen apparaat is geselecteerd, wordt de VM opgestart vanaf"
+" schijf en vervolgens op cd-rom. Wijzigingen worden van kracht nadat de VM "
+"is afgesloten en opnieuw is gestart."
+
 msgid "Select a snapshot ..."
 msgstr "Momentopname selecteren..."
 
@@ -1426,6 +1494,9 @@ msgstr "Instellingen"
 
 msgid "Show advanced options"
 msgstr "Geavanceerde opties tonen"
+
+msgid "Show boot menu"
+msgstr "Opstartmenu weergeven"
 
 msgid "Size"
 msgstr "Grootte"
@@ -1447,6 +1518,15 @@ msgstr "Naam van momentopname"
 
 msgid "Snapshots"
 msgstr "Momentopnames"
+
+msgid ""
+"Snapshots of UEFI VMs need the firmware and NVRAM in qcow2 format. Power off"
+" VM '%s' and create the snapshot again to convert it automatically. This is "
+"only needed once."
+msgstr ""
+"Momentopnames van UEFI-VM's hebben de firmware en NVRAM nodig in "
+"qcow2-formaat. Schakel VM '%s' uit en maak een nieuwe momentopname om deze "
+"automatisch te converteren. Dit is maar één keer nodig."
 
 msgid "Source VM"
 msgstr "Bron VM"
@@ -1530,13 +1610,20 @@ msgid "TPM"
 msgstr "TPM"
 
 msgid "Talos Version"
-msgstr ""
+msgstr "Talos-versie"
 
 msgid "Terabytes"
 msgstr "Terabytes"
 
 msgid "Terminal Link"
 msgstr "Terminal Link"
+
+msgid ""
+"The migratable setting only applies to VMs with a host-passthrough CPU. VM "
+"'%s' does not use one."
+msgstr ""
+"De migreerbare instelling is alleen van toepassing op VM's met een host-"
+"passthrough CPU. VM ‘%s’ gebruikt er geen."
 
 msgid ""
 "This reconciles the backup list against what actually exists on disk, "
@@ -1587,6 +1674,19 @@ msgstr "Kan geen back-up maken van bestaande XML voor VM ::"
 msgid "Unable to change notes for VM."
 msgstr "Kan notities voor VM niet wijzigen."
 
+msgid "Unable to convert NVRAM to qcow2"
+msgstr "Kan NVRAM niet converteren naar qcow2"
+
+msgid "Unable to convert UEFI firmware to qcow2"
+msgstr "Kan UEFI-firmware niet converteren naar qcow2"
+
+msgid ""
+"Unable to convert the UEFI firmware of VM '%s' to qcow2: firmware image not "
+"found."
+msgstr ""
+"Kan de UEFI-firmware van VM '%s' niet converteren naar qcow2: firmware-image"
+" niet gevonden."
+
 msgid "Unable to create snapshot"
 msgstr "Kan momentopname niet aanmaken"
 
@@ -1615,10 +1715,13 @@ msgid "Unable to determine pool path."
 msgstr "Kan het pad van de pool niet bepalen."
 
 msgid "Unable to determine volume group for pool :: "
-msgstr ""
+msgstr "Kan volumegroep niet bepalen voor pool :: "
 
 msgid "Unable to get network adapter type - "
 msgstr "Kan het type netwerkadapter niet krijgen - "
+
+msgid "Unable to read XML of VM '%s'."
+msgstr "Kan XML van VM '%s' niet lezen."
 
 msgid "Unable to revert to snapshot"
 msgstr "Kan mmentopname niet terugzetten"
@@ -1627,7 +1730,7 @@ msgid "Unable to set VM XML :: "
 msgstr "Kan VM-XML niet instellen :: "
 
 msgid "Unable to set notes for VM."
-msgstr ""
+msgstr "Kan geen notities instellen voor VM."
 
 msgid "Unable to start network"
 msgstr "Kan netwerk niet starten"
@@ -1646,6 +1749,16 @@ msgstr "Eenheid"
 
 msgid "VEPA"
 msgstr "VEPA"
+
+msgid ""
+"VM '%s' cannot be snapshotted while running because its CPU exposes non-"
+"migratable features (host-passthrough with migratable=off). Power off the VM"
+" to take the snapshot, or turn on CPU migratable in the Advanced menu."
+msgstr ""
+"Kan geen momentopname maken van VM '%s'  als deze draait, omdat de CPU niet-"
+"migreerbare functies blootlegt (host-passthrough met migreerbaar=uit). "
+"Schakel de VM uit om de momentopname te maken, of schakel de CPU in die "
+"migreerbaar is in het menu Geavanceerd."
 
 msgid "VM Name"
 msgstr "VM-naam"
@@ -1761,6 +1874,9 @@ msgstr "e1000"
 
 msgid "e1000e"
 msgstr "e1000e"
+
+msgid "empty"
+msgstr "leeg"
 
 msgid "iSCSI"
 msgstr "iSCSI"

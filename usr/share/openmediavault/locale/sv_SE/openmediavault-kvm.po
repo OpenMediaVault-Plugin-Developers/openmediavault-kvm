@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-09 19:56+0000\n"
+"POT-Creation-Date: 2026-10-20 15:30+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Jonatan Nyberg, 2026\n"
 "Language-Team: Swedish (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/sv/)\n"
@@ -30,6 +30,21 @@ msgstr " nätverket!"
 msgid ""
 "'%s' contains a character virt-install cannot handle (& ' \" < >). Please "
 "rename it."
+msgstr ""
+
+msgid "1st boot device"
+msgstr ""
+
+msgid "2nd boot device"
+msgstr ""
+
+msgid "3rd boot device"
+msgstr ""
+
+msgid "4th boot device"
+msgstr ""
+
+msgid "A boot device can only be selected once."
 msgstr ""
 
 msgid ""
@@ -240,6 +255,15 @@ msgstr ""
 msgid "Boot"
 msgstr "Start"
 
+msgid "Boot device '%s' not found in VM."
+msgstr ""
+
+msgid "Boot order"
+msgstr ""
+
+msgid "Boot order."
+msgstr ""
+
 msgid "Bridge"
 msgstr "Bro"
 
@@ -252,6 +276,9 @@ msgstr "Bryggnätverket har lagts till."
 msgid "Bus"
 msgstr "Buss"
 
+msgid "CD-ROM"
+msgstr ""
+
 msgid "CPU"
 msgstr "CPU"
 
@@ -260,6 +287,12 @@ msgstr "CPU %"
 
 msgid "CPU count has been changed."
 msgstr "Antalet CPU:er har ändrats."
+
+msgid "CPU migratable"
+msgstr ""
+
+msgid "CPU migratable has been changed."
+msgstr ""
 
 msgid "CPUs"
 msgstr "CPU:er"
@@ -279,6 +312,9 @@ msgstr "Kapacitet"
 msgid "Chain"
 msgstr "Kedja"
 
+msgid "Change CPU migratable"
+msgstr ""
+
 msgid "Change disc"
 msgstr "Byt skiva"
 
@@ -287,6 +323,9 @@ msgstr "Ändra minne"
 
 msgid "Change vCPU"
 msgstr "Ändra vCPU"
+
+msgid "Changing CPU migratable ..."
+msgstr ""
 
 msgid "Changing memory amount ..."
 msgstr "Ändrar minnesmängd…"
@@ -888,6 +927,11 @@ msgstr "Ansluter gäster direkt till en befintlig brygga på värden."
 msgid "Hard disk"
 msgstr "Hårddisk"
 
+msgid ""
+"Hide host CPU features that block live migration and snapshots of running "
+"VMs, such as invtsc. Leave off to pass every host CPU feature to the VM."
+msgstr ""
+
 msgid "Host disk has been added."
 msgstr "Värddisken har lagts till."
 
@@ -1142,6 +1186,9 @@ msgstr "Nytt namn"
 
 msgid "No image - use existing image path"
 msgstr "Ingen avbild – använd befintlig avbildningssökväg"
+
+msgid "None"
+msgstr ""
 
 msgid "Notes"
 msgstr "Anteckningar"
@@ -1408,6 +1455,13 @@ msgstr ""
 msgid "Secure boot"
 msgstr "Säker start"
 
+msgid ""
+"Select a network adapter to boot from the network (PXE). Devices not "
+"selected are not used for booting. If no device is selected, the VM boots "
+"from disk and then CD-ROM. Changes take effect after the VM is shut down and"
+" started again."
+msgstr ""
+
 msgid "Select a snapshot ..."
 msgstr "Välj en ögonblicksbild…"
 
@@ -1419,6 +1473,9 @@ msgstr "Inställningar"
 
 msgid "Show advanced options"
 msgstr "Visa avancerade alternativ"
+
+msgid "Show boot menu"
+msgstr ""
 
 msgid "Size"
 msgstr "Storlek"
@@ -1440,6 +1497,12 @@ msgstr "Namn på ögonblicksbild"
 
 msgid "Snapshots"
 msgstr "Ögonblicksbilder"
+
+msgid ""
+"Snapshots of UEFI VMs need the firmware and NVRAM in qcow2 format. Power off"
+" VM '%s' and create the snapshot again to convert it automatically. This is "
+"only needed once."
+msgstr ""
 
 msgid "Source VM"
 msgstr "Käll-VM"
@@ -1532,6 +1595,11 @@ msgid "Terminal Link"
 msgstr "Terminallänk"
 
 msgid ""
+"The migratable setting only applies to VMs with a host-passthrough CPU. VM "
+"'%s' does not use one."
+msgstr ""
+
+msgid ""
 "This reconciles the backup list against what actually exists on disk, "
 "removing entries left behind by prior retention pruning. A backup of the "
 "list file is kept as omv-backup-vm.list.bak. Continue?"
@@ -1578,6 +1646,17 @@ msgstr ""
 msgid "Unable to change notes for VM."
 msgstr "Det gick inte att ändra anteckningarna för den virtuella maskinen."
 
+msgid "Unable to convert NVRAM to qcow2"
+msgstr ""
+
+msgid "Unable to convert UEFI firmware to qcow2"
+msgstr ""
+
+msgid ""
+"Unable to convert the UEFI firmware of VM '%s' to qcow2: firmware image not "
+"found."
+msgstr ""
+
 msgid "Unable to create snapshot"
 msgstr "Det gick inte att skapa ögonblicksbilden"
 
@@ -1612,6 +1691,9 @@ msgstr ""
 msgid "Unable to get network adapter type - "
 msgstr "Det gick inte att hämta nätverkskortstypen – "
 
+msgid "Unable to read XML of VM '%s'."
+msgstr ""
+
 msgid "Unable to revert to snapshot"
 msgstr "Det gick inte att återgå till ögonblicksbilden"
 
@@ -1638,6 +1720,12 @@ msgstr "Enhet"
 
 msgid "VEPA"
 msgstr "VEPA"
+
+msgid ""
+"VM '%s' cannot be snapshotted while running because its CPU exposes non-"
+"migratable features (host-passthrough with migratable=off). Power off the VM"
+" to take the snapshot, or turn on CPU migratable in the Advanced menu."
+msgstr ""
 
 msgid "VM Name"
 msgstr "VM-namn"
@@ -1753,6 +1841,9 @@ msgstr "e1000"
 
 msgid "e1000e"
 msgstr "e1000e"
+
+msgid "empty"
+msgstr ""
 
 msgid "iSCSI"
 msgstr "iSCSI"

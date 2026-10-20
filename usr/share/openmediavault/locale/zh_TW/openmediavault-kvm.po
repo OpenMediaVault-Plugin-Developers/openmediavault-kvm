@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-09 19:56+0000\n"
+"POT-Creation-Date: 2026-10-20 15:30+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: kochin <kochinc@outlook.com>, 2026\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/zh_TW/)\n"
@@ -30,6 +30,21 @@ msgstr "網路！"
 msgid ""
 "'%s' contains a character virt-install cannot handle (& ' \" < >). Please "
 "rename it."
+msgstr "'%s' 含有一個 virt-install 無法處理的字元 (& ' \" < >)。請將它重新命名。"
+
+msgid "1st boot device"
+msgstr ""
+
+msgid "2nd boot device"
+msgstr ""
+
+msgid "3rd boot device"
+msgstr ""
+
+msgid "4th boot device"
+msgstr ""
+
+msgid "A boot device can only be selected once."
 msgstr ""
 
 msgid ""
@@ -230,6 +245,15 @@ msgstr ""
 msgid "Boot"
 msgstr "啟動"
 
+msgid "Boot device '%s' not found in VM."
+msgstr ""
+
+msgid "Boot order"
+msgstr ""
+
+msgid "Boot order."
+msgstr ""
+
 msgid "Bridge"
 msgstr "橋接器"
 
@@ -242,6 +266,9 @@ msgstr "橋接網路已被加入。"
 msgid "Bus"
 msgstr "匯流排"
 
+msgid "CD-ROM"
+msgstr ""
+
 msgid "CPU"
 msgstr "CPU"
 
@@ -250,6 +277,12 @@ msgstr "CPU %"
 
 msgid "CPU count has been changed."
 msgstr "CPU 數目已被改變。"
+
+msgid "CPU migratable"
+msgstr ""
+
+msgid "CPU migratable has been changed."
+msgstr ""
 
 msgid "CPUs"
 msgstr "CPUs"
@@ -269,6 +302,9 @@ msgstr "容量"
 msgid "Chain"
 msgstr "備份鏈"
 
+msgid "Change CPU migratable"
+msgstr ""
+
 msgid "Change disc"
 msgstr "變更磁碟"
 
@@ -277,6 +313,9 @@ msgstr "改變記憶體"
 
 msgid "Change vCPU"
 msgstr "改變 vCPU"
+
+msgid "Changing CPU migratable ..."
+msgstr ""
 
 msgid "Changing memory amount ..."
 msgstr "改變記憶體大小中 ..."
@@ -299,7 +338,7 @@ msgid ""
 msgstr "於 github.com/home-assistant/operating-system/releases 查看最新版本。"
 
 msgid "Check github.com/siderolabs/talos/releases for the latest version."
-msgstr ""
+msgstr "在 github.com/siderolabs/talos/releases 查看最新版本。"
 
 msgid ""
 "Check sourceforge.net/projects/openmediavault/files/iso/ for the latest "
@@ -566,6 +605,8 @@ msgid ""
 "talosctl from a workstation to apply a machine configuration and install "
 "Talos to the disk (/dev/vda)."
 msgstr ""
+"從 Talos 映像工廠下載 Talos Linux ISO 映像（含有 QEMU 用戶端代理程式擴充），並建立一個啟動到維護模式的 "
+"VM。從一個工作站使用 talosctl 指令，來套用機器配置，並將 Talos 安裝到磁碟 (/dev/vda)。"
 
 msgid ""
 "Downloads the latest Redox OS disk image for your architecture and imports "
@@ -860,6 +901,11 @@ msgstr "將客體直接交給一個現存的主機橋接。"
 msgid "Hard disk"
 msgstr "硬碟"
 
+msgid ""
+"Hide host CPU features that block live migration and snapshots of running "
+"VMs, such as invtsc. Leave off to pass every host CPU feature to the VM."
+msgstr ""
+
 msgid "Host disk has been added."
 msgstr "主機磁碟已被加入。"
 
@@ -934,10 +980,10 @@ msgid "Install Redox OS ..."
 msgstr "安裝 Redox OS …"
 
 msgid "Install Talos Linux"
-msgstr ""
+msgstr "安裝 Talos Linux"
 
 msgid "Install Talos Linux ..."
-msgstr ""
+msgstr "安裝 Talos Linux ..."
 
 msgid "Installing Home Assistant OS ..."
 msgstr "安裝 Home Assistant OS 中 ..."
@@ -952,7 +998,7 @@ msgid "Installing Redox OS ..."
 msgstr "安裝 Redox OS 中 …"
 
 msgid "Installing Talos Linux ..."
-msgstr ""
+msgstr "安裝 Talos Linux 中 ..."
 
 msgid "Isolated"
 msgstr "隔離"
@@ -1106,6 +1152,9 @@ msgstr "新名稱"
 
 msgid "No image - use existing image path"
 msgstr "無映像 - 使用現存的映像路徑"
+
+msgid "None"
+msgstr ""
 
 msgid "Notes"
 msgstr "註釋"
@@ -1359,6 +1408,13 @@ msgstr "開機啟動時要等待的秒數才啟動 libvirtd。若集用場或 VM
 msgid "Secure boot"
 msgstr "安全啟動"
 
+msgid ""
+"Select a network adapter to boot from the network (PXE). Devices not "
+"selected are not used for booting. If no device is selected, the VM boots "
+"from disk and then CD-ROM. Changes take effect after the VM is shut down and"
+" started again."
+msgstr ""
+
 msgid "Select a snapshot ..."
 msgstr "選擇一個快照 ..."
 
@@ -1370,6 +1426,9 @@ msgstr "設定"
 
 msgid "Show advanced options"
 msgstr "顯示進階選項"
+
+msgid "Show boot menu"
+msgstr ""
 
 msgid "Size"
 msgstr "大小"
@@ -1391,6 +1450,12 @@ msgstr "快照名稱"
 
 msgid "Snapshots"
 msgstr "快照"
+
+msgid ""
+"Snapshots of UEFI VMs need the firmware and NVRAM in qcow2 format. Power off"
+" VM '%s' and create the snapshot again to convert it automatically. This is "
+"only needed once."
+msgstr ""
 
 msgid "Source VM"
 msgstr "來源 VM"
@@ -1474,13 +1539,18 @@ msgid "TPM"
 msgstr "TPM"
 
 msgid "Talos Version"
-msgstr ""
+msgstr "Talos 版本"
 
 msgid "Terabytes"
 msgstr "TB"
 
 msgid "Terminal Link"
 msgstr "終端機連結"
+
+msgid ""
+"The migratable setting only applies to VMs with a host-passthrough CPU. VM "
+"'%s' does not use one."
+msgstr ""
 
 msgid ""
 "This reconciles the backup list against what actually exists on disk, "
@@ -1526,6 +1596,17 @@ msgstr "無法備份 VM 的現存 XML ::"
 msgid "Unable to change notes for VM."
 msgstr "無法改變 VM 的註釋。"
 
+msgid "Unable to convert NVRAM to qcow2"
+msgstr ""
+
+msgid "Unable to convert UEFI firmware to qcow2"
+msgstr ""
+
+msgid ""
+"Unable to convert the UEFI firmware of VM '%s' to qcow2: firmware image not "
+"found."
+msgstr ""
+
 msgid "Unable to create snapshot"
 msgstr "無法建立快照 "
 
@@ -1554,10 +1635,13 @@ msgid "Unable to determine pool path."
 msgstr "無法決定集用場路徑。"
 
 msgid "Unable to determine volume group for pool :: "
-msgstr ""
+msgstr "無法為集用場決定儲存卷群組 :: "
 
 msgid "Unable to get network adapter type - "
 msgstr "無法取得網路卡型式 -"
+
+msgid "Unable to read XML of VM '%s'."
+msgstr ""
 
 msgid "Unable to revert to snapshot"
 msgstr "無法復原快照 "
@@ -1566,7 +1650,7 @@ msgid "Unable to set VM XML :: "
 msgstr "無法設定 VM XML ::"
 
 msgid "Unable to set notes for VM."
-msgstr ""
+msgstr "無法設定 VM 的註釋。"
 
 msgid "Unable to start network"
 msgstr "無法啟動網路 "
@@ -1585,6 +1669,12 @@ msgstr "單位"
 
 msgid "VEPA"
 msgstr "VEPA"
+
+msgid ""
+"VM '%s' cannot be snapshotted while running because its CPU exposes non-"
+"migratable features (host-passthrough with migratable=off). Power off the VM"
+" to take the snapshot, or turn on CPU migratable in the Advanced menu."
+msgstr ""
 
 msgid "VM Name"
 msgstr "VM 名稱"
@@ -1698,6 +1788,9 @@ msgstr "e1000"
 
 msgid "e1000e"
 msgstr "e1000e"
+
+msgid "empty"
+msgstr ""
 
 msgid "iSCSI"
 msgstr "iSCSI"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-09 19:56+0000\n"
+"POT-Creation-Date: 2026-10-20 15:30+0000\n"
 "PO-Revision-Date: 2021-02-27 15:05+0000\n"
 "Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>, 2024\n"
 "Language-Team: Spanish (Spain) (https://app.transifex.com/openmediavault-plugin-developers/teams/1854/es_ES/)\n"
@@ -30,6 +30,21 @@ msgstr "¡La red!"
 msgid ""
 "'%s' contains a character virt-install cannot handle (& ' \" < >). Please "
 "rename it."
+msgstr ""
+
+msgid "1st boot device"
+msgstr ""
+
+msgid "2nd boot device"
+msgstr ""
+
+msgid "3rd boot device"
+msgstr ""
+
+msgid "4th boot device"
+msgstr ""
+
+msgid "A boot device can only be selected once."
 msgstr ""
 
 msgid ""
@@ -232,6 +247,15 @@ msgstr ""
 msgid "Boot"
 msgstr ""
 
+msgid "Boot device '%s' not found in VM."
+msgstr ""
+
+msgid "Boot order"
+msgstr ""
+
+msgid "Boot order."
+msgstr ""
+
 msgid "Bridge"
 msgstr ""
 
@@ -244,6 +268,9 @@ msgstr ""
 msgid "Bus"
 msgstr "Bus"
 
+msgid "CD-ROM"
+msgstr ""
+
 msgid "CPU"
 msgstr "CPU"
 
@@ -252,6 +279,12 @@ msgstr ""
 
 msgid "CPU count has been changed."
 msgstr "Cambiado el número de CPUs."
+
+msgid "CPU migratable"
+msgstr ""
+
+msgid "CPU migratable has been changed."
+msgstr ""
 
 msgid "CPUs"
 msgstr "CPUs"
@@ -271,6 +304,9 @@ msgstr "Capacidad"
 msgid "Chain"
 msgstr ""
 
+msgid "Change CPU migratable"
+msgstr ""
+
 msgid "Change disc"
 msgstr "Cambiar Disco"
 
@@ -279,6 +315,9 @@ msgstr "Cambiar memoria"
 
 msgid "Change vCPU"
 msgstr "Cambiar vCPU"
+
+msgid "Changing CPU migratable ..."
+msgstr ""
 
 msgid "Changing memory amount ..."
 msgstr "Cambiando la cantidad de RAM ..."
@@ -858,6 +897,11 @@ msgstr ""
 msgid "Hard disk"
 msgstr "Disco Duro"
 
+msgid ""
+"Hide host CPU features that block live migration and snapshots of running "
+"VMs, such as invtsc. Leave off to pass every host CPU feature to the VM."
+msgstr ""
+
 msgid "Host disk has been added."
 msgstr "El disco del host ha sido añadido."
 
@@ -1106,6 +1150,9 @@ msgstr "Nuevo Nombre"
 
 msgid "No image - use existing image path"
 msgstr "Sin Imagen - Usar la ruta a la imagen existente."
+
+msgid "None"
+msgstr ""
 
 msgid "Notes"
 msgstr "Notas"
@@ -1360,6 +1407,13 @@ msgstr ""
 msgid "Secure boot"
 msgstr "Arranque seguro"
 
+msgid ""
+"Select a network adapter to boot from the network (PXE). Devices not "
+"selected are not used for booting. If no device is selected, the VM boots "
+"from disk and then CD-ROM. Changes take effect after the VM is shut down and"
+" started again."
+msgstr ""
+
 msgid "Select a snapshot ..."
 msgstr "Seleccionar una Instantánea ..."
 
@@ -1371,6 +1425,9 @@ msgstr "Opciones"
 
 msgid "Show advanced options"
 msgstr "Mostrar opciones avanzadas"
+
+msgid "Show boot menu"
+msgstr ""
 
 msgid "Size"
 msgstr "Tamaño"
@@ -1392,6 +1449,12 @@ msgstr ""
 
 msgid "Snapshots"
 msgstr "Instantáneas "
+
+msgid ""
+"Snapshots of UEFI VMs need the firmware and NVRAM in qcow2 format. Power off"
+" VM '%s' and create the snapshot again to convert it automatically. This is "
+"only needed once."
+msgstr ""
 
 msgid "Source VM"
 msgstr "VM origen"
@@ -1484,6 +1547,11 @@ msgid "Terminal Link"
 msgstr ""
 
 msgid ""
+"The migratable setting only applies to VMs with a host-passthrough CPU. VM "
+"'%s' does not use one."
+msgstr ""
+
+msgid ""
 "This reconciles the backup list against what actually exists on disk, "
 "removing entries left behind by prior retention pruning. A backup of the "
 "list file is kept as omv-backup-vm.list.bak. Continue?"
@@ -1525,6 +1593,17 @@ msgstr ""
 msgid "Unable to change notes for VM."
 msgstr "No es posible cambiar la nota de la MV"
 
+msgid "Unable to convert NVRAM to qcow2"
+msgstr ""
+
+msgid "Unable to convert UEFI firmware to qcow2"
+msgstr ""
+
+msgid ""
+"Unable to convert the UEFI firmware of VM '%s' to qcow2: firmware image not "
+"found."
+msgstr ""
+
 msgid "Unable to create snapshot"
 msgstr ""
 
@@ -1558,6 +1637,9 @@ msgstr ""
 msgid "Unable to get network adapter type - "
 msgstr "No es posible usar ese tipo de adaptador -"
 
+msgid "Unable to read XML of VM '%s'."
+msgstr ""
+
 msgid "Unable to revert to snapshot"
 msgstr ""
 
@@ -1583,6 +1665,12 @@ msgid "Unit"
 msgstr "Unidad"
 
 msgid "VEPA"
+msgstr ""
+
+msgid ""
+"VM '%s' cannot be snapshotted while running because its CPU exposes non-"
+"migratable features (host-passthrough with migratable=off). Power off the VM"
+" to take the snapshot, or turn on CPU migratable in the Advanced menu."
 msgstr ""
 
 msgid "VM Name"
@@ -1696,6 +1784,9 @@ msgid "e1000"
 msgstr "e1000"
 
 msgid "e1000e"
+msgstr ""
+
+msgid "empty"
 msgstr ""
 
 msgid "iSCSI"
