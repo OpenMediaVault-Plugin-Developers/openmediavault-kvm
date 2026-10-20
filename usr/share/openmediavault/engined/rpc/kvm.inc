@@ -118,6 +118,7 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('doCommand');
         $this->registerMethod('doWeb');
         $this->registerMethod('doChangeCpuMemory');
+        $this->registerMethod('setCpuMigratable');
         $this->registerMethod('getVcpu');
 
         $this->registerMethod('getBackupList');
@@ -1082,10 +1083,15 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $notes = (string)($domXml->xpath('//description')[0] ?? '');
             $archNodes = $domXml->xpath('//os/type/@arch');
             $arch = $archNodes ? (string)$archNodes[0] : '';
+            // cpu mode; libvirt treats a missing migratable attribute as on
+            $cpumode = (string)($domXml->cpu['mode'] ?? '');
+            $migratable = (string)($domXml->cpu['migratable'] ?? 'on') !== 'off';
             // object to return
             $objects[] = [
                 'vmname'       => $name,
                 'virttype'     => 'vm',
+                'cpumode'      => $cpumode,
+                'migratable'   => $migratable,
                 'mem'          => $info['memory_kb'] * 1024,
                 'cpu'          => $info['ncpus'],
                 'state'        => $info['state'],
@@ -1536,7 +1542,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             }
             $cmdArgs[] = '--arch ' . $this->sh($arch);
             if ($cpuModel === 'host-passthrough') {
-                $cmdArgs[] = '--cpu ' . $this->sh($cpuModel . ',check=none,migratable=off');
+                $migratable = boolval($params['migratable'] ?? false) ? 'on' : 'off';
+                $cmdArgs[] = '--cpu ' . $this->sh($cpuModel . ',check=none,migratable=' . $migratable);
             } else {
                 $cmdArgs[] = '--cpu ' . $this->sh($cpuModel . ',check=none');
             }
@@ -2645,10 +2652,23 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 $cmdArgs[] = '--name';
                 $cmdArgs[] = $this->escapeName($snapname);
             }
-            $this->virshCommand(
+            $errMsg = $this->virshCommand(
                 $cmdArgs,
-                gettext("Unable to create snapshot")
+                gettext("Unable to create snapshot"),
+                'virsh',
+                true
             );
+            if ($errMsg !== '') {
+                // a running VM's snapshot includes its memory state, which qemu
+                // refuses to save when host-passthrough exposes features like invtsc
+                if (stripos($errMsg, 'non-migratable') !== false) {
+                    throw new \OMV\Exception(sprintf(
+                        gettext("VM '%s' cannot be snapshotted while running because its CPU exposes non-migratable features (host-passthrough with migratable=off). Power off the VM to take the snapshot, or turn on CPU migratable in the Advanced menu.") .
+                        PHP_EOL . PHP_EOL . '%s',
+                        $this->decodeName($params['vmname']), $errMsg));
+                }
+                throw new \OMV\Exception($errMsg);
+            }
         }
     }
 
@@ -3574,6 +3594,24 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             $err = gettext("Failed to set change.");
             $this->virshCommand($cmdLine2, $err);
         }
+    }
+
+    public function setCpuMigratable($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.setcpumigratable');
+        $vmname = $params['vmname'];
+        $domXml = $this->getInactiveDomXml($vmname);
+        if (!isset($domXml->cpu) || (string)$domXml->cpu['mode'] !== 'host-passthrough') {
+            throw new \OMV\Exception(sprintf(
+                gettext("The migratable setting only applies to VMs with a host-passthrough CPU. VM '%s' does not use one."),
+                $vmname));
+        }
+        $domXml->cpu['migratable'] = boolval($params['migratable']) ? 'on' : 'off';
+        $newXml = preg_replace('/<\?xml[^>]+>\s*/', '', $domXml->asXML());
+        $this->virshChangeXml($vmname, $newXml);
     }
 
     public function getVcpu($params, $context)

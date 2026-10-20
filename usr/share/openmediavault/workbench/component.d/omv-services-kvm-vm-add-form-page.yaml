@@ -83,6 +83,24 @@ data:
                 arg0:
                   prop: cpu
                 arg1: 'other not listed'
+      - type: checkbox
+        name: migratable
+        label: _("CPU migratable")
+        value: false
+        hint: _("Hide host CPU features that block live migration and snapshots of running VMs, such as invtsc. Leave off to pass every host CPU feature to the VM.")
+        modifiers:
+          - type: visible
+            constraint:
+              operator: and
+              arg0:
+                operator: truthy
+                arg0:
+                  prop: advanced
+              arg1:
+                operator: eq
+                arg0:
+                  prop: cpu
+                arg1: 'host host-passthrough'
       - type: select
         name: os
         label: _("OS")

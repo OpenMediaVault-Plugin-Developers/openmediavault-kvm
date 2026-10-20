@@ -242,6 +242,9 @@
           "type": "boolean",
           "required": true
         },
+        "migratable": {
+          "type": "boolean"
+        },
         "volbus": {
           "type": "string",
           "required": true
@@ -867,6 +870,23 @@
         },
         "spiceport": {
           "type": "integer",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
+    "id": "rpc.kvm.setcpumigratable",
+    "params": {
+      "type": "object",
+      "properties": {
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "migratable": {
+          "type": "boolean",
           "required": true
         }
       }

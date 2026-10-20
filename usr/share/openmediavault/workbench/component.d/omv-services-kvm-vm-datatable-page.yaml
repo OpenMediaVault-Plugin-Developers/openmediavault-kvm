@@ -2640,6 +2640,48 @@ data:
                   arg0:
                     prop: state
                   arg1: "shutoff"
+          - text: _("Change CPU migratable")
+            icon: mdi:cpu-64-bit
+            execute:
+              type: formDialog
+              formDialog:
+                title: _('Change CPU migratable')
+                fields:
+                  - type: textInput
+                    name: vmname
+                    label: _("Source VM")
+                    value: "{{ _selected[0].vmname }}"
+                    readonly: true
+                  - type: checkbox
+                    name: migratable
+                    label: _("CPU migratable")
+                    value: "{{ _selected[0].migratable | toboolean }}"
+                    hint: _("Hide host CPU features that block live migration and snapshots of running VMs, such as invtsc. Leave off to pass every host CPU feature to the VM.")
+                buttons:
+                  submit:
+                    text: _('Change')
+                    execute:
+                      type: request
+                      request:
+                        service: Kvm
+                        method: setCpuMigratable
+                        progressMessage: _("Changing CPU migratable ...")
+                        successNotification: _("CPU migratable has been changed.")
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: and
+                  arg0:
+                    operator: eq
+                    arg0:
+                      prop: state
+                    arg1: "shutoff"
+                  arg1:
+                    operator: eq
+                    arg0:
+                      prop: cpumode
+                    arg1: "host-passthrough"
           - text: _("Move")
             icon: mdi:folder-move-outline
             enabledConstraints:

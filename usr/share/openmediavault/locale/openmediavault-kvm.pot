@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openmediavault-kvm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-09 19:56+0000\n"
+"POT-Creation-Date: 2026-10-20 14:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,6 +24,21 @@ msgid " the network!"
 msgstr ""
 
 msgid "'%s' contains a character virt-install cannot handle (& ' \" < >). Please rename it."
+msgstr ""
+
+msgid "1st boot device"
+msgstr ""
+
+msgid "2nd boot device"
+msgstr ""
+
+msgid "3rd boot device"
+msgstr ""
+
+msgid "4th boot device"
+msgstr ""
+
+msgid "A boot device can only be selected once."
 msgstr ""
 
 msgid "ARM64 is not supported. Redox OS pre-built ARM64 images do not have a functional EFI partition and cannot boot under KVM."
@@ -209,6 +224,15 @@ msgstr ""
 msgid "Boot"
 msgstr ""
 
+msgid "Boot device '%s' not found in VM."
+msgstr ""
+
+msgid "Boot order"
+msgstr ""
+
+msgid "Boot order."
+msgstr ""
+
 msgid "Bridge"
 msgstr ""
 
@@ -219,6 +243,9 @@ msgid "Bridge network has been added."
 msgstr ""
 
 msgid "Bus"
+msgstr ""
+
+msgid "CD-ROM"
 msgstr ""
 
 msgid "CPU"
@@ -1049,6 +1076,9 @@ msgstr ""
 msgid "No image - use existing image path"
 msgstr ""
 
+msgid "None"
+msgstr ""
+
 msgid "Notes"
 msgstr ""
 
@@ -1289,6 +1319,9 @@ msgstr ""
 msgid "Secure boot"
 msgstr ""
 
+msgid "Select a network adapter to boot from the network (PXE). Devices not selected are not used for booting. If no device is selected, the VM boots from disk and then CD-ROM. Changes take effect after the VM is shut down and started again."
+msgstr ""
+
 msgid "Select a snapshot ..."
 msgstr ""
 
@@ -1299,6 +1332,9 @@ msgid "Settings"
 msgstr ""
 
 msgid "Show advanced options"
+msgstr ""
+
+msgid "Show boot menu"
 msgstr ""
 
 msgid "Size"
@@ -1320,6 +1356,9 @@ msgid "Snapshot name"
 msgstr ""
 
 msgid "Snapshots"
+msgstr ""
+
+msgid "Snapshots of UEFI VMs need the firmware and NVRAM in qcow2 format. Power off VM '%s' and create the snapshot again to convert it automatically. This is only needed once."
 msgstr ""
 
 msgid "Source VM"
@@ -1448,6 +1487,15 @@ msgstr ""
 msgid "Unable to change notes for VM."
 msgstr ""
 
+msgid "Unable to convert NVRAM to qcow2"
+msgstr ""
+
+msgid "Unable to convert UEFI firmware to qcow2"
+msgstr ""
+
+msgid "Unable to convert the UEFI firmware of VM '%s' to qcow2: firmware image not found."
+msgstr ""
+
 msgid "Unable to create snapshot"
 msgstr ""
 
@@ -1479,6 +1527,9 @@ msgid "Unable to determine volume group for pool :: "
 msgstr ""
 
 msgid "Unable to get network adapter type - "
+msgstr ""
+
+msgid "Unable to read XML of VM '%s'."
 msgstr ""
 
 msgid "Unable to revert to snapshot"
@@ -1611,6 +1662,9 @@ msgid "e1000"
 msgstr ""
 
 msgid "e1000e"
+msgstr ""
+
+msgid "empty"
 msgstr ""
 
 msgid "iSCSI"
