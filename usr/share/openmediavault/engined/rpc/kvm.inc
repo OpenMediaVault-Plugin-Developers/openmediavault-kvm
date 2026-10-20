@@ -1440,6 +1440,14 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         // remove temporary xml file
         unlink($xmlFile);
 
+        // start UEFI VMs on qcow2 firmware so snapshots work while running.
+        // Best effort: the VM is defined either way and addSnapshot retries.
+        if (!$lxc && $params['uefi']) {
+            try {
+                $this->convertNvramToQcow2($vmname, true);
+            } catch (\Exception $e) {}
+        }
+
         // set notes with virsh desc - virt-install's option parser mangles
         // quotes and commas in --metadata values
         $notes = $params['notes'] ?? '';
@@ -2434,6 +2442,8 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         if ($params['virttype'] == 'lxc') {
             $output = $this->doLxcSnapshot($params['vmname'], 'create', $snapname);
         } else {
+            // UEFI VMs need qcow2 firmware and NVRAM for internal snapshots
+            $this->convertNvramToQcow2($params['vmname']);
             $cmdArgs = ['snapshot-create-as', $this->escapeName($params['vmname'])];
             if ($snapname !== '') {
                 $cmdArgs[] = '--name';
@@ -2507,6 +2517,146 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
                 gettext("Unable to revert to snapshot")
             );
         }
+    }
+
+    // libvirt refuses internal snapshots of a VM with pflash (UEFI) firmware
+    // unless the loader and NVRAM are qcow2, but the ovmf/aavmf packages only
+    // ship raw images. Switch a powered off VM to qcow2 copies of its
+    // firmware, variable store and template. Firmware autoselection
+    // (firmware='efi') is replaced by the loader libvirt already resolved,
+    // because no installed firmware descriptor offers qcow2 images.
+    // Returns true if the domain was changed.
+    private function convertNvramToQcow2(string $vmname, bool $quiet = false): bool
+    {
+        $domXml = new SimpleXMLElement($this->virshDumpXml($vmname, false, true));
+        $os = $domXml->os;
+        if (!isset($os->loader) || (string)$os->loader['type'] !== 'pflash') {
+            return false;
+        }
+        if ((string)$os->loader['format'] === 'qcow2' &&
+            (!isset($os->nvram) || (string)$os->nvram['format'] === 'qcow2')) {
+            return false;
+        }
+        $loaderPath = trim((string)$os->loader);
+        if ($loaderPath === '' || !file_exists($loaderPath)) {
+            if ($quiet) return false;
+            throw new \OMV\Exception(sprintf(
+                gettext("Unable to convert the UEFI firmware of VM '%s' to qcow2: firmware image not found."),
+                $vmname));
+        }
+        if ($this->virshIsDomainActive($vmname)) {
+            if ($quiet) return false;
+            throw new \OMV\Exception(sprintf(
+                gettext("Snapshots of UEFI VMs need the firmware and NVRAM in qcow2 format. Power off VM '%s' and create the snapshot again to convert it automatically. This is only needed once."),
+                $vmname));
+        }
+
+        $loaderQcow2 = ((string)$os->loader['format'] === 'qcow2')
+            ? $loaderPath : $this->firmwareToQcow2($loaderPath);
+        if (!isset($os->nvram)) {
+            // libvirt would otherwise pick a raw variable store on first start
+            $os->addChild('nvram');
+            $os->nvram[0] = sprintf('/var/lib/libvirt/qemu/nvram/%s_VARS.fd', $this->decodeName($vmname));
+        }
+        $nvramOld = trim((string)$os->nvram);
+        $template = trim((string)$os->nvram['template']);
+        if ($template === '') {
+            // pair the code image with its variable store template
+            $guess = str_replace('CODE', 'VARS', $loaderPath);
+            if ($guess !== $loaderPath && file_exists($guess)) {
+                $template = $guess;
+            }
+        }
+        $templateQcow2 = '';
+        if ((string)$os->nvram['templateFormat'] === 'qcow2') {
+            $templateQcow2 = $template;
+        } elseif ($template !== '' && file_exists($template)) {
+            $templateQcow2 = $this->firmwareToQcow2($template);
+        }
+
+        $nvramNew = '';
+        if ($nvramOld !== '') {
+            $nvramNew = preg_replace('/\.(fd|raw|bin)$/i', '', $nvramOld) . '.qcow2';
+            if (file_exists($nvramOld)) {
+                $tmp = $nvramNew . '.tmp';
+                $this->virshCommand(
+                    ['convert', '-f raw', '-O qcow2', $this->sh($nvramOld), $this->sh($tmp)],
+                    gettext("Unable to convert NVRAM to qcow2"),
+                    'qemu-img'
+                );
+                chmod($tmp, fileperms($nvramOld) & 0777);
+                chown($tmp, fileowner($nvramOld));
+                chgrp($tmp, filegroup($nvramOld));
+                rename($tmp, $nvramNew);
+            }
+        }
+
+        // keep secure boot when leaving firmware autoselection
+        if (isset($os->firmware)) {
+            foreach ($os->firmware->feature as $feature) {
+                if ((string)$feature['name'] === 'secure-boot' &&
+                    (string)$feature['enabled'] === 'yes') {
+                    $os->loader['secure'] = 'yes';
+                }
+            }
+            unset($os->firmware);
+        }
+        unset($os['firmware']);
+        $os->loader['readonly'] = 'yes';
+        $os->loader['format'] = 'qcow2';
+        $os->loader[0] = $loaderQcow2;
+        if ($nvramNew !== '') {
+            $os->nvram[0] = $nvramNew;
+            $os->nvram['format'] = 'qcow2';
+            if ($templateQcow2 !== '') {
+                $os->nvram['template'] = $templateQcow2;
+                $os->nvram['templateFormat'] = 'qcow2';
+            } else {
+                unset($os->nvram['template'], $os->nvram['templateFormat']);
+            }
+        }
+        $newXml = preg_replace('/<\?xml[^>]+>\s*/', '', $domXml->asXML());
+        try {
+            $this->virshChangeXml($vmname, $newXml);
+        } catch (\Exception $e) {
+            if ($nvramNew !== '' && file_exists($nvramOld) && file_exists($nvramNew)) {
+                unlink($nvramNew);
+            }
+            throw $e;
+        }
+        // snapshots made by older libvirt versions still reference the raw
+        // file in their saved domain XML, so only drop it when there are none
+        if ($nvramNew !== '' && file_exists($nvramOld) &&
+            count($this->virshGetSnapshotList($vmname)) === 0) {
+            unlink($nvramOld);
+        }
+        return true;
+    }
+
+    // Return a qcow2 copy of a raw firmware image, refreshed when the package
+    // provided original changes. The copy carries the original's mtime (dpkg
+    // installs files with their build time, so "newer" would miss updates).
+    // Written to a temporary file and renamed so running VMs keep the image
+    // they were started with.
+    private function firmwareToQcow2(string $path): string
+    {
+        $dir = '/var/lib/libvirt/qemu/firmware-qcow2';
+        if (!is_dir($dir)) {
+            mkdir($dir, 0755, true);
+        }
+        $target = sprintf('%s/%s.qcow2', $dir, preg_replace('/\.(fd|raw|bin)$/i', '', basename($path)));
+        if (!file_exists($target) || filemtime($target) !== filemtime($path)) {
+            $tmp = $target . '.tmp';
+            $this->virshCommand(
+                ['convert', '-f raw', '-O qcow2', $this->sh($path), $this->sh($tmp)],
+                gettext("Unable to convert UEFI firmware to qcow2"),
+                'qemu-img'
+            );
+            chmod($tmp, 0644);
+            touch($tmp, filemtime($path));
+            rename($tmp, $target);
+        }
+        return $target;
     }
 
     public function enumerateUsbByHost($params, $context)

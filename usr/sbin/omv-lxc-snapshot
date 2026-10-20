@@ -8,7 +8,7 @@
 # License version 2. This program is licensed "as is" without any
 # warranty of any kind, whether express or implied.
 #
-# version: 0.1.0
+# version: 0.1.1
 #
 
 if [[ $(id -u) -ne 0 ]]; then
@@ -238,6 +238,9 @@ case "${action}" in
       tar czf "${snapFile}" -C "${cntrDir}" .
       if [ $? -gt 0 ]; then
         _log "creating archive failed."
+        rm -f "${snapFile}"
+        # the rootfs was not touched, so bring the container back up
+        _start_if_needed
         exit 10
       fi
     fi

@@ -6,7 +6,7 @@
 # License version 2. This program is licensed "as is" without any
 # warranty of any kind, whether express or implied.
 #
-# version: 0.2.0
+# version: 0.2.1
 #
 import argparse
 import glob
@@ -21,6 +21,10 @@ from datetime import datetime, timezone, timedelta
 from uuid import uuid4
 
 LOG_FILE = "/var/log/omv-backup-vm.log"
+# shared qcow2 copies of the UEFI firmware (see convertNvramToQcow2 in
+# rpc/kvm.inc) and where their raw originals are shipped
+FIRMWARE_QCOW2_DIR = "/var/lib/libvirt/qemu/firmware-qcow2"
+FIRMWARE_DIRS = ("/usr/share/OVMF", "/usr/share/AAVMF")
 
 def log(message):
     utc_offset = -time.timezone
@@ -143,7 +147,8 @@ def plan_nvram(root, backup_dir, restore_vm, backup_vm, date):
     if restore_vm == backup_vm:
         new_path = old_path
     else:
-        new_path = os.path.join(os.path.dirname(old_path), f"{restore_vm}_VARS.fd")
+        ext = ".qcow2" if old_path.endswith(".qcow2") else ".fd"
+        new_path = os.path.join(os.path.dirname(old_path), f"{restore_vm}_VARS{ext}")
     nvram.text = new_path
     backup_file = os.path.join(backup_dir, f"nvram_{date}.fd")
     if not os.path.isfile(backup_file):
@@ -219,6 +224,7 @@ def restore_legacy(restore_from_path, restore_to_dir, backup_vm, restore_vm, dat
         else:
             subprocess.run(["qemu-img", "dd", f"if={backup_path}", f"of={new_path}", "bs=1M"], check=True)
     restore_nvram(nvram_src, nvram_dst)
+    ensure_firmware(root)
 
     return temp_xml
 
@@ -262,8 +268,41 @@ def restore_incremental(chain_dir, chain_root, restore_to_dir, backup_vm, restor
         log(f"Restoring {os.path.basename(restore_point)} (chain) to {new_path}")
         subprocess.run(["qemu-img", "convert", "-O", "qcow2", restore_point, new_path], check=True)
     restore_nvram(nvram_src, nvram_dst)
+    ensure_firmware(root)
 
     return temp_xml
+
+def ensure_firmware(root, fw_dir=FIRMWARE_QCOW2_DIR, search_dirs=FIRMWARE_DIRS):
+    """Recreate the shared qcow2 firmware images a restored UEFI VM points at.
+    They are generated on demand, so a fresh host does not have them yet."""
+    os_el = root.find("./os")
+    if os_el is None:
+        return
+    paths = []
+    loader = os_el.find("loader")
+    if loader is not None and (loader.text or "").strip():
+        paths.append(loader.text.strip())
+    nvram = os_el.find("nvram")
+    if nvram is not None and nvram.get("template"):
+        paths.append(nvram.get("template"))
+    for path in paths:
+        if os.path.dirname(path) != fw_dir or os.path.exists(path) or not path.endswith(".qcow2"):
+            continue
+        name = os.path.basename(path)[:-len(".qcow2")]
+        sources = [os.path.join(d, name + ext) for d in search_dirs for ext in (".fd", ".raw", ".bin")]
+        src = next((s for s in sources if os.path.isfile(s)), None)
+        if not src:
+            log(f"Firmware {path} is missing and no raw original was found")
+            continue
+        log(f"Recreating firmware {path} from {src}")
+        os.makedirs(fw_dir, mode=0o755, exist_ok=True)
+        tmp = path + ".tmp"
+        subprocess.run(["qemu-img", "convert", "-f", "raw", "-O", "qcow2", src, tmp], check=True)
+        os.chmod(tmp, 0o644)
+        # same mtime as the original, as kvm.inc uses it to spot updates
+        st = os.stat(src)
+        os.utime(tmp, (st.st_atime, st.st_mtime))
+        os.replace(tmp, path)
 
 def restore_nvram(src, dst):
     if src and dst:

@@ -8,7 +8,7 @@
 # License version 2. This program is licensed "as is" without any
 # warranty of any kind, whether express or implied.
 #
-# version: 0.4.1
+# version: 0.4.2
 #
 
 if [[ $(id -u) -ne 0 ]]; then
@@ -689,15 +689,17 @@ fi
 
 # create backup directory for VM
 backupVmDir="${backupDir}/${backupVm}/${date}"
-mkdir -p "${backupVmDir}"
+if ! mkdir -p "${backupVmDir}"; then
+  _log "Unable to create backup directory '${backupVmDir}'!"
+  exit 6
+fi
 
 # create backup xml
 backupXml="${backupVm}_${date}.xml"
 _log "Dump XML for backup :: ${backupXml}"
 virsh dumpxml "${backupVm}" > "${backupVmDir}/${backupXml}"
 
-grep -i 'loader.*pflash' "${backupVmDir}/${backupXml}"
-if [ $? -eq 0 ]; then
+if grep -qi 'loader.*pflash' "${backupVmDir}/${backupXml}"; then
   _log "VM is using pflash"
 fi
 
@@ -752,6 +754,7 @@ fi
 # copy disks to VM backup directory
 _log "Copy disks to backup directory..."
 declare -A usedNames=()
+declare -i copyFailed=0
 for disk in ${disks}; do
   _log "Copying disk :: ${disk#*,}"
   filename="$(basename "${disk#*,}")"
@@ -763,12 +766,12 @@ for disk in ${disks}; do
   fi
   usedNames[${bakName}]=1
   if [ ${samefmt} -eq 1 ]; then
-    cp --reflink=auto -v "${disk#*,}" "${backupVmDir}/${bakName}"
+    cp --reflink=auto -v "${disk#*,}" "${backupVmDir}/${bakName}" || copyFailed=1
   else
-    qemu-img convert -O qcow2 "${compress[@]}" "${disk#*,}" "${backupVmDir}/${bakName}"
+    qemu-img convert -O qcow2 "${compress[@]}" "${disk#*,}" "${backupVmDir}/${bakName}" || copyFailed=1
   fi
 done
-_backup_nvram "${backupVmDir}/${backupXml}" "${backupVmDir}"
+_backup_nvram "${backupVmDir}/${backupXml}" "${backupVmDir}" || copyFailed=1
 
 # skip commit and remove if the VM is not powered on
 if [ ${vmId} -gt 0 ] && [ ${snap} -eq 1 ]; then
@@ -784,6 +787,13 @@ fi
 if [ ${poweroff} -eq 1 ] && [ ${poweredoff} -eq 1 ]; then
   _log "Power on ${backupVm}..."
   virsh start "${backupVm}"
+fi
+
+# a partial backup is not restorable; drop it instead of listing it
+if [ ${copyFailed} -eq 1 ]; then
+  _log "Failed to copy the VM's disks or NVRAM; removing incomplete backup ${backupVmDir}"
+  rm -rf "${backupVmDir}"
+  exit 10
 fi
 
 # add entry to list file

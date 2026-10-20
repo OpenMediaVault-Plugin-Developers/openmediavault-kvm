@@ -8,7 +8,7 @@
 # License version 2. This program is licensed "as is" without any
 # warranty of any kind, whether express or implied.
 #
-# version: 0.1.0
+# version: 0.1.1
 #
 # Reconciles /etc/omv-backup-vm.list against what actually exists on disk.
 # A list row is valid if either:
@@ -121,7 +121,9 @@ while IFS=, read -r uuid path vmname date used; do
   fi
 done < "${listFile}"
 
-mv "${tmpFile}" "${listFile}"
+# rewrite in place so the list file keeps its owner and mode
+cat "${tmpFile}" > "${listFile}"
+rm -f "${tmpFile}"
 trap - EXIT
 
 _log "Synced list file :: scanned ${scanned}, kept ${kept}, removed ${removed}"

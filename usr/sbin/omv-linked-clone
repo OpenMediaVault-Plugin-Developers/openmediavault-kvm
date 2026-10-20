@@ -8,7 +8,7 @@
 # License version 2. This program is licensed "as is" without any
 # warranty of any kind, whether express or implied.
 #
-# version: 0.0.1
+# version: 0.0.2
 #
 
 if [[ $(id -u) -ne 0 ]]; then
@@ -145,7 +145,10 @@ done
 # the source VM's file
 nvram="$(xmlstarlet sel -t -v "/domain/os/nvram" "${tempXml}")"
 if [ -n "${nvram}" ]; then
-  clonenvram="$(dirname "${nvram}")/${cloneVm}_VARS.fd"
+  # keep the extension so a qcow2 variable store stays recognisable
+  nvramExt=".fd"
+  [[ "${nvram}" == *.qcow2 ]] && nvramExt=".qcow2"
+  clonenvram="$(dirname "${nvram}")/${cloneVm}_VARS${nvramExt}"
   if [ -e "${clonenvram}" ]; then
     _fail "Clone NVRAM file already exists :: ${clonenvram}" 8
   fi

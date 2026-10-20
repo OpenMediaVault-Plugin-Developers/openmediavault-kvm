@@ -6,7 +6,7 @@
 # License version 2. This program is licensed "as is" without any
 # warranty of any kind, whether express or implied.
 #
-# version: 0.0.1
+# version: 0.0.2
 #
 import argparse
 import json
@@ -188,6 +188,15 @@ def _convert_preserving_thin(src, dst, fmt, logger, qcow_opts=None):
     logger.info("Running: %s", " ".join(cmd))
     subprocess.check_call(cmd)
 
+STATE_NAMES = {
+    libvirt.VIR_DOMAIN_RUNNING: "running",
+    libvirt.VIR_DOMAIN_BLOCKED: "blocked",
+    libvirt.VIR_DOMAIN_PAUSED: "paused",
+    libvirt.VIR_DOMAIN_SHUTDOWN: "shutting down",
+    libvirt.VIR_DOMAIN_CRASHED: "crashed",
+    libvirt.VIR_DOMAIN_PMSUSPENDED: "suspended",
+}
+
 def move_vm_disks(conn, dom, disks, dest_dir, was_running, timeout, force_off, keep_old, logger):
     state, _ = dom.state()
     if state == libvirt.VIR_DOMAIN_RUNNING:
@@ -195,9 +204,13 @@ def move_vm_disks(conn, dom, disks, dest_dir, was_running, timeout, force_off, k
             raise RuntimeError(f"{dom.name()} is running. Either shut it down manually or use --force-off to shutdown automatically.")
         logger.info(f"Shutting down {dom.name()}...")
         graceful_shutdown(dom, timeout, logger, force=True)
+    elif state != libvirt.VIR_DOMAIN_SHUTOFF:
+        # a paused or suspended guest still holds its disks open
+        raise RuntimeError(f"{dom.name()} is {STATE_NAMES.get(state, f'in state {state}')}. Shut it down before moving its disks.")
 
     # Plan every destination up front so nothing is moved if any of them
-    # would collide with an existing file or with another disk of this VM.
+    # would collide with an existing file, with another disk of this VM, or
+    # is a disk that cannot be moved.
     planned = set()
     for d in disks:
         dst = _norm(os.path.join(dest_dir, os.path.basename(d["path"])))
@@ -208,6 +221,8 @@ def move_vm_disks(conn, dom, disks, dest_dir, was_running, timeout, force_off, k
             raise RuntimeError(f"{d['target']}: another disk of this VM would also be moved to {dst}")
         if os.path.exists(dst):
             raise RuntimeError(f"{d['target']}: destination {dst} already exists; refusing to overwrite it")
+        if has_backing_chain(d["path"]):
+            raise RuntimeError(f"{d['target']}: backing chain detected for {d['path']}. Rebase/copy the chain before moving.")
         planned.add(dst)
 
     for d in disks:
@@ -219,9 +234,6 @@ def move_vm_disks(conn, dom, disks, dest_dir, was_running, timeout, force_off, k
         if _norm(src) == dst:
             logger.info(f"{tgt}: already in destination, skipping")
             continue
-
-        if has_backing_chain(src):
-            raise RuntimeError(f"{tgt}: backing chain detected for {src}. Rebase/copy the chain before moving.")
 
         logger.info(f"{tgt}: moving {src} -> {dst}")
 
@@ -241,6 +253,15 @@ def move_vm_disks(conn, dom, disks, dest_dir, was_running, timeout, force_off, k
                 os.makedirs(os.path.dirname(dst), exist_ok=True)
                 os.rename(src, dst)
                 logger.info(f"{tgt}: moved (rename) {src} -> {dst}")
+            elif info.get("snapshots"):
+                # qemu-img convert drops internal snapshots, which libvirt
+                # still lists; copy the file as is (sparse) to keep them
+                os.makedirs(os.path.dirname(dst), exist_ok=True)
+                subprocess.check_call(["cp", "--sparse=always", src, dst])
+                logger.info(f"{tgt}: copied {src} -> {dst} (internal snapshots kept)")
+                if not keep_old:
+                    os.remove(src)
+                    logger.info(f"{tgt}: removed original {src}")
             else:
                 # Cross-FS move or keep_old copy -> use qemu-img to preserve thin format
                 _convert_preserving_thin(src, dst, fmt, logger, qcow_opts)
