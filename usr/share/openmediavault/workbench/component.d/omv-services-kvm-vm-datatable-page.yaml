@@ -2527,6 +2527,19 @@ data:
                   arg0:
                     prop: snaps
                   arg1: 0
+          - text: _("Boot order")
+            icon: mdi:sort-numeric-ascending
+            execute:
+              type: url
+              url: "/services/kvm/vm/bootorder/{{ _selected[0].vmname }}"
+            enabledConstraints:
+              minSelected: 1
+              maxSelected: 1
+              constraint:
+                - operator: ne
+                  arg0:
+                    prop: virttype
+                  arg1: "lxc"
           - text: _("Change vCPU")
             icon: mdi:memory
             execute:

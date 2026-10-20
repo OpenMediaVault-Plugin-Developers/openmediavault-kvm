@@ -1,0 +1,86 @@
+version: "1.0"
+type: component
+data:
+  name: omv-services-kvm-vm-bootorder-form-page
+  type: formPage
+  config:
+    request:
+      service: Kvm
+      get:
+        method: getBootOrder
+        params:
+          vmname: '{{ _routeParams.vmname }}'
+      post:
+        method: setBootOrder
+    fields:
+      - type: textInput
+        name: vmname
+        label: _("VM name")
+        value: '{{ _routeParams.vmname }}'
+        readonly: true
+      - type: select
+        name: boot1
+        label: _("1st boot device")
+        textField: description
+        valueField: id
+        value: ""
+        store:
+          proxy:
+            service: Kvm
+            get:
+              method: enumerateBootDevices
+              params:
+                vmname: '{{ _routeParams.vmname }}'
+        hint: _("Select a network adapter to boot from the network (PXE). Devices not selected are not used for booting. If no device is selected, the VM boots from disk and then CD-ROM. Changes take effect after the VM is shut down and started again.")
+      - type: select
+        name: boot2
+        label: _("2nd boot device")
+        textField: description
+        valueField: id
+        value: ""
+        store:
+          proxy:
+            service: Kvm
+            get:
+              method: enumerateBootDevices
+              params:
+                vmname: '{{ _routeParams.vmname }}'
+      - type: select
+        name: boot3
+        label: _("3rd boot device")
+        textField: description
+        valueField: id
+        value: ""
+        store:
+          proxy:
+            service: Kvm
+            get:
+              method: enumerateBootDevices
+              params:
+                vmname: '{{ _routeParams.vmname }}'
+      - type: select
+        name: boot4
+        label: _("4th boot device")
+        textField: description
+        valueField: id
+        value: ""
+        store:
+          proxy:
+            service: Kvm
+            get:
+              method: enumerateBootDevices
+              params:
+                vmname: '{{ _routeParams.vmname }}'
+      - type: checkbox
+        name: bootmenu
+        label: _("Show boot menu")
+        value: false
+    buttons:
+      - template: submit
+        execute:
+          type: url
+          url: "/services/kvm/vm"
+      - template: cancel
+        execute:
+          type: url
+          url: "/services/kvm/vm"

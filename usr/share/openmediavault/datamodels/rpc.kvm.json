@@ -725,6 +725,39 @@
   },
   {
     "type": "rpc",
+    "id": "rpc.kvm.setbootorder",
+    "params": {
+      "type": "object",
+      "properties": {
+        "vmname": {
+          "type": "string",
+          "required": true
+        },
+        "bootmenu": {
+          "type": "boolean",
+          "required": true
+        },
+        "boot1": {
+          "type": "string",
+          "required": true
+        },
+        "boot2": {
+          "type": "string",
+          "required": true
+        },
+        "boot3": {
+          "type": "string",
+          "required": true
+        },
+        "boot4": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "type": "rpc",
     "id": "rpc.kvm.snapshot",
     "params": {
       "type": "object",

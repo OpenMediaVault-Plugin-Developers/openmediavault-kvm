@@ -42,6 +42,9 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
         $this->registerMethod('addVmNic');
         $this->registerMethod('removeVmNic');
         $this->registerMethod('enumerateVmNic');
+        $this->registerMethod('enumerateBootDevices');
+        $this->registerMethod('getBootOrder');
+        $this->registerMethod('setBootOrder');
 
         $this->registerMethod('getPoolList');
         $this->registerMethod('enumeratePools');
@@ -527,6 +530,199 @@ class OMVRpcServiceKvm extends \OMV\Rpc\ServiceAbstract
             ];
         }
         return ($objects);
+    }
+
+    public function enumerateBootDevices($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.vmname');
+        $domXml = $this->getInactiveDomXml($params['vmname']);
+        $objects = [['id' => '', 'description' => gettext("None")]];
+        foreach ($this->getBootDevices($domXml) as $id => $dev) {
+            $objects[] = [
+                'id' => $id,
+                'description' => $dev['description']
+            ];
+        }
+        return ($objects);
+    }
+
+    public function getBootOrder($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.vmname');
+        $domXml = $this->getInactiveDomXml($params['vmname']);
+        $devices = $this->getBootDevices($domXml);
+        $orders = [];
+        foreach ($devices as $id => $dev) {
+            if (isset($dev['node']->boot['order'])) {
+                $orders[$id] = (int)$dev['node']->boot['order'];
+            }
+        }
+        asort($orders);
+        $ids = array_keys($orders);
+        if (empty($ids)) {
+            // VM-wide <os><boot dev> entries only name a device type, so show
+            // the first device of each type the way the firmware picks them
+            foreach ($domXml->os->boot as $boot) {
+                foreach ($devices as $id => $dev) {
+                    if ($dev['type'] === (string)$boot['dev'] && !in_array($id, $ids)) {
+                        $ids[] = $id;
+                        break;
+                    }
+                }
+            }
+        }
+        $result = [
+            'vmname' => $params['vmname'],
+            'bootmenu' => ((string)$domXml->os->bootmenu['enable'] === 'yes')
+        ];
+        for ($i = 1; $i <= 4; $i++) {
+            $result['boot' . $i] = $ids[$i - 1] ?? '';
+        }
+        return $result;
+    }
+
+    public function setBootOrder($params, $context)
+    {
+        // Validate the RPC caller context.
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+        // Validate the parameters of the RPC service method.
+        $this->validateMethodParams($params, 'rpc.kvm.setbootorder');
+        $vmname = $params['vmname'];
+        $domXml = $this->getInactiveDomXml($vmname);
+        $devices = $this->getBootDevices($domXml);
+        $ids = [];
+        for ($i = 1; $i <= 4; $i++) {
+            $id = trim($params['boot' . $i] ?? '');
+            if ($id === '') {
+                continue;
+            }
+            if (!isset($devices[$id])) {
+                throw new \OMV\Exception(sprintf(gettext("Boot device '%s' not found in VM."), $id));
+            }
+            if (in_array($id, $ids)) {
+                throw new \OMV\Exception(gettext("A boot device can only be selected once."));
+            }
+            $ids[] = $id;
+        }
+        // libvirt rejects per-device boot order next to <os><boot dev>,
+        // so clear both before writing the new order
+        $remove = [];
+        foreach ($domXml->os->boot as $boot) {
+            $remove[] = $boot;
+        }
+        foreach ($devices as $dev) {
+            foreach ($dev['node']->boot as $boot) {
+                $remove[] = $boot;
+            }
+        }
+        foreach ($remove as $boot) {
+            unset($boot[0]);
+        }
+        if (empty($ids)) {
+            // nothing selected - fall back to the plugin's default order
+            foreach (['hd', 'cdrom'] as $type) {
+                $domXml->os->addChild('boot')->addAttribute('dev', $type);
+            }
+        } else {
+            foreach ($ids as $n => $id) {
+                $devices[$id]['node']->addChild('boot')->addAttribute('order', $n + 1);
+            }
+        }
+        if (boolval($params['bootmenu'])) {
+            if (!isset($domXml->os->bootmenu)) {
+                $domXml->os->addChild('bootmenu');
+            }
+            $domXml->os->bootmenu['enable'] = 'yes';
+        } else {
+            unset($domXml->os->bootmenu);
+        }
+        $newXml = preg_replace('/<\?xml[^>]+>\s*/', '', $domXml->asXML());
+        $this->virshChangeXml($vmname, $newXml);
+    }
+
+    private function getInactiveDomXml(string $vmname): SimpleXMLElement
+    {
+        $xml = $this->virshDumpXml($vmname, false, true);
+        if ($xml === '') {
+            throw new \OMV\Exception(sprintf(gettext("Unable to read XML of VM '%s'."), $vmname));
+        }
+        return new SimpleXMLElement($xml);
+    }
+
+    // Devices that can carry a per-device <boot order>, keyed by an id that
+    // stays the same between reading the order and saving it
+    private function getBootDevices(SimpleXMLElement $domXml): array
+    {
+        $devices = [];
+        foreach ($domXml->devices->disk as $disk) {
+            $target = (string)$disk->target['dev'];
+            if ($target === '') {
+                continue;
+            }
+            $cdrom = ((string)$disk['device'] === 'cdrom');
+            $source = '';
+            foreach (['file', 'dev', 'volume', 'name', 'dir'] as $attr) {
+                if ((string)$disk->source[$attr] !== '') {
+                    $source = (string)$disk->source[$attr];
+                    break;
+                }
+            }
+            if ($source === '') {
+                $source = gettext("empty");
+            }
+            $devices['disk:' . $target] = [
+                'node' => $disk,
+                'type' => $cdrom ? 'cdrom' : 'hd',
+                'description' => sprintf('%s %s - %s',
+                    $cdrom ? gettext("CD-ROM") : gettext("Disk"), $target, $source)
+            ];
+        }
+        foreach ($domXml->devices->interface as $nic) {
+            $mac = (string)$nic->mac['address'];
+            if ($mac === '') {
+                continue;
+            }
+            $source = '';
+            foreach (['bridge', 'network', 'dev'] as $attr) {
+                if ((string)$nic->source[$attr] !== '') {
+                    $source = (string)$nic->source[$attr];
+                    break;
+                }
+            }
+            $devices['net:' . $mac] = [
+                'node' => $nic,
+                'type' => 'network',
+                'description' => sprintf('%s %s - %s %s (%s)', gettext("Network"),
+                    (string)$nic->model['type'], (string)$nic['type'], $source, $mac)
+            ];
+        }
+        $index = 0;
+        foreach ($domXml->devices->hostdev as $hostdev) {
+            $src = $hostdev->source;
+            if ((string)$hostdev['type'] === 'pci') {
+                $desc = sprintf('PCI %04x:%02x:%02x.%x',
+                    hexdec((string)$src->address['domain']), hexdec((string)$src->address['bus']),
+                    hexdec((string)$src->address['slot']), hexdec((string)$src->address['function']));
+            } elseif (isset($src->vendor)) {
+                $desc = sprintf('USB %s:%s', str_replace('0x', '', (string)$src->vendor['id']),
+                    str_replace('0x', '', (string)$src->product['id']));
+            } else {
+                $desc = sprintf('USB Bus %03d Device %03d',
+                    (int)$src->address['bus'], (int)$src->address['device']);
+            }
+            $devices['hostdev:' . $index++] = [
+                'node' => $hostdev,
+                'type' => 'hostdev',
+                'description' => $desc
+            ];
+        }
+        return $devices;
     }
 
     public function getPoolList($params, $context)

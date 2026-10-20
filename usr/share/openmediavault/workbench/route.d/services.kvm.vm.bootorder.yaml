@@ -1,0 +1,8 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/kvm/vm/bootorder/:vmname"
+  title: _("Boot order")
+  editing: true
+  notificationTitle: _("Boot order.")
+  component: omv-services-kvm-vm-bootorder-form-page
