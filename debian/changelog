@@ -1,3 +1,15 @@
+openmediavault-kvm (8.3.5) stable; urgency=low
+
+  * Fix snapshots of UEFI VMs: new UEFI VMs use qcow2 firmware/NVRAM, existing
+    ones are converted on their first snapshot while powered off
+  * Backup: a failed disk or NVRAM copy is reported as an error instead of a good backup
+  * Move VM: refuse paused VMs and keep internal snapshots when copying disks
+  * LXC snapshot: start the container again if creating the snapshot fails
+  * Backup list sync: keep the list file's permissions
+  * Add boot order setting for VMs, including network (PXE) boot and boot menu
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Tue, 20 Oct 2026 12:50:00 +0000
+
 openmediavault-kvm (8.3.4) stable; urgency=low
 
   * Add Talos appliance
