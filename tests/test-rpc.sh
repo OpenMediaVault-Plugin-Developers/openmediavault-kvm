@@ -1225,6 +1225,8 @@ if [ -z "$TARGET_VM" ]; then
     _skip "getVcpu"                       "no VM available"
     _skip "getNotes"                      "no VM available"
     _skip "enumerateVmNic"                "no VM available"
+    _skip "enumerateBootDevices"          "no VM available"
+    _skip "getBootOrder"                  "no VM available"
     _skip "enumerateUsbByVm"              "no VM available"
     _skip "enumeratePciByVm"              "no VM available"
     _skip "enumerateFsPassByVm"           "no VM available"
@@ -1263,7 +1265,58 @@ else
     assert_rpc "getNotes" "Kvm" "getNotes" "$VM_PARAMS" '"notes"'
 
     assert_rpc "enumerateVmNic"      "Kvm" "enumerateVmNic"      "$VM_PARAMS"
-    assert_rpc "enumerateUsbByVm"    "Kvm" "enumerateUsbByVm"    "$VM_PARAMS"
+    assert_rpc "enumerateBootDevices" "Kvm" "enumerateBootDevices" "$VM_PARAMS" '"disk:'
+    assert_rpc "getBootOrder"        "Kvm" "getBootOrder"        "$VM_PARAMS" '"boot1"'
+    if $VM_CREATED; then
+        # boot from the NIC first, then the disk, and check the XML carries it
+        assert_rpc "enumerateVmNic (for boot order)" "Kvm" "enumerateVmNic" "$VM_PARAMS"
+        boot_mac=$(json_list_first "$RPC_OUT" "mac")
+        assert_rpc "enumerateBootDevices (for boot order)" "Kvm" "enumerateBootDevices" "$VM_PARAMS"
+        boot_disk=$(echo "$RPC_OUT" | python3 -c "
+import sys, json
+print(next((d['id'] for d in json.load(sys.stdin) if d['id'].startswith('disk:')), ''))" 2>/dev/null)
+        if [ -n "$boot_mac" ] && [ -n "$boot_disk" ]; then
+            if assert_rpc "setBootOrder (network, disk, boot menu)" "Kvm" "setBootOrder" \
+                    "$(jp vmname="$TARGET_VM" bootmenu=@true boot1="net:$boot_mac" boot2="$boot_disk" boot3= boot4=)"; then
+                assert_rpc "getBootOrder (after set)" "Kvm" "getBootOrder" "$VM_PARAMS" "\"net:$boot_mac\""
+                if [ "$(json_get "$RPC_OUT" boot1)" = "net:$boot_mac" ] && \
+                   [ "$(json_get "$RPC_OUT" boot2)" = "$boot_disk" ] && \
+                   [ "$(json_get "$RPC_OUT" bootmenu)" = "True" ]; then
+                    _pass "getBootOrder — returns the saved order and boot menu"
+                else
+                    _fail "getBootOrder — returns the saved order and boot menu" "${RPC_OUT:0:300}"
+                fi
+                boot_xml=$(virsh dumpxml --inactive "$TARGET_VM" 2>/dev/null)
+                if echo "$boot_xml" | grep -q "<boot order='1'/>" && \
+                   ! echo "$boot_xml" | grep -q "<boot dev="; then
+                    _pass "setBootOrder — per-device order replaces <os><boot dev>"
+                else
+                    _fail "setBootOrder — per-device order replaces <os><boot dev>" \
+                        "$(echo "$boot_xml" | grep -n "boot")"
+                fi
+            fi
+            assert_rpc_fails "setBootOrder (same device twice)" "Kvm" "setBootOrder" \
+                "$(jp vmname="$TARGET_VM" bootmenu=@false boot1="$boot_disk" boot2="$boot_disk" boot3= boot4=)"
+            assert_rpc_fails "setBootOrder (unknown device)" "Kvm" "setBootOrder" \
+                "$(jp vmname="$TARGET_VM" bootmenu=@false boot1=disk:nonexistent boot2= boot3= boot4=)"
+            # clearing every slot restores the default hd,cdrom order
+            if assert_rpc "setBootOrder (clear)" "Kvm" "setBootOrder" \
+                    "$(jp vmname="$TARGET_VM" bootmenu=@false boot1= boot2= boot3= boot4=)"; then
+                boot_xml=$(virsh dumpxml --inactive "$TARGET_VM" 2>/dev/null)
+                if echo "$boot_xml" | grep -q "<boot dev='hd'/>" && \
+                   ! echo "$boot_xml" | grep -q "<boot order=" && \
+                   ! echo "$boot_xml" | grep -q "<bootmenu"; then
+                    _pass "setBootOrder (clear) — default <os><boot dev> restored"
+                else
+                    _fail "setBootOrder (clear) — default <os><boot dev> restored" \
+                        "$(echo "$boot_xml" | grep -n "boot")"
+                fi
+            fi
+        else
+            _skip "setBootOrder" "test VM has no NIC or disk"
+        fi
+    fi
+    assert_rpc "enumerateUsbByVm"   "Kvm" "enumerateUsbByVm"    "$VM_PARAMS"
     assert_rpc "enumeratePciByVm"    "Kvm" "enumeratePciByVm"    "$VM_PARAMS"
     assert_rpc "enumerateFsPassByVm" "Kvm" "enumerateFsPassByVm" "$VM_PARAMS"
 
