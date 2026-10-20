@@ -7,6 +7,10 @@ openmediavault-kvm (8.3.5) stable; urgency=low
   * LXC snapshot: start the container again if creating the snapshot fails
   * Backup list sync: keep the list file's permissions
   * Add boot order setting for VMs, including network (PXE) boot and boot menu
+  * Add CPU migratable option for host-passthrough VMs (advanced option when
+    adding a VM, and Change CPU migratable in the Advanced menu); turning it on
+    allows snapshots of running VMs on hosts with invtsc
+  * Explain why a snapshot of a running VM fails when its CPU is not migratable
 
  -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Tue, 20 Oct 2026 12:50:00 +0000
 
