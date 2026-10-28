@@ -26,6 +26,10 @@ LOG_FILE = "/var/log/omv-backup-vm.log"
 FIRMWARE_QCOW2_DIR = "/var/lib/libvirt/qemu/firmware-qcow2"
 FIRMWARE_DIRS = ("/usr/share/OVMF", "/usr/share/AAVMF")
 
+# keep the usual prefixes when the domain XML is re-serialized
+ET.register_namespace("qemu", "http://libvirt.org/schemas/domain/qemu/1.0")
+ET.register_namespace("libosinfo", "http://libosinfo.org/xmlns/libvirt/domain/1.0")
+
 def log(message):
     utc_offset = -time.timezone
     if time.localtime().tm_isdst:
