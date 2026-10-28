@@ -1,3 +1,9 @@
+openmediavault-kvm (8.3.6) stable; urgency=low
+
+  * Restore VM: keep the libosinfo and qemu XML prefixes instead of renaming them to ns0
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Wed, 28 Oct 2026 12:00:00 +0000
+
 openmediavault-kvm (8.3.5) stable; urgency=low
 
   * Fix snapshots of UEFI VMs: new UEFI VMs use qcow2 firmware/NVRAM, existing
